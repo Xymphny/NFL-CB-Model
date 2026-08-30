@@ -1,0 +1,72 @@
+# Render Blueprint for the NFL/CFB efficiency model.
+#
+# Usage: commit this file to the repo root, then in the Render
+# dashboard: New -> Blueprint -> select this repo. Render detects
+# render.yaml automatically and creates all services below in one
+# pass, prompting you for the `sync: false` secrets during that
+# initial creation flow.
+#
+# IMPORTANT — one real gap this blueprint can't paper over: the static
+# site's buildCommand below assumes a `frontend/` directory with a
+# working Vite/React app exists in the repo. That doesn't exist yet
+# anywhere in this project — see the top-level README's status table.
+# Deploying this blueprint as-is will succeed for both cron jobs but
+# FAIL the static site's build step until that frontend is built.
+# Comment out the static site block below if you want to deploy just
+# the two cron jobs first and add the site once the frontend exists.
+
+services:
+  - type: cron
+    name: weekly-ratings-job
+    runtime: python
+    schedule: "0 11 * * 2"  # Tuesday 11:00 UTC — Section 9.1's cadence
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 deploy/weekly_job.py
+    envVars:
+      - key: SEASON
+        value: "2026"
+      - key: REPO_DATA_PATH
+        value: ./data
+      - fromGroup: football-model-shared
+
+  - type: cron
+    name: odds-watch-job
+    runtime: python
+    # Every 4 hours as a placeholder — Section 9.1's actual design
+    # calls for schedule-aware "game days only" detection, which isn't
+    # built yet (see the earlier flag about this). This fixed interval
+    # runs regardless of day until that check exists.
+    schedule: "0 */4 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 deploy/odds_watch_job.py
+    envVars:
+      - key: REPO_DATA_PATH
+        value: ./data
+      - key: ODDS_API_KEY
+        sync: false
+      - fromGroup: football-model-shared
+
+  # See the warning at the top of this file — comment this block out
+  # until frontend/ actually exists in the repo, or the Blueprint's
+  # deploy will fail on this service specifically.
+  - type: web
+    name: football-model-dashboard
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+
+envVarGroups:
+  - name: football-model-shared
+    envVars:
+      # Bare host+path, no scheme/token — e.g. "github.com/username/repo.git"
+      # Combined with GITHUB_TOKEN at push time (see deploy/weekly_job.py's
+      # git_commit_and_push) to authenticate, since Render's automatic
+      # clone credential is typically read-only.
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: ALERT_WEBHOOK_URL
+        sync: false
+      - key: HEARTBEAT_URL
+        sync: false
