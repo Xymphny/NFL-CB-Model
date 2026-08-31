@@ -77,33 +77,54 @@ def write_output(result: dict, path: str):
     return output_file
 
 
+def _normalize_repo_url(repo_url: str) -> str:
+    """
+    Strip any scheme prefix the user may have included. GIT_REPO_URL is
+    documented as bare host+path (e.g. "github.com/user/repo.git"), but
+    entering the full URL (e.g. "https://github.com/user/repo") is an
+    easy, understandable mistake — normalize either input rather than
+    silently producing a malformed "https://TOKEN@https://..." URL,
+    which is a real failure this hit in production.
+    """
+    for prefix in ("https://", "http://"):
+        if repo_url.startswith(prefix):
+            return repo_url[len(prefix):]
+    return repo_url
+
+
 def git_commit_and_push(file_path: str, season: int, week: int) -> None:
     """
     Section 9.1's handoff mechanism — commit the generated data file
     and push, which triggers Render's static site auto-deploy.
 
-    IMPORTANT: Render's automatic git clone for a cron job typically
-    uses a read-only deploy credential, not one with push access. A
-    plain `git push` against that clone will fail even with a remote
-    configured. To push successfully, the remote needs to be
-    explicitly re-pointed at a token-authenticated URL first — that's
-    what GIT_REPO_URL (host+path, no scheme/token) + GITHUB_TOKEN do
-    together below, rather than GIT_REMOTE_URL being used directly as
-    a git remote.
-
-    NOT run against a real remote in this sandbox — verify this
-    actually authenticates in your real Render cron environment.
+    IMPORTANT: Render's automatic git checkout does NOT leave a named
+    'origin' remote configured the way a normal `git clone` would —
+    confirmed directly by a real "No such remote 'origin'" failure in
+    production. This adds the remote if missing, falling back to
+    updating it if it turns out to already exist.
     """
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(file_path)))
 
     subprocess.run(["git", "config", "user.name", "football-model-bot"], cwd=repo_dir, check=True)
     subprocess.run(["git", "config", "user.email", "bot@football-model.local"], cwd=repo_dir, check=True)
 
-    repo_url = os.environ.get("GIT_REPO_URL")  # e.g. "github.com/username/repo.git" — no scheme, no token
+    repo_url = os.environ.get("GIT_REPO_URL")  # e.g. "github.com/username/repo.git" — no scheme/token
     token = GITHUB_TOKEN
     if repo_url and token:
+        repo_url = _normalize_repo_url(repo_url)
         authenticated_url = f"https://{token}@{repo_url}"
-        subprocess.run(["git", "remote", "set-url", "origin", authenticated_url], cwd=repo_dir, check=True)
+
+        add_result = subprocess.run(
+            ["git", "remote", "add", "origin", authenticated_url],
+            cwd=repo_dir, capture_output=True, text=True,
+        )
+        if add_result.returncode != 0:
+            # Most likely cause: origin already exists in this environment
+            # (e.g. local testing) — fall back to updating it instead.
+            subprocess.run(
+                ["git", "remote", "set-url", "origin", authenticated_url],
+                cwd=repo_dir, check=True,
+            )
     else:
         print("[weekly_job] warning: GIT_REPO_URL or GITHUB_TOKEN not set — push will likely fail "
               "against Render's default read-only clone credential")
@@ -118,7 +139,13 @@ def git_commit_and_push(file_path: str, season: int, week: int) -> None:
     if commit_result.returncode != 0 and "nothing to commit" not in commit_result.stdout:
         raise ValidationError(f"git commit failed: {commit_result.stderr}")
 
-    push_result = subprocess.run(["git", "push"], cwd=repo_dir, capture_output=True, text=True)
+    # -u origin HEAD rather than a bare `git push`, since a freshly-added
+    # remote has no upstream tracking branch configured yet — this pushes
+    # the current branch to a same-named branch on origin and sets
+    # tracking, without needing to know the branch name in advance.
+    push_result = subprocess.run(
+        ["git", "push", "-u", "origin", "HEAD"], cwd=repo_dir, capture_output=True, text=True,
+    )
     validate_git_push_succeeded(push_result.returncode, push_result.stderr)
 
 
