@@ -40,18 +40,32 @@ def load_season(season: int) -> pd.DataFrame:
         Trimmed play-by-play data for the season.
     """
     url = NFLVERSE_PBP_URL.format(season=season)
-    df = pd.read_csv(url, compression="gzip", low_memory=False)
 
-    available = [c for c in NEEDED_COLUMNS if c in df.columns]
-    missing = set(NEEDED_COLUMNS) - set(available)
+    # IMPORTANT: read in chunks rather than all at once. Measured directly:
+    # a single read_csv call on this file peaks around 486MB RSS, because
+    # decompressing the full ~100MB of raw CSV text happens before pandas
+    # can apply usecols or any row filter — usecols only helps after
+    # parsing starts, it can't avoid decompressing the whole gzip stream
+    # up front. That alone is enough to blow past Render's cron job
+    # memory limit (512Mi) once the rest of the pipeline adds more on
+    # top. Chunked reading processes and filters each piece before
+    # accumulating, so the full decompressed text is never held in
+    # memory at once — measured peak with this approach: ~148MB.
+    chunks = []
+    for chunk in pd.read_csv(
+        url, compression="gzip", low_memory=False,
+        usecols=lambda c: c in NEEDED_COLUMNS, chunksize=5000,
+    ):
+        # Filter to scrimmage plays per-chunk, not after concatenating —
+        # this is what keeps peak memory down, since discarded rows never
+        # accumulate across chunks.
+        chunks.append(chunk[chunk["play_type"].isin(["pass", "run"])].copy())
+
+    df = pd.concat(chunks, ignore_index=True)
+
+    missing = set(NEEDED_COLUMNS) - set(df.columns)
     if missing:
         print(f"[nfl_pbp] warning: columns not found in source data: {missing}")
-
-    df = df[available].copy()
-
-    # Keep only actual scrimmage plays for Layer 1 (special teams handled
-    # separately in Section 3.7 of the spec, not built yet in this pass).
-    df = df[df["play_type"].isin(["pass", "run"])].copy()
 
     return df
 

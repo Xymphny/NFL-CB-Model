@@ -32,14 +32,13 @@ def load_schedules(seasons: list[int] | None = None) -> pd.DataFrame:
         If given, filters to these seasons. Otherwise returns all seasons
         in the source file.
     """
-    df = pd.read_csv(NFLVERSE_SCHEDULES_URL, low_memory=False)
+    df = pd.read_csv(NFLVERSE_SCHEDULES_URL, low_memory=False, usecols=lambda c: c in NEEDED_COLUMNS)
 
-    available = [c for c in NEEDED_COLUMNS if c in df.columns]
-    missing = set(NEEDED_COLUMNS) - set(available)
+    missing = set(NEEDED_COLUMNS) - set(df.columns)
     if missing:
         print(f"[nfl_schedules] warning: columns not found in source data: {missing}")
 
-    df = df[available].copy()
+    df = df.copy()
 
     if seasons is not None:
         df = df[df["season"].isin(seasons)].copy()
