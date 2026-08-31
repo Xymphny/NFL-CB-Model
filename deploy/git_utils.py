@@ -43,6 +43,15 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
       isn't attached to a branch.
     """
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(file_path)))
+    print(f"[git_utils] computed repo_dir: {repo_dir}")
+
+    # Diagnostic: what does git itself think the repo root is? If this
+    # doesn't match repo_dir above, the path computation is wrong and
+    # everything downstream is operating on the wrong directory.
+    toplevel = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"], cwd=repo_dir, capture_output=True, text=True,
+    )
+    print(f"[git_utils] git's actual repo root: {toplevel.stdout.strip() or '(git rev-parse failed: ' + toplevel.stderr.strip() + ')'}")
 
     subprocess.run(["git", "config", "user.name", "football-model-bot"], cwd=repo_dir, check=True)
     subprocess.run(["git", "config", "user.email", "bot@football-model.local"], cwd=repo_dir, check=True)
@@ -66,12 +75,23 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
         print("[git_utils] warning: GIT_REPO_URL or GITHUB_TOKEN not set — push will likely fail "
               "against Render's default read-only clone credential")
 
-    subprocess.run(["git", "add", file_path], cwd=repo_dir, check=True)
+    remote_check = subprocess.run(["git", "remote", "-v"], cwd=repo_dir, capture_output=True, text=True)
+    # Redact the token before printing — this would otherwise leak the
+    # credential straight into the log output.
+    redacted = remote_check.stdout.replace(token, "***") if token else remote_check.stdout
+    print(f"[git_utils] configured remotes:\n{redacted}")
+
+    add_file_result = subprocess.run(["git", "add", file_path], cwd=repo_dir, capture_output=True, text=True)
+    print(f"[git_utils] git add exit code: {add_file_result.returncode}, stderr: {add_file_result.stderr.strip()}")
+
+    status_check = subprocess.run(["git", "status", "--short"], cwd=repo_dir, capture_output=True, text=True)
+    print(f"[git_utils] git status after add:\n{status_check.stdout}")
 
     commit_result = subprocess.run(
         ["git", "commit", "-m", commit_message],
         cwd=repo_dir, capture_output=True, text=True,
     )
+    print(f"[git_utils] git commit exit code: {commit_result.returncode}, stdout: {commit_result.stdout.strip()}")
     if commit_result.returncode != 0 and "nothing to commit" not in commit_result.stdout:
         raise ValidationError(f"git commit failed: {commit_result.stderr}")
 
@@ -79,4 +99,13 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
     push_result = subprocess.run(
         ["git", "push", "origin", f"HEAD:{target_branch}"], cwd=repo_dir, capture_output=True, text=True,
     )
+    print(f"[git_utils] git push exit code: {push_result.returncode}")
+    print(f"[git_utils] git push stderr: {push_result.stderr.strip()}")
+
+    # Diagnostic: what commit actually ended up on the remote branch?
+    ls_remote = subprocess.run(
+        ["git", "ls-remote", "origin", target_branch], cwd=repo_dir, capture_output=True, text=True,
+    )
+    print(f"[git_utils] remote {target_branch} now points to: {ls_remote.stdout.strip()}")
+
     validate_git_push_succeeded(push_result.returncode, push_result.stderr)
