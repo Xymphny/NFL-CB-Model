@@ -139,12 +139,16 @@ def git_commit_and_push(file_path: str, season: int, week: int) -> None:
     if commit_result.returncode != 0 and "nothing to commit" not in commit_result.stdout:
         raise ValidationError(f"git commit failed: {commit_result.stderr}")
 
-    # -u origin HEAD rather than a bare `git push`, since a freshly-added
-    # remote has no upstream tracking branch configured yet — this pushes
-    # the current branch to a same-named branch on origin and sets
-    # tracking, without needing to know the branch name in advance.
+    # git push origin HEAD:<branch> rather than `-u origin HEAD`, since
+    # Render's checkout leaves the repo in detached HEAD state (checked
+    # out at a specific commit, not a named branch) — confirmed by a
+    # real "not a full refname" push failure in production. `-u` needs
+    # to resolve a branch name for tracking, which detached HEAD can't
+    # provide; explicitly naming the destination branch sidesteps that
+    # entirely.
+    target_branch = os.environ.get("GIT_BRANCH", "main")
     push_result = subprocess.run(
-        ["git", "push", "-u", "origin", "HEAD"], cwd=repo_dir, capture_output=True, text=True,
+        ["git", "push", "origin", f"HEAD:{target_branch}"], cwd=repo_dir, capture_output=True, text=True,
     )
     validate_git_push_succeeded(push_result.returncode, push_result.stderr)
 
