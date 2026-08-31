@@ -6,14 +6,14 @@
 # pass, prompting you for the `sync: false` secrets during that
 # initial creation flow.
 #
-# IMPORTANT — one real gap this blueprint can't paper over: the static
-# site's buildCommand below assumes a `frontend/` directory with a
-# working Vite/React app exists in the repo. That doesn't exist yet
-# anywhere in this project — see the top-level README's status table.
-# Deploying this blueprint as-is will succeed for both cron jobs but
-# FAIL the static site's build step until that frontend is built.
-# Comment out the static site block below if you want to deploy just
-# the two cron jobs first and add the site once the frontend exists.
+# NOTE: your Render dashboard likely already has services created from
+# an earlier version of this file (before the dashboard existed). Since
+# this file now adds a static site block, applying it to your EXISTING
+# Blueprint (via that Blueprint's own "Manual Sync", not "New ->
+# Blueprint" again) should add the dashboard alongside your two working
+# cron jobs. Re-running "New -> Blueprint" instead of syncing the
+# existing one is what caused the duplicate-service issue earlier —
+# don't repeat that here.
 
 services:
   - type: cron
@@ -64,11 +64,14 @@ services:
       - key: HEARTBEAT_URL
         sync: false
 
-  # See the warning at the top of this file — comment this block out
-  # until frontend/ actually exists in the repo, or the Blueprint's
-  # deploy will fail on this service specifically.
+  # The dashboard now exists (frontend/) — built as a Vite/React app,
+# scoreboard/tote-board visual theme, reads data/ratings.json and
+# data/divergence.json. The buildCommand below copies those top-level
+# committed files into frontend/public/data/ before building, since
+# Vite's public/ folder is what actually ends up in the served output —
+# without this copy step the deployed site would have no data to show.
   - type: web
     name: football-model-dashboard
     runtime: static
-    buildCommand: cd frontend && npm install && npm run build
+    buildCommand: mkdir -p frontend/public/data && cp data/*.json frontend/public/data/ 2>/dev/null; cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist

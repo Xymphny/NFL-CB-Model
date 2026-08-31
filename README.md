@@ -18,6 +18,12 @@ Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it
 - **Memory usage** — fixed a real production bug: the initial version peaked at ~493.5MB RSS for the whole pipeline, dangerously close to Render's 512Mi cron job limit (and this is exactly what caused the "Out of memory (used over 512Mi)" failure). Root cause, found by measuring rather than guessing: decompressing this file's ~100MB of raw CSV text happens *before* pandas can apply any column or row filtering — a single `read_csv` call has to decompress the whole gzip stream regardless of `usecols`. Fixed by reading in chunks and filtering each chunk before accumulating, so the full decompressed text is never held in memory at once. Measured result: **155.6MB peak**, ~381MB of margin under the limit instead of ~18MB.
 - **`deploy/git_utils.py`** — shared git commit/push logic, extracted from `weekly_job.py` so `odds_watch_job.py` doesn't duplicate it. Fixes two real production failures found by reproducing them locally (not guessed): Render's checkout doesn't leave a named `origin` remote configured (fixed with `git remote add` falling back to `set-url`), and Render's checkout leaves the repo in detached HEAD state, which breaks `-u origin HEAD` (fixed by pushing to an explicit branch, `GIT_BRANCH` env var, default `main`). Both reproduced against a real local bare repo in detached-HEAD state before being marked fixed.
 - **`odds_watch_job.py`'s git push** — this was a real gap: the original version wrote `divergence.json` locally but never committed it, so nothing would have reached the repo or triggered the static site's auto-deploy. Now wired to the same shared, hardened `git_utils.git_commit_and_push`. Verified with a mock that the control flow calls it with the correct file path and commit message.
+- **Game-day gating for `odds_watch_job.py`** — a real production measurement confirmed 6 credits per API call, revealing the fixed every-4-hours/every-day schedule would burn through The Odds API's 500-credit free tier in ~2 weeks, not a month. `ingest.nfl_schedules.is_game_day()` checks real schedule data rather than guessing a day-of-week pattern (verified: NFL game days are mostly Sunday but meaningfully include Monday/Thursday and occasionally Friday/Saturday). Tested against four known real 2023 dates, all four correct. Wired into `odds_watch_job.py` to skip the API call entirely on non-game days — tested both branches directly.
+- **`model/prediction.py`** — the points-prediction layer (Section 11.4), finally wired into `odds_watch_job.py`. Loads the ratings `weekly_job.py` already committed, matches them to the current week's real schedule, and produces spread/total/win-probability per game using the actual calibrated coefficients from `calibrate_points_model.py`. Verified: neutral-site handling isolates and removes exactly the 2.83-point home-field coefficient (tested with identical-rated teams), and predictions were generated for all 16 real Week 1 2026 games and all 16 real Week 18 2023 games.
+- **Two real bugs found and fixed while wiring this in:**
+  - `compute_divergences()` was pulling `market_spread`/`market_total` from the model's own prediction dict (a placeholder oversight) instead of parsing the actual spreads/totals markets from the odds API response. Fixed to parse both markets properly — tested against a realistic synthetic API response matching The Odds API's documented format.
+  - `flag_divergence()`'s boolean flags broke JSON serialization (`Object of type bool is not JSON serializable`) because comparisons on numpy floats (which flow through from pandas upstream) produce `numpy.bool_`, not a native Python `bool`. Fixed with explicit `bool(...)` casts, caught by an actual end-to-end test run, not by inspection.
+- **Full end-to-end verification**: ran `odds_watch_job.py`'s real `main()` control flow (API call mocked, everything else real) against real committed ratings and a realistic odds payload — produced a correct, complete `divergence.json` with sensible output (Detroit favored by both model and market, small gap, correctly not flagged as divergent).
 
 ## Written but NOT testable in this sandbox (need real credentials/network outside it)
 
@@ -30,7 +36,7 @@ Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it
 ## Known integration gaps (built separately, not yet wired together)
 
 - **QB persistence isn't fed into the season simulation** — the Minnesota/Cousins case above is the concrete example. `model/injuries_and_var.py`'s `apply_persistent_qb_adjustment()` exists but `demo/run_season_simulation.py` doesn't call it yet
-- **The points-prediction layer isn't fed into `deploy/odds_watch_job.py`** — `compute_divergences()` expects a `model_predictions` dict that nothing currently populates; it needs the current week's calibrated prediction, not the historical calibration exercise
+- ~~The points-prediction layer isn't fed into `deploy/odds_watch_job.py`~~ — **fixed**, see `model/prediction.py` above
 - **Preseason prior / credibility weighting (Section 11.1)** — not built. The calibration script's prior-season-only approach is related but isn't the same as the full credibility-weighted blend described in the spec
 - **Bootstrap uncertainty isn't fed into `deploy/weekly_job.py`'s output** — it's computed and tested in `model/market_comparison.py` but the weekly job doesn't call it or include it in `ratings.json`
 - **Walk-forward backtesting harness (Section 11's protocol)** — not built. `calibrate_points_model.py`'s prior-season-only approach is a simpler stand-in, explicitly caveated in its own output
@@ -40,6 +46,15 @@ Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it
 - Special teams sub-model (spec 3.7) — special-teams plays are filtered out entirely, not scored
 - CFB-specific deltas beyond the threshold table (conference-strength substitution, FBS-only baseline pool)
 - Player-level target/carry data ingestion (needed for a real player-props projection, not the placeholder currently in `player_props.py`)
+
+## The dashboard (`frontend/`)
+
+A Vite/React static site — scoreboard/tote-board visual theme (deep board-green and near-black, amber LED-style rating numbers, "Big Shoulders Display" for headlines), matching the subject matter rather than a generic dashboard look. Reads `data/ratings.json` and `data/divergence.json`.
+
+- **Built and verified**: compiles cleanly (`npm run build`), served locally and checked against real sample data (32 real teams from an actual pipeline run, 2 sample divergence entries including one flagged game) — both data endpoints returned correct content, the served index page returned HTTP 200 with the expected React root element.
+- **NOT verified**: actual visual rendering in a real browser. This sandbox couldn't get a reliable headless-browser session running, so "compiles and serves the right data" is confirmed, but "looks right and the click-to-sort table interaction actually works" has only been confirmed by code review, not by seeing it rendered. Worth a visual check once deployed.
+- `render.yaml`'s static site build command copies the top-level `data/*.json` files into `frontend/public/data/` before running `vite build` — this is how the committed ratings/divergence data actually reaches the deployed site. Without this copy step the site would build successfully but show empty states for everything.
+- Empty states are intentional, not missing content: if `ratings.json`/`divergence.json` don't exist yet (before the cron jobs' first real run) or a game day has no posted lines yet, the site explains why rather than showing a blank page or crashing.
 
 ## Running it
 
@@ -67,4 +82,9 @@ python3 deploy/validate.py
 
 # Weekly job dry run (no git remote = local-only)
 SEASON=2023 CURRENT_WEEK=10 REPO_DATA_PATH=/tmp/test_output python3 deploy/weekly_job.py
+
+# Frontend dashboard (from the frontend/ directory)
+npm install
+npm run build      # outputs to frontend/dist
+npm run dev        # local dev server with hot reload
 ```
