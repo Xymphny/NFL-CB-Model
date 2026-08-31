@@ -73,6 +73,28 @@ def get_current_week(season: int) -> int:
     return int(completed["week"].max())
 
 
+def get_next_upcoming_week(season: int) -> int:
+    """
+    Returns the next week with unplayed games — distinct from
+    get_current_week(), which returns the last COMPLETED week. This
+    matters for odds_watch_job.py specifically: predicting "this week's
+    games" needs the upcoming week, not the last finished one. Found as
+    a real bug before it could manifest — pre-season, both happen to
+    return week 1 by coincidence, which would have hidden this until
+    Week 2 actually arrived and this kept silently comparing against
+    already-finished Week 1 games instead.
+
+    Determined directly from the schedule (earliest week with any game
+    missing a score) rather than "current_week + 1", since a fixed
+    offset breaks around bye weeks and the season boundary.
+    """
+    df = load_schedules(seasons=[season])
+    unplayed = df[df["home_score"].isna()]
+    if unplayed.empty:
+        return int(df["week"].max())  # season's over, nothing left to predict
+    return int(unplayed["week"].min())
+
+
 def is_game_day(season: int, check_date=None) -> bool:
     """
     Section 9.1's deferred "game days only" gating for the odds-watch job.
