@@ -9,6 +9,7 @@ Verify against your real webhook URL before relying on this.
 """
 
 import os
+import time
 import requests
 
 
@@ -17,6 +18,12 @@ def send_webhook_alert(message: str, webhook_url: str = None) -> bool:
     Layer 3 of Section 9.2 — the shared Slack/Discord webhook.
     Works with either: Slack and Discord both accept a JSON body with
     a "text"/"content" key respectively via simple incoming webhooks.
+
+    Retries once on a 429 (rate limited) — seen in production during
+    bursts of manual test triggers, where several alerts fired within
+    Discord's per-webhook rate-limit window. A single short backoff and
+    retry handles that case without adding real complexity; a
+    persistent 429 beyond that still fails gracefully, same as before.
     """
     webhook_url = webhook_url or os.environ.get("ALERT_WEBHOOK_URL")
     if not webhook_url:
@@ -26,16 +33,24 @@ def send_webhook_alert(message: str, webhook_url: str = None) -> bool:
     is_discord = "discord.com" in webhook_url
     payload = {"content": message} if is_discord else {"text": message}
 
-    try:
-        resp = requests.post(webhook_url, json=payload, timeout=10)
-        resp.raise_for_status()
-        return True
-    except Exception as e:
-        # Deliberately don't raise here — a failed alert shouldn't crash
-        # the job on top of whatever already went wrong. Print so it at
-        # least shows up in Render's own logs.
-        print(f"[notify] webhook send failed: {e}")
-        return False
+    for attempt in range(2):
+        try:
+            resp = requests.post(webhook_url, json=payload, timeout=10)
+            if resp.status_code == 429 and attempt == 0:
+                retry_after = float(resp.headers.get("Retry-After", 2))
+                print(f"[notify] webhook rate limited, retrying in {retry_after}s")
+                time.sleep(retry_after)
+                continue
+            resp.raise_for_status()
+            return True
+        except Exception as e:
+            # Deliberately don't raise here — a failed alert shouldn't crash
+            # the job on top of whatever already went wrong. Print so it at
+            # least shows up in Render's own logs.
+            print(f"[notify] webhook send failed: {e}")
+            return False
+
+    return False
 
 
 def ping_heartbeat(heartbeat_url: str = None, failed: bool = False) -> bool:

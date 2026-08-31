@@ -11,6 +11,7 @@ import sys
 import os
 import subprocess
 import json
+import urllib.error
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -31,10 +32,29 @@ GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GIT_REPO_URL = os.environ.get("GIT_REPO_URL")  # e.g. "github.com/username/repo.git" — no scheme/token
 
 
+class SeasonNotStartedError(Exception):
+    """Raised when nflverse hasn't published play-by-play data for a
+    season yet — expected and temporary before Week 1, not a real
+    failure. Confirmed directly: a 404 on this URL before the season
+    starts is nflverse genuinely not having anything to publish, since
+    there's no play-by-play data to generate from games that haven't
+    been played."""
+    pass
+
+
 def run_pipeline(season: int, current_week: int) -> dict:
     """Runs the full Layer 1 pipeline through the current week and
     returns the ratings + metadata needed for the commit."""
-    df = load_season(season)
+    try:
+        df = load_season(season)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            raise SeasonNotStartedError(
+                f"No play-by-play data published yet for {season} — the season "
+                f"likely hasn't started. This is expected before Week 1, not a bug."
+            )
+        raise
+
     df = df[df["week"] <= current_week].copy()
 
     validate_pbp_data(df)
@@ -94,6 +114,13 @@ def main():
             print("[weekly_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 
         report_success("weekly_ratings_job", summary=f"{season} week {week}, {len(result['ratings'])} teams")
+
+    except SeasonNotStartedError as e:
+        # Expected and temporary, not an alarm-worthy failure — matches
+        # how odds_watch_job.py treats "not a game day" as a soft skip
+        # rather than a failure requiring a Discord alert.
+        print(f"[weekly_job] {e}")
+        report_success("weekly_ratings_job", summary=f"skipped, {season} season hasn't started yet")
 
     except ValidationError as e:
         report_failure("weekly_ratings_job", error=f"Validation failed: {e}")
