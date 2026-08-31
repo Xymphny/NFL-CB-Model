@@ -73,6 +73,26 @@ def get_current_week(season: int) -> int:
     return int(completed["week"].max())
 
 
+def is_game_day(season: int, check_date=None) -> bool:
+    """
+    Section 9.1's deferred "game days only" gating for the odds-watch job.
+    Built after a real production measurement showed the current fixed
+    4-hour/every-day schedule would burn through The Odds API's free
+    tier in ~2 weeks instead of a month, at a confirmed 6 credits/call.
+
+    Checks real schedule data rather than guessing a day-of-week pattern
+    — NFL game days are mostly Sunday but meaningfully include Monday,
+    Thursday, and occasionally Friday/Saturday (confirmed against real
+    2023 data: 223 Sun, 21 Mon, 19 Thu, 8 Sat, 1 Fri).
+    """
+    from datetime import date as date_cls
+
+    check_date = check_date or date_cls.today()
+    df = load_schedules(seasons=[season])
+    df["gameday"] = pd.to_datetime(df["gameday"]).dt.date
+    return check_date in set(df["gameday"])
+
+
 if __name__ == "__main__":
     data = load_schedules(seasons=[2023])
     print(f"Loaded {len(data)} regular-season games for 2023")

@@ -22,6 +22,7 @@ from model.market_comparison import american_to_implied_prob, devig_two_way, fla
 from deploy.validate import ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
+from ingest.nfl_schedules import is_game_day
 
 ODDS_API_KEY = os.environ.get("ODDS_API_KEY")
 REPO_DATA_PATH = os.environ.get("REPO_DATA_PATH", "./data")
@@ -50,7 +51,11 @@ def fetch_current_odds(sport_key: str = "americanfootball_nfl") -> list:
     used = resp.headers.get("x-requests-used")
     print(f"[odds_watch] API credits used this call: {used}, remaining this period: {remaining}")
 
-    return resp.json()
+    data = resp.json()
+    print(f"[odds_watch] {len(data)} games returned with posted odds "
+          f"(sportsbooks open lines gradually as kickoff approaches, so this "
+          f"is normally far fewer than the full season's schedule)")
+    return data
 
 
 def compute_divergences(odds_data: list, model_ratings: dict, model_predictions: dict) -> list:
@@ -103,6 +108,18 @@ def compute_divergences(odds_data: list, model_ratings: dict, model_predictions:
 
 
 def main():
+    season = int(os.environ.get("SEASON", "2026"))
+
+    # Real production measurement (6 credits/call) showed the fixed
+    # every-4-hours/every-day schedule would exceed The Odds API's free
+    # tier in ~2 weeks instead of a month. Gate on actual game days
+    # rather than changing the cron schedule itself — cheaper to skip
+    # the API call in code than to fight cron syntax for "game days only".
+    if not is_game_day(season):
+        print(f"[odds_watch_job] not a game day, skipping API call to conserve credits")
+        report_success("odds_watch_job", summary="skipped, not a game day")
+        return
+
     try:
         odds_data = fetch_current_odds()
         # model_predictions would come from the calibrated points-prediction
