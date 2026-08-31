@@ -22,8 +22,9 @@ from model.ratings import (
     compute_raw_voa, opponent_adjust, filter_garbage_time,
     add_home_field_and_rest, team_ratings,
 )
-from deploy.validate import validate_pbp_data, validate_ratings, validate_git_push_succeeded, ValidationError
+from deploy.validate import validate_pbp_data, validate_ratings, ValidationError
 from deploy.notify import report_success, report_failure
+from deploy.git_utils import git_commit_and_push
 
 REPO_DATA_PATH = os.environ.get("REPO_DATA_PATH", "./data")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
@@ -77,82 +78,6 @@ def write_output(result: dict, path: str):
     return output_file
 
 
-def _normalize_repo_url(repo_url: str) -> str:
-    """
-    Strip any scheme prefix the user may have included. GIT_REPO_URL is
-    documented as bare host+path (e.g. "github.com/user/repo.git"), but
-    entering the full URL (e.g. "https://github.com/user/repo") is an
-    easy, understandable mistake — normalize either input rather than
-    silently producing a malformed "https://TOKEN@https://..." URL,
-    which is a real failure this hit in production.
-    """
-    for prefix in ("https://", "http://"):
-        if repo_url.startswith(prefix):
-            return repo_url[len(prefix):]
-    return repo_url
-
-
-def git_commit_and_push(file_path: str, season: int, week: int) -> None:
-    """
-    Section 9.1's handoff mechanism — commit the generated data file
-    and push, which triggers Render's static site auto-deploy.
-
-    IMPORTANT: Render's automatic git checkout does NOT leave a named
-    'origin' remote configured the way a normal `git clone` would —
-    confirmed directly by a real "No such remote 'origin'" failure in
-    production. This adds the remote if missing, falling back to
-    updating it if it turns out to already exist.
-    """
-    repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(file_path)))
-
-    subprocess.run(["git", "config", "user.name", "football-model-bot"], cwd=repo_dir, check=True)
-    subprocess.run(["git", "config", "user.email", "bot@football-model.local"], cwd=repo_dir, check=True)
-
-    repo_url = os.environ.get("GIT_REPO_URL")  # e.g. "github.com/username/repo.git" — no scheme/token
-    token = GITHUB_TOKEN
-    if repo_url and token:
-        repo_url = _normalize_repo_url(repo_url)
-        authenticated_url = f"https://{token}@{repo_url}"
-
-        add_result = subprocess.run(
-            ["git", "remote", "add", "origin", authenticated_url],
-            cwd=repo_dir, capture_output=True, text=True,
-        )
-        if add_result.returncode != 0:
-            # Most likely cause: origin already exists in this environment
-            # (e.g. local testing) — fall back to updating it instead.
-            subprocess.run(
-                ["git", "remote", "set-url", "origin", authenticated_url],
-                cwd=repo_dir, check=True,
-            )
-    else:
-        print("[weekly_job] warning: GIT_REPO_URL or GITHUB_TOKEN not set — push will likely fail "
-              "against Render's default read-only clone credential")
-
-    subprocess.run(["git", "add", file_path], cwd=repo_dir, check=True)
-
-    commit_result = subprocess.run(
-        ["git", "commit", "-m", f"Update ratings: {season} week {week}"],
-        cwd=repo_dir, capture_output=True, text=True,
-    )
-    # A "nothing to commit" exit is fine (data unchanged) — anything else isn't.
-    if commit_result.returncode != 0 and "nothing to commit" not in commit_result.stdout:
-        raise ValidationError(f"git commit failed: {commit_result.stderr}")
-
-    # git push origin HEAD:<branch> rather than `-u origin HEAD`, since
-    # Render's checkout leaves the repo in detached HEAD state (checked
-    # out at a specific commit, not a named branch) — confirmed by a
-    # real "not a full refname" push failure in production. `-u` needs
-    # to resolve a branch name for tracking, which detached HEAD can't
-    # provide; explicitly naming the destination branch sidesteps that
-    # entirely.
-    target_branch = os.environ.get("GIT_BRANCH", "main")
-    push_result = subprocess.run(
-        ["git", "push", "origin", f"HEAD:{target_branch}"], cwd=repo_dir, capture_output=True, text=True,
-    )
-    validate_git_push_succeeded(push_result.returncode, push_result.stderr)
-
-
 def main():
     season = int(os.environ.get("SEASON", datetime.now().year))
     # Auto-detects the current week unless explicitly overridden — the
@@ -164,7 +89,7 @@ def main():
         output_file = write_output(result, REPO_DATA_PATH)
 
         if GIT_REPO_URL:
-            git_commit_and_push(output_file, season, week)
+            git_commit_and_push(output_file, commit_message=f"Update ratings: {season} week {week}")
         else:
             print("[weekly_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 

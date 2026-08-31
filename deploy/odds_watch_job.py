@@ -21,9 +21,11 @@ import requests
 from model.market_comparison import american_to_implied_prob, devig_two_way, flag_divergence
 from deploy.validate import ValidationError
 from deploy.notify import report_success, report_failure
+from deploy.git_utils import git_commit_and_push
 
 ODDS_API_KEY = os.environ.get("ODDS_API_KEY")
 REPO_DATA_PATH = os.environ.get("REPO_DATA_PATH", "./data")
+GIT_REPO_URL = os.environ.get("GIT_REPO_URL")
 
 
 def fetch_current_odds(sport_key: str = "americanfootball_nfl") -> list:
@@ -117,6 +119,17 @@ def main():
                 "computed_at": datetime.now(timezone.utc).isoformat(),
                 "divergences": divergences,
             }, f, indent=2)
+
+        # This was missing entirely in the original version — the job
+        # wrote divergence.json locally but never committed it, so
+        # nothing ever reached the repo or triggered the static site's
+        # auto-deploy. Same shared git logic as weekly_job.py, already
+        # hardened against the missing-origin and detached-HEAD failures
+        # found in production there.
+        if GIT_REPO_URL:
+            git_commit_and_push(output_file, commit_message=f"Update divergence: {len(divergences)} games")
+        else:
+            print("[odds_watch_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 
         report_success("odds_watch_job", summary=f"{len(divergences)} games compared")
 
