@@ -27,7 +27,18 @@ services:
         value: "2026"
       - key: REPO_DATA_PATH
         value: ./data
-      - fromGroup: football-model-shared
+      # sync: false secrets have to live directly on the service —
+      # Render silently ignores sync: false inside an envVarGroup, so
+      # these are duplicated on both cron jobs below rather than
+      # shared, unlike the earlier version of this file.
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: ALERT_WEBHOOK_URL
+        sync: false
+      - key: HEARTBEAT_URL
+        sync: false
 
   - type: cron
     name: odds-watch-job
@@ -44,7 +55,14 @@ services:
         value: ./data
       - key: ODDS_API_KEY
         sync: false
-      - fromGroup: football-model-shared
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: ALERT_WEBHOOK_URL
+        sync: false
+      - key: HEARTBEAT_URL
+        sync: false
 
   # See the warning at the top of this file — comment this block out
   # until frontend/ actually exists in the repo, or the Blueprint's
@@ -54,19 +72,3 @@ services:
     runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
-
-envVarGroups:
-  - name: football-model-shared
-    envVars:
-      # Bare host+path, no scheme/token — e.g. "github.com/username/repo.git"
-      # Combined with GITHUB_TOKEN at push time (see deploy/weekly_job.py's
-      # git_commit_and_push) to authenticate, since Render's automatic
-      # clone credential is typically read-only.
-      - key: GIT_REPO_URL
-        sync: false
-      - key: GITHUB_TOKEN
-        sync: false
-      - key: ALERT_WEBHOOK_URL
-        sync: false
-      - key: HEARTBEAT_URL
-        sync: false
