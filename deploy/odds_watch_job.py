@@ -138,10 +138,24 @@ def main():
     # tier in ~2 weeks instead of a month. Gate on actual game days
     # rather than changing the cron schedule itself — cheaper to skip
     # the API call in code than to fight cron syntax for "game days only".
-    if not is_game_day(season):
-        print(f"[odds_watch_job] not a game day, skipping API call to conserve credits")
+    #
+    # FORCE_ODDS_CHECK bypasses this gate for on-demand manual runs —
+    # sportsbooks post lines days or weeks before kickoff, not just on
+    # game day itself, so a manual "check what's posted right now" is a
+    # legitimate need the automated schedule shouldn't be widened for
+    # (that would blow the credit budget back out — see the schedule
+    # comment above). Use this for a one-off check, not as a standing
+    # override.
+    force_run = os.environ.get("FORCE_ODDS_CHECK", "false").lower() == "true"
+
+    if not force_run and not is_game_day(season):
+        print(f"[odds_watch_job] not a game day, skipping API call to conserve credits "
+              f"(set FORCE_ODDS_CHECK=true to check current lines on demand)")
         report_success("odds_watch_job", summary="skipped, not a game day")
         return
+
+    if force_run:
+        print("[odds_watch_job] FORCE_ODDS_CHECK set, checking current lines regardless of game day")
 
     try:
         odds_data = fetch_current_odds()
