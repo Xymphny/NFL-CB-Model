@@ -19,10 +19,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import requests
 
 from model.market_comparison import american_to_implied_prob, devig_two_way, flag_divergence
+from model.prediction import load_current_ratings, build_week_predictions
 from deploy.validate import ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
-from ingest.nfl_schedules import is_game_day
+from ingest.nfl_schedules import is_game_day, load_schedules, get_current_week
 
 ODDS_API_KEY = os.environ.get("ODDS_API_KEY")
 REPO_DATA_PATH = os.environ.get("REPO_DATA_PATH", "./data")
@@ -58,7 +59,7 @@ def fetch_current_odds(sport_key: str = "americanfootball_nfl") -> list:
     return data
 
 
-def compute_divergences(odds_data: list, model_ratings: dict, model_predictions: dict) -> list:
+def compute_divergences(odds_data: list, model_predictions: dict) -> list:
     """
     For each game, de-vig the market's line and compare to the model's
     own prediction (Section 9.3's kept-separate design — model_predictions
@@ -78,10 +79,11 @@ def compute_divergences(odds_data: list, model_ratings: dict, model_predictions:
         bookmakers = game.get("bookmakers", [])
         if not bookmakers:
             continue
-        h2h_market = next((m for m in bookmakers[0].get("markets", []) if m["key"] == "h2h"), None)
+        markets = {m["key"]: m for m in bookmakers[0].get("markets", [])}
+
+        h2h_market = markets.get("h2h")
         if not h2h_market:
             continue
-
         outcomes = {o["name"]: o["price"] for o in h2h_market["outcomes"]}
         if home_team not in outcomes or away_team not in outcomes:
             continue
@@ -90,10 +92,29 @@ def compute_divergences(odds_data: list, model_ratings: dict, model_predictions:
         away_raw = american_to_implied_prob(outcomes[away_team])
         home_fair, away_fair = devig_two_way(home_raw, away_raw)
 
+        # Fixed bug: market_spread/market_total previously came from the
+        # model's own prediction dict (a placeholder oversight) instead
+        # of the actual spreads/totals markets — parse them for real.
+        spreads_market = markets.get("spreads")
+        market_spread = None
+        if spreads_market:
+            home_spread_outcome = next(
+                (o for o in spreads_market["outcomes"] if o["name"] == home_team), None
+            )
+            if home_spread_outcome:
+                market_spread = -home_spread_outcome["point"]  # API convention: negative = favored;
+                # flipped to match this project's "positive = home favored" convention (Section 11.4)
+
+        totals_market = markets.get("totals")
+        market_total = totals_market["outcomes"][0]["point"] if totals_market and totals_market.get("outcomes") else None
+
+        if market_spread is None or market_total is None:
+            continue  # book hasn't posted a full line yet — skip rather than compare against a partial one
+
         pred = model_predictions[home_team]
         divergence = flag_divergence(
             model_spread=pred["spread"], model_total=pred["total"], model_win_prob_home=pred["win_prob_home"],
-            market_spread=pred.get("market_spread", 0), market_total=pred.get("market_total", 0),
+            market_spread=market_spread, market_total=market_total,
             market_odds_home=home_fair, market_odds_away=away_fair,
         )
 
@@ -101,6 +122,8 @@ def compute_divergences(odds_data: list, model_ratings: dict, model_predictions:
             "home_team": home_team,
             "away_team": away_team,
             "market_win_prob_home_fair": home_fair,
+            "market_spread": market_spread,
+            "market_total": market_total,
             **divergence,
         })
 
@@ -122,18 +145,35 @@ def main():
 
     try:
         odds_data = fetch_current_odds()
-        # model_predictions would come from the calibrated points-prediction
-        # layer for this week's games — not wired up in this pass, since
-        # that requires a live current-week rating, not the historical
-        # calibration exercise calibrate_points_model.py already does.
-        model_predictions = {}
-        divergences = compute_divergences(odds_data, model_ratings={}, model_predictions=model_predictions)
+
+        # Load the current ratings weekly_job.py already committed, and
+        # build this week's predictions from them — the piece that was
+        # previously an empty placeholder.
+        ratings_path = os.path.join(REPO_DATA_PATH, "ratings.json")
+        if not os.path.exists(ratings_path):
+            raise ValidationError(
+                f"No ratings.json found at {ratings_path} — weekly_job.py needs to "
+                f"have run at least once before odds_watch_job.py can predict anything"
+            )
+        ratings = load_current_ratings(ratings_path)
+
+        current_week = get_current_week(season)
+        sched = load_schedules(seasons=[season])
+        upcoming_games = sched[sched["week"] == current_week]
+
+        model_predictions = build_week_predictions(ratings, upcoming_games)
+        print(f"[odds_watch_job] built predictions for {len(model_predictions)} of "
+              f"{len(upcoming_games)} week {current_week} games")
+
+        divergences = compute_divergences(odds_data, model_predictions)
 
         os.makedirs(REPO_DATA_PATH, exist_ok=True)
         output_file = os.path.join(REPO_DATA_PATH, "divergence.json")
         with open(output_file, "w") as f:
             json.dump({
                 "computed_at": datetime.now(timezone.utc).isoformat(),
+                "season": season,
+                "week": current_week,
                 "divergences": divergences,
             }, f, indent=2)
 

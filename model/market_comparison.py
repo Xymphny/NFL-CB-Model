@@ -115,12 +115,17 @@ def flag_divergence(
     prob_gap = model_win_prob_home - market_odds_home
 
     return {
-        "spread_gap": spread_gap,
-        "total_gap": total_gap,
-        "win_prob_gap": prob_gap,
-        "spread_flagged": abs(spread_gap) >= divergence_threshold_points,
-        "total_flagged": abs(total_gap) >= divergence_threshold_points,
-        "win_prob_flagged": abs(prob_gap) >= divergence_threshold_prob,
+        "spread_gap": float(spread_gap),
+        "total_gap": float(total_gap),
+        "win_prob_gap": float(prob_gap),
+        # Explicit bool(...) here matters: these comparisons produce
+        # numpy.bool_ when the inputs are numpy floats (as they are once
+        # flowing through from pandas upstream), and numpy.bool_ isn't
+        # JSON-serializable — confirmed as a real "Object of type bool
+        # is not JSON serializable" failure in testing.
+        "spread_flagged": bool(abs(spread_gap) >= divergence_threshold_points),
+        "total_flagged": bool(abs(total_gap) >= divergence_threshold_points),
+        "win_prob_flagged": bool(abs(prob_gap) >= divergence_threshold_prob),
     }
 
 
