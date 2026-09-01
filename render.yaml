@@ -73,5 +73,5 @@ services:
   - type: web
     name: football-model-dashboard
     runtime: static
-    buildCommand: mkdir -p frontend/public/data && cp data/*.json frontend/public/data/ 2>/dev/null; cd frontend && npm install && npm run build
+    buildCommand: python3 deploy/generate_manifest.py && cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist

@@ -19,9 +19,10 @@ NEEDED_COLUMNS = [
     "yards_gained", "first_down", "touchdown", "interception",
     "fumble_lost", "sack", "penalty",
     "qtr", "game_seconds_remaining", "score_differential",
-    "posteam_score", "defteam_score", "wp",
+    "posteam_score", "defteam_score", "wp", "epa",
     "special_teams_play", "punt_attempt", "field_goal_attempt",
     "kickoff_attempt", "extra_point_attempt",
+    "fixed_drive", "fixed_drive_result",
 ]
 
 

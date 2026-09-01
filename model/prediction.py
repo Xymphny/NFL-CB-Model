@@ -98,6 +98,30 @@ def predict_game(
     }
 
 
+def find_latest_ratings_snapshot(repo_data_path: str, season: int) -> str | None:
+    """
+    Finds the most recent ratings snapshot for a season, now that
+    weekly_job.py writes immutable per-week files (data/ratings/{season}-
+    week-{week}.json) instead of overwriting a single ratings.json —
+    returns the path to the highest week number available, or None if
+    no snapshot exists yet for this season.
+    """
+    import glob
+    import re
+
+    ratings_dir = os.path.join(repo_data_path, "ratings")
+    pattern = os.path.join(ratings_dir, f"{season}-week-*.json")
+    candidates = glob.glob(pattern)
+    if not candidates:
+        return None
+
+    def week_number(path):
+        match = re.search(r"week-(\d+)\.json$", path)
+        return int(match.group(1)) if match else -1
+
+    return max(candidates, key=week_number)
+
+
 def load_current_ratings(ratings_json_path: str) -> pd.DataFrame:
     """
     Loads the ratings.json committed by weekly_job.py, so odds_watch_job.py

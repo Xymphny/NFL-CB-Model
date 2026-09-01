@@ -42,8 +42,15 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
       "not a full refname" failure that `-u origin HEAD` hits when HEAD
       isn't attached to a branch.
     """
-    repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(file_path)))
-    print(f"[git_utils] computed repo_dir: {repo_dir}")
+    # Use the current working directory as the repo root rather than
+    # deriving it from file_path's folder depth — the previous version
+    # assumed a fixed depth (data/ratings.json, 2 levels from root),
+    # which broke silently once snapshot files went a level deeper
+    # (data/ratings/2026-week-01.json). Render's startCommand always
+    # runs from the repo root, so cwd is the reliable source of truth
+    # here, regardless of how deeply nested the output file is.
+    repo_dir = os.getcwd()
+    print(f"[git_utils] using cwd as repo_dir: {repo_dir}")
 
     # Diagnostic: what does git itself think the repo root is? If this
     # doesn't match repo_dir above, the path computation is wrong and

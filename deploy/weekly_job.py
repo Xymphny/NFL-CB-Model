@@ -23,6 +23,7 @@ from model.ratings import (
     compute_raw_voa, opponent_adjust, filter_garbage_time,
     add_home_field_and_rest, team_ratings,
 )
+from model.team_profile import build_team_profile
 from deploy.validate import validate_pbp_data, validate_ratings, ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
@@ -73,8 +74,13 @@ def run_pipeline(season: int, current_week: int) -> dict:
     ratings = team_ratings(df, use_recency_weights=True)
     validate_ratings(ratings)
 
+    # Team profile stats (EPA/play, success rate, red zone efficiency,
+    # turnover margin) for the per-team dashboard page — computed from
+    # the same underlying data, alongside the core DVOA rating.
+    profile = build_team_profile(df, ratings)
+
     return {
-        "ratings": ratings,
+        "ratings": profile,
         "season": season,
         "week": current_week,
         "computed_at": datetime.now(timezone.utc).isoformat(),
@@ -82,8 +88,20 @@ def run_pipeline(season: int, current_week: int) -> dict:
 
 
 def write_output(result: dict, path: str):
-    os.makedirs(path, exist_ok=True)
-    output_file = os.path.join(path, "ratings.json")
+    """
+    Writes an immutable, timestamped snapshot rather than overwriting a
+    single ratings.json — a real fix for the git friction that repeated
+    overwrites were causing (every run modifying the same lines is what
+    produces divergent-branch pain locally; a new file every week is a
+    pure git ADD, which never conflicts with anything). This also
+    directly unlocks the week-over-week trend view flagged as missing
+    from the dashboard earlier, at zero cost to the actual rating
+    computation — this only changes where the output is written, not
+    how it's computed.
+    """
+    ratings_dir = os.path.join(path, "ratings")
+    os.makedirs(ratings_dir, exist_ok=True)
+    output_file = os.path.join(ratings_dir, f"{result['season']}-week-{result['week']:02d}.json")
 
     payload = {
         "season": result["season"],

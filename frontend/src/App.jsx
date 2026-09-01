@@ -16,12 +16,47 @@ function useJson(path) {
   return state
 }
 
+/**
+ * Ratings and divergence are now stored as immutable per-week/per-check
+ * snapshot files rather than one overwritten file (fixes the git
+ * friction repeated overwrites were causing). The manifest — generated
+ * at build time, not committed to git — lists what's available, so the
+ * site can find and load the latest one.
+ */
+function useLatestSnapshot(kind) {
+  const [state, setState] = useState({ data: null, loading: true, error: null, filename: null })
+
+  useEffect(() => {
+    fetch('/data/manifest.json')
+      .then((res) => {
+        if (!res.ok) throw new Error('no manifest')
+        return res.json()
+      })
+      .then((manifest) => {
+        const files = manifest[kind] || []
+        if (files.length === 0) {
+          setState({ data: null, loading: false, error: new Error('no snapshots yet'), filename: null })
+          return
+        }
+        // Filenames sort correctly as strings since weeks are zero-padded
+        // (2023-week-05.json < 2023-week-18.json) — the last one is latest.
+        const latest = files[files.length - 1]
+        return fetch(`/data/${kind}/${latest}`)
+          .then((res) => res.json())
+          .then((data) => setState({ data, loading: false, error: null, filename: latest }))
+      })
+      .catch((error) => setState({ data: null, loading: false, error, filename: null }))
+  }, [kind])
+
+  return state
+}
+
 function formatSigned(value, digits = 1) {
   const sign = value > 0 ? '+' : ''
   return `${sign}${value.toFixed(digits)}`
 }
 
-function RatingsTable({ ratings }) {
+function RatingsTable({ ratings, onSelectTeam }) {
   const [sortKey, setSortKey] = useState('total_rating')
   const [sortDir, setSortDir] = useState('desc')
 
@@ -63,7 +98,7 @@ function RatingsTable({ ratings }) {
       </thead>
       <tbody>
         {sorted.map((team, i) => (
-          <tr key={team.team}>
+          <tr key={team.team} className="clickable-row" onClick={() => onSelectTeam(team)}>
             <td className="rank-cell">{i + 1}</td>
             <td className="team-cell">{team.team}</td>
             <td className="numeric">
@@ -130,9 +165,96 @@ function DivergenceSection({ divergences }) {
   )
 }
 
+function TeamProfilePage({ team, onBack }) {
+  const grade = Math.max(0, Math.min(100, Math.round(50 + team.total_rating * 125)))
+  const gradeClass = grade >= 60 ? 'positive' : grade <= 40 ? 'negative' : ''
+
+  const tiles = [
+    {
+      label: 'EPA / Play',
+      primary: formatSigned(team.epa_per_play_offense, 3),
+      rows: [['Allowed', formatSigned(team.epa_per_play_allowed, 3)]],
+    },
+    {
+      label: 'Success rate',
+      primary: `${(team.success_rate_offense * 100).toFixed(1)}%`,
+      rows: [['Allowed', `${(team.success_rate_allowed * 100).toFixed(1)}%`]],
+    },
+    {
+      label: 'DVOA (opponent-adjusted)',
+      primary: formatSigned(team.total_rating * 100, 1),
+      rows: [
+        ['Offense', formatSigned(team.offense_voa * 100, 1)],
+        ['Defense', formatSigned(team.defense_voa * 100, 1)],
+      ],
+    },
+    {
+      label: 'Red zone: pts / trip',
+      primary: team.red_zone_points_per_trip.toFixed(2),
+      rows: [
+        ['TD rate', `${(team.red_zone_td_pct * 100).toFixed(1)}%`],
+        ['Trips', team.red_zone_trips],
+      ],
+    },
+    {
+      label: 'Turnover margin',
+      primary: formatSigned(team.turnover_margin, 0),
+      rows: [
+        ['Takeaways', team.takeaways],
+        ['Giveaways', team.giveaways],
+      ],
+    },
+  ]
+
+  return (
+    <div>
+      <button className="back-link" onClick={onBack}>
+        &larr; All teams
+      </button>
+
+      <div className="profile-header">
+        <div>
+          <h1 className="profile-team-name">{team.team}</h1>
+          <p className="meta">Season profile</p>
+        </div>
+        <div className={`grade-badge ${gradeClass}`}>{grade}</div>
+      </div>
+
+      <div className="tile-grid">
+        {tiles.map((tile) => (
+          <div className="stat-tile" key={tile.label}>
+            <span className="tile-label">{tile.label}</span>
+            <span className="tile-primary">{tile.primary}</span>
+            {tile.rows.map(([label, value]) => (
+              <div className="tile-row" key={label}>
+                <span>{label}</span>
+                <span>{value}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <p className="section-sub" style={{ marginTop: '32px' }}>
+        Season-aggregate only for now — week-over-week trend and recent-form windows need historical
+        snapshots this pipeline doesn't store yet.
+      </p>
+    </div>
+  )
+}
+
 export default function App() {
-  const ratingsState = useJson('/data/ratings.json')
-  const divergenceState = useJson('/data/divergence.json')
+  const ratingsState = useLatestSnapshot('ratings')
+  const divergenceState = useLatestSnapshot('divergence')
+  const [selectedTeam, setSelectedTeam] = useState(null)
+
+  if (selectedTeam) {
+    return (
+      <div className="page">
+        <TeamProfilePage team={selectedTeam} onBack={() => setSelectedTeam(null)} />
+      </div>
+    )
+  }
 
   return (
     <div className="page">
@@ -152,7 +274,10 @@ export default function App() {
 
       <section>
         <h2 className="section-heading">Team ratings</h2>
-        <p className="section-sub">Opponent-adjusted efficiency, DVOA-style. Click a column to sort.</p>
+        <p className="section-sub">
+          Opponent-adjusted efficiency, DVOA-style. Click a column to sort, click a team for its full
+          profile.
+        </p>
         {ratingsState.loading && <p className="section-sub">Loading…</p>}
         {ratingsState.error && (
           <div className="empty-state">
@@ -161,7 +286,9 @@ export default function App() {
             first week's games.
           </div>
         )}
-        {ratingsState.data && <RatingsTable ratings={ratingsState.data.ratings} />}
+        {ratingsState.data && (
+          <RatingsTable ratings={ratingsState.data.ratings} onSelectTeam={setSelectedTeam} />
+        )}
       </section>
 
       <section>

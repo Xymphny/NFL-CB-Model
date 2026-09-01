@@ -19,11 +19,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import requests
 
 from model.market_comparison import american_to_implied_prob, devig_two_way, flag_divergence
-from model.prediction import load_current_ratings, build_week_predictions
+from model.prediction import load_current_ratings, build_week_predictions, find_latest_ratings_snapshot
 from deploy.validate import ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
-from ingest.nfl_schedules import is_game_day, load_schedules, get_current_week
+from ingest.nfl_schedules import is_game_day, load_schedules, get_next_upcoming_week
 
 ODDS_API_KEY = os.environ.get("ODDS_API_KEY")
 REPO_DATA_PATH = os.environ.get("REPO_DATA_PATH", "./data")
@@ -160,18 +160,21 @@ def main():
     try:
         odds_data = fetch_current_odds()
 
-        # Load the current ratings weekly_job.py already committed, and
-        # build this week's predictions from them — the piece that was
-        # previously an empty placeholder.
-        ratings_path = os.path.join(REPO_DATA_PATH, "ratings.json")
-        if not os.path.exists(ratings_path):
+        # Find the most recent ratings snapshot weekly_job.py already
+        # committed (now stored as immutable per-week files, not a single
+        # overwritten ratings.json), and build this week's predictions
+        # from them.
+        ratings_path = find_latest_ratings_snapshot(REPO_DATA_PATH, season)
+        if ratings_path is None:
             raise ValidationError(
-                f"No ratings.json found at {ratings_path} — weekly_job.py needs to "
-                f"have run at least once before odds_watch_job.py can predict anything"
+                f"No ratings snapshot found for {season} in {REPO_DATA_PATH}/ratings/ — "
+                f"weekly_job.py needs to have run at least once before odds_watch_job.py "
+                f"can predict anything"
             )
+        print(f"[odds_watch_job] using ratings snapshot: {ratings_path}")
         ratings = load_current_ratings(ratings_path)
 
-        current_week = get_current_week(season)
+        current_week = get_next_upcoming_week(season)
         sched = load_schedules(seasons=[season])
         upcoming_games = sched[sched["week"] == current_week]
 
@@ -182,7 +185,18 @@ def main():
         divergences = compute_divergences(odds_data, model_predictions)
 
         os.makedirs(REPO_DATA_PATH, exist_ok=True)
-        output_file = os.path.join(REPO_DATA_PATH, "divergence.json")
+        # Timestamped snapshot rather than overwriting one divergence.json
+        # — same fix as weekly_job.py's ratings snapshots, for the same
+        # reason (repeated overwrites of one file is what causes git
+        # friction; a new file per check is a pure addition). This has an
+        # even stronger case here: odds-watch runs multiple times per game
+        # day, so keeping every snapshot is exactly what Section 9.3's
+        # closing-line-value tracking needs — the full line movement from
+        # open to close, not just the latest number.
+        divergence_dir = os.path.join(REPO_DATA_PATH, "divergence")
+        os.makedirs(divergence_dir, exist_ok=True)
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        output_file = os.path.join(divergence_dir, f"{season}-week-{current_week:02d}-{timestamp}.json")
         with open(output_file, "w") as f:
             json.dump({
                 "computed_at": datetime.now(timezone.utc).isoformat(),
@@ -198,7 +212,7 @@ def main():
         # hardened against the missing-origin and detached-HEAD failures
         # found in production there.
         if GIT_REPO_URL:
-            git_commit_and_push(output_file, commit_message=f"Update divergence: {len(divergences)} games")
+            git_commit_and_push(output_file, commit_message=f"Update divergence: {season} week {current_week}, {len(divergences)} games")
         else:
             print("[odds_watch_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 

@@ -127,6 +127,112 @@ body {
   background: rgba(237, 234, 225, 0.03);
 }
 
+.clickable-row {
+  cursor: pointer;
+}
+
+/* ---- Team profile page ---- */
+
+.back-link {
+  background: none;
+  border: none;
+  color: var(--chalk-dim);
+  font-family: var(--body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.back-link:hover {
+  color: var(--amber);
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.profile-team-name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  margin: 0;
+  color: var(--chalk);
+  line-height: 1;
+}
+
+.grade-badge {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 2rem;
+  color: var(--amber);
+  background: rgba(242, 169, 59, 0.1);
+  border: 1px solid var(--amber-dim);
+  padding: 8px 20px;
+  border-radius: 3px;
+  line-height: 1;
+}
+
+.grade-badge.positive {
+  color: var(--flag-green);
+  border-color: var(--flag-green);
+  background: rgba(111, 169, 122, 0.1);
+}
+
+.grade-badge.negative {
+  color: var(--flag-red);
+  border-color: var(--flag-red);
+  background: rgba(193, 68, 60, 0.1);
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+}
+
+.stat-tile {
+  background: var(--board-black);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tile-label {
+  font-size: 0.78rem;
+  color: var(--chalk-dim);
+  font-weight: 600;
+}
+
+.tile-primary {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 2.1rem;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+  margin: 4px 0 10px;
+}
+
+.tile-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--chalk-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.tile-row span:last-child {
+  color: var(--chalk);
+  font-weight: 600;
+}
+
 .rank-cell {
   color: var(--chalk-dim);
   width: 2.5em;
