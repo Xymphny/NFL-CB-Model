@@ -24,6 +24,7 @@ from model.ratings import (
     add_home_field_and_rest, team_ratings,
 )
 from model.team_profile import build_team_profile
+from model.preseason_prior import blend_team_ratings
 from deploy.validate import validate_pbp_data, validate_ratings, ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
@@ -31,6 +32,44 @@ from deploy.git_utils import git_commit_and_push
 REPO_DATA_PATH = os.environ.get("REPO_DATA_PATH", "./data")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GIT_REPO_URL = os.environ.get("GIT_REPO_URL")  # e.g. "github.com/username/repo.git" — no scheme/token
+
+
+def get_or_compute_prior(season: int, path: str):
+    """
+    Loads last season's final rating (the preseason prior) from a cached
+    file if one exists, otherwise computes it once and caches it. This
+    only needs computing once per season, not every week — the cache
+    file gets committed to the repo the same way ratings snapshots do,
+    so it persists across the ephemeral cron containers.
+    """
+    import pandas as pd
+
+    prior_dir = os.path.join(path, "priors")
+    os.makedirs(prior_dir, exist_ok=True)
+    cache_path = os.path.join(prior_dir, f"{season}.json")
+
+    if os.path.exists(cache_path):
+        with open(cache_path) as f:
+            cached = json.load(f)
+        return pd.DataFrame(cached["ratings"]).set_index("team"), cache_path, False
+
+    print(f"[weekly_job] no cached prior for {season}, computing from {season - 1} season...")
+    prior_season_df = load_season(season - 1)
+    prior_season_df = add_situation_buckets(prior_season_df)
+    prior_season_df = score_all_plays(prior_season_df, use_turnover_luck_adjustment=True)
+    prior_season_df = filter_garbage_time(prior_season_df)
+    baselines = compute_baselines(prior_season_df)
+    prior_season_df = compute_raw_voa(prior_season_df, baselines)
+    prior_season_df = opponent_adjust(prior_season_df, iterations=3, regression=0.5)
+    prior_ratings = team_ratings(prior_season_df, use_recency_weights=False)
+
+    with open(cache_path, "w") as f:
+        json.dump({
+            "season": season - 1,
+            "ratings": prior_ratings.reset_index().rename(columns={"index": "team"}).to_dict(orient="records"),
+        }, f, indent=2)
+
+    return prior_ratings, cache_path, True
 
 
 class SeasonNotStartedError(Exception):
@@ -74,6 +113,22 @@ def run_pipeline(season: int, current_week: int) -> dict:
     ratings = team_ratings(df, use_recency_weights=True)
     validate_ratings(ratings)
 
+    # Preseason prior blending (Section 11.1) — only meaningful early in
+    # the season; skip entirely if no prior season's data is available
+    # (e.g., the model's first-ever season) rather than fail.
+    prior_source = "none"
+    try:
+        prior_ratings, prior_cache_path, was_freshly_computed = get_or_compute_prior(season, REPO_DATA_PATH)
+        ratings = blend_team_ratings(prior_ratings, ratings, games_played=current_week)
+        prior_source = f"blended with {season - 1} prior (k={2.0}, week {current_week})"
+        if was_freshly_computed:
+            print(f"[weekly_job] computed and cached new prior at {prior_cache_path}")
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            print(f"[weekly_job] no prior-season data available for {season - 1}, skipping prior blending")
+        else:
+            raise
+
     # Team profile stats (EPA/play, success rate, red zone efficiency,
     # turnover margin) for the per-team dashboard page — computed from
     # the same underlying data, alongside the core DVOA rating.
@@ -84,6 +139,7 @@ def run_pipeline(season: int, current_week: int) -> dict:
         "season": season,
         "week": current_week,
         "computed_at": datetime.now(timezone.utc).isoformat(),
+        "prior_source": prior_source,
     }
 
 
@@ -107,6 +163,7 @@ def write_output(result: dict, path: str):
         "season": result["season"],
         "week": result["week"],
         "computed_at": result["computed_at"],
+        "prior_source": result.get("prior_source", "none"),
         "ratings": result["ratings"].reset_index().rename(columns={"index": "team"}).to_dict(orient="records"),
     }
 

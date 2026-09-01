@@ -41,9 +41,17 @@ Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it
 
 - **QB persistence isn't fed into the season simulation** — the Minnesota/Cousins case above is the concrete example. `model/injuries_and_var.py`'s `apply_persistent_qb_adjustment()` exists but `demo/run_season_simulation.py` doesn't call it yet
 - ~~The points-prediction layer isn't fed into `deploy/odds_watch_job.py`~~ — **fixed**, see `model/prediction.py` above
-- **Preseason prior / credibility weighting (Section 11.1)** — not built. The calibration script's prior-season-only approach is related but isn't the same as the full credibility-weighted blend described in the spec
+- ~~Preseason prior / credibility weighting (Section 11.1)~~ — **fixed**, see new section below
 - **Bootstrap uncertainty isn't fed into `deploy/weekly_job.py`'s output** — it's computed and tested in `model/market_comparison.py` but the weekly job doesn't call it or include it in `ratings.json`
 - **Walk-forward backtesting harness (Section 11's protocol)** — not built. `calibrate_points_model.py`'s prior-season-only approach is a simpler stand-in, explicitly caveated in its own output
+
+## Preseason prior / credibility weighting (Section 11.1) — built, calibrated, live
+
+`k=2` (how many games the prior is "worth") found via a real backtest against 2021-2023 data (`model/calibrate_credibility_k.py`), not guessed — checked how close early-season blended ratings got to each team's true final-season rating vs. raw in-season-only ratings. Result: blending reduced error by 11.1% overall, and — confirming the theory, not just the number — helped most early (+16.2% at Week 2) and faded to near-nothing by Week 6 (+2.8%), with larger k values actively hurting once real data existed to trust instead. Wired into `weekly_job.py`: the prior (last season's final rating) is computed once and cached (`data/priors/{season}.json`, committed like the ratings snapshots), then reused on every subsequent week rather than recomputed — verified directly (first run computed and cached a fresh prior, second run correctly skipped recomputation).
+
+**Honest scope limit**: the full Section 11.1 design also calls for blending in Vegas win-total-implied strength, especially for CFB. That needs historical preseason betting lines, which require a paid Odds API tier not available here. `vegas_win_total` is a supported optional input in `model/preseason_prior.py`, but nothing fabricates that data — what's live in production is the prior-season-rating blend alone, which is what's actually been calibrated against real results.
+
+Offense/defense components are blended separately (same `k`, extended by reasonable assumption) and `total_rating` is derived from them, keeping `offense - defense = total` internally consistent — worth noting that `k=2` was calibrated specifically against `total_rating` error, so applying it to the components individually is an extension, not independently validated on its own.
 
 ## Known gaps vs. the full spec (not started)
 
