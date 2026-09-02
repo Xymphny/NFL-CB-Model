@@ -23,6 +23,7 @@ NEEDED_COLUMNS = [
     "special_teams_play", "punt_attempt", "field_goal_attempt",
     "kickoff_attempt", "extra_point_attempt",
     "fixed_drive", "fixed_drive_result",
+    "passer_player_name", "receiver_player_name", "sack_player_name",
 ]
 
 
@@ -69,6 +70,27 @@ def load_season(season: int) -> pd.DataFrame:
         print(f"[nfl_pbp] warning: columns not found in source data: {missing}")
 
     return df
+
+
+def load_special_teams_plays(season: int) -> pd.DataFrame:
+    """
+    Loads field goal/punt/kickoff plays specifically — load_season()
+    filters these OUT (pass/run only), so this is a separate loader
+    for the special teams sub-model (Section 3.7), not a replacement
+    for the main loader.
+    """
+    url = NFLVERSE_PBP_URL.format(season=season)
+    cols = ["game_id", "season", "week", "posteam", "defteam", "play_type",
+            "kick_distance", "return_yards", "field_goal_result"]
+
+    chunks = []
+    for chunk in pd.read_csv(
+        url, compression="gzip", low_memory=False,
+        usecols=lambda c: c in cols, chunksize=5000,
+    ):
+        chunks.append(chunk[chunk["play_type"].isin(["field_goal", "punt", "kickoff"])].copy())
+
+    return pd.concat(chunks, ignore_index=True)
 
 
 if __name__ == "__main__":

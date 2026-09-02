@@ -191,8 +191,8 @@ body {
 }
 
 .tile-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1px;
   background: var(--hairline);
 }
@@ -203,6 +203,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex: 1 1 180px;
 }
 
 .tile-label {

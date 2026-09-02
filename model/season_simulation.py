@@ -135,6 +135,85 @@ def simulate_season(
     return summary.sort_values("mean_wins", ascending=False)
 
 
+def simulate_season_with_playoffs(
+    remaining_schedule: pd.DataFrame,
+    played_schedule: pd.DataFrame,
+    ratings: pd.DataFrame,
+    rating_uncertainty: pd.DataFrame,
+    margin_coefficients: dict,
+    n_simulations: int = 2000,
+) -> pd.DataFrame:
+    """
+    Extends simulate_season with real playoff probability, using the
+    playoff_seeding module's tiebreaker system (validated against the
+    real 2023 outcome) on each simulated season's full standings --
+    not just win totals.
+
+    played_schedule needs real completed games with actual scores
+    (used as-is, not resimulated) and div_game flags for tiebreakers.
+    Simulated remaining games get synthetic but plausible scores
+    (derived from the sampled margin) so point-differential-based
+    tiebreakers have something real to compare, not just win/loss.
+    """
+    from model.playoff_seeding import compute_standings, seed_conference
+
+    rng = np.random.default_rng(42)
+    teams = list(ratings.index)
+    playoff_appearances = {team: 0 for team in teams}
+    division_wins = {team: 0 for team in teams}
+
+    for sim in range(n_simulations):
+        simulated_games = []
+
+        for _, game in remaining_schedule.iterrows():
+            home, away = game["home_team"], game["away_team"]
+            if home not in ratings.index or away not in ratings.index:
+                continue
+
+            home_std = rating_uncertainty.loc[home, "rating_std"] if home in rating_uncertainty.index else 0.1
+            away_std = rating_uncertainty.loc[away, "rating_std"] if away in rating_uncertainty.index else 0.1
+            combined_std = np.sqrt(home_std**2 + away_std**2)
+
+            margin = simulate_game(
+                home_rating=ratings.loc[home, "total_rating"],
+                away_rating=ratings.loc[away, "total_rating"],
+                rating_uncertainty_std=combined_std,
+                margin_coefficients=margin_coefficients,
+                is_neutral_site=game.get("is_neutral_site", False),
+                rest_diff=game.get("rest_diff", 0.0),
+                rng=rng,
+            )
+
+            # Synthetic but plausible scores derived from the margin --
+            # real enough for point-differential tiebreakers, without
+            # claiming to simulate an actual box score.
+            base = 21
+            home_score = base + max(margin, 0) / 2
+            away_score = base - min(margin, 0) / 2
+
+            simulated_games.append({
+                "home_team": home, "away_team": away,
+                "home_score": home_score, "away_score": away_score,
+                "div_game": game.get("div_game", False),
+            })
+
+        full_season = pd.concat([played_schedule, pd.DataFrame(simulated_games)], ignore_index=True)
+        standings = compute_standings(full_season)
+
+        for conf in ["AFC", "NFC"]:
+            seeds = seed_conference(conf, standings, full_season)
+            for team in seeds:
+                playoff_appearances[team] += 1
+            if seeds:
+                division_wins[seeds[0]] += 1  # rough proxy, only tracks the #1 seed's division here
+
+    result = pd.DataFrame({
+        "team": teams,
+        "playoff_pct": [playoff_appearances.get(t, 0) / n_simulations for t in teams],
+    }).set_index("team")
+    return result.sort_values("playoff_pct", ascending=False)
+
+
 if __name__ == "__main__":
     print(
         "This module requires a real remaining schedule, current records, "

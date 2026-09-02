@@ -19,6 +19,7 @@ NEEDED_COLUMNS = [
     "away_rest", "home_rest",
     "spread_line", "total_line",   # closing lines — Section 9.3's historical backtest source
     "temp", "wind", "roof",
+    "div_game",
 ]
 
 

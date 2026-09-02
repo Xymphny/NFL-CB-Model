@@ -17,6 +17,93 @@ function useJson(path) {
 }
 
 /**
+ * Fetches every available ratings snapshot (not just the latest) to
+ * build a week-over-week trend per team — now possible thanks to the
+ * immutable snapshot architecture, which never had a technical reason
+ * to stop at "just the current one."
+ */
+function useRatingsHistory() {
+  const [state, setState] = useState({ history: null, loading: true, error: null })
+
+  useEffect(() => {
+    fetch('/data/manifest.json')
+      .then((res) => {
+        if (!res.ok) throw new Error('no manifest')
+        return res.json()
+      })
+      .then((manifest) => {
+        const files = manifest.ratings || []
+        if (files.length === 0) {
+          setState({ history: null, loading: false, error: new Error('no snapshots yet') })
+          return
+        }
+        return Promise.all(files.map((f) => fetch(`/data/ratings/${f}`).then((r) => r.json()))).then(
+          (snapshots) => {
+            // Build { team: [{ week, total_rating }, ...] }, sorted by week
+            const history = {}
+            snapshots
+              .sort((a, b) => a.week - b.week)
+              .forEach((snap) => {
+                snap.ratings.forEach((team) => {
+                  if (!history[team.team]) history[team.team] = []
+                  history[team.team].push({ week: snap.week, total_rating: team.total_rating })
+                })
+              })
+            setState({ history, loading: false, error: null })
+          }
+        )
+      })
+      .catch((error) => setState({ history: null, loading: false, error }))
+  }, [])
+
+  return state
+}
+
+function RatingTrendChart({ history, currentTeam }) {
+  if (!history || history.length < 2) {
+    return (
+      <p className="section-sub">Not enough weekly snapshots yet to show a trend — check back after a few more weeks.</p>
+    )
+  }
+
+  const width = 680
+  const height = 160
+  const padding = 24
+  const values = history.map((h) => h.total_rating)
+  const minVal = Math.min(...values, 0)
+  const maxVal = Math.max(...values, 0)
+  const range = maxVal - minVal || 1
+
+  const xStep = (width - padding * 2) / (history.length - 1)
+  const yFor = (v) => height - padding - ((v - minVal) / range) * (height - padding * 2)
+  const zeroY = yFor(0)
+
+  const points = history.map((h, i) => `${padding + i * xStep},${yFor(h.total_rating)}`).join(' ')
+
+  return (
+    <svg width="100%" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${currentTeam} rating trend by week`}>
+      <line x1={padding} y1={zeroY} x2={width - padding} y2={zeroY} stroke="var(--hairline)" strokeWidth="1" />
+      <polyline points={points} fill="none" stroke="var(--amber)" strokeWidth="2" />
+      {history.map((h, i) => (
+        <circle key={h.week} cx={padding + i * xStep} cy={yFor(h.total_rating)} r="3" fill="var(--amber)" />
+      ))}
+      {history.map((h, i) => (
+        <text
+          key={`label-${h.week}`}
+          x={padding + i * xStep}
+          y={height - 4}
+          fontSize="11"
+          fill="var(--chalk-dim)"
+          textAnchor="middle"
+        >
+          Wk {h.week}
+        </text>
+      ))}
+    </svg>
+  )
+}
+
+/**
  * Ratings and divergence are now stored as immutable per-week/per-check
  * snapshot files rather than one overwritten file (fixes the git
  * friction repeated overwrites were causing). The manifest — generated
@@ -168,6 +255,8 @@ function DivergenceSection({ divergences }) {
 function TeamProfilePage({ team, onBack }) {
   const grade = Math.max(0, Math.min(100, Math.round(50 + team.total_rating * 125)))
   const gradeClass = grade >= 60 ? 'positive' : grade <= 40 ? 'negative' : ''
+  const ratingsHistory = useRatingsHistory()
+  const teamHistory = ratingsHistory.history ? ratingsHistory.history[team.team] : null
 
   const tiles = [
     {
@@ -235,9 +324,18 @@ function TeamProfilePage({ team, onBack }) {
         ))}
       </div>
 
+      <h2 className="section-heading">Rating trend</h2>
+      <p className="section-sub">Total rating (DVOA) across every published weekly snapshot.</p>
+      {ratingsHistory.loading && <p className="section-sub">Loading…</p>}
+      {teamHistory && <RatingTrendChart history={teamHistory} currentTeam={team.team} />}
+      {!ratingsHistory.loading && !teamHistory && (
+        <p className="section-sub">No trend data yet for {team.team}.</p>
+      )}
+
       <p className="section-sub" style={{ marginTop: '32px' }}>
-        Season-aggregate only for now — week-over-week trend and recent-form windows need historical
-        snapshots this pipeline doesn't store yet.
+        Recent-form time windows (last 4/8 games, etc.) still aren't broken out separately from the
+        season-long rating shown above — the snapshots now exist to support this, it just hasn't been
+        built as a distinct view yet.
       </p>
     </div>
   )

@@ -1,13 +1,24 @@
 """
 Points-prediction layer — Section 11.4. Translates team ratings into
-predicted spread, total, and win probability, using the coefficients
-calibrated in calibrate_points_model.py against 5 real seasons.
+predicted spread, total, and win probability.
 
-These coefficients are the actual measured output of that calibration
-run (see model/calibrate_points_model.py's printed results) — not
-re-derived here. Recalibrate periodically (e.g. once a season, once
-more data accumulates) by rerunning that script and updating the
-constants below.
+MARGIN_COEFFICIENTS below is the twice-extended Layer 2 version,
+walk-forward calibrated (2021-2023, zero lookahead) across two rounds
+of testing:
+1. Base Layer 2 (CPOE, separation, YAC-over-expected, RYOE): straight-up
+   accuracy 58.22% -> 64.04% (model/walk_forward_layer2_test.py)
+2. Extended (+ cushion, catch%, stacked-box rate): 64.04% -> 64.90%,
+   a smaller but real further gain (model/walk_forward_layer2_extended_test.py)
+Requires real NGS tracking features at prediction time — see
+model/layer2_ngs.py. Callers that don't provide them get 0.0 defaults,
+which means correct-but-unenhanced predictions, not an error.
+
+One coefficient worth noting rather than hiding: cushion_diff's sign
+is negative (more cushion for the home team's receivers correlates
+with a WORSE margin), plausibly confounded by game state — teams
+already losing often see more prevent-style cushion late in games.
+The walk-forward test is a measure of out-of-sample prediction
+accuracy, not a causal claim about any individual coefficient.
 """
 
 import sys
@@ -18,11 +29,34 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pandas as pd
 
-# From calibrate_points_model.py's real run against 2019-2023 data.
-# CAVEAT (same one printed by that script): prior-season-only, no
-# within-season walk-forward update yet — treat as a baseline, not a
-# fully validated production model.
+# Walk-forward calibrated, 2021-2023, zero lookahead (model/walk_forward_layer2_extended_test.py).
 MARGIN_COEFFICIENTS = {
+    "rating_diff": 13.2165,
+    "home_field": 2.9119,
+    "rest_diff": 0.1677,
+    "cpoe_diff": 0.6587,
+    "separation_diff": 5.6077,
+    "yac_oe_diff": 2.2567,
+    "ryoe_diff": -0.0470,
+    "cushion_diff": -3.1962,
+    "catch_pct_diff": -0.1557,
+    "stacked_box_diff": 0.0544,
+    "intercept": -0.4361,
+}
+
+# Retained for reference/comparison.
+MARGIN_COEFFICIENTS_BASE_LAYER2 = {
+    "rating_diff": 12.9834,
+    "home_field": 2.7266,
+    "rest_diff": 0.1862,
+    "cpoe_diff": 0.5132,
+    "separation_diff": 3.3910,
+    "yac_oe_diff": 2.6533,
+    "ryoe_diff": 0.2759,
+    "intercept": -0.2878,
+}
+
+MARGIN_COEFFICIENTS_V1_RATING_ONLY = {
     "rating_diff": 22.7091,
     "home_field": 2.8321,
     "rest_diff": 0.1310,
@@ -36,12 +70,25 @@ TOTAL_COEFFICIENTS = {
 }
 
 
-def predict_margin(rating_diff: float, is_neutral_site: bool, rest_diff: float) -> float:
+def predict_margin(
+    rating_diff: float, is_neutral_site: bool, rest_diff: float,
+    cpoe_diff: float = 0.0, separation_diff: float = 0.0,
+    yac_oe_diff: float = 0.0, ryoe_diff: float = 0.0,
+    cushion_diff: float = 0.0, catch_pct_diff: float = 0.0,
+    stacked_box_diff: float = 0.0,
+) -> float:
     home_field = 0.0 if is_neutral_site else 1.0
     return (
         MARGIN_COEFFICIENTS["rating_diff"] * rating_diff
         + MARGIN_COEFFICIENTS["home_field"] * home_field
         + MARGIN_COEFFICIENTS["rest_diff"] * rest_diff
+        + MARGIN_COEFFICIENTS["cpoe_diff"] * cpoe_diff
+        + MARGIN_COEFFICIENTS["separation_diff"] * separation_diff
+        + MARGIN_COEFFICIENTS["yac_oe_diff"] * yac_oe_diff
+        + MARGIN_COEFFICIENTS["ryoe_diff"] * ryoe_diff
+        + MARGIN_COEFFICIENTS["cushion_diff"] * cushion_diff
+        + MARGIN_COEFFICIENTS["catch_pct_diff"] * catch_pct_diff
+        + MARGIN_COEFFICIENTS["stacked_box_diff"] * stacked_box_diff
         + MARGIN_COEFFICIENTS["intercept"]
     )
 
@@ -74,15 +121,30 @@ def predict_game(
     home_rating: float, away_rating: float,
     home_offense: float, away_offense: float,
     is_neutral_site: bool, rest_diff: float, wind: float = 0.0,
+    cpoe_diff: float = 0.0, separation_diff: float = 0.0,
+    yac_oe_diff: float = 0.0, ryoe_diff: float = 0.0,
+    cushion_diff: float = 0.0, catch_pct_diff: float = 0.0,
+    stacked_box_diff: float = 0.0,
 ) -> dict:
     """
     Full prediction for one game: predicted points for each team, spread,
     total, and win probability — the single translation layer that
     serves spread, moneyline, and totals all at once (Section 11.4's
     design).
+
+    The seven NGS-derived parameters default to 0.0 (no effect) for
+    callers that don't supply real team tracking data — a correct but
+    unenhanced prediction, not an error. Real values come from
+    model.layer2_ngs.compute_team_ngs_features().
     """
     rating_diff = home_rating - away_rating
-    margin = predict_margin(rating_diff, is_neutral_site, rest_diff)
+    margin = predict_margin(
+        rating_diff, is_neutral_site, rest_diff,
+        cpoe_diff=cpoe_diff, separation_diff=separation_diff,
+        yac_oe_diff=yac_oe_diff, ryoe_diff=ryoe_diff,
+        cushion_diff=cushion_diff, catch_pct_diff=catch_pct_diff,
+        stacked_box_diff=stacked_box_diff,
+    )
     total = predict_total(home_offense + away_offense, wind)
 
     home_points = (total + margin) / 2
@@ -134,16 +196,35 @@ def load_current_ratings(ratings_json_path: str) -> pd.DataFrame:
     return df
 
 
-def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame) -> dict:
+def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, ngs_features: pd.DataFrame = None) -> dict:
     """
     Builds the model_predictions dict odds_watch_job.py's compute_divergences()
     expects, keyed by home_team.
+
+    ngs_features: optional output of model.layer2_ngs.compute_team_ngs_features().
+    If not provided, predictions still work correctly but without the
+    validated Layer 2 improvement (see model/prediction.py's module
+    docstring) — teams missing from ngs_features individually also
+    fall back to 0.0 (no effect) for just that team's contribution,
+    rather than failing the whole prediction.
     """
     predictions = {}
     for _, game in upcoming_games.iterrows():
         home, away = game["home_team"], game["away_team"]
         if home not in ratings.index or away not in ratings.index:
             continue
+
+        cpoe_diff = separation_diff = yac_oe_diff = ryoe_diff = 0.0
+        cushion_diff = catch_pct_diff = stacked_box_diff = 0.0
+        if ngs_features is not None and home in ngs_features.index and away in ngs_features.index:
+            cpoe_diff = ngs_features.loc[home, "team_cpoe"] - ngs_features.loc[away, "team_cpoe"]
+            separation_diff = ngs_features.loc[home, "team_avg_separation"] - ngs_features.loc[away, "team_avg_separation"]
+            yac_oe_diff = ngs_features.loc[home, "team_yac_over_expected"] - ngs_features.loc[away, "team_yac_over_expected"]
+            ryoe_diff = ngs_features.loc[home, "team_ryoe"] - ngs_features.loc[away, "team_ryoe"]
+            if "team_avg_cushion" in ngs_features.columns:
+                cushion_diff = ngs_features.loc[home, "team_avg_cushion"] - ngs_features.loc[away, "team_avg_cushion"]
+                catch_pct_diff = ngs_features.loc[home, "team_catch_pct"] - ngs_features.loc[away, "team_catch_pct"]
+                stacked_box_diff = ngs_features.loc[home, "team_stacked_box_pct"] - ngs_features.loc[away, "team_stacked_box_pct"]
 
         result = predict_game(
             home_rating=ratings.loc[home, "total_rating"],
@@ -153,6 +234,10 @@ def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame) 
             is_neutral_site=game.get("is_neutral_site", False),
             rest_diff=game.get("home_rest", 7) - game.get("away_rest", 7),
             wind=game.get("wind", 0.0),
+            cpoe_diff=cpoe_diff, separation_diff=separation_diff,
+            yac_oe_diff=yac_oe_diff, ryoe_diff=ryoe_diff,
+            cushion_diff=cushion_diff, catch_pct_diff=catch_pct_diff,
+            stacked_box_diff=stacked_box_diff,
         )
         predictions[home] = result
 

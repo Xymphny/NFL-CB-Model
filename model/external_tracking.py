@@ -1,50 +1,85 @@
 """
 External accuracy tracking against ESPN FPI — Section 11.5.
 
-IMPORTANT: this module has NOT been run in the build sandbox.
-espn.com is not reachable from this environment's network allowlist
-(only github.com, pypi, npm, and similar package-registry domains are
-permitted). Test this directly in your own environment before relying
-on it, and note Section 7's ToS consideration: scraping ESPN is
-generally against their terms of service even though this is commonly
-done for personal projects.
+VERIFIED against the real, live page (espn.com/nfl/fpi) via Claude in
+Chrome — the original version of this module was a complete guess
+(a nonexistent site.api.espn.com JSON endpoint) and was wrong on both
+counts: there is no separate API call for this data at all, and the
+guessed response shape didn't match anything real.
+
+Real structure, confirmed directly: the page is server-rendered with
+the full dataset embedded inline as `window['__espnfitt__'] = {...}`
+in a <script> tag — no XHR/fetch request happens for it (confirmed via
+network-request monitoring while the page loaded: nothing but ad/
+analytics tracking pixels fired). The real path to the data is
+page.content.table.stats, an object keyed "0" through "31", each
+value shaped like:
+    {"team": {"abbrev": "LAR", "displayName": "Los Angeles Rams", ...},
+     "stats": [{"name": "fpi", "value": "5.9"}, {"name": "epaoffense", "value": "4.1"}, ...]}
+(field names use "abbrev", not "abbreviation"; stats is a list of
+{name, value} pairs, not a nested dict — both wrong in the original
+guess.)
 """
 
+import re
+import json
 import requests
 import pandas as pd
 
-# ESPN's FPI is exposed through an undocumented public JSON endpoint
-# that tools like espnscrapeR use — this is the same endpoint pattern,
-# not independently verified against a live response in this sandbox.
-ESPN_FPI_URL = "https://site.api.espn.com/apis/v2/sports/football/nfl/fpi"
+ESPN_FPI_PAGE_URL = "https://www.espn.com/nfl/fpi"
 
 
 def fetch_espn_fpi() -> pd.DataFrame:
     """
-    Pull current ESPN FPI ratings.
-
-    NOTE: untested. ESPN's undocumented endpoints change without notice
-    more often than a public API would — expect this to need adjustment
-    against a real response before it works. If it breaks, inspecting
-    the network tab on ESPN's own FPI page (espn.com/nfl/fpi) while it
-    loads is the standard way to find the current endpoint/shape.
+    Pulls current ESPN FPI ratings by extracting the real embedded
+    __espnfitt__ data blob from the page's HTML — verified structure,
+    see module docstring. Requests the page directly (not an API
+    endpoint, since none exists for this data).
     """
-    resp = requests.get(ESPN_FPI_URL, timeout=30)
+    resp = requests.get(ESPN_FPI_PAGE_URL, timeout=30, headers={"User-Agent": "Mozilla/5.0"})
     resp.raise_for_status()
-    data = resp.json()
+    html = resp.text
 
-    # Structure is a guess based on ESPN's typical response shape for
-    # similar endpoints — verify against the real response and adjust.
-    teams = data.get("teams", [])
+    marker = "window['__espnfitt__']="
+    start = html.find(marker)
+    if start == -1:
+        raise ValueError(
+            "Could not find the __espnfitt__ data blob in the page — "
+            "ESPN may have changed their page structure since this was verified"
+        )
+    start += len(marker)
+
+    # The JSON object runs until the matching closing brace; find it by
+    # brace-counting rather than assuming a fixed end marker, since the
+    # object contains nested braces throughout.
+    depth = 0
+    end = start
+    for i, ch in enumerate(html[start:], start=start):
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                end = i + 1
+                break
+
+    data = json.loads(html[start:end])
+    stats_by_index = data["page"]["content"]["table"]["stats"]
+
     rows = []
-    for team in teams:
+    for entry in stats_by_index.values():
+        team_abbrev = entry["team"]["abbrev"]
+        stat_lookup = {s["name"]: s["value"] for s in entry["stats"]}
         rows.append({
-            "team": team.get("team", {}).get("abbreviation"),
-            "fpi_rating": team.get("stats", {}).get("fpi"),
-            "fpi_offense": team.get("stats", {}).get("fpi_offense"),
-            "fpi_defense": team.get("stats", {}).get("fpi_defense"),
+            "team": team_abbrev,
+            "fpi_rating": float(stat_lookup.get("fpi", "nan")),
+            "fpi_offense": float(stat_lookup.get("epaoffense", "nan")),
+            "fpi_defense": float(stat_lookup.get("epadefense", "nan")),
+            "fpi_special_teams": float(stat_lookup.get("epaspecialteams", "nan")),
+            "fpi_rank": int(stat_lookup.get("fpirank", "0")),
         })
-    return pd.DataFrame(rows)
+
+    return pd.DataFrame(rows).set_index("team")
 
 
 def score_predictions(predictions: pd.DataFrame) -> dict:

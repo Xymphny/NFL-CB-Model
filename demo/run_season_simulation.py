@@ -17,10 +17,11 @@ from ingest.nfl_pbp import load_season
 from ingest.nfl_schedules import load_schedules
 from model.ratings import (
     add_situation_buckets, score_all_plays, compute_baselines,
-    compute_raw_voa, opponent_adjust, team_ratings,
+    compute_raw_voa, opponent_adjust, team_ratings, filter_garbage_time,
 )
 from model.market_comparison import bootstrap_rating_uncertainty
 from model.season_simulation import simulate_season
+from model.injuries_and_var import apply_qb_persistence_adjustment
 
 CUTOFF_WEEK = 10
 
@@ -32,6 +33,7 @@ def main():
 
     pbp_through_cutoff = add_situation_buckets(pbp_through_cutoff)
     pbp_through_cutoff = score_all_plays(pbp_through_cutoff, use_turnover_luck_adjustment=True)
+    pbp_through_cutoff = filter_garbage_time(pbp_through_cutoff)  # was missing here — inconsistent with the rest of the pipeline
     baselines = compute_baselines(pbp_through_cutoff)
     pbp_through_cutoff = compute_raw_voa(pbp_through_cutoff, baselines)
     pbp_through_cutoff = opponent_adjust(pbp_through_cutoff, iterations=3, regression=0.5)
@@ -39,6 +41,14 @@ def main():
 
     ratings = team_ratings(pbp_through_cutoff, use_recency_weights=False)
     print(f"  Rated {len(ratings)} teams through week {CUTOFF_WEEK}")
+
+    print("Applying persistent QB adjustment (Section 11.3, now wired to real per-play data)...")
+    qb_adjusted = apply_qb_persistence_adjustment(ratings, pbp_through_cutoff)
+    print(f"  MIN current starter detected: {qb_adjusted.loc['MIN', 'current_starter']} "
+          f"(qb_adjustment: {qb_adjusted.loc['MIN', 'qb_adjustment']:+.3f})")
+    ratings_qb_adjusted = qb_adjusted[["offense_voa", "defense_voa", "total_rating"]].copy()
+    ratings_qb_adjusted["offense_voa"] = qb_adjusted["offense_voa_qb_adjusted"]
+    ratings_qb_adjusted["total_rating"] = qb_adjusted["total_rating_qb_adjusted"]
 
     print("Running bootstrap uncertainty (30 iterations)...")
     def rating_fn(resample):
@@ -71,8 +81,8 @@ def main():
         "intercept": -1.1811,
     }
 
-    print("Simulating remaining season (2000 iterations)...")
-    results = simulate_season(
+    print("Simulating remaining season, WITHOUT QB adjustment (2000 iterations)...")
+    results_no_qb = simulate_season(
         remaining_schedule=remaining,
         current_records=current_records,
         ratings=ratings,
@@ -80,6 +90,31 @@ def main():
         margin_coefficients=margin_coefficients,
         n_simulations=2000,
     )
+
+    print("Simulating remaining season, WITH QB adjustment (2000 iterations)...")
+    results_qb = simulate_season(
+        remaining_schedule=remaining,
+        current_records=current_records,
+        ratings=ratings_qb_adjusted,
+        rating_uncertainty=uncertainty,
+        margin_coefficients=margin_coefficients,
+        n_simulations=2000,
+    )
+
+    print("\n=== MIN specifically: without vs. with QB adjustment, vs. actual ===")
+    final_actual = {}
+    for _, g in sched.iterrows():
+        if pd.isna(g["home_score"]):
+            continue
+        home_win = g["home_score"] > g["away_score"]
+        final_actual[g["home_team"]] = final_actual.get(g["home_team"], 0) + (1 if home_win else 0)
+        final_actual[g["away_team"]] = final_actual.get(g["away_team"], 0) + (0 if home_win else 1)
+
+    print(f"  Without QB adjustment: {results_no_qb.loc['MIN', 'mean_wins']:.1f} projected wins")
+    print(f"  With QB adjustment:    {results_qb.loc['MIN', 'mean_wins']:.1f} projected wins")
+    print(f"  Actual final record:   {final_actual['MIN']} wins")
+
+    results = results_qb  # use QB-adjusted for the rest of the summary below
 
     print("\n=== Simulated final win totals (top 10) ===")
     print(results.head(10).to_string(float_format=lambda x: f"{x:.1f}"))

@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ingest.nfl_pbp import load_season
+from ingest.nfl_pbp import load_season, load_special_teams_plays
 from ingest.nfl_schedules import load_schedules, get_current_week
 from model.ratings import (
     add_situation_buckets, score_all_plays, compute_baselines,
@@ -24,7 +24,11 @@ from model.ratings import (
     add_home_field_and_rest, team_ratings,
 )
 from model.team_profile import build_team_profile
-from model.preseason_prior import blend_team_ratings
+from model.preseason_prior import blend_team_ratings, vegas_win_total_to_rating
+from model.preseason_performance import apply_preseason_adjustment, compute_combined_preseason_rating, DEFAULT_PRESEASON_WEIGHT
+from model.market_comparison import bootstrap_rating_uncertainty
+from model.special_teams import compute_special_teams_ratings
+from model.version import METHODOLOGY_VERSION
 from deploy.validate import validate_pbp_data, validate_ratings, ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
@@ -63,6 +67,98 @@ def get_or_compute_prior(season: int, path: str):
     prior_season_df = opponent_adjust(prior_season_df, iterations=3, regression=0.5)
     prior_ratings = team_ratings(prior_season_df, use_recency_weights=False)
 
+    # Combine three signals into the final prior: last season's rating
+    # (the base), real preseason performance (point diff + PRE WK3
+    # box scores), and real Vegas win totals (the market's own
+    # aggregated view — beat-reporter access, scouting, and roster
+    # analysis this model can't replicate on its own). Weights below
+    # are a reasonable, deliberately-considered combination, NOT
+    # backtested the way the in-season k=2 credibility weight was —
+    # unlike that value, there's no efficient way to validate this
+    # blend without repeating real data-gathering across multiple past
+    # seasons, which wasn't done here.
+    PRESEASON_PERFORMANCE_WEIGHT_IN_PRIOR = 0.15
+    BASE_VEGAS_WEIGHT_IN_PRIOR = 0.35
+    # For teams with a real coaching or QB change, last season's rating
+    # reflects a coach/QB who won't be there — boost reliance on the
+    # Vegas signal (which already prices in the real personnel change)
+    # for exactly these teams, rather than treating every team
+    # identically regardless of real offseason disruption.
+    DISRUPTION_VEGAS_WEIGHT_BOOST = 0.10  # per disruption type, stacks for teams with both
+
+    preseason_applied = False
+    vegas_applied = False
+    disrupted_teams = set()
+    try:
+        from model.preseason_2026_results import PRESEASON_2026_RESULTS
+        preseason_data = {2026: PRESEASON_2026_RESULTS}.get(season)
+    except ImportError:
+        preseason_data = None
+
+    try:
+        from model.win_totals_2026 import WIN_TOTALS_2026
+        win_totals = {2026: WIN_TOTALS_2026}.get(season)
+    except ImportError:
+        win_totals = None
+
+    coaching_changes, qb_changes, season_ending_injuries = {}, {}, {}
+    if season == 2026:
+        try:
+            from model.coaching_changes_2026 import COACHING_CHANGES_2026
+            coaching_changes = COACHING_CHANGES_2026
+        except ImportError:
+            pass
+        try:
+            from model.qb_changes_2026 import QB_CHANGES_2026
+            qb_changes = QB_CHANGES_2026
+        except ImportError:
+            pass
+        try:
+            from model.season_ending_injuries_2026 import SEASON_ENDING_INJURIES_2026
+            season_ending_injuries = SEASON_ENDING_INJURIES_2026
+        except ImportError:
+            pass
+
+    for team in prior_ratings.index:
+        last_season_component = prior_ratings.loc[team, "total_rating"]
+        combined = last_season_component
+
+        if preseason_data is not None:
+            preseason_component = compute_combined_preseason_rating(team, results=preseason_data)
+            combined = (1 - PRESEASON_PERFORMANCE_WEIGHT_IN_PRIOR) * combined + PRESEASON_PERFORMANCE_WEIGHT_IN_PRIOR * preseason_component
+            preseason_applied = True
+
+        if win_totals is not None and team in win_totals:
+            vegas_weight = BASE_VEGAS_WEIGHT_IN_PRIOR
+            if team in coaching_changes:
+                vegas_weight += DISRUPTION_VEGAS_WEIGHT_BOOST
+                disrupted_teams.add(team)
+            if team in qb_changes:
+                vegas_weight += DISRUPTION_VEGAS_WEIGHT_BOOST
+                disrupted_teams.add(team)
+            if team in season_ending_injuries:
+                vegas_weight += DISRUPTION_VEGAS_WEIGHT_BOOST
+                disrupted_teams.add(team)
+            vegas_weight = min(vegas_weight, 0.60)  # cap so last-season rating always retains some influence
+
+            vegas_component = vegas_win_total_to_rating(win_totals[team])
+            combined = (1 - vegas_weight) * combined + vegas_weight * vegas_component
+            vegas_applied = True
+
+        prior_ratings.loc[team, "total_rating"] = combined
+
+    if preseason_applied:
+        print(f"[weekly_job] applied real {season} preseason performance signal "
+              f"(weight={PRESEASON_PERFORMANCE_WEIGHT_IN_PRIOR}, not backtested)")
+    if vegas_applied:
+        print(f"[weekly_job] applied real {season} Vegas win totals "
+              f"(base weight={BASE_VEGAS_WEIGHT_IN_PRIOR}, boosted for {len(disrupted_teams)} teams "
+              f"with a real coaching/QB change: {sorted(disrupted_teams)})")
+
+    # Cache AFTER all adjustments — fixes a real bug found during this
+    # wiring: the cache was previously written before adjustments were
+    # applied, so a fresh computation included them but a cached reload
+    # silently didn't, giving inconsistent results between the two paths.
     with open(cache_path, "w") as f:
         json.dump({
             "season": season - 1,
@@ -120,7 +216,7 @@ def run_pipeline(season: int, current_week: int) -> dict:
     try:
         prior_ratings, prior_cache_path, was_freshly_computed = get_or_compute_prior(season, REPO_DATA_PATH)
         ratings = blend_team_ratings(prior_ratings, ratings, games_played=current_week)
-        prior_source = f"blended with {season - 1} prior (k={2.0}, week {current_week})"
+        prior_source = f"blended with {season - 1} prior (k={2.0}, week {current_week}) + real preseason performance + real Vegas win totals (weights not backtested, see get_or_compute_prior docstring)"
         if was_freshly_computed:
             print(f"[weekly_job] computed and cached new prior at {prior_cache_path}")
     except urllib.error.HTTPError as e:
@@ -134,12 +230,40 @@ def run_pipeline(season: int, current_week: int) -> dict:
     # the same underlying data, alongside the core DVOA rating.
     profile = build_team_profile(df, ratings)
 
+    # Bootstrap uncertainty (Section 10, item 3) — computed and tested
+    # in isolation in model/market_comparison.py, but never actually
+    # reached weekly_job.py's output until now. n_bootstrap=100 is a
+    # reasonable production default (measured earlier: ~0.6s for 20
+    # iterations on a full season, so ~3s for 100 — fine for a job that
+    # only runs once a week).
+    print("[weekly_job] computing bootstrap uncertainty (100 iterations)...")
+    def rating_fn(resample):
+        return team_ratings(resample, use_recency_weights=False)
+    uncertainty = bootstrap_rating_uncertainty(df, rating_fn, n_bootstrap=100)
+    profile = profile.join(uncertainty[["rating_std", "rating_p05", "rating_p95"]], how="left")
+
+    # Special teams sub-model (Section 3.7, previously unbuilt) — real
+    # field goal/punt/kickoff scoring, added as a visible, separate
+    # rating component. NOT merged into the core total_rating that
+    # the calibrated points-prediction coefficients and disruption
+    # weighting already depend on — doing that would require
+    # re-running that calibration to stay consistent, which wasn't
+    # done in this pass. Real special teams data, honestly kept
+    # separate rather than silently folded into a number other
+    # calibrated pieces already trust.
+    print("[weekly_job] computing special teams ratings...")
+    st_plays = load_special_teams_plays(season)
+    st_plays = st_plays[st_plays["week"] <= current_week]
+    st_ratings = compute_special_teams_ratings(st_plays)
+    profile = profile.join(st_ratings[["special_teams_voa"]], how="left")
+
     return {
         "ratings": profile,
         "season": season,
         "week": current_week,
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "prior_source": prior_source,
+        "methodology_version": METHODOLOGY_VERSION,
     }
 
 
@@ -164,6 +288,7 @@ def write_output(result: dict, path: str):
         "week": result["week"],
         "computed_at": result["computed_at"],
         "prior_source": result.get("prior_source", "none"),
+        "methodology_version": result.get("methodology_version", "unknown"),
         "ratings": result["ratings"].reset_index().rename(columns={"index": "team"}).to_dict(orient="records"),
     }
 

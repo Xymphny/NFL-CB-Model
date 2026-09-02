@@ -20,6 +20,8 @@ import requests
 
 from model.market_comparison import american_to_implied_prob, devig_two_way, flag_divergence
 from model.prediction import load_current_ratings, build_week_predictions, find_latest_ratings_snapshot
+from model.layer2_ngs import compute_team_ngs_features
+from model.version import METHODOLOGY_VERSION
 from deploy.validate import ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
@@ -178,7 +180,19 @@ def main():
         sched = load_schedules(seasons=[season])
         upcoming_games = sched[sched["week"] == current_week]
 
-        model_predictions = build_week_predictions(ratings, upcoming_games)
+        # Layer 2: real player-tracking features (Section 4/model/layer2_ngs.py),
+        # validated via walk-forward testing to meaningfully improve
+        # prediction accuracy (straight-up 58.22% -> 64.04% in
+        # backtesting — see model/walk_forward_layer2_test.py). Falls
+        # back gracefully to unenhanced predictions if NGS data can't
+        # be fetched (e.g. very early in a season before enough data exists).
+        try:
+            ngs_features = compute_team_ngs_features(season, through_week=current_week)
+        except Exception as e:
+            print(f"[odds_watch_job] Layer 2 NGS features unavailable ({e}), predicting without them")
+            ngs_features = None
+
+        model_predictions = build_week_predictions(ratings, upcoming_games, ngs_features=ngs_features)
         print(f"[odds_watch_job] built predictions for {len(model_predictions)} of "
               f"{len(upcoming_games)} week {current_week} games")
 
@@ -202,6 +216,7 @@ def main():
                 "computed_at": datetime.now(timezone.utc).isoformat(),
                 "season": season,
                 "week": current_week,
+                "methodology_version": METHODOLOGY_VERSION,
                 "divergences": divergences,
             }, f, indent=2)
 
