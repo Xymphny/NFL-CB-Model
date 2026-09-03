@@ -21,6 +21,7 @@ import requests
 from model.market_comparison import american_to_implied_prob, devig_two_way, flag_divergence
 from model.prediction import load_current_ratings, build_week_predictions, find_latest_ratings_snapshot
 from model.layer2_ngs import compute_team_ngs_features
+from model.elo_rating import compute_elo_walk_forward
 from model.version import METHODOLOGY_VERSION
 from deploy.validate import ValidationError
 from deploy.notify import report_success, report_failure
@@ -192,7 +193,21 @@ def main():
             print(f"[odds_watch_job] Layer 2 NGS features unavailable ({e}), predicting without them")
             ngs_features = None
 
-        model_predictions = build_week_predictions(ratings, upcoming_games, ngs_features=ngs_features)
+        # Real Elo ensemble (model/elo_rating.py) -- validated to give
+        # a substantial additional accuracy improvement on top of Layer
+        # 2 (straight-up 62.72% -> 65.55% in backtesting on a large,
+        # held-out 2022-2023 test set -- see model/test_full_ensemble.py).
+        # Computed from real historical schedule data (10 real prior
+        # seasons plus the current season's completed games) -- cheap,
+        # since Elo only needs final scores, not full play-by-play.
+        try:
+            historical_schedule = load_schedules(seasons=list(range(season - 10, season + 1)))
+            _, elo_ratings = compute_elo_walk_forward(historical_schedule)
+        except Exception as e:
+            print(f"[odds_watch_job] Elo ratings unavailable ({e}), predicting without them")
+            elo_ratings = None
+
+        model_predictions = build_week_predictions(ratings, upcoming_games, ngs_features=ngs_features, elo_ratings=elo_ratings)
         print(f"[odds_watch_job] built predictions for {len(model_predictions)} of "
               f"{len(upcoming_games)} week {current_week} games")
 

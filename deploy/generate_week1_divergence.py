@@ -21,6 +21,7 @@ from ingest.nfl_schedules import load_schedules
 from model.prediction import build_week_predictions
 from model.market_comparison import american_to_implied_prob, devig_two_way, flag_divergence
 from model.week1_2026_lines import WEEK1_2026_CURRENT_LINES, GATHERED_AT
+from model.elo_rating import compute_elo_walk_forward
 
 SEASON = 2026
 
@@ -40,12 +41,18 @@ def main(output_dir: str = "./data"):
     # weekly_job.py/odds_watch_job.py once 2026 has its own real data.
     ngs_features = None
 
+    try:
+        historical_schedule = load_schedules(seasons=list(range(SEASON - 11, SEASON)))
+        _, elo_ratings = compute_elo_walk_forward(historical_schedule)
+    except Exception:
+        elo_ratings = None
+
     sched = load_schedules(seasons=[SEASON])
     week1_games = sched[sched["week"] == 1]
-    predictions = build_week_predictions(prior_ratings, week1_games, ngs_features=ngs_features)
+    predictions = build_week_predictions(prior_ratings, week1_games, ngs_features=ngs_features, elo_ratings=elo_ratings)
 
     divergences = []
-    for away, home, away_ml, home_ml, home_spread, total in WEEK1_2026_CURRENT_LINES:
+    for away, home, away_ml, home_ml, home_spread, total, opening_home_spread in WEEK1_2026_CURRENT_LINES:
         if home not in predictions:
             print(f"  no prediction for {away}@{home}, skipping")
             continue
@@ -64,10 +71,27 @@ def main(output_dir: str = "./data"):
             market_odds_home=home_fair, market_odds_away=away_fair,
         )
 
+        # Real line-movement signal (only present once opening lines are
+        # actually gathered — see model/week1_2026_lines.py). A
+        # divergence the market has already moved TOWARD is weaker
+        # evidence of real edge than one it's moved AWAY from — the
+        # market itself is telling us something in the second case.
+        line_movement = None
+        moved_toward_model = None
+        if opening_home_spread is not None:
+            opening_market_spread = -opening_home_spread
+            line_movement = market_spread - opening_market_spread
+            model_divergence_direction = pred["spread"] - opening_market_spread
+            if model_divergence_direction != 0:
+                moved_toward_model = (line_movement * (1 if model_divergence_direction > 0 else -1)) > 0
+
         divergences.append({
             "away_team": away, "home_team": home,
             "market_win_prob_home_fair": home_fair,
             "market_spread": market_spread,
+            "opening_market_spread": (-opening_home_spread) if opening_home_spread is not None else None,
+            "line_movement": line_movement,
+            "moved_toward_model": moved_toward_model,
             "market_total": total,
             **divergence,
         })

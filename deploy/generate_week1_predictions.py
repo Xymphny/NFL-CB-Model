@@ -24,6 +24,7 @@ from deploy.weekly_job import get_or_compute_prior
 from ingest.nfl_schedules import load_schedules
 from model.prediction import build_week_predictions
 from model.team_profile import build_team_profile
+from model.elo_rating import compute_elo_walk_forward
 
 SEASON = 2026
 
@@ -53,11 +54,24 @@ def main(output_dir: str = "./data"):
     # odds_watch_job.py once the 2026 season has its own real data to use.
     ngs_features = None
 
+    # Elo, unlike Layer 2 NGS, is DESIGNED to carry over between
+    # seasons (with built-in regression-to-mean) -- this is its
+    # intended use case, not the same cross-season misapplication that
+    # was found to hurt Layer 2 features earlier. Uses real historical
+    # results through the most recently completed season.
+    try:
+        historical_schedule = load_schedules(seasons=list(range(SEASON - 11, SEASON)))
+        _, elo_ratings = compute_elo_walk_forward(historical_schedule)
+        print(f"Loaded real Elo ratings from {SEASON - 11}-{SEASON - 1}")
+    except Exception as e:
+        print(f"Elo ratings unavailable ({e}), predicting without them")
+        elo_ratings = None
+
     sched = load_schedules(seasons=[SEASON])
     week1_games = sched[sched["week"] == 1]
     print(f"\nReal Week 1 {SEASON} schedule: {len(week1_games)} games")
 
-    predictions = build_week_predictions(prior_ratings, week1_games, ngs_features=ngs_features)
+    predictions = build_week_predictions(prior_ratings, week1_games, ngs_features=ngs_features, elo_ratings=elo_ratings)
     print(f"Built predictions for {len(predictions)} of {len(week1_games)} games")
 
     # Write as a ratings snapshot (week=0, see module docstring) so the

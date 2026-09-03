@@ -39,9 +39,16 @@ function useRatingsHistory() {
         }
         return Promise.all(files.map((f) => fetch(`/data/ratings/${f}`).then((r) => r.json()))).then(
           (snapshots) => {
-            // Build { team: [{ week, total_rating }, ...] }, sorted by week
+            // Real bug found via visual review: sorting by week alone
+            // silently merges different SEASONS into one misleading
+            // line if snapshots from more than one season ever coexist
+            // (which has genuinely happened this project -- 2023 demo
+            // data sitting alongside real 2026 data). Only trend the
+            // most recent season present, sorted by (season, week).
+            const latestSeason = Math.max(...snapshots.map((s) => s.season))
             const history = {}
             snapshots
+              .filter((snap) => snap.season === latestSeason)
               .sort((a, b) => a.week - b.week)
               .forEach((snap) => {
                 snap.ratings.forEach((team) => {
@@ -139,13 +146,25 @@ function useLatestSnapshot(kind) {
 }
 
 function formatSigned(value, digits = 1) {
+  if (value === null || value === undefined) return '—'
   const sign = value > 0 ? '+' : ''
   return `${sign}${value.toFixed(digits)}`
+}
+
+function formatPercent(value, digits = 1) {
+  if (value === null || value === undefined) return '—'
+  return `${(value * 100).toFixed(digits)}%`
+}
+
+function formatNumber(value, digits = 2) {
+  if (value === null || value === undefined) return '—'
+  return value.toFixed(digits)
 }
 
 function RatingsTable({ ratings, onSelectTeam }) {
   const [sortKey, setSortKey] = useState('total_rating')
   const [sortDir, setSortDir] = useState('desc')
+  const hasPlayoffPct = ratings.some((t) => t.playoff_pct != null)
 
   const sorted = useMemo(() => {
     const copy = [...ratings]
@@ -181,6 +200,7 @@ function RatingsTable({ ratings, onSelectTeam }) {
           <th {...headerProps('total_rating')}>Rating</th>
           <th {...headerProps('offense_voa')}>Offense</th>
           <th {...headerProps('defense_voa')}>Defense</th>
+          {hasPlayoffPct && <th {...headerProps('playoff_pct')}>Playoff %</th>}
         </tr>
       </thead>
       <tbody>
@@ -195,6 +215,9 @@ function RatingsTable({ ratings, onSelectTeam }) {
             </td>
             <td className="numeric">{formatSigned(team.offense_voa * 100, 1)}</td>
             <td className="numeric">{formatSigned(team.defense_voa * 100, 1)}</td>
+            {hasPlayoffPct && (
+              <td className="numeric">{team.playoff_pct != null ? `${(team.playoff_pct * 100).toFixed(0)}%` : '—'}</td>
+            )}
           </tr>
         ))}
       </tbody>
@@ -266,31 +289,39 @@ function TeamProfilePage({ team, onBack }) {
     },
     {
       label: 'Success rate',
-      primary: `${(team.success_rate_offense * 100).toFixed(1)}%`,
-      rows: [['Allowed', `${(team.success_rate_allowed * 100).toFixed(1)}%`]],
+      primary: formatPercent(team.success_rate_offense),
+      rows: [['Allowed', formatPercent(team.success_rate_allowed)]],
     },
     {
       label: 'DVOA (opponent-adjusted)',
-      primary: formatSigned(team.total_rating * 100, 1),
+      primary: formatSigned(team.total_rating != null ? team.total_rating * 100 : null, 1),
       rows: [
-        ['Offense', formatSigned(team.offense_voa * 100, 1)],
-        ['Defense', formatSigned(team.defense_voa * 100, 1)],
+        ['Offense', formatSigned(team.offense_voa != null ? team.offense_voa * 100 : null, 1)],
+        ['Defense', formatSigned(team.defense_voa != null ? team.defense_voa * 100 : null, 1)],
+        ...(team.rating_p05 != null && team.rating_p95 != null
+          ? [['90% range', `${formatSigned(team.rating_p05 * 100, 1)} to ${formatSigned(team.rating_p95 * 100, 1)}`]]
+          : []),
       ],
     },
     {
+      label: 'Special teams',
+      primary: formatSigned(team.special_teams_voa != null ? team.special_teams_voa * 100 : null, 1),
+      rows: [],
+    },
+    {
       label: 'Red zone: pts / trip',
-      primary: team.red_zone_points_per_trip.toFixed(2),
+      primary: formatNumber(team.red_zone_points_per_trip),
       rows: [
-        ['TD rate', `${(team.red_zone_td_pct * 100).toFixed(1)}%`],
-        ['Trips', team.red_zone_trips],
+        ['TD rate', formatPercent(team.red_zone_td_pct)],
+        ['Trips', team.red_zone_trips ?? '—'],
       ],
     },
     {
       label: 'Turnover margin',
       primary: formatSigned(team.turnover_margin, 0),
       rows: [
-        ['Takeaways', team.takeaways],
-        ['Giveaways', team.giveaways],
+        ['Takeaways', team.takeaways ?? '—'],
+        ['Giveaways', team.giveaways ?? '—'],
       ],
     },
   ]
@@ -341,9 +372,133 @@ function TeamProfilePage({ team, onBack }) {
   )
 }
 
+/**
+ * Client-side mirror of model/clv_tracking.py's compute_clv_for_game --
+ * same logic, same sign convention, kept in sync deliberately rather
+ * than duplicated by accident. Fetches every divergence snapshot (not
+ * just the latest) to measure real line movement between the earliest
+ * and latest check for each game.
+ */
+function useClvReport() {
+  const [state, setState] = useState({ games: null, loading: true, error: null })
+
+  useEffect(() => {
+    fetch('/data/manifest.json')
+      .then((res) => {
+        if (!res.ok) throw new Error('no manifest')
+        return res.json()
+      })
+      .then((manifest) => {
+        const files = manifest.divergence || []
+        if (files.length < 2) {
+          setState({ games: null, loading: false, error: new Error('need at least 2 snapshots to measure movement') })
+          return
+        }
+        return Promise.all(files.map((f) => fetch(`/data/divergence/${f}`).then((r) => r.json()))).then(
+          (snapshots) => {
+            snapshots.sort((a, b) => new Date(a.computed_at) - new Date(b.computed_at))
+
+            const gameKeys = new Set()
+            snapshots.forEach((snap) => (snap.divergences || []).forEach((d) => gameKeys.add(`${d.away_team}@${d.home_team}`)))
+
+            const games = []
+            gameKeys.forEach((key) => {
+              const [away, home] = key.split('@')
+              const appearances = snapshots
+                .map((snap) => (snap.divergences || []).find((d) => d.away_team === away && d.home_team === home))
+                .filter(Boolean)
+              if (appearances.length < 2) return
+
+              const earliest = appearances[0]
+              const latest = appearances[appearances.length - 1]
+              const modelSpread = earliest.market_spread + earliest.spread_gap
+              const openingMarketSpread = earliest.market_spread
+              const closingMarketSpread = latest.market_spread
+              const divergenceDirection = modelSpread - openingMarketSpread
+              const marketMovement = closingMarketSpread - openingMarketSpread
+              const clvScore = divergenceDirection === 0 ? 0 : marketMovement * (divergenceDirection > 0 ? 1 : -1)
+
+              games.push({
+                away, home, nSnapshots: appearances.length,
+                openingMarketSpread, closingMarketSpread, marketMovement,
+                validated: clvScore > 0,
+              })
+            })
+
+            setState({ games, loading: false, error: null })
+          }
+        )
+      })
+      .catch((error) => setState({ games: null, loading: false, error }))
+  }, [])
+
+  return state
+}
+
+function ClvSection() {
+  const { games, loading, error } = useClvReport()
+
+  if (loading) return <p className="section-sub">Loading…</p>
+  if (error || !games || games.length === 0) {
+    return (
+      <div className="empty-state">
+        <strong>No line-movement data yet</strong>
+        Closing-line value needs at least two odds checks on the same game — check back once the
+        odds-watch job has run more than once this week.
+      </div>
+    )
+  }
+
+  return (
+    <div className="clv-list">
+      {games.map((g) => (
+        <div className="clv-row" key={`${g.away}@${g.home}`}>
+          <span className="clv-matchup">
+            {g.away} <span className="clv-at">at</span> {g.home}
+          </span>
+          <span className="clv-detail">
+            Open {formatSigned(g.openingMarketSpread, 1)} → Close {formatSigned(g.closingMarketSpread, 1)}
+          </span>
+          <span className={`clv-badge ${g.validated ? 'clv-toward' : 'clv-away'}`}>
+            {g.validated ? 'Moved toward model' : 'Moved away from model'}
+          </span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function PlayerGradesSection({ grades }) {
+  const positions = [
+    { key: 'QB', label: 'Quarterbacks' },
+    { key: 'WR_TE', label: 'Wide receivers / tight ends' },
+    { key: 'RB', label: 'Running backs' },
+  ]
+
+  return (
+    <div className="player-grades-grid">
+      {positions.map(({ key, label }) => (
+        <div key={key} className="player-grades-column">
+          <h3 className="player-grades-heading">{label}</h3>
+          {(grades[key] || []).slice(0, 8).map((p, i) => (
+            <div className="player-grade-row" key={p.player}>
+              <span className="player-grade-rank">{i + 1}</span>
+              <span className="player-grade-name">{p.player}</span>
+              <span className={`player-grade-value ${p.grade >= 60 ? 'positive' : p.grade <= 40 ? 'negative' : ''}`}>
+                {p.grade.toFixed(1)}
+              </span>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function App() {
   const ratingsState = useLatestSnapshot('ratings')
   const divergenceState = useLatestSnapshot('divergence')
+  const playerGradesState = useLatestSnapshot('player_grades')
   const [selectedTeam, setSelectedTeam] = useState(null)
 
   if (selectedTeam) {
@@ -366,6 +521,9 @@ export default function App() {
               {ratingsState.data.season} season, week {ratingsState.data.week}
             </strong>{' '}
             — updated {new Date(ratingsState.data.computed_at).toLocaleString()}
+            {ratingsState.data.methodology_version && (
+              <span> · methodology v{ratingsState.data.methodology_version}</span>
+            )}
           </p>
         )}
       </header>
@@ -405,6 +563,33 @@ export default function App() {
           </div>
         )}
         {divergenceState.data && <DivergenceSection divergences={divergenceState.data.divergences} />}
+      </section>
+
+      <section>
+        <h2 className="section-heading">Line movement</h2>
+        <p className="section-sub">
+          Did the market move toward or away from where the model originally diverged? A line moving
+          toward the model's view is a real signal it saw something; moving away suggests the
+          divergence was more likely noise.
+        </p>
+        <ClvSection />
+      </section>
+
+      <section>
+        <h2 className="section-heading">Player grades</h2>
+        <p className="section-sub">
+          Real player-tracking data (Next Gen Stats) — completion accuracy above expectation for QBs,
+          yards-after-catch above expectation for WR/TE, rushing yards over expected for RBs. A
+          different lens than the team ratings above, not a restatement of them.
+        </p>
+        {playerGradesState.loading && <p className="section-sub">Loading…</p>}
+        {playerGradesState.error && (
+          <div className="empty-state">
+            <strong>No player grades yet</strong>
+            Player grades need real in-season tracking data — check back after a few weeks of games.
+          </div>
+        )}
+        {playerGradesState.data && <PlayerGradesSection grades={playerGradesState.data.grades} />}
       </section>
 
       <footer className="footnote">

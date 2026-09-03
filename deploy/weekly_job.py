@@ -29,6 +29,9 @@ from model.preseason_performance import apply_preseason_adjustment, compute_comb
 from model.market_comparison import bootstrap_rating_uncertainty
 from model.special_teams import compute_special_teams_ratings
 from model.version import METHODOLOGY_VERSION
+from model.season_simulation import simulate_season_with_playoffs
+from model.prediction import MARGIN_COEFFICIENTS
+from model.injury_impact import apply_injury_adjustment
 from deploy.validate import validate_pbp_data, validate_ratings, ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
@@ -101,7 +104,7 @@ def get_or_compute_prior(season: int, path: str):
     except ImportError:
         win_totals = None
 
-    coaching_changes, qb_changes, season_ending_injuries = {}, {}, {}
+    coaching_changes, qb_changes, season_ending_injuries, personnel_changes = {}, {}, {}, {}
     if season == 2026:
         try:
             from model.coaching_changes_2026 import COACHING_CHANGES_2026
@@ -118,6 +121,20 @@ def get_or_compute_prior(season: int, path: str):
             season_ending_injuries = SEASON_ENDING_INJURIES_2026
         except ImportError:
             pass
+        try:
+            # Notable non-QB personnel changes (major trades, big free
+            # agent signings, notable retirements) -- broader than the
+            # 3 hand-verified QB cases, since a new starting corner, an
+            # O-line shuffle, or a lost WR1 is just as real a disruption
+            # to last season's rating as a QB change is, but wasn't
+            # tracked separately until this file exists. Not created
+            # with placeholder data -- only wires in once real,
+            # verified entries are gathered (see model/qb_changes_2026.py
+            # for the format/verification bar to match).
+            from model.personnel_changes_2026 import PERSONNEL_CHANGES_2026
+            personnel_changes = PERSONNEL_CHANGES_2026
+        except ImportError:
+            personnel_changes = {}
 
     for team in prior_ratings.index:
         last_season_component = prior_ratings.loc[team, "total_rating"]
@@ -137,6 +154,9 @@ def get_or_compute_prior(season: int, path: str):
                 vegas_weight += DISRUPTION_VEGAS_WEIGHT_BOOST
                 disrupted_teams.add(team)
             if team in season_ending_injuries:
+                vegas_weight += DISRUPTION_VEGAS_WEIGHT_BOOST
+                disrupted_teams.add(team)
+            if team in personnel_changes:
                 vegas_weight += DISRUPTION_VEGAS_WEIGHT_BOOST
                 disrupted_teams.add(team)
             vegas_weight = min(vegas_weight, 0.60)  # cap so last-season rating always retains some influence
@@ -209,6 +229,24 @@ def run_pipeline(season: int, current_week: int) -> dict:
     ratings = team_ratings(df, use_recency_weights=True)
     validate_ratings(ratings)
 
+    # Real injury impact (ingest/injuries.py + model/injury_impact.py) --
+    # closes the "market has live game-week injury status, we don't" gap.
+    # Applied for the UPCOMING week (current_week + 1) -- these ratings
+    # feed odds_watch_job.py's predictions for that week, so the
+    # question is who's ruled out for THAT game, not this one already
+    # played. Guarded: real 2026 injury reports won't exist until the
+    # season actually starts, so this fails gracefully until then.
+    try:
+        injury_adjusted = apply_injury_adjustment(ratings, df, season=season, upcoming_week=current_week + 1)
+        injured_teams = injury_adjusted[injury_adjusted["injury_note"].notna()]
+        if len(injured_teams) > 0:
+            print(f"[weekly_job] applied real injury adjustments for {len(injured_teams)} teams: "
+                  f"{dict(zip(injured_teams.index, injured_teams['injury_note']))}")
+            ratings["offense_voa"] = injury_adjusted["offense_voa_injury_adjusted"]
+            ratings["total_rating"] = injury_adjusted["total_rating_injury_adjusted"]
+    except Exception as e:
+        print(f"[weekly_job] real injury data unavailable for {season} week {current_week + 1} ({e}), skipping")
+
     # Preseason prior blending (Section 11.1) — only meaningful early in
     # the season; skip entirely if no prior season's data is available
     # (e.g., the model's first-ever season) rather than fail.
@@ -256,6 +294,30 @@ def run_pipeline(season: int, current_week: int) -> dict:
     st_plays = st_plays[st_plays["week"] <= current_week]
     st_ratings = compute_special_teams_ratings(st_plays)
     profile = profile.join(st_ratings[["special_teams_voa"]], how="left")
+
+    # Playoff probability (previously built and validated -- exact
+    # match to the real 2023 seeding -- but never wired past a demo
+    # script until now). Guarded to skip when there's no remaining
+    # schedule to simulate (season already over) or too little played
+    # data yet (week 1-3, where standings are too thin to mean much) --
+    # n_simulations=200 keeps this to roughly 10-15s, reasonable for a
+    # job that only runs once a week.
+    if 4 <= current_week < 18:
+        try:
+            print("[weekly_job] computing playoff probabilities (200 simulations)...")
+            full_schedule = load_schedules(seasons=[season])
+            played_schedule = full_schedule[full_schedule["week"] <= current_week].dropna(subset=["home_score"])
+            remaining_schedule = full_schedule[full_schedule["week"] > current_week].copy()
+            remaining_schedule["rest_diff"] = remaining_schedule["home_rest"] - remaining_schedule["away_rest"]
+
+            if len(remaining_schedule) > 0:
+                playoff_result = simulate_season_with_playoffs(
+                    remaining_schedule, played_schedule, ratings, uncertainty,
+                    MARGIN_COEFFICIENTS, n_simulations=200,
+                )
+                profile = profile.join(playoff_result[["playoff_pct"]], how="left")
+        except Exception as e:
+            print(f"[weekly_job] playoff probability computation failed ({e}), skipping")
 
     return {
         "ratings": profile,

@@ -92,6 +92,75 @@ def compute_team_ngs_features(season, through_week=None, preloaded_data=None, mi
     return result
 
 
+def compute_defensive_ngs_features(season, through_week=None, preloaded_data=None, min_teams=28):
+    """
+    The DEFENSIVE side of the same tracking data -- untested until now.
+    Every Layer 2 feature so far measures a team's own offensive skill
+    (their QB's accuracy, their receivers' separation, their rushers'
+    efficiency). This measures the opposite: how much CPOE, separation,
+    and YAC-over-expected a team's DEFENSE allows to opposing players --
+    a genuinely different signal current Layer 2 features don't capture
+    at all, not just a rehash of the offensive ones.
+
+    NGS data is attributed to the offensive player and their team, not
+    the opponent -- requires an opponent lookup (team schedule) to
+    correctly attribute each week's NGS row to the DEFENSE that faced
+    that player, not the offense that produced it.
+    """
+    if preloaded_data is not None:
+        passing, receiving, rushing = preloaded_data["passing"], preloaded_data["receiving"], preloaded_data["rushing"]
+    else:
+        passing = load_ngs_data(season, "passing")
+        receiving = load_ngs_data(season, "receiving")
+        rushing = load_ngs_data(season, "rushing")
+
+    if through_week is not None:
+        passing = passing[passing["week"] < through_week]
+        receiving = receiving[receiving["week"] < through_week]
+        rushing = rushing[rushing["week"] < through_week]
+
+    # NGS rows include opponent info directly as team_abbr (offense) --
+    # need the actual opponent for each week to attribute defensively.
+    from ingest.nfl_schedules import load_schedules
+    sched = load_schedules(seasons=[season])
+    if through_week is not None:
+        sched = sched[sched["week"] < through_week]
+
+    opponent_lookup = {}
+    for _, g in sched.dropna(subset=["home_score"]).iterrows():
+        opponent_lookup[(g["week"], g["home_team"])] = g["away_team"]
+        opponent_lookup[(g["week"], g["away_team"])] = g["home_team"]
+
+    def attribute_to_defense(df):
+        df = df.copy()
+        df["defteam"] = df.apply(lambda r: opponent_lookup.get((r["week"], r["team_abbr"])), axis=1)
+        return df.dropna(subset=["defteam"])
+
+    passing = attribute_to_defense(passing)
+    receiving = attribute_to_defense(receiving)
+    rushing = attribute_to_defense(rushing)
+
+    def weighted_avg_allowed(df, value_col, weight_col):
+        df = df.dropna(subset=[value_col, weight_col])
+        df = df[df[weight_col] > 0]
+        return df.groupby("defteam").apply(lambda g: np.average(g[value_col], weights=g[weight_col]))
+
+    result = pd.DataFrame({
+        "team_cpoe_allowed": weighted_avg_allowed(passing, "completion_percentage_above_expectation", "attempts"),
+        "team_separation_allowed": weighted_avg_allowed(receiving, "avg_separation", "targets"),
+        "team_yac_oe_allowed": weighted_avg_allowed(receiving, "avg_yac_above_expectation", "receptions"),
+        "team_ryoe_allowed": weighted_avg_allowed(rushing, "rush_yards_over_expected_per_att", "rush_attempts"),
+    })
+
+    if len(result) < min_teams:
+        raise ValueError(
+            f"Defensive NGS data for {season} (through_week={through_week}) only covers "
+            f"{len(result)} teams, expected at least {min_teams}"
+        )
+
+    return result
+
+
 def compute_player_grades(season, through_week=None, min_sample=5):
     passing = load_ngs_data(season, "passing")
     receiving = load_ngs_data(season, "receiving")

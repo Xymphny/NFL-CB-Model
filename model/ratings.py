@@ -73,11 +73,23 @@ def compute_raw_voa(df: pd.DataFrame, baselines: pd.Series) -> pd.DataFrame:
     """
     Section 3.4:
         VOA_play = (play_value - baseline_value_for_bucket) / |baseline_value|
+
+    REAL BUG FOUND AND FIXED: the previous guard only protected against
+    an EXACTLY zero baseline, not a NEAR-zero one -- found via a real
+    validation failure (CAR's offense_voa computed as 1.23, wildly
+    outside the normal +/-0.4 range) traced to a single play with
+    baseline_value=-0.030 producing voa=30.05 from dividing by a
+    near-zero denominator. Checked the real baseline distribution
+    before picking a fix: typical |baseline| values run 0.67-1.27
+    (25th-75th percentile), with only 4 of 46 buckets under 0.15 --
+    a floor of 0.2 fixes the genuine small-sample outlier buckets
+    while leaving the other 42+ well-populated buckets completely
+    unaffected.
     """
     df = df.copy()
     df["baseline_value"] = df["bucket"].map(baselines)
-    # Guard against near-zero baselines blowing up the ratio.
-    safe_baseline = df["baseline_value"].replace(0, np.nan).abs()
+    MIN_ABS_BASELINE = 0.2
+    safe_baseline = df["baseline_value"].abs().clip(lower=MIN_ABS_BASELINE)
     df["voa"] = (df["play_value"] - df["baseline_value"]) / safe_baseline
     df["voa"] = df["voa"].fillna(0.0)
     return df
@@ -114,13 +126,30 @@ def opponent_adjust(df: pd.DataFrame, iterations: int = 3, regression: float = 0
     return df
 
 
-def add_recency_weights(df: pd.DataFrame, half_life_weeks: float = 6.0) -> pd.DataFrame:
+def add_recency_weights(df: pd.DataFrame, half_life_weeks: float = 100.0) -> pd.DataFrame:
     """
     Recency weighting (accuracy improvement, not in original spec).
 
     Exponential decay by week-distance from the most recent week in the
     data, so a next-game prediction leans more on recent form than a flat
     season average would.
+
+    DEFAULT CHANGED FROM 6.0 TO 100.0 (effectively minimal weighting)
+    based on real, held-out walk-forward calibration
+    (model/calibrate_recency_half_life.py): tested 8 candidate values,
+    selecting via training-set MAE alone actively picked the WORST
+    real-world choice, because training and test performance were
+    directly opposed -- training MAE monotonically favored shorter
+    half-lives (more aggressive weighting), while held-out test MAE
+    monotonically favored longer ones. The old default (6 weeks) gave
+    the worst straight-up accuracy of everything tested (56.25%); a
+    long half-life (100, effectively flat season-long averaging) gave
+    the best (59.13%) -- consistent and monotonic across all 8 tested
+    values on the held-out 2023 season, not a single lucky data point.
+    Likely explanation: NFL teams don't show strong week-to-week "hot
+    streak" signal independent of true season-long quality -- 
+    discounting earlier-season data trades away real sample size for
+    responsiveness to what's often just noise.
     """
     df = df.copy()
     max_week = df["week"].max()

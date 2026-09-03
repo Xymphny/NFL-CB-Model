@@ -41,6 +41,7 @@ def main():
     manifest = {
         "ratings": list_and_copy_snapshots("ratings"),
         "divergence": list_and_copy_snapshots("divergence"),
+        "player_grades": list_and_copy_snapshots("player_grades"),
     }
 
     output_dir = os.path.join(REPO_ROOT, "frontend", "public", "data")
@@ -52,7 +53,8 @@ def main():
 
     print(f"[generate_manifest] wrote {output_path}: "
           f"{len(manifest['ratings'])} ratings snapshots, "
-          f"{len(manifest['divergence'])} divergence snapshots")
+          f"{len(manifest['divergence'])} divergence snapshots, "
+          f"{len(manifest['player_grades'])} player grade snapshots")
 
 
 if __name__ == "__main__":

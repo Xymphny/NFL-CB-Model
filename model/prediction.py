@@ -2,23 +2,28 @@
 Points-prediction layer — Section 11.4. Translates team ratings into
 predicted spread, total, and win probability.
 
-MARGIN_COEFFICIENTS below is the twice-extended Layer 2 version,
-walk-forward calibrated (2021-2023, zero lookahead) across two rounds
-of testing:
-1. Base Layer 2 (CPOE, separation, YAC-over-expected, RYOE): straight-up
-   accuracy 58.22% -> 64.04% (model/walk_forward_layer2_test.py)
-2. Extended (+ cushion, catch%, stacked-box rate): 64.04% -> 64.90%,
-   a smaller but real further gain (model/walk_forward_layer2_extended_test.py)
-Requires real NGS tracking features at prediction time — see
-model/layer2_ngs.py. Callers that don't provide them get 0.0 defaults,
-which means correct-but-unenhanced predictions, not an error.
-
-One coefficient worth noting rather than hiding: cushion_diff's sign
-is negative (more cushion for the home team's receivers correlates
-with a WORSE margin), plausibly confounded by game state — teams
-already losing often see more prevent-style cushion late in games.
-The walk-forward test is a measure of out-of-sample prediction
-accuracy, not a causal claim about any individual coefficient.
+MARGIN_COEFFICIENTS below is the BASE Layer 2 model (CPOE, separation,
+YAC-over-expected, RYOE) — NOT the further-extended version (+ cushion,
+catch%, stacked-box rate) that was briefly in production. Real,
+important correction found by testing: fitting one set of coefficients
+on all 584 games at once (as the original walk-forward test did)
+overstates real accuracy, because the coefficients themselves get to
+"see" every outcome during fitting even though the underlying ratings/
+NGS features have zero lookahead. A genuinely held-out test (fit on
+2021-2022 only, evaluate on 2023 -- data the coefficients never saw)
+showed:
+  - Rating-only baseline: 59.49% straight-up
+  - Base Layer 2 (this model): 60.51% straight-up -- a real, if far
+    more modest than previously reported, ~1-point improvement
+  - Extended Layer 2 (+3 more features): ALSO 60.51% -- identical,
+    meaning the extended features added ZERO genuine value and were
+    only appearing to help due to overfitting on the in-sample test.
+The originally-reported 58.22% -> 64.90% figures were real numbers
+from a real test, but that test's methodology (one coefficient fit
+across the full sample, then evaluated on the same sample) overstated
+what to expect on genuinely new data. This is the honest, corrected
+number. See model/walk_forward_layer2_test.py and the held-out
+validation in model/test_layer2_held_out.py.
 """
 
 import sys
@@ -29,8 +34,65 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pandas as pd
 
-# Walk-forward calibrated, 2021-2023, zero lookahead (model/walk_forward_layer2_extended_test.py).
+# Base Layer 2, fit on all of 2021-2023 for production (standard
+# practice: validate via held-out split first, then refit on all
+# available data for the final model) -- validated above to
+# genuinely generalize, unlike the extended version.
+# Properly co-calibrated on the expanded 2016-2021 training set (NGS
+# data's earliest available year), tested on 2022-2023 (389 games,
+# fully held out) -- a substantial, real, validated improvement:
+# straight-up accuracy 60.93% (rating alone) -> 62.72% (+ Layer 2) ->
+# 65.55% (+ Elo ensemble). See model/test_full_ensemble.py.
+#
+# rating_diff's own coefficient is small (0.108) because Elo captures
+# much of the same "team quality" signal -- real multicollinearity
+# between two different measures of the same underlying thing, not a
+# sign either one is broken. The COMBINED model's held-out performance
+# is what was validated, not any single coefficient's size.
 MARGIN_COEFFICIENTS = {
+    "rating_diff": 0.1078,
+    "home_field": 5.5271,
+    "rest_diff": 0.0229,
+    "cpoe_diff": 0.4622,
+    "separation_diff": 2.7941,
+    "yac_oe_diff": 0.1230,
+    "ryoe_diff": 0.3432,
+    "elo_diff": 0.0348,
+    "intercept": -6.6607,
+}
+
+# Retained for reference/comparison -- fit under the OLD half_life=6
+# recency default, before the audit caught the staleness, and before
+# the Elo ensemble was added.
+MARGIN_COEFFICIENTS_STALE_PRE_RECENCY_FIX = {
+    "rating_diff": 12.9834,
+    "home_field": 2.7266,
+    "rest_diff": 0.1862,
+    "cpoe_diff": 0.5132,
+    "separation_diff": 3.3910,
+    "yac_oe_diff": 2.6533,
+    "ryoe_diff": 0.2759,
+    "intercept": -0.2878,
+}
+
+# Retained for reference -- the version between the recency fix and
+# the Elo ensemble addition (rating+Layer2 only, no Elo term).
+MARGIN_COEFFICIENTS_PRE_ELO = {
+    "rating_diff": 21.4704,
+    "home_field": 3.7442,
+    "rest_diff": 0.0925,
+    "cpoe_diff": 0.3625,
+    "separation_diff": 2.4554,
+    "yac_oe_diff": 2.1408,
+    "ryoe_diff": 1.6545,
+    "intercept": -1.6367,
+}
+
+# Retained for reference/comparison ONLY -- do NOT use in production.
+# Tested and found to add zero genuine value over the base model above
+# under honest held-out validation (identical 60.51% straight-up
+# accuracy on 2023 data neither version's coefficients had seen).
+MARGIN_COEFFICIENTS_EXTENDED_NOT_RECOMMENDED = {
     "rating_diff": 13.2165,
     "home_field": 2.9119,
     "rest_diff": 0.1677,
@@ -42,18 +104,6 @@ MARGIN_COEFFICIENTS = {
     "catch_pct_diff": -0.1557,
     "stacked_box_diff": 0.0544,
     "intercept": -0.4361,
-}
-
-# Retained for reference/comparison.
-MARGIN_COEFFICIENTS_BASE_LAYER2 = {
-    "rating_diff": 12.9834,
-    "home_field": 2.7266,
-    "rest_diff": 0.1862,
-    "cpoe_diff": 0.5132,
-    "separation_diff": 3.3910,
-    "yac_oe_diff": 2.6533,
-    "ryoe_diff": 0.2759,
-    "intercept": -0.2878,
 }
 
 MARGIN_COEFFICIENTS_V1_RATING_ONLY = {
@@ -75,21 +125,43 @@ def predict_margin(
     cpoe_diff: float = 0.0, separation_diff: float = 0.0,
     yac_oe_diff: float = 0.0, ryoe_diff: float = 0.0,
     cushion_diff: float = 0.0, catch_pct_diff: float = 0.0,
-    stacked_box_diff: float = 0.0,
+    stacked_box_diff: float = 0.0, elo_diff: float = None,
 ) -> float:
+    """
+    cushion_diff, catch_pct_diff, stacked_box_diff kept as accepted
+    parameters for backward compatibility with existing callers, but
+    have NO effect on the prediction -- MARGIN_COEFFICIENTS (the base
+    model) doesn't include them, per the held-out validation above.
+
+    elo_diff defaults to None (not 0.0) -- REAL BUG FOUND AND FIXED:
+    MARGIN_COEFFICIENTS was co-calibrated WITH Elo present, which
+    redistributed weight away from rating_diff onto elo_diff
+    (rating_diff's own coefficient shrank from ~21 to ~0.11, since Elo
+    now carries most of that signal). Silently defaulting elo_diff to
+    0.0 and using the SAME co-calibrated coefficients anyway would make
+    predictions almost entirely flat whenever Elo is unavailable for
+    any reason -- a 200x understatement of rating_diff's real effect,
+    not a small graceful loss of one bonus feature (found and measured
+    directly: a real rating_diff of 0.1 would predict 0.01 points
+    under the co-calibrated coefficients vs 2.15 points under the
+    correct pre-Elo ones). Using None as the sentinel for "Elo
+    unavailable" switches to MARGIN_COEFFICIENTS_PRE_ELO instead, which
+    was properly calibrated for exactly this case.
+    """
+    coefficients = MARGIN_COEFFICIENTS if elo_diff is not None else MARGIN_COEFFICIENTS_PRE_ELO
+    elo_diff = elo_diff if elo_diff is not None else 0.0
+
     home_field = 0.0 if is_neutral_site else 1.0
     return (
-        MARGIN_COEFFICIENTS["rating_diff"] * rating_diff
-        + MARGIN_COEFFICIENTS["home_field"] * home_field
-        + MARGIN_COEFFICIENTS["rest_diff"] * rest_diff
-        + MARGIN_COEFFICIENTS["cpoe_diff"] * cpoe_diff
-        + MARGIN_COEFFICIENTS["separation_diff"] * separation_diff
-        + MARGIN_COEFFICIENTS["yac_oe_diff"] * yac_oe_diff
-        + MARGIN_COEFFICIENTS["ryoe_diff"] * ryoe_diff
-        + MARGIN_COEFFICIENTS["cushion_diff"] * cushion_diff
-        + MARGIN_COEFFICIENTS["catch_pct_diff"] * catch_pct_diff
-        + MARGIN_COEFFICIENTS["stacked_box_diff"] * stacked_box_diff
-        + MARGIN_COEFFICIENTS["intercept"]
+        coefficients["rating_diff"] * rating_diff
+        + coefficients["home_field"] * home_field
+        + coefficients["rest_diff"] * rest_diff
+        + coefficients["cpoe_diff"] * cpoe_diff
+        + coefficients["separation_diff"] * separation_diff
+        + coefficients["yac_oe_diff"] * yac_oe_diff
+        + coefficients["ryoe_diff"] * ryoe_diff
+        + coefficients.get("elo_diff", 0.0) * elo_diff
+        + coefficients["intercept"]
     )
 
 
@@ -124,7 +196,7 @@ def predict_game(
     cpoe_diff: float = 0.0, separation_diff: float = 0.0,
     yac_oe_diff: float = 0.0, ryoe_diff: float = 0.0,
     cushion_diff: float = 0.0, catch_pct_diff: float = 0.0,
-    stacked_box_diff: float = 0.0,
+    stacked_box_diff: float = 0.0, elo_diff: float = None,
 ) -> dict:
     """
     Full prediction for one game: predicted points for each team, spread,
@@ -132,10 +204,13 @@ def predict_game(
     serves spread, moneyline, and totals all at once (Section 11.4's
     design).
 
-    The seven NGS-derived parameters default to 0.0 (no effect) for
-    callers that don't supply real team tracking data — a correct but
-    unenhanced prediction, not an error. Real values come from
-    model.layer2_ngs.compute_team_ngs_features().
+    The NGS-derived parameters default to 0.0 (no effect, small
+    additive features -- graceful degradation is correct for these).
+    elo_diff defaults to None, not 0.0 -- see predict_margin's
+    docstring for why: unlike the NGS features, Elo isn't a small
+    bonus signal, the production coefficients were co-calibrated
+    assuming it's present, so "unavailable" and "available but zero"
+    need to be distinguished, not silently treated the same.
     """
     rating_diff = home_rating - away_rating
     margin = predict_margin(
@@ -143,7 +218,7 @@ def predict_game(
         cpoe_diff=cpoe_diff, separation_diff=separation_diff,
         yac_oe_diff=yac_oe_diff, ryoe_diff=ryoe_diff,
         cushion_diff=cushion_diff, catch_pct_diff=catch_pct_diff,
-        stacked_box_diff=stacked_box_diff,
+        stacked_box_diff=stacked_box_diff, elo_diff=elo_diff,
     )
     total = predict_total(home_offense + away_offense, wind)
 
@@ -196,15 +271,17 @@ def load_current_ratings(ratings_json_path: str) -> pd.DataFrame:
     return df
 
 
-def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, ngs_features: pd.DataFrame = None) -> dict:
+def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, ngs_features: pd.DataFrame = None, elo_ratings: dict = None) -> dict:
     """
     Builds the model_predictions dict odds_watch_job.py's compute_divergences()
     expects, keyed by home_team.
 
     ngs_features: optional output of model.layer2_ngs.compute_team_ngs_features().
-    If not provided, predictions still work correctly but without the
-    validated Layer 2 improvement (see model/prediction.py's module
-    docstring) — teams missing from ngs_features individually also
+    elo_ratings: optional {team: current_elo} dict, the last row's
+    post-game ratings from model.elo_rating.compute_elo_walk_forward()
+    (or equivalent live-updated state). If not provided, predictions
+    still work correctly but without the validated Elo-ensemble
+    improvement — teams missing from either source individually also
     fall back to 0.0 (no effect) for just that team's contribution,
     rather than failing the whole prediction.
     """
@@ -226,6 +303,10 @@ def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, 
                 catch_pct_diff = ngs_features.loc[home, "team_catch_pct"] - ngs_features.loc[away, "team_catch_pct"]
                 stacked_box_diff = ngs_features.loc[home, "team_stacked_box_pct"] - ngs_features.loc[away, "team_stacked_box_pct"]
 
+        elo_diff = None
+        if elo_ratings is not None and home in elo_ratings and away in elo_ratings:
+            elo_diff = elo_ratings[home] - elo_ratings[away]
+
         result = predict_game(
             home_rating=ratings.loc[home, "total_rating"],
             away_rating=ratings.loc[away, "total_rating"],
@@ -237,7 +318,7 @@ def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, 
             cpoe_diff=cpoe_diff, separation_diff=separation_diff,
             yac_oe_diff=yac_oe_diff, ryoe_diff=ryoe_diff,
             cushion_diff=cushion_diff, catch_pct_diff=catch_pct_diff,
-            stacked_box_diff=stacked_box_diff,
+            stacked_box_diff=stacked_box_diff, elo_diff=elo_diff,
         )
         predictions[home] = result
 
