@@ -334,10 +334,12 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
                 ? (d.spread_gap > 0 ? bp.home_spread : bp.away_spread)
                 : (d.total_gap > 0 ? bp.over : bp.under)
               if (!pickBest || pickBest.price == null) return null
-              const shownPoint = market === 'spread' && d.spread_gap > 0 ? -pickBest.point : pickBest.point
+              const shownPoint = market === 'spread'
+                ? formatSigned(d.spread_gap > 0 ? -pickBest.point : pickBest.point, 1)
+                : `${d.total_gap > 0 ? 'over' : 'under'} ${pickBest.point.toFixed(1)}`
               return (
                 <p className="best-price-line">
-                  Best price: {formatSigned(shownPoint, 1)} at {pickBest.price > 0 ? `+${pickBest.price}` : pickBest.price}
+                  Best price: {shownPoint} at {pickBest.price > 0 ? `+${pickBest.price}` : pickBest.price}
                   {' '}({pickBest.book}, {bp.n_books} books checked)
                 </p>
               )

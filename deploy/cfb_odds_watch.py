@@ -257,6 +257,18 @@ def run_live_cfb_odds_watch(data_dir):
     ratings = {t["team"]: t for t in snapshot["ratings"]}
 
     odds_data = fetch_current_odds(sport_key="americanfootball_ncaaf")
+
+    # Same bug class the NFL watch hit live (135 games matched from a
+    # multi-week feed): the API returns future weeks too. NCAAF has no
+    # per-matchup prediction dict to pair-filter against, so filter by
+    # kickoff time instead -- this week's slate is games starting
+    # within the next 8 days.
+    from datetime import timedelta
+    cutoff = (datetime.now(timezone.utc) + timedelta(days=8)).isoformat()
+    before = len(odds_data)
+    odds_data = [g for g in odds_data if (g.get("commence_time") or "9999") <= cutoff]
+    print(f"[cfb_odds_watch] {len(odds_data)} of {before} games kick off within 8 days")
+
     mapping, unmatched = map_odds_names_to_ratings(odds_data, ratings.keys())
 
     divergences, skipped_unrated = [], 0

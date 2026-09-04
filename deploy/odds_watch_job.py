@@ -104,6 +104,9 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
         away_team = ODDS_TEAM_TO_ABBR.get(away_team, away_team)
         if home_team not in model_predictions:
             continue
+        expected_away = model_predictions[home_team].get("away_team")
+        if expected_away is not None and expected_away != away_team:
+            continue  # same home team, different (future-week) matchup
 
         # ALL bookmakers now parsed (line shopping upgrade). Divergence
         # math runs against the CONSENSUS line (median across books --
@@ -329,6 +332,14 @@ def main():
             upcoming_games.loc[idx, "wind"] = forecast.get("wind", 0.0)
 
         model_predictions = build_week_predictions(ratings, upcoming_games, ngs_features=ngs_features, elo_ratings=elo_ratings)
+        # Tag each prediction with its intended opponent. Without this,
+        # a home-team-keyed lookup matches EVERY future home game of
+        # that team in the API's multi-week feed -- the first live run
+        # compared week-1 predictions against 135 games across the
+        # whole season (discovered 2026-09-04, second forced-run catch).
+        for _, gm in upcoming_games.iterrows():
+            if gm["home_team"] in model_predictions:
+                model_predictions[gm["home_team"]]["away_team"] = gm["away_team"]
         print(f"[odds_watch_job] built predictions for {len(model_predictions)} of "
               f"{len(upcoming_games)} week {current_week} games")
 
@@ -383,12 +394,19 @@ def main():
                 continue
             if (d["home_team"], d["away_team"]) in previously_flagged:
                 continue
-            side = d["home_team"] if d["spread_gap"] > 0 else d["away_team"]
-            line = -d["market_spread"] if d["spread_gap"] > 0 else d["market_spread"]
             bp = (d.get("best_prices") or {})
-            best = bp.get("home_spread") if d["spread_gap"] > 0 else bp.get("away_spread")
+            if d.get("spread_flagged"):
+                side = d["home_team"] if d["spread_gap"] > 0 else d["away_team"]
+                line = -d["market_spread"] if d["spread_gap"] > 0 else d["market_spread"]
+                best = bp.get("home_spread") if d["spread_gap"] > 0 else bp.get("away_spread")
+                desc = f"{side} {line:+.1f}, gap {abs(d['spread_gap']):.1f} pts"
+            else:  # total-only flag: describe the total, not a spread
+                over = d["total_gap"] > 0
+                best = bp.get("over") if over else bp.get("under")
+                desc = (f"{d['away_team']}/{d['home_team']} {'over' if over else 'under'} "
+                        f"{d['market_total']:g}, gap {abs(d['total_gap']):.1f} pts")
             price_note = f" (best {best['price']:+d} at {best['book']})" if best and best.get("price") is not None else ""
-            new_plays.append(f"{side} {line:+.1f}, gap {abs(d['spread_gap']):.1f} pts{price_note}")
+            new_plays.append(desc + price_note)
         if new_plays:
             send_webhook_alert(
                 "New board plays -- " + "; ".join(new_plays[:6])
