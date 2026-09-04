@@ -64,6 +64,28 @@ def fetch_current_odds(sport_key: str = "americanfootball_nfl") -> list:
     return data
 
 
+# The Odds API names NFL teams in full ("Detroit Lions"); every other
+# part of this system -- ratings, schedules, the performance grader,
+# the frontend -- speaks nflverse abbreviations ("DET"). This map is
+# the bridge. Its absence was a latent day-one bug: the first live
+# forced run matched 0 of 272 games because "Detroit Lions" was looked
+# up in a dict keyed by "DET". Discovered 2026-09-04, pre-season,
+# exactly what forced runs are for.
+ODDS_TEAM_TO_ABBR = {
+    "Arizona Cardinals": "ARI", "Atlanta Falcons": "ATL", "Baltimore Ravens": "BAL",
+    "Buffalo Bills": "BUF", "Carolina Panthers": "CAR", "Chicago Bears": "CHI",
+    "Cincinnati Bengals": "CIN", "Cleveland Browns": "CLE", "Dallas Cowboys": "DAL",
+    "Denver Broncos": "DEN", "Detroit Lions": "DET", "Green Bay Packers": "GB",
+    "Houston Texans": "HOU", "Indianapolis Colts": "IND", "Jacksonville Jaguars": "JAX",
+    "Kansas City Chiefs": "KC", "Las Vegas Raiders": "LV", "Los Angeles Chargers": "LAC",
+    "Los Angeles Rams": "LA", "Miami Dolphins": "MIA", "Minnesota Vikings": "MIN",
+    "New England Patriots": "NE", "New Orleans Saints": "NO", "New York Giants": "NYG",
+    "New York Jets": "NYJ", "Philadelphia Eagles": "PHI", "Pittsburgh Steelers": "PIT",
+    "San Francisco 49ers": "SF", "Seattle Seahawks": "SEA", "Tampa Bay Buccaneers": "TB",
+    "Tennessee Titans": "TEN", "Washington Commanders": "WAS",
+}
+
+
 def compute_divergences(odds_data: list, model_predictions: dict) -> list:
     """
     For each game, de-vig the market's line and compare to the model's
@@ -75,6 +97,11 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
         home_team = game.get("home_team")
         away_team = game.get("away_team")
 
+        # Full names from the API -> nflverse abbreviations for
+        # everything downstream (see ODDS_TEAM_TO_ABBR note above).
+        full_home, full_away = home_team, away_team
+        home_team = ODDS_TEAM_TO_ABBR.get(home_team, home_team)
+        away_team = ODDS_TEAM_TO_ABBR.get(away_team, away_team)
         if home_team not in model_predictions:
             continue
 
@@ -96,8 +123,8 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
             h2h = markets.get("h2h")
             if h2h:
                 outcomes = {o["name"]: o["price"] for o in h2h["outcomes"]}
-                if home_team in outcomes and away_team in outcomes:
-                    h2h_prices.append({"book": book_name, "home": outcomes[home_team], "away": outcomes[away_team]})
+                if full_home in outcomes and full_away in outcomes:
+                    h2h_prices.append({"book": book_name, "home": outcomes[full_home], "away": outcomes[full_away]})
 
             spreads = markets.get("spreads")
             if spreads:
@@ -105,11 +132,11 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
                     if o.get("point") is None:
                         continue
                     spread_rows.append({
-                        "book": book_name, "side": "home" if o["name"] == home_team else "away",
+                        "book": book_name, "side": "home" if o["name"] == full_home else "away",
                         # API convention: negative = that side favored. Home
                         # rows flipped to this project's positive-=-home-favored
                         # convention; away rows keep the side's own number.
-                        "point": -o["point"] if o["name"] == home_team else o["point"],
+                        "point": -o["point"] if o["name"] == full_home else o["point"],
                         "price": o.get("price"),
                     })
 
