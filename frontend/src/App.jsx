@@ -190,7 +190,8 @@ function GameContext({ d }) {
               {[['home', d.home_team], ['away', d.away_team]].map(([side, team]) => (
                 <div key={side}>
                   <p className="context-team">{team}</p>
-                  {(inj[side] || []).length === 0 && <p className="context-none">No one listed</p>}
+                  {inj[side] == null && <p className="context-none">No report available</p>}
+                  {Array.isArray(inj[side]) && inj[side].length === 0 && <p className="context-none">No one listed</p>}
                   {(inj[side] || []).map((p) => (
                     <p className="context-inj-row" key={p.player}>
                       <span className={`inj-status ${p.status.toLowerCase()}`}>{p.status === 'Questionable' ? 'Q' : p.status === 'Doubtful' ? 'D' : 'OUT'}</span>
@@ -327,7 +328,14 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
               </div>
             </div>
 
-            <p className="bet-reason">{describeReason(d, market)}</p>
+            <p className="bet-reason">
+              {describeReason(d, market)}
+              {d.fpi_home_prob != null && d.market_win_prob_home_fair != null && (
+                <span className="fpi-ref">
+                  {' '}· FPI {Math.round(d.fpi_home_prob * 100)}% / market {Math.round(d.market_win_prob_home_fair * 100)}% home
+                </span>
+              )}
+            </p>
             {d.best_prices && (() => {
               const bp = d.best_prices
               const pickBest = market === 'spread'

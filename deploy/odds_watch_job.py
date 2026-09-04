@@ -379,8 +379,24 @@ def main():
                     "home": qb_alerts.get(d["home_team"]),
                     "away": qb_alerts.get(d["away_team"]),
                 }
+            from deploy.qb_status import get_projected_starters
+            qb1_map = get_projected_starters(season)
         except Exception as qb_err:
+            qb1_map = {}
             print(f"[odds_watch] qb alerts skipped: {qb_err}")
+
+        # ESPN FPI cross-reference: an independent public model's win
+        # probability shown as a third opinion. Not edge (public =
+        # priced in) -- transparency. Soft-fail.
+        try:
+            from deploy.espn_extras import fetch_fpi_map
+            fpi_map = fetch_fpi_map()
+            for d in divergences:
+                d["fpi_home_prob"] = fpi_map.get((d["home_team"], d["away_team"]))
+            if fpi_map:
+                print(f"[odds_watch] FPI attached for {sum(1 for d in divergences if d.get('fpi_home_prob') is not None)} games")
+        except Exception as fpi_err:
+            print(f"[odds_watch] FPI skipped: {fpi_err}")
 
         # Per-game context: full injury reports + kickoff weather.
         # Transparency, not edge (the residual experiment showed both
@@ -460,6 +476,7 @@ def main():
                 "week": current_week,
                 "methodology_version": METHODOLOGY_VERSION,
                 "note": preseason_note,
+                "qb1_map": qb1_map,
                 "divergences": divergences,
             }), f, indent=2, allow_nan=False)
 

@@ -97,6 +97,28 @@ services:
       - key: HEARTBEAT_URL
         sync: false
 
+  # One-off CFB historical backtest job -- TRIGGER MANUALLY from the
+  # dashboard; the schedule (midnight Jan 1) exists only because cron
+  # jobs require one. Runs the full CFBD lines -> sign check -> ATS
+  # backtest chain and commits the caches. Needs CFBD_API_KEY set here
+  # (free key: collegefootballdata.com/key); no other service needs it.
+  # Set RUN_ROSTER_PRIORS=true to also grade roster features.
+  - type: cron
+    name: cfb-backtest-job
+    runtime: python
+    schedule: "0 0 1 1 *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 deploy/cfb_backtest_job.py
+    envVars:
+      - key: CFBD_API_KEY
+        sync: false
+      - key: RUN_ROSTER_PRIORS
+        value: "false"
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+
   # Coverline sync service — stores per-user settings and bet logs,
   # keyed by Discord user id (token verified against Discord's API on
   # each request, cached 10 min). The DISK IS REQUIRED: a web service's

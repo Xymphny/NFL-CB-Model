@@ -51,6 +51,62 @@ STADIUM_COORDS = {
 }
 
 
+
+# ---------------------------------------------------------------------------
+# ESPN fallback -- fills the pre-Wednesday gap when nflverse's official
+# injuries file for the season doesn't exist yet (teams haven't filed).
+# ESPN's public injuries endpoint carries CURRENT editorial statuses
+# (verified live 2026-09-04: 32 teams, 800 entries, e.g. a QB already
+# listed Questionable five days before official reports). Unofficial
+# API, so: used ONLY when nflverse 404s, statuses mapped conservatively
+# (Injured Reserve / Suspension -> Out), and every report it produces
+# is tagged source="espn" so the UI can say where it came from.
+# ---------------------------------------------------------------------------
+
+ESPN_INJURIES_URL = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/injuries"
+ESPN_STATUS_MAP = {
+    "Out": "Out", "Doubtful": "Doubtful", "Questionable": "Questionable",
+    "Injured Reserve": "Out", "Suspension": "Out",
+}
+
+
+def parse_espn_injuries(payload, name_to_abbr):
+    """Pure parser (unit-tested against a real captured response):
+    ESPN payload -> {abbr: [{player, position, status}]}, worst-first,
+    Active entries dropped, statuses mapped to the official vocabulary."""
+    report = {}
+    for team in payload.get("injuries", []):
+        abbr = name_to_abbr.get(team.get("displayName"))
+        if not abbr:
+            continue
+        rows = []
+        for inj in team.get("injuries", []):
+            status = ESPN_STATUS_MAP.get(inj.get("status"))
+            athlete = inj.get("athlete") or {}
+            if not status or not athlete.get("displayName"):
+                continue
+            rows.append({
+                "player": athlete["displayName"],
+                "position": (athlete.get("position") or {}).get("abbreviation", ""),
+                "status": status,
+            })
+        rows.sort(key=lambda r: (STATUS_ORDER[r["status"]], r["position"] != "QB"))
+        report[abbr] = rows[:MAX_LISTED]
+    return report
+
+
+def fetch_espn_injuries():
+    """Live fetch + parse. Soft-fail like every context source."""
+    try:
+        from deploy.odds_watch_job import ODDS_TEAM_TO_ABBR
+        resp = requests.get(ESPN_INJURIES_URL, timeout=20)
+        resp.raise_for_status()
+        return parse_espn_injuries(resp.json(), ODDS_TEAM_TO_ABBR)
+    except Exception as e:
+        print(f"[game_context] ESPN injuries fallback soft-fail: {e}")
+        return {}
+
+
 def get_injury_report(season, week, injuries=None):
     """{team: [{player, position, status}, ...]} sorted worst-first,
     capped at MAX_LISTED per team."""
@@ -66,10 +122,14 @@ def get_injury_report(season, week, injuries=None):
                 key=lambda r: (STATUS_ORDER[r["status"]], r["position"] != "QB"),
             )
             report[team] = rows[:MAX_LISTED]
-        return report
+        return report, "nflverse"
     except Exception as e:
-        print(f"[game_context] injury report soft-fail: {e}")
-        return {}
+        print(f"[game_context] nflverse injuries unavailable ({e}); trying ESPN fallback")
+        espn = fetch_espn_injuries()
+        if espn:
+            print(f"[game_context] ESPN fallback supplied injury statuses for {len(espn)} teams")
+            return espn, "espn"
+        return {}, None
 
 
 def parse_open_meteo(payload, kickoff_hour_iso):
@@ -110,7 +170,7 @@ def attach_context(divergences, season, week, games=None):
     """Adds 'injuries' and 'weather' to each divergence row in place.
     Weather only for outdoor/open roofs per the schedule; domes get
     {'roof': ...} so the frontend can say 'indoors' instead of nothing."""
-    injuries = get_injury_report(season, week)
+    injuries, injury_source = get_injury_report(season, week)
 
     kickoff, roofs = {}, {}
     try:
@@ -132,6 +192,7 @@ def attach_context(divergences, season, week, games=None):
             "home": injuries.get(d["home_team"], []),
             "away": injuries.get(d["away_team"], []),
         }
+        d["injury_source"] = injury_source
         roof = roofs.get(key)
         if roof is not None and not isinstance(roof, str):
             roof = None  # pandas NaN from a schedule row with no roof value

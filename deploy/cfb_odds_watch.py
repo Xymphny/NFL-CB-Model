@@ -302,6 +302,24 @@ def run_live_cfb_odds_watch(data_dir):
             **result,
         })
 
+    # CFB injury context from ESPN -- the ONLY source for college
+    # (nflverse is NFL-only). Sparse by nature: college reporting is
+    # not mandated, so a team absent from the feed gets None ("no
+    # report available"), never an empty "healthy" list.
+    try:
+        from deploy.espn_extras import fetch_cfb_injuries
+        cfb_inj = fetch_cfb_injuries(list(ratings.keys()))
+        for d in divergences:
+            d["injuries"] = {
+                "home": cfb_inj.get(d["home_team"]),
+                "away": cfb_inj.get(d["away_team"]),
+            }
+            d["injury_source"] = "espn" if cfb_inj else None
+        if cfb_inj:
+            print(f"[cfb_odds_watch] ESPN injuries attached for {len(cfb_inj)} teams with disclosed reports")
+    except Exception as inj_err:
+        print(f"[cfb_odds_watch] injuries skipped: {inj_err}")
+
     out = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "season": snapshot["season"], "week": snapshot.get("week"),
