@@ -153,8 +153,12 @@ if __name__ == "__main__":
 # ---------------------------------------------------------------------------
 
 CFB_PLAY_NOTE = (
-    "CFB spread sigma runs ~5 points higher than NFL -- gaps that would be "
-    "large in the NFL are noise here, hence the dashboard's higher CFB thresholds."
+    "CFB board thresholds are backtest-derived: on fully held-out 2023 "
+    "(574 graded games, real CFBD closing lines), model/market gaps of "
+    "5+ points covered 54.6% and 7+ covered 55.2% against the 52.4% "
+    "breakeven, with cover rate rising monotonically in gap size. One "
+    "season of evidence -- promising, not proven; the 2026 season is "
+    "the live confirmation sample. Bet flat and small."
 )
 
 
