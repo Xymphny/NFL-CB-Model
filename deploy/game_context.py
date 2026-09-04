@@ -133,6 +133,8 @@ def attach_context(divergences, season, week, games=None):
             "away": injuries.get(d["away_team"], []),
         }
         roof = roofs.get(key)
+        if roof is not None and not isinstance(roof, str):
+            roof = None  # pandas NaN from a schedule row with no roof value
         if roof in ("dome", "closed"):
             d["weather"] = {"roof": roof}
         elif d["home_team"] in STADIUM_COORDS and key in kickoff:

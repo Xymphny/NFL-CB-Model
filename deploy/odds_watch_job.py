@@ -164,6 +164,8 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
 
         home_spreads = [r for r in spread_rows if r["side"] == "home"]
         market_spread = float(pd.Series([r["point"] for r in home_spreads]).median()) if home_spreads else None
+        if market_spread == 0:
+            market_spread = 0.0  # normalize -0.0 from medians of pick-em lines
         market_total = float(pd.Series([r["point"] for r in total_rows]).median()) if total_rows else None
 
         def _best(rows, better):
@@ -202,7 +204,7 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
         sharp_rows = [r for r in home_spreads if r["book"] in SHARP_BOOKS]
         if sharp_rows:
             sharp_book = sharp_rows[0]["book"]
-            sharp_line = sharp_rows[0]["point"]
+            sharp_line = sharp_rows[0]["point"] + 0.0 if sharp_rows[0]["point"] != 0 else 0.0
             stale = []
             for r in home_spreads:
                 if r["book"] in SHARP_BOOKS:
@@ -242,6 +244,21 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
         })
 
     return results
+
+
+def _json_sanitize(obj):
+    """Recursively replace NaN/inf (Python json writes them; JavaScript
+    JSON.parse rejects them) with None. Paired with allow_nan=False at
+    the dump so any future leak crashes the job loudly instead of
+    silently breaking the site."""
+    import math
+    if isinstance(obj, dict):
+        return {k: _json_sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_json_sanitize(v) for v in obj]
+    if isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
+        return None
+    return obj
 
 
 def main():
@@ -287,6 +304,12 @@ def main():
             )
         print(f"[odds_watch_job] using ratings snapshot: {ratings_path}")
         ratings = load_current_ratings(ratings_path)
+        # Week of the ratings snapshot itself (filename is {season}-week-NN),
+        # used to attach an honest preseason caution to the board when
+        # predictions are running on week-00 priors.
+        import re as _re
+        _m = _re.search(r"week-(\d+)", os.path.basename(ratings_path))
+        ratings_snapshot_week = int(_m.group(1)) if _m else None
 
         current_week = get_next_upcoming_week(season)
         sched = load_schedules(seasons=[season])
@@ -424,13 +447,21 @@ def main():
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         output_file = os.path.join(divergence_dir, f"{season}-week-{current_week:02d}-{timestamp}.json")
         with open(output_file, "w") as f:
-            json.dump({
+            preseason_note = None
+            if ratings_snapshot_week == 0:
+                preseason_note = (
+                    "Early-week board: model numbers come from preseason ratings, "
+                    "which are the least reliable of the season -- large gaps here "
+                    "are more likely model error than market error. Treat Week 1 "
+                    "as observation, not opportunity.")
+            json.dump(_json_sanitize({
                 "computed_at": datetime.now(timezone.utc).isoformat(),
                 "season": season,
                 "week": current_week,
                 "methodology_version": METHODOLOGY_VERSION,
+                "note": preseason_note,
                 "divergences": divergences,
-            }, f, indent=2)
+            }), f, indent=2, allow_nan=False)
 
         # This was missing entirely in the original version — the job
         # wrote divergence.json locally but never committed it, so
