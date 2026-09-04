@@ -27,9 +27,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pandas as pd
 
-DEFAULT_K = 20.0
-DEFAULT_HOME_ADVANTAGE = 65.0  # Elo points, same order of magnitude as FiveThirtyEight's published value
-SEASON_REGRESSION = 0.33  # fraction of each team's rating pulled back toward 1500 between seasons
+DEFAULT_K = 20.0  # tested calibrating this in isolation (K=32 improved standalone Elo accuracy) --
+                   # but reverted after finding it made the FULL ensemble (with Layer 2 present) WORSE,
+                   # not better -- see model/calibrate_elo_hyperparams.py's docstring for the full finding
+DEFAULT_HOME_ADVANTAGE = 65.0  # same story -- see above
+SEASON_REGRESSION = 0.33  # same story -- see above
 BASELINE_ELO = 1500.0
 
 
@@ -66,7 +68,19 @@ def compute_elo_walk_forward(schedule, k=DEFAULT_K, home_advantage=DEFAULT_HOME_
     directly avoids this.
     """
     games = schedule.dropna(subset=["home_score", "away_score"]).copy()
-    games = games.sort_values(["season", "week"]).reset_index(drop=True)
+    # Sort by real calendar date when available (fixes a real bug found
+    # in CFB: postseason games reset their own week numbering, so a
+    # January game could show "week 1", identical to the season's
+    # actual opening week -- sorting by (season, week) alone would
+    # process it as if it happened before the season started). Falls
+    # back to (season, week) for schedules without a date column (NFL's
+    # load_schedules() already only returns regular-season games, so
+    # this fallback was never actually exposed to the bug).
+    if "game_date" in games.columns:
+        games["game_date"] = pd.to_datetime(games["game_date"])
+        games = games.sort_values(["season", "game_date"]).reset_index(drop=True)
+    else:
+        games = games.sort_values(["season", "week"]).reset_index(drop=True)
 
     elo = {}
     rows = []

@@ -2,6 +2,27 @@
 
 Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it can go without live API keys, a real GitHub remote, or network access this sandbox doesn't have. This README is the ground truth on what's actually been run vs. what's structurally written but unverified — read it before bug-fixing anything.
 
+## September 2026 round -- ATS honesty, commercial dashboard, staking, CFB odds
+
+Everything in this section was built and tested in one collaborative session; each item states plainly whether it was run against real data or is awaiting a live credential.
+
+**Run against real data, results as found (not as hoped):**
+- **`model/ats_backtest_full_ensemble.py`** -- the question the project turned on, finally answered. The full production ensemble (DVOA + NGS + Elo, exact deployed coefficients), graded ATS against real nflverse closing lines on fully held-out 2022-2023: **50.81% overall, ~52% at the >=4-point threshold** (breakeven 52.4%). Profitable in 2022, gave it back in 2023. Model MAE 9.66 vs market 9.32. Conclusion adopted throughout: the model is a calibration lab, not yet a profit engine; the dashboard's conservative Play (>=4) / Lean (>=2.5) tiers reflect this backtest, not optimism.
+- **`model/residual_model.py`** -- schedule-only situational spots (rest, bye, division, short week, weather), 2010-2021 fit, 2022-2025 held out (1,087 games): 47-52% ATS everywhere. Cleanly negative -- the free-data spots are mined out. Coefficients saved so information features can be tested in the same harness later.
+- **`model/margin_distribution.py`** -- empirical ATS residual distribution (4,078 games 2010-2024, real key-number mass: 14.5% of games land on exactly 3) plus a logistic edge->cover calibration fit on the held-out backtest. **A 4-point edge really covers ~51.3%, not the 61.4% a normal approximation claims.** A dispersion scale (0.86) was separately calibrated so the moneyline conversion matches 15 seasons of actual favorite win rates within ~1 point. Also a directly-measured team-total residual (7,806 team-games, no independence assumption). All persisted in `data/margin_dist.json`, consumed by both backend pricing and the dashboard.
+- **`model/derivative_pricing.py`** -- alt spreads, moneylines, half-point values, team totals from the empirical distributions. Validated against historical win rates by closing spread, not assumed. First-half lines deliberately NOT included (needs real half-scoring data, not an approximation).
+- **`deploy/generate_performance.py`** -- grades every flagged play (earliest snapshot per week) against final scores and closing lines: ATS record, units at -110, per-play CLV with verified sign conventions, tier stats. Hand-checked against synthetic games; wired into `weekly_job.py` as a soft-fail step. Lights up the dashboard's Track record tab automatically once Week 1 is graded.
+- **Multi-book line shopping in `deploy/odds_watch_job.py`** -- all bookmakers parsed (previously only the first): divergence math now runs on the median consensus line, and each game carries best available point/juice per side with book name. Hand-verified against a realistic 3-book payload. Also: Discord webhook alerts fire on NEWLY flagged plays only (diffed against the prior same-week snapshot), with best price included.
+
+**Dashboard rebuilt as a commercial product ("Coverline", `frontend/`):**
+Three-tab structure (This week / Track record / Ratings / My book): verdict-first bet cards with a five-driver computable confidence meter (edge, line movement, key-number crossing, bootstrap rating stability, backtested tier record -- unknown drivers render as unknown, never filled), calibrated cover probabilities, quarter-Kelly staking capped at 2u with the full derivation shown (and honest zero-stake output when the calibrated edge doesn't clear the vig), weekly exposure caps that actually block the log button, per-user bankroll settings and bet log with personal CLV, alt-line fair prices computed client-side, best-price display, responsible-gambling footer. Discord OAuth2 PKCE login (`frontend/src/account.js`) with localStorage-first storage synced to a new Render web service (`sync_service/` -- FastAPI + SQLite on a REQUIRED persistent disk; token verification against Discord's API, tested end-to-end with mocked auth). Everything degrades gracefully with no credentials configured.
+
+**Written and unit-tested, awaiting live credentials/first real run:**
+- **Live CFB odds (`deploy/cfb_odds_watch.py`)** -- uses the SAME Odds API key as NFL (sport key `americanfootball_ncaaf`), longest-prefix team-name mapping ("Miami (OH) RedHawks" -> "Miami (OH)" verified against the ambiguous cases), consensus + best prices, spread-only per this module's existing no-totals-model rule. New `cfb-odds-watch-job` cron in `render.yaml` (Thu-Sat every 6h). **Verify on first live run:** name-match rate >90% in the snapshot's match_report, and three spot-checked spreads for sign convention.
+- **`ingest/cfb_lines.py` + `model/cfb_ats_backtest.py`** -- CFBD historical closing lines and the CFB ATS backtest. NOT run (CFBD unreachable from the build sandbox); sign-verification checklist in the docstring is mandatory reading before trusting output.
+
+**Open items:** Discord application creation (user-side; unblocks login + sync), extending the walk-forward cache through 2024-2025 for a rolling-origin 10-season evaluation, first-half distributions from play-by-play, CFB totals model.
+
 ## Tested and working (real data, real output, checked by hand)
 
 - **`ingest/nfl_pbp.py`** — real NFL play-by-play from nflverse (GitHub-hosted, no key needed)
@@ -410,3 +431,143 @@ Addressed both open items together: expanded the training data from 3 seasons (2
 **Validated the fix doesn't just move the problem**: directly A/B tested Elo's effect on the real Week 1 2026 preseason case (unlike Layer 2, which was found to actively *hurt* when misapplied cross-season) — mean absolute gap vs. real market lines improved from 4.810 to 3.363, with 10 of 16 games improving against only 6 getting worse. Elo is *designed* to carry over between seasons with built-in regression, unlike Layer 2's NGS features, which explains why the cross-season application helps here rather than hurting.
 
 **Wired fully into production**: `weekly_job.py`/`odds_watch_job.py` (in-season, using the correctly-fixed final-state extraction) and the Week 1 preview scripts (preseason, using the validated cross-season Elo application) both now compute and use real Elo ratings from actual historical schedule data.
+
+## Recalibration on the expanded dataset + Elo hyperparameters — mostly confirmations, one important reversal
+
+Retested every existing calibration on the full 2014-2023 dataset (13,615+ rows across candidates), given how much the larger sample changed conclusions elsewhere this session (DVOA-alone accuracy, the Elo ensemble's full value). Genuinely open question whether the earlier, smaller-sample calibrations would hold.
+
+**Recency-weighting half-life: reconfirmed.** Current default (100, i.e. near-flat weighting) still gives the best held-out accuracy (62.41%) of every candidate tested (2 through 100), on 3x the original data. Not a fluke of the smaller sample.
+
+**Opponent-adjustment iterations and regression: both reconfirmed.** Same MAE-vs-accuracy divergence pattern as the original smaller-sample test — training MAE always prefers a more aggressive setting, but the original defaults (3 iterations, 0.5 regression) give the best real straight-up accuracy (62.41%) of everything tested, on the larger dataset too.
+
+**Elo's own hyperparameters — tested, found a genuinely important reversal.** Calibrating K-factor, home-field advantage, and season regression against Elo's *own standalone* accuracy found real improvements (61.69% → 63.35%) with K=32, home advantage=35, regression=0.2. But testing those same new hyperparameters in the **actual deployed full ensemble** (with Layer 2 also present) showed the opposite: accuracy *dropped* (65.55% → 64.78%). **Reverted to the original values** (K=20, home advantage=65, regression=0.33), which remain correct for the real, deployed system.
+
+This is a genuinely important, general lesson worth stating plainly: optimizing one component of a system in isolation does not guarantee — and here directly contradicted — what helps the full system once that component interacts with everything else already present. The right test is always the one that matches how the model is actually deployed, not a simplified stand-in for it.
+
+**Overall conclusion**: this round found no new changes to ship for the core NFL calibration (a legitimate, valuable result — confirming existing choices survive 3x the data is real evidence they're not overfit to a small, lucky sample) and one important near-miss caught before being deployed incorrectly.
+
+## Elo surfaced on the dashboard — closing another "built but invisible" gap
+
+Same pattern as the earlier audit (special teams, uncertainty, playoff probability): Elo was fully validated and wired into production predictions, but completely absent from `weekly_job.py`'s own output and the dashboard. Added real Elo computation to `weekly_job.py` (cheap — schedule data only) and a new team-profile tile showing both the raw rating and its distance from the 1500 baseline (e.g. "+213"), matching the dashboard's existing "+/-" display convention. Tested end-to-end with real 2023 data via Playwright — renders correctly, no errors (SF: Elo 1713, +213 vs. baseline, consistent with its real, strong DVOA rating).
+
+## CFB Elo ensemble — an even larger real improvement than NFL's
+
+Extended the Elo work to CFB. Real finding: `compute_elo_walk_forward` (NFL's Elo code) needed **zero modification** — `derive_cfb_schedule` already produces data in the exact schema Elo expects, confirmed by running it directly on real CFB data with no errors.
+
+**Real sanity check**: top Elo ratings across 2021-2023 are all legitimate programs — Michigan (the actual 2023 national champion) tops the list, alongside Georgia, Ohio State, Alabama, and Washington (the real 2023 championship game opponent).
+
+**Fair, apples-to-apples comparison** (same 121 real held-out 2023 games used in the original CFB DVOA test): Elo alone (68.60%) substantially outperforms DVOA alone (59.50%) — a much bigger gap than NFL showed, where the two were comparable. Real, sensible explanation: CFB has far wider, more persistent talent gaps between programs than NFL's draft/salary-cap-compressed parity, and the current CFB DVOA model has no cross-season carryover at all (no preseason prior, unlike NFL's), so Elo's season-to-season persistence fills a much bigger real gap here.
+
+**The ensemble result, walk-forward validated**: straight-up accuracy **59.50% (DVOA alone) → 66.94% (DVOA + Elo ensemble)** — a +7.44 point improvement, larger in relative terms than NFL's equivalent finding (+4.6 points).
+
+**Gave CFB its first real production prediction module** (`model/cfb_prediction.py`), matching the NFL pattern — including the same `None`-vs-`0.0` sentinel fix for Elo availability that was needed for NFL's coefficient fallback, applied here from the start rather than discovered as a bug later.
+
+## CFB opponent-adjustment calibration — a real finding, and the "optimize the deployed system" lesson confirmed twice
+
+Tested opponent-adjustment iterations/regression for CFB, never checked before (silently reusing NFL's calibrated values). Sequential search, same discipline as every other calibration.
+
+**Regression: confirmed already well-calibrated.** 0.5 gives the best real held-out accuracy (65.29%) of everything tested, same pattern as NFL.
+
+**Iterations: a real, different, and initially promising finding.** Unlike NFL (where more iterations helped despite worse MAE), for CFB **iterations=1 won on every metric simultaneously** — train MAE, test MAE, *and* test accuracy (65.29%, degrading monotonically as iterations increased to 59.50% at iterations=5). A real, sensible result: with 133 teams and much more heterogeneous CFB schedules, more opponent-adjustment iterations may overcorrect given how few real games connect any two given teams.
+
+**But this didn't survive contact with the full ensemble** — refitting the DVOA + Elo ensemble with iterations=1 showed DVOA-alone accuracy improve (59.50% → 62.81%) exactly as expected, but the **actual deployed ensemble's accuracy got worse** (66.94% → 65.29%). This is the same "optimize the deployed system, not an isolated component" lesson from the NFL Elo hyperparameter case, now confirmed a second time in a completely different context. **Kept iterations=3 for the real production ensemble** — the coefficients already in `model/cfb_prediction.py` remain correct and validated; no change needed there.
+
+This is worth stating as a general principle at this point, not just a one-off finding: any future calibration work in this project should test candidates against the actual deployed system's accuracy, not a component's standalone performance — the two have now disagreed twice, and both times the standalone-optimized choice would have been the wrong one to ship.
+
+## Full CFB scope — completed, with one important honest caveat surfaced by real current data
+
+**Full weekly walk-forward backtest**: expanded from 3 checkpoint weeks to every real week 4-13, using the ensemble settings already confirmed best for the real deployed system (iterations=3, regression=0.5). Much more precise, robust result on 586 real held-out games (vs. 121 previously): straight-up accuracy **66.21% (DVOA alone) → 70.99% (Elo alone) → 71.84% (ensemble)**. Updated `model/cfb_prediction.py` with these more precise coefficients.
+
+**Real current Elo ratings heading into 2026**: extended the schedule cache through 2024-2025, giving CFB Elo real, current data (matching NFL's approach). Sanity-checked and sensible: Ohio State (2024's real national champion), Georgia, Notre Dame, Oregon all rank near the top.
+
+**A real, important honest limitation, surfaced by testing against actual current lines, not assumed away**: gathered real Week 2 2026 lines (Texas -1.5 vs Ohio State; Georgia -3 at Alabama) and found the model — using Elo alone, since no 2026 CFB play-by-play exists yet to compute DVOA from — disagrees substantially with the market on both, favoring the road team by over 10 points in each case where the market sees something close to even.
+
+**This is flagged deliberately rather than shipped quietly**, for two real reasons found while investigating: (1) the validated 71.84% ensemble accuracy always had both real current-season DVOA data *and* Elo working together — "Elo alone, preseason, no current-season data" is a fundamentally different use case that was never separately tested, unlike NFL's Layer 2 cross-season case, which *was* explicitly tested and found harmful before being caught. (2) CFB has far more year-to-year roster turnover than NFL (the transfer portal, more frequent early departures), making a pure historical-Elo carryover a shakier assumption heading into a new season for CFB than it is for NFL. (3) Separately, the Elo computation only uses real regular-season games (the same filter used since the start of the CFB work) — it's missing Ohio State's actual January 2026 CFP championship run, understating their real current strength further, though this makes the model's Ohio-State-favoring disagreement even harder to explain by that gap alone.
+
+**Honest recommendation**: don't trust CFB predictions for the opening weeks of a season without real current-season data — the validated, trustworthy CFB model needs at least a few real weeks of 2026 play-by-play once it's published, matching exactly the same in-season conditions under which the 71.84% accuracy was actually earned.
+
+## Two real, long-standing gaps closed: recent-form windows and CLV analysis tooling
+
+**Recent-form time windows** (`model/ratings.py`'s `compute_recent_form_rating`) — closes a gap the dashboard's own footer had mentioned since early in the project ("the snapshots now exist to support this, it just hasn't been built"). Computes a team's rating using only their last 4 or 8 weeks, recomputing baselines and opponent-adjustment on that smaller window rather than the full season.
+
+**A real bug caught by testing the early-season edge case directly**: the first guard against "not enough real data" used `min(weeks_back, 2)`, which capped the requirement at 2 real weeks *no matter what* window was requested — a "last 8 weeks" query with only 2 real weeks available incorrectly proceeded instead of correctly declining. Fixed to require at least half the requested window to actually be present. Verified both the fix (correctly returns `None` for the under-data case) and the legitimate full case (unchanged, still produces the same real values as before the fix) work correctly.
+
+Wired into `weekly_job.py` and the frontend — tested end-to-end with real 2023 data via Playwright (SF: season +24.7, last 4 weeks +15.7, last 8 weeks +26.1, all rendering correctly with no errors). The old "not built yet" footer text was removed rather than left stale.
+
+**Historical CLV analysis** (`model/analyze_historical_clv.py`) — the underlying math was built and tested with synthetic single-game data, but there was no tool to actually analyze real accumulated data across a full season once it exists. Scans a data directory for every real week present, aggregates validation rates, and — the actually useful question — breaks results down by whether each game was originally flagged as a real divergence or not, since "does flagging mean anything" matters more than a single aggregate number. Tested against constructed multi-week, multi-game data with manually verified results, and against the genuine empty-data case (correctly reports nothing rather than crashing or fabricating a summary).
+
+## Weather — a clarified, mostly-solved picture rather than a fully blocked item
+
+Revisited "weather is blocked" and found the characterization was overstated. There are genuinely two separate pieces:
+
+**Historical backtesting/calibration — was never actually blocked.** Confirmed `nflverse`'s schedule data (already used for everything else) includes real, recorded `temp`/`wind`/`roof` columns for completed games — 65-85% coverage for outdoor games across 2014-2023 (with a real, honest dip to 37.7% in 2022, worth knowing about but not fixable). Confirmed `calibrate_points_model.py` genuinely used this real data — the wind coefficient (-0.2801) was never a placeholder.
+
+**Live forecasting for upcoming games — genuinely blocked, but specifically by this sandbox, not necessarily the real deployed product.** `api.weather.gov` isn't on this environment's network allowlist, but the actual deployed pipeline runs on Render, a different, unrestricted environment. Rather than leave this as an untested assumption, validated the parsing logic thoroughly against api.weather.gov's real, documented response format (confirmed via their own GitHub docs and official code examples) using realistic constructed responses — a single wind value, a dome team (correctly skips the network call entirely), and a real, common NWS format found while researching this: wind given as a range ("10 to 15 mph") during gusty conditions.
+
+**A real bug found and fixed**: the original parsing only took the first number in a range, systematically understating wind — which, since the wind coefficient is negative, would have overstated predicted totals for genuinely windy games. Now averages every number found in the string.
+
+**Wired into production** (previously built but never called anywhere, the same "invisible" pattern found repeatedly this session) — `odds_watch_job.py` now fetches a real forecast for each upcoming game's home stadium before building predictions. Tested end-to-end: correctly attempts the real API for every outdoor team, receives this sandbox's expected network block, and falls back gracefully to `wind=0.0` without crashing the pipeline (16 of 16 games still predicted successfully) — exactly the behavior needed both here and, if the real API call ever fails once deployed for any other reason, in production too.
+
+## Weather — confirmed end-to-end against real, live data
+
+Followed up on the network-settings request: the sandbox allowlist change didn't take effect via `bash_tool` (confirmed with a direct retest — same "Host not in allowlist" response, while a known-good domain like `api.github.com` correctly returned its own real error, confirming the proxy itself was working normally and the block was specific to `api.weather.gov`).
+
+**Switched to the browser instead, which isn't subject to this sandbox's restriction, and got a genuine, live confirmation**: navigated directly to `api.weather.gov/points/44.5013,-88.0622` (Green Bay's real coordinates) and received a live, current response with `properties.forecastHourly` pointing to the real gridpoint URL, exactly matching what `fetch_forecast()` expects. Followed that real URL and got live current data — `"windSpeed": "5 mph"` for right now — in the exact format the code parses. Ran the actual production parsing logic against that real value: correctly produced `5.0`.
+
+This is a stronger result than the earlier validation-against-documentation: the code has now been confirmed against real, live weather data, not just realistic constructed examples. The only remaining gap is that `bash_tool` itself still can't reach the domain directly in this sandbox — a much smaller, precisely-understood limitation than before, and not expected to be a gap at all once deployed to Render.
+
+## CFB preseason prior — a real, honest negative result, and a concrete reason why
+
+Attempted the natural fix for the disagreement found last time: use last season's (2025) real, final DVOA rating as a `rating_diff` proxy, since the earlier test's `rating_diff=0.0` meant the validated ensemble was only using half its signal. Computed real, full-season 2025 CFB DVOA ratings to test this (sensible results: Ohio State, Notre Dame, Oregon, Indiana all rank near the top — real, legitimate 2025 programs).
+
+**It didn't work — and this is reported honestly rather than smoothed over.** Testing against the same real games (Georgia @ Alabama, Ohio State @ Texas), the disagreement with real market lines got *worse* for Ohio State specifically (predicted margin: -10.8 → -15.6), not better, since Ohio State's 2025 DVOA was also very strong, reinforcing Elo's view instead of correcting it.
+
+**Found the real, concrete reason why, rather than just theorizing**: searched for Ohio State's actual 2026 offseason roster situation and confirmed **47 of 91 scholarship players (nearly 52% of the roster) are gone** — 31 transfer portal departures, 5 early NFL draft entries, 11 graduating seniors — including Caleb Downs (called "irreplaceable" by multiple sources), several first-round-caliber defenders, and their leading receiver. Neither last-season DVOA nor multi-year Elo can capture this, because both measure performance by players who are, in large part, no longer on the team.
+
+**This is a real, structural finding, not a modeling flaw**: no amount of combining *historical* performance signals fixes a problem that's specifically about *current* roster composition. This is the same category of thing NFL's real Vegas-win-total blending solves (the market prices in real, current knowledge of actual 2026 rosters) — but CFB has no equivalent yet, and building one would mean gathering real win totals for 130+ teams, a much larger task than NFL's 32-team version.
+
+**Kept the code and documented the negative result plainly** rather than deleting it or overstating what was accomplished — a real, tested attempt that didn't pan out, with a concrete, evidence-backed explanation, is more valuable than pretending the problem is solved.
+
+## CFB fully built out — dashboard, production job, and a serious bug caught along the way
+
+Completed the remaining real CFB scope: player grades feasibility, bowl games in Elo, a weekly production job, current-week predictions/divergence, and dashboard integration.
+
+**Player grades: ruled out cleanly.** Confirmed directly — zero NGS-equivalent tracking columns (separation, CPOE, expected yards, etc.) exist anywhere in CFB's real play-by-play data. Same conclusion as PFF charting: not feasible with any free data source found this session.
+
+**Bowl/postseason games in Elo — built, and caught a serious real bug.** Adding postseason games initially made Ohio State's rating go *up* despite two real losses (Big Ten Championship to Indiana, CFP quarterfinal to Miami) — a red flag investigated rather than accepted. Found that postseason games reset their own week numbering (a real January 2026 game showed up labeled "week 1," identical to actual August games), which meant Elo's walk-forward was sorting games into the wrong chronological order — processing a January game as if it happened before the season started. Fixed by sorting on a real calendar date field instead of `(season, week)`. **Directly verified NFL's existing, already-validated Elo results were never exposed to this bug** (NFL's schedule data has only ever contained regular-season games), so nothing previously shipped needed correction. Re-ran the core CFB ensemble test after the fix — unchanged (66.94%), confirming the fix was safe and additive.
+
+**A real correction to something stated incorrectly earlier in this project**: previously claimed Ohio State won a January 2026 CFP championship. Investigating the postseason data surfaced the real facts — their actual 2025 season ended in losses (Big Ten Championship to Indiana, CFP quarterfinal to Miami), conflated earlier with their real 2024 season title. Corrected rather than left standing.
+
+**CFB weekly production job** (`deploy/cfb_weekly_job.py`) — the real, runnable equivalent of `weekly_job.py`, computing DVOA + Elo ratings and writing a snapshot in NFL's exact JSON schema. Tested against real 2023 data (Michigan, Oregon, Oklahoma all correctly near the top).
+
+**CFB predictions + divergence** (`deploy/cfb_odds_watch.py`) — the in-season equivalent of `odds_watch_job.py`, using the validated ensemble. One honest design choice: CFB has no total-points model, so `total_gap`/`total_flagged` are deliberately excluded from the output rather than fabricated from a placeholder prediction. Tested against real 2023 ratings with a constructed example line (real, live CFB odds gathering is a separate, not-yet-done task).
+
+**Dashboard integration** — added a real NFL/CFB toggle. Confirmed `useLatestSnapshot` was already fully generic (just needed the new `cfb_ratings` manifest key), but found and fixed a real gap: the team-profile page's trend chart was hardcoded to the NFL manifest key, which would have shown NFL's trend data while viewing a CFB team. Fixed by making `useRatingsHistory` accept the correct key per league. Tested end-to-end via Playwright with real data: zero console errors, all 133 real CFB teams render correctly, NFL-specific fields (EPA/play, red zone, special teams) correctly show "—" placeholders instead of crashing, and CFB-only sections include an honest, explicit note about what isn't wired in yet (market comparison, player grades) rather than a misleading empty state.
+
+**One remaining honest cosmetic limitation**: the team-profile grade badge (0-100) was calibrated for NFL's tighter rating range and clamps to 100 for CFB's strongest teams (e.g., Michigan's real +41.3 DVOA). Not a bug — just an imprecise display scale for CFB's wider real talent spread, not fixed given time constraints.
+
+## CFB win totals — real data gathered, but a real, additional obstacle found before it could be used
+
+**A correction, confirmed by this new source**: Indiana, not Ohio State, won the actual January 2026 CFP national championship, completing a real 16-0 perfect season. Earlier documentation in this project incorrectly attributed a January 2026 title to Ohio State (conflating it with their real 2024 season championship) — corrected here with a source that states it directly.
+
+**Gathered real, current 2026 win totals for 137 FBS teams** (`model/cfb_win_totals_2026.py`, from DraftKings/FanDuel/BetMGM consensus, dated July 29, 2026) — genuinely comprehensive, covering the large majority of FBS programs in one real source, not a curated subset. Reconciled team names against cfbfastR's own convention (e.g., "App State" not "Appalachian State," "Hawai'i" not "Hawaii") — 135 of 137 matched cleanly; 2 (Sacramento State, San Jose State) weren't found under any name in the real CFB ratings data and are left unmapped rather than guessed.
+
+**Tested against the same real games as before — still disagrees, but for a new, different, and honestly more fixable reason.** Checked the actual contribution of each signal: Elo dominates the prediction (contributing roughly -7 points in both test cases) while the real win-total signal barely registers (-1.3 and 0.0 points). This is because the validated ensemble coefficients (`rating_diff: 15.69`, `elo_diff: 0.0673`) were calibrated for *in-season, opponent-adjusted DVOA*'s scale — real win-total-derived ratings land on a much smaller numeric scale, so simply substituting one for the other doesn't give it a fair say in the final prediction, even though the underlying data is now real and current.
+
+**Honest assessment of what this means**: gathering real market data was a genuine, necessary step, but it's not sufficient on its own — the ensemble weights themselves need to be recalibrated specifically for a "win-totals + Elo" preseason combination, mirroring how NFL's actual preseason blend (`blend_team_ratings`) uses its own separately-calibrated weight (35% Vegas, boosted for disrupted teams) rather than reusing the in-season model's coefficients. Doing this properly for CFB would need real historical CFB win-totals for multiple past seasons to validate against — not yet gathered, and a genuinely separate task from what was done here.
+
+**Where this leaves the CFB preseason problem**: still open, but meaningfully de-risked. The blocking question is no longer "is there real data available" (yes, now confirmed and gathered) — it's "how should that real data be weighted," which is a smaller, well-defined, and more tractable next step than where this stood before.
+
+## CFB preseason prior, attempt 2 — a real, CFB-native metric, honestly mixed results
+
+Your observation that CFB has no real preseason-game equivalent to NFL's led to a better-targeted fix: **real returning production** (`model/cfb_returning_production_2026.py`, 138 real FBS teams from CBS Sports/TruMedia, Aug 22, 2026) — a CFB-native metric that directly measures what NFL's preseason signal only measures indirectly: how much of a team's real, snap-weighted production carried over, rather than inferring it from win totals (which hit a real scale-mismatch problem with the existing ensemble coefficients) or from historical performance alone (which can't see roster departures at all).
+
+**Directly validated the exact hypothesis on two more real teams**: Indiana (44%) and Miami (46%) — the two teams that played in the actual 2025 national championship game — both show low returning production despite being the best two teams last year. Same phenomenon as Ohio State, confirmed independently.
+
+**Design**: discount last season's DVOA rating by the fraction of real production returning (`discounted_rating = returning_production_pct × last_season_rating`), pulling high-turnover teams toward a neutral prior rather than keeping their full historical rating — this stays on the same numeric scale as `rating_diff` already uses, avoiding the earlier scale-mismatch problem entirely.
+
+**Honest result, tested against a broader real sample (4 marquee Week 1-2 2026 games) rather than the original 2**: genuinely mixed. 2 of 4 games moved meaningfully toward the real market line (Ohio State @ Texas improved 2.1 points; Clemson @ LSU improved 1.1 points), while 2 showed negligible or slightly worse movement.
+
+**A real, additional nuance found while investigating**: Ohio State's snap-weighted continuity (56%) is healthier than the "47 of 91 players departed" headline suggested — their departures concentrated in low-snap backups, while the highest-snap positions (QB at 93%, offensive line at 82%) mostly returned. Player-count churn and snap-weighted continuity can tell meaningfully different stories about the same roster.
+
+**Honest final assessment**: this is real progress in both data quality (a genuine, comprehensive, CFB-native signal that didn't exist before) and understanding (the root-cause hypothesis confirmed on two more real teams) — but the small real test set doesn't show a clean, one-directional fix, and shouldn't be reported as one. A properly rigorous next step would need many more real test games, or historical returning-production data from past seasons to actually calibrate a blend weight against real outcomes — neither attempted here. The CFB preseason problem remains genuinely open, now with better tools and a clearer understanding of it than before.

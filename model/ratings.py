@@ -244,3 +244,47 @@ def team_ratings(df: pd.DataFrame, use_recency_weights: bool = True) -> pd.DataF
     ratings["total_rating"] = ratings["offense_voa"] - ratings["defense_voa"]
     ratings = ratings.sort_values("total_rating", ascending=False)
     return ratings[["offense_voa", "defense_voa", "total_rating"]]
+
+
+def compute_recent_form_rating(df: pd.DataFrame, current_week: int, weeks_back: int) -> pd.DataFrame:
+    """
+    Recent-form rating -- uses ONLY a team's last `weeks_back` weeks,
+    recomputing baselines/opponent-adjustment on just that window
+    rather than the full season. A real, previously-mentioned dashboard
+    gap: the "last 4/8 games" footnote existed since early in the
+    project but was never built.
+
+    df: the same post-garbage-time-filter dataframe used for the main
+    season rating (already has situation buckets and play_value).
+
+    Simplification, stated plainly rather than hidden: this uses the
+    last `weeks_back` calendar WEEKS, not each team's last N games
+    played -- a team coming off a bye would have one fewer real game
+    in its window than a team that played every week. This matches
+    how most fan-facing "last N games" trackers work in practice, but
+    is not a precise per-team game count.
+
+    Returns None if there isn't enough real data in the window (e.g.
+    early season, weeks_back=8 with only 3 real weeks played) rather
+    than silently returning misleading ratings from too few plays.
+    """
+    window_start = current_week - weeks_back
+    windowed = df[(df["week"] >= window_start) & (df["week"] < current_week)].copy()
+
+    # REAL BUG FOUND BY TESTING: the original guard used
+    # min(weeks_back, 2), which caps the requirement at 2 real weeks
+    # NO MATTER what weeks_back was actually requested -- a "last 8
+    # weeks" request with only 2 real weeks of data available
+    # incorrectly proceeded instead of returning None. Fixed to
+    # require at least half the REQUESTED window to actually be
+    # present, so a genuinely early-season "last 8 weeks" request
+    # correctly declines rather than silently computing from a much
+    # smaller, misleadingly-labeled sample.
+    real_weeks_present = windowed["week"].nunique()
+    if real_weeks_present < max(2, weeks_back // 2):
+        return None
+
+    baselines = compute_baselines(windowed)
+    windowed = compute_raw_voa(windowed, baselines)
+    windowed = opponent_adjust(windowed, iterations=3, regression=0.5)
+    return team_ratings(windowed, use_recency_weights=False)

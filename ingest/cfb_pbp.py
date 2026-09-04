@@ -103,7 +103,7 @@ def _map_to_nfl_schema(raw):
     return df.reset_index(drop=True)
 
 
-def derive_cfb_schedule(raw_with_scores: pd.DataFrame) -> pd.DataFrame:
+def derive_cfb_schedule(raw_with_scores: pd.DataFrame, include_postseason: bool = False) -> pd.DataFrame:
     """
     Derives real final scores directly from the play-by-play data --
     no separate schedule source needed (load_cfb_schedules() in the
@@ -116,10 +116,29 @@ def derive_cfb_schedule(raw_with_scores: pd.DataFrame) -> pd.DataFrame:
     each game's last play and reading pos_team_score/def_pos_team_score
     relative to which team had possession.
 
+    include_postseason: real bowl/CFP games are excluded by default,
+    same as this project's DVOA rating computation (bowl games have
+    real, different participation incentives -- opt-outs, backups
+    playing -- that would skew per-play efficiency stats). But Elo
+    only cares about final scores, not per-play efficiency, so
+    excluding bowls there means missing real, meaningful results.
+    CORRECTION to an earlier claim in this project: Ohio State's real
+    2025 season (played through January 2026) actually ended with
+    losses -- 13-10 to Indiana in the Big Ten Championship, then 24-14
+    to Miami in the CFP quarterfinal -- not the championship run
+    earlier documentation incorrectly stated (which conflated this
+    with Ohio State's actual 2024 season title, won in January 2025).
+    Set True specifically for Elo's schedule -- confirmed real
+    season_type values via direct check: "regular" (242,924 real
+    plays) and "postseason" (11,166).
+
     raw_with_scores: the RAW (unmapped) cfbfastR dataframe, since the
     mapped one in load_cfb_season() doesn't retain the score columns.
     """
-    raw = raw_with_scores[raw_with_scores["season_type"] == "regular"].copy()
+    if include_postseason:
+        raw = raw_with_scores[raw_with_scores["season_type"].isin(["regular", "postseason"])].copy()
+    else:
+        raw = raw_with_scores[raw_with_scores["season_type"] == "regular"].copy()
     raw = raw[(raw["home_team_division"] == "fbs") & (raw["away_team_division"] == "fbs")].copy()
 
     games = []
@@ -133,6 +152,15 @@ def derive_cfb_schedule(raw_with_scores: pd.DataFrame) -> pd.DataFrame:
 
         games.append({
             "game_id": game_id, "season": last_play["year"], "week": last_play["week"],
+            # REAL BUG FOUND AND FIXED: postseason games reset their own
+            # week numbering (a real January 2026 CFP game showed up as
+            # "week 1", identical to actual week-1 games from August
+            # 2025) -- sorting Elo's walk-forward purely by (season,
+            # week) would have processed postseason games as if they
+            # happened BEFORE the season even started, corrupting the
+            # whole season's chronological order. Carrying the real
+            # start_date through fixes this at the source.
+            "game_date": last_play["start_date"],
             "home_team": home_team, "away_team": away_team,
             "home_score": home_score, "away_score": away_score,
         })

@@ -17,14 +17,16 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import requests
+import pandas as pd
 
 from model.market_comparison import american_to_implied_prob, devig_two_way, flag_divergence
 from model.prediction import load_current_ratings, build_week_predictions, find_latest_ratings_snapshot
 from model.layer2_ngs import compute_team_ngs_features
 from model.elo_rating import compute_elo_walk_forward
+from model.weather import fetch_forecast
 from model.version import METHODOLOGY_VERSION
 from deploy.validate import ValidationError
-from deploy.notify import report_success, report_failure
+from deploy.notify import report_success, report_failure, send_webhook_alert
 from deploy.git_utils import git_commit_and_push
 from ingest.nfl_schedules import is_game_day, load_schedules, get_next_upcoming_week
 
@@ -76,40 +78,87 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
         if home_team not in model_predictions:
             continue
 
-        # Use the first available bookmaker as a simple starting point —
-        # averaging across books (a proper consensus line) is a
-        # reasonable refinement not done in this pass.
+        # ALL bookmakers now parsed (line shopping upgrade). Divergence
+        # math runs against the CONSENSUS line (median across books --
+        # sturdier than any single book), while per-book best prices are
+        # kept so the dashboard can show where each side is cheapest.
+        # Half a point of shopping is worth more than most model
+        # improvements -- this is the feature that captures it.
         bookmakers = game.get("bookmakers", [])
         if not bookmakers:
             continue
-        markets = {m["key"]: m for m in bookmakers[0].get("markets", [])}
 
-        h2h_market = markets.get("h2h")
-        if not h2h_market:
+        h2h_prices, spread_rows, total_rows = [], [], []
+        for book in bookmakers:
+            book_name = book.get("title") or book.get("key")
+            markets = {m["key"]: m for m in book.get("markets", [])}
+
+            h2h = markets.get("h2h")
+            if h2h:
+                outcomes = {o["name"]: o["price"] for o in h2h["outcomes"]}
+                if home_team in outcomes and away_team in outcomes:
+                    h2h_prices.append({"book": book_name, "home": outcomes[home_team], "away": outcomes[away_team]})
+
+            spreads = markets.get("spreads")
+            if spreads:
+                for o in spreads["outcomes"]:
+                    if o.get("point") is None:
+                        continue
+                    spread_rows.append({
+                        "book": book_name, "side": "home" if o["name"] == home_team else "away",
+                        # API convention: negative = that side favored. Home
+                        # rows flipped to this project's positive-=-home-favored
+                        # convention; away rows keep the side's own number.
+                        "point": -o["point"] if o["name"] == home_team else o["point"],
+                        "price": o.get("price"),
+                    })
+
+            totals = markets.get("totals")
+            if totals:
+                for o in totals["outcomes"]:
+                    if o.get("point") is None:
+                        continue
+                    total_rows.append({"book": book_name, "side": o["name"].lower(), "point": o["point"], "price": o.get("price")})
+
+        if not h2h_prices:
             continue
-        outcomes = {o["name"]: o["price"] for o in h2h_market["outcomes"]}
-        if home_team not in outcomes or away_team not in outcomes:
-            continue
+        # De-vig the consensus book-by-book, then take the median fair prob.
+        fair_probs = []
+        for hp in h2h_prices:
+            hr = american_to_implied_prob(hp["home"])
+            ar = american_to_implied_prob(hp["away"])
+            hf, _ = devig_two_way(hr, ar)
+            fair_probs.append(hf)
+        home_fair = float(pd.Series(fair_probs).median())
+        away_fair = 1 - home_fair
 
-        home_raw = american_to_implied_prob(outcomes[home_team])
-        away_raw = american_to_implied_prob(outcomes[away_team])
-        home_fair, away_fair = devig_two_way(home_raw, away_raw)
+        home_spreads = [r for r in spread_rows if r["side"] == "home"]
+        market_spread = float(pd.Series([r["point"] for r in home_spreads]).median()) if home_spreads else None
+        market_total = float(pd.Series([r["point"] for r in total_rows]).median()) if total_rows else None
 
-        # Fixed bug: market_spread/market_total previously came from the
-        # model's own prediction dict (a placeholder oversight) instead
-        # of the actual spreads/totals markets — parse them for real.
-        spreads_market = markets.get("spreads")
-        market_spread = None
-        if spreads_market:
-            home_spread_outcome = next(
-                (o for o in spreads_market["outcomes"] if o["name"] == home_team), None
-            )
-            if home_spread_outcome:
-                market_spread = -home_spread_outcome["point"]  # API convention: negative = favored;
-                # flipped to match this project's "positive = home favored" convention (Section 11.4)
+        def _best(rows, better):
+            """Best available price: the friendliest point first, then
+            the cheapest juice at that point."""
+            if not rows:
+                return None
+            best_point = better(r["point"] for r in rows)
+            at_point = [r for r in rows if r["point"] == best_point and r["price"] is not None]
+            if not at_point:
+                return {"point": best_point, "price": None, "book": None}
+            top = max(at_point, key=lambda r: r["price"])
+            return {"point": top["point"], "price": top["price"], "book": top["book"]}
 
-        totals_market = markets.get("totals")
-        market_total = totals_market["outcomes"][0]["point"] if totals_market and totals_market.get("outcomes") else None
+        best_prices = {
+            # Home side wants to lay the FEWEST points (min of our
+            # positive-=-favored convention); away side wants to GET the most.
+            "home_spread": _best(home_spreads, min),
+            "away_spread": _best([r for r in spread_rows if r["side"] == "away"], max),
+            "over": _best([r for r in total_rows if r["side"] == "over"], min),
+            "under": _best([r for r in total_rows if r["side"] == "under"], max),
+            "home_ml": max(h2h_prices, key=lambda r: r["home"])["home"] if h2h_prices else None,
+            "away_ml": max(h2h_prices, key=lambda r: r["away"])["away"] if h2h_prices else None,
+            "n_books": len(bookmakers),
+        }
 
         if market_spread is None or market_total is None:
             continue  # book hasn't posted a full line yet — skip rather than compare against a partial one
@@ -127,6 +176,7 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
             "market_win_prob_home_fair": home_fair,
             "market_spread": market_spread,
             "market_total": market_total,
+            "best_prices": best_prices,
             **divergence,
         })
 
@@ -207,6 +257,19 @@ def main():
             print(f"[odds_watch_job] Elo ratings unavailable ({e}), predicting without them")
             elo_ratings = None
 
+        # Real wind forecast (model/weather.py) -- built and its parsing
+        # logic validated against api.weather.gov's real documented
+        # format, but never actually wired into a prediction until now
+        # (the same "built but invisible" gap found repeatedly this
+        # session). Schedule data's own "wind" column is NaN for
+        # upcoming games (weather isn't knowable that far ahead at
+        # publish time) -- fetches a real near-kickoff forecast instead of
+        # silently defaulting to 0 for every outdoor game.
+        upcoming_games = upcoming_games.copy()
+        for idx, game in upcoming_games.iterrows():
+            forecast = fetch_forecast(game["home_team"])
+            upcoming_games.loc[idx, "wind"] = forecast.get("wind", 0.0)
+
         model_predictions = build_week_predictions(ratings, upcoming_games, ngs_features=ngs_features, elo_ratings=elo_ratings)
         print(f"[odds_watch_job] built predictions for {len(model_predictions)} of "
               f"{len(upcoming_games)} week {current_week} games")
@@ -214,6 +277,43 @@ def main():
         divergences = compute_divergences(odds_data, model_predictions)
 
         os.makedirs(REPO_DATA_PATH, exist_ok=True)
+        divergence_dir = os.path.join(REPO_DATA_PATH, "divergence")
+        os.makedirs(divergence_dir, exist_ok=True)
+
+        # Alert on NEWLY flagged plays only -- diffed against the most
+        # recent prior snapshot for this same week, so the webhook fires
+        # when a play first appears (or a line moves enough to flag a
+        # game that wasn't), not on every 4-hour re-check of the same
+        # board. This is the "play posted" alert a subscriber Discord
+        # actually wants; a webhook that repeats the full board six
+        # times a day trains everyone to mute it.
+        import glob as _glob
+        prior_files = sorted(_glob.glob(os.path.join(divergence_dir, f"{season}-week-{current_week:02d}-*.json")))
+        previously_flagged = set()
+        if prior_files:
+            with open(prior_files[-1]) as f:
+                for d in json.load(f).get("divergences", []):
+                    if d.get("spread_flagged") or d.get("total_flagged"):
+                        previously_flagged.add((d["home_team"], d["away_team"]))
+
+        new_plays = []
+        for d in divergences:
+            if not (d.get("spread_flagged") or d.get("total_flagged")):
+                continue
+            if (d["home_team"], d["away_team"]) in previously_flagged:
+                continue
+            side = d["home_team"] if d["spread_gap"] > 0 else d["away_team"]
+            line = -d["market_spread"] if d["spread_gap"] > 0 else d["market_spread"]
+            bp = (d.get("best_prices") or {})
+            best = bp.get("home_spread") if d["spread_gap"] > 0 else bp.get("away_spread")
+            price_note = f" (best {best['price']:+d} at {best['book']})" if best and best.get("price") is not None else ""
+            new_plays.append(f"{side} {line:+.1f}, gap {abs(d['spread_gap']):.1f} pts{price_note}")
+        if new_plays:
+            send_webhook_alert(
+                "New board plays -- " + "; ".join(new_plays[:6])
+                + (f" (+{len(new_plays) - 6} more)" if len(new_plays) > 6 else "")
+            )
+
         # Timestamped snapshot rather than overwriting one divergence.json
         # — same fix as weekly_job.py's ratings snapshots, for the same
         # reason (repeated overwrites of one file is what causes git
@@ -222,8 +322,6 @@ def main():
         # day, so keeping every snapshot is exactly what Section 9.3's
         # closing-line-value tracking needs — the full line movement from
         # open to close, not just the latest number.
-        divergence_dir = os.path.join(REPO_DATA_PATH, "divergence")
-        os.makedirs(divergence_dir, exist_ok=True)
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         output_file = os.path.join(divergence_dir, f"{season}-week-{current_week:02d}-{timestamp}.json")
         with open(output_file, "w") as f:

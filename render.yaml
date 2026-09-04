@@ -70,6 +70,58 @@ services:
 # committed files into frontend/public/data/ before building, since
 # Vite's public/ folder is what actually ends up in the served output —
 # without this copy step the deployed site would have no data to show.
+  # Live CFB odds watch -- prices every rated NCAAF game against live
+  # multi-book odds using the SAME Odds API key as the NFL job. Cron
+  # schedule handles CFB's Thu-Sat calendar directly (every 6h on those
+  # days), so no in-code game-day detection is needed. Credit budget:
+  # ~12 calls/week at 6 credits each on top of the NFL job's usage.
+  - type: cron
+    name: cfb-odds-watch-job
+    runtime: python
+    schedule: "0 */6 * * 4,5,6"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 -c "import os; os.environ['RUN_LIVE_CFB_ODDS_WATCH']='true'; import deploy.cfb_odds_watch"
+    envVars:
+      - key: SEASON
+        value: "2026"
+      - key: REPO_DATA_PATH
+        value: ./data
+      - key: ODDS_API_KEY
+        sync: false
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: ALERT_WEBHOOK_URL
+        sync: false
+      - key: HEARTBEAT_URL
+        sync: false
+
+  # Coverline sync service — stores per-user settings and bet logs,
+  # keyed by Discord user id (token verified against Discord's API on
+  # each request, cached 10 min). The DISK IS REQUIRED: a web service's
+  # filesystem is ephemeral and wiped on every deploy, which would
+  # silently destroy user bet logs without it. Set ALLOWED_ORIGIN to
+  # the dashboard's exact public URL once known (CORS lockdown), and
+  # set VITE_SYNC_URL + VITE_DISCORD_CLIENT_ID on the static site's
+  # environment so the frontend knows where to sync and how to log in.
+  - type: web
+    name: coverline-sync
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r sync_service/requirements.txt
+    startCommand: uvicorn app:app --app-dir sync_service --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    disk:
+      name: coverline-sync-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: ALLOWED_ORIGIN
+        value: "*"
+
   - type: web
     name: football-model-dashboard
     runtime: static

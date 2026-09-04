@@ -21,7 +21,7 @@ from ingest.nfl_schedules import load_schedules, get_current_week
 from model.ratings import (
     add_situation_buckets, score_all_plays, compute_baselines,
     compute_raw_voa, opponent_adjust, filter_garbage_time,
-    add_home_field_and_rest, team_ratings,
+    add_home_field_and_rest, team_ratings, compute_recent_form_rating,
 )
 from model.team_profile import build_team_profile
 from model.preseason_prior import blend_team_ratings, vegas_win_total_to_rating
@@ -32,6 +32,7 @@ from model.version import METHODOLOGY_VERSION
 from model.season_simulation import simulate_season_with_playoffs
 from model.prediction import MARGIN_COEFFICIENTS
 from model.injury_impact import apply_injury_adjustment
+from model.elo_rating import compute_elo_walk_forward
 from deploy.validate import validate_pbp_data, validate_ratings, ValidationError
 from deploy.notify import report_success, report_failure
 from deploy.git_utils import git_commit_and_push
@@ -229,6 +230,20 @@ def run_pipeline(season: int, current_week: int) -> dict:
     ratings = team_ratings(df, use_recency_weights=True)
     validate_ratings(ratings)
 
+    # Real recent-form ratings (last 4/8 weeks) -- a real, previously-
+    # mentioned dashboard gap ("the snapshots now exist to support
+    # this, it just hasn't been built") closed here. Uses the same
+    # post-garbage-time-filter df already computed above, just
+    # windowed to a shorter recent period before recomputing
+    # baselines/opponent-adjustment on that smaller sample.
+    for window_weeks in [4, 8]:
+        recent_form = compute_recent_form_rating(df, current_week, window_weeks)
+        col_name = f"total_rating_last_{window_weeks}"
+        if recent_form is not None:
+            ratings[col_name] = recent_form["total_rating"]
+        else:
+            ratings[col_name] = None
+
     # Real injury impact (ingest/injuries.py + model/injury_impact.py) --
     # closes the "market has live game-week injury status, we don't" gap.
     # Applied for the UPCOMING week (current_week + 1) -- these ratings
@@ -294,6 +309,20 @@ def run_pipeline(season: int, current_week: int) -> dict:
     st_plays = st_plays[st_plays["week"] <= current_week]
     st_ratings = compute_special_teams_ratings(st_plays)
     profile = profile.join(st_ratings[["special_teams_voa"]], how="left")
+
+    # Real Elo rating (model/elo_rating.py) -- validated as part of the
+    # production ensemble (odds_watch_job.py, generate_week1_predictions.py)
+    # but never surfaced on the ratings/team-profile output itself until
+    # now, the same "built but invisible" gap found earlier for special
+    # teams, uncertainty, and playoff probability. Cheap to compute
+    # (schedule data only, no play-by-play needed).
+    try:
+        print("[weekly_job] computing Elo ratings...")
+        historical_schedule = load_schedules(seasons=list(range(season - 10, season + 1)))
+        _, elo_ratings = compute_elo_walk_forward(historical_schedule)
+        profile["elo_rating"] = profile.index.map(elo_ratings)
+    except Exception as e:
+        print(f"[weekly_job] Elo ratings unavailable ({e}), skipping")
 
     # Playoff probability (previously built and validated -- exact
     # match to the real 2023 seeding -- but never wired past a demo
@@ -370,8 +399,20 @@ def main():
         result = run_pipeline(season, week)
         output_file = write_output(result, REPO_DATA_PATH)
 
+        # Grade last week's flagged plays and refresh performance.json.
+        # Soft-fail by design: a grading hiccup (e.g. nflverse scores
+        # not posted yet) must never block the ratings pipeline itself.
+        perf_file = None
+        try:
+            from deploy.generate_performance import generate as generate_performance
+            perf_file = generate_performance(REPO_DATA_PATH, season)
+        except Exception as perf_err:
+            print(f"[weekly_job] performance grading skipped: {perf_err}")
+
         if GIT_REPO_URL:
             git_commit_and_push(output_file, commit_message=f"Update ratings: {season} week {week}")
+            if perf_file:
+                git_commit_and_push(perf_file, commit_message=f"Grade performance through {season} week {week}")
         else:
             print("[weekly_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 

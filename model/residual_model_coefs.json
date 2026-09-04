@@ -1,0 +1,82 @@
+{
+  "spread": {
+    "features": [
+      "rest_diff",
+      "home_short_week",
+      "away_short_week",
+      "home_off_bye",
+      "away_off_bye",
+      "div_game",
+      "home_dog",
+      "big_home_fav",
+      "big_away_fav",
+      "late_season",
+      "early_season",
+      "outdoor_cold",
+      "outdoor_windy"
+    ],
+    "coefs": [
+      0.0107,
+      2.3234,
+      -2.7674,
+      -1.1082,
+      -0.035,
+      -0.6157,
+      0.7263,
+      1.4093,
+      -1.166,
+      0.7504,
+      0.2513,
+      0.8759,
+      -0.1715,
+      -0.5169
+    ]
+  },
+  "total": {
+    "features": [
+      "wind",
+      "windy_15",
+      "windy_20",
+      "cold_25",
+      "dome",
+      "high_total",
+      "low_total",
+      "div_game",
+      "late_season",
+      "short_week_either"
+    ],
+    "coefs": [
+      -0.2495,
+      0.8869,
+      2.0429,
+      0.5011,
+      -0.6388,
+      -0.0178,
+      1.2644,
+      -1.3817,
+      0.1492,
+      -0.4177,
+      2.2482
+    ]
+  },
+  "train_seasons": [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021
+  ],
+  "held_out_seasons": [
+    2022,
+    2023,
+    2024,
+    2025
+  ]
+}
