@@ -73,8 +73,40 @@ def main():
     coef, _, _, _ = np.linalg.lstsq(X, train["actual_margin"].values, rcond=None)
     print(f"Margin fit on {train_seasons}: {coef[0]:.2f} * rating_diff + {coef[1]:.2f} (home field)")
 
+    test = test.copy()
     test["model_margin"] = coef[0] * test["rating_diff"] + coef[1]
-    grade(test, f"HELD OUT {test_season}")
+    grade(test, f"HELD OUT {test_season} (rating only)")
+
+    # Roster-prior features, if ingest/cfb_roster_priors.py has run --
+    # same add-a-feature-class discipline as the NFL pressure and FTN
+    # experiments: fit the extra coefficients on train seasons only,
+    # grade held out, and let a null result be a real result.
+    priors_path = os.path.join(os.path.dirname(__file__), "cfb_roster_priors.csv")
+    if os.path.exists(priors_path):
+        pri = pd.read_csv(priors_path)
+        feats = [c for c in ["ret_ppa_total", "ret_usage", "portal_net_rating"] if c in pri.columns]
+        both = {}
+        for side in ("home", "away"):
+            both[side] = pri.rename(columns={"team": f"{side}_team", **{f: f"{side[0]}_{f}" for f in feats}})
+        aug_train = train.merge(both["home"], on=["season", "home_team"], how="inner").merge(both["away"], on=["season", "away_team"], how="inner")
+        aug_test = test.merge(both["home"], on=["season", "home_team"], how="inner").merge(both["away"], on=["season", "away_team"], how="inner")
+        cols = []
+        for f in feats:
+            col = f"{f}_diff"
+            aug_train[col] = aug_train[f"h_{f}"].fillna(0) - aug_train[f"a_{f}"].fillna(0)
+            aug_test[col] = aug_test[f"h_{f}"].fillna(0) - aug_test[f"a_{f}"].fillna(0)
+            cols.append(col)
+        print(f"\nRoster priors joined: {len(aug_train)}/{len(train)} train, {len(aug_test)}/{len(test)} test games")
+        Xa = np.column_stack([aug_train["rating_diff"]] + [aug_train[c] for c in cols] + [np.ones(len(aug_train))])
+        coef_a, _, _, _ = np.linalg.lstsq(Xa, aug_train["actual_margin"].values, rcond=None)
+        Xt = np.column_stack([aug_test["rating_diff"]] + [aug_test[c] for c in cols] + [np.ones(len(aug_test))])
+        aug_test["model_margin"] = Xt @ coef_a
+        grade(aug_test, f"HELD OUT {test_season} (rating + roster priors)")
+        early = aug_test[aug_test["week"] <= 4].copy()
+        if len(early) > 40:
+            grade(early, f"HELD OUT {test_season}, weeks 1-4 only (where roster info should matter most)")
+    else:
+        print("\n(no cfb_roster_priors.csv -- run ingest/cfb_roster_priors.py to test roster features)")
 
 
 if __name__ == "__main__":

@@ -160,6 +160,36 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
             "n_books": len(bookmakers),
         }
 
+        # Sharp-book anchoring: when a sharp book is in the feed, its
+        # number is the best single estimate of the true line -- square
+        # books sitting a half point or more off it are stale, and
+        # betting the side the sharp number implies at the stale shop
+        # is the most reliable +EV pattern in the market, model-free.
+        # Activates automatically iff the Odds API plan returns one of
+        # these books; costs nothing when absent.
+        SHARP_BOOKS = ("Pinnacle", "Circa Sports", "BetOnline.ag")
+        sharp_anchor = None
+        sharp_rows = [r for r in home_spreads if r["book"] in SHARP_BOOKS]
+        if sharp_rows:
+            sharp_book = sharp_rows[0]["book"]
+            sharp_line = sharp_rows[0]["point"]
+            stale = []
+            for r in home_spreads:
+                if r["book"] in SHARP_BOOKS:
+                    continue
+                gap = r["point"] - sharp_line
+                if abs(gap) >= 0.5:
+                    stale.append({
+                        "book": r["book"], "point": r["point"], "price": r.get("price"),
+                        # gap > 0: this book asks the home side to lay
+                        # MORE than sharp -- home side stale-cheap side
+                        # is at the sharp-favoring shop; value side is
+                        # the one getting the extra points.
+                        "value_side": "away" if gap > 0 else "home",
+                        "gap_pts": round(gap, 1),
+                    })
+            sharp_anchor = {"book": sharp_book, "spread": sharp_line, "stale_books": stale}
+
         if market_spread is None or market_total is None:
             continue  # book hasn't posted a full line yet — skip rather than compare against a partial one
 
@@ -177,6 +207,7 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
             "market_spread": market_spread,
             "market_total": market_total,
             "best_prices": best_prices,
+            "sharp_anchor": sharp_anchor,
             **divergence,
         })
 
@@ -275,6 +306,29 @@ def main():
               f"{len(upcoming_games)} week {current_week} games")
 
         divergences = compute_divergences(odds_data, model_predictions)
+
+        # QB-status annotation (free nflverse data; annotation-only by
+        # design -- see deploy/qb_status.py for the held-out evidence
+        # against auto-demotion). Soft-fail: never blocks the pipeline.
+        try:
+            from deploy.qb_status import get_qb_alerts
+            qb_alerts = get_qb_alerts(season, current_week)
+            for d in divergences:
+                d["qb_alert"] = {
+                    "home": qb_alerts.get(d["home_team"]),
+                    "away": qb_alerts.get(d["away_team"]),
+                }
+        except Exception as qb_err:
+            print(f"[odds_watch] qb alerts skipped: {qb_err}")
+
+        # Per-game context: full injury reports + kickoff weather.
+        # Transparency, not edge (the residual experiment showed both
+        # are priced in) -- soft-fail like everything context-shaped.
+        try:
+            from deploy.game_context import attach_context
+            attach_context(divergences, season, current_week)
+        except Exception as ctx_err:
+            print(f"[odds_watch] game context skipped: {ctx_err}")
 
         os.makedirs(REPO_DATA_PATH, exist_ok=True)
         divergence_dir = os.path.join(REPO_DATA_PATH, "divergence")

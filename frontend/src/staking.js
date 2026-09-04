@@ -128,6 +128,22 @@ export function confidenceDrivers(d, market, ratingsByTeam, tierStats) {
     ok: stability,
   })
 
+  // QB-status driver -- annotation only by design: the held-out check
+  // showed excluding backup-QB games does NOT improve flagged ATS, so
+  // this informs the meter without demoting the verdict.
+  if (d.qb_alert !== undefined) {
+    const alerts = []
+    if (d.qb_alert?.home) alerts.push(`${d.home_team}: ${d.qb_alert.home}`)
+    if (d.qb_alert?.away) alerts.push(`${d.away_team}: ${d.qb_alert.away}`)
+    drivers.push({
+      key: 'qb',
+      label: alerts.length ? `QB flag — ${alerts.join('; ')}` : 'No QB flags',
+      ok: alerts.length ? false : true,
+    })
+  } else {
+    drivers.push({ key: 'qb', label: 'QB status unknown', ok: null })
+  }
+
   let tierOk = null
   let tierLabel = 'Tier record: no sample yet'
   if (tierStats && tierStats.n_plays >= 30 && tierStats.ats_pct != null) {

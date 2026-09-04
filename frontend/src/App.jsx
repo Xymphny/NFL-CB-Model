@@ -162,6 +162,55 @@ function ConfidenceMeter({ drivers }) {
   )
 }
 
+function GameContext({ d }) {
+  const [open, setOpen] = useState(false)
+  const inj = d.injuries
+  const wx = d.weather
+  const nInj = inj ? (inj.home?.length || 0) + (inj.away?.length || 0) : 0
+  if (!inj && !wx) return null
+
+  const wxLine = wx
+    ? wx.roof === 'dome' || wx.roof === 'closed'
+      ? 'Indoors'
+      : wx.temp_f != null
+      ? `${Math.round(wx.temp_f)}°F · wind ${Math.round(wx.wind_mph)} mph${wx.precip_prob != null ? ` · ${wx.precip_prob}% precip` : ''}${wx.wind_mph >= 15 ? ' — wind worth watching on the total' : ''}`
+      : 'Outdoors — forecast pending'
+    : null
+
+  return (
+    <div className="game-context">
+      <button className="alt-lines-toggle" onClick={() => setOpen(!open)}>
+        {open ? 'Hide game context' : `Game context${nInj ? ` — ${nInj} on injury report` : ''}${wxLine && !open ? ` · ${wxLine.split(' — ')[0]}` : ''}`}
+      </button>
+      {open && (
+        <div className="context-body">
+          {wxLine && <p className="context-weather">{wxLine}</p>}
+          {inj && (
+            <div className="context-injuries">
+              {[['home', d.home_team], ['away', d.away_team]].map(([side, team]) => (
+                <div key={side}>
+                  <p className="context-team">{team}</p>
+                  {(inj[side] || []).length === 0 && <p className="context-none">No one listed</p>}
+                  {(inj[side] || []).map((p) => (
+                    <p className="context-inj-row" key={p.player}>
+                      <span className={`inj-status ${p.status.toLowerCase()}`}>{p.status === 'Questionable' ? 'Q' : p.status === 'Doubtful' ? 'D' : 'OUT'}</span>
+                      {p.player} <span className="context-pos">{p.position}</span>
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="alt-lines-note">
+            Reports and forecasts are context the market already prices — use them to understand the
+            number, not as extra edge on top of it.
+          </p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function AltLines({ d, marginDist }) {
   const [open, setOpen] = useState(false)
   const pmf = marginDist.residual_distribution?.residual_pmf
@@ -293,6 +342,16 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
                 </p>
               )
             })()}
+            {d.sharp_anchor && d.sharp_anchor.stale_books && d.sharp_anchor.stale_books.length > 0 && (
+              <p className="sharp-line">
+                {d.sharp_anchor.book} has {formatSigned(-d.sharp_anchor.spread, 1)} —{' '}
+                {d.sharp_anchor.stale_books
+                  .slice(0, 2)
+                  .map((s) => `${s.book} stale at ${formatSigned(-s.point, 1)} (${s.value_side === 'home' ? d.home_team : d.away_team} value)`)
+                  .join('; ')}
+              </p>
+            )}
+            <GameContext d={d} />
             {market === 'spread' && marginDist && (
               <AltLines d={d} marginDist={marginDist} />
             )}

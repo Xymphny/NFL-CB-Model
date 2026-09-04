@@ -726,3 +726,49 @@ section { margin-top: 28px; }
 .result-badge.win { background: rgba(78, 192, 139, 0.14); color: var(--up); }
 .result-badge.loss { background: rgba(224, 86, 79, 0.12); color: var(--down); }
 .result-badge.push { background: rgba(232, 238, 241, 0.07); color: var(--text-dim); }
+
+.sharp-line {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  color: var(--up);
+}
+
+/* ---- Game context ---- */
+
+.game-context { margin-top: 10px; }
+
+.context-body { margin-top: 10px; }
+
+.context-weather { margin: 0 0 10px; font-size: 13px; }
+
+.context-injuries {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.context-team {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 15px;
+  margin: 0 0 4px;
+}
+
+.context-none { font-size: 12px; color: var(--text-faint); margin: 0; }
+
+.context-inj-row { margin: 0 0 3px; font-size: 12.5px; display: flex; align-items: center; gap: 6px; }
+
+.context-pos { color: var(--text-faint); font-size: 11px; }
+
+.inj-status {
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 5px;
+  padding: 1px 5px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.inj-status.out { background: rgba(224, 86, 79, 0.16); color: var(--down); }
+.inj-status.doubtful { background: rgba(240, 169, 59, 0.16); color: var(--gold); }
+.inj-status.questionable { background: rgba(232, 238, 241, 0.08); color: var(--text-dim); }
