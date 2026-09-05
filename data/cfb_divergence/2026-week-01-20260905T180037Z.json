@@ -1,0 +1,1077 @@
+{
+  "computed_at": "2026-09-05T18:00:37.413763+00:00",
+  "season": 2026,
+  "week": 1,
+  "note": "CFB board thresholds are backtest-derived (held-out 2023, 574 graded games, real CFBD closing lines): gaps of 5+ covered 54.6% and 7+ covered 55.2% vs the 52.4% breakeven, rising monotonically with gap size -- but ONLY from week 5 on. Weeks 1-4 graded BELOW breakeven (48.3% overall) because early-season ratings are data-starved while the market prices offseason information the model can't see; the board therefore caps early-season verdicts at Lean. One season of evidence -- promising, not proven. Bet flat and small. This board runs on scale-aligned preseason carryover ratings until in-season data publishes.",
+  "match_report": {
+    "games_from_api": 73,
+    "games_priced": 28,
+    "skipped_no_rating_match": 40,
+    "unmatched_names": [
+      "Abilene Christian Wildcats",
+      "Alcorn State Braves",
+      "Austin Peay Governors",
+      "Bryant Bulldogs",
+      "Charleston Southern Buccaneers",
+      "Citadel Bulldogs",
+      "Duquesne Dukes",
+      "Eastern Kentucky Colonels",
+      "Florida A&M Rattlers",
+      "Fordham Rams",
+      "Furman Paladins",
+      "Hampton Pirates",
+      "Houston Baptist Huskies",
+      "Idaho State Bengals",
+      "Lafayette Leopards",
+      "Lamar Cardinals",
+      "Maine Black Bears",
+      "Mercyhurst Lakers",
+      "Mississippi Valley State Delta Devils",
+      "Morgan State Bears"
+    ]
+  },
+  "divergences": [
+    {
+      "home_team": "West Virginia",
+      "away_team": "Coastal Carolina",
+      "home_name": "West Virginia Mountaineers",
+      "away_name": "Coastal Carolina Chanticleers",
+      "kickoff": "2026-09-05T16:03:08Z",
+      "market_spread": 31.5,
+      "market_win_prob_home_fair": 0.9901863707218558,
+      "best_prices": {
+        "home_spread": {
+          "point": 30.5,
+          "price": -135,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 31.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "home_ml": -100000,
+        "away_ml": 10000,
+        "n_books": 5
+      },
+      "spread_gap": -23.211104039109532,
+      "win_prob_gap": -0.24816168825433127,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Nebraska",
+      "away_team": "Ohio",
+      "home_name": "Nebraska Cornhuskers",
+      "away_name": "Ohio Bobcats",
+      "kickoff": "2026-09-05T16:03:44Z",
+      "market_spread": 10.5,
+      "market_win_prob_home_fair": 0.8422876949740034,
+      "best_prices": {
+        "home_spread": {
+          "point": 10.5,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 11.5,
+          "price": -136,
+          "book": "FanDuel"
+        },
+        "home_ml": -625,
+        "away_ml": 550,
+        "n_books": 5
+      },
+      "spread_gap": -6.908063681619366,
+      "win_prob_gap": -0.2314512696493758,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Houston",
+      "away_team": "Oregon State",
+      "home_name": "Houston Cougars",
+      "away_name": "Oregon State Beavers",
+      "kickoff": "2026-09-05T16:05:00Z",
+      "market_spread": 21.5,
+      "market_win_prob_home_fair": 0.9626777251184834,
+      "best_prices": {
+        "home_spread": {
+          "point": 21.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 22.5,
+          "price": -118,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": -12500,
+        "away_ml": 2500,
+        "n_books": 5
+      },
+      "spread_gap": -0.6262993669747416,
+      "win_prob_gap": -0.013611128696978225,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "James Madison",
+      "away_team": "Liberty",
+      "home_name": "James Madison Dukes",
+      "away_name": "Liberty Flames",
+      "kickoff": "2026-09-05T16:21:28Z",
+      "market_spread": 14.5,
+      "market_win_prob_home_fair": 0.9053872385074431,
+      "best_prices": {
+        "home_spread": {
+          "point": 14.5,
+          "price": 100,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 14.5,
+          "price": -105,
+          "book": "BetMGM"
+        },
+        "home_ml": -1429,
+        "away_ml": 950,
+        "n_books": 5
+      },
+      "spread_gap": 8.912769532811588,
+      "win_prob_gap": 0.06134928770354753,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Auburn",
+      "away_team": "Baylor",
+      "home_name": "Auburn Tigers",
+      "away_name": "Baylor Bears",
+      "kickoff": "2026-09-05T19:30:00Z",
+      "market_spread": 6.5,
+      "market_win_prob_home_fair": 0.6945010183299388,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -113,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 7.0,
+          "price": -115,
+          "book": "BetMGM"
+        },
+        "home_ml": -240,
+        "away_ml": 220,
+        "n_books": 9
+      },
+      "spread_gap": 4.925976880128738,
+      "win_prob_gap": 0.12022642069004619,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Oregon",
+      "away_team": "Boise State",
+      "home_name": "Oregon Ducks",
+      "away_name": "Boise State Broncos",
+      "kickoff": "2026-09-05T19:30:00Z",
+      "market_spread": 24.5,
+      "market_win_prob_home_fair": 0.9340175953079178,
+      "best_prices": {
+        "home_spread": {
+          "point": 24.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 25.0,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "home_ml": -2800,
+        "away_ml": 1500,
+        "n_books": 9
+      },
+      "spread_gap": -1.8232245337765178,
+      "win_prob_gap": 0.02821282380452861,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Cincinnati",
+      "away_team": "Boston College",
+      "home_name": "Cincinnati Bearcats",
+      "away_name": "Boston College Eagles",
+      "kickoff": "2026-09-05T19:30:00Z",
+      "market_spread": 7.0,
+      "market_win_prob_home_fair": 0.7126329539093116,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.0,
+          "price": -110,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 7.5,
+          "price": -112,
+          "book": "BetRivers"
+        },
+        "home_ml": -278,
+        "away_ml": 240,
+        "n_books": 9
+      },
+      "spread_gap": 9.359962431729357,
+      "win_prob_gap": 0.18746829779139274,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Duke",
+      "away_team": "Tulane",
+      "home_name": "Duke Blue Devils",
+      "away_name": "Tulane Green Wave",
+      "kickoff": "2026-09-05T19:30:00Z",
+      "market_spread": 7.5,
+      "market_win_prob_home_fair": 0.7335423197492164,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 8.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "home_ml": -320,
+        "away_ml": 274,
+        "n_books": 9
+      },
+      "spread_gap": -0.4011715414629933,
+      "win_prob_gap": -0.02253341665357078,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Penn State",
+      "away_team": "Marshall",
+      "home_name": "Penn State Nittany Lions",
+      "away_name": "Marshall Thundering Herd",
+      "kickoff": "2026-09-05T19:30:00Z",
+      "market_spread": 23.5,
+      "market_win_prob_home_fair": 0.9291914116034719,
+      "best_prices": {
+        "home_spread": {
+          "point": 23.0,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 23.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -1800,
+        "away_ml": 1400,
+        "n_books": 9
+      },
+      "spread_gap": -4.027397450499851,
+      "win_prob_gap": 0.007311877957788648,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Texas",
+      "away_team": "Texas State",
+      "home_name": "Texas Longhorns",
+      "away_name": "Texas State Bobcats",
+      "kickoff": "2026-09-05T19:30:00Z",
+      "market_spread": 29.5,
+      "market_win_prob_home_fair": 0.9625668449197861,
+      "best_prices": {
+        "home_spread": {
+          "point": 29.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 29.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -8000,
+        "away_ml": 2500,
+        "n_books": 9
+      },
+      "spread_gap": -13.663429628629395,
+      "win_prob_gap": -0.06984930485788299,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Tulsa",
+      "away_team": "Oklahoma State",
+      "home_name": "Tulsa Golden Hurricane",
+      "away_name": "Oklahoma State Cowboys",
+      "kickoff": "2026-09-05T19:45:00Z",
+      "market_spread": -13.5,
+      "market_win_prob_home_fair": 0.18664752333094042,
+      "best_prices": {
+        "home_spread": {
+          "point": -13.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -12.0,
+          "price": -115,
+          "book": "BetOnline.ag"
+        },
+        "home_ml": 450,
+        "away_ml": -549,
+        "n_books": 9
+      },
+      "spread_gap": 25.31009212950751,
+      "win_prob_gap": 0.6360140428892225,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Iowa",
+      "away_team": "Northern Illinois",
+      "home_name": "Iowa Hawkeyes",
+      "away_name": "Northern Illinois Huskies",
+      "kickoff": "2026-09-05T20:15:00Z",
+      "market_spread": 31.5,
+      "market_win_prob_home_fair": 0.9773920544390073,
+      "best_prices": {
+        "home_spread": {
+          "point": 31.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 32.0,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "home_ml": -25000,
+        "away_ml": 4500,
+        "n_books": 9
+      },
+      "spread_gap": -5.409257877313443,
+      "win_prob_gap": 0.0021671544268137,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Colorado State",
+      "away_team": "Wyoming",
+      "home_name": "Colorado State Rams",
+      "away_name": "Wyoming Cowboys",
+      "kickoff": "2026-09-05T22:00:00Z",
+      "market_spread": 3.0,
+      "market_win_prob_home_fair": 0.5829926410466066,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.0,
+          "price": -105,
+          "book": "BetOnline.ag"
+        },
+        "away_spread": {
+          "point": 3.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "home_ml": -150,
+        "away_ml": 135,
+        "n_books": 9
+      },
+      "spread_gap": 5.122106980198598,
+      "win_prob_gap": 0.15479143814561047,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Memphis",
+      "away_team": "Arkansas State",
+      "home_name": "Memphis Tigers",
+      "away_name": "Arkansas State Red Wolves",
+      "kickoff": "2026-09-05T23:00:00Z",
+      "market_spread": 11.0,
+      "market_win_prob_home_fair": 0.782608695652174,
+      "best_prices": {
+        "home_spread": {
+          "point": 10.5,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 11.0,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -425,
+        "away_ml": 350,
+        "n_books": 9
+      },
+      "spread_gap": 5.217641645572925,
+      "win_prob_gap": 0.11552254202089063,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "South Florida",
+      "away_team": "Florida International",
+      "home_name": "South Florida Bulls",
+      "away_name": "Florida International Panthers",
+      "kickoff": "2026-09-05T23:00:00Z",
+      "market_spread": 14.5,
+      "market_win_prob_home_fair": 0.8329605084355989,
+      "best_prices": {
+        "home_spread": {
+          "point": 14.5,
+          "price": -105,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 15.0,
+          "price": -112,
+          "book": "BetRivers"
+        },
+        "home_ml": -625,
+        "away_ml": 525,
+        "n_books": 9
+      },
+      "spread_gap": 5.899770282484123,
+      "win_prob_gap": 0.1120989736614727,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Michigan",
+      "away_team": "Western Michigan",
+      "home_name": "Michigan Wolverines",
+      "away_name": "Western Michigan Broncos",
+      "kickoff": "2026-09-05T23:00:00Z",
+      "market_spread": 27.5,
+      "market_win_prob_home_fair": 0.9439200444197667,
+      "best_prices": {
+        "home_spread": {
+          "point": 27.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 27.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "home_ml": -4500,
+        "away_ml": 2000,
+        "n_books": 9
+      },
+      "spread_gap": -12.22614979223147,
+      "win_prob_gap": -0.059571333122587666,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Texas A&M",
+      "away_team": "Missouri State",
+      "home_name": "Texas A&M Aggies",
+      "away_name": "Missouri State Bears",
+      "kickoff": "2026-09-05T23:00:00Z",
+      "market_spread": 40.5,
+      "market_win_prob_home_fair": 0.9523356030665207,
+      "best_prices": {
+        "home_spread": {
+          "point": 40.0,
+          "price": -111,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 40.5,
+          "price": -108,
+          "book": "BetMGM"
+        },
+        "home_ml": -100000,
+        "away_ml": 1900,
+        "n_books": 9
+      },
+      "spread_gap": -18.99952641085406,
+      "win_prob_gap": 0.0016691554919620044,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "LSU",
+      "away_team": "Clemson",
+      "home_name": "LSU Tigers",
+      "away_name": "Clemson Tigers",
+      "kickoff": "2026-09-05T23:30:00Z",
+      "market_spread": 10.0,
+      "market_win_prob_home_fair": 0.7639751552795031,
+      "best_prices": {
+        "home_spread": {
+          "point": 9.5,
+          "price": -115,
+          "book": "BetOnline.ag"
+        },
+        "away_spread": {
+          "point": 10.5,
+          "price": -118,
+          "book": "FanDuel"
+        },
+        "home_ml": -375,
+        "away_ml": 315,
+        "n_books": 9
+      },
+      "spread_gap": -2.8100223578637946,
+      "win_prob_gap": -0.050529917332305496,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Mississippi State",
+      "away_team": "UL Monroe",
+      "home_name": "Mississippi State Bulldogs",
+      "away_name": "UL Monroe Warhawks",
+      "kickoff": "2026-09-05T23:30:00Z",
+      "market_spread": 28.5,
+      "market_win_prob_home_fair": 0.953926022063595,
+      "best_prices": {
+        "home_spread": {
+          "point": 28.0,
+          "price": -120,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 28.5,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "home_ml": -4000,
+        "away_ml": 2500,
+        "n_books": 9
+      },
+      "spread_gap": -12.151235882974891,
+      "win_prob_gap": -0.053978762303547256,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Florida",
+      "away_team": "Florida Atlantic",
+      "home_name": "Florida Gators",
+      "away_name": "Florida Atlantic Owls",
+      "kickoff": "2026-09-05T23:45:00Z",
+      "market_spread": 26.5,
+      "market_win_prob_home_fair": 0.9399477806788513,
+      "best_prices": {
+        "home_spread": {
+          "point": 26.0,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 26.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "home_ml": -2800,
+        "away_ml": 1800,
+        "n_books": 9
+      },
+      "spread_gap": -8.334952532939962,
+      "win_prob_gap": -0.017229933427180155,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": [
+          {
+            "player": "Kahleil Jackson",
+            "position": "WR",
+            "status": "Out"
+          }
+        ],
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "New Mexico",
+      "away_team": "Central Michigan",
+      "home_name": "New Mexico Lobos",
+      "away_name": "Central Michigan Chippewas",
+      "kickoff": "2026-09-06T02:00:00Z",
+      "market_spread": 10.5,
+      "market_win_prob_home_fair": 0.782608695652174,
+      "best_prices": {
+        "home_spread": {
+          "point": 10.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 11.0,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": -420,
+        "away_ml": 355,
+        "n_books": 9
+      },
+      "spread_gap": 5.441592915712681,
+      "win_prob_gap": 0.11162114050547,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Hawai'i",
+      "away_team": "UNLV",
+      "home_name": "Hawaii Rainbow Warriors",
+      "away_name": "UNLV Rebels",
+      "kickoff": "2026-09-06T02:00:00Z",
+      "market_spread": -3.0,
+      "market_win_prob_home_fair": 0.41975145425700683,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -3.0,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "home_ml": 130,
+        "away_ml": -148,
+        "n_books": 9
+      },
+      "spread_gap": 8.052875474582006,
+      "win_prob_gap": 0.23419358822867836,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "California",
+      "away_team": "UCLA",
+      "home_name": "California Golden Bears",
+      "away_name": "UCLA Bruins",
+      "kickoff": "2026-09-06T02:30:00Z",
+      "market_spread": -2.5,
+      "market_win_prob_home_fair": 0.448558885283451,
+      "best_prices": {
+        "home_spread": {
+          "point": -2.5,
+          "price": -105,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": -2.0,
+          "price": -111,
+          "book": "LowVig.ag"
+        },
+        "home_ml": 120,
+        "away_ml": -124,
+        "n_books": 9
+      },
+      "spread_gap": 14.915987003225403,
+      "win_prob_gap": 0.3861743374171922,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Nevada",
+      "away_team": "Western Kentucky",
+      "home_name": "Nevada Wolf Pack",
+      "away_name": "Western Kentucky Hilltoppers",
+      "kickoff": "2026-09-06T02:30:00Z",
+      "market_spread": 0.0,
+      "market_win_prob_home_fair": 0.4967376690580797,
+      "best_prices": {
+        "home_spread": {
+          "point": -1.5,
+          "price": -115,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 1.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "home_ml": -105,
+        "away_ml": -110,
+        "n_books": 9
+      },
+      "spread_gap": 1.2636096158981172,
+      "win_prob_gap": 0.04270469544744204,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Washington",
+      "away_team": "Washington State",
+      "home_name": "Washington Huskies",
+      "away_name": "Washington State Cougars",
+      "kickoff": "2026-09-06T20:00:00Z",
+      "market_spread": 23.5,
+      "market_win_prob_home_fair": 0.921274329207769,
+      "best_prices": {
+        "home_spread": {
+          "point": 23.0,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 24.0,
+          "price": -120,
+          "book": "BetMGM"
+        },
+        "home_ml": -1950,
+        "away_ml": 1300,
+        "n_books": 9
+      },
+      "spread_gap": -7.183923220615107,
+      "win_prob_gap": -0.021777555668871962,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Ole Miss",
+      "away_team": "Louisville",
+      "home_name": "Ole Miss Rebels",
+      "away_name": "Louisville Cardinals",
+      "kickoff": "2026-09-06T23:30:00Z",
+      "market_spread": 6.5,
+      "market_win_prob_home_fair": 0.6933810816919401,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 7.0,
+          "price": -115,
+          "book": "BetOnline.ag"
+        },
+        "home_ml": -250,
+        "away_ml": 220,
+        "n_books": 8
+      },
+      "spread_gap": 10.196218778298707,
+      "win_prob_gap": 0.2112638270591256,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Notre Dame",
+      "away_team": "Wisconsin",
+      "home_name": "Notre Dame Fighting Irish",
+      "away_name": "Wisconsin Badgers",
+      "kickoff": "2026-09-06T23:30:00Z",
+      "market_spread": 20.5,
+      "market_win_prob_home_fair": 0.9076080155605717,
+      "best_prices": {
+        "home_spread": {
+          "point": 20.5,
+          "price": -108,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 21.0,
+          "price": -114,
+          "book": "BetRivers"
+        },
+        "home_ml": -1400,
+        "away_ml": 1000,
+        "n_books": 9
+      },
+      "spread_gap": 11.00982226817063,
+      "win_prob_gap": 0.08562540488664938,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Florida State",
+      "away_team": "SMU",
+      "home_name": "Florida State Seminoles",
+      "away_name": "SMU Mustangs",
+      "kickoff": "2026-09-07T23:30:00Z",
+      "market_spread": -3.0,
+      "market_win_prob_home_fair": 0.4211388775092175,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.0,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": -2.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "home_ml": 130,
+        "away_ml": -145,
+        "n_books": 9
+      },
+      "spread_gap": 2.147332378544725,
+      "win_prob_gap": 0.05222223739527543,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    }
+  ]
+}
