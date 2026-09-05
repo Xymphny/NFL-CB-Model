@@ -277,6 +277,43 @@ def run_live_cfb_odds_watch(data_dir):
 
     mapping, unmatched = map_odds_names_to_ratings(odds_data, ratings.keys())
 
+    # ---- Carryover scale alignment ------------------------------------
+    # The preseason seed regresses ratings 50% toward zero, but the
+    # margin equation was fit on full-scale in-season ratings -- so
+    # seeded model spreads come out uniformly ~half the market's
+    # magnitude, and EVERY flag lands on the underdog (caught live on
+    # the first seeded board: 66 leans, all dogs). That directional
+    # lean is scale mismatch, not signal. Fix: when the snapshot is
+    # carryover, fit model spreads to the slate's market spreads
+    # (slope + intercept) and use the aligned numbers, leaving only
+    # cross-sectional disagreement -- the only information a regressed
+    # prior legitimately carries. In-season snapshots are untouched:
+    # the backtest validated those at native scale.
+    is_carryover = "carryover" in (snapshot.get("source") or "")
+    align = None
+    if is_carryover:
+        pairs = []
+        for game in odds_data:
+            h, a = mapping.get(game.get("home_team")), mapping.get(game.get("away_team"))
+            if not h or not a:
+                continue
+            parsed = parse_cfb_game_markets(game)
+            if parsed is None:
+                continue
+            rd = ratings[h]["total_rating"] - ratings[a]["total_rating"]
+            eh, ea = ratings[h].get("elo_rating"), ratings[a].get("elo_rating")
+            ed = (eh - ea) if eh is not None and ea is not None else None
+            pairs.append((predict_margin(rd, elo_diff=ed), parsed["market_spread"]))
+        if len(pairs) >= 8:
+            xs = pd.Series([p[0] for p in pairs]); ys = pd.Series([p[1] for p in pairs])
+            slope = ((xs - xs.mean()) * (ys - ys.mean())).sum() / max(((xs - xs.mean()) ** 2).sum(), 1e-9)
+            intercept = ys.mean() - slope * xs.mean()
+            if 0.1 < slope < 5:
+                align = (slope, intercept)
+                print(f"[cfb_odds_watch] carryover scale alignment: model' = {slope:.2f}*model + {intercept:+.2f} over {len(pairs)} games")
+            else:
+                print(f"[cfb_odds_watch] alignment skipped: degenerate slope {slope:.2f}")
+
     divergences, skipped_unrated = [], 0
     for game in odds_data:
         home = mapping.get(game.get("home_team"))
@@ -291,6 +328,8 @@ def run_live_cfb_odds_watch(data_dir):
         elo_h, elo_a = ratings[home].get("elo_rating"), ratings[away].get("elo_rating")
         elo_diff = (elo_h - elo_a) if elo_h is not None and elo_a is not None else None
         model_spread = predict_margin(rating_diff, elo_diff=elo_diff)
+        if align is not None:
+            model_spread = align[0] * model_spread + align[1]
         model_wp = margin_to_win_probability(model_spread, margin_std=CFB_MARGIN_STD)
 
         result = _flag(
@@ -329,7 +368,7 @@ def run_live_cfb_odds_watch(data_dir):
     out = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
         "season": snapshot["season"], "week": snapshot.get("week"),
-        "note": CFB_PLAY_NOTE,
+        "note": (CFB_PLAY_NOTE + " This board runs on scale-aligned preseason carryover ratings until in-season data publishes.") if is_carryover else CFB_PLAY_NOTE,
         "match_report": {
             "games_from_api": len(odds_data),
             "games_priced": len(divergences),

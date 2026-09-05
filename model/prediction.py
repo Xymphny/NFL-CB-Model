@@ -49,6 +49,16 @@ import pandas as pd
 # between two different measures of the same underlying thing, not a
 # sign either one is broken. The COMBINED model's held-out performance
 # is what was validated, not any single coefficient's size.
+# KNOWN QUIRK (found 2026-09-05, offseason refit list): every training
+# row has home_field=1, so home_field and intercept are perfectly
+# collinear and the fit split one constant arbitrarily between them --
+# net home edge for equal teams is 5.53 - 6.66 = -1.13 pts vs the
+# market's ~+2.5. In-season the effect vs the close is ~1 pt and a
+# post-hoc correction tested as ATS-neutral on 389 held-out games, so
+# the validated path is deliberately left alone; the preseason board
+# handles it via slate scale-alignment in odds_watch. Proper fix at
+# next refit: drop home_field, keep intercept (or include neutral-site
+# games so the two are identifiable).
 MARGIN_COEFFICIENTS = {
     "rating_diff": 0.1078,
     "home_field": 5.5271,

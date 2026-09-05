@@ -366,6 +366,56 @@ def main():
         print(f"[odds_watch_job] built predictions for {len(model_predictions)} of "
               f"{len(upcoming_games)} week {current_week} games")
 
+        # Preseason scale alignment -- same cure as the CFB board's
+        # all-underdogs artifact, same disease: week-00 ratings compress
+        # the rating-driven share of home margins, and the margin
+        # equation's collinear home_field/intercept pair nets a -1.13pt
+        # home edge (see the note beside MARGIN_COEFFICIENTS), so the
+        # preseason board leaned away on 15 of 16 games. Aligning model
+        # spreads to the slate's market spreads (slope+intercept)
+        # removes the systematic component and leaves cross-sectional
+        # disagreement only. STRICTLY week-00: the in-season path is
+        # backtest-validated at native scale and stays untouched.
+        if ratings_snapshot_week == 0 and len(model_predictions) >= 8:
+            probe = compute_divergences(odds_data, model_predictions)
+            spread_rows = [(d_p["market_spread"] + d_p["spread_gap"], d_p["market_spread"]) for d_p in probe]
+            total_rows = [(d_p["market_total"] + d_p["total_gap"], d_p["market_total"])
+                          for d_p in probe if d_p.get("total_gap") is not None and d_p.get("market_total") is not None]
+
+            def _fit(pairs):
+                xs = pd.Series([r[0] for r in pairs]); ys = pd.Series([r[1] for r in pairs])
+                sl = ((xs - xs.mean()) * (ys - ys.mean())).sum() / max(((xs - xs.mean()) ** 2).sum(), 1e-9)
+                return sl, ys.mean() - sl * xs.mean()
+
+            def _robust_align(pairs, label):
+                """Robust two-pass fit (drop the 2 largest residuals and
+                refit, so a genuine outlier survives de-biasing at full
+                size) with a degeneracy guard: a slope outside (0.1, 5)
+                means the fit is pathological -- skip rather than apply
+                nonsense."""
+                if len(pairs) < 8:
+                    return None
+                sl, ic = _fit(pairs)
+                trimmed = sorted(pairs, key=lambda r: abs((sl * r[0] + ic) - r[1]))[:-2]
+                sl, ic = _fit(trimmed)
+                if not (0.1 < sl < 5):
+                    print(f"[odds_watch] {label} alignment skipped: degenerate slope {sl:.2f}")
+                    return None
+                print(f"[odds_watch] preseason {label} alignment: x' = {sl:.2f}*x {ic:+.2f} over {len(pairs)} games")
+                return sl, ic
+
+            s_align = _robust_align(spread_rows, "spread")
+            t_align = _robust_align(total_rows, "total")
+            if s_align or t_align:
+                from model.prediction import margin_to_win_probability
+                for pred in model_predictions.values():
+                    if s_align:
+                        pred["spread"] = s_align[0] * pred["spread"] + s_align[1]
+                        # Keep win prob consistent with the aligned line.
+                        pred["win_prob_home"] = margin_to_win_probability(pred["spread"])
+                    if t_align and pred.get("total") is not None:
+                        pred["total"] = t_align[0] * pred["total"] + t_align[1]
+
         divergences = compute_divergences(odds_data, model_predictions)
 
         # QB-status annotation (free nflverse data; annotation-only by
