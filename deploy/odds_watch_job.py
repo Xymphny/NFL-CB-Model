@@ -86,31 +86,52 @@ ODDS_TEAM_TO_ABBR = {
 }
 
 
-def split_started_and_carry(odds_data, prior_snapshot_rows, now_iso):
-    """Freeze lines at kickoff. Returns (pregame_odds, carried_rows):
-    games already started are excluded from fresh pricing (the API
-    serves LIVE in-play numbers once a game begins, which must never
-    overwrite the pregame market on the board), and their final
-    pregame row is carried forward from the prior snapshot tagged
-    line_status="closed" so games don't vanish at kickoff. Rows from
-    fresh pricing get line_status="open"."""
-    pregame, started_keys = [], set()
+def split_started_and_carry(odds_data, prior_snapshots, now_iso):
+    """Freeze lines at kickoff. prior_snapshots is [(computed_at, rows)]
+    for every same-week snapshot, oldest first. For each started game
+    the carried row comes from the NEWEST snapshot computed BEFORE that
+    game's kickoff -- not merely the latest snapshot, which (before the
+    freeze deployed, or after any regression) may itself hold live
+    in-play numbers for started games. This makes the corruption
+    self-healing: one run of this code replaces any live-line rows
+    with the true pregame close recovered from history."""
+    pregame, started = [], {}
     for game in odds_data:
         ct = game.get("commence_time")
         if ct and ct <= now_iso:
-            started_keys.add((game.get("home_team"), game.get("away_team")))
+            started[(game.get("home_team"), game.get("away_team"))] = ct
         else:
             pregame.append(game)
     carried = []
-    if started_keys and prior_snapshot_rows:
-        for row in prior_snapshot_rows:
-            key_full = (row.get("home_name"), row.get("away_name"))
-            key_abbr = (row.get("home_team"), row.get("away_team"))
-            if key_full in started_keys or key_abbr in started_keys:
-                frozen = dict(row)
-                frozen["line_status"] = "closed"
-                carried.append(frozen)
+    for key, kickoff in started.items():
+        best = None
+        for computed_at, rows in prior_snapshots:
+            if computed_at and kickoff and computed_at >= kickoff:
+                continue  # snapshot taken after kickoff: may be live-contaminated
+            for row in rows:
+                if (row.get("home_name"), row.get("away_name")) == key or \
+                   (row.get("home_team"), row.get("away_team")) == key:
+                    best = row  # snapshots iterate oldest->newest; keep newest pregame
+        if best is not None:
+            frozen = dict(best)
+            frozen["line_status"] = "closed"
+            carried.append(frozen)
     return pregame, carried
+
+
+def load_prior_snapshots(data_dir, subdir, season, week):
+    """All same-week snapshots as [(computed_at, rows)], oldest first."""
+    out = []
+    try:
+        import glob as _g
+        pattern = os.path.join(data_dir, subdir, f"{season}-week-{week:02d}-*.json")
+        for path in sorted(_g.glob(pattern)):
+            with open(path) as f:
+                snap = json.load(f)
+            out.append((snap.get("computed_at"), snap.get("divergences", [])))
+    except Exception as e:
+        print(f"[line_freeze] prior snapshots unavailable: {e}")
+    return out
 
 
 def load_latest_prior_rows(data_dir, subdir, season, week):
@@ -462,8 +483,8 @@ def main():
                         pred["total"] = t_align[0] * pred["total"] + t_align[1]
 
         now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        prior_rows = load_latest_prior_rows(REPO_DATA_PATH, "divergence", season, current_week)
-        odds_data, carried_closed = split_started_and_carry(odds_data, prior_rows, now_iso)
+        prior_snaps = load_prior_snapshots(REPO_DATA_PATH, "divergence", season, current_week)
+        odds_data, carried_closed = split_started_and_carry(odds_data, prior_snaps, now_iso)
         if carried_closed:
             print(f"[odds_watch] {len(carried_closed)} started game(s): lines frozen at close, carried forward")
 

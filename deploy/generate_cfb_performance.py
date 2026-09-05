@@ -105,9 +105,20 @@ def fetch_finals_for_week(snapshots, team_names, timeout=20):
 
 
 def grade_week(week, snapshots, finals):
-    earliest, latest = snapshots[0], snapshots[-1]
-    close_by_game = {(d["home_team"], d["away_team"]): d.get("market_spread")
-                     for d in latest.get("divergences", [])}
+    earliest = snapshots[0]
+    # Closing line per game: the newest row from a snapshot computed
+    # BEFORE that game's kickoff (rows carried by the freeze qualify
+    # automatically -- they are pregame rows by construction). This is
+    # immune to any snapshot that captured live in-play numbers.
+    close_by_game = {}
+    for snap in snapshots:  # oldest -> newest; later pregame rows overwrite earlier
+        computed = snap.get("computed_at") or ""
+        for d in snap.get("divergences", []):
+            key = (d["home_team"], d["away_team"])
+            ko = d.get("kickoff")
+            pregame = d.get("line_status") == "closed" or not ko or not computed or computed < ko
+            if pregame and d.get("market_spread") is not None:
+                close_by_game[key] = d.get("market_spread")
     plays = []
     for d in earliest.get("divergences", []):
         gap = d.get("spread_gap")
