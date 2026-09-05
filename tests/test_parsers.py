@@ -99,6 +99,42 @@ def test_depth_chart_schemas():
         qs.DEPTH_CHARTS_URL = old_url
 
 
+def test_cfb_scoreboard_finals():
+    """Captured ESPN CFB scoreboard shape -> completed finals only."""
+    from deploy.generate_cfb_performance import parse_scoreboard_finals
+    payload = {"events": [
+        {"competitions": [{"status": {"type": {"completed": True}}, "competitors": [
+            {"homeAway": "home", "score": "31", "team": {"displayName": "Alabama Crimson Tide"}},
+            {"homeAway": "away", "score": "17", "team": {"displayName": "East Carolina Pirates"}}]}]},
+        {"competitions": [{"status": {"type": {"completed": False}}, "competitors": [
+            {"homeAway": "home", "score": "7", "team": {"displayName": "Oregon Ducks"}},
+            {"homeAway": "away", "score": "3", "team": {"displayName": "Utah Utes"}}]}]},
+    ]}
+    rows = parse_scoreboard_finals(payload)
+    assert rows == [("Alabama Crimson Tide", "East Carolina Pirates", 31, 17)]
+
+
+def test_cfb_grading_mirrors_board():
+    """Week-1 play-sized edge grades at LEAN stakes; CLV vs frozen close."""
+    from deploy.generate_cfb_performance import grade_week
+    snaps = [
+        {"divergences": [{"home_team": "Alabama", "away_team": "East Carolina",
+                          "market_spread": 29.0, "spread_gap": 13.0}]},   # earliest: entry
+        {"divergences": [{"home_team": "Alabama", "away_team": "East Carolina",
+                          "market_spread": 31.0, "spread_gap": 11.0, "line_status": "closed"}]},  # latest: close
+    ]
+    plays = grade_week(1, snaps, {("Alabama", "East Carolina"): (45, 10)})
+    assert len(plays) == 1
+    p = plays[0]
+    assert p["tier"] == "lean"                 # week 1 cap: 13-pt edge still lean
+    assert p["result"] == "win"                # ALA -29, won by 35
+    assert abs(p["units"] - 0.5 * 100 / 110) < 1e-3  # grader rounds to 3dp
+    assert p["clv"] == 2.0                     # entered -29, closed -31, home side: +2 CLV
+    plays5 = grade_week(6, snaps, {("Alabama", "East Carolina"): (45, 10)})
+    assert plays5[0]["tier"] == "play"         # week 6: same edge is a Play
+
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

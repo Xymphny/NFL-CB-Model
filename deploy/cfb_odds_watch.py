@@ -316,6 +316,14 @@ def run_live_cfb_odds_watch(data_dir):
     odds_data = [g for g in odds_data if (g.get("commence_time") or "9999") <= cutoff]
     print(f"[cfb_odds_watch] {len(odds_data)} of {before} games kick off within 6 days")
 
+    from deploy.odds_watch_job import split_started_and_carry, load_latest_prior_rows
+    now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    prior_rows = load_latest_prior_rows(os.environ.get("REPO_DATA_PATH", "./data"), "cfb_divergence",
+                                        snapshot.get("season", 2026), snapshot.get("week", 1))
+    odds_data, carried_closed = split_started_and_carry(odds_data, prior_rows, now_iso)
+    if carried_closed:
+        print(f"[cfb_odds_watch] {len(carried_closed)} started game(s): lines frozen at close, carried forward")
+
     mapping, unmatched = map_odds_names_to_ratings(odds_data, ratings.keys())
 
     # ---- Carryover scale alignment ------------------------------------
@@ -382,6 +390,7 @@ def run_live_cfb_odds_watch(data_dir):
         result.pop("total_flagged", None)
         divergences.append({
             "home_team": home, "away_team": away,
+            "line_status": "open",
             "home_name": game.get("home_team"),
             "away_name": game.get("away_team"),
             "kickoff": game.get("commence_time"),
@@ -435,7 +444,7 @@ def run_live_cfb_odds_watch(data_dir):
             "skipped_no_rating_match": skipped_unrated,
             "unmatched_names": sorted(unmatched)[:20],
         },
-        "divergences": divergences,
+        "divergences": divergences + carried_closed,
     }
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")

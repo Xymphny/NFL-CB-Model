@@ -86,6 +86,48 @@ ODDS_TEAM_TO_ABBR = {
 }
 
 
+def split_started_and_carry(odds_data, prior_snapshot_rows, now_iso):
+    """Freeze lines at kickoff. Returns (pregame_odds, carried_rows):
+    games already started are excluded from fresh pricing (the API
+    serves LIVE in-play numbers once a game begins, which must never
+    overwrite the pregame market on the board), and their final
+    pregame row is carried forward from the prior snapshot tagged
+    line_status="closed" so games don't vanish at kickoff. Rows from
+    fresh pricing get line_status="open"."""
+    pregame, started_keys = [], set()
+    for game in odds_data:
+        ct = game.get("commence_time")
+        if ct and ct <= now_iso:
+            started_keys.add((game.get("home_team"), game.get("away_team")))
+        else:
+            pregame.append(game)
+    carried = []
+    if started_keys and prior_snapshot_rows:
+        for row in prior_snapshot_rows:
+            key_full = (row.get("home_name"), row.get("away_name"))
+            key_abbr = (row.get("home_team"), row.get("away_team"))
+            if key_full in started_keys or key_abbr in started_keys:
+                frozen = dict(row)
+                frozen["line_status"] = "closed"
+                carried.append(frozen)
+    return pregame, carried
+
+
+def load_latest_prior_rows(data_dir, subdir, season, week):
+    """Rows of the newest existing snapshot for this week, [] if none."""
+    try:
+        import glob as _g
+        pattern = os.path.join(data_dir, subdir, f"{season}-week-{week:02d}-*.json")
+        files = sorted(_g.glob(pattern))
+        if not files:
+            return []
+        with open(files[-1]) as f:
+            return json.load(f).get("divergences", [])
+    except Exception as e:
+        print(f"[line_freeze] prior snapshot unavailable: {e}")
+        return []
+
+
 def compute_divergences(odds_data: list, model_predictions: dict) -> list:
     """
     For each game, de-vig the market's line and compare to the model's
@@ -419,7 +461,16 @@ def main():
                     if t_align and pred.get("total") is not None:
                         pred["total"] = t_align[0] * pred["total"] + t_align[1]
 
+        now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        prior_rows = load_latest_prior_rows(REPO_DATA_PATH, "divergence", season, current_week)
+        odds_data, carried_closed = split_started_and_carry(odds_data, prior_rows, now_iso)
+        if carried_closed:
+            print(f"[odds_watch] {len(carried_closed)} started game(s): lines frozen at close, carried forward")
+
         divergences = compute_divergences(odds_data, model_predictions)
+        for d in divergences:
+            d["line_status"] = "open"
+        divergences.extend(carried_closed)
 
         # QB-status annotation (free nflverse data; annotation-only by
         # design -- see deploy/qb_status.py for the held-out evidence

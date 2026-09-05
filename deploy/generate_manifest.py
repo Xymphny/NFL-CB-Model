@@ -69,6 +69,7 @@ def main():
         json.dump(manifest, f, indent=2)
 
     has_performance = copy_single_file("performance.json")
+    has_cfb_performance = copy_single_file("cfb_performance.json")
     copy_single_file("margin_dist.json")
 
     print(f"[generate_manifest] wrote {output_path}: "
@@ -76,7 +77,8 @@ def main():
           f"{len(manifest['divergence'])} divergence snapshots, "
           f"{len(manifest['player_grades'])} player grade snapshots, "
           f"{len(manifest['cfb_ratings'])} CFB ratings snapshots, "
-          f"performance.json {'copied' if has_performance else 'not present yet (Track record tab shows placeholders)'}")
+          f"performance.json {'copied' if has_performance else 'not present yet (Track record tab shows placeholders)'}, "
+          f"cfb_performance.json {'copied' if has_cfb_performance else 'not present yet'}")
 
 
 if __name__ == "__main__":

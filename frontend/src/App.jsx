@@ -332,9 +332,11 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
                 <p className="matchup-line">
                   {d.away_name || d.away_team} <span className="matchup-at">@</span> {d.home_name || d.home_team}
                 </p>
-                {(formatKickoff(d.kickoff) || weatherBrief(d.weather)) && (
+                {(formatKickoff(d.kickoff) || weatherBrief(d.weather) || d.line_status === 'closed') && (
                   <p className="kickoff-line">
-                    {[formatKickoff(d.kickoff), weatherBrief(d.weather)].filter(Boolean).join(' \u00B7 ')}
+                    {d.line_status === 'closed' && <span className="closed-chip">Closed</span>}
+                    {[formatKickoff(d.kickoff), weatherBrief(d.weather)].filter(Boolean).join(' · ')}
+                    {d.line_status === 'closed' && ' — game started, line frozen at close'}
                   </p>
                 )}
               </div>
@@ -468,15 +470,17 @@ function useMarginDist() {
   return dist
 }
 
-function usePerformance() {
+function usePerformance(league) {
   const [state, setState] = useState({ data: null, loading: true })
 
   useEffect(() => {
-    fetch('/data/performance.json')
+    setState({ data: null, loading: true })
+    const file = league === 'CFB' ? '/data/cfb_performance.json' : '/data/performance.json'
+    fetch(file)
       .then((res) => { if (!res.ok) throw new Error('none'); return res.json() })
       .then((data) => setState({ data, loading: false }))
       .catch(() => setState({ data: null, loading: false }))
-  }, [])
+  }, [league])
 
   return state
 }
@@ -526,19 +530,21 @@ function KpiStrip({ perf }) {
   )
 }
 
-function useClvReport() {
+function useClvReport(league) {
   const [state, setState] = useState({ games: null, loading: true, error: null })
 
   useEffect(() => {
+    setState({ games: null, loading: true, error: null })
+    const key = league === 'CFB' ? 'cfb_divergence' : 'divergence'
     fetch('/data/manifest.json')
       .then((res) => { if (!res.ok) throw new Error('no manifest'); return res.json() })
       .then((manifest) => {
-        const files = manifest.divergence || []
+        const files = manifest[key] || []
         if (files.length < 2) {
           setState({ games: null, loading: false, error: new Error('need snapshots') })
           return
         }
-        return Promise.all(files.map((f) => fetch(`/data/divergence/${f}`).then((r) => r.json()))).then(
+        return Promise.all(files.map((f) => fetch(`/data/${league === 'CFB' ? 'cfb_divergence' : 'divergence'}/${f}`).then((r) => r.json()))).then(
           (snapshots) => {
             snapshots.sort((a, b) => new Date(a.computed_at) - new Date(b.computed_at))
             const gameKeys = new Set()
@@ -571,22 +577,23 @@ function useClvReport() {
         )
       })
       .catch((error) => setState({ games: null, loading: false, error }))
-  }, [])
+  }, [league])
 
   return state
 }
 
-function TrackRecord() {
-  const perf = usePerformance()
-  const clv = useClvReport()
+function TrackRecord({ league }) {
+  const perf = usePerformance(league)
+  const clv = useClvReport(league)
 
   return (
     <div>
       <section>
-        <h2 className="section-heading">Season scorecard</h2>
+        <h2 className="section-heading">Season scorecard — {league}</h2>
         <p className="section-sub">
           Every flagged play is graded against the closing line and the final score, wins and losses
           alike. If the numbers here go red, you'll see it before we do anything about it.
+          {league === 'CFB' && ' CFB and NFL records are tracked separately; the CFB record begins with its first graded week.'}
         </p>
         {perf.loading ? <p className="section-sub">Loading…</p> : <KpiStrip perf={perf.data} />}
         {perf.data && perf.data.plays && perf.data.plays.length > 0 && (
@@ -983,7 +990,7 @@ export default function App() {
         </section>
       )}
 
-      {tab === 'record' && <TrackRecord />}
+      {tab === 'record' && <TrackRecord league={league} />}
 
       {tab === 'book' && <MyBook book={book} account={account} />}
 

@@ -32,6 +32,19 @@ def main():
     season = int(os.environ.get("SEASON", 2026))
     week = current_cfb_week(os.environ.get("CFB_WEEK1_SATURDAY", "2026-08-29"))
     print(f"[cfb_weekly_runner] season {season}, computed current week {week}")
+
+    # Grade completed CFB plays FIRST -- grading needs only snapshots
+    # and finals, so it runs even while 2026 pbp remains unpublished
+    # and the ratings step below is in its waiting state.
+    try:
+        from deploy.generate_cfb_performance import generate as generate_cfb_perf
+        perf_path = generate_cfb_perf(os.environ.get("REPO_DATA_PATH", "./data"), season)
+        if perf_path and os.environ.get("GIT_REPO_URL"):
+            from deploy.git_utils import git_commit_and_push
+            git_commit_and_push(perf_path, commit_message=f"CFB performance through week {week - 1}")
+    except Exception as perf_err:
+        print(f"[cfb_weekly_runner] CFB grading soft-fail: {perf_err}")
+
     try:
         from deploy.cfb_weekly_job import run_cfb_weekly_job
         run_cfb_weekly_job(season, week, os.environ.get("REPO_DATA_PATH", "./data"))
