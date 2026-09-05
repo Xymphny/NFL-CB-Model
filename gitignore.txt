@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Node / frontend build
+node_modules/
+frontend/dist/
+frontend/public/data/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Secrets safety net -- never commit credentials
+.env
+.env.*
+*.pem
+*_key*
+!**/qb_overrides.json

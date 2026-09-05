@@ -12,7 +12,13 @@ downstream: the held-out backtest graded weeks 1-4 flags BELOW
 breakeven, so the board caps every early-season verdict at Lean
 regardless of what these seeded numbers claim. The snapshot is
 labeled as carryover so nothing downstream can mistake it for
-in-season signal. Elo seeds at 1500 flat (no stored 2025 Elo).
+in-season signal.
+
+Elo: computed from the repo's own walk-forward Elo over the real
+2023-2025 schedule cache (final external audit caught the original
+flat-1500 seeding, which discarded available data and rendered every
+Elo tile in the UI as "1500, vs baseline: 0"). Final 2025 values are
+regressed 50% toward 1500, mirroring the ratings regression.
 
 The real weekly job overwrites this the moment 2026 pbp publishes.
 """
@@ -29,12 +35,31 @@ import pandas as pd
 from model.version import METHODOLOGY_VERSION
 
 REGRESSION = 0.5
+REGRESSION_KEPT = 0.5  # share of (elo - 1500) carried into the new season
+
+
+def _carryover_elo():
+    """Final 2025 Elo per team from the schedule cache, regressed 50%
+    toward 1500. Soft-fail to flat 1500 if the cache is unreadable."""
+    try:
+        from model.elo_rating import compute_elo_walk_forward
+        cache_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                  "model", "cfb_schedule_cache.csv")
+        schedule = pd.read_csv(cache_path)
+        _, final_elo = compute_elo_walk_forward(schedule)
+        return {team: round(1500 + REGRESSION_KEPT * (elo - 1500), 1) for team, elo in final_elo.items()}
+    except Exception as e:
+        print(f"[cfb_preseason_seed] Elo carryover unavailable ({e}); seeding flat 1500")
+        return {}
 
 
 def build_seed(season=2026, week=1, output_dir="./data"):
     src = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                        "model", "cfb_2025_final_ratings.csv")
     df = pd.read_csv(src).rename(columns={"Unnamed: 0": "team"})
+    elo_map = _carryover_elo()
+    matched = sum(1 for t in df["team"] if t in elo_map)
+    print(f"[cfb_preseason_seed] Elo carryover matched {matched}/{len(df)} teams")
 
     payload = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
@@ -48,7 +73,7 @@ def build_seed(season=2026, week=1, output_dir="./data"):
                 "total_rating": round(row["total_rating"] * (1 - REGRESSION), 5),
                 "offense_voa": round(row["offense_voa"] * (1 - REGRESSION), 5),
                 "defense_voa": round(row["defense_voa"] * (1 - REGRESSION), 5),
-                "elo_rating": 1500,
+                "elo_rating": elo_map.get(row["team"], 1500),
             }
             for _, row in df.iterrows()
         ],
