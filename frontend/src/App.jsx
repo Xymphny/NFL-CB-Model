@@ -243,7 +243,7 @@ function AltLines({ d, marginDist }) {
   )
 }
 
-function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP }) {
+function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null }) {
   const [showPassed, setShowPassed] = useState(false)
   const { settings, logBet, betLog } = book
 
@@ -292,7 +292,7 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
       {actionable.map((d) => {
         const { verdict, market } = d.grade
         const gap = market === 'spread' ? d.spread_gap : d.total_gap
-        const edgeCoef = marginDist ? marginDist.edge_calibration?.edge_coef : null
+        const edgeCoef = edgeCoefOverride ?? (marginDist ? marginDist.edge_calibration?.edge_coef : null)
         const prob = coverProb(gap, edgeCoef)
         const stake = sizeStake({ prob, price: DEFAULT_PRICE, settings })
         const drivers = confidenceDrivers(d, market, ratingsByTeam, perf ? perf.tier_stats : null)
@@ -936,6 +936,11 @@ export default function App() {
                      annotate-only. */
                   playGap={(cfbDivergenceState.data.week ?? 5) <= 4 ? 999 : 5}
                   leanGap={3}
+                  /* CFB-specific calibration: logistic fit to the
+                     held-out 2023 bucket table (574 games). A 22-pt
+                     carryover gap is ~60% cover, not the ~94% the NFL
+                     normal approximation was displaying. */
+                  edgeCoefOverride={0.01828}
                 />
               )}
             </>
