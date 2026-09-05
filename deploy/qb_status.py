@@ -42,6 +42,21 @@ def _norm_name(name):
     return " ".join(parts).lower()
 
 
+OVERRIDES_PATH = os.path.join(os.environ.get("REPO_DATA_PATH", "./data"), "qb_overrides.json")
+
+
+def load_overrides(league):
+    """Manual override file (data/qb_overrides.json) -- the human is
+    allowed to be faster than the feeds. Highest precedence
+    everywhere. Soft-fail to empty like every context source."""
+    try:
+        import json as _json
+        with open(OVERRIDES_PATH) as f:
+            return _json.load(f).get(league, {}) or {}
+    except Exception:
+        return {}
+
+
 DEPTH_CHARTS_URL = "https://github.com/nflverse/nflverse-data/releases/download/depth_charts/depth_charts_{season}.parquet"
 
 
@@ -122,6 +137,10 @@ def get_qb_alerts(season, week, games=None, injuries=None):
         # from played games fills any team the chart is missing.
         modal = _modal_starters(games, season, week)
         modal.update(get_projected_starters(season))
+        overrides = load_overrides("nfl")
+        for team, ov in overrides.items():
+            if ov.get("starter"):
+                modal[team] = ov["starter"]
 
         alerts = {}
         try:
@@ -141,6 +160,10 @@ def get_qb_alerts(season, week, games=None, injuries=None):
         for team, name, status in qb_rows:
             if status in ALERT_STATUSES and _norm_name(modal.get(team)) == _norm_name(name):
                 alerts[team] = f"{name} listed {status}"
+        # Manual alerts override/augment everything.
+        for team, ov in overrides.items():
+            if ov.get("alert"):
+                alerts[team] = ov["alert"]
 
         # Second signal: last completed game started by a non-modal QB
         # (covers benchings and injuries that never hit a report).

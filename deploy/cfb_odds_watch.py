@@ -347,6 +347,22 @@ def run_live_cfb_odds_watch(data_dir):
             **result,
         })
 
+    # CFB QB awareness comes ONLY from the manual override file for
+    # now (no automated CFB starter source exists) -- entries there
+    # light the same confidence pip the NFL cards use. The quantified
+    # NFL QB-adjustment experiment argues against ever repricing for
+    # this info; annotation is the job.
+    try:
+        from deploy.qb_status import load_overrides
+        cfb_ov = load_overrides("cfb")
+        for d in divergences:
+            d["qb_alert"] = {
+                "home": (cfb_ov.get(d["home_team"]) or {}).get("alert"),
+                "away": (cfb_ov.get(d["away_team"]) or {}).get("alert"),
+            }
+    except Exception as ov_err:
+        print(f"[cfb_odds_watch] qb overrides skipped: {ov_err}")
+
     # CFB injury context from ESPN -- the ONLY source for college
     # (nflverse is NFL-only). Sparse by nature: college reporting is
     # not mandated, so a team absent from the feed gets None ("no
