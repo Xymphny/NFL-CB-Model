@@ -164,18 +164,48 @@ CFB_PLAY_NOTE = (
 )
 
 
+def _canon(name):
+    """Comparison form: lowercase, apostrophes/punctuation stripped --
+    so "Hawai'i" (ratings) matches "Hawaii" (odds feed)."""
+    return "".join(ch for ch in name.lower() if ch.isalnum() or ch == " ").strip()
+
+
+# Words that, appearing right after a matched school name, mean the
+# odds name is a DIFFERENT (derivative) school, not school+mascot:
+# "Utah Tech Trailblazers" must never map to "Utah". Caught live
+# 2026-09-05: the prefix matcher priced Utah Tech with Utah's rating
+# and manufactured a fake 42-point edge.
+DERIVATIVE_MARKERS = {"tech", "state", "am", "a&m", "southern", "christian",
+                      "wesleyan", "baptist", "international", "central"}
+
+
 def map_odds_names_to_ratings(odds_data, rating_teams):
-    """Longest-prefix match from Odds API 'School Mascot' names to
-    rating table school names. Returns (mapping, unmatched)."""
-    sorted_teams = sorted(rating_teams, key=len, reverse=True)
+    """Exact suffix-stripping match, replacing the old longest-prefix
+    rule. For each odds name ("School Mascot Words"): try dropping the
+    last word, then the last two words, and EXACT-match the remainder
+    against ratings (canonical form). A two-word strip is rejected
+    when the first dropped word is a derivative marker -- that word
+    belongs to the school's name, not the mascot. No match => loudly
+    unmatched, never a wrong rating."""
+    canon_map = {_canon(t): t for t in rating_teams}
     mapping, unmatched = {}, set()
     for game in odds_data:
         for name in (game.get("home_team"), game.get("away_team")):
-            if not name or name in mapping:
+            if not name or name in mapping or name in unmatched:
                 continue
-            match = next((t for t in sorted_teams if name.startswith(t)), None)
-            if match:
-                mapping[name] = match
+            words = _canon(name).split()
+            hit = None
+            for strip in (1, 2):
+                if len(words) <= strip:
+                    break
+                school = " ".join(words[:-strip])
+                if strip == 2 and words[-2] in DERIVATIVE_MARKERS:
+                    continue
+                if school in canon_map:
+                    hit = canon_map[school]
+                    break
+            if hit:
+                mapping[name] = hit
             else:
                 unmatched.add(name)
     return mapping, unmatched
@@ -270,10 +300,10 @@ def run_live_cfb_odds_watch(data_dir):
     # kickoff time instead -- this week's slate is games starting
     # within the next 8 days.
     from datetime import timedelta
-    cutoff = (datetime.now(timezone.utc) + timedelta(days=8)).isoformat()
+    cutoff = (datetime.now(timezone.utc) + timedelta(days=6)).isoformat()  # ONE weekend: 8 days straddled two Saturdays and doubled the slate
     before = len(odds_data)
     odds_data = [g for g in odds_data if (g.get("commence_time") or "9999") <= cutoff]
-    print(f"[cfb_odds_watch] {len(odds_data)} of {before} games kick off within 8 days")
+    print(f"[cfb_odds_watch] {len(odds_data)} of {before} games kick off within 6 days")
 
     mapping, unmatched = map_odds_names_to_ratings(odds_data, ratings.keys())
 
