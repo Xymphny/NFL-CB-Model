@@ -51,7 +51,9 @@ def build_residual_distribution(games=None):
         "residual_pmf": {str(k): round(float(v), 6) for k, v in pmf.items()},
         "residual_std": round(float(residual.std()), 3),
         "key_margin_mass": {str(int(m)): round(float(margin_pmf.get(m, 0)), 4) for m in [1, 2, 3, 4, 6, 7, 8, 10, 14]},
-        "push_prob_integer_line": round(float((residual == 0).mean() / max((g["spread_line"] % 1 == 0).mean(), 1e-9) * (g["spread_line"] % 1 == 0).mean() / max((g["spread_line"] % 1 == 0).mean(), 1e-9)), 6),
+        # P(push | integer line): pushes can only occur on integer lines,
+        # so divide the overall push rate by the share of integer lines.
+        "push_prob_integer_line": round(float((residual == 0).mean() / max((g["spread_line"] % 1 == 0).mean(), 1e-9)), 6),
     }
 
 

@@ -235,6 +235,9 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
         results.append({
             "home_team": home_team,
             "away_team": away_team,
+            "home_name": full_home,
+            "away_name": full_away,
+            "kickoff": game.get("commence_time"),
             "market_win_prob_home_fair": home_fair,
             "market_spread": market_spread,
             "market_total": market_total,

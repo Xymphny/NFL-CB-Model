@@ -571,3 +571,63 @@ Your observation that CFB has no real preseason-game equivalent to NFL's led to 
 **A real, additional nuance found while investigating**: Ohio State's snap-weighted continuity (56%) is healthier than the "47 of 91 players departed" headline suggested — their departures concentrated in low-snap backups, while the highest-snap positions (QB at 93%, offensive line at 82%) mostly returned. Player-count churn and snap-weighted continuity can tell meaningfully different stories about the same roster.
 
 **Honest final assessment**: this is real progress in both data quality (a genuine, comprehensive, CFB-native signal that didn't exist before) and understanding (the root-cause hypothesis confirmed on two more real teams) — but the small real test set doesn't show a clean, one-directional fix, and shouldn't be reported as one. A properly rigorous next step would need many more real test games, or historical returning-production data from past seasons to actually calibrate a blend weight against real outcomes — neither attempted here. The CFB preseason problem remains genuinely open, now with better tools and a clearer understanding of it than before.
+
+
+---
+
+## Season launch addendum (2026-09-05)
+
+The sections above describe the original model build. Everything below
+was added in the launch sprint; each subsystem is either live-verified
+in production or carries an explicit first-run flag.
+
+### Product ("Coverline")
+Consumer dashboard (`frontend/`): NFL + CFB edge boards with
+matchup/kickoff/weather headers, Play/Lean verdicts (evidence-capped:
+CFB weeks 1-4 max out at Lean per the held-out backtest), calibrated
+cover probabilities (NFL logistic coef 0.013, CFB 0.0183 -- both fit
+to held-out results, both far below the naive normal approximation),
+six-driver confidence meters, best price + sharp-book stale-line
+anchoring, alt-line fair pricing, FPI cross-reference, game context
+(injuries worst-first, kickoff weather), quarter-Kelly staking with
+weekly exposure caps, personal bet log with CLV tracking, Discord
+login + cross-device sync (`sync_service/`).
+
+### Data pipeline (`deploy/`)
+Cron jobs on Render (see `render.yaml`): weekly ratings, NFL odds
+watch, CFB odds watch, CFB weekly ratings (waits cleanly until 2026
+pbp publishes; preseason carryover seed keeps the board live), one-off
+CFB backtest job. Sources: nflverse (schedules, injuries, depth
+charts), ESPN public APIs (injury fallback + FPI + CFB injuries),
+Open-Meteo (weather, keyless), The Odds API (9 books), CFBD (historical
+lines + roster priors). Preseason boards are scale-aligned to the
+market slate (robust two-pass fit) to remove carryover-prior bias --
+all three one-directional-board artifacts (CFB all-dogs, NFL all-away,
+NFL all-overs) are documented in the code where fixed. Pushes use
+fetch-rebase-retry (multi-cron race, proven by simulation).
+Manual QB override file: `data/qb_overrides.json` (both leagues,
+highest precedence).
+
+### Experiment ledger (all held-out, scripts committed)
+- VALIDATED: CFB rating divergence, weeks 5+ (54.6% at 5+ pts, 574
+  games, monotonic) -- the board's thresholds come from this table.
+- DECLINED (null or negative held out): schedule-spot residuals,
+  pbp pressure proxy (PFF-class), FTN charting, CFB roster priors,
+  quantified QB adjustment (worse in backup games -- QB info is fully
+  priced; annotation-only design is doubly evidence-backed).
+- KNOWN QUIRK: MARGIN_COEFFICIENTS home_field/intercept collinearity
+  (see model/prediction.py) -- offseason refit item.
+
+### Operations runbook
+- ALWAYS `git pull` before layering a package over the working tree:
+  cron jobs commit snapshots/caches to main, and a zip-over-and-push
+  without pulling deletes them (this has happened; in-season it would
+  erase the track record).
+- Re-run `cfb-backtest-job` on Render (CFBD_API_KEY + git env vars on
+  that job) to regenerate `model/cfb_lines_cache.csv` and
+  `model/cfb_roster_priors.csv` after any such wipe.
+- Tests: `python3 tests/test_parsers.py` (network-free regression
+  suite for every parser with a docstring claim).
+- Weekly rhythm: Thu boards fill -> Fri QB research into overrides ->
+  weekend games -> Tue weekly job grades into Track record. The metric
+  that decides everything: CLV on graded plays.

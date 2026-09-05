@@ -188,6 +188,18 @@ def map_odds_names_to_ratings(odds_data, rating_teams):
     belongs to the school's name, not the mascot. No match => loudly
     unmatched, never a wrong rating."""
     canon_map = {_canon(t): t for t in rating_teams}
+    # Aliases: odds-feed names that differ from ratings names beyond
+    # mascot-stripping. App State caught live 2026-09-05 (odds say
+    # "Appalachian State", ratings say "App State").
+    ALIASES = {"appalachian state": "App State", "hawaii": "Hawai'i",
+               "ole miss": "Ole Miss", "southern california": "USC",
+               "connecticut": "UConn", "massachusetts": "UMass",
+               "louisiana monroe": "UL Monroe", "texas san antonio": "UTSA",
+               "texas el paso": "UTEP", "central florida": "UCF",
+               "south florida": "South Florida", "north carolina state": "NC State"}
+    for alias, target in ALIASES.items():
+        if target in rating_teams and alias not in canon_map:
+            canon_map[alias] = target
     mapping, unmatched = {}, set()
     for game in odds_data:
         for name in (game.get("home_team"), game.get("away_team")):
@@ -371,6 +383,9 @@ def run_live_cfb_odds_watch(data_dir):
         result.pop("total_flagged", None)
         divergences.append({
             "home_team": home, "away_team": away,
+            "home_name": game.get("home_team"),
+            "away_name": game.get("away_team"),
+            "kickoff": game.get("commence_time"),
             "market_spread": parsed["market_spread"],
             "market_win_prob_home_fair": parsed["home_fair"],
             "best_prices": parsed["best_prices"],

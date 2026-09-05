@@ -162,12 +162,31 @@ function ConfidenceMeter({ drivers }) {
   )
 }
 
-function GameContext({ d }) {
+function formatKickoff(iso) {
+  if (!iso) return null
+  const dt = new Date(iso)
+  if (isNaN(dt)) return null
+  return dt.toLocaleString('en-US', {
+    weekday: 'short', month: 'short', day: 'numeric',
+    hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York',
+  }) + ' ET'
+}
+
+function weatherBrief(wx) {
+  if (!wx) return null
+  if (wx.roof === 'dome' || wx.roof === 'closed') return 'Indoors'
+  if (wx.temp_f != null) return Math.round(wx.temp_f) + '\u00B0F \u00B7 ' + Math.round(wx.wind_mph) + ' mph wind'
+  return null
+}
+
+function GameContext({ d, qb1Map }) {
   const [open, setOpen] = useState(false)
   const inj = d.injuries
   const wx = d.weather
   const nInj = inj ? (inj.home?.length || 0) + (inj.away?.length || 0) : 0
-  if (!inj && !wx) return null
+  const qbHome = qb1Map ? qb1Map[d.home_team] : null
+  const qbAway = qb1Map ? qb1Map[d.away_team] : null
+  if (!inj && !wx && !qbHome && !qbAway) return null
 
   const wxLine = wx
     ? wx.roof === 'dome' || wx.roof === 'closed'
@@ -184,6 +203,11 @@ function GameContext({ d }) {
       </button>
       {open && (
         <div className="context-body">
+          {(qbHome || qbAway) && (
+            <p className="context-qbs">
+              QBs: {d.away_team} {qbAway || '—'} · {d.home_team} {qbHome || '—'}
+            </p>
+          )}
           {wxLine && <p className="context-weather">{wxLine}</p>}
           {inj && (
             <div className="context-injuries">
@@ -243,7 +267,7 @@ function AltLines({ d, marginDist }) {
   )
 }
 
-function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null }) {
+function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null }) {
   const [showPassed, setShowPassed] = useState(false)
   const { settings, logBet, betLog } = book
 
@@ -304,9 +328,19 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
         return (
           <div className={`bet-card ${verdict}`} key={`${d.away_team}-${d.home_team}`}>
             <div className="bet-card-top">
-              <span className="bet-pick">{pick}</span>
+              <div className="matchup-block">
+                <p className="matchup-line">
+                  {d.away_name || d.away_team} <span className="matchup-at">@</span> {d.home_name || d.home_team}
+                </p>
+                {(formatKickoff(d.kickoff) || weatherBrief(d.weather)) && (
+                  <p className="kickoff-line">
+                    {[formatKickoff(d.kickoff), weatherBrief(d.weather)].filter(Boolean).join(' \u00B7 ')}
+                  </p>
+                )}
+              </div>
               <span className={`verdict ${verdict}`}>{verdict === 'play' ? 'Play' : 'Lean'}</span>
             </div>
+            <p className="bet-pick">{pick}</p>
 
             <ConfidenceMeter drivers={drivers} />
 
@@ -361,7 +395,7 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
                   .join('; ')}
               </p>
             )}
-            <GameContext d={d} />
+            <GameContext d={d} qb1Map={qb1Map} />
             {market === 'spread' && marginDist && (
               <AltLines d={d} marginDist={marginDist} />
             )}
@@ -906,6 +940,7 @@ export default function App() {
                   ratingsByTeam={ratingsByTeam}
                   perf={perf.data}
                   marginDist={marginDist}
+                  qb1Map={divergenceState.data.qb1_map}
                 />
               )}
             </>

@@ -31,6 +31,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pandas as pd
 
+try:  # parquet engine check up front, with the fix in the message
+    import pyarrow  # noqa: F401
+except ImportError as _e:
+    raise SystemExit("pyarrow is required (it IS in requirements.txt): pip install pyarrow") from _e
+
 from model.test_full_ensemble import build_combined_dataset
 from model.prediction import predict_margin
 
@@ -53,11 +58,11 @@ def build_pressure_table():
         league_rate = pbp["pressured"].mean()
 
         off = pbp.groupby(["week", "posteam"]).agg(db=("pressured", "size"), pr=("pressured", "sum")).reset_index()
-        deф = pbp.groupby(["week", "defteam"]).agg(db=("pressured", "size"), pr=("pressured", "sum")).reset_index()
+        def_agg = pbp.groupby(["week", "defteam"]).agg(db=("pressured", "size"), pr=("pressured", "sum")).reset_index()
 
         for wk in sorted(pbp["week"].unique()):
             o_prior = off[off["week"] < wk].groupby("posteam")[["db", "pr"]].sum()
-            d_prior = deф[deф["week"] < wk].groupby("defteam")[["db", "pr"]].sum()
+            d_prior = def_agg[def_agg["week"] < wk].groupby("defteam")[["db", "pr"]].sum()
             teams = set(o_prior.index) | set(d_prior.index)
             for t in teams:
                 odb, opr = (o_prior.loc[t] if t in o_prior.index else (0, 0))
