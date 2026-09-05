@@ -1,0 +1,2387 @@
+{
+  "computed_at": "2026-09-05T04:46:21.367396+00:00",
+  "season": 2026,
+  "week": 1,
+  "note": "CFB board thresholds are backtest-derived (held-out 2023, 574 graded games, real CFBD closing lines): gaps of 5+ covered 54.6% and 7+ covered 55.2% vs the 52.4% breakeven, rising monotonically with gap size -- but ONLY from week 5 on. Weeks 1-4 graded BELOW breakeven (48.3% overall) because early-season ratings are data-starved while the market prices offseason information the model can't see; the board therefore caps early-season verdicts at Lean. One season of evidence -- promising, not proven. Bet flat and small. This board runs on scale-aligned preseason carryover ratings until in-season data publishes.",
+  "match_report": {
+    "games_from_api": 114,
+    "games_priced": 69,
+    "skipped_no_rating_match": 42,
+    "unmatched_names": [
+      "Abilene Christian Wildcats",
+      "Alcorn State Braves",
+      "Appalachian State Mountaineers",
+      "Austin Peay Governors",
+      "Bryant Bulldogs",
+      "Charleston Southern Buccaneers",
+      "Citadel Bulldogs",
+      "Duquesne Dukes",
+      "East Tennessee State Buccaneers",
+      "Eastern Kentucky Colonels",
+      "Fordham Rams",
+      "Furman Paladins",
+      "Hampton Pirates",
+      "Hawaii Rainbow Warriors",
+      "Idaho State Bengals",
+      "Lafayette Leopards",
+      "Lamar Cardinals",
+      "Maine Black Bears",
+      "Mercyhurst Lakers",
+      "Mississippi Valley State Delta Devils"
+    ]
+  },
+  "divergences": [
+    {
+      "home_team": "Alabama",
+      "away_team": "East Carolina",
+      "market_spread": 28.0,
+      "market_win_prob_home_fair": 0.9538784067085954,
+      "best_prices": {
+        "home_spread": {
+          "point": 27.5,
+          "price": -115,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 28.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "home_ml": -5000,
+        "away_ml": 2200,
+        "n_books": 9
+      },
+      "spread_gap": -15.8968063174174,
+      "win_prob_gap": -0.12530923991395915,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "West Virginia",
+      "away_team": "Coastal Carolina",
+      "market_spread": 21.0,
+      "market_win_prob_home_fair": 0.9098786828422877,
+      "best_prices": {
+        "home_spread": {
+          "point": 21.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 21.5,
+          "price": -115,
+          "book": "FanDuel"
+        },
+        "home_ml": -1600,
+        "away_ml": 1050,
+        "n_books": 9
+      },
+      "spread_gap": -11.336816045146994,
+      "win_prob_gap": -0.13431291441433335,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Houston",
+      "away_team": "Oregon State",
+      "market_spread": 21.0,
+      "market_win_prob_home_fair": 0.9048152295632698,
+      "best_prices": {
+        "home_spread": {
+          "point": 20.5,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 21.0,
+          "price": -108,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -1500,
+        "away_ml": 1000,
+        "n_books": 9
+      },
+      "spread_gap": -7.886615300301013,
+      "win_prob_gap": -0.05686195437082253,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Indiana",
+      "away_team": "North Texas",
+      "market_spread": 40.5,
+      "market_win_prob_home_fair": 0.95176136089827,
+      "best_prices": {
+        "home_spread": {
+          "point": 39.5,
+          "price": -111,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 41.0,
+          "price": -114,
+          "book": "BetRivers"
+        },
+        "home_ml": -100000,
+        "away_ml": 1875,
+        "n_books": 9
+      },
+      "spread_gap": -26.14186975312898,
+      "win_prob_gap": -0.08200390823178183,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "James Madison",
+      "away_team": "Liberty",
+      "market_spread": 6.0,
+      "market_win_prob_home_fair": 0.6636481241914618,
+      "best_prices": {
+        "home_spread": {
+          "point": 5.5,
+          "price": -114,
+          "book": "BetRivers"
+        },
+        "away_spread": {
+          "point": 6.5,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "home_ml": -205,
+        "away_ml": 190,
+        "n_books": 9
+      },
+      "spread_gap": 8.360058092323534,
+      "win_prob_gap": 0.20614132831759258,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Pittsburgh",
+      "away_team": "Miami (OH)",
+      "market_spread": 16.5,
+      "market_win_prob_home_fair": 0.854557207498384,
+      "best_prices": {
+        "home_spread": {
+          "point": 15.5,
+          "price": -114,
+          "book": "BetRivers"
+        },
+        "away_spread": {
+          "point": 16.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -750,
+        "away_ml": 650,
+        "n_books": 9
+      },
+      "spread_gap": -3.948903557283735,
+      "win_prob_gap": -0.017206372926045876,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Nebraska",
+      "away_team": "Ohio",
+      "market_spread": 23.5,
+      "market_win_prob_home_fair": 0.9311163895486935,
+      "best_prices": {
+        "home_spread": {
+          "point": 23.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 24.0,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "home_ml": -2500,
+        "away_ml": 1600,
+        "n_books": 9
+      },
+      "spread_gap": -12.435272401170634,
+      "win_prob_gap": -0.12404858761886628,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Ohio State",
+      "away_team": "Ball State",
+      "market_spread": 50.5,
+      "market_win_prob_home_fair": 0.9523356030665207,
+      "best_prices": {
+        "home_spread": {
+          "point": 49.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 51.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "home_ml": -100000,
+        "away_ml": 1900,
+        "n_books": 9
+      },
+      "spread_gap": -18.419829123335262,
+      "win_prob_gap": 0.041697905355412845,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "South Carolina",
+      "away_team": "Kent State",
+      "market_spread": 36.0,
+      "market_win_prob_home_fair": 0.9659617418459234,
+      "best_prices": {
+        "home_spread": {
+          "point": 35.5,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 36.5,
+          "price": -112,
+          "book": "BetRivers"
+        },
+        "home_ml": -100000,
+        "away_ml": 5000,
+        "n_books": 9
+      },
+      "spread_gap": -26.766725581057212,
+      "win_prob_gap": -0.2006140816934856,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Georgia",
+      "away_team": "Tennessee",
+      "market_spread": 47.5,
+      "market_win_prob_home_fair": 0.943608810771224,
+      "best_prices": {
+        "home_spread": {
+          "point": 47.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 48.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "home_ml": -100000,
+        "away_ml": 1575,
+        "n_books": 5
+      },
+      "spread_gap": -38.83736783500082,
+      "win_prob_gap": -0.19221269709412836,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Auburn",
+      "away_team": "Baylor",
+      "market_spread": 7.5,
+      "market_win_prob_home_fair": 0.7120203455755852,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.0,
+          "price": -120,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 7.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": -285,
+        "away_ml": 250,
+        "n_books": 9
+      },
+      "spread_gap": 4.755493473331063,
+      "win_prob_gap": 0.11956824840097091,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Oregon",
+      "away_team": "Boise State",
+      "market_spread": 24.5,
+      "market_win_prob_home_fair": 0.9312638580931264,
+      "best_prices": {
+        "home_spread": {
+          "point": 24.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 25.0,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "home_ml": -3000,
+        "away_ml": 1550,
+        "n_books": 9
+      },
+      "spread_gap": -4.842222604172971,
+      "win_prob_gap": 0.007026399255899984,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Cincinnati",
+      "away_team": "Boston College",
+      "market_spread": 7.5,
+      "market_win_prob_home_fair": 0.7220792588780237,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 7.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -300,
+        "away_ml": 255,
+        "n_books": 9
+      },
+      "spread_gap": 11.724012169011786,
+      "win_prob_gap": 0.2119620838730344,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Duke",
+      "away_team": "Tulane",
+      "market_spread": 7.5,
+      "market_win_prob_home_fair": 0.7243866752866718,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.5,
+          "price": -101,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 7.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -300,
+        "away_ml": 265,
+        "n_books": 9
+      },
+      "spread_gap": 2.383600951590232,
+      "win_prob_gap": 0.05631846218029457,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Penn State",
+      "away_team": "Marshall",
+      "market_spread": 23.5,
+      "market_win_prob_home_fair": 0.9291914116034719,
+      "best_prices": {
+        "home_spread": {
+          "point": 23.0,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 23.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -2400,
+        "away_ml": 1400,
+        "n_books": 9
+      },
+      "spread_gap": -9.832038425128342,
+      "win_prob_gap": -0.07124086353097603,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Texas",
+      "away_team": "Texas State",
+      "market_spread": 29.5,
+      "market_win_prob_home_fair": 0.9611687812379853,
+      "best_prices": {
+        "home_spread": {
+          "point": 29.0,
+          "price": -111,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 29.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -8000,
+        "away_ml": 2500,
+        "n_books": 9
+      },
+      "spread_gap": -20.824515531984073,
+      "win_prob_gap": -0.2094536529685883,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Tulsa",
+      "away_team": "Oklahoma State",
+      "market_spread": -13.5,
+      "market_win_prob_home_fair": 0.18448121645796062,
+      "best_prices": {
+        "home_spread": {
+          "point": -13.5,
+          "price": -103,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": -13.5,
+          "price": -109,
+          "book": "LowVig.ag"
+        },
+        "home_ml": 440,
+        "away_ml": -550,
+        "n_books": 9
+      },
+      "spread_gap": 28.336235919094044,
+      "win_prob_gap": 0.6930460877408409,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Iowa",
+      "away_team": "Northern Illinois",
+      "market_spread": 31.5,
+      "market_win_prob_home_fair": 0.9807153453106972,
+      "best_prices": {
+        "home_spread": {
+          "point": 31.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 32.0,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "home_ml": -35000,
+        "away_ml": 5000,
+        "n_books": 9
+      },
+      "spread_gap": -15.533404030582973,
+      "win_prob_gap": -0.0861277541615848,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Colorado State",
+      "away_team": "Wyoming",
+      "market_spread": 3.0,
+      "market_win_prob_home_fair": 0.5836044242029929,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.0,
+          "price": -101,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 3.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "home_ml": -150,
+        "away_ml": 135,
+        "n_books": 9
+      },
+      "spread_gap": 9.031220785688811,
+      "win_prob_gap": 0.24352587581371254,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Memphis",
+      "away_team": "Arkansas State",
+      "market_spread": 11.0,
+      "market_win_prob_home_fair": 0.7834456207892204,
+      "best_prices": {
+        "home_spread": {
+          "point": 10.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 11.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": -430,
+        "away_ml": 360,
+        "n_books": 9
+      },
+      "spread_gap": 8.129547741838689,
+      "win_prob_gap": 0.14964101938220564,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "South Florida",
+      "away_team": "Florida International",
+      "market_spread": 14.5,
+      "market_win_prob_home_fair": 0.8331108144192256,
+      "best_prices": {
+        "home_spread": {
+          "point": 14.5,
+          "price": -105,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 15.0,
+          "price": -110,
+          "book": "BetRivers"
+        },
+        "home_ml": -650,
+        "away_ml": 525,
+        "n_books": 9
+      },
+      "spread_gap": 7.753299990059272,
+      "win_prob_gap": 0.12630868399384287,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Rice",
+      "away_team": "Houston",
+      "market_spread": 22.5,
+      "market_win_prob_home_fair": 0.9202453987730062,
+      "best_prices": {
+        "home_spread": {
+          "point": 22.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 22.5,
+          "price": -109,
+          "book": "BetRivers"
+        },
+        "home_ml": -2000,
+        "away_ml": 1500,
+        "n_books": 7
+      },
+      "spread_gap": -15.91044431160226,
+      "win_prob_gap": -0.22302495044069404,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": [],
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Michigan",
+      "away_team": "Western Michigan",
+      "market_spread": 27.5,
+      "market_win_prob_home_fair": 0.9397944199706314,
+      "best_prices": {
+        "home_spread": {
+          "point": 27.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 27.5,
+          "price": 100,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -4000,
+        "away_ml": 2000,
+        "n_books": 9
+      },
+      "spread_gap": -11.631081533510258,
+      "win_prob_gap": -0.046609423972236774,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Texas A&M",
+      "away_team": "Missouri State",
+      "market_spread": 40.5,
+      "market_win_prob_home_fair": 0.9523356030665207,
+      "best_prices": {
+        "home_spread": {
+          "point": 40.0,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 41.0,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "home_ml": -100000,
+        "away_ml": 1900,
+        "n_books": 9
+      },
+      "spread_gap": -20.828727686005386,
+      "win_prob_gap": -0.013916668204138616,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Troy",
+      "away_team": "Sam Houston",
+      "market_spread": 16.5,
+      "market_win_prob_home_fair": 0.8599026692228285,
+      "best_prices": {
+        "home_spread": {
+          "point": 16.0,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 16.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "home_ml": -800,
+        "away_ml": 600,
+        "n_books": 9
+      },
+      "spread_gap": -3.9174154148927016,
+      "win_prob_gap": -0.02194567959768301,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "LSU",
+      "away_team": "Clemson",
+      "market_spread": 10.0,
+      "market_win_prob_home_fair": 0.7622585438335809,
+      "best_prices": {
+        "home_spread": {
+          "point": 9.5,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 10.5,
+          "price": -118,
+          "book": "FanDuel"
+        },
+        "home_ml": -375,
+        "away_ml": 320,
+        "n_books": 9
+      },
+      "spread_gap": -1.6355412649893726,
+      "win_prob_gap": -0.018324457219153212,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Louisiana Tech",
+      "away_team": "Northwestern",
+      "market_spread": 44.5,
+      "market_win_prob_home_fair": 0.943608810771224,
+      "best_prices": {
+        "home_spread": {
+          "point": 44.5,
+          "price": -109,
+          "book": "BetRivers"
+        },
+        "away_spread": {
+          "point": 44.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "home_ml": -100000,
+        "away_ml": 1575,
+        "n_books": 6
+      },
+      "spread_gap": -28.341262100482595,
+      "win_prob_gap": -0.046301143332514005,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Mississippi State",
+      "away_team": "UL Monroe",
+      "market_spread": 28.5,
+      "market_win_prob_home_fair": 0.953926022063595,
+      "best_prices": {
+        "home_spread": {
+          "point": 28.5,
+          "price": -101,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 28.5,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "home_ml": -4000,
+        "away_ml": 2500,
+        "n_books": 9
+      },
+      "spread_gap": -16.254788369082334,
+      "win_prob_gap": -0.12254018835044844,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Florida",
+      "away_team": "Florida Atlantic",
+      "market_spread": 26.5,
+      "market_win_prob_home_fair": 0.9399477806788513,
+      "best_prices": {
+        "home_spread": {
+          "point": 26.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 26.5,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -2800,
+        "away_ml": 1800,
+        "n_books": 9
+      },
+      "spread_gap": -11.777506962604173,
+      "win_prob_gap": -0.06423878682841311,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": [
+          {
+            "player": "Kahleil Jackson",
+            "position": "WR",
+            "status": "Out"
+          }
+        ],
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "BYU",
+      "away_team": "Utah",
+      "market_spread": 51.5,
+      "market_win_prob_home_fair": 0.943608810771224,
+      "best_prices": {
+        "home_spread": {
+          "point": 51.5,
+          "price": -109,
+          "book": "BetRivers"
+        },
+        "away_spread": {
+          "point": 52.0,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": -100000,
+        "away_ml": 1575,
+        "n_books": 7
+      },
+      "spread_gap": -42.08872118427525,
+      "win_prob_gap": -0.17399943097919757,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "New Mexico",
+      "away_team": "Central Michigan",
+      "market_spread": 10.5,
+      "market_win_prob_home_fair": 0.7834456207892204,
+      "best_prices": {
+        "home_spread": {
+          "point": 10.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 11.0,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": -435,
+        "away_ml": 360,
+        "n_books": 9
+      },
+      "spread_gap": 2.761186184391587,
+      "win_prob_gap": 0.0672166275123468,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "California",
+      "away_team": "UCLA",
+      "market_spread": -2.5,
+      "market_win_prob_home_fair": 0.457185464249274,
+      "best_prices": {
+        "home_spread": {
+          "point": -2.5,
+          "price": -105,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": -2.0,
+          "price": -114,
+          "book": "BetRivers"
+        },
+        "home_ml": 120,
+        "away_ml": -122,
+        "n_books": 9
+      },
+      "spread_gap": 16.638355865284634,
+      "win_prob_gap": 0.4088882961937276,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Nevada",
+      "away_team": "Western Kentucky",
+      "market_spread": -1.0,
+      "market_win_prob_home_fair": 0.4972677043457453,
+      "best_prices": {
+        "home_spread": {
+          "point": -1.5,
+          "price": -115,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 1.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "home_ml": -104,
+        "away_ml": -108,
+        "n_books": 9
+      },
+      "spread_gap": 9.656206013490806,
+      "win_prob_gap": 0.2539688201929292,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Washington",
+      "away_team": "Washington State",
+      "market_spread": 23.5,
+      "market_win_prob_home_fair": 0.9197402789870509,
+      "best_prices": {
+        "home_spread": {
+          "point": 23.0,
+          "price": -106,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 23.5,
+          "price": -105,
+          "book": "BetMGM"
+        },
+        "home_ml": -1950,
+        "away_ml": 1300,
+        "n_books": 9
+      },
+      "spread_gap": -7.631724148661096,
+      "win_prob_gap": -0.026564554962451026,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Ole Miss",
+      "away_team": "Louisville",
+      "market_spread": 6.5,
+      "market_win_prob_home_fair": 0.6938277537846895,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 7.0,
+          "price": -115,
+          "book": "BetMGM"
+        },
+        "home_ml": -240,
+        "away_ml": 220,
+        "n_books": 8
+      },
+      "spread_gap": 8.850328039763962,
+      "win_prob_gap": 0.19168481439306406,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Notre Dame",
+      "away_team": "Wisconsin",
+      "market_spread": 20.5,
+      "market_win_prob_home_fair": 0.9108901603977113,
+      "best_prices": {
+        "home_spread": {
+          "point": 20.5,
+          "price": -108,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 21.0,
+          "price": -114,
+          "book": "BetRivers"
+        },
+        "home_ml": -1400,
+        "away_ml": 1000,
+        "n_books": 9
+      },
+      "spread_gap": 7.412169008333386,
+      "win_prob_gap": 0.07475587218045099,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Florida State",
+      "away_team": "SMU",
+      "market_spread": -3.0,
+      "market_win_prob_home_fair": 0.4211388775092175,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.0,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": -2.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "home_ml": 130,
+        "away_ml": -139,
+        "n_books": 9
+      },
+      "spread_gap": 16.77142261415648,
+      "win_prob_gap": 0.43862633832821096,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Boston College",
+      "away_team": "Rutgers",
+      "market_spread": 6.5,
+      "market_win_prob_home_fair": 0.6755725190839694,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 6.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -240,
+        "away_ml": 195,
+        "n_books": 1
+      },
+      "spread_gap": 0.9063195451120691,
+      "win_prob_gap": 0.04361600637566476,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Texas A&M",
+      "away_team": "Arizona State",
+      "market_spread": 15.5,
+      "market_win_prob_home_fair": 0.8323334298118669,
+      "best_prices": {
+        "home_spread": {
+          "point": 14.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 16.5,
+          "price": -113,
+          "book": "BetRivers"
+        },
+        "home_ml": -550,
+        "away_ml": 550,
+        "n_books": 3
+      },
+      "spread_gap": 4.954620182865401,
+      "win_prob_gap": 0.11320218606549581,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Utah",
+      "away_team": "Arkansas",
+      "market_spread": 9.5,
+      "market_win_prob_home_fair": 0.7513701376821281,
+      "best_prices": {
+        "home_spread": {
+          "point": 9.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 9.5,
+          "price": -106,
+          "book": "FanDuel"
+        },
+        "home_ml": -360,
+        "away_ml": 295,
+        "n_books": 3
+      },
+      "spread_gap": 5.119674613261843,
+      "win_prob_gap": 0.12267901085169963,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Army",
+      "away_team": "South Florida",
+      "market_spread": 1.5,
+      "market_win_prob_home_fair": 0.5195516280755264,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 1.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -118,
+        "away_ml": 100,
+        "n_books": 2
+      },
+      "spread_gap": 0.8219484716865928,
+      "win_prob_gap": 0.05264558388287077,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Kansas State",
+      "away_team": "Washington State",
+      "market_spread": 17.5,
+      "market_win_prob_home_fair": 0.8828550222662048,
+      "best_prices": {
+        "home_spread": {
+          "point": 16.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 18.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -1000,
+        "away_ml": 800,
+        "n_books": 2
+      },
+      "spread_gap": -5.961022419852634,
+      "win_prob_gap": -0.06577091943610536,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Oklahoma State",
+      "away_team": "Oregon",
+      "market_spread": -19.5,
+      "market_win_prob_home_fair": 0.11348376444689047,
+      "best_prices": {
+        "home_spread": {
+          "point": -19.5,
+          "price": -112,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -17.5,
+          "price": -110,
+          "book": "BetRivers"
+        },
+        "home_ml": 750,
+        "away_ml": -1200,
+        "n_books": 3
+      },
+      "spread_gap": 16.92843409805982,
+      "win_prob_gap": 0.30665700206041213,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Virginia Tech",
+      "away_team": "Old Dominion",
+      "market_spread": 16.0,
+      "market_win_prob_home_fair": 0.8505826585028639,
+      "best_prices": {
+        "home_spread": {
+          "point": 14.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 17.5,
+          "price": -105,
+          "book": "FanDuel"
+        },
+        "home_ml": -625,
+        "away_ml": 660,
+        "n_books": 2
+      },
+      "spread_gap": -16.185535846880928,
+      "win_prob_gap": -0.35638324515906983,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Temple",
+      "away_team": "Penn State",
+      "market_spread": -22.5,
+      "market_win_prob_home_fair": 0.07482806632631535,
+      "best_prices": {
+        "home_spread": {
+          "point": -23.5,
+          "price": -114,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -21.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "home_ml": 1280,
+        "away_ml": -2100,
+        "n_books": 2
+      },
+      "spread_gap": 32.16446918515468,
+      "win_prob_gap": 0.7007678660507674,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Kentucky",
+      "away_team": "Alabama",
+      "market_spread": -10.5,
+      "market_win_prob_home_fair": 0.22294296400187003,
+      "best_prices": {
+        "home_spread": {
+          "point": -10.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": -10.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": 340,
+        "away_ml": -410,
+        "n_books": 2
+      },
+      "spread_gap": 19.080377425691992,
+      "win_prob_gap": 0.5264062963849858,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Syracuse",
+      "away_team": "California",
+      "market_spread": -2.0,
+      "market_win_prob_home_fair": 0.47245688532979024,
+      "best_prices": {
+        "home_spread": {
+          "point": -2.5,
+          "price": -115,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -1.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "home_ml": 105,
+        "away_ml": -120,
+        "n_books": 2
+      },
+      "spread_gap": 8.920502491078997,
+      "win_prob_gap": 0.2337575500516732,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Illinois",
+      "away_team": "Duke",
+      "market_spread": 8.0,
+      "market_win_prob_home_fair": 0.7220311837580667,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 8.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "home_ml": -300,
+        "away_ml": 250,
+        "n_books": 2
+      },
+      "spread_gap": 3.8660686919236014,
+      "win_prob_gap": 0.10176843649823397,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "UConn",
+      "away_team": "Maryland",
+      "market_spread": -13.0,
+      "market_win_prob_home_fair": 0.2098355471220746,
+      "best_prices": {
+        "home_spread": {
+          "point": -13.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -12.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "home_ml": 400,
+        "away_ml": -410,
+        "n_books": 2
+      },
+      "spread_gap": 30.566065079851306,
+      "win_prob_gap": 0.7058543450246942,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Minnesota",
+      "away_team": "Mississippi State",
+      "market_spread": 2.0,
+      "market_win_prob_home_fair": 0.5300538322418329,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.5,
+          "price": -108,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 2.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -118,
+        "away_ml": 110,
+        "n_books": 2
+      },
+      "spread_gap": 10.15717335525294,
+      "win_prob_gap": 0.2995894464527592,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Pittsburgh",
+      "away_team": "UCF",
+      "market_spread": 8.0,
+      "market_win_prob_home_fair": 0.7053693937941181,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.5,
+          "price": -102,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 8.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -275,
+        "away_ml": 230,
+        "n_books": 2
+      },
+      "spread_gap": 5.333801696436213,
+      "win_prob_gap": 0.14661190787118417,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Texas State",
+      "away_team": "UTSA",
+      "market_spread": 0.0,
+      "market_win_prob_home_fair": 0.49999999999999994,
+      "best_prices": {
+        "home_spread": {
+          "point": -1.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 1.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -102,
+        "away_ml": -102,
+        "n_books": 2
+      },
+      "spread_gap": 16.23263864186371,
+      "win_prob_gap": 0.3983401501885167,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "UAB",
+      "away_team": "UL Monroe",
+      "market_spread": 8.5,
+      "market_win_prob_home_fair": 0.7324606839714349,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 9.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -290,
+        "away_ml": 285,
+        "n_books": 2
+      },
+      "spread_gap": 3.909721109532038,
+      "win_prob_gap": 0.10215048535880544,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Washington",
+      "away_team": "Utah State",
+      "market_spread": 24.5,
+      "market_win_prob_home_fair": 0.9309267326182662,
+      "best_prices": {
+        "home_spread": {
+          "point": 24.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 24.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "home_ml": -2400,
+        "away_ml": 1400,
+        "n_books": 2
+      },
+      "spread_gap": -10.366785055922065,
+      "win_prob_gap": -0.06493998895654118,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "North Texas",
+      "away_team": "UNLV",
+      "market_spread": -6.5,
+      "market_win_prob_home_fair": 0.33443954129000064,
+      "best_prices": {
+        "home_spread": {
+          "point": -6.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -6.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": 188,
+        "away_ml": -225,
+        "n_books": 2
+      },
+      "spread_gap": 20.143542199139837,
+      "win_prob_gap": 0.5230803917977277,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Vanderbilt",
+      "away_team": "Delaware",
+      "market_spread": 21.5,
+      "market_win_prob_home_fair": 0.9119174006883275,
+      "best_prices": {
+        "home_spread": {
+          "point": 21.5,
+          "price": -105,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 21.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -1800,
+        "away_ml": 1000,
+        "n_books": 2
+      },
+      "spread_gap": 5.3222937125131615,
+      "win_prob_gap": 0.07030861703673918,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Boise State",
+      "away_team": "Memphis",
+      "market_spread": 7.0,
+      "market_win_prob_home_fair": 0.7172009383896321,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 7.5,
+          "price": -105,
+          "book": "FanDuel"
+        },
+        "home_ml": -270,
+        "away_ml": 260,
+        "n_books": 2
+      },
+      "spread_gap": 5.6931143910513295,
+      "win_prob_gap": 0.1228721167069089,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Florida International",
+      "away_team": "Buffalo",
+      "market_spread": 7.5,
+      "market_win_prob_home_fair": 0.7144406289535514,
+      "best_prices": {
+        "home_spread": {
+          "point": 7.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 7.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -295,
+        "away_ml": 235,
+        "n_books": 1
+      },
+      "spread_gap": 5.843440923698775,
+      "win_prob_gap": 0.13771518021964735,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Ohio",
+      "away_team": "Jacksonville State",
+      "market_spread": 2.0,
+      "market_win_prob_home_fair": 0.5222355121962281,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.5,
+          "price": -106,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 2.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -115,
+        "away_ml": 105,
+        "n_books": 2
+      },
+      "spread_gap": 10.044073088705558,
+      "win_prob_gap": 0.30515229119762455,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Nebraska",
+      "away_team": "Bowling Green",
+      "market_spread": 25.5,
+      "market_win_prob_home_fair": 0.9447707917996706,
+      "best_prices": {
+        "home_spread": {
+          "point": 25.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 25.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -4500,
+        "away_ml": 1700,
+        "n_books": 2
+      },
+      "spread_gap": -8.27323571979084,
+      "win_prob_gap": -0.033269177214566126,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Georgia Tech",
+      "away_team": "Tennessee",
+      "market_spread": -12.0,
+      "market_win_prob_home_fair": 0.20221647736904558,
+      "best_prices": {
+        "home_spread": {
+          "point": -13.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -10.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": 400,
+        "away_ml": -455,
+        "n_books": 2
+      },
+      "spread_gap": 23.319203198560977,
+      "win_prob_gap": 0.6102669234517974,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Marshall",
+      "away_team": "Middle Tennessee",
+      "market_spread": 17.5,
+      "market_win_prob_home_fair": 0.8720930232558138,
+      "best_prices": {
+        "home_spread": {
+          "point": 17.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 17.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -1000,
+        "away_ml": 650,
+        "n_books": 1
+      },
+      "spread_gap": -2.586650262805467,
+      "win_prob_gap": 0.006656366506737288,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Sam Houston",
+      "away_team": "Tulsa",
+      "market_spread": -11.5,
+      "market_win_prob_home_fair": 0.20717165718572234,
+      "best_prices": {
+        "home_spread": {
+          "point": -12.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -10.5,
+          "price": -105,
+          "book": "DraftKings"
+        },
+        "home_ml": 400,
+        "away_ml": -425,
+        "n_books": 2
+      },
+      "spread_gap": 20.961402797490063,
+      "win_prob_gap": 0.5636299183283955,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Tulane",
+      "away_team": "South Alabama",
+      "market_spread": 10.0,
+      "market_win_prob_home_fair": 0.7600000000000001,
+      "best_prices": {
+        "home_spread": {
+          "point": 10.0,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 10.0,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "home_ml": -380,
+        "away_ml": 300,
+        "n_books": 1
+      },
+      "spread_gap": 6.291759235740749,
+      "win_prob_gap": 0.1391606783884901,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "UCLA",
+      "away_team": "San Diego State",
+      "market_spread": 10.25,
+      "market_win_prob_home_fair": 0.7615709073245888,
+      "best_prices": {
+        "home_spread": {
+          "point": 10.0,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 10.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -360,
+        "away_ml": 320,
+        "n_books": 2
+      },
+      "spread_gap": -3.503003599647096,
+      "win_prob_gap": -0.06005637076013104,
+      "spread_flagged": true,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Clemson",
+      "away_team": "Georgia Southern",
+      "market_spread": 26.5,
+      "market_win_prob_home_fair": 0.9462616822429908,
+      "best_prices": {
+        "home_spread": {
+          "point": 26.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 26.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "home_ml": -4500,
+        "away_ml": 1700,
+        "n_books": 1
+      },
+      "spread_gap": -15.82341195227642,
+      "win_prob_gap": -0.14763576954069224,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Iowa",
+      "away_team": "Iowa State",
+      "market_spread": 13.0,
+      "market_win_prob_home_fair": 0.827123695976155,
+      "best_prices": {
+        "home_spread": {
+          "point": 12.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 13.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -625,
+        "away_ml": 475,
+        "n_books": 3
+      },
+      "spread_gap": -0.07104584859134633,
+      "win_prob_gap": 0.017403754553551032,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Texas",
+      "away_team": "Ohio State",
+      "market_spread": 1.5,
+      "market_win_prob_home_fair": 0.5173641257162701,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.5,
+          "price": -106,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 1.5,
+          "price": -110,
+          "book": "BetRivers"
+        },
+        "home_ml": -115,
+        "away_ml": 100,
+        "n_books": 3
+      },
+      "spread_gap": 0.9761761078875679,
+      "win_prob_gap": 0.05957051863293206,
+      "spread_flagged": false,
+      "win_prob_flagged": false,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    },
+    {
+      "home_team": "Oregon State",
+      "away_team": "Texas Tech",
+      "market_spread": -28.0,
+      "market_win_prob_home_fair": 0.04650742843162668,
+      "best_prices": {
+        "home_spread": {
+          "point": -28.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": -27.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "home_ml": 2200,
+        "away_ml": -5000,
+        "n_books": 2
+      },
+      "spread_gap": 35.37033309666518,
+      "win_prob_gap": 0.6717296250930529,
+      "spread_flagged": true,
+      "win_prob_flagged": true,
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "injuries": {
+        "home": null,
+        "away": null
+      },
+      "injury_source": "espn"
+    }
+  ]
+}
