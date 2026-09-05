@@ -103,9 +103,29 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
         raise ValidationError(f"git commit failed: {commit_result.stderr}")
 
     target_branch = os.environ.get("GIT_BRANCH", "main")
-    push_result = subprocess.run(
-        ["git", "push", "origin", f"HEAD:{target_branch}"], cwd=repo_dir, capture_output=True, text=True,
-    )
+    # Push with fetch-rebase-retry. Three crons plus manual pushes share
+    # main, so the remote moving between checkout and push is a routine
+    # race, not an anomaly -- a CFB snapshot was computed and then LOST
+    # to exactly this on 2026-09-05 when a code push landed mid-run.
+    # Cron commits are always new snapshot files, so rebasing onto the
+    # moved remote is conflict-free by construction; if a rebase ever
+    # does conflict, abort and fail loudly rather than force anything.
+    push_result = None
+    for attempt in range(3):
+        push_result = subprocess.run(
+            ["git", "push", "origin", f"HEAD:{target_branch}"], cwd=repo_dir, capture_output=True, text=True,
+        )
+        if push_result.returncode == 0:
+            break
+        if "rejected" not in push_result.stderr and "fetch first" not in push_result.stderr:
+            break  # not a race -- do not retry auth/network errors blindly
+        print(f"[git_utils] push rejected (remote moved), attempt {attempt + 1}: fetching and rebasing")
+        subprocess.run(["git", "fetch", "origin", target_branch], cwd=repo_dir, capture_output=True, text=True)
+        rebase = subprocess.run(["git", "rebase", "FETCH_HEAD"], cwd=repo_dir, capture_output=True, text=True)
+        if rebase.returncode != 0:
+            subprocess.run(["git", "rebase", "--abort"], cwd=repo_dir, capture_output=True, text=True)
+            print(f"[git_utils] rebase conflicted -- aborting rather than forcing: {rebase.stderr.strip()[:200]}")
+            break
     print(f"[git_utils] git push exit code: {push_result.returncode}")
     print(f"[git_utils] git push stderr: {push_result.stderr.strip()}")
 
