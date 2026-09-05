@@ -929,7 +929,12 @@ export default function App() {
                   ratingsByTeam={cfbRatingsByTeam}
                   perf={null}
                   marginDist={null}
-                  playGap={5}
+                  /* Weeks 1-4 cap at Lean: the held-out backtest graded
+                     early-season flags BELOW breakeven (48.3%) -- ratings
+                     are data-starved before week 5. Evidence-backed
+                     demotion, unlike the QB case where the data said
+                     annotate-only. */
+                  playGap={(cfbDivergenceState.data.week ?? 5) <= 4 ? 999 : 5}
                   leanGap={3}
                 />
               )}

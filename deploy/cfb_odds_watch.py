@@ -153,12 +153,14 @@ if __name__ == "__main__":
 # ---------------------------------------------------------------------------
 
 CFB_PLAY_NOTE = (
-    "CFB board thresholds are backtest-derived: on fully held-out 2023 "
-    "(574 graded games, real CFBD closing lines), model/market gaps of "
-    "5+ points covered 54.6% and 7+ covered 55.2% against the 52.4% "
-    "breakeven, with cover rate rising monotonically in gap size. One "
-    "season of evidence -- promising, not proven; the 2026 season is "
-    "the live confirmation sample. Bet flat and small."
+    "CFB board thresholds are backtest-derived (held-out 2023, 574 graded "
+    "games, real CFBD closing lines): gaps of 5+ covered 54.6% and 7+ "
+    "covered 55.2% vs the 52.4% breakeven, rising monotonically with gap "
+    "size -- but ONLY from week 5 on. Weeks 1-4 graded BELOW breakeven "
+    "(48.3% overall) because early-season ratings are data-starved while "
+    "the market prices offseason information the model can't see; the "
+    "board therefore caps early-season verdicts at Lean. One season of "
+    "evidence -- promising, not proven. Bet flat and small."
 )
 
 

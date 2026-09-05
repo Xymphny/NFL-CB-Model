@@ -119,6 +119,29 @@ services:
       - key: GITHUB_TOKEN
         sync: false
 
+  # CFB weekly ratings job -- the missing link found 2026-09-05: the
+  # CFB odds watch needs ratings snapshots and nothing was scheduled
+  # to produce them. Runs Sunday mornings after the Saturday slate.
+  # While 2026 pbp is unpublished upstream it exits cleanly in a
+  # waiting state; the committed preseason seed keeps the board live.
+  - type: cron
+    name: cfb-weekly-job
+    runtime: python
+    schedule: "0 10 * * 0"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 deploy/cfb_weekly_runner.py
+    envVars:
+      - key: SEASON
+        value: "2026"
+      - key: CFB_WEEK1_SATURDAY
+        value: "2026-08-29"
+      - key: REPO_DATA_PATH
+        value: ./data
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+
   # Coverline sync service — stores per-user settings and bet logs,
   # keyed by Discord user id (token verified against Discord's API on
   # each request, cached 10 min). The DISK IS REQUIRED: a web service's
