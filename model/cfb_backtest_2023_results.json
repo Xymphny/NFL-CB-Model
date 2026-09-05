@@ -1,0 +1,11 @@
+{
+  "_provenance": "Held-out CFB ATS backtest run on Render 2026-09-05 via deploy/cfb_backtest_job.py against live CFBD closing lines (2021-2022 train, 2023 held out). This artifact preserves the result table because the raw caches (model/cfb_lines_cache.csv, model/cfb_roster_priors.csv) were deleted from the repo by a zip-over-and-push without pulling (commit 't') -- regenerate them any time by re-triggering cfb-backtest-job (CFBD_API_KEY + git env vars are set on that job). Numbers below are the source of the board's thresholds, calibration coef 0.01828, and the weeks 1-4 Lean cap.",
+  "join": "1731/1731 cached games matched to lines (100%)",
+  "margin_fit": "43.28 * rating_diff + 2.83 (train 2021-2022)",
+  "held_out_2023_rating_only": {
+    "games": 574, "model_mae": 13.64, "market_mae": 12.19,
+    "ats_by_min_edge": {"all": [302, 574], "2": [251, 467], "3": [216, 407], "4": [187, 350], "5": [161, 295], "7": [117, 212], "10": [68, 120]}
+  },
+  "held_out_2023_weeks_1_4": {"games": 60, "ats_all": [29, 60], "note": "below breakeven -> board caps early-season verdicts at Lean"},
+  "roster_priors": "tested and declined: degrades the broad pool (52.6->51.6 all); see README experiment ledger"
+}

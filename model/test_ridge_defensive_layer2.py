@@ -17,6 +17,9 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np
+# NOTE: sklearn is deliberately NOT in requirements.txt -- this is an
+# offline experiment script, never imported by any cron. pip install
+# scikit-learn to run it locally.
 from sklearn.linear_model import RidgeCV, LinearRegression
 
 from model.test_defensive_layer2 import run_walk_forward_test

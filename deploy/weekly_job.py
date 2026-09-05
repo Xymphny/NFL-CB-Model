@@ -9,7 +9,6 @@ run against a live remote in this sandbox.
 
 import sys
 import os
-import subprocess
 import json
 import urllib.error
 from datetime import datetime, timezone
@@ -25,7 +24,7 @@ from model.ratings import (
 )
 from model.team_profile import build_team_profile
 from model.preseason_prior import blend_team_ratings, vegas_win_total_to_rating
-from model.preseason_performance import apply_preseason_adjustment, compute_combined_preseason_rating, DEFAULT_PRESEASON_WEIGHT
+from model.preseason_performance import compute_combined_preseason_rating
 from model.market_comparison import bootstrap_rating_uncertainty
 from model.special_teams import compute_special_teams_ratings
 from model.version import METHODOLOGY_VERSION

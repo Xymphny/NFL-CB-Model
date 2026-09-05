@@ -74,9 +74,13 @@ def _projected_starters(season):
             qb1 = dc[(dc["pos_abb"] == "QB") & (dc["pos_rank"] == 1)]
             latest = qb1.sort_values("dt").groupby("team").tail(1)
             return dict(zip(latest["team"], latest["player_name"]))
-        # Legacy schema (<=2024): position/depth_position/full_name, no dt.
+        # Legacy schema (<=2024). Column names are a trap, caught by
+        # external audit 2026-09-05: depth_position holds the position
+        # LABEL ("QB"); depth_team holds the RANK ("1" = starter).
+        # The original branch tested depth_position == "1" and silently
+        # returned zero teams for every legacy season.
         team_col = "team" if "team" in dc.columns else "club_code"
-        qb1 = dc[(dc["position"] == "QB") & (dc["depth_position"].astype(str) == "1")]
+        qb1 = dc[(dc["position"] == "QB") & (dc["depth_team"].astype(str) == "1")]
         latest = qb1.sort_values("week").groupby(team_col).tail(1)
         return dict(zip(latest[team_col], latest["full_name"]))
     except Exception as e:

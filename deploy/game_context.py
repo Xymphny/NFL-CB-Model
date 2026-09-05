@@ -24,10 +24,6 @@ Sources:
 Stadium coordinates are a static table -- stadiums don't move.
 """
 
-import os
-import json
-from datetime import datetime
-
 import pandas as pd
 import requests
 

@@ -14,7 +14,6 @@ not-yet-done task.
 """
 
 import sys
-import glob
 import os
 import json
 import gc

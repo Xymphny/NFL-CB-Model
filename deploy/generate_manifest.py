@@ -12,7 +12,6 @@ doesn't reintroduce the same git-friction issue: nothing in the repo
 itself needs updating after the fact.
 """
 
-import sys
 import os
 import json
 import glob

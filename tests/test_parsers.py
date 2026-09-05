@@ -71,6 +71,34 @@ def test_name_norm():
     assert _norm_name("Odell Beckham Jr") != _norm_name("Odell Beck")
 
 
+
+
+def test_depth_chart_schemas():
+    """Network-free schema regression for _projected_starters, covering
+    the depth_team/depth_position confusion caught by external audit."""
+    import pandas as pd
+    import deploy.qb_status as qs
+    orig = pd.read_parquet
+    def fake(url, *a, **k):
+        if "2025plus" in url:
+            return pd.DataFrame([
+                {"team": "ATL", "player_name": "Tua Tagovailoa", "pos_abb": "QB", "pos_rank": 1, "dt": "2026-09-04"},
+                {"team": "ATL", "player_name": "Michael Penix", "pos_abb": "QB", "pos_rank": 2, "dt": "2026-09-04"}])
+        return pd.DataFrame([
+            {"club_code": "KC", "full_name": "Patrick Mahomes", "position": "QB", "depth_position": "QB", "depth_team": "1", "week": 10},
+            {"club_code": "KC", "full_name": "Backup Guy", "position": "QB", "depth_position": "QB", "depth_team": "2", "week": 10}])
+    pd.read_parquet = fake
+    old_url = qs.DEPTH_CHARTS_URL
+    try:
+        qs.DEPTH_CHARTS_URL = "x2025plus{season}"
+        assert qs._projected_starters(2026) == {"ATL": "Tua Tagovailoa"}
+        qs.DEPTH_CHARTS_URL = "legacy{season}"
+        assert qs._projected_starters(2024) == {"KC": "Patrick Mahomes"}
+    finally:
+        pd.read_parquet = orig
+        qs.DEPTH_CHARTS_URL = old_url
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

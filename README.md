@@ -623,6 +623,8 @@ highest precedence).
   cron jobs commit snapshots/caches to main, and a zip-over-and-push
   without pulling deletes them (this has happened; in-season it would
   erase the track record).
+- The CFB backtest's full result table is preserved in
+  `model/cfb_backtest_2023_results.json` (evidence survives cache wipes).
 - Re-run `cfb-backtest-job` on Render (CFBD_API_KEY + git env vars on
   that job) to regenerate `model/cfb_lines_cache.csv` and
   `model/cfb_roster_priors.csv` after any such wipe.
