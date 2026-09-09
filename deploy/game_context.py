@@ -118,7 +118,23 @@ def get_injury_report(season, week, injuries=None):
                 key=lambda r: (STATUS_ORDER[r["status"]], r["position"] != "QB"),
             )
             report[team] = rows[:MAX_LISTED]
-        return report, "nflverse"
+        # MERGE rather than either/or -- caught live 2026-09-09: the
+        # official file is born nearly EMPTY on Wednesday morning (teams
+        # file through the afternoon), and "fetch succeeded" let an
+        # empty official source silently outrank ESPN's ~800 populated
+        # editorial statuses, blanking every panel. Rule: official
+        # designations win per team wherever filed; ESPN fills every
+        # team that hasn't filed yet.
+        if len(report) >= 28:
+            return report, "nflverse"
+        espn = fetch_espn_injuries()
+        if not espn:
+            return (report, "nflverse") if report else ({}, None)
+        merged = dict(espn)
+        merged.update(report)  # official wins per team
+        print(f"[game_context] merged injuries: {len(report)} teams official, "
+              f"{len(merged) - len(report)} from ESPN")
+        return merged, ("nflverse+espn" if report else "espn")
     except Exception as e:
         print(f"[game_context] nflverse injuries unavailable ({e}); trying ESPN fallback")
         espn = fetch_espn_injuries()

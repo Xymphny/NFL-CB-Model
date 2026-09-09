@@ -159,14 +159,21 @@ def get_qb_alerts(season, week, games=None, injuries=None):
             inj_qb = injuries[(injuries["position"] == "QB") & (injuries["week"] == week)]
             qb_rows = [(row["team"], row["full_name"], row.get("report_status")) for _, row in inj_qb.iterrows()]
         except Exception as inj_err:
-            # Pre-Wednesday gap: official reports not filed yet. ESPN's
-            # current statuses stand in (same mapped vocabulary; see
-            # deploy/game_context.py for the fallback's ground rules).
             print(f"[qb_status] nflverse injuries unavailable ({inj_err}); trying ESPN fallback")
-            from deploy.game_context import fetch_espn_injuries
-            qb_rows = [(team, r["player"], r["status"])
-                       for team, rows in fetch_espn_injuries().items()
-                       for r in rows if r["position"] == "QB"]
+            qb_rows = []
+        # Merge ESPN QB statuses for teams the official file doesn't
+        # cover yet (same Wednesday-morning gap as game_context: an
+        # official file that EXISTS but is nearly empty must not
+        # silently blank the alerts ESPN can still provide).
+        try:
+            covered = {t for t, _, _ in qb_rows}
+            if len(covered) < 28:
+                from deploy.game_context import fetch_espn_injuries
+                qb_rows += [(team, r["player"], r["status"])
+                            for team, rows in fetch_espn_injuries().items()
+                            for r in rows if r["position"] == "QB" and team not in covered]
+        except Exception as espn_err:
+            print(f"[qb_status] ESPN merge skipped: {espn_err}")
         for team, name, status in qb_rows:
             if status in ALERT_STATUSES and _norm_name(modal.get(team)) == _norm_name(name):
                 alerts[team] = f"{name} listed {status}"
