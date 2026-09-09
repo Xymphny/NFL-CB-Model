@@ -1,0 +1,1338 @@
+{
+  "computed_at": "2026-09-09T16:01:20.175443+00:00",
+  "season": 2026,
+  "week": 1,
+  "methodology_version": "1.4.0",
+  "note": "Early-week board: model numbers come from preseason ratings, which are the least reliable of the season -- large gaps here are more likely model error than market error. Treat Week 1 as observation, not opportunity.",
+  "qb1_map": {
+    "ARI": "Jacoby Brissett",
+    "ATL": "Tua Tagovailoa",
+    "BAL": "Lamar Jackson",
+    "BUF": "Josh Allen",
+    "CAR": "Bryce Young",
+    "CHI": "Caleb Williams",
+    "CIN": "Joe Burrow",
+    "CLE": "Deshaun Watson",
+    "DAL": "Dak Prescott",
+    "DEN": "Bo Nix",
+    "DET": "Jared Goff",
+    "GB": "Jordan Love",
+    "HOU": "C.J. Stroud",
+    "IND": "Daniel Jones",
+    "JAX": "Trevor Lawrence",
+    "KC": "Patrick Mahomes",
+    "LA": "Matthew Stafford",
+    "LAC": "Justin Herbert",
+    "LV": "Kirk Cousins",
+    "MIA": "Malik Willis",
+    "MIN": "Kyler Murray",
+    "NE": "Drake Maye",
+    "NO": "Tyler Shough",
+    "NYG": "Jaxson Dart",
+    "NYJ": "Geno Smith",
+    "PHI": "Jalen Hurts",
+    "PIT": "Aaron Rodgers",
+    "SEA": "Sam Darnold",
+    "SF": "Brock Purdy",
+    "TB": "Baker Mayfield",
+    "TEN": "Cam Ward",
+    "WAS": "Jayden Daniels"
+  },
+  "divergences": [
+    {
+      "home_team": "SEA",
+      "away_team": "NE",
+      "home_name": "Seattle Seahawks",
+      "away_name": "New England Patriots",
+      "kickoff": "2026-09-10T00:20:00Z",
+      "market_win_prob_home_fair": 0.6140480997706265,
+      "market_spread": 3.0,
+      "market_total": 44.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.0,
+          "price": -112,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 3.5,
+          "price": -118,
+          "book": "BetRivers"
+        },
+        "over": {
+          "point": 44.0,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "under": {
+          "point": 44.5,
+          "price": -108,
+          "book": "FanDuel"
+        },
+        "home_ml": -170,
+        "away_ml": 157,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 3.0,
+        "stale_books": [
+          {
+            "book": "FanDuel",
+            "point": 3.5,
+            "price": -102,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "BetRivers",
+            "point": 3.5,
+            "price": -104,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": 1.7782550991240882,
+      "total_gap": 2.2870680924772486,
+      "win_prob_gap": 0.02935051333804617,
+      "spread_flagged": false,
+      "total_flagged": true,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.611,
+      "injuries": {
+        "home": [
+          {
+            "player": "Ty Okada",
+            "position": "S",
+            "status": "Out"
+          },
+          {
+            "player": "Tory Horton",
+            "position": "WR",
+            "status": "Questionable"
+          },
+          {
+            "player": "Nick Emmanwori",
+            "position": "S",
+            "status": "Questionable"
+          }
+        ],
+        "away": [
+          {
+            "player": "Ben Brown",
+            "position": "C",
+            "status": "Out"
+          },
+          {
+            "player": "TreVeyon Henderson",
+            "position": "RB",
+            "status": "Out"
+          }
+        ]
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 75.5,
+        "wind_mph": 7.0,
+        "precip_prob": 1,
+        "forecast_hour": "2026-09-09T20:00"
+      }
+    },
+    {
+      "home_team": "LA",
+      "away_team": "SF",
+      "home_name": "Los Angeles Rams",
+      "away_name": "San Francisco 49ers",
+      "kickoff": "2026-09-11T00:35:00Z",
+      "market_win_prob_home_fair": 0.6465222348916762,
+      "market_spread": 3.5,
+      "market_total": 48.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.5,
+          "price": -112,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": 4.0,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "over": {
+          "point": 48.0,
+          "price": -110,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 48.5,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "home_ml": -198,
+        "away_ml": 183,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 3.5,
+        "stale_books": [
+          {
+            "book": "MyBookie.ag",
+            "point": 4.0,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": -3.139540511135367,
+      "total_gap": 1.3144424152168313,
+      "win_prob_gap": -0.13546191903304494,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.605,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "PIT",
+      "away_team": "ATL",
+      "home_name": "Pittsburgh Steelers",
+      "away_name": "Atlanta Falcons",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.6225298099485586,
+      "market_spread": 3.5,
+      "market_total": 41.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.5,
+          "price": 101,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 3.5,
+          "price": -108,
+          "book": "DraftKings"
+        },
+        "over": {
+          "point": 41.5,
+          "price": -109,
+          "book": "BetRivers"
+        },
+        "under": {
+          "point": 42.5,
+          "price": -115,
+          "book": "DraftKings"
+        },
+        "home_ml": -178,
+        "away_ml": 157,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 3.5,
+        "stale_books": []
+      },
+      "spread_gap": 0.8288398111500257,
+      "total_gap": 1.5345936139980125,
+      "win_prob_gap": 0.00789839774907386,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.589,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 75.9,
+        "wind_mph": 2.6,
+        "precip_prob": 9,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "IND",
+      "away_team": "BAL",
+      "home_name": "Indianapolis Colts",
+      "away_name": "Baltimore Ravens",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.38314176245210724,
+      "market_spread": -3.5,
+      "market_total": 48.0,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.5,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": -3.5,
+          "price": 104,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 47.5,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "under": {
+          "point": 48.0,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "home_ml": 155,
+        "away_ml": -175,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -3.5,
+        "stale_books": []
+      },
+      "spread_gap": 2.731680158205124,
+      "total_gap": -0.8569092380737047,
+      "win_prob_gap": 0.09329385902972626,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.406,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 86.2,
+        "wind_mph": 2.9,
+        "precip_prob": 8,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "HOU",
+      "away_team": "BUF",
+      "home_name": "Houston Texans",
+      "away_name": "Buffalo Bills",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.4804483719244736,
+      "market_spread": -1.0,
+      "market_total": 45.0,
+      "best_prices": {
+        "home_spread": {
+          "point": -1.5,
+          "price": -114,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 0.0,
+          "price": -120,
+          "book": "BetUS"
+        },
+        "over": {
+          "point": 44.5,
+          "price": -110,
+          "book": "BetRivers"
+        },
+        "under": {
+          "point": 45.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": 102,
+        "away_ml": -115,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -1.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": -1.5,
+            "price": -118,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "BetUS",
+            "point": -0.0,
+            "price": 100,
+            "value_side": "away",
+            "gap_pts": 1.0
+          },
+          {
+            "book": "FanDuel",
+            "point": -1.5,
+            "price": -114,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": 2.7322315591255664,
+      "total_gap": 1.365228468343659,
+      "win_prob_gap": 0.07255323262000785,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.461,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 93.2,
+        "wind_mph": 8.1,
+        "precip_prob": 13,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "CAR",
+      "away_team": "CHI",
+      "home_name": "Carolina Panthers",
+      "away_name": "Chicago Bears",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.40090771558245086,
+      "market_spread": -3.0,
+      "market_total": 47.0,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.0,
+          "price": 100,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": -3.0,
+          "price": -105,
+          "book": "Bovada"
+        },
+        "over": {
+          "point": 46.5,
+          "price": -115,
+          "book": "DraftKings"
+        },
+        "under": {
+          "point": 47.5,
+          "price": -120,
+          "book": "FanDuel"
+        },
+        "home_ml": 149,
+        "away_ml": -162,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -3.0,
+        "stale_books": []
+      },
+      "spread_gap": 2.0248328957678785,
+      "total_gap": -1.2333798848859914,
+      "win_prob_gap": 0.06919452669698933,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.4,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 90.5,
+        "wind_mph": 7.3,
+        "precip_prob": 8,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "CIN",
+      "away_team": "TB",
+      "home_name": "Cincinnati Bengals",
+      "away_name": "Tampa Bay Buccaneers",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.6462264150943395,
+      "market_spread": 4.0,
+      "market_total": 50.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": 4.0,
+          "price": -110,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 50.5,
+          "price": -102,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 50.5,
+          "price": -108,
+          "book": "FanDuel"
+        },
+        "home_ml": -200,
+        "away_ml": 176,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 4.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 3.5,
+            "price": -112,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 3.5,
+            "price": -115,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 3.5,
+            "price": -112,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": -2.0969796652073014,
+      "total_gap": -7.098880273883509,
+      "win_prob_gap": -0.08803468352693289,
+      "spread_flagged": true,
+      "total_flagged": true,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.616,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 86.8,
+        "wind_mph": 3.2,
+        "precip_prob": 9,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "JAX",
+      "away_team": "CLE",
+      "home_name": "Jacksonville Jaguars",
+      "away_name": "Cleveland Browns",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.7706422018348623,
+      "market_spread": 8.5,
+      "market_total": 40.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 8.5,
+          "price": -108,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 9.0,
+          "price": -110,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 40.5,
+          "price": -108,
+          "book": "FanDuel"
+        },
+        "under": {
+          "point": 40.5,
+          "price": -105,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -400,
+        "away_ml": 360,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 9.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 8.5,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 8.5,
+            "price": -108,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "BetRivers",
+            "point": 8.5,
+            "price": -109,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 8.5,
+            "price": -108,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "Bovada",
+            "point": 8.5,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": -1.3518015344533545,
+      "total_gap": -0.4926892257580917,
+      "win_prob_gap": -0.06184941544735789,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.773,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 97.4,
+        "wind_mph": 4.0,
+        "precip_prob": 6,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "DET",
+      "away_team": "NO",
+      "home_name": "Detroit Lions",
+      "away_name": "New Orleans Saints",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.7285666997682886,
+      "market_spread": 7.0,
+      "market_total": 50.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 7.0,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "over": {
+          "point": 49.5,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "under": {
+          "point": 50.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -310,
+        "away_ml": 270,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 7.0,
+        "stale_books": [
+          {
+            "book": "FanDuel",
+            "point": 6.5,
+            "price": -122,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": -0.19457865521107198,
+      "total_gap": -4.38273495469636,
+      "win_prob_gap": -0.028881979958879755,
+      "spread_flagged": false,
+      "total_flagged": true,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.719,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "TEN",
+      "away_team": "NYJ",
+      "home_name": "Tennessee Titans",
+      "away_name": "New York Jets",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.5270765566641238,
+      "market_spread": 1.5,
+      "market_total": 38.5,
+      "best_prices": {
+        "home_spread": {
+          "point": -0.0,
+          "price": -112,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 1.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "over": {
+          "point": 38.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 38.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -115,
+        "away_ml": 106,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 0.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "BetRivers",
+            "point": 1.5,
+            "price": -109,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 1.5,
+            "price": -108,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "Bovada",
+            "point": 1.0,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.0
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          }
+        ]
+      },
+      "spread_gap": 0.2475695340966606,
+      "total_gap": 1.5902557607853964,
+      "win_prob_gap": 0.026391540750455578,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.576,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 89.9,
+        "wind_mph": 5.3,
+        "precip_prob": 3,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "LAC",
+      "away_team": "ARI",
+      "home_name": "Los Angeles Chargers",
+      "away_name": "Arizona Cardinals",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.8050064205202999,
+      "market_spread": 9.5,
+      "market_total": 47.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 9.0,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 10.0,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "over": {
+          "point": 47.0,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "under": {
+          "point": 47.5,
+          "price": -118,
+          "book": "DraftKings"
+        },
+        "home_ml": -500,
+        "away_ml": 410,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 9.5,
+        "stale_books": [
+          {
+            "book": "Bovada",
+            "point": 9.0,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 10.0,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": -2.1046297557606426,
+      "total_gap": -2.7282465582119144,
+      "win_prob_gap": -0.08972703082841027,
+      "spread_flagged": true,
+      "total_flagged": true,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.808,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "MIN",
+      "away_team": "GB",
+      "home_name": "Minnesota Vikings",
+      "away_name": "Green Bay Packers",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.5271593094706492,
+      "market_spread": 1.5,
+      "market_total": 46.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.0,
+          "price": -110,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 1.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "over": {
+          "point": 46.0,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "under": {
+          "point": 46.5,
+          "price": -110,
+          "book": "FanDuel"
+        },
+        "home_ml": -120,
+        "away_ml": 105,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 1.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 1.5,
+            "price": -108,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "BetRivers",
+            "point": 1.5,
+            "price": -109,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "Bovada",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": 1.1171226978823006,
+      "total_gap": -0.5996208124740505,
+      "win_prob_gap": 0.05261538628675644,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.431,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "LV",
+      "away_team": "MIA",
+      "home_name": "Las Vegas Raiders",
+      "away_name": "Miami Dolphins",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.6224665518611737,
+      "market_spread": 3.5,
+      "market_total": 40.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.5,
+          "price": -101,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 3.5,
+          "price": -109,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 40.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "under": {
+          "point": 41.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -178,
+        "away_ml": 160,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 3.5,
+        "stale_books": []
+      },
+      "spread_gap": -4.9860806603427985,
+      "total_gap": 1.805286921060251,
+      "win_prob_gap": -0.16797206859018404,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.598,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "PHI",
+      "away_team": "WAS",
+      "home_name": "Philadelphia Eagles",
+      "away_name": "Washington Commanders",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.6667521148423481,
+      "market_spread": 5.0,
+      "market_total": 44.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 4.5,
+          "price": -108,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 5.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "over": {
+          "point": 44.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "under": {
+          "point": 44.5,
+          "price": -108,
+          "book": "FanDuel"
+        },
+        "home_ml": -218,
+        "away_ml": 195,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 4.5,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 5.5,
+            "price": -108,
+            "value_side": "away",
+            "gap_pts": 1.0
+          },
+          {
+            "book": "FanDuel",
+            "point": 5.5,
+            "price": -105,
+            "value_side": "away",
+            "gap_pts": 1.0
+          },
+          {
+            "book": "BetRivers",
+            "point": 5.0,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 5.0,
+            "price": -108,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 5.0,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": 1.4569628202335583,
+      "total_gap": -1.4460000054959607,
+      "win_prob_gap": 0.023543852719614677,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.665,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 81.5,
+        "wind_mph": 5.7,
+        "precip_prob": 24,
+        "forecast_hour": "2026-09-13T16:00"
+      }
+    },
+    {
+      "home_team": "NYG",
+      "away_team": "DAL",
+      "home_name": "New York Giants",
+      "away_name": "Dallas Cowboys",
+      "kickoff": "2026-09-14T00:20:00Z",
+      "market_win_prob_home_fair": 0.4069143902592896,
+      "market_spread": -3.0,
+      "market_total": 48.0,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.0,
+          "price": -108,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": -2.5,
+          "price": -115,
+          "book": "FanDuel"
+        },
+        "over": {
+          "point": 48.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 48.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": 138,
+        "away_ml": -154,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -3.0,
+        "stale_books": [
+          {
+            "book": "FanDuel",
+            "point": -2.5,
+            "price": -105,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": 3.7101862740023606,
+      "total_gap": -3.1155502221981877,
+      "win_prob_gap": 0.11486887662038364,
+      "spread_flagged": true,
+      "total_flagged": true,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.424,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 74.8,
+        "wind_mph": 4.2,
+        "precip_prob": 24,
+        "forecast_hour": "2026-09-13T20:00"
+      }
+    },
+    {
+      "home_team": "KC",
+      "away_team": "DEN",
+      "home_name": "Kansas City Chiefs",
+      "away_name": "Denver Broncos",
+      "kickoff": "2026-09-15T00:15:00Z",
+      "market_win_prob_home_fair": 0.5711159737417943,
+      "market_spread": 2.5,
+      "market_total": 43.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 2.0,
+          "price": -120,
+          "book": "BetUS"
+        },
+        "away_spread": {
+          "point": 2.5,
+          "price": 101,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 43.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 44.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "home_ml": -142,
+        "away_ml": 130,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 2.5,
+        "stale_books": [
+          {
+            "book": "BetUS",
+            "point": 2.0,
+            "price": -120,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": -4.029964453817467,
+      "total_gap": 0.5755206752164668,
+      "win_prob_gap": -0.11795915943800056,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.585,
+      "injuries": {
+        "home": [],
+        "away": []
+      },
+      "injury_source": "nflverse",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 87.8,
+        "wind_mph": 6.7,
+        "precip_prob": 27,
+        "forecast_hour": "2026-09-14T20:00"
+      }
+    }
+  ]
+}
