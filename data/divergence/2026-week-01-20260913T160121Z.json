@@ -1,0 +1,1642 @@
+{
+  "computed_at": "2026-09-13T16:01:21.769435+00:00",
+  "season": 2026,
+  "week": 1,
+  "methodology_version": "1.4.0",
+  "note": "Early-week board: model numbers come from preseason ratings, which are the least reliable of the season -- large gaps here are more likely model error than market error. Treat Week 1 as observation, not opportunity.",
+  "qb1_map": {
+    "ARI": "Jacoby Brissett",
+    "ATL": "Tua Tagovailoa",
+    "BAL": "Lamar Jackson",
+    "BUF": "Josh Allen",
+    "CAR": "Bryce Young",
+    "CHI": "Caleb Williams",
+    "CIN": "Joe Burrow",
+    "CLE": "Deshaun Watson",
+    "DAL": "Dak Prescott",
+    "DEN": "Bo Nix",
+    "DET": "Jared Goff",
+    "GB": "Jordan Love",
+    "HOU": "C.J. Stroud",
+    "IND": "Daniel Jones",
+    "JAX": "Trevor Lawrence",
+    "KC": "Patrick Mahomes",
+    "LA": "Matthew Stafford",
+    "LAC": "Justin Herbert",
+    "LV": "Kirk Cousins",
+    "MIA": "Malik Willis",
+    "MIN": "Kyler Murray",
+    "NE": "Drake Maye",
+    "NO": "Tyler Shough",
+    "NYG": "Jaxson Dart",
+    "NYJ": "Geno Smith",
+    "PHI": "Jalen Hurts",
+    "PIT": "Aaron Rodgers",
+    "SEA": "Sam Darnold",
+    "SF": "Brock Purdy",
+    "TB": "Baker Mayfield",
+    "TEN": "Cam Ward",
+    "WAS": "Jayden Daniels"
+  },
+  "divergences": [
+    {
+      "home_team": "PIT",
+      "away_team": "ATL",
+      "home_name": "Pittsburgh Steelers",
+      "away_name": "Atlanta Falcons",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.7179705215419501,
+      "market_spread": 6.5,
+      "market_total": 41.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -105,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 6.5,
+          "price": -105,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 40.5,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "under": {
+          "point": 41.0,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "home_ml": -286,
+        "away_ml": 260,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 6.5,
+        "stale_books": []
+      },
+      "spread_gap": -2.159882778204616,
+      "total_gap": 4.757253603489069,
+      "win_prob_gap": -0.08721494611146619,
+      "spread_flagged": true,
+      "total_flagged": true,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": "Tua Tagovailoa listed Out"
+      },
+      "fpi_home_prob": 0.646,
+      "injuries": {
+        "home": [
+          {
+            "player": "Joey Porter Jr.",
+            "position": "CB",
+            "status": "Questionable"
+          }
+        ],
+        "away": [
+          {
+            "player": "Tua Tagovailoa",
+            "position": "QB",
+            "status": "Out"
+          },
+          {
+            "player": "Michael Penix Jr.",
+            "position": "QB",
+            "status": "Out"
+          },
+          {
+            "player": "Billy Bowman Jr.",
+            "position": "CB",
+            "status": "Out"
+          },
+          {
+            "player": "Cameron Williams",
+            "position": "T",
+            "status": "Out"
+          },
+          {
+            "player": "Za'Darius Smith",
+            "position": "DE",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 77.3,
+        "wind_mph": 2.7,
+        "precip_prob": 7,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "IND",
+      "away_team": "BAL",
+      "home_name": "Indianapolis Colts",
+      "away_name": "Baltimore Ravens",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.4069143902592896,
+      "market_spread": -3.0,
+      "market_total": 48.0,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.0,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "away_spread": {
+          "point": -3.0,
+          "price": 101,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 47.5,
+          "price": -113,
+          "book": "BetRivers"
+        },
+        "under": {
+          "point": 48.5,
+          "price": -110,
+          "book": "LowVig.ag"
+        },
+        "home_ml": 138,
+        "away_ml": -148,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -3.0,
+        "stale_books": []
+      },
+      "spread_gap": -0.03601489248577305,
+      "total_gap": 1.1602225619919366,
+      "win_prob_gap": 0.0007568185695374097,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.402,
+      "injuries": {
+        "home": [
+          {
+            "player": "Austin Ajiake",
+            "position": "LB",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Nnamdi Madubuike",
+            "position": "DT",
+            "status": "Out"
+          },
+          {
+            "player": "Teddye Buchanan",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Devontez Walker",
+            "position": "WR",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 80.4,
+        "wind_mph": 2.1,
+        "precip_prob": 0,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "HOU",
+      "away_team": "BUF",
+      "home_name": "Houston Texans",
+      "away_name": "Buffalo Bills",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.48092388285297194,
+      "market_spread": -1.0,
+      "market_total": 44.5,
+      "best_prices": {
+        "home_spread": {
+          "point": -1.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 0.0,
+          "price": -120,
+          "book": "BetUS"
+        },
+        "over": {
+          "point": 44.5,
+          "price": -105,
+          "book": "BetUS"
+        },
+        "under": {
+          "point": 44.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": 100,
+        "away_ml": -112,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -1.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": -1.5,
+            "price": -115,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "BetUS",
+            "point": -0.0,
+            "price": 100,
+            "value_side": "away",
+            "gap_pts": 1.0
+          },
+          {
+            "book": "BetRivers",
+            "point": -1.5,
+            "price": -113,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "FanDuel",
+            "point": -1.5,
+            "price": -115,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": -1.5,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": 1.5782474776389193,
+      "total_gap": 3.269209399731814,
+      "win_prob_gap": 0.0368154494506836,
+      "spread_flagged": false,
+      "total_flagged": true,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.459,
+      "injuries": {
+        "home": [
+          {
+            "player": "Collin Wright",
+            "position": "CB",
+            "status": "Out"
+          },
+          {
+            "player": "Nate Thomas",
+            "position": "OT",
+            "status": "Out"
+          },
+          {
+            "player": "Febechi Nwaiwu",
+            "position": "G",
+            "status": "Out"
+          },
+          {
+            "player": "Aiden Fisher",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Brevin Jordan",
+            "position": "TE",
+            "status": "Out"
+          },
+          {
+            "player": "Jaden Crumedy",
+            "position": "DT",
+            "status": "Out"
+          },
+          {
+            "player": "Kayden McDonald",
+            "position": "DT",
+            "status": "Out"
+          },
+          {
+            "player": "Jayden Higgins",
+            "position": "WR",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Ty Johnson",
+            "position": "RB",
+            "status": "Questionable"
+          },
+          {
+            "player": "Jordan Hancock",
+            "position": "CB",
+            "status": "Questionable"
+          },
+          {
+            "player": "T.J. Sanders",
+            "position": "DE",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 93.4,
+        "wind_mph": 8.3,
+        "precip_prob": 12,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "CAR",
+      "away_team": "CHI",
+      "home_name": "Carolina Panthers",
+      "away_name": "Chicago Bears",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.40574282147315854,
+      "market_spread": -3.0,
+      "market_total": 47.0,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.0,
+          "price": -105,
+          "book": "BetMGM"
+        },
+        "away_spread": {
+          "point": -2.5,
+          "price": -125,
+          "book": "MyBookie.ag"
+        },
+        "over": {
+          "point": 46.5,
+          "price": -120,
+          "book": "FanDuel"
+        },
+        "under": {
+          "point": 47.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "home_ml": 140,
+        "away_ml": -155,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -3.0,
+        "stale_books": [
+          {
+            "book": "MyBookie.ag",
+            "point": -2.5,
+            "price": 105,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": -0.33574274716397756,
+      "total_gap": -0.30125269266016375,
+      "win_prob_gap": -0.006997333904327274,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.402,
+      "injuries": {
+        "home": [
+          {
+            "player": "Patrick Jones II",
+            "position": "LB",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Tyson Bagent",
+            "position": "QB",
+            "status": "Questionable"
+          },
+          {
+            "player": "Xavier Woods",
+            "position": "S",
+            "status": "Questionable"
+          },
+          {
+            "player": "Rome Odunze",
+            "position": "WR",
+            "status": "Questionable"
+          },
+          {
+            "player": "Ozzy Trapilo",
+            "position": "T",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 85.0,
+        "wind_mph": 3.4,
+        "precip_prob": 0,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "CIN",
+      "away_team": "TB",
+      "home_name": "Cincinnati Bengals",
+      "away_name": "Tampa Bay Buccaneers",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.644729178800233,
+      "market_spread": 3.5,
+      "market_total": 50.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.5,
+          "price": -103,
+          "book": "BetOnline.ag"
+        },
+        "away_spread": {
+          "point": 4.0,
+          "price": -108,
+          "book": "BetMGM"
+        },
+        "over": {
+          "point": 50.0,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "under": {
+          "point": 50.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -190,
+        "away_ml": 175,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 3.5,
+        "stale_books": [
+          {
+            "book": "LowVig.ag",
+            "point": 4.0,
+            "price": 105,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "BetRivers",
+            "point": 4.0,
+            "price": -109,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 4.0,
+            "price": -102,
+            "value_side": "away",
+            "gap_pts": 0.5
+          }
+        ]
+      },
+      "spread_gap": -2.665594232432483,
+      "total_gap": -3.6490772113307415,
+      "win_prob_gap": -0.1191406158095375,
+      "spread_flagged": true,
+      "total_flagged": true,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.619,
+      "injuries": {
+        "home": [
+          {
+            "player": "Shemar Stewart",
+            "position": "DE",
+            "status": "Doubtful"
+          }
+        ],
+        "away": [
+          {
+            "player": "Justin Skule",
+            "position": "T",
+            "status": "Doubtful"
+          },
+          {
+            "player": "Sean Tucker",
+            "position": "RB",
+            "status": "Doubtful"
+          },
+          {
+            "player": "Jalen McMillan",
+            "position": "WR",
+            "status": "Doubtful"
+          },
+          {
+            "player": "Christian Rozeboom",
+            "position": "LB",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 88.0,
+        "wind_mph": 5.3,
+        "precip_prob": 0,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "JAX",
+      "away_team": "CLE",
+      "home_name": "Jacksonville Jaguars",
+      "away_name": "Cleveland Browns",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.7860647693817469,
+      "market_spread": 8.5,
+      "market_total": 40.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 8.5,
+          "price": -110,
+          "book": "Bovada"
+        },
+        "away_spread": {
+          "point": 9.5,
+          "price": -113,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 40.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 40.5,
+          "price": -118,
+          "book": "DraftKings"
+        },
+        "home_ml": -435,
+        "away_ml": 350,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 9.5,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 8.5,
+            "price": -112,
+            "value_side": "home",
+            "gap_pts": -1.0
+          },
+          {
+            "book": "FanDuel",
+            "point": 8.5,
+            "price": -112,
+            "value_side": "home",
+            "gap_pts": -1.0
+          },
+          {
+            "book": "BetRivers",
+            "point": 8.5,
+            "price": -112,
+            "value_side": "home",
+            "gap_pts": -1.0
+          },
+          {
+            "book": "BetMGM",
+            "point": 9.0,
+            "price": -105,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "Bovada",
+            "point": 8.5,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -1.0
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 8.5,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -1.0
+          }
+        ]
+      },
+      "spread_gap": -0.07413208897648182,
+      "total_gap": -0.09451693234222347,
+      "win_prob_gap": -0.04451077997746622,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.769,
+      "injuries": {
+        "home": [
+          {
+            "player": "LeQuint Allen Jr.",
+            "position": "RB",
+            "status": "Questionable"
+          }
+        ],
+        "away": [
+          {
+            "player": "Teven Jenkins",
+            "position": "G",
+            "status": "Out"
+          },
+          {
+            "player": "Parker Brailsford",
+            "position": "C",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 87.0,
+        "wind_mph": 7.3,
+        "precip_prob": 3,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "DET",
+      "away_team": "NO",
+      "home_name": "Detroit Lions",
+      "away_name": "New Orleans Saints",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.738888073932815,
+      "market_spread": 7.0,
+      "market_total": 50.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 6.5,
+          "price": -122,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 7.0,
+          "price": -105,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 49.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "under": {
+          "point": 50.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -325,
+        "away_ml": 272,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 7.0,
+        "stale_books": [
+          {
+            "book": "FanDuel",
+            "point": 6.5,
+            "price": -122,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": 0.9255829038406933,
+      "total_gap": -3.5683370720811567,
+      "win_prob_gap": -0.009931528384148458,
+      "spread_flagged": false,
+      "total_flagged": true,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.737,
+      "injuries": {
+        "home": [
+          {
+            "player": "Christian Izien",
+            "position": "S",
+            "status": "Questionable"
+          }
+        ],
+        "away": [
+          {
+            "player": "Cameron Jordan",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Audric Estim\u00e9",
+            "position": "RB",
+            "status": "Out"
+          },
+          {
+            "player": "Oscar Delp",
+            "position": "TE",
+            "status": "Out"
+          },
+          {
+            "player": "Alvin Kamara",
+            "position": "RB",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "TEN",
+      "away_team": "NYJ",
+      "home_name": "Tennessee Titans",
+      "away_name": "New York Jets",
+      "kickoff": "2026-09-13T17:00:00Z",
+      "market_win_prob_home_fair": 0.5177207697913548,
+      "market_spread": 1.0,
+      "market_total": 38.5,
+      "best_prices": {
+        "home_spread": {
+          "point": -0.0,
+          "price": -110,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 1.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "over": {
+          "point": 38.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 39.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "home_ml": -111,
+        "away_ml": 100,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 0.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 1.5,
+            "price": -105,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 1.5,
+            "price": -105,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "BetRivers",
+            "point": 1.5,
+            "price": -108,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 1.0,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.0
+          },
+          {
+            "book": "Bovada",
+            "point": 1.0,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.0
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          }
+        ]
+      },
+      "spread_gap": -0.3903799058510584,
+      "total_gap": 2.430266404855196,
+      "win_prob_gap": 0.000980316715647911,
+      "spread_flagged": false,
+      "total_flagged": true,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.566,
+      "injuries": {
+        "home": [
+          {
+            "player": "Cedric Gray",
+            "position": "LB",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Tim Patrick",
+            "position": "WR",
+            "status": "Out"
+          },
+          {
+            "player": "Joseph Ossai",
+            "position": "DE",
+            "status": "Out"
+          },
+          {
+            "player": "Kene Nwangwu",
+            "position": "RB",
+            "status": "Doubtful"
+          },
+          {
+            "player": "D'Angelo Ponds",
+            "position": "CB",
+            "status": "Doubtful"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 91.5,
+        "wind_mph": 4.6,
+        "precip_prob": 0,
+        "forecast_hour": "2026-09-13T13:00"
+      }
+    },
+    {
+      "home_team": "LAC",
+      "away_team": "ARI",
+      "home_name": "Los Angeles Chargers",
+      "away_name": "Arizona Cardinals",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.7999999999999999,
+      "market_spread": 9.5,
+      "market_total": 47.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 8.5,
+          "price": -115,
+          "book": "FanDuel"
+        },
+        "away_spread": {
+          "point": 9.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "over": {
+          "point": 47.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 47.5,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "home_ml": -480,
+        "away_ml": 395,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 9.5,
+        "stale_books": [
+          {
+            "book": "BetRivers",
+            "point": 9.0,
+            "price": -112,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 8.5,
+            "price": -115,
+            "value_side": "home",
+            "gap_pts": -1.0
+          }
+        ]
+      },
+      "spread_gap": -0.7181534621420198,
+      "total_gap": -2.974449781110444,
+      "win_prob_gap": -0.04967061064355771,
+      "spread_flagged": false,
+      "total_flagged": true,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.797,
+      "injuries": {
+        "home": [
+          {
+            "player": "Deane Leonard",
+            "position": "CB",
+            "status": "Out"
+          },
+          {
+            "player": "Tuli Tuipulotu",
+            "position": "DE",
+            "status": "Questionable"
+          }
+        ],
+        "away": [
+          {
+            "player": "Garrett Williams",
+            "position": "CB",
+            "status": "Out"
+          },
+          {
+            "player": "Isaiah Adams",
+            "position": "G",
+            "status": "Out"
+          },
+          {
+            "player": "Dadrion Taylor-Demerson",
+            "position": "S",
+            "status": "Out"
+          },
+          {
+            "player": "Jeremiyah Love",
+            "position": "RB",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "MIN",
+      "away_team": "GB",
+      "home_name": "Minnesota Vikings",
+      "away_name": "Green Bay Packers",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.5427435387673957,
+      "market_spread": 1.5,
+      "market_total": 46.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.0,
+          "price": -120,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 2.0,
+          "price": -110,
+          "book": "BetMGM"
+        },
+        "over": {
+          "point": 46.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 46.5,
+          "price": -115,
+          "book": "DraftKings"
+        },
+        "home_ml": -127,
+        "away_ml": 114,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 2.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 1.5,
+            "price": -118,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "LowVig.ag",
+            "point": 1.0,
+            "price": -120,
+            "value_side": "home",
+            "gap_pts": -1.0
+          },
+          {
+            "book": "BetUS",
+            "point": 1.0,
+            "price": -120,
+            "value_side": "home",
+            "gap_pts": -1.0
+          },
+          {
+            "book": "FanDuel",
+            "point": 1.5,
+            "price": -118,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 1.5,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": 0.3562271226439726,
+      "total_gap": 0.04381653741273084,
+      "win_prob_gap": 0.014027141266375942,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.42,
+      "injuries": {
+        "home": [
+          {
+            "player": "Ben Yurosek",
+            "position": "TE",
+            "status": "Out"
+          },
+          {
+            "player": "Michael Jurgens",
+            "position": "C",
+            "status": "Out"
+          },
+          {
+            "player": "Tyler Batty",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Jeshaun Jones",
+            "position": "WR",
+            "status": "Out"
+          },
+          {
+            "player": "Jamal Adams",
+            "position": "LB",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Warren Brinson",
+            "position": "DT",
+            "status": "Out"
+          },
+          {
+            "player": "Aaron Banks",
+            "position": "G",
+            "status": "Questionable"
+          },
+          {
+            "player": "Zach Bako-Bewele",
+            "position": "T",
+            "status": "Questionable"
+          },
+          {
+            "player": "Ty'Ron Hopper",
+            "position": "LB",
+            "status": "Questionable"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "LV",
+      "away_team": "MIA",
+      "home_name": "Las Vegas Raiders",
+      "away_name": "Miami Dolphins",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.6001423319070835,
+      "market_spread": 3.0,
+      "market_total": 40.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 3.0,
+          "price": -101,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": 3.0,
+          "price": -105,
+          "book": "BetUS"
+        },
+        "over": {
+          "point": 40.0,
+          "price": -110,
+          "book": "BetUS"
+        },
+        "under": {
+          "point": 40.5,
+          "price": -110,
+          "book": "DraftKings"
+        },
+        "home_ml": -159,
+        "away_ml": 146,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 3.0,
+        "stale_books": []
+      },
+      "spread_gap": -7.066664055145524,
+      "total_gap": 0.009014148118204446,
+      "win_prob_gap": -0.22293374059197646,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.607,
+      "injuries": {
+        "home": [
+          {
+            "player": "Brock Bowers",
+            "position": "TE",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Trey Moore",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Kenneth Grant",
+            "position": "DT",
+            "status": "Out"
+          },
+          {
+            "player": "Storm Duck",
+            "position": "CB",
+            "status": "Out"
+          },
+          {
+            "player": "Darrell Baker Jr.",
+            "position": "CB",
+            "status": "Out"
+          },
+          {
+            "player": "Cole Turner",
+            "position": "TE",
+            "status": "Out"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "dome"
+      }
+    },
+    {
+      "home_team": "PHI",
+      "away_team": "WAS",
+      "home_name": "Philadelphia Eagles",
+      "away_name": "Washington Commanders",
+      "kickoff": "2026-09-13T20:25:00Z",
+      "market_win_prob_home_fair": 0.7001620745542949,
+      "market_spread": 6.0,
+      "market_total": 44.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 5.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "away_spread": {
+          "point": 6.0,
+          "price": -103,
+          "book": "LowVig.ag"
+        },
+        "over": {
+          "point": 44.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 44.5,
+          "price": -110,
+          "book": "MyBookie.ag"
+        },
+        "home_ml": -260,
+        "away_ml": 223,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 6.0,
+        "stale_books": [
+          {
+            "book": "FanDuel",
+            "point": 5.5,
+            "price": -115,
+            "value_side": "home",
+            "gap_pts": -0.5
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 5.5,
+            "price": -110,
+            "value_side": "home",
+            "gap_pts": -0.5
+          }
+        ]
+      },
+      "spread_gap": 1.417709627297958,
+      "total_gap": 0.039043351552386696,
+      "win_prob_gap": 0.015700159480595888,
+      "spread_flagged": false,
+      "total_flagged": false,
+      "win_prob_flagged": false,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.66,
+      "injuries": {
+        "home": [
+          {
+            "player": "Jonathan Greenard",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Eli Stowers",
+            "position": "TE",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Jer'Zhan Newton",
+            "position": "DT",
+            "status": "Out"
+          },
+          {
+            "player": "Laremy Tunsil",
+            "position": "OT",
+            "status": "Out"
+          },
+          {
+            "player": "Deatrich Wise Jr.",
+            "position": "DE",
+            "status": "Out"
+          },
+          {
+            "player": "Trey Amos",
+            "position": "CB",
+            "status": "Out"
+          },
+          {
+            "player": "Jeremy McNichols",
+            "position": "RB",
+            "status": "Out"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 78.8,
+        "wind_mph": 3.9,
+        "precip_prob": 2,
+        "forecast_hour": "2026-09-13T16:00"
+      }
+    },
+    {
+      "home_team": "NYG",
+      "away_team": "DAL",
+      "home_name": "New York Giants",
+      "away_name": "Dallas Cowboys",
+      "kickoff": "2026-09-14T00:20:00Z",
+      "market_win_prob_home_fair": 0.4003612281757977,
+      "market_spread": -3.0,
+      "market_total": 47.5,
+      "best_prices": {
+        "home_spread": {
+          "point": -3.0,
+          "price": -102,
+          "book": "LowVig.ag"
+        },
+        "away_spread": {
+          "point": -3.0,
+          "price": -105,
+          "book": "MyBookie.ag"
+        },
+        "over": {
+          "point": 47.0,
+          "price": -115,
+          "book": "Bovada"
+        },
+        "under": {
+          "point": 48.0,
+          "price": -112,
+          "book": "BetRivers"
+        },
+        "home_ml": 148,
+        "away_ml": -157,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": -3.0,
+        "stale_books": []
+      },
+      "spread_gap": 2.1021329758348624,
+      "total_gap": -0.625881102196054,
+      "win_prob_gap": 0.07210703777578076,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.406,
+      "injuries": {
+        "home": [
+          {
+            "player": "Malik Nabers",
+            "position": "WR",
+            "status": "Questionable"
+          }
+        ],
+        "away": [
+          {
+            "player": "Malik Davis",
+            "position": "RB",
+            "status": "Out"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 73.1,
+        "wind_mph": 4.6,
+        "precip_prob": 0,
+        "forecast_hour": "2026-09-13T20:00"
+      }
+    },
+    {
+      "home_team": "KC",
+      "away_team": "DEN",
+      "home_name": "Kansas City Chiefs",
+      "away_name": "Denver Broncos",
+      "kickoff": "2026-09-15T00:15:00Z",
+      "market_win_prob_home_fair": 0.552594002855783,
+      "market_spread": 2.5,
+      "market_total": 43.5,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.0,
+          "price": -120,
+          "book": "BetUS"
+        },
+        "away_spread": {
+          "point": 2.5,
+          "price": -103,
+          "book": "BetRivers"
+        },
+        "over": {
+          "point": 43.5,
+          "price": -105,
+          "book": "Bovada"
+        },
+        "under": {
+          "point": 43.5,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "home_ml": -126,
+        "away_ml": 120,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 1.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 2.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 2.5,
+            "price": -105,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "LowVig.ag",
+            "point": 2.5,
+            "price": -104,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "BetMGM",
+            "point": 2.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "Bovada",
+            "point": 2.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "BetRivers",
+            "point": 2.5,
+            "price": -118,
+            "value_side": "away",
+            "gap_pts": 1.5
+          },
+          {
+            "book": "MyBookie.ag",
+            "point": 2.5,
+            "price": -110,
+            "value_side": "away",
+            "gap_pts": 1.5
+          }
+        ]
+      },
+      "spread_gap": -6.63200643121955,
+      "total_gap": 0.612865176727972,
+      "win_prob_gap": -0.17729337100891035,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.58,
+      "injuries": {
+        "home": [
+          {
+            "player": "Chamarri Conner",
+            "position": "S",
+            "status": "Out"
+          },
+          {
+            "player": "Josh Simmons",
+            "position": "T",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Jonathon Cooper",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Nick Gargiulo",
+            "position": "G",
+            "status": "Out"
+          },
+          {
+            "player": "Frank Crum",
+            "position": "OT",
+            "status": "Out"
+          },
+          {
+            "player": "Caleb Lohner",
+            "position": "TE",
+            "status": "Out"
+          },
+          {
+            "player": "Levelle Bailey",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Matt Henningsen",
+            "position": "DE",
+            "status": "Out"
+          },
+          {
+            "player": "Michael Deiter",
+            "position": "C",
+            "status": "Out"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 90.9,
+        "wind_mph": 14.1,
+        "precip_prob": 1,
+        "forecast_hour": "2026-09-14T20:00"
+      }
+    }
+  ]
+}
