@@ -1,0 +1,176 @@
+{
+  "computed_at": "2026-09-14T20:01:06.395753+00:00",
+  "season": 2026,
+  "week": 1,
+  "methodology_version": "1.4.0",
+  "note": "Early-week board: model numbers come from preseason ratings, which are the least reliable of the season -- large gaps here are more likely model error than market error. Treat Week 1 as observation, not opportunity.",
+  "qb1_map": {
+    "ARI": "Jacoby Brissett",
+    "ATL": "Michael Penix Jr.",
+    "BAL": "Lamar Jackson",
+    "BUF": "Josh Allen",
+    "CAR": "Bryce Young",
+    "CHI": "Caleb Williams",
+    "CIN": "Joe Burrow",
+    "CLE": "Deshaun Watson",
+    "DAL": "Dak Prescott",
+    "DEN": "Bo Nix",
+    "DET": "Jared Goff",
+    "GB": "Jordan Love",
+    "HOU": "C.J. Stroud",
+    "IND": "Daniel Jones",
+    "JAX": "Trevor Lawrence",
+    "KC": "Patrick Mahomes",
+    "LA": "Matthew Stafford",
+    "LAC": "Justin Herbert",
+    "LV": "Kirk Cousins",
+    "MIA": "Malik Willis",
+    "MIN": "Kyler Murray",
+    "NE": "Drake Maye",
+    "NO": "Tyler Shough",
+    "NYG": "Jaxson Dart",
+    "NYJ": "Geno Smith",
+    "PHI": "Jalen Hurts",
+    "PIT": "Aaron Rodgers",
+    "SEA": "Sam Darnold",
+    "SF": "Brock Purdy",
+    "TB": "Baker Mayfield",
+    "TEN": "Cam Ward",
+    "WAS": "Jayden Daniels"
+  },
+  "divergences": [
+    {
+      "home_team": "KC",
+      "away_team": "DEN",
+      "home_name": "Kansas City Chiefs",
+      "away_name": "Denver Broncos",
+      "kickoff": "2026-09-15T00:15:00Z",
+      "market_win_prob_home_fair": 0.5467333541731791,
+      "market_spread": 2.0,
+      "market_total": 43.0,
+      "best_prices": {
+        "home_spread": {
+          "point": 1.0,
+          "price": -120,
+          "book": "BetUS"
+        },
+        "away_spread": {
+          "point": 2.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "over": {
+          "point": 43.0,
+          "price": -107,
+          "book": "LowVig.ag"
+        },
+        "under": {
+          "point": 43.5,
+          "price": -112,
+          "book": "DraftKings"
+        },
+        "home_ml": -127,
+        "away_ml": 115,
+        "n_books": 9
+      },
+      "sharp_anchor": {
+        "book": "BetOnline.ag",
+        "spread": 2.0,
+        "stale_books": [
+          {
+            "book": "DraftKings",
+            "point": 2.5,
+            "price": -108,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "FanDuel",
+            "point": 2.5,
+            "price": -105,
+            "value_side": "away",
+            "gap_pts": 0.5
+          },
+          {
+            "book": "BetUS",
+            "point": 1.0,
+            "price": -120,
+            "value_side": "home",
+            "gap_pts": -1.0
+          }
+        ]
+      },
+      "spread_gap": -7.0846295992978465,
+      "total_gap": 0.4112688121052841,
+      "win_prob_gap": -0.19888106378106285,
+      "spread_flagged": true,
+      "total_flagged": false,
+      "win_prob_flagged": true,
+      "line_status": "open",
+      "qb_alert": {
+        "home": null,
+        "away": null
+      },
+      "fpi_home_prob": 0.596,
+      "injuries": {
+        "home": [
+          {
+            "player": "Chamarri Conner",
+            "position": "S",
+            "status": "Out"
+          },
+          {
+            "player": "Josh Simmons",
+            "position": "T",
+            "status": "Out"
+          }
+        ],
+        "away": [
+          {
+            "player": "Jonathon Cooper",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Nick Gargiulo",
+            "position": "G",
+            "status": "Out"
+          },
+          {
+            "player": "Frank Crum",
+            "position": "OT",
+            "status": "Out"
+          },
+          {
+            "player": "Caleb Lohner",
+            "position": "TE",
+            "status": "Out"
+          },
+          {
+            "player": "Levelle Bailey",
+            "position": "LB",
+            "status": "Out"
+          },
+          {
+            "player": "Matt Henningsen",
+            "position": "DE",
+            "status": "Out"
+          },
+          {
+            "player": "Michael Deiter",
+            "position": "C",
+            "status": "Out"
+          }
+        ]
+      },
+      "injury_source": "nflverse+espn",
+      "weather": {
+        "roof": "outdoors",
+        "temp_f": 90.8,
+        "wind_mph": 15.5,
+        "precip_prob": 0,
+        "forecast_hour": "2026-09-14T20:00"
+      }
+    }
+  ]
+}
