@@ -432,5 +432,17 @@ def main():
         sys.exit(1)
 
 
+    # Site data (Teams/Schedule/Players surfaces) -- presentation only,
+    # soft-fail, pushed as its own commit.
+    try:
+        from deploy.generate_site_data import generate as generate_site
+        site_files = generate_site(os.environ.get("REPO_DATA_PATH", "./data"), season)
+        if os.environ.get("GIT_REPO_URL"):
+            from deploy.git_utils import git_commit_and_push
+            for path in site_files:
+                git_commit_and_push(path, commit_message=f"Site data refresh: {os.path.basename(path)}")
+    except Exception as site_err:
+        print(f"[weekly_job] site data soft-fail: {site_err}")
+
 if __name__ == "__main__":
     main()

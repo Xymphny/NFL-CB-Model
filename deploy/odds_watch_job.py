@@ -86,6 +86,76 @@ ODDS_TEAM_TO_ABBR = {
 }
 
 
+PROPS_MARKETS = "player_pass_yds,player_rush_yds,player_reception_yds,player_anytime_td"
+
+
+def fetch_week_props(api_key, season, week, data_dir, odds_data):
+    """Weekly NFL player-props snapshot -> data/props/{season}-week-NN.json.
+
+    HONEST FRAMING, enforced in the payload itself: we have no player
+    projection model, so this is MARKET INFORMATION -- lines and best
+    prices across books -- never model edges. Priced weekly (each event
+    costs markets x regions credits; a 16-game 4-market pull runs ~64
+    of the 500/month budget, so this fires at most once per week: only
+    when no props file exists for the week yet, and only on a game-day
+    run). Parse shape follows The Odds API docs (outcomes carry the
+    player in `description`, Over/Under in `name`); first live run
+    verifies it like every external feed before it."""
+    out_path = os.path.join(data_dir, "props", f"{season}-week-{week:02d}.json")
+    if os.path.exists(out_path):
+        return None
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    games = {}
+    for game in odds_data:
+        gid = game.get("id")
+        if not gid:
+            continue
+        try:
+            resp = requests.get(
+                f"https://api.the-odds-api.com/v4/sports/americanfootball_nfl/events/{gid}/odds",
+                params={"apiKey": api_key, "regions": "us", "markets": PROPS_MARKETS, "oddsFormat": "american"},
+                timeout=25)
+            resp.raise_for_status()
+            ev = resp.json()
+        except Exception as e:
+            print(f"[props] event fetch soft-fail: {e}")
+            continue
+        markets = {}
+        for bk in ev.get("bookmakers", []):
+            for mk in bk.get("markets", []):
+                players = markets.setdefault(mk["key"], {})
+                for oc in mk.get("outcomes", []):
+                    player = oc.get("description") or oc.get("name")
+                    side = oc.get("name")
+                    row = players.setdefault(player, {"lines": [], "over": None, "under": None, "yes": None})
+                    if oc.get("point") is not None:
+                        row["lines"].append(oc["point"])
+                    slot = {"Over": "over", "Under": "under", "Yes": "yes"}.get(side)
+                    if slot and oc.get("price") is not None:
+                        best = row[slot]
+                        if best is None or oc["price"] > best["price"]:
+                            row[slot] = {"price": oc["price"], "point": oc.get("point"), "book": bk.get("title")}
+        if markets:
+            for mk_rows in markets.values():
+                for row in mk_rows.values():
+                    lines = row.pop("lines", [])
+                    row["line"] = float(pd.Series(lines).median()) if lines else None
+            games[f"{ODDS_TEAM_TO_ABBR.get(ev.get('away_team'), ev.get('away_team'))}@{ODDS_TEAM_TO_ABBR.get(ev.get('home_team'), ev.get('home_team'))}"] = {
+                "kickoff": ev.get("commence_time"), "markets": markets}
+    if not games:
+        print("[props] no props returned; not writing")
+        return None
+    payload = _json_sanitize({
+        "season": season, "week": week,
+        "note": ("Market information only: lines and best prices across books, refreshed weekly. "
+                 "No player projection model exists here, so nothing on this page is a model edge."),
+        "games": games})
+    with open(out_path, "w") as f:
+        json.dump(payload, f, indent=1, allow_nan=False)
+    print(f"[props] wrote {out_path}: {len(games)} games")
+    return out_path
+
+
 def split_started_and_carry(odds_data, prior_snapshots, now_iso):
     """Freeze lines at kickoff. prior_snapshots is [(computed_at, rows)]
     for every same-week snapshot, oldest first. For each started game
@@ -102,8 +172,28 @@ def split_started_and_carry(odds_data, prior_snapshots, now_iso):
             started[(game.get("home_team"), game.get("away_team"))] = ct
         else:
             pregame.append(game)
+    # Games the API no longer returns at all (it drops them once
+    # FINAL) would otherwise vanish from the board mid-Sunday even
+    # though their cards were just showing live scores. Carry those
+    # too: any prior-snapshot game absent from the current feed whose
+    # kickoff is in the past stays on the board, frozen at its close,
+    # until the week's snapshots roll over. Games absent with a
+    # FUTURE kickoff (postponed/moved) are NOT carried.
+    current_keys = set(started)
+    for game in pregame:
+        current_keys.add((game.get("home_team"), game.get("away_team")))
+    finished = {}
+    for computed_at, rows in prior_snapshots:
+        for row in rows:
+            key = (row.get("home_name"), row.get("away_name"))
+            if key[0] is None or key in current_keys:
+                continue
+            ko = row.get("kickoff")
+            if ko and ko <= now_iso:
+                finished[key] = ko
+
     carried = []
-    for key, kickoff in started.items():
+    for key, kickoff in list(started.items()) + list(finished.items()):
         best = None
         for computed_at, rows in prior_snapshots:
             if computed_at and kickoff and computed_at >= kickoff:
@@ -493,6 +583,14 @@ def main():
             d["line_status"] = "open"
         divergences.extend(carried_closed)
 
+        # Weekly props snapshot (self-deduping: skips if this week's
+        # file exists). Pushed right after the divergence snapshot.
+        try:
+            props_path = fetch_week_props(api_key, season, current_week, REPO_DATA_PATH, odds_data)
+        except Exception as props_err:
+            props_path = None
+            print(f"[props] skipped: {props_err}")
+
         # QB-status annotation (free nflverse data; annotation-only by
         # design -- see deploy/qb_status.py for the held-out evidence
         # against auto-demotion). Soft-fail: never blocks the pipeline.
@@ -613,6 +711,8 @@ def main():
         # found in production there.
         if GIT_REPO_URL:
             git_commit_and_push(output_file, commit_message=f"Update divergence: {season} week {current_week}, {len(divergences)} games")
+            if props_path:
+                git_commit_and_push(props_path, commit_message=f"NFL props: {season} week {current_week}")
         else:
             print("[odds_watch_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 

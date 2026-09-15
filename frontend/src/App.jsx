@@ -267,7 +267,7 @@ function AltLines({ d, marginDist }) {
   )
 }
 
-function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null }) {
+function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null, boardLeague = 'NFL', boardCfbLogos = null, boardScores = null, boardOpenLines = null, boardSiteTeams = null }) {
   const [showPassed, setShowPassed] = useState(false)
   const { settings, logBet, betLog } = book
 
@@ -330,8 +330,21 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
             <div className="bet-card-top">
               <div className="matchup-block">
                 <p className="matchup-line">
-                  {d.away_name || d.away_team} <span className="matchup-at">@</span> {d.home_name || d.home_team}
+                  <TeamMark league={boardLeague} team={d.away_team} cfbLogos={boardCfbLogos} />
+                  {d.away_name || d.away_team} <span className="matchup-at">@</span>{' '}
+                  <TeamMark league={boardLeague} team={d.home_team} cfbLogos={boardCfbLogos} />
+                  {d.home_name || d.home_team}
                 </p>
+                {(() => {
+                  const ls = boardScores && boardScores[`${d.away_team}@${d.home_team}`]
+                  if (!ls || ls.state === 'pre') return null
+                  return (
+                    <p className={`live-score ${ls.state === 'in' ? 'live' : ''}`}>
+                      {ls.state === 'in' ? 'LIVE' : 'FINAL'} — {d.away_team} {ls.as}, {d.home_team} {ls.hs}
+                      {ls.state === 'in' && ls.detail ? ` · ${ls.detail}` : ''}
+                    </p>
+                  )
+                })()}
                 {(formatKickoff(d.kickoff) || weatherBrief(d.weather) || d.line_status === 'closed') && (
                   <p className="kickoff-line">
                     {d.line_status === 'closed' && <span className="closed-chip">Closed</span>}
@@ -343,6 +356,36 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
               <span className={`verdict ${verdict}`}>{verdict === 'play' ? 'Play' : 'Lean'}</span>
             </div>
             <p className="bet-pick">{pick}</p>
+            {(() => {
+              const chips = []
+              // Rest/bye chips (NFL): from the team schedules already on the site.
+              if (boardSiteTeams && boardSiteTeams.teams && week != null) {
+                for (const side of ['away_team', 'home_team']) {
+                  const t = boardSiteTeams.teams[d[side]]
+                  if (!t) continue
+                  const prev = t.schedule.find((g2) => g2.week === week - 1)
+                  if (week > 1 && !prev) chips.push(`${d[side]} off bye`)
+                  else if (d.kickoff && new Date(d.kickoff).getUTCDay() === 5 && prev) chips.push(`${d[side]} short week`)
+                }
+              }
+              // Wind flag on total picks: annotation, never adjustment.
+              const isTotalPick = /over|under/i.test(String(pick))
+              const wx = d.weather
+              if (isTotalPick && wx && wx.roof !== 'dome' && wx.roof !== 'closed' && wx.wind_mph >= 15) {
+                chips.push(`${Math.round(wx.wind_mph)} mph wind — not modeled; unders historically aided`)
+              }
+              // Line movement vs the week's opener (spread picks only).
+              const open_ = boardOpenLines ? boardOpenLines[`${d.away_team}@${d.home_team}`] : null
+              if (!isTotalPick && open_ != null && d.market_spread != null && Math.abs(d.market_spread - open_) >= 0.5) {
+                const pickedHome = d.spread_gap > 0
+                const mv = d.market_spread - open_
+                const withUs = pickedHome ? mv > 0 : mv < 0
+                const f = (x) => (x > 0 ? `home -${Math.abs(x).toFixed(1)}` : `home +${Math.abs(x).toFixed(1)}`)
+                chips.push(`Line: opened ${f(open_)} → now ${f(d.market_spread)} (${withUs ? 'moving our way' : 'moving against us'})`)
+              }
+              if (!chips.length) return null
+              return <div className="card-chips">{chips.map((c) => <span key={c} className={`card-chip ${c.includes('wind') ? 'warn' : ''} ${c.includes('against') ? 'warn' : ''}`}>{c}</span>)}</div>
+            })()}
 
             <ConfidenceMeter drivers={drivers} />
 
@@ -650,7 +693,203 @@ function TrackRecord({ league }) {
 
 /* ---------------- Ratings + team research ---------------- */
 
-function RatingsTable({ ratings, onSelectTeam }) {
+
+function DivisionStandings({ siteTeams, ratingsByTeam, onSelectTeam, allRatings }) {
+  const teams = siteTeams.teams
+  const byDiv = {}
+  Object.values(teams).forEach((t) => { (byDiv[t.division] = byDiv[t.division] || []).push(t) })
+  const order = (a, b) => (b.record.w - b.record.l) - (a.record.w - a.record.l) || (b.record.pf - b.record.pa) - (a.record.pf - a.record.pa)
+  return (
+    <div className="divisions-grid">
+      {NFL_DIVISION_ORDER.map((div) => (
+        <div key={div} className="division-block">
+          <h3 className="division-heading">{div}</h3>
+          <table className="ratings-table division-table">
+            <thead><tr><th>Team</th><th className="numeric">W-L</th><th className="numeric">PF</th><th className="numeric">PA</th><th className="numeric">Rating</th><th className="numeric">Rem SOS</th></tr></thead>
+            <tbody>
+              {(byDiv[div] || []).sort(order).map((t) => {
+                const r = allRatings ? allRatings.find((x) => x.team === t.abbr) : null
+                return (
+                  <tr key={t.abbr} className="clickable-row" onClick={() => r && onSelectTeam(r)}>
+                    <td className="team-cell"><TeamMark league="NFL" team={t.abbr} /> {t.nickname}</td>
+                    <td className="numeric">{t.record.w}-{t.record.l}{t.record.t ? `-${t.record.t}` : ''}</td>
+                    <td className="numeric">{t.record.pf}</td>
+                    <td className="numeric">{t.record.pa}</td>
+                    <td className="numeric">{r ? formatSigned(r.total_rating * 100, 1) : '—'}</td>
+                    <td className="numeric">{t.remaining_sos != null ? formatSigned(t.remaining_sos * 100, 1) : '—'}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function ScheduleTab({ siteTeams }) {
+  const [week, setWeek] = useState(null)
+  if (!siteTeams.data) return <p className="section-sub">{siteTeams.loading ? 'Loading…' : 'Schedule publishes with the weekly data refresh.'}</p>
+  const teams = siteTeams.data.teams
+  const weeks = {}
+  Object.values(teams).forEach((t) => t.schedule.forEach((g) => {
+    const key = g.home ? `${g.opp}@${t.abbr}` : `${t.abbr}@${g.opp}`
+    ;(weeks[g.week] = weeks[g.week] || {})[key] = { ...g, away: key.split('@')[0], home_t: key.split('@')[1] }
+  }))
+  const weekNums = Object.keys(weeks).map(Number).sort((a, b) => a - b)
+  const current = week || weekNums.find((w) => Object.values(weeks[w]).some((g) => !g.result)) || weekNums[0]
+  return (
+    <section>
+      <h2 className="section-heading">Season schedule — NFL</h2>
+      <div className="week-chips">
+        {weekNums.map((w) => (
+          <button key={w} className={`week-chip ${w === current ? 'active' : ''}`} onClick={() => setWeek(w)}>W{w}</button>
+        ))}
+      </div>
+      <div className="schedule-list">
+        {Object.entries(weeks[current]).sort((a, b) => (a[1].kickoff || '').localeCompare(b[1].kickoff || '')).map(([key, g]) => (
+          <div key={key} className="schedule-row">
+            <span className="sched-teams">
+              <TeamMark league="NFL" team={g.away} size={18} /> {g.away}
+              <span className="matchup-at"> @ </span>
+              <TeamMark league="NFL" team={g.home_t} size={18} /> {g.home_t}
+            </span>
+            <span className="sched-when">{g.result ? g.result : (g.kickoff ? new Date(g.kickoff).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) : 'TBD')}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function PlayersTab({ playerLeaders, manifest }) {
+  const propsFiles = (manifest && manifest.props) || []
+  const propsState = useJson(propsFiles.length ? `/data/props/${propsFiles[propsFiles.length - 1]}` : '/data/props/none.json', [propsFiles.length])
+  const [openGame, setOpenGame] = useState(null)
+  const MARKET_LABELS = { player_pass_yds: 'Passing yards', player_rush_yds: 'Rushing yards', player_reception_yds: 'Receiving yards', player_anytime_td: 'Anytime TD' }
+  const fmtPrice = (x) => (x == null ? '—' : x > 0 ? `+${x}` : `${x}`)
+  const usageRank = {}
+  if (playerLeaders.data) playerLeaders.data.high_usage.forEach((r, i) => { usageRank[r.player] = i + 1 })
+  return (
+    <section>
+      <h2 className="section-heading">Players</h2>
+      {!playerLeaders.data ? <p className="section-sub">{playerLeaders.loading ? 'Loading…' : 'Leaders publish with the weekly data refresh.'}</p> : (
+        <>
+          <p className="section-sub">League leaders — {playerLeaders.data.label}.</p>
+          <div className="leaders-grid">
+            {Object.entries(playerLeaders.data.categories).map(([cat, rows]) => (
+              <div key={cat} className="leader-block">
+                <h3 className="division-heading">{cat}</h3>
+                <table className="ratings-table leader-table"><tbody>
+                  {rows.slice(0, 10).map((r, i) => (
+                    <tr key={r.player}><td className="rank-cell">{i + 1}</td>
+                      <td className="team-cell"><TeamMark league="NFL" team={r.team} size={16} /> {r.player}</td>
+                      <td className="numeric">{Math.round(r.value)}</td></tr>
+                  ))}
+                </tbody></table>
+              </div>
+            ))}
+            <div className="leader-block">
+              <h3 className="division-heading">High usage (touches)</h3>
+              <table className="ratings-table leader-table"><tbody>
+                {playerLeaders.data.high_usage.map((r, i) => (
+                  <tr key={r.player}><td className="rank-cell">{i + 1}</td>
+                    <td className="team-cell"><TeamMark league="NFL" team={r.team} size={16} /> {r.player}</td>
+                    <td className="numeric">{Math.round(r.value)}</td></tr>
+                ))}
+              </tbody></table>
+            </div>
+          </div>
+        </>
+      )}
+      <h2 className="section-heading" style={{ marginTop: 28 }}>Player props — NFL</h2>
+      {!propsState.data ? (
+        <p className="section-sub">{propsFiles.length ? 'Loading…' : 'Props publish weekly with the first Thursday odds run.'}</p>
+      ) : (
+        <>
+          <p className="props-note">{propsState.data.note}</p>
+          {Object.entries(propsState.data.games).map(([gm, gdata]) => (
+            <div key={gm} className="props-game">
+              <button className="props-game-head" onClick={() => setOpenGame(openGame === gm ? null : gm)}>
+                <TeamMark league="NFL" team={gm.split('@')[0]} size={18} /> {gm.replace('@', ' @ ')} <TeamMark league="NFL" team={gm.split('@')[1]} size={18} />
+                <span className="props-toggle">{openGame === gm ? '−' : '+'}</span>
+              </button>
+              {openGame === gm && Object.entries(gdata.markets).map(([mk, players]) => (
+                <div key={mk} className="props-market">
+                  <h4 className="props-market-title">{MARKET_LABELS[mk] || mk}</h4>
+                  <table className="ratings-table props-table">
+                    <thead><tr><th>Player</th><th className="numeric">Line</th><th className="numeric">Best Over</th><th className="numeric">Best Under / Yes</th></tr></thead>
+                    <tbody>
+                      {Object.entries(players).sort((a, b) => (b[1].line || 0) - (a[1].line || 0)).map(([pl, row]) => (
+                        <tr key={pl}>
+                          <td className="team-cell">{pl}{usageRank[pl] ? <span className="usage-badge">#{usageRank[pl]} touches</span> : null}</td>
+                          <td className="numeric">{row.line != null ? row.line : '—'}</td>
+                          <td className="numeric">{row.over ? `${fmtPrice(row.over.price)} (${row.over.book})` : '—'}</td>
+                          <td className="numeric">{row.under ? `${fmtPrice(row.under.price)} (${row.under.book})` : row.yes ? `${fmtPrice(row.yes.price)} (${row.yes.book})` : '—'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+            </div>
+          ))}
+        </>
+      )}
+    </section>
+  )
+}
+
+function TeamSiteSections({ site, teamAbbr }) {
+  if (!site) return null
+  const POS_ORDER = ['QB', 'RB', 'WR', 'TE']
+  return (
+    <>
+      <section>
+        <h2 className="section-heading">Depth chart</h2>
+        <div className="depth-grid">
+          {POS_ORDER.filter((p2) => site.depth_chart[p2]).map((pos) => (
+            <div key={pos} className="depth-slot">
+              <span className="depth-pos">{pos}</span>
+              {site.depth_chart[pos].map((pl, i) => (
+                <span key={pl} className={`depth-player ${i === 0 ? 'starter' : ''}`}>{pl}</span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </section>
+      <section>
+        <h2 className="section-heading">Injury report</h2>
+        {site.injuries.length === 0 ? <p className="section-sub">No players with a disclosed designation.</p> : (
+          <ul className="injury-list">
+            {site.injuries.map((r) => (
+              <li key={r.player}><span className={`inj-status ${String(r.status).toLowerCase()}`}>{r.status}</span> {r.player} <span className="inj-pos">{r.position}</span></li>
+            ))}
+          </ul>
+        )}
+        <p className="section-sub">Team-page injuries refresh weekly; bet cards refresh hourly on game days.</p>
+      </section>
+      <section>
+        <h2 className="section-heading">Schedule & strength</h2>
+        <p className="section-sub">
+          Remaining SOS {site.remaining_sos != null ? formatSigned(site.remaining_sos * 100, 1) : '—'} · Played SOS {site.played_sos != null ? formatSigned(site.played_sos * 100, 1) : '—'} (mean opponent rating; higher = harder)
+        </p>
+        <div className="schedule-list">
+          {site.schedule.map((g) => (
+            <div key={g.week} className="schedule-row">
+              <span className="sched-week">W{g.week}</span>
+              <span className="sched-teams"><TeamMark league="NFL" team={g.opp} size={16} /> {g.home ? 'vs' : '@'} {g.opp}</span>
+              <span className="sched-when">{g.result || (g.kickoff ? new Date(g.kickoff).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD')}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  )
+}
+
+function RatingsTable({ ratings, onSelectTeam, league = 'NFL', cfbLogos = null }) {
   const [sortKey, setSortKey] = useState('total_rating')
   const [sortDir, setSortDir] = useState('desc')
   const hasPlayoffPct = ratings.some((t) => t.playoff_pct != null)
@@ -689,7 +928,7 @@ function RatingsTable({ ratings, onSelectTeam }) {
         {sorted.map((team, i) => (
           <tr key={team.team} className="clickable-row" onClick={() => onSelectTeam(team)}>
             <td className="rank-cell">{i + 1}</td>
-            <td className="team-cell">{team.team}</td>
+            <td className="team-cell"><TeamMark league={league} team={team.team} cfbLogos={cfbLogos} size={18} /> {team.team}</td>
             <td className="numeric">
               <span className={`rating-value ${team.total_rating >= 0 ? 'positive' : 'negative'}`}>
                 {formatSigned(team.total_rating * 100, 1)}
@@ -741,12 +980,13 @@ function RatingTrendChart({ history, currentTeam }) {
   )
 }
 
-function TeamProfilePage({ team, onBack, league = 'NFL' }) {
+function TeamProfilePage({ team, onBack, league = 'NFL', siteInfo = null, cfbLogos = null }) {
   const grade = Math.max(0, Math.min(100, Math.round(50 + team.total_rating * 125)))
   const gradeClass = grade >= 60 ? 'positive' : grade <= 40 ? 'negative' : ''
   const ratingsHistory = useRatingsHistory(league === 'CFB' ? 'cfb_ratings' : 'ratings')
   const teamHistory = ratingsHistory.history ? ratingsHistory.history[team.team] : null
 
+  const site = siteInfo  // teams.json entry (NFL only): schedule, depth, injuries, SOS
   const tiles = [
     { label: 'EPA / play', primary: formatSigned(team.epa_per_play_offense, 3), rows: [['Allowed', formatSigned(team.epa_per_play_allowed, 3)]] },
     { label: 'Success rate', primary: formatPercent(team.success_rate_offense), rows: [['Allowed', formatPercent(team.success_rate_allowed)]] },
@@ -814,6 +1054,7 @@ function TeamProfilePage({ team, onBack, league = 'NFL' }) {
           <p className="section-sub">No trend data yet for {team.team}.</p>
         )}
       </section>
+      <TeamSiteSections site={siteInfo} teamAbbr={team.team} />
     </div>
   )
 }
@@ -849,15 +1090,122 @@ function PlayerGradesSection({ grades }) {
 
 const TABS = [
   { id: 'board', label: 'This week' },
+  { id: 'schedule', label: 'Schedule' },
   { id: 'record', label: 'Track record' },
-  { id: 'ratings', label: 'Ratings' },
+  { id: 'ratings', label: 'Teams' },
+  { id: 'players', label: 'Players' },
   { id: 'book', label: 'My book' },
 ]
+
+const NFL_ESPN_ABBR = { WAS: 'wsh', LA: 'lar' }
+const NFL_DIVISION_ORDER = ['AFC East', 'AFC North', 'AFC South', 'AFC West', 'NFC East', 'NFC North', 'NFC South', 'NFC West']
+
+function nflLogo(abbr) {
+  return `https://a.espncdn.com/i/teamlogos/nfl/500/${(NFL_ESPN_ABBR[abbr] || abbr).toLowerCase()}.png`
+}
+
+function TeamMark({ league, team, cfbLogos, size = 20 }) {
+  const src = league === 'CFB' ? (cfbLogos ? cfbLogos[team] : null) : nflLogo(team)
+  if (!src) return null
+  return <img className="team-logo" src={src} width={size} height={size} alt="" loading="lazy" onError={(e) => { e.target.style.display = 'none' }} />
+}
+
+function useJson(url, deps = []) {
+  const [state, setState] = useState({ data: null, loading: true })
+  useEffect(() => {
+    setState({ data: null, loading: true })
+    fetch(url).then((r) => { if (!r.ok) throw new Error('none'); return r.json() })
+      .then((data) => setState({ data, loading: false }))
+      .catch(() => setState({ data: null, loading: false }))
+  }, deps)
+  return state
+}
+
+const ESPN_SB = {
+  NFL: 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard',
+  CFB: 'https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80&limit=120',
+}
+const ESPN_TO_NFLVERSE = { WSH: 'WAS', LAR: 'LA' }
+
+function useOpeningLines(league, manifest, season, week) {
+  // Opening line per game: the FIRST snapshot of the current week.
+  // One extra fetch; powers the per-card line-movement readout.
+  const fam = league === 'CFB' ? 'cfb_divergence' : 'divergence'
+  const files = (manifest && manifest[fam]) || []
+  const prefix = season != null && week != null ? `${season}-week-${String(week).padStart(2, '0')}` : null
+  const first = prefix ? files.find((f) => f.startsWith(prefix)) : null
+  const st = useJson(first ? `/data/${fam}/${first}` : '/data/none.json', [first])
+  const map = {}
+  if (st.data) st.data.divergences.forEach((d) => { map[`${d.away_team}@${d.home_team}`] = d.market_spread })
+  return map
+}
+
+function useLiveScores(league, active, cfbNames) {
+  // Client-side ESPN polling (their API allows browser origins --
+  // verified from this site's own origin). Only runs while the board
+  // tab is visible; 45s cadence; maps back to our team keys.
+  const [scores, setScores] = useState({})
+  useEffect(() => {
+    if (!active) return undefined
+    let stop = false
+    const strip = (n) => n.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim()
+    const deriv = new Set(['tech', 'state', 'am', 'southern', 'christian', 'wesleyan', 'baptist', 'international', 'central'])
+    const cfbCanon = {}
+    if (cfbNames) cfbNames.forEach((n) => { cfbCanon[strip(n)] = n })
+    const resolveCfb = (name) => {
+      const w = strip(name).split(' ')
+      for (const k of [1, 2]) {
+        if (w.length <= k) break
+        if (k === 2 && deriv.has(w[w.length - 2])) continue
+        const cand = cfbCanon[w.slice(0, -k).join(' ')]
+        if (cand) return cand
+      }
+      return null
+    }
+    async function poll() {
+      try {
+        const j = await (await fetch(ESPN_SB[league])).json()
+        const next = {}
+        for (const ev of j.events || []) {
+          const comp = ev.competitions && ev.competitions[0]
+          if (!comp) continue
+          const home = comp.competitors.find((c) => c.homeAway === 'home')
+          const away = comp.competitors.find((c) => c.homeAway === 'away')
+          if (!home || !away) continue
+          let hk, ak
+          if (league === 'CFB') {
+            hk = resolveCfb(home.team.displayName); ak = resolveCfb(away.team.displayName)
+          } else {
+            hk = ESPN_TO_NFLVERSE[home.team.abbreviation] || home.team.abbreviation
+            ak = ESPN_TO_NFLVERSE[away.team.abbreviation] || away.team.abbreviation
+          }
+          if (!hk || !ak) continue
+          const st = comp.status || {}
+          next[`${ak}@${hk}`] = {
+            hs: Number(home.score), as: Number(away.score),
+            state: st.type && st.type.state, detail: st.type && st.type.shortDetail,
+          }
+        }
+        if (!stop) setScores(next)
+      } catch (e) { /* soft-fail: scores are decoration */ }
+    }
+    poll()
+    const t = setInterval(() => { if (document.visibilityState === 'visible') poll() }, 45000)
+    return () => { stop = true; clearInterval(t) }
+  }, [league, active, cfbNames && cfbNames.length])
+  return scores
+}
 
 export default function App() {
   const [league, setLeague] = useState('NFL')
   const [tab, setTab] = useState('board')
   const [selectedTeam, setSelectedTeam] = useState(null)
+  const manifestState = useJson('/data/manifest.json')
+  const siteTeams = useJson('/data/site/teams.json')
+  const playerLeaders = useJson('/data/site/player_leaders.json')
+  const cfbLogosState = useJson('/data/site/cfb_logos.json')
+  const cfbLogos = cfbLogosState.data ? cfbLogosState.data.logos : null
+  const liveScores = useLiveScores(league, tab === 'board', cfbLogos ? Object.keys(cfbLogos) : null)
 
   const account = useAccount()
   const book = useBook(account)
@@ -868,6 +1216,8 @@ export default function App() {
   const cfbRatingsState = useLatestSnapshot('cfb_ratings')
   const divergenceState = useLatestSnapshot('divergence')
   const cfbDivergenceState = useLatestSnapshot('cfb_divergence')
+  const activeDivData = league === 'CFB' ? (cfbDivergenceState.data || null) : (divergenceState.data || null)
+  const openingLines = useOpeningLines(league, manifestState.data, activeDivData && activeDivData.season, activeDivData && activeDivData.week)
   const playerGradesState = useLatestSnapshot('player_grades')
 
   const activeRatingsState = league === 'CFB' ? cfbRatingsState : ratingsState
@@ -889,7 +1239,7 @@ export default function App() {
   if (selectedTeam) {
     return (
       <div className="page">
-        <TeamProfilePage team={selectedTeam} onBack={() => setSelectedTeam(null)} league={league} />
+        <TeamProfilePage team={selectedTeam} onBack={() => setSelectedTeam(null)} league={league} siteInfo={league === 'NFL' && siteTeams.data ? siteTeams.data.teams[selectedTeam.team] : null} cfbLogos={cfbLogos} />
       </div>
     )
   }
@@ -948,6 +1298,10 @@ export default function App() {
                   perf={perf.data}
                   marginDist={marginDist}
                   qb1Map={divergenceState.data.qb1_map}
+                  boardLeague="NFL"
+                  boardScores={liveScores}
+                  boardOpenLines={openingLines}
+                  boardSiteTeams={siteTeams.data}
                 />
               )}
             </>
@@ -983,6 +1337,10 @@ export default function App() {
                      carryover gap is ~60% cover, not the ~94% the NFL
                      normal approximation was displaying. */
                   edgeCoefOverride={0.01828}
+                  boardLeague="CFB"
+                  boardCfbLogos={cfbLogos}
+                  boardScores={liveScores}
+                  boardOpenLines={openingLines}
                 />
               )}
             </>
@@ -993,6 +1351,14 @@ export default function App() {
       {tab === 'record' && <TrackRecord league={league} />}
 
       {tab === 'book' && <MyBook book={book} account={account} />}
+
+      {tab === 'schedule' && (league === 'NFL'
+        ? <ScheduleTab siteTeams={siteTeams} />
+        : <section><h2 className="section-heading">Season schedule — CFB</h2><p className="section-sub">The CFB slate lives on the This week board; a full 136-team schedule view is on the roadmap.</p></section>)}
+
+      {tab === 'players' && (league === 'NFL'
+        ? <PlayersTab playerLeaders={playerLeaders} manifest={manifestState.data} />
+        : <section><h2 className="section-heading">Players — CFB</h2><p className="section-sub">Player surfaces are NFL-only for now (college player data volume is a different animal).</p></section>)}
 
       {tab === 'ratings' && (
         <>
@@ -1009,8 +1375,13 @@ export default function App() {
                 Ratings publish weekly once the season starts.
               </div>
             )}
-            {activeRatingsState.data && (
-              <RatingsTable ratings={activeRatingsState.data.ratings} onSelectTeam={setSelectedTeam} />
+            {league === 'NFL' && siteTeams.data && activeRatingsState.data && (
+              <DivisionStandings siteTeams={siteTeams.data} ratingsByTeam={ratingsByTeam}
+                onSelectTeam={setSelectedTeam} allRatings={activeRatingsState.data.ratings} />
+            )}
+            {activeRatingsState.data && (league !== 'NFL' || !siteTeams.data) && (
+              <RatingsTable ratings={activeRatingsState.data.ratings} onSelectTeam={setSelectedTeam}
+                league={league} cfbLogos={cfbLogos} />
             )}
           </section>
 

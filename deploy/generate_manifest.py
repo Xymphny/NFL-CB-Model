@@ -70,6 +70,15 @@ def main():
 
     has_performance = copy_single_file("performance.json")
     has_cfb_performance = copy_single_file("cfb_performance.json")
+    # Site data + weekly props: copy whole families.
+    for fam in ("site", "props"):
+        src_dir = os.path.join(DATA_DIR, fam)
+        if os.path.isdir(src_dir):
+            dst = os.path.join(PUBLIC_DATA_DIR, fam)
+            os.makedirs(dst, exist_ok=True)
+            for fn in sorted(os.listdir(src_dir)):
+                shutil.copy2(os.path.join(src_dir, fn), os.path.join(dst, fn))
+            manifest[fam] = sorted(os.listdir(src_dir))
     copy_single_file("margin_dist.json")
 
     print(f"[generate_manifest] wrote {output_path}: "

@@ -134,6 +134,28 @@ def test_cfb_grading_mirrors_board():
     assert plays5[0]["tier"] == "play"         # week 6: same edge is a Play
 
 
+def test_finished_games_stay_on_board():
+    """A game the odds feed dropped (FINAL) is carried frozen; a game
+    absent with a future kickoff (postponed) is not."""
+    import deploy.odds_watch_job as ow
+    now = "2026-09-13T23:00:00Z"
+    odds = [{"home_team": "Kansas City Chiefs", "away_team": "Denver Broncos",
+             "commence_time": "2026-09-14T00:20:00Z"}]  # only the late game remains in the feed
+    snaps = [("2026-09-13T12:00:00Z", [
+        {"home_team": "DET", "away_team": "MIN", "home_name": "Detroit Lions", "away_name": "Minnesota Vikings",
+         "market_spread": 3.5, "kickoff": "2026-09-13T17:00:00Z", "line_status": "open"},
+        {"home_team": "KC", "away_team": "DEN", "home_name": "Kansas City Chiefs", "away_name": "Denver Broncos",
+         "market_spread": 7.0, "kickoff": "2026-09-14T00:20:00Z", "line_status": "open"},
+        {"home_team": "BUF", "away_team": "MIA", "home_name": "Buffalo Bills", "away_name": "Miami Dolphins",
+         "market_spread": 6.0, "kickoff": "2026-09-20T17:00:00Z", "line_status": "open"},  # postponed-style: future
+    ])]
+    pregame, carried = ow.split_started_and_carry(odds, snaps, now)
+    keys = {(c["home_team"], c["away_team"]) for c in carried}
+    assert ("DET", "MIN") in keys              # finished + dropped -> carried frozen
+    assert ("BUF", "MIA") not in keys          # future kickoff -> not carried
+    assert all(c["line_status"] == "closed" for c in carried)
+    assert [g["home_team"] for g in pregame] == ["Kansas City Chiefs"]
+
 
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
