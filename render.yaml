@@ -186,3 +186,15 @@ services:
         sync: false
       - key: GITHUB_TOKEN
         sync: false
+
+  - type: cron
+    name: mlb-daily-job
+    env: python
+    schedule: "0 9 * 3-10 *"   # daily 09:00 UTC, March-October
+    buildCommand: pip install -r requirements.txt
+    startCommand: python deploy/mlb_daily_update.py
+    envVars:
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false

@@ -170,8 +170,8 @@ def log_loss(p, y):
 
 
 def main(train_seasons, test_season):
-    sched = pd.read_csv("model/mlb_schedule_cache.csv")
-    pit = pd.read_csv("model/mlb_pitching_cache.csv")
+    from deploy.mlb_daily_update import load_mlb_caches
+    sched, pit = load_mlb_caches()   # historical + in-season bridge
     preds = run_walk_forward(sched, pit)
     train = preds[preds["season"].isin(train_seasons)]
     test = preds[preds["season"] == test_season]
