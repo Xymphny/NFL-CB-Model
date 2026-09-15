@@ -438,7 +438,11 @@ def main():
         from deploy.generate_site_data import generate as generate_site
         site_files = generate_site(os.environ.get("REPO_DATA_PATH", "./data"), season)
         if os.environ.get("GIT_REPO_URL"):
-            from deploy.git_utils import git_commit_and_push
+            # NOTE: no local import here -- a function-local
+            # `from ... import git_commit_and_push` marks the name local
+            # for the ENTIRE function and unbinds the earlier push calls
+            # above (crashed the 2026-09-15 run right after the first
+            # NFL grading was computed). The module-level import serves.
             for path in site_files:
                 git_commit_and_push(path, commit_message=f"Site data refresh: {os.path.basename(path)}")
     except Exception as site_err:
