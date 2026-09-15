@@ -25,9 +25,21 @@ import pandas as pd
 BASE = "https://raw.githubusercontent.com/chadwickbureau/retrosplits/master/daybyday/"
 
 
+# Only the columns the caches need -- the raw playing files are 175
+# columns wide, and reading them whole OOM'd Render's 512Mi cron
+# (caught live 2026-09-15). usecols cuts the parsed frame ~10x.
+PLAYING_COLS = ["game.key", "game.date", "season.phase", "team.key", "opponent.key",
+                "person.key", "P_G", "P_GS", "P_GF", "P_OUT", "P_PITCH",
+                "P_R", "P_ER", "P_H", "P_HR", "P_BB", "P_SO"]
+TEAMS_COLS = ["game.key", "game.date", "game.number", "season.phase",
+              "team.alignment", "team.key", "B_R", "site.key"]
+
+
 def _fetch(name):
     req = urllib.request.Request(BASE + name, headers={"User-Agent": "coverline-mlb"})
-    return pd.read_csv(io.BytesIO(urllib.request.urlopen(req, timeout=60).read()), low_memory=False)
+    cols = PLAYING_COLS if name.startswith("playing") else TEAMS_COLS
+    return pd.read_csv(io.BytesIO(urllib.request.urlopen(req, timeout=60).read()),
+                       usecols=lambda c: c in cols)
 
 
 def build(first_season, last_season, out_dir="model"):
