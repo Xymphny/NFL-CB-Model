@@ -65,20 +65,23 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, "manifest.json")
 
+    # Site data + weekly props: copy whole families and list them in
+    # the manifest BEFORE it is written (this block originally sat
+    # after the dump, so the entries silently never made the file).
+    for fam in ("site", "props"):
+        src_dir = os.path.join(REPO_ROOT, "data", fam)
+        if os.path.isdir(src_dir):
+            dst = os.path.join(REPO_ROOT, "frontend", "public", "data", fam)
+            os.makedirs(dst, exist_ok=True)
+            for fn in sorted(os.listdir(src_dir)):
+                shutil.copy2(os.path.join(src_dir, fn), os.path.join(dst, fn))
+            manifest[fam] = sorted(os.listdir(src_dir))
+
     with open(output_path, "w") as f:
         json.dump(manifest, f, indent=2)
 
     has_performance = copy_single_file("performance.json")
     has_cfb_performance = copy_single_file("cfb_performance.json")
-    # Site data + weekly props: copy whole families.
-    for fam in ("site", "props"):
-        src_dir = os.path.join(DATA_DIR, fam)
-        if os.path.isdir(src_dir):
-            dst = os.path.join(PUBLIC_DATA_DIR, fam)
-            os.makedirs(dst, exist_ok=True)
-            for fn in sorted(os.listdir(src_dir)):
-                shutil.copy2(os.path.join(src_dir, fn), os.path.join(dst, fn))
-            manifest[fam] = sorted(os.listdir(src_dir))
     copy_single_file("margin_dist.json")
 
     print(f"[generate_manifest] wrote {output_path}: "
