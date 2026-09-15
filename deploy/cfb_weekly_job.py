@@ -80,8 +80,9 @@ def run_cfb_weekly_job(season, current_week, output_dir="./data"):
     output_subdir = os.path.join(output_dir, "cfb_ratings")
     os.makedirs(output_subdir, exist_ok=True)
     output_file = os.path.join(output_subdir, f"{season}-week-{current_week:02d}.json")
+    from deploy.odds_watch_job import _json_sanitize
     with open(output_file, "w") as f:
-        json.dump(payload, f, indent=2)
+        json.dump(_json_sanitize(payload), f, indent=2, allow_nan=False)  # NaN-proof: same browser-parse bug as NFL 2026-09-15
 
     print(f"[cfb_weekly_job] wrote {output_file} ({len(payload['ratings'])} teams)")
     return payload

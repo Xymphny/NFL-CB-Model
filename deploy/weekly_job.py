@@ -382,8 +382,16 @@ def write_output(result: dict, path: str):
         "ratings": result["ratings"].reset_index().rename(columns={"index": "team"}).to_dict(orient="records"),
     }
 
+    # Sanitize before writing: browsers reject literal NaN in JSON,
+    # and one week of data produces genuine NaNs (a team with zero red
+    # zone trips has no points-per-trip). Caught live 2026-09-15: the
+    # first in-season snapshot broke the Teams tab exactly this way --
+    # the same bug fixed in the divergence writer months ago, never
+    # applied here. allow_nan=False makes any future NaN fail LOUDLY
+    # in the cron log instead of silently in every visitor's browser.
+    from deploy.odds_watch_job import _json_sanitize
     with open(output_file, "w") as f:
-        json.dump(payload, f, indent=2)
+        json.dump(_json_sanitize(payload), f, indent=2, allow_nan=False)
 
     return output_file
 
