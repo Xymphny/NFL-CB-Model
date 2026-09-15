@@ -129,8 +129,32 @@ def modal_parks(historical_schedule):
     return hs.groupby("home_team")["park"].agg(lambda x: x.value_counts().index[0]).to_dict()
 
 
+def ensure_historical(data_dir="model", first=2021, last=2025):
+    """Self-heal: the historical caches are regeneratable artifacts
+    (retrosplits on GitHub), so a fresh deploy builds them itself on
+    first run instead of failing on their absence -- caught live
+    2026-09-15 when the first cron run crashed on the missing file.
+    Freshly built caches are pushed so subsequent runs skip this."""
+    path = os.path.join(data_dir, "mlb_schedule_cache.csv")
+    if os.path.exists(path):
+        return False
+    print(f"[mlb_daily] historical caches absent -- building {first}-{last} from retrosplits (one-time)")
+    from ingest.mlb_gamelogs import build
+    build(first, last, out_dir=data_dir)
+    if os.environ.get("GIT_REPO_URL"):
+        try:
+            from deploy.git_utils import git_commit_and_push
+            for fn in ("mlb_schedule_cache.csv", "mlb_pitching_cache.csv"):
+                git_commit_and_push(os.path.join(data_dir, fn),
+                                    commit_message=f"MLB historical cache: {fn}")
+        except Exception as e:
+            print(f"[mlb_daily] cache push soft-fail (will rebuild next run): {e}")
+    return True
+
+
 def update(season=None, data_dir="model", pace=0.3):
     season = season or date.today().year
+    ensure_historical(data_dir)
     hist = pd.read_csv(os.path.join(data_dir, "mlb_schedule_cache.csv"))
     parks = modal_parks(hist)
     sched_path = os.path.join(data_dir, "mlb_schedule_current.csv")
