@@ -172,3 +172,17 @@ services:
     runtime: static
     buildCommand: python3 deploy/generate_manifest.py && cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
+
+  - type: cron
+    name: mlb-odds-watch-job
+    env: python
+    schedule: "0 15,19,22 * 3-10 *"   # 3x daily, March-October (MLB season); suspend rest of year
+    buildCommand: pip install -r requirements.txt
+    startCommand: python deploy/mlb_odds_watch.py
+    envVars:
+      - key: ODDS_API_KEY
+        sync: false
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
