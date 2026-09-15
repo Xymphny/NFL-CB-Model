@@ -267,6 +267,36 @@ function AltLines({ d, marginDist }) {
   )
 }
 
+function MlbBoard({ snap }) {
+  if (!snap) return <p className="section-sub">The MLB board populates once the first odds snapshot lands (push + sync + first cron run).</p>
+  const fmtMl = (x) => (x == null ? '—' : x > 0 ? `+${x}` : `${x}`)
+  return (
+    <section>
+      <p className="preseason-note">{snap.note}</p>
+      {snap.divergences.map((d) => (
+        <div key={`${d.away_team}@${d.home_team}${d.kickoff || ''}`} className="bet-card">
+          <div className="bet-card-top">
+            <div className="matchup-block">
+              <p className="matchup-line">{d.away_name || d.away_team} <span className="matchup-at">@</span> {d.home_name || d.home_team}</p>
+              <p className="kickoff-line">
+                {d.line_status === 'closed' && <span className="closed-chip">Closed</span>}
+                {[formatKickoff(d.kickoff),
+                  (d.away_probable || d.home_probable) ? `${d.away_probable || 'TBD'} vs ${d.home_probable || 'TBD'}` : null,
+                  d.market_total != null ? `O/U ${d.market_total}` : null].filter(Boolean).join(' · ')}
+              </p>
+            </div>
+            <span className="verdict lean">Watch</span>
+          </div>
+          <div className="card-chips">
+            <span className="card-chip">Best: {d.away_team} {fmtMl(d.away_ml)} ({d.away_ml_book}) · {d.home_team} {fmtMl(d.home_ml)} ({d.home_ml_book})</span>
+            <span className="card-chip">Market {Math.round(d.market_home_prob * 100)}% home{d.model_home_prob != null ? ` · Model ${Math.round(d.model_home_prob * 100)}%` : ''}{d.ev_gap != null ? ` · EV gap ${(d.ev_gap * 100).toFixed(1)}%` : ''}</span>
+          </div>
+        </div>
+      ))}
+    </section>
+  )
+}
+
 function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null, boardLeague = 'NFL', boardCfbLogos = null, boardScores = null, boardOpenLines = null, boardSiteTeams = null }) {
   const [showPassed, setShowPassed] = useState(false)
   const { settings, logBet, betLog } = book
@@ -518,7 +548,7 @@ function usePerformance(league) {
 
   useEffect(() => {
     setState({ data: null, loading: true })
-    const file = league === 'CFB' ? '/data/cfb_performance.json' : '/data/performance.json'
+    const file = league === 'CFB' ? '/data/cfb_performance.json' : league === 'MLB' ? '/data/mlb_performance.json' : '/data/performance.json'
     fetch(file)
       .then((res) => { if (!res.ok) throw new Error('none'); return res.json() })
       .then((data) => setState({ data, loading: false }))
@@ -578,7 +608,7 @@ function useClvReport(league) {
 
   useEffect(() => {
     setState({ games: null, loading: true, error: null })
-    const key = league === 'CFB' ? 'cfb_divergence' : 'divergence'
+    const key = league === 'CFB' ? 'cfb_divergence' : league === 'MLB' ? 'mlb_divergence' : 'divergence'
     fetch('/data/manifest.json')
       .then((res) => { if (!res.ok) throw new Error('no manifest'); return res.json() })
       .then((manifest) => {
@@ -587,7 +617,7 @@ function useClvReport(league) {
           setState({ games: null, loading: false, error: new Error('need snapshots') })
           return
         }
-        return Promise.all(files.map((f) => fetch(`/data/${league === 'CFB' ? 'cfb_divergence' : 'divergence'}/${f}`).then((r) => r.json()))).then(
+        return Promise.all(files.map((f) => fetch(`/data/${league === 'CFB' ? 'cfb_divergence' : league === 'MLB' ? 'mlb_divergence' : 'divergence'}/${f}`).then((r) => r.json()))).then(
           (snapshots) => {
             snapshots.sort((a, b) => new Date(a.computed_at) - new Date(b.computed_at))
             const gameKeys = new Set()
@@ -1216,6 +1246,7 @@ export default function App() {
   const cfbRatingsState = useLatestSnapshot('cfb_ratings')
   const divergenceState = useLatestSnapshot('divergence')
   const cfbDivergenceState = useLatestSnapshot('cfb_divergence')
+  const mlbDivergenceState = useLatestSnapshot('mlb_divergence')
   const activeDivData = league === 'CFB' ? (cfbDivergenceState.data || null) : (divergenceState.data || null)
   const openingLines = useOpeningLines(league, manifestState.data, activeDivData && activeDivData.season, activeDivData && activeDivData.week)
   const playerGradesState = useLatestSnapshot('player_grades')
@@ -1252,7 +1283,7 @@ export default function App() {
           <div className="masthead-right">
             <AccountChip account={account} />
             <div className="league-toggle" role="tablist" aria-label="League">
-              {['NFL', 'CFB'].map((l) => (
+              {['NFL', 'CFB', 'MLB'].map((l) => (
                 <button key={l} className={league === l ? 'active' : ''} onClick={() => setLeague(l)}>
                   {l}
                 </button>
@@ -1275,7 +1306,10 @@ export default function App() {
         </nav>
       </header>
 
-      {tab === 'board' && (
+      {tab === 'board' && league === 'MLB' && (
+        <MlbBoard snap={mlbDivergenceState.data} />
+      )}
+      {tab === 'board' && league !== 'MLB' && (
         <section>
           {league === 'NFL' ? (
             <>
@@ -1352,15 +1386,24 @@ export default function App() {
 
       {tab === 'book' && <MyBook book={book} account={account} />}
 
-      {tab === 'schedule' && (league === 'NFL'
+      {tab === 'schedule' && league === 'MLB' && (
+        <section><h2 className="section-heading">Season schedule — MLB</h2><p className="section-sub">MLB schedule view arrives with the 2027 board launch.</p></section>
+      )}
+      {tab === 'schedule' && league !== 'MLB' && (league === 'NFL'
         ? <ScheduleTab siteTeams={siteTeams} />
         : <section><h2 className="section-heading">Season schedule — CFB</h2><p className="section-sub">The CFB slate lives on the This week board; a full 136-team schedule view is on the roadmap.</p></section>)}
 
-      {tab === 'players' && (league === 'NFL'
+      {tab === 'players' && league === 'MLB' && (
+        <section><h2 className="section-heading">Players — MLB</h2><p className="section-sub">MLB player surfaces arrive with the 2027 board launch.</p></section>
+      )}
+      {tab === 'players' && league !== 'MLB' && (league === 'NFL'
         ? <PlayersTab playerLeaders={playerLeaders} manifest={manifestState.data} />
         : <section><h2 className="section-heading">Players — CFB</h2><p className="section-sub">Player surfaces are NFL-only for now (college player data volume is a different animal).</p></section>)}
 
-      {tab === 'ratings' && (
+      {tab === 'ratings' && league === 'MLB' && (
+        <section><h2 className="section-heading">Teams — MLB</h2><p className="section-sub">MLB team ratings publish with the 2027 board launch; the model runs and is graded before anything shows here.</p></section>
+      )}
+      {tab === 'ratings' && league !== 'MLB' && (
         <>
           <section>
             <h2 className="section-heading">Team ratings</h2>

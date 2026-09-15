@@ -59,6 +59,7 @@ def main():
         "player_grades": list_and_copy_snapshots("player_grades"),
         "cfb_ratings": list_and_copy_snapshots("cfb_ratings"),
         "cfb_divergence": list_and_copy_snapshots("cfb_divergence"),
+        "mlb_divergence": list_and_copy_snapshots("mlb_divergence"),
     }
 
     output_dir = os.path.join(REPO_ROOT, "frontend", "public", "data")
