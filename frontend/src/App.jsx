@@ -858,6 +858,64 @@ function PlayersTab({ playerLeaders, manifest }) {
       ) : (
         <>
           <p className="props-note">{propsState.data.note}</p>
+          {(() => {
+            const rows = []
+            for (const [gm, gdata] of Object.entries(propsState.data.games)) {
+              for (const [mk, players] of Object.entries(gdata.markets)) {
+                for (const [pl, r] of Object.entries(players)) {
+                  if (r.edge && r.edge.ev_pct != null) rows.push({ gm, mk, pl, r, kickoff: gdata.kickoff })
+                }
+              }
+            }
+            rows.sort((a, b) => b.r.edge.ev_pct - a.r.edge.ev_pct)
+            const top = rows.filter((x) => x.r.edge.ev_pct >= 1.0).slice(0, 12)
+            const offMarket = []
+            for (const [gm, gdata] of Object.entries(propsState.data.games)) {
+              for (const [mk, players] of Object.entries(gdata.markets)) {
+                for (const [pl, r] of Object.entries(players)) {
+                  for (const om of r.off_market || []) offMarket.push({ gm, mk, pl, ...om })
+                }
+              }
+            }
+            offMarket.sort((a, b) => Math.abs(b.vs_consensus) - Math.abs(a.vs_consensus))
+            return (
+              <>
+                <h3 className="division-heading">Best price edges — vs de-vigged consensus</h3>
+                {top.length === 0 ? <p className="section-sub">No prop currently beats the multi-book consensus by ≥1% EV. That is a finding, not a failure — most weeks most books agree.</p> : (
+                  <div className="props-edge-list">
+                    {top.map(({ gm, mk, pl, r, kickoff }) => (
+                      <div key={gm + mk + pl} className="bet-card props-edge-card">
+                        <div className="bet-card-top">
+                          <div className="matchup-block">
+                            <p className="matchup-line">{pl} <span className="matchup-at">·</span> {MARKET_LABELS[mk] || mk}{r.edge.side !== 'yes' ? ` ${r.edge.side} ${r.line}` : ''}</p>
+                            <p className="kickoff-line">
+                              <TeamMark league="NFL" team={gm.split('@')[0]} size={15} /> {gm.replace('@', ' @ ')} {formatKickoff(kickoff) ? '· ' + formatKickoff(kickoff) : ''}
+                            </p>
+                          </div>
+                          <span className={`verdict ${r.edge.ev_pct >= 3 ? 'play' : 'lean'}`}>+{r.edge.ev_pct}% EV</span>
+                        </div>
+                        <div className="card-chips">
+                          <span className="card-chip">Best: {r.edge.price > 0 ? `+${r.edge.price}` : r.edge.price} ({r.edge.book}) · consensus fair {(r.edge.fair_prob * 100).toFixed(1)}% across {r.edge.n_books} books</span>
+                          <span className="card-chip">{r.edge.basis}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {offMarket.length > 0 && (
+                  <>
+                    <h3 className="division-heading" style={{ marginTop: 16 }}>Off-market lines</h3>
+                    <div className="card-chips" style={{ marginBottom: 14 }}>
+                      {offMarket.slice(0, 8).map((o) => (
+                        <span key={o.gm + o.mk + o.pl + o.book} className="card-chip warn">{o.pl} {MARKET_LABELS[o.mk] || o.mk}: {o.book} hangs {o.line} ({o.vs_consensus > 0 ? '+' : ''}{o.vs_consensus} vs consensus)</span>
+                      ))}
+                    </div>
+                  </>
+                )}
+                <h3 className="division-heading">Full board</h3>
+              </>
+            )
+          })()}
           {Object.entries(propsState.data.games).map(([gm, gdata]) => (
             <div key={gm} className="props-game">
               <button className="props-game-head" onClick={() => setOpenGame(openGame === gm ? null : gm)}>

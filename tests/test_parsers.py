@@ -242,6 +242,52 @@ def test_grader_honors_regime_cap():
     assert abs(graded[0]["units"]) in (0.0, round(STAKES["lean"] * 100 / 110, 3), STAKES["lean"])
 
 
+def test_props_consensus_edge():
+    """Model-free prop edges: fair value = de-vigged multi-book
+    consensus; edge = best price against it. No player projections
+    anywhere -- the market is the model."""
+    from deploy.odds_watch_job import consensus_edge
+    books = {"DK": {"line": 220.5, "over": -110, "under": -110},
+             "FD": {"line": 220.5, "over": -112, "under": -108},
+             "MGM": {"line": 220.5, "over": -108, "under": -112},
+             "Soft": {"line": 220.5, "over": 105, "under": -135},
+             "Off": {"line": 224.5, "over": -110, "under": -110}}
+    r = consensus_edge(books)
+    assert r["edge"]["side"] == "over" and r["edge"]["book"] == "Soft" and r["edge"]["ev_pct"] > 2
+    assert r["off_market"][0]["book"] == "Off" and r["off_market"][0]["vs_consensus"] == 4.0
+    thin = consensus_edge({"DK": {"line": 60.5, "over": -110, "under": -110},
+                           "FD": {"line": 60.5, "over": -115, "under": -105}})
+    assert thin["edge"] is None                      # 2 books never make an edge claim
+    bal = consensus_edge({b: {"line": 100.5, "over": -110, "under": -110} for b in "ABC"})
+    assert bal["edge"]["ev_pct"] < 0                 # balanced market: EV is vig-negative
+    td = consensus_edge({"DK": {"yes": -175}, "FD": {"yes": -180}, "S": {"yes": -120}}, yes_market=True)
+    assert td["edge"]["side"] == "yes" and "conservative" in td["edge"]["basis"]
+
+
+def test_props_format_refetch():
+    """A format-1 props file (pre-consensus schema) triggers ONE
+    refetch; a current-format file still dedupes."""
+    import json, os, tempfile
+    import deploy.odds_watch_job as ow
+    d = tempfile.mkdtemp(); os.makedirs(os.path.join(d, "props"))
+    path = os.path.join(d, "props", "2026-week-02.json")
+    json.dump({"season": 2026, "week": 2, "games": {}}, open(path, "w"))   # format 1 (absent)
+    calls = []
+    orig = ow.requests.get
+    class R:
+        def raise_for_status(self): pass
+        def json(self): return {"bookmakers": []}
+    ow.requests.get = lambda *a, **k: (calls.append(1), R())[1]
+    try:
+        ow.fetch_week_props("k", 2026, 2, d, [{"id": "x"}])
+        assert calls, "old-format file must trigger a refetch"
+        json.dump({"season": 2026, "week": 2, "format": ow.PROPS_FORMAT, "games": {}}, open(path, "w"))
+        calls.clear()
+        assert ow.fetch_week_props("k", 2026, 2, d, [{"id": "x"}]) is None and not calls
+    finally:
+        ow.requests.get = orig
+
+
 
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):

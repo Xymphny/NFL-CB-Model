@@ -89,6 +89,81 @@ ODDS_TEAM_TO_ABBR = {
 PROPS_MARKETS = "player_pass_yds,player_rush_yds,player_reception_yds,player_anytime_td"
 
 
+PROPS_FORMAT = 2        # bumped when the payload schema changes; older files refetch once
+
+
+def _implied(american):
+    a = float(american)
+    return 100 / (a + 100) if a > 0 else -a / (-a + 100)
+
+
+def _decimal(american):
+    a = float(american)
+    return 1 + (a / 100 if a > 0 else 100 / -a)
+
+
+def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
+    """Model-free prop edge: the de-vigged multi-book consensus is the
+    fair-value estimate (the market is the projection), and the edge is
+    the best quoted price against it. Two shapes:
+
+    O/U markets: consensus line = median book line; among books quoting
+    BOTH sides at that line (within line_tol -- prices at different
+    lines are not comparable without a distribution model, which we
+    refuse to invent), each book's de-vigged P(over) is computed and
+    the median is fair value. EV% = best price at the consensus line
+    vs that fair prob, per side. Books hanging a line >= 1.0 off
+    consensus are surfaced as off_market flags (the classic soft-book
+    signal) rather than folded into EV.
+
+    Yes-markets (anytime TD): no two-way de-vig exists, so fair value
+    is the median implied probability across books -- vig-inflated,
+    which makes the computed EV an UNDERSTATEMENT of the true edge:
+    conservative by construction.
+
+    Requires min_books at the consensus line; thinner markets report
+    line/best prices but no EV (never an edge from two quotes)."""
+    out = {"line": None, "over": None, "under": None, "yes": None, "edge": None, "off_market": []}
+    quotes = {b: q for b, q in books.items() if q}
+    if yes_market:
+        priced = [(b, q["yes"]) for b, q in quotes.items() if q.get("yes") is not None]
+        if not priced:
+            return out
+        best_b, best_p = max(priced, key=lambda x: _decimal(x[1]))
+        out["yes"] = {"price": best_p, "point": None, "book": best_b}
+        if len(priced) >= min_books:
+            import statistics
+            fair = statistics.median(_implied(p) for _, p in priced)
+            ev = _decimal(best_p) * fair - 1
+            out["edge"] = {"side": "yes", "ev_pct": round(ev * 100, 2), "fair_prob": round(fair, 4),
+                           "n_books": len(priced), "price": best_p, "book": best_b, "basis": "median-implied (vig-in, conservative)"}
+        return out
+    lined = [(b, q) for b, q in quotes.items() if q.get("line") is not None]
+    if not lined:
+        return out
+    import statistics
+    cons = statistics.median(q["line"] for _, q in lined)
+    out["line"] = cons
+    at_line = [(b, q) for b, q in lined if abs(q["line"] - cons) <= line_tol]
+    for b, q in lined:
+        if abs(q["line"] - cons) >= 1.0:
+            out["off_market"].append({"book": b, "line": q["line"], "vs_consensus": round(q["line"] - cons, 1)})
+    for side in ("over", "under"):
+        priced = [(b, q[side]) for b, q in at_line if q.get(side) is not None]
+        if priced:
+            bb, bp = max(priced, key=lambda x: _decimal(x[1]))
+            out[side] = {"price": bp, "point": cons, "book": bb}
+    two_way = [(q["over"], q["under"]) for _, q in at_line if q.get("over") is not None and q.get("under") is not None]
+    if len(two_way) >= min_books and out["over"] and out["under"]:
+        fair_over = statistics.median(_implied(o) / (_implied(o) + _implied(u)) for o, u in two_way)
+        evs = {"over": _decimal(out["over"]["price"]) * fair_over - 1,
+               "under": _decimal(out["under"]["price"]) * (1 - fair_over) - 1}
+        side = max(evs, key=evs.get)
+        out["edge"] = {"side": side, "ev_pct": round(evs[side] * 100, 2), "fair_prob": round(fair_over if side == "over" else 1 - fair_over, 4),
+                       "n_books": len(two_way), "price": out[side]["price"], "book": out[side]["book"], "basis": "de-vigged consensus at matching line"}
+    return out
+
+
 def fetch_week_props(api_key, season, week, data_dir, odds_data):
     """Weekly NFL player-props snapshot -> data/props/{season}-week-NN.json.
 
@@ -103,7 +178,12 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
     verifies it like every external feed before it."""
     out_path = os.path.join(data_dir, "props", f"{season}-week-{week:02d}.json")
     if os.path.exists(out_path):
-        return None
+        try:
+            if json.load(open(out_path)).get("format", 1) >= PROPS_FORMAT:
+                return None
+            print("[props] existing file is an older format; refetching with per-book quotes")
+        except Exception:
+            return None
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     games = {}
     for game in odds_data:
@@ -127,32 +207,34 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
                 for oc in mk.get("outcomes", []):
                     player = oc.get("description") or oc.get("name")
                     side = oc.get("name")
-                    row = players.setdefault(player, {"lines": [], "over": None, "under": None, "yes": None})
-                    if oc.get("point") is not None:
-                        row["lines"].append(oc["point"])
+                    row = players.setdefault(player, {"books": {}})
+                    quote = row["books"].setdefault(bk.get("title"), {})
                     slot = {"Over": "over", "Under": "under", "Yes": "yes"}.get(side)
                     if slot and oc.get("price") is not None:
-                        best = row[slot]
-                        if best is None or oc["price"] > best["price"]:
-                            row[slot] = {"price": oc["price"], "point": oc.get("point"), "book": bk.get("title")}
+                        quote[slot] = oc["price"]
+                        if oc.get("point") is not None:
+                            quote["line"] = oc["point"]
         if markets:
-            for mk_rows in markets.values():
+            for mk_key, mk_rows in markets.items():
                 for row in mk_rows.values():
-                    lines = row.pop("lines", [])
-                    row["line"] = float(pd.Series(lines).median()) if lines else None
+                    row.update(consensus_edge(row["books"], yes_market=(mk_key == "player_anytime_td")))
             games[f"{ODDS_TEAM_TO_ABBR.get(ev.get('away_team'), ev.get('away_team'))}@{ODDS_TEAM_TO_ABBR.get(ev.get('home_team'), ev.get('home_team'))}"] = {
                 "kickoff": ev.get("commence_time"), "markets": markets}
     if not games:
         print("[props] no props returned; not writing")
         return None
+    n_edges = sum(1 for g in games.values() for m in g["markets"].values()
+                  for r in m.values() if r.get("edge") and r["edge"].get("ev_pct") is not None)
     payload = _json_sanitize({
-        "season": season, "week": week,
-        "note": ("Market information only: lines and best prices across books, refreshed weekly. "
-                 "No player projection model exists here, so nothing on this page is a model edge."),
+        "season": season, "week": week, "format": PROPS_FORMAT,
+        "note": ("Market-derived edges only: the fair value here is the DE-VIGGED MULTI-BOOK CONSENSUS, "
+                 "and the edge is the best available price against it -- this finds mispriced BOOKS, "
+                 "not mispriced players. No player projection model exists here; nothing on this page "
+                 "is a model opinion, and these are not Play/Lean verdicts."),
         "games": games})
     with open(out_path, "w") as f:
         json.dump(payload, f, indent=1, allow_nan=False)
-    print(f"[props] wrote {out_path}: {len(games)} games")
+    print(f"[props] wrote {out_path}: {len(games)} games, {n_edges} rows with computable consensus EV")
     return out_path
 
 
