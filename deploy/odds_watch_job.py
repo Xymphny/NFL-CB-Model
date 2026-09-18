@@ -156,6 +156,55 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
     return out_path
 
 
+REGIME_CHIP_WEEKS = 6   # advisory chip window
+REGIME_CAP_WEEKS = 4    # enforcement window (matches the tested pool)
+
+
+def load_regime_map(season, data_dir="./data"):
+    """{team: {"tier": n, "coach": name}} for external regimes (tier>=1)
+    this season. Internal promotions (tier 0) are excluded by design:
+    the live 2026 measurement showed they behave like stable teams."""
+    try:
+        path = os.path.join(data_dir, "coach_changes.json")
+        changes = json.load(open(path))["changes"].get(str(season), {})
+        return {team: {"tier": tier, "coach": coach}
+                for team, (tier, coach) in changes.items() if tier >= 1}
+    except Exception as e:
+        print(f"[regime] coach_changes.json unavailable: {e}")
+        return {}
+
+
+def apply_regime_layer(divergences, regimes, week):
+    """Attach regime context; cap backed-regime early spread flags.
+
+    Evidence (model/coach_regime_experiment.py, 2016-2023 held
+    history): early-season flags that BACKED a first-year external-HC
+    team against the market went 0/9 ATS -- the ghost prior liking a
+    new-coach team more than the repriced market has never once been
+    right in our sample. Flags FADING regime teams graded at baseline
+    (60%), so they are deliberately untouched. Weeks 1-2 are
+    underrepresented in the harness (walk-forward warm-up) and the
+    live 2026 sample held one counterexample, so this ships as a
+    STAKE REDUCTION (Play -> Lean), never a removal: capped flags
+    keep getting graded at the stakes shown, and live CLV audits the
+    rule like everything else."""
+    if not regimes or week is None:
+        return divergences
+    for d in divergences:
+        if week <= REGIME_CHIP_WEEKS:
+            home_r, away_r = regimes.get(d.get("home_team")), regimes.get(d.get("away_team"))
+            if home_r or away_r:
+                d["regime"] = {"home": home_r, "away": away_r}
+        if week <= REGIME_CAP_WEEKS and d.get("spread_gap") is not None and d.get("line_status") != "closed":
+            picked = d["home_team"] if d["spread_gap"] > 0 else d["away_team"]
+            if picked in regimes:
+                d["tier_cap"] = "lean"
+                d["tier_cap_reason"] = (f"{picked} first-year staff ({regimes[picked]['coach']}): "
+                                        "flags backing new-regime teams graded 0/9 in 2016-2023 "
+                                        "early-season history; stake capped, still graded")
+    return divergences
+
+
 def load_prior_debias(data_dir, subdir, season, week):
     """Newest same-week snapshot's recorded de-bias offsets, or None.
     Late-week runs (Sunday night, Monday) have too few open games to
@@ -651,6 +700,7 @@ def main():
         for d in divergences:
             d["line_status"] = "open"
         divergences.extend(carried_closed)
+        apply_regime_layer(divergences, load_regime_map(season, REPO_DATA_PATH), current_week)
 
         # Weekly props snapshot (self-deduping: skips if this week's
         # file exists). Pushed right after the divergence snapshot.

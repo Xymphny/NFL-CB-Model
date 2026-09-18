@@ -122,10 +122,14 @@ export function confidenceDrivers(d, market, ratingsByTeam, tierStats) {
       stability = h.rating_std <= p75 && a.rating_std <= p75
     }
   }
+  const regimeInvolved = d.regime && (d.regime.home || d.regime.away)
   drivers.push({
     key: 'stability',
-    label: stability === true ? 'Ratings stable' : stability === false ? 'Ratings uncertain' : 'Rating stability unknown',
-    ok: stability,
+    // New-regime teams' ratings churned ~45% harder than stable teams'
+    // in live measurement (2026 wk1): their early ratings are less
+    // trustworthy regardless of the bootstrap band.
+    label: regimeInvolved ? 'New-regime rating risk' : stability === true ? 'Ratings stable' : stability === false ? 'Ratings uncertain' : 'Rating stability unknown',
+    ok: regimeInvolved ? false : stability,
   })
 
   // QB-status driver -- annotation only by design: the held-out check

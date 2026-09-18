@@ -1,0 +1,16 @@
+{
+  "_readme": "NFL head-coach regime changes by FIRST season of the new regime. tier 0 = internal promotion/interim elevation (continuity -- behaves like a stable team, per the 2026 BUF measurement); tier 1 = external hire; tier 2 = external hire with full staff teardown (2026 only; historical tier-2 classification is too judgment-dependent to backtest, so the experiment splits internal vs external). Team keys match nflverse games.csv for that season (OAK pre-2020, LV after). Sources: public coaching records; 2026 from the verified offseason list. Used by (a) model/coach_regime_experiment.py and (b) the board's regime chip.",
+  "changes": {
+    "2016": {"CLE": [1, "Jackson"], "MIA": [1, "Gase"], "PHI": [1, "Pederson"], "NYG": [1, "McAdoo"], "SF": [1, "Kelly"], "TB": [0, "Koetter"], "TEN": [0, "Mularkey"]},
+    "2017": {"BUF": [1, "McDermott"], "DEN": [1, "Joseph"], "LAC": [1, "Lynn"], "JAX": [0, "Marrone"], "SF": [1, "Shanahan"], "LA": [1, "McVay"]},
+    "2018": {"CHI": [1, "Nagy"], "IND": [1, "Reich"], "DET": [1, "Patricia"], "NYG": [1, "Shurmur"], "OAK": [1, "Gruden"], "TEN": [1, "Vrabel"], "ARI": [1, "Wilks"]},
+    "2019": {"ARI": [1, "Kingsbury"], "CIN": [1, "Taylor"], "CLE": [0, "Kitchens"], "DEN": [1, "Fangio"], "MIA": [1, "Flores"], "GB": [1, "LaFleur"], "NYJ": [1, "Gase"], "TB": [1, "Arians"]},
+    "2020": {"CLE": [1, "Stefanski"], "DAL": [1, "McCarthy"], "NYG": [1, "Judge"], "CAR": [1, "Rhule"], "WAS": [1, "Rivera"]},
+    "2021": {"ATL": [1, "Smith"], "DET": [1, "Campbell"], "HOU": [1, "Culley"], "JAX": [1, "Meyer"], "NYJ": [1, "Saleh"], "LAC": [1, "Staley"], "PHI": [1, "Sirianni"]},
+    "2022": {"CHI": [1, "Eberflus"], "DEN": [1, "Hackett"], "HOU": [0, "L.Smith"], "JAX": [1, "Pederson"], "MIA": [1, "McDaniel"], "LV": [1, "McDaniels"], "NYG": [1, "Daboll"], "MIN": [1, "O'Connell"], "NO": [0, "Allen"], "TB": [0, "Bowles"]},
+    "2023": {"ARI": [1, "Gannon"], "DEN": [1, "Payton"], "IND": [1, "Steichen"], "HOU": [1, "Ryans"], "CAR": [1, "Reich"]},
+    "2024": {"CAR": [1, "Canales"], "WAS": [1, "Quinn"], "ATL": [1, "Morris"], "LAC": [1, "J.Harbaugh"], "LV": [0, "Pierce"], "NE": [0, "Mayo"], "SEA": [1, "Macdonald"], "TEN": [1, "Callahan"]},
+    "2025": {"CHI": [1, "B.Johnson"], "DAL": [0, "Schottenheimer"], "JAX": [1, "Coen"], "LV": [1, "Carroll"], "NE": [1, "Vrabel"], "NO": [1, "Moore"], "NYJ": [1, "Glenn"]},
+    "2026": {"ARI": [1, "LaFleur"], "ATL": [1, "Stefanski"], "BAL": [1, "Minter"], "BUF": [0, "Brady"], "CLE": [1, "Monken"], "LV": [1, "Kubiak"], "MIA": [1, "Hafley"], "NYG": [2, "J.Harbaugh"], "PIT": [1, "McCarthy"], "TEN": [1, "Saleh"]}
+  }
+}

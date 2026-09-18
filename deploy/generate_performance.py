@@ -73,6 +73,10 @@ def grade_divergence(d, week, results_by_game):
             tier = "lean"
         else:
             continue
+        # Regime cap: the board showed these at Lean stakes (see
+        # apply_regime_layer) -- grade what the board showed.
+        if market == "spread" and d.get("tier_cap") == "lean":
+            tier = "lean"
 
         actual_margin = game["home_score"] - game["away_score"]
         actual_total = game["home_score"] + game["away_score"]

@@ -615,6 +615,13 @@ highest precedence).
   pbp pressure proxy (PFF-class), FTN charting, CFB roster priors,
   quantified QB adjustment (worse in backup games -- QB info is fully
   priced; annotation-only design is doubly evidence-backed).
+- COACH REGIME (2026-09-18): early-season flags BACKING first-year
+  external-HC teams went 0/9 ATS (2016-2023, model/coach_regime_experiment.py);
+  faded-regime flags graded at baseline. Shipped as a narrow Lean cap on
+  backed-regime spread flags, weeks 1-4 only (stake reduction, still
+  graded -- live CLV audits it), plus advisory chips and a regime-aware
+  rating-stability driver. Internal promotions count as stable (live
+  2026 measurement: Buffalo's internal promo moved 0 rating ranks wk 1).
 - KNOWN QUIRK: MARGIN_COEFFICIENTS home_field/intercept collinearity
   (see model/prediction.py) -- offseason refit item.
 

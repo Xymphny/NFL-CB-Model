@@ -199,6 +199,49 @@ def test_props_called_with_module_key():
     assert "fetch_week_props(ODDS_API_KEY" in src
 
 
+def test_regime_layer():
+    """Coach-regime layer (evidence: model/coach_regime_experiment.py --
+    backed-regime early flags 0/9 ATS 2016-2023; faded-regime flags at
+    baseline; internal promotions behave like stable teams)."""
+    from deploy.odds_watch_job import apply_regime_layer, load_regime_map
+    regimes = {"NYG": {"tier": 2, "coach": "J.Harbaugh"}, "ARI": {"tier": 1, "coach": "LaFleur"}}
+    rows = [
+        {"home_team": "NYG", "away_team": "DAL", "spread_gap": 4.5, "line_status": "open"},   # backs NYG -> cap
+        {"home_team": "LA", "away_team": "ARI", "spread_gap": 3.0, "line_status": "open"},    # backs LA (fades ARI) -> chip only
+        {"home_team": "KC", "away_team": "DEN", "spread_gap": 5.0, "line_status": "open"},    # stable game -> nothing
+        {"home_team": "NYG", "away_team": "PHI", "spread_gap": -4.0, "line_status": "closed"},# closed -> untouched
+    ]
+    apply_regime_layer(rows, regimes, week=2)
+    assert rows[0].get("tier_cap") == "lean" and "0/9" in rows[0]["tier_cap_reason"]
+    assert rows[1].get("tier_cap") is None and rows[1]["regime"]["away"]["coach"] == "LaFleur"
+    assert "regime" not in rows[2] and "tier_cap" not in rows[2]
+    assert rows[3].get("tier_cap") is None                    # frozen rows never capped
+    rows2 = [{"home_team": "NYG", "away_team": "DAL", "spread_gap": 4.5, "line_status": "open"}]
+    apply_regime_layer(rows2, regimes, week=5)
+    assert rows2[0].get("tier_cap") is None                   # cap window is weeks 1-4
+    rows3 = [{"home_team": "NYG", "away_team": "DAL", "spread_gap": 4.5, "line_status": "open"}]
+    apply_regime_layer(rows3, regimes, week=7)
+    assert "regime" not in rows3[0]                           # chip window ends week 6
+    # Internal promotions excluded at load time.
+    import json, tempfile, os
+    d = tempfile.mkdtemp()
+    json.dump({"changes": {"2026": {"BUF": [0, "Brady"], "NYG": [2, "J.Harbaugh"]}}},
+              open(os.path.join(d, "coach_changes.json"), "w"))
+    m = load_regime_map(2026, d)
+    assert "BUF" not in m and m["NYG"]["tier"] == 2
+
+
+def test_grader_honors_regime_cap():
+    """A board-capped spread Play grades at Lean stakes -- the record
+    grades what the board showed, never a shadow book."""
+    from deploy.generate_performance import grade_divergence, STAKES
+    d = {"home_team": "NYG", "away_team": "DAL", "spread_gap": 5.0, "market_spread": -3.0,
+         "tier_cap": "lean", "total_gap": None}
+    graded = grade_divergence(d, 2, {(2, "NYG", "DAL"): {"home_score": 27, "away_score": 20, "spread_line": -3.0}})
+    assert len(graded) == 1 and graded[0]["tier"] == "lean"
+    assert abs(graded[0]["units"]) in (0.0, round(STAKES["lean"] * 100 / 110, 3), STAKES["lean"])
+
+
 
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):

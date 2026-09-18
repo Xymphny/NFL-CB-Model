@@ -89,6 +89,14 @@ function formatNumber(value, digits = 2) {
  */
 
 function gradeGame(d, playGap = PLAY_GAP, leanGap = LEAN_GAP) {
+  const g = gradeGameInner(d, playGap, leanGap)
+  if (g.verdict === 'play' && g.market === 'spread' && d.tier_cap === 'lean') {
+    return { verdict: 'lean', market: 'spread', stake: '0.5u', capped: 'regime' }
+  }
+  return g
+}
+
+function gradeGameInner(d, playGap = PLAY_GAP, leanGap = LEAN_GAP) {
   const spreadEdge = Math.abs(d.spread_gap)
   const totalEdge = d.total_gap != null ? Math.abs(d.total_gap) : 0
 
@@ -403,6 +411,17 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
               const wx = d.weather
               if (isTotalPick && wx && wx.roof !== 'dome' && wx.roof !== 'closed' && wx.wind_mph >= 15) {
                 chips.push(`${Math.round(wx.wind_mph)} mph wind — not modeled; unders historically aided`)
+              }
+              // Regime-change context (advisory; cap evidence in tier_cap_reason).
+              if (d.regime) {
+                const pickedHome = d.spread_gap > 0
+                for (const side of ['away', 'home']) {
+                  const r = d.regime[side]
+                  if (!r) continue
+                  const team = side === 'home' ? d.home_team : d.away_team
+                  const backed = (side === 'home') === pickedHome
+                  chips.push(`${team} new regime (${r.coach}${r.tier >= 2 ? ' — HC + staff' : ''})${backed && d.tier_cap ? ': capped at Lean — backed-regime early flags went 0/9 in backtests' : ': early-season prior less reliable'}`)
+                }
               }
               // Line movement vs the week's opener (spread picks only).
               const open_ = boardOpenLines ? boardOpenLines[`${d.away_team}@${d.home_team}`] : null
