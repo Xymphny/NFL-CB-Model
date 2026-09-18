@@ -156,6 +156,50 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
     return out_path
 
 
+def load_prior_debias(data_dir, subdir, season, week):
+    """Newest same-week snapshot's recorded de-bias offsets, or None.
+    Late-week runs (Sunday night, Monday) have too few open games to
+    measure the slate offset freshly -- without this fallback the MNF
+    card would silently revert to the biased constant."""
+    try:
+        import glob as _g
+        pattern = os.path.join(data_dir, subdir, f"{season}-week-{week:02d}-*.json")
+        for path in sorted(_g.glob(pattern), reverse=True):
+            with open(path) as f:
+                snap = json.load(f)
+            off = snap.get("debias_offsets")
+            if off and (off[0] or off[1]):
+                return float(off[0]), float(off[1])
+    except Exception as e:
+        print(f"[odds_watch] prior debias lookup soft-fail: {e}")
+    return None
+
+
+def inseason_offsets(probe):
+    """Intercept-only slate de-bias for IN-SEASON boards.
+
+    Mechanism, measured live 2026-09-17 (week 2, first in-season NFL
+    board): every antisymmetric term of the margin equation (rating,
+    Elo, NGS diffs) is ~mean-zero across a slate, so the slate-mean
+    model-vs-market gap is driven ONLY by the constant terms --
+    MARGIN_COEFFICIENTS' collinear home_field+intercept pair nets
+    -1.13 while the market slate carries ~+2.8 of home field, and the
+    board showed exactly that: mean gap -4.06, 15/16 negative, nine
+    Play badges all pointing away. The preseason alignment had been
+    absorbing this constant; its retirement exposed it. This is that
+    alignment reduced to what the in-season path actually needs:
+    intercept only (slope stays 1.0 -- the cross-sectional signal is
+    backtest-validated at native scale and is not rescaled), median
+    for robustness so a genuinely large edge survives at full size.
+    Returns (spread_offset, total_offset) to ADD to model numbers."""
+    import statistics
+    s_res = [-d["spread_gap"] for d in probe if d.get("spread_gap") is not None]
+    t_res = [-d["total_gap"] for d in probe if d.get("total_gap") is not None]
+    s_off = statistics.median(s_res) if len(s_res) >= 8 else 0.0
+    t_off = statistics.median(t_res) if len(t_res) >= 8 else 0.0
+    return s_off, t_off
+
+
 def split_started_and_carry(odds_data, prior_snapshots, now_iso):
     """Freeze lines at kickoff. prior_snapshots is [(computed_at, rows)]
     for every same-week snapshot, oldest first. For each started game
@@ -522,6 +566,7 @@ def main():
         print(f"[odds_watch_job] built predictions for {len(model_predictions)} of "
               f"{len(upcoming_games)} week {current_week} games")
 
+        debias_applied = (0.0, 0.0)
         # Preseason scale alignment -- same cure as the CFB board's
         # all-underdogs artifact, same disease: week-00 ratings compress
         # the rating-driven share of home margins, and the margin
@@ -530,8 +575,10 @@ def main():
         # preseason board leaned away on 15 of 16 games. Aligning model
         # spreads to the slate's market spreads (slope+intercept)
         # removes the systematic component and leaves cross-sectional
-        # disagreement only. STRICTLY week-00: the in-season path is
-        # backtest-validated at native scale and stays untouched.
+        # disagreement only. Week-00 gets the full slope+intercept fit;
+        # the in-season path gets the intercept-only reduction below
+        # (see inseason_offsets -- the constant bias does NOT retire
+        # with the carryover ratings; caught live 2026-09-17).
         if ratings_snapshot_week == 0 and len(model_predictions) >= 8:
             probe = compute_divergences(odds_data, model_predictions)
             spread_rows = [(d_p["market_spread"] + d_p["spread_gap"], d_p["market_spread"]) for d_p in probe]
@@ -571,6 +618,28 @@ def main():
                         pred["win_prob_home"] = margin_to_win_probability(pred["spread"])
                     if t_align and pred.get("total") is not None:
                         pred["total"] = t_align[0] * pred["total"] + t_align[1]
+        elif len(model_predictions) >= 8:
+            # In-season slate de-bias -- see inseason_offsets() for the
+            # live evidence. Applied to predictions BEFORE divergence
+            # computation so every downstream field (win prob, flags,
+            # stakes) stays internally consistent.
+            probe = compute_divergences(odds_data, model_predictions)
+            s_off, t_off = inseason_offsets(probe)
+            if not (s_off or t_off):
+                prior_off = load_prior_debias(REPO_DATA_PATH, "divergence", season, current_week)
+                if prior_off:
+                    s_off, t_off = prior_off
+                    print(f"[odds_watch] slate too small to measure de-bias; using this week's prior offsets")
+            debias_applied = (s_off, t_off)
+            if s_off or t_off:
+                from model.prediction import margin_to_win_probability
+                for pred in model_predictions.values():
+                    pred["spread"] = pred["spread"] + s_off
+                    pred["win_prob_home"] = margin_to_win_probability(pred["spread"])
+                    if pred.get("total") is not None:
+                        pred["total"] = pred["total"] + t_off
+                print(f"[odds_watch] in-season slate de-bias: spread {s_off:+.2f}, total {t_off:+.2f} "
+                      f"(constant-term correction; relative opinions untouched)")
 
         now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         prior_snaps = load_prior_snapshots(REPO_DATA_PATH, "divergence", season, current_week)
@@ -586,7 +655,7 @@ def main():
         # Weekly props snapshot (self-deduping: skips if this week's
         # file exists). Pushed right after the divergence snapshot.
         try:
-            props_path = fetch_week_props(api_key, season, current_week, REPO_DATA_PATH, odds_data)
+            props_path = fetch_week_props(ODDS_API_KEY, season, current_week, REPO_DATA_PATH, odds_data)
         except Exception as props_err:
             props_path = None
             print(f"[props] skipped: {props_err}")
@@ -700,6 +769,7 @@ def main():
                 "methodology_version": METHODOLOGY_VERSION,
                 "note": preseason_note,
                 "qb1_map": qb1_map,
+                "debias_offsets": list(debias_applied),
                 "divergences": divergences,
             }), f, indent=2, allow_nan=False)
 

@@ -157,6 +157,49 @@ def test_finished_games_stay_on_board():
     assert [g["home_team"] for g in pregame] == ["Kansas City Chiefs"]
 
 
+def test_inseason_debias():
+    """The in-season constant-bias correction (live catch 2026-09-17:
+    mean gap -4.06, 15/16 negative, nine one-directional Plays)."""
+    from deploy.odds_watch_job import inseason_offsets, load_prior_debias
+    import json, os, tempfile
+    probe = [{"spread_gap": g, "total_gap": None} for g in
+             (-4.5, -3.9, -4.2, -5.0, -3.4, -4.8, -4.1, -2.9, -6.0, 1.2)]
+    s_off, t_off = inseason_offsets(probe)
+    assert 3.9 <= s_off <= 4.6 and t_off == 0.0        # median-robust: the +1.2 outlier survives
+    adj = [p["spread_gap"] + s_off for p in probe]
+    import statistics
+    assert abs(statistics.median(adj)) < 0.01           # median re-centered
+    assert max(adj) > 5.0                               # large real edge NOT shrunk (slope stays 1)
+    assert inseason_offsets(probe[:5]) == (0.0, 0.0)    # small slate defers to fallback
+    d = tempfile.mkdtemp(); os.makedirs(os.path.join(d, "divergence"))
+    json.dump({"debias_offsets": [4.1, -1.0]}, open(os.path.join(d, "divergence", "2026-week-02-x.json"), "w"))
+    assert load_prior_debias(d, "divergence", 2026, 2) == (4.1, -1.0)
+    assert load_prior_debias(d, "divergence", 2026, 3) is None
+
+
+def test_cfb_slate_week():
+    """Week label derives from the slate's own kickoffs, not the
+    ratings file (a stalled ratings step froze the label at week 2
+    while the board priced the week-3 slate, 2026-09-17)."""
+    from deploy.cfb_odds_watch import slate_week
+    assert slate_week(["2026-08-29T16:00:00Z"], 2026) == 0
+    assert slate_week(["2026-09-05T16:00:00Z"], 2026) == 1
+    assert slate_week(["2026-09-12T16:00:00Z"], 2026) == 2
+    assert slate_week(["2026-09-18T00:00:00Z", "2026-09-19T16:00:00Z", "2026-09-19T20:00:00Z"], 2026) == 3
+    assert slate_week([], 2026) is None
+
+
+def test_props_called_with_module_key():
+    """fetch_week_props must receive the module's ODDS_API_KEY -- the
+    original call passed an undefined name, and the soft-fail wrapper
+    turned the NameError into a silent weekly '[props] skipped' (no
+    props file ever written; caught 2026-09-17)."""
+    src = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                            "deploy", "odds_watch_job.py")).read()
+    assert "fetch_week_props(ODDS_API_KEY" in src
+
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

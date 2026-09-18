@@ -74,6 +74,28 @@ def build_cfb_week_predictions(season, current_week, home_teams_and_away):
     return predictions
 
 
+def slate_week(kickoffs, season):
+    """CFB week computed from the slate's own kickoff dates -- the
+    snapshot previously inherited its week from the RATINGS file, so a
+    stalled ratings step froze the label (caught live 2026-09-17: the
+    board priced the Sep 19 slate while labeled week 2, which also
+    kept the prior weekend's finals carried as same-week games and
+    would have corrupted the grader's week join). Anchor: the Tuesday
+    before the season's first September Saturday; week = days since
+    anchor // 7 + 1 on the slate's median kickoff. Returns None when
+    no kickoffs parse (caller falls back to the ratings week)."""
+    from datetime import date, timedelta
+    days = sorted(k[:10] for k in kickoffs if k)
+    if not days:
+        return None
+    mid = days[len(days) // 2]
+    d1 = date(season, 9, 1)
+    first_sat = d1 + timedelta(days=(5 - d1.weekday()) % 7)
+    anchor = first_sat - timedelta(days=4)
+    kd = date(int(mid[:4]), int(mid[5:7]), int(mid[8:10]))
+    return max(0, (kd - anchor).days // 7 + 1)
+
+
 def compute_cfb_divergences(predictions, market_lines):
     """
     market_lines: list of (home_team, away_team, home_ml, away_ml, home_spread).
@@ -340,19 +362,45 @@ def run_live_cfb_odds_watch(data_dir):
     # the backtest validated those at native scale.
     is_carryover = "carryover" in (snapshot.get("source") or "")
     align = None
+    pairs = []
+    for game in odds_data:
+        h, a = mapping.get(game.get("home_team")), mapping.get(game.get("away_team"))
+        if not h or not a:
+            continue
+        parsed = parse_cfb_game_markets(game)
+        if parsed is None:
+            continue
+        rd = ratings[h]["total_rating"] - ratings[a]["total_rating"]
+        eh, ea = ratings[h].get("elo_rating"), ratings[a].get("elo_rating")
+        ed = (eh - ea) if eh is not None and ea is not None else None
+        pairs.append((predict_margin(rd, elo_diff=ed), parsed["market_spread"]))
+    debias_offset = 0.0
+    if not is_carryover and len(pairs) < 8:
+        try:
+            import glob as _g
+            pat = os.path.join(os.environ.get("REPO_DATA_PATH", "./data"), "cfb_divergence", f"{snapshot['season']}-week-*.json")
+            for path in sorted(_g.glob(pat), reverse=True)[:6]:
+                with open(path) as f:
+                    prior = json.load(f)
+                if prior.get("debias_offset"):
+                    align = (1.0, float(prior["debias_offset"]))
+                    debias_offset = float(prior["debias_offset"])
+                    print(f"[cfb_odds_watch] slate too small; carrying prior de-bias {debias_offset:+.2f}")
+                    break
+        except Exception as e:
+            print(f"[cfb_odds_watch] prior debias lookup soft-fail: {e}")
+    if not is_carryover and len(pairs) >= 8:
+        # In-season slate de-bias, intercept-only (slope 1.0): same
+        # constant-term correction as the NFL board (see
+        # odds_watch_job.inseason_offsets for the mechanism and the
+        # 2026-09-17 live evidence -- this board sat at mean gap -3.34,
+        # 13/21 negative, the week the carryover alignment retired).
+        import statistics
+        offset = statistics.median(y - x for x, y in pairs)
+        align = (1.0, offset)
+        debias_offset = offset
+        print(f"[cfb_odds_watch] in-season slate de-bias: {offset:+.2f} over {len(pairs)} games")
     if is_carryover:
-        pairs = []
-        for game in odds_data:
-            h, a = mapping.get(game.get("home_team")), mapping.get(game.get("away_team"))
-            if not h or not a:
-                continue
-            parsed = parse_cfb_game_markets(game)
-            if parsed is None:
-                continue
-            rd = ratings[h]["total_rating"] - ratings[a]["total_rating"]
-            eh, ea = ratings[h].get("elo_rating"), ratings[a].get("elo_rating")
-            ed = (eh - ea) if eh is not None and ea is not None else None
-            pairs.append((predict_margin(rd, elo_diff=ed), parsed["market_spread"]))
         if len(pairs) >= 8:
             xs = pd.Series([p[0] for p in pairs]); ys = pd.Series([p[1] for p in pairs])
             slope = ((xs - xs.mean()) * (ys - ys.mean())).sum() / max(((xs - xs.mean()) ** 2).sum(), 1e-9)
@@ -436,7 +484,9 @@ def run_live_cfb_odds_watch(data_dir):
 
     out = {
         "computed_at": datetime.now(timezone.utc).isoformat(),
-        "season": snapshot["season"], "week": snapshot.get("week"),
+        "season": snapshot["season"],
+        "debias_offset": debias_offset,
+        "week": slate_week([d.get("kickoff") for d in divergences], snapshot["season"]) or snapshot.get("week"),
         "note": (CFB_PLAY_NOTE + " This board runs on scale-aligned preseason carryover ratings until in-season data publishes.") if is_carryover else CFB_PLAY_NOTE,
         "match_report": {
             "games_from_api": len(odds_data),
@@ -450,13 +500,13 @@ def run_live_cfb_odds_watch(data_dir):
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     out_dir = os.path.join(data_dir, "cfb_divergence")
     os.makedirs(out_dir, exist_ok=True)
-    out_path = os.path.join(out_dir, f"{snapshot['season']}-week-{(snapshot.get('week') or 0):02d}-{ts}.json")
+    out_path = os.path.join(out_dir, f"{snapshot['season']}-week-{(out.get('week') or 0):02d}-{ts}.json")
     with open(out_path, "w") as f:
         json.dump(out, f, indent=2)
     print(f"[cfb_odds_watch] wrote {out_path}: {len(divergences)} games priced, "
           f"{skipped_unrated} skipped (no rating match), {len(unmatched)} unmatched names")
     if os.environ.get("GIT_REPO_URL"):
-        git_commit_and_push(out_path, commit_message=f"CFB odds snapshot week {snapshot.get('week')}")
+        git_commit_and_push(out_path, commit_message=f"CFB odds snapshot week {out.get('week')}")
     return out_path
 
 
