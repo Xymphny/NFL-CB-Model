@@ -1,25 +1,26 @@
 {
   "season": 2026,
-  "updated_at": "2026-09-15T11:00:50.533768+00:00",
+  "updated_at": "2026-09-18T09:10:04.510378+00:00",
   "graded_weeks": [
-    1
+    1,
+    2
   ],
   "ats_wins": 5,
-  "ats_losses": 6,
+  "ats_losses": 8,
   "pushes": 0,
-  "units": -2.23,
-  "roi": -0.3179,
-  "avg_clv": 0.23,
-  "n_clv_bets": 11,
-  "model_mae": 17.02,
-  "market_mae": 16.75,
+  "units": -4.22,
+  "roi": -0.4694,
+  "avg_clv": 0.15,
+  "n_clv_bets": 13,
+  "model_mae": 15.88,
+  "market_mae": 15.07,
   "tier_stats": {
-    "n_plays": 3,
+    "n_plays": 5,
     "ats_pct": 0.0
   },
   "tier_stats_by_tier": {
     "play": {
-      "n_plays": 3,
+      "n_plays": 5,
       "ats_pct": 0.0
     },
     "lean": {
@@ -192,6 +193,36 @@
       "model_margin": -1.3447344891263842,
       "actual_margin": 21,
       "market_spread": 2.5
+    },
+    {
+      "week": 2,
+      "market": "spread",
+      "tier": "play",
+      "label": "DET +5",
+      "line": 5.0,
+      "close": 5.5,
+      "result": "loss",
+      "units": -1.0,
+      "clv": -0.5,
+      "edge": 4.03,
+      "model_margin": 0.9652456478317708,
+      "actual_margin": 10,
+      "market_spread": 5.0
+    },
+    {
+      "week": 2,
+      "market": "total",
+      "tier": "play",
+      "label": "DET/BUF under 54.5",
+      "line": 54.5,
+      "close": 54.5,
+      "result": "loss",
+      "units": -1.0,
+      "clv": 0.0,
+      "edge": 7.23,
+      "model_margin": null,
+      "actual_margin": null,
+      "market_spread": null
     }
   ]
 }
