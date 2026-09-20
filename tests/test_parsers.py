@@ -1,4 +1,3 @@
-import os
 """
 Committed regression tests backing the docstring claims in
 deploy/game_context.py, deploy/espn_extras.py, deploy/qb_status.py and
@@ -8,6 +7,8 @@ a captured real response shape from the live verification sessions).
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+_REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 from deploy.game_context import parse_open_meteo, parse_espn_injuries
 from deploy.espn_extras import parse_fpi_summary
@@ -202,7 +203,7 @@ def test_props_called_with_module_key():
 
 def test_regime_layer():
     """Coach-regime layer (evidence: model/coach_regime_experiment.py --
-    backed-regime early flags 0/9 ATS 2016-2023; faded-regime flags at
+    backed-regime early flags 0/6 ATS 2016-2023; faded-regime flags at
     baseline; internal promotions behave like stable teams)."""
     from deploy.odds_watch_job import apply_regime_layer, load_regime_map
     regimes = {"NYG": {"tier": 2, "coach": "J.Harbaugh"}, "ARI": {"tier": 1, "coach": "LaFleur"}}
@@ -213,7 +214,21 @@ def test_regime_layer():
         {"home_team": "NYG", "away_team": "PHI", "spread_gap": -4.0, "line_status": "closed"},# closed -> untouched
     ]
     apply_regime_layer(rows, regimes, week=2)
-    assert rows[0].get("tier_cap") == "lean" and "0/9" in rows[0]["tier_cap_reason"]
+    # The quoted figure is pinned to model/coach_regime_results.json, not
+    # typed here: it was corrected 0/9 -> 0/6 on 2026-09-20 when the
+    # artifact was first committed and showed no 0/9 cell. Reading it
+    # from the artifact means this test tracks the evidence instead of
+    # having to be edited alongside it.
+    import json as _json
+    # module-level _REPO: this function imports os locally further down,
+    # which would make the name local for the whole scope.
+    _g = _json.load(open(_REPO + "/model/coach_regime_results.json"))["grades"]
+    _backed = next(x for x in _g if x["label"] == "model BACKED the regime team"
+                   and x["min_edge"] == 2.5)
+    _quoted = f'{_backed["wins"]}/{_backed["n_graded"]}'
+    assert rows[0].get("tier_cap") == "lean", "backed-regime early flag must cap at Lean"
+    assert _quoted in rows[0]["tier_cap_reason"], (
+        f'cap reason quotes {rows[0]["tier_cap_reason"]!r}, artifact says {_quoted}')
     assert rows[1].get("tier_cap") is None and rows[1]["regime"]["away"]["coach"] == "LaFleur"
     assert "regime" not in rows[2] and "tier_cap" not in rows[2]
     assert rows[3].get("tier_cap") is None                    # frozen rows never capped
