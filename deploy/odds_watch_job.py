@@ -296,6 +296,15 @@ def annotate_week_props(season, week, data_dir):
         at, ht = key.split("@", 1)
         for mk_key, mk_rows in g.get("markets", {}).items():
             for pl, row in mk_rows.items():
+                # Re-derive the consensus edge from the STORED per-book
+                # quotes under the current guarded code (zero credits).
+                # A week baked by an older build keeps its prices but
+                # sheds that build's edge artifacts on the next run.
+                if row.get("books"):
+                    fresh = consensus_edge(row["books"], yes_market=(mk_key == "player_anytime_td"))
+                    if any(row.get(k) != v for k, v in fresh.items()):
+                        row.update(fresh)
+                        changed += 1
                 try:
                     op = projector.prop_opinion(pl, ht, at, mk_key, row.get("line"))
                 except Exception:                         # noqa: BLE001
