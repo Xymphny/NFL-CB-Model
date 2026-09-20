@@ -638,6 +638,22 @@ highest precedence).
   remainder is a train/test shape mismatch no train-only fit can see);
   point estimates still trail trailing-4 baselines -> still not quoted.
   Grading of live watch-mode opinions precedes any verdict authority.
+- COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
+  project-wide. NFL margin fits: clean (edge calibration trained
+  2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).
+  CFB walk-forward cache: clean (weeks 1-3 excluded by construction;
+  no season a KS outlier, p >= 0.48). MLB: two findings. (1) LATENT
+  NaN POISONING -- run_walk_forward ingested postponed/unplayed games
+  (empty scores) into its states; one April game in the 2026 bridge
+  cache made 2,258 of 2,351 downstream predictions NaN. Only latent
+  because the live board is still odds-only observation rows; fixed
+  with a played-game guard + regression test before the model runner
+  ever wires in. (2) Cold-start rows (league_n < 300) in the logistic
+  train fit: real (collapsed spread, negative outcome correlation)
+  but immaterial held out (Brier 0.24248 -> 0.24247) because MLB's
+  credibility regression flattens cold predictions rather than
+  distorting them; excluded anyway (MLB_BURN_IN_GAMES) for hygiene in
+  both mlb_model and mlb_backtest fits.
 - COACH REGIME (2026-09-18): early-season flags BACKING first-year
   external-HC teams went 0/9 ATS (2016-2023, model/coach_regime_experiment.py);
   faded-regime flags graded at baseline. Shipped as a narrow Lean cap on

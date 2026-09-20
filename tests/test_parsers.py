@@ -340,6 +340,28 @@ def test_player_projection_engine():
 
 
 
+def test_mlb_walk_skips_unplayed_games():
+    """A postponed/unplayed game (NaN scores) must neither enter the
+    walk-forward states nor emit a prediction row: one NaN April game in
+    the 2026 bridge cache poisoned league_runs and 2,258 of 2,351
+    downstream predictions (2026-09-20 cold-start audit)."""
+    import numpy as np
+    import pandas as pd
+    from model.mlb_model import run_walk_forward
+    def g(key, date, hs, as_):
+        return {"season": 2026, "game_key": key, "date": date, "home_team": "NYA",
+                "away_team": "BOS", "home_score": hs, "away_score": as_,
+                "home_sp": "SP A", "away_sp": "SP B", "park": "NYA"}
+    games = [g(f"k{i}", f"2026-04-{i+1:02d}", 5, 3) for i in range(12)]
+    games.insert(4, g("post", "2026-04-03", np.nan, np.nan))
+    pit = pd.DataFrame([{"game_key": "k0", "pitcher": "SP A", "team": "NYA",
+                         "started": True, "runs": 2, "outs": 18}])
+    preds = run_walk_forward(pd.DataFrame(games), pit)
+    assert len(preds) and not preds["exp_home"].isna().any() and not preds["exp_away"].isna().any()
+    assert "post" not in set(preds["game_key"])          # no row for the unplayed game
+    assert (preds["league_n"] >= 0).all()                # maturity column present for burn-in fits
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

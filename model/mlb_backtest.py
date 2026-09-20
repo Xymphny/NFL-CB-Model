@@ -18,7 +18,7 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from model.mlb_model import run_walk_forward, fit_win_prob, win_prob
+from model.mlb_model import run_walk_forward, fit_win_prob, win_prob, MLB_BURN_IN_GAMES
 
 
 def american_to_prob(ml):
@@ -57,7 +57,9 @@ def main(train_seasons, test_seasons, lines_path="model/mlb_lines_cache.csv"):
     pit = pd.read_csv("model/mlb_pitching_cache.csv")
     lines = pd.read_csv(lines_path)
     preds = run_walk_forward(sched, pit)
-    a, b = fit_win_prob(preds[preds["season"].isin(train_seasons)])
+    tr = preds[preds["season"].isin(train_seasons)]
+    tr = tr[tr["league_n"] >= MLB_BURN_IN_GAMES]   # cold-start burn-in (see mlb_model)
+    a, b = fit_win_prob(tr)
     test = join_lines(preds[preds["season"].isin(test_seasons)], lines)
     test = test.dropna(subset=["home_ml_close", "away_ml_close"])
     test["model_p"] = win_prob(test, a, b)

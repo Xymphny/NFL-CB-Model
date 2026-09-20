@@ -33,6 +33,10 @@ CRED_OUTS_SP = 380      # ~2 months of starts before a starter's own numbers dom
 CRED_OUTS_PEN = 900     # pens: bigger pools, slower trust
 CRED_GAMES_OFF = 45     # lineup offense stabilizes fast-ish
 PARK_CRED = 120         # games of park evidence vs neutral
+MLB_BURN_IN_GAMES = 300 # league games seen before walk rows may enter any FIT
+                        # (cold-start rows have collapsed spread and negative
+                        # outcome correlation -- same lesson as the NFL
+                        # engine's 2016 burn-in exclusion, 2026-09-20 audit)
 
 
 class WalkForwardState:
@@ -111,6 +115,12 @@ def run_walk_forward(schedule, pitching):
     state = WalkForwardState()
     rows = []
     for g in schedule.sort_values(["date", "game_key"]).to_dict("records"):
+        if pd.isna(g["home_score"]) or pd.isna(g["away_score"]):
+            # Postponed/unplayed rows (the in-season bridge carries them
+            # with empty scores) must NEVER touch the states: one NaN in
+            # April 2026 poisoned league_runs and with it 2,258 of 2,351
+            # downstream predictions (2026-09-20 cold-start audit).
+            continue
         if pd.isna(g["home_sp"]) or pd.isna(g["away_sp"]):
             state.update(g, pit_by_game)
             continue
@@ -119,6 +129,7 @@ def run_walk_forward(schedule, pitching):
         rows.append({**{k: g[k] for k in ("season", "game_key", "date", "home_team", "away_team",
                                           "home_score", "away_score", "home_sp", "away_sp", "park")},
                      "exp_home": eh, "exp_away": ea,
+                     "league_n": int(state.league_runs[1]),
                      "home_won": int(g["home_score"] > g["away_score"])})
         state.update(g, pit_by_game)
     return pd.DataFrame(rows)
@@ -174,6 +185,10 @@ def main(train_seasons, test_season):
     sched, pit = load_mlb_caches()   # historical + in-season bridge
     preds = run_walk_forward(sched, pit)
     train = preds[preds["season"].isin(train_seasons)]
+    n0 = len(train)
+    train = train[train["league_n"] >= MLB_BURN_IN_GAMES]
+    if len(train) < n0:
+        print(f"burn-in exclusion: dropped {n0 - len(train)} cold-start train rows (league_n < {MLB_BURN_IN_GAMES})")
     test = preds[preds["season"] == test_season]
     a, b = fit_win_prob(train)
     p_test = win_prob(test, a, b)
