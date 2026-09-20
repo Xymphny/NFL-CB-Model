@@ -94,17 +94,24 @@ function formatNumber(value, digits = 2) {
  * ATS breakeven in the walk-forward backtest.
  */
 
-function gradeGame(d, playGap = PLAY_GAP, leanGap = LEAN_GAP) {
-  const g = gradeGameInner(d, playGap, leanGap)
+function gradeGame(d, playGap = PLAY_GAP, leanGap = LEAN_GAP, totalsSupported = false) {
+  const g = gradeGameInner(d, playGap, leanGap, totalsSupported)
   if (g.verdict === 'play' && g.market === 'spread' && d.tier_cap === 'lean') {
     return { verdict: 'lean', market: 'spread', stake: '0.5u', capped: 'regime' }
   }
   return g
 }
 
-function gradeGameInner(d, playGap = PLAY_GAP, leanGap = LEAN_GAP) {
+function gradeGameInner(d, playGap = PLAY_GAP, leanGap = LEAN_GAP, totalsSupported = false) {
   const spreadEdge = Math.abs(d.spread_gap)
-  const totalEdge = d.total_gap != null ? Math.abs(d.total_gap) : 0
+  // TOTALS WITHHELD (2026-09-20). Measured over 1,039 walk-forward
+  // games the totals model loses to the market on MAE (10.58 vs
+  // 10.23), its predictions vary by 2.5 points where the market varies
+  // by 4.3, and no betting threshold clears the 52.4% breakeven --
+  // pooled it sits below it at z=-1.82. Same treatment pass yards
+  // gets: withheld in code, with the number that put it there on the
+  // card. data/totals_validation.json.
+  const totalEdge = (totalsSupported && d.total_gap != null) ? Math.abs(d.total_gap) : 0
 
   if (spreadEdge >= playGap || totalEdge >= playGap + 1) {
     const isSpread = spreadEdge >= playGap
@@ -319,9 +326,14 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
   const [showPassed, setShowPassed] = useState(false)
   const { settings, logBet, betLog } = book
 
+  // Withheld unless the committed artifact says otherwise, and
+  // reactive so a later re-validation actually reaches the board
+  // instead of sitting in a module variable nothing re-renders on.
+  const totalsVal = useJson('/data/totals_validation.json')
+  const totalsSupported = totalsVal.data ? totalsVal.data.supported === true : false
   const graded = useMemo(
-    () => divergences.map((d) => ({ ...d, grade: gradeGame(d, playGap, leanGap) })),
-    [divergences, playGap, leanGap]
+    () => divergences.map((d) => ({ ...d, grade: gradeGame(d, playGap, leanGap, totalsSupported) })),
+    [divergences, playGap, leanGap, totalsSupported]
   )
   const plays = graded.filter((g) => g.grade.verdict === 'play')
   const leans = graded.filter((g) => g.grade.verdict === 'lean')
@@ -777,6 +789,20 @@ const GATES = [
     evidence: 'worst of 8 on untouched 2024-25 \u00b7 2023 result did not replicate',
     source: 'model/revalidate_half_life_2024_25_results.json',
     body: 'The rating\u2019s recency half-life was set to 100 because that scored best on the 2023 test set \u2014 a set that had already been seen. Graded on 2024\u201325, which no calibration here had touched, it came last of eight and the trend reversed. The value stays (it is the \u201cno weighting\u201d choice and moving it mid-season moves every live rating), but the accuracy claim behind it is withdrawn.',
+  },
+  {
+    status: 'withheld', tone: 'withheld',
+    title: 'Totals: no verdicts on the board',
+    evidence: '1,039 walk-forward games \u00b7 49.6% \u00b7 loses to the market on MAE',
+    source: 'data/totals_validation.json',
+    body: 'The totals model was on this board from the start and had never been measured against the market. Over 1,039 walk-forward games it loses on MAE (10.58 to 10.23), its predictions vary by 2.5 points where the market varies by 4.3, and no betting threshold clears the 52.4% breakeven \u2014 pooled it sits below it. No new total is flagged. The ones already published stay graded, wins and losses alike.',
+  },
+  {
+    status: 'disclosed', tone: 'watch',
+    title: 'Flagged spreads: breakeven not demonstrated',
+    evidence: '1,964 walk-forward games \u00b7 Play tier 51.2% \u00b7 needs 52.4%',
+    source: 'data/spread_validation.json',
+    body: 'The 4-point Play threshold has never had a committed backtest behind it. Measured across ten seasons it hits 51.2% against the 52.4% a \u2212110 bet needs, with a confidence interval that contains breakeven \u2014 not proof it loses, but no evidence it wins. Season records swing from 44% to 61%, which is what a near coin flip looks like at ~70 games a year. Published here rather than quietly assumed.',
   },
 ]
 

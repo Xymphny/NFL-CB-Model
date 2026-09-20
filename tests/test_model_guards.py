@@ -690,6 +690,85 @@ def test_preseason_prior_regression_was_gated():
 
 
 
+def test_totals_are_withheld_until_shown():
+    """A market was on the board from the start with no accuracy
+    measurement behind it. Measured, it loses to the market."""
+    import json
+    v = json.load(open(os.path.join(REPO, "data", "totals_validation.json")))
+    assert v["supported"] is False
+    assert v["accuracy"]["model"]["mae"] > v["accuracy"]["market"]["mae"]
+    # The compression signature: a near-constant prediction cannot carry edge.
+    assert v["accuracy"]["model"]["prediction_sd"] < v["accuracy"]["market"]["prediction_sd"]
+    assert not any(b["clears_breakeven"] for b in v["by_threshold"])
+
+    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    assert "totals_validation.json" in app, "the board must read the verdict"
+    assert "totalsSupported" in app, "totals must be gated, not hardcoded on"
+    # Default-closed: an unreadable artifact must withhold, not flag.
+    assert "totalsSupported = false" in app, \
+        "the default must be withheld when the evidence cannot be read"
+    man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
+    assert 'copy_single_file("totals_validation.json")' in man, \
+        "an artifact the board fetches must ship, or it 404s silently"
+
+
+def test_withholding_totals_does_not_rewrite_history():
+    """generate_performance rebuilds the record from snapshots on every
+    run, so a flag-only gate would DELETE the four totals already
+    published and make the record look better than it was."""
+    src = open(os.path.join(REPO, "deploy", "generate_performance.py")).read()
+    assert "totals_withheld_from" in src, "the grader must gate totals"
+    assert "computed_at" in src, "the gate must be by DATE, not by flag alone"
+    assert "effective_from" in open(
+        os.path.join(REPO, "data", "totals_validation.json")).read()
+    # The already-graded totals must survive a regeneration.
+    import json
+    perf = json.load(open(os.path.join(REPO, "data", "performance.json")))
+    totals = [p for p in perf.get("plays", []) if p.get("market") == "total"]
+    assert totals, "the published totals record was erased; that is rewriting history"
+
+
+
+def test_spread_thresholds_are_measured_and_disclosed():
+    """PLAY_GAP and LEAN_GAP were bare constants with no backtest behind
+    them. After withholding totals for being unmeasured, the spread side
+    had to be measured too -- and the result is disclosed, not hidden."""
+    import json
+    v = json.load(open(os.path.join(REPO, "data", "spread_validation.json")))
+    assert v["supported"] is False
+    assert v["action"] == "DISCLOSED, NOT WITHHELD", \
+        "changing this to a withhold is a product decision, not a test fix"
+    play = [b for b in v["by_threshold"] if b["tier"] == "play"][0]
+    assert play["min_abs_gap"] == 4.0, "the measured threshold must match the shipped one"
+    assert not play["clears_breakeven"]
+    # The interval containing breakeven is the reason this is a disclosure.
+    assert play["ci95"][0] < 0.524 < play["ci95"][1]
+    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    assert "breakeven not demonstrated" in app, "the board must say so on the card"
+    man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
+    assert 'copy_single_file("spread_validation.json")' in man
+
+
+def test_elo_gap_is_recorded():
+    """The NGS fix restored the rating and dropped Elo. That is a real
+    hole in the live model and must not be lost."""
+    import json
+    import sys
+    sys.path.insert(0, REPO)
+    from model.prediction import (MARGIN_COEFFICIENTS,
+                                  MARGIN_COEFFICIENTS_V1_RATING_ONLY as V1)
+    assert "elo_diff" in MARGIN_COEFFICIENTS
+    assert "elo_diff" not in V1, \
+        "V1 gained an elo term -- if that was deliberate, re-gate and update this"
+    e = json.load(open(os.path.join(REPO, "data", "spread_validation.json")))["elo_gap"]
+    assert e["elo_t_on_train"] > 5
+    assert e["holdout_mae_with_elo"] < e["holdout_mae_shipped"]
+    # And the dissociation, which is the part most likely to be forgotten.
+    assert e["holdout_mae_market"] < e["holdout_mae_with_elo"], \
+        "the market is still the better predictor; that is why edge does not follow"
+
+
+
 if __name__ == "__main__":
     # RUN EVERYTHING, THEN REPORT (2026-09-20). This loop used to let
     # the first failure abort the process. On 2026-09-20 one stale file

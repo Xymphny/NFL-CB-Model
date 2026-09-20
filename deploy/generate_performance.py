@@ -95,8 +95,31 @@ def _flags_non_pass(d):
     return se >= LEAN_GAP or te >= LEAN_GAP + 1
 
 
-def grade_divergence(d, week, results_by_game):
-    """Returns a list of graded play dicts (0, 1, or 2 -- spread and/or total)."""
+def _totals_withheld_from(data_dir=None):
+    """The date after which the board stopped flagging totals.
+
+    Returns None when totals are supported or the artifact is missing,
+    which leaves grading exactly as it was."""
+    import json as _json
+    path = os.path.join(data_dir or REPO_DATA_PATH, "totals_validation.json")
+    try:
+        v = _json.load(open(path))
+    except Exception:                                     # noqa: BLE001
+        return None
+    return None if v.get("supported") else v.get("effective_from")
+
+
+def grade_divergence(d, week, results_by_game, computed_at=None, totals_withheld_from=None):
+    """Returns a list of graded play dicts (0, 1, or 2 -- spread and/or total).
+
+    TOTALS, WITHHELD BY DATE (2026-09-20). The board stopped flagging
+    totals when data/totals_validation.json came back unsupported. This
+    grader rebuilds the whole record from snapshots on every run, so
+    gating it on the flag alone would silently DELETE the totals
+    already published -- four of them, 1-3 -- and leave the record
+    looking better than it was. History is not rewritten: claims made
+    before the effective date stay graded, wins and losses alike, and
+    only claims after it are suppressed."""
     key = (week, d["home_team"], d["away_team"])
     game = results_by_game.get(key)
     if game is None:
@@ -117,6 +140,9 @@ def grade_divergence(d, week, results_by_game):
     total_gap = d.get("total_gap")
     spread_edge = abs(spread_gap) if spread_gap is not None else 0.0
     total_edge = abs(total_gap) if total_gap is not None else 0.0
+    if (totals_withheld_from and computed_at
+            and str(computed_at)[:10] >= totals_withheld_from):
+        total_edge = 0.0
 
     if spread_edge >= PLAY_GAP or total_edge >= PLAY_GAP + 1:
         tier = "play"
@@ -256,10 +282,13 @@ def generate(data_dir, season, games_df=None):
     }
 
     snapshots, all_priced = load_week_snapshots(data_dir, season)
+    withheld_from = _totals_withheld_from(data_dir)
     plays = []
     for week, snap in sorted(snapshots.items()):
         for d in snap.get("divergences", []):
-            plays.extend(grade_divergence(d, week, results_by_game))
+            plays.extend(grade_divergence(d, week, results_by_game,
+                                          computed_at=snap.get("computed_at"),
+                                          totals_withheld_from=withheld_from))
 
     perf = {
         "season": season,

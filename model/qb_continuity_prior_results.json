@@ -1,0 +1,65 @@
+{
+  "_provenance": {
+    "script": "model/qb_continuity_prior.py",
+    "generated": "2026-09-20",
+    "fit_seasons": [
+      2017,
+      2022
+    ],
+    "graded_seasons": [
+      2023,
+      2025
+    ],
+    "related": "model/preseason_prior_regression.py (H1a + the shipped fix)"
+  },
+  "verdict": "REJECTED -- passed on train, failed its held-out gate",
+  "train_interactions": {
+    "total_rating": {
+      "estimate": 0.3225,
+      "se": 0.1365,
+      "t": 2.36
+    },
+    "offense_voa": {
+      "estimate": 0.3554,
+      "se": 0.135,
+      "t": 2.63
+    },
+    "defense_voa": {
+      "estimate": -0.0484,
+      "se": 0.1373,
+      "t": -0.35
+    }
+  },
+  "carryover_split_by_qb_continuity": {
+    "total_rating": {
+      "0": 0.1205,
+      "1": 0.54
+    },
+    "offense_voa": {
+      "0": 0.0883,
+      "1": 0.5433
+    },
+    "defense_voa": {
+      "0": 0.3804,
+      "1": 0.3294
+    }
+  },
+  "placebo": "QB continuity must move offense and not defense, or it is a team-quality proxy. Offense t=+2.63, defense t=-0.35. The placebo PASSED -- and the hypothesis still failed its gate, which is the point worth keeping.",
+  "holdout_grade": {
+    "regressed_unconditional_shipped": {
+      "mae": 0.0785,
+      "rmse": 0.0955
+    },
+    "regressed_qb_conditional": {
+      "mae": 0.0789,
+      "rmse": 0.0959
+    }
+  },
+  "paired_gain": {
+    "estimate": -0.00042,
+    "standard_error": 0.00245,
+    "t": -0.17
+  },
+  "not_done_deliberately": "Retreating to a narrower version after a failed gate -- applying it only when the QB changed, where the training contrast is widest -- is fishing on the same data.",
+  "revisit": "when 2026 and 2027 have closed; more seasons, not more searching"
+}

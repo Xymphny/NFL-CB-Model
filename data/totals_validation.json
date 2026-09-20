@@ -1,0 +1,85 @@
+{
+  "_provenance": {
+    "script": "model/totals_edge_validation.py",
+    "generated": "2026-09-20",
+    "games": 1039,
+    "seasons": [
+      2021,
+      2025
+    ],
+    "method": "walk-forward: ratings rebuilt from only the weeks before each game"
+  },
+  "supported": false,
+  "effective_from": "2026-09-20",
+  "accuracy": {
+    "model": {
+      "mae": 10.583,
+      "rmse": 13.353,
+      "prediction_sd": 2.505
+    },
+    "market": {
+      "mae": 10.23,
+      "rmse": 13.099,
+      "prediction_sd": 4.269
+    },
+    "actual_sd": 13.678
+  },
+  "by_threshold": [
+    {
+      "min_abs_gap": 3.0,
+      "n": 423,
+      "hit_rate": 0.4894,
+      "se": 0.0243,
+      "ci95": [
+        0.442,
+        0.537
+      ],
+      "clears_breakeven": false
+    },
+    {
+      "min_abs_gap": 4.0,
+      "n": 290,
+      "hit_rate": 0.5,
+      "se": 0.0294,
+      "ci95": [
+        0.442,
+        0.558
+      ],
+      "clears_breakeven": false
+    },
+    {
+      "min_abs_gap": 5.0,
+      "n": 186,
+      "hit_rate": 0.5269,
+      "se": 0.0366,
+      "ci95": [
+        0.455,
+        0.599
+      ],
+      "clears_breakeven": false
+    },
+    {
+      "min_abs_gap": 6.0,
+      "n": 99,
+      "hit_rate": 0.5657,
+      "se": 0.0498,
+      "ci95": [
+        0.468,
+        0.663
+      ],
+      "clears_breakeven": false
+    }
+  ],
+  "pooled": {
+    "n": 1029,
+    "hit_rate": 0.4956,
+    "se": 0.0156,
+    "ci95": [
+      0.465,
+      0.526
+    ],
+    "z_vs_breakeven": -1.82
+  },
+  "why": "The totals model loses to the market on MAE and RMSE, its predictions vary by 2.5 points where the market varies by 4.3 against an actual spread of 13.7, and no betting threshold clears the 52.4% breakeven -- pooled it sits below it at z=-1.82. The hit rate does rise with the threshold, which is what a real signal looks like, but raising the cut to where this sample looks best is the test-set selection that put half_life=100 into production. Withheld until it can be shown, not selected.",
+  "history_not_rewritten": "Totals published before effective_from were real claims and stay graded in the record, wins and losses alike."
+}

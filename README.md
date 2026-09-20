@@ -964,6 +964,109 @@ highest precedence).
   model/preseason_prior_regression.py + _results.json, 2 guard tests
   (one of which caught me shipping guessed intercepts instead of the
   fitted ones).
+- TOTALS WITHHELD -- A MARKET THAT WAS NEVER MEASURED (2026-09-20):
+  H2 was meant to build a bottom-up totals model. Checking the
+  existing one first found it had no accuracy measurement of any kind:
+  performance.json computes model_mae and market_mae from `spreads`
+  ONLY, so the spread side publishes its own indictment (14.74 vs
+  13.69) while totals -- flagged, staked, graded 1-3 live -- had never
+  been compared to the market at all. predict_total is two features,
+  combined offensive VOA and wind. MEASURED over 1,039 walk-forward
+  games (2021-2025, weeks 4-17, ratings rebuilt from only the weeks
+  before each game): the model loses on MAE (10.583 vs 10.230) and
+  RMSE (13.353 vs 13.099), and its predictions vary by 2.505 points
+  where the market varies by 4.269 against an actual spread of 13.678
+  -- a near-constant prediction, the same compression signature the
+  NGS coefficient bug left on margins. Graded as the board would bet
+  it, no threshold clears the 52.4% breakeven: 48.9% at |gap|>=3,
+  50.0% at >=4, 52.7% at >=5, 56.6% at >=6, every interval spanning
+  breakeven, and pooled 49.6% (n=1029) BELOW it at z=-1.82. HONESTLY
+  MIXED: the hit rate rises monotonically with the threshold, which is
+  what real signal looks like, and the thin top slice is the only
+  non-negative thing here -- but raising the cut to where this sample
+  looks best is the test-set selection that put half_life=100 into
+  production, so it is not done. WITHHELD, the same treatment pass
+  yards gets: no new total is flagged, a gate card carries the number,
+  and the board defaults to withholding if it cannot read the verdict.
+  HISTORY NOT REWRITTEN, which needed care: generate_performance
+  rebuilds the record from snapshots every run, so gating on the flag
+  alone would have silently DELETED the four totals already published
+  (1-3) and left the record looking better than it was. The grader
+  gates by DATE instead -- claims made before the effective date stay
+  graded, wins and losses alike. Verified by regenerating: spreads
+  grew 8 to 11 as today's games finished while the four historical
+  totals survived and no new ones appeared.
+  model/totals_edge_validation.py + data/totals_validation.json,
+  2 guard tests.
+- THE SPREAD THRESHOLDS, MEASURED AT LAST (2026-09-20): totals were
+  withheld for failing a test the spread side had never taken.
+  PLAY_GAP=4.0 and LEAN_GAP=2.5 are bare constants with no provenance
+  comment and no committed backtest -- the same shape as the hardcoded
+  CFB coefficient that reproduced nothing. Walk-forward 2016-2025
+  (ratings rebuilt from only the weeks before each game, margins from
+  the coefficient vector the board actually uses, nflverse closing
+  lines, pushes dropped, n=1,964): Lean |gap|>=2.5 hits 49.70%
+  (CI .468-.526), Play |gap|>=4.0 hits 51.18% (CI .475-.548),
+  |gap|>=6 hits 53.73% (CI .484-.591), pooled 49.80% at z=-2.31. THE
+  PLAY TIER -- the one taking a full unit -- SITS AT 51.2% AGAINST THE
+  52.4% A -110 BET NEEDS, with an interval containing breakeven. Not
+  proof it loses; the absence of evidence that it wins, over ten
+  seasons and 719 flagged games. Season records at that threshold run
+  53.7 / 44.4 / 48.2 / 51.3 / 57.0 / 47.3 / 60.9 / 54.8 / 45.5 / 50.0
+  -- five up, five down, swinging 16 points either side, which is what
+  a near coin flip looks like at ~70 games a year and a warning
+  against reading one season as signal. DISCLOSED, NOT WITHHELD, and
+  the difference is deliberate: totals were withheld on three findings
+  together (pooled below 50%, worse MAE than the market, and
+  predictions so compressed that 81% of their disagreement was
+  explained by the market's own number -- fading extremes toward the
+  league average rather than reading teams). Spreads share the MAE
+  concern, but the Play tier is above 50% rather than below and its
+  interval spans breakeven. Withholding the whole board on that is a
+  larger call than the evidence carries and not one to make
+  unilaterally, so the number goes on a gate card instead.
+- THE ELO GAP THE NGS FIX OPENED (2026-09-20): found while measuring
+  the above. MARGIN_COEFFICIENTS carries elo_diff=0.0348;
+  MARGIN_COEFFICIENTS_V1_RATING_ONLY has NO elo_diff term at all. The
+  NGS fix selects the rating-only vector whenever NGS is absent --
+  every 2026 board -- so restoring the team rating silently removed
+  Elo. Fitting actual_margin ~ rating_diff + elo_diff on 2016-2022:
+  elo_diff t=+8.51, coefficient 0.0308 (against the full ensemble's
+  0.0348, converging nicely). On held-out 2023-2025 it cuts MAE from
+  10.735 to 10.387 and fixes the compression, prediction sd 3.880 ->
+  5.835 against the market's 6.012. AND THE DISSOCIATION THAT MATTERS
+  MOST: that better margin model is WORSE against the spread -- 44.6%
+  at Lean against the shipped model's 47.6%. Not a paradox. A model
+  that predicts margins better agrees with the market more, and the
+  market is the more accurate of the two (MAE 9.958). Disagreeing less
+  often and being wrong when you do is how a better predictor becomes
+  a worse bettor. ACCURACY AND EDGE ARE DIFFERENT QUANTITIES AND ONLY
+  THE SECOND PAYS. No fitted vector carries both a properly scaled
+  rating and Elo; building one is a real model improvement and an open
+  question for the board, so this measures and does not ship.
+  model/spread_edge_validation.py + data/spread_validation.json,
+  2 guard tests.
+- SCOPE CORRECTION TO THE ENTRY ABOVE, SAME DAY (2026-09-20): it said
+  the spread measurement used "the coefficient vector the board
+  actually uses now ... which is every 2026 board". True when written,
+  false hours later. NGS came back online between the 16:01 and 20:04
+  UTC boards; the 20:04 board prices SIX of its seven live games on
+  full_ensemble and one on the rating-only path. So those ATS figures
+  grade the NGS-ABSENT configuration -- which is not hypothetical, it
+  ran through the whole outage and still runs per-game whenever a team
+  is missing from the NGS frame -- but they do not grade what is on
+  the board today. Re-run against the full-ensemble path before
+  treating them as a verdict on the live board. AND A SECOND FINDING
+  the new coefficient_set stamp surfaced on its first live board: a
+  single slate can carry BOTH vectors. They are not
+  unit-incompatible (both predict margins in points) but they are
+  differently confident -- held out, the rating-only path's
+  predictions have sd 3.880 against ~5.8 for one carrying Elo -- so
+  one fixed 4.0-point threshold is being applied to gaps drawn from
+  two distributions. On the 20:04 board the lone rating-only game's
+  gap is -0.23 and nothing flags, so no harm today; but "which model
+  priced this edge" is now a question the board can answer and the
+  threshold does not ask.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

@@ -1,0 +1,92 @@
+{
+  "_provenance": {
+    "script": "model/spread_edge_validation.py",
+    "generated": "2026-09-20",
+    "games": 1964,
+    "seasons": [
+      2016,
+      2025
+    ],
+    "coefficients": "MARGIN_COEFFICIENTS_V1_RATING_ONLY -- the NGS-ABSENT path, not unconditionally the live one",
+    "method": "walk-forward; ratings use only weeks before each game",
+    "scope_correction": "An earlier version called this the vector the board uses 'now ... every 2026 board'. NGS came back online between the 16:01 and 20:04 UTC boards on 2026-09-20; the 20:04 board prices 6 of 7 live games on full_ensemble. These figures grade the NGS-absent configuration, which ran through the outage and still runs per-game when a team is missing from the NGS frame -- but they do not grade today's board."
+  },
+  "supported": false,
+  "action": "DISCLOSED, NOT WITHHELD",
+  "by_threshold": [
+    {
+      "tier": "lean",
+      "min_abs_gap": 2.5,
+      "n": 1155,
+      "ats": 0.497,
+      "se": 0.0147,
+      "ci95": [
+        0.468,
+        0.526
+      ],
+      "clears_breakeven": false
+    },
+    {
+      "tier": "play",
+      "min_abs_gap": 4.0,
+      "n": 719,
+      "ats": 0.5118,
+      "se": 0.0186,
+      "ci95": [
+        0.475,
+        0.548
+      ],
+      "clears_breakeven": false
+    },
+    {
+      "tier": "gap_6",
+      "min_abs_gap": 6.0,
+      "n": 335,
+      "ats": 0.5373,
+      "se": 0.0272,
+      "ci95": [
+        0.484,
+        0.591
+      ],
+      "clears_breakeven": false
+    }
+  ],
+  "pooled": {
+    "n": 1964,
+    "ats": 0.498,
+    "se": 0.0113,
+    "z_vs_breakeven": -2.31
+  },
+  "play_threshold_by_season": {
+    "2016": 0.537,
+    "2017": 0.444,
+    "2018": 0.482,
+    "2019": 0.513,
+    "2020": 0.57,
+    "2021": 0.473,
+    "2022": 0.609,
+    "2023": 0.548,
+    "2024": 0.455,
+    "2025": 0.5
+  },
+  "why_not_withheld": "Totals were withheld on three findings at once: pooled below 50%, worse MAE than the market, and predictions compressed enough that 81% of their disagreement was explained by the market's own number. Spreads share the MAE concern; the Play threshold is above 50% rather than below, and its interval contains breakeven. That is absence of evidence, not evidence of absence, and withholding the whole board on it is a larger call than the evidence carries.",
+  "elo_gap": {
+    "finding": "The NGS fix restored the rating and dropped Elo: the full-ensemble vector carries elo_diff=0.0348, the rating-only vector has no elo_diff at all, so the live board has none.",
+    "elo_t_on_train": 8.51,
+    "implied_coefficient": 0.0308,
+    "holdout_mae_shipped": 10.735,
+    "holdout_mae_with_elo": 10.387,
+    "holdout_mae_market": 9.958,
+    "prediction_sd": {
+      "shipped": 3.88,
+      "with_elo": 5.835,
+      "market": 6.012
+    },
+    "dissociation": "The better margin model is WORSE against the spread (44.6% vs 47.6% at Lean). A model that predicts better agrees with the market more, and the market is more accurate, so it disagrees less often and is wrong when it does. Accuracy and edge are different quantities."
+  },
+  "mixed_path_slates": {
+    "observed": "2026-week-02 20:04Z: 6 full_ensemble, 1 v1_rating_only_no_ngs, rest preserved",
+    "concern": "Both vectors predict margins in points, so they are not unit-incompatible, but held out the rating-only path's predictions have sd 3.880 against ~5.8 for one carrying Elo. A single 4.0-point threshold is applied to gaps drawn from two distributions.",
+    "harm_today": "the lone rating-only game's gap is -0.23; nothing flags"
+  }
+}

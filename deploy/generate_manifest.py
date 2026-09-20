@@ -94,6 +94,11 @@ def main():
     # this the same day the hardcoded 0.01828 was removed, and nothing
     # shipped the file, so CFB lost its cover probability entirely.
     copy_single_file("cfb_edge_calibration.json")
+    # The totals verdict the board gates on. Shipped for the same
+    # reason cfb_edge_calibration.json is: a board that fetches a file
+    # nothing copies gets a silent 404.
+    copy_single_file("totals_validation.json")
+    copy_single_file("spread_validation.json")
     # Evidence artifacts live in model/ but the board reads them from
     # /data/. The CFB cover curve used to be a bare constant in JSX; it
     # is now a committed, regenerable artifact that the site fetches.
