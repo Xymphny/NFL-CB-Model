@@ -150,6 +150,43 @@ def summarize(plays):
     }
 
 
+def calibration_stats(by_week, results_by_game):
+    """Weekly-updated calibration slope over ALL priced games with
+    finals (not just flags): regress actual home margins on the
+    board's model margins, and on the market's, pooled season to
+    date. Slope 1.0 = honest amplitude; below 1 = stated margins
+    carry less signal per point than they claim. Added 2026-09-18
+    after the week 1-2 diagnostic measured model 0.68 vs market 1.14
+    (n=17) -- expected while NGS inputs are unpublished and the
+    in-season blend is young. The number to watch: if the model
+    slope still sits near 0.7 by ~week 6 WITH tracking data flowing,
+    it graduates from "young season" to a real offseason finding."""
+    pairs = []
+    for week, snap in by_week.items():
+        for d in snap.get("divergences", []):
+            game = results_by_game.get((week, d.get("home_team"), d.get("away_team")))
+            if game is None or d.get("spread_gap") is None or d.get("market_spread") is None:
+                continue
+            actual = game["home_score"] - game["away_score"]
+            pairs.append((d["market_spread"] + d["spread_gap"], d["market_spread"], actual))
+    if len(pairs) < 8:
+        return None
+
+    def slope(xs, ys):
+        n = len(xs)
+        mx, my = sum(xs) / n, sum(ys) / n
+        var = sum((x - mx) ** 2 for x in xs)
+        if var < 1e-9:
+            return None
+        return sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / var
+
+    model_p, market_p, actual = zip(*pairs)
+    sm, sk = slope(model_p, actual), slope(market_p, actual)
+    return {"slope_model": round(sm, 3) if sm is not None else None,
+            "slope_market": round(sk, 3) if sk is not None else None,
+            "n_games": len(pairs)}
+
+
 def generate(data_dir, season, games_df=None):
     if games_df is None:
         games_df = pd.read_csv(GAMES_URL)
@@ -170,6 +207,7 @@ def generate(data_dir, season, games_df=None):
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "graded_weeks": sorted({p["week"] for p in plays}),
         **summarize(plays),
+        "calibration": calibration_stats(snapshots, results_by_game),
         "plays": plays,
     }
 

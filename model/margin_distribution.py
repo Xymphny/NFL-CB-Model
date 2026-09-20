@@ -115,7 +115,7 @@ def main():
     for bkt in calib["fit_check"]:
         print(f"    edge {bkt['edge_range']}: actual {bkt['actual_cover_pct']*100:.1f}% vs fitted {bkt['fitted_at_midpoint']*100:.1f}% (n={bkt['n']})")
     print(f"  For comparison, the normal approximation claims a 4-pt edge covers "
-          f"{100*0.5*(1+__import__("math").erf((4/13.86)/np.sqrt(2))):.1f}% -- the calibrated answer is "
+          f"{100*0.5*(1+__import__('math').erf((4/13.86)/np.sqrt(2))):.1f}% -- the calibrated answer is "
           f"{100/(1+np.exp(-calib['edge_coef']*4)):.1f}%.")
 
 

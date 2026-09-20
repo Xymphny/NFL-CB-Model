@@ -288,6 +288,42 @@ def test_props_format_refetch():
         ow.requests.get = orig
 
 
+def test_props_edge_guards():
+    """Audit catch 2026-09-20: the live board's #1 card was a fringe
+    receiver's anytime TD at "+93% EV" -- a longshot artifact, since
+    yes-markets have no two-way de-vig and tail prices carry the most
+    dispersion and the most stale quotes. Guards: yes-market EV only
+    at fair_prob >= 0.20; ANY edge > 20% EV is quarantined as a
+    suspect quote (present in the payload, never ranked)."""
+    from deploy.odds_watch_job import consensus_edge
+    long = consensus_edge({"A": {"yes": 600}, "B": {"yes": 750}, "C": {"yes": 900}, "D": {"yes": 1400}}, yes_market=True)
+    assert long["edge"] is None and long["yes"]["price"] == 1400   # prices shown, no EV claim
+    short = consensus_edge({"A": {"yes": -160}, "B": {"yes": -175}, "C": {"yes": -150}, "D": {"yes": -120}}, yes_market=True)
+    assert short["edge"] is not None and short["edge"]["fair_prob"] >= 0.20
+    stale = consensus_edge({"A": {"line": 220.5, "over": -110, "under": -110},
+                            "B": {"line": 220.5, "over": -112, "under": -108},
+                            "C": {"line": 220.5, "over": -108, "under": -112},
+                            "D": {"line": 220.5, "over": 350, "under": -500}})
+    assert stale["edge"] is None and stale["suspect_quote"]["ev_pct"] > 20
+
+
+def test_calibration_stats():
+    """Track-record calibration slope: actual regressed on stated
+    margins over ALL priced games. Constructed truth (actual = 2x
+    model margin) must recover slope 2.0; <8 games must return None
+    rather than a noisy number."""
+    from deploy.generate_performance import calibration_stats
+    spec = [(3, -1), (7, -3), (-2, 1), (10, -5), (1, 0), (-6, 3), (4, -2), (8, -4), (-3, 2), (5, -2.5)]
+    by_week = {1: {"divergences": [
+        {"home_team": f"H{i}", "away_team": f"A{i}", "market_spread": float(m), "spread_gap": float(g)}
+        for i, (m, g) in enumerate(spec)]}}
+    results = {(1, f"H{i}", f"A{i}"): {"home_score": 2 * (m + g) + 20, "away_score": 20}
+               for i, (m, g) in enumerate(spec)}
+    c = calibration_stats(by_week, results)
+    assert abs(c["slope_model"] - 2.0) < 1e-6 and c["n_games"] == 10
+    assert calibration_stats({1: {"divergences": []}}, {}) is None
+
+
 
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):

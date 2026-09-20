@@ -607,6 +607,12 @@ function KpiStrip({ perf }) {
       note: 'Mean abs. error, points',
       tone: '',
     },
+    {
+      label: 'Signal calibration',
+      value: perf && perf.calibration && perf.calibration.slope_model != null ? perf.calibration.slope_model.toFixed(2) : '—',
+      note: perf && perf.calibration ? `market ${perf.calibration.slope_market != null ? perf.calibration.slope_market.toFixed(2) : '—'} · 1.00 = honest amplitude · ${perf.calibration.n_games} priced games` : 'Needs ~8 finished games',
+      tone: perf && perf.calibration && perf.calibration.slope_model != null && perf.calibration.slope_model >= 0.85 && perf.calibration.slope_model <= 1.15 ? 'up' : '',
+    },
   ]
 
   return (
@@ -863,7 +869,11 @@ function PlayersTab({ playerLeaders, manifest }) {
             for (const [gm, gdata] of Object.entries(propsState.data.games)) {
               for (const [mk, players] of Object.entries(gdata.markets)) {
                 for (const [pl, r] of Object.entries(players)) {
-                  if (r.edge && r.edge.ev_pct != null) rows.push({ gm, mk, pl, r, kickoff: gdata.kickoff })
+                  const e = r.edge
+                  // Mirror the backend guards for files written before them:
+                  // no yes-market longshots (fair < 20%), no >20% "edges"
+                  // (stale quotes, not opportunities).
+                  if (e && e.ev_pct != null && e.ev_pct <= 20 && (e.side !== 'yes' || e.fair_prob >= 0.20)) rows.push({ gm, mk, pl, r, kickoff: gdata.kickoff })
                 }
               }
             }

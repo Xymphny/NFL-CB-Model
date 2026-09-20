@@ -135,8 +135,20 @@ def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
             import statistics
             fair = statistics.median(_implied(p) for _, p in priced)
             ev = _decimal(best_p) * fair - 1
-            out["edge"] = {"side": "yes", "ev_pct": round(ev * 100, 2), "fair_prob": round(fair, 4),
-                           "n_books": len(priced), "price": best_p, "book": best_b, "basis": "median-implied (vig-in, conservative)"}
+            # Longshot guard (audit catch 2026-09-20: a fringe receiver's
+            # anytime TD ranked as "+93% EV" -- the top card on the live
+            # board). Median-implied fair value is least trustworthy
+            # exactly where prices are long: there is no two-way de-vig,
+            # longshot bias means true probability sits BELOW any
+            # implied estimate, and huge price dispersion on tails is
+            # usually one stale quote, not free money. Yes-market EV is
+            # only claimable at fair_prob >= 0.20.
+            if fair >= 0.20:
+                out["edge"] = {"side": "yes", "ev_pct": round(ev * 100, 2), "fair_prob": round(fair, 4),
+                               "n_books": len(priced), "price": best_p, "book": best_b, "basis": "median-implied (vig-in, conservative)"}
+        if out.get("edge") and out["edge"]["ev_pct"] > 20:
+            out["suspect_quote"] = out["edge"]
+            out["edge"] = None
         return out
     lined = [(b, q) for b, q in quotes.items() if q.get("line") is not None]
     if not lined:
@@ -161,6 +173,12 @@ def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
         side = max(evs, key=evs.get)
         out["edge"] = {"side": side, "ev_pct": round(evs[side] * 100, 2), "fair_prob": round(fair_over if side == "over" else 1 - fair_over, 4),
                        "n_books": len(two_way), "price": out[side]["price"], "book": out[side]["book"], "basis": "de-vigged consensus at matching line"}
+    # Stale-quote guard: any single book beating the whole consensus by
+    # >20% EV is far more likely an un-updated line than an edge --
+    # surface it as a suspect quote, never as a ranked play.
+    if out.get("edge") and out["edge"]["ev_pct"] > 20:
+        out["suspect_quote"] = out["edge"]
+        out["edge"] = None
     return out
 
 
