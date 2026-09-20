@@ -638,6 +638,22 @@ highest precedence).
   remainder is a train/test shape mismatch no train-only fit can see);
   point estimates still trail trailing-4 baselines -> still not quoted.
   Grading of live watch-mode opinions precedes any verdict authority.
+- PLAYER PROJECTION ENGINE v3 (2026-09-20): red-zone usage layer --
+  "assess the team's tendencies and script; treat realized TDs as the
+  noisy echo." TD lambda is now a train-tuned blend (0.7 usage + 0.3
+  v2): usage-lambda = zone share x current team zone volume x league
+  zone conversion (inside-5 carries 42%, targets inside-10 38%,
+  outside-20 touches 1.3% -- location IS the signal), opponent-adjusted
+  by RZ conversion allowed, plus a credibility-shrunk long-TD term.
+  Power recalibration relaxed b 0.40 -> 0.55 (causal lambda needs less
+  streak compression). HELD-OUT 2024-25: beats v2 on log-loss on its
+  own pool (0.5406 vs 0.5499) AND the common pool (0.5446 vs 0.5503;
+  Brier 0.18198 vs 0.18348), buckets within ~1.2pp conservative.
+  Red-zone data loads from nflverse play-by-play (~20MB/season, cached
+  under RZ_CACHE_DIR, default /tmp/nfl_pbp_cache); if the fetch fails
+  the engine silently degrades to pure v2 -- never a crash. Still
+  watch-mode: market-as-noise ranking on the TD board waits for live
+  graded chips, per the standing on-ramp rule.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

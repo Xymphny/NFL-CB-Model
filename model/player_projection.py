@@ -51,6 +51,23 @@ V2 (2026-09-20), spec written by the Bijan Robinson discussion:
      stays in the walk-forward (states need it) but out of shape
      fitting. This, not era drift, was most of pass_yds' v1 failure;
      the remainder still fails the gate, so pass_yds STAYS WITHHELD.
+
+V3 (2026-09-20), red-zone usage -- "assess tendencies and script,
+treat realized TDs as the noisy echo":
+  TD lambda becomes a train-tuned blend, 0.7 x usage + 0.3 x v2:
+  usage-lambda = sum over zones (player share of team zone volume x
+  current team zone volume x league conversion in zone) x opponent
+  RZ-conversion multiplier + long-TD term (touches outside the 20 x
+  credibility-shrunk breakaway rate). Zone conversion gradient is the
+  whole point: inside-5 carries score 42%, targets inside-10 38%,
+  touches outside the 20 1.3% -- WHERE the touches happen is signal,
+  the box-score TD count is the echo. b relaxed 0.40 -> 0.55: the
+  causal lambda needs less streak compression. HELD-OUT 2024-25:
+  beats v2 on its own pool (log-loss 0.5406 vs 0.5499) and on the
+  common pool (0.5446 vs 0.5503; Brier 0.18198 vs 0.18348), buckets
+  within ~1.2pp, conservative side. Red-zone data comes from nflverse
+  play-by-play at load time; when it is unavailable the engine falls
+  back to pure v2 silently -- graceful degradation, never a crash.
 """
 
 import os
@@ -63,7 +80,7 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 STATS_URL = "https://github.com/nflverse/nflverse-data/releases/download/stats_player/stats_player_week_{season}.parquet"
-COLS = ["player_display_name", "position", "team", "opponent_team", "season", "week", "season_type",
+COLS = ["player_id", "player_display_name", "position", "team", "opponent_team", "season", "week", "season_type",
         "attempts", "carries", "targets", "passing_yards", "rushing_yards", "receiving_yards",
         "passing_tds", "rushing_tds", "receiving_tds"]
 
@@ -80,9 +97,21 @@ ENV_DAMP = 0.5                  # sqrt damping on the team-environment ratio
 ENV_CLAMP = (0.6, 1.5)          # bounds on the (damped) environment multiplier
 TIER_CUTS = (8.0, 15.0)         # opportunities/game -> tier 0 / 1 / 2
 TIER_K = {0: 5.0, 1: 3.0, 2: 1.5}   # TD credibility k by volume tier
-TD_POWER = 0.4                  # b in P(score) = 1 - exp(-a_tier * lam^b)
+TD_POWER = 0.55                 # b in P(score) = 1 - exp(-a_tier * lam^b) (v3 refit)
 TD_MIN_LAMBDA = 0.15            # calibrated-pool floor: no TD opinion below it
 BURN_IN_SEASONS = 1             # cold-start seasons excluded from shape fitting
+# v3 red-zone usage constants. Zones: c5/c10 = carries by yardline,
+# t10/t20 = targets by yardline, o20 = touches outside the 20. League
+# conversion defaults are the 2016-2025 pooled empirical rates.
+RZ_ZONES = ("c5", "c10", "t10", "t20")
+CONV_DEFAULT = {"c5": 0.42, "c10": 0.13, "t10": 0.38, "t20": 0.14, "o20": 0.013}
+RZ_OPP_SHRINK = 0.5             # opponent RZ-conversion multiplier shrink
+LONG_CRED = 150.0               # o20 touches before a player's own long-TD rate dominates
+USAGE_W = 0.7                   # blend weight: w*usage-lambda + (1-w)*v2-lambda (train-tuned)
+PBP_URL = "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_{season}.parquet"
+PBP_COLS = ["season", "week", "season_type", "posteam", "defteam", "yardline_100", "play_type",
+            "rush_attempt", "pass_attempt", "rush_touchdown", "pass_touchdown", "two_point_attempt",
+            "rusher_player_id", "receiver_player_id"]
 MARKETS = ("pass_yds", "rush_yds", "rec_yds")
 MK_OPP = {"pass_yds": "attempts", "rush_yds": "carries", "rec_yds": "targets"}
 MK_YDS = {"pass_yds": "passing_yards", "rush_yds": "rushing_yards", "rec_yds": "receiving_yards"}
@@ -121,16 +150,26 @@ class Engine:
         self.p_env_td = defaultdict(Ewma)   # player -> team TDs/game in games HE played
         self.lg_team_td = Ewma()            # league team TDs/game
         self.tier_td = defaultdict(Ewma)    # (position, tier) -> TDs/game tier mean
+        # ---- v3 red-zone usage states ----
+        self.p_z = defaultdict(Ewma)        # (player, zone) -> zone opportunities/game
+        self.p_long = defaultdict(Ewma)     # player -> long (o20) TDs/game
+        self.t_z = defaultdict(Ewma)        # (team, zone) -> team zone opportunities/game
+        self.lg_z = defaultdict(Ewma)       # zone -> league team zone opp/game
+        self.conv = defaultdict(Ewma)       # zone -> league TD conversion in zone
+        self.d_rz = defaultdict(Ewma)       # defense -> RZ TDs allowed per RZ opp faced
+        self.lg_rz_conv = Ewma()            # league pooled RZ conversion
 
     def season_boundary(self):
         for d in (self.p_opp, self.p_eff, self.t_vol, self.d_allow, self.lg_eff, self.lg_vol,
-                  self.pos_eff, self.t_td, self.d_td_allow, self.p_env_td, self.tier_td):
+                  self.pos_eff, self.t_td, self.d_td_allow, self.p_env_td, self.tier_td,
+                  self.p_z, self.p_long, self.t_z, self.lg_z, self.conv, self.d_rz):
             for e in d.values():
                 e.decay_season()
         for e in self.p_td.values():
             e.decay_season()
         self.lg_td.decay_season()
         self.lg_team_td.decay_season()
+        self.lg_rz_conv.decay_season()
 
     def volume_tier(self, player):
         """0 = fringe, 1 = rotational, 2 = workhorse; carries+targets/game."""
@@ -190,6 +229,31 @@ class Engine:
             opp_dev = (self.d_td_allow[opponent].mean(lg) / max(lg, 1e-6)) - 1.0
         return {"base": base, "env_ratio": env_ratio, "opp_dev": opp_dev, "tier": tier}
 
+    def td_usage_lambda(self, player, team, opponent=None):
+        """v3: expected TDs from WHERE the touches happen -- zone usage
+        share x current team zone volume x league conversion, opponent-
+        adjusted by RZ conversion allowed, plus a credibility-shrunk
+        long-TD term. Returns None when red-zone states are thin (no
+        pbp data loaded, or a cold player) -- callers fall back to v2."""
+        if self.p_z[(player, "o20")].w < 0.35:
+            return None
+        d_mult = 1.0
+        lgc = self.lg_rz_conv.mean(0.25)
+        if opponent is not None and self.d_rz[opponent].w > 1e-6:
+            d_mult = 1.0 + RZ_OPP_SHRINK * (self.d_rz[opponent].mean(lgc) / max(lgc, 1e-6) - 1.0)
+        total = 0.0
+        for z in RZ_ZONES:
+            tz = self.t_z[(team, z)].mean(self.lg_z[z].mean(1.0))
+            share = min(self.p_z[(player, z)].mean() / max(tz, 1e-6), 1.0)
+            total += share * tz * self.conv[z].mean(CONV_DEFAULT[z])
+        total *= d_mult
+        o20 = self.p_z[(player, "o20")].mean()
+        n_touch = self.p_z[(player, "o20")].w / ALPHA * o20
+        lgl = self.conv["o20"].mean(CONV_DEFAULT["o20"])
+        rate = ((self.p_long[player].mean() / max(o20, 1e-6)) * n_touch + lgl * LONG_CRED) / (n_touch + LONG_CRED)
+        total += o20 * rate
+        return max(total, 0.01)
+
     def project_td_lambda(self, player, team=None, opponent=None):
         c = self.td_components(player, team, opponent)
         if c is None:
@@ -198,6 +262,13 @@ class Engine:
         # ledger): raw multipliers made high-lambda claims run hot.
         env = min(max(c["env_ratio"] ** ENV_DAMP, ENV_CLAMP[0]), ENV_CLAMP[1])
         lam = c["base"] * env * (1.0 + OPP_SHRINK_TD * c["opp_dev"])
+        # v3 blend: where the touches happen (usage) tempered by what
+        # they have produced (v2). USAGE_W train-tuned; usage silent ->
+        # pure v2, so the engine degrades gracefully without pbp data.
+        if team is not None:
+            u = self.td_usage_lambda(player, team, opponent)
+            if u is not None:
+                lam = USAGE_W * u + (1.0 - USAGE_W) * lam
         return max(lam, 0.01)
 
     # ---- update with a played week ----
@@ -219,6 +290,38 @@ class Engine:
             self.t_td[team].add(td)
             self.lg_team_td.add(td)
             self.d_td_allow[opp_of[team]].add(td)
+        # ---- v3 red-zone weekly aggregates (zeros count: a team with no
+        # inside-5 carries this week must pull its volume state down) ----
+        ALL_Z = RZ_ZONES + ("o20",)
+        wk_opp = defaultdict(float)
+        wk_td = defaultdict(float)
+        has_rz = any(r.get(z) for r in rows for z in ALL_Z)
+        if has_rz:
+            for r in rows:
+                for z in ALL_Z:
+                    wk_opp[(r["team"], z)] += r.get(z, 0) or 0
+                    wk_td[(r["team"], z)] += r.get(z + "_td", 0) or 0
+            lg_o = defaultdict(float)
+            lg_t = defaultdict(float)
+            for (team, z), n in wk_opp.items():
+                lg_o[z] += n
+                lg_t[z] += wk_td[(team, z)]
+            for team in {r["team"] for r in rows}:
+                rz_faced = rz_allowed = 0.0
+                for z in ALL_Z:
+                    self.t_z[(team, z)].add(wk_opp.get((team, z), 0.0))
+                    self.lg_z[z].add(wk_opp.get((team, z), 0.0))
+                    if z != "o20":
+                        rz_faced += wk_opp.get((team, z), 0.0)
+                        rz_allowed += wk_td.get((team, z), 0.0)
+                if rz_faced >= 3:
+                    self.d_rz[opp_of[team]].add(rz_allowed / rz_faced)
+            for z in ALL_Z:
+                if lg_o[z] >= 10:
+                    self.conv[z].add(lg_t[z] / lg_o[z])
+            rz_o = sum(lg_o[z] for z in RZ_ZONES)
+            if rz_o >= 10:
+                self.lg_rz_conv.add(sum(lg_t[z] for z in RZ_ZONES) / rz_o)
         for (team, mkt), n in team_opp.items():
             self.t_vol[(team, mkt)].add(n)
             self.lg_vol[mkt].add(n)
@@ -246,6 +349,9 @@ class Engine:
                 for mkt2 in MARKETS:
                     self.p_opp[(p2, mkt2)].add(0.0)
                 self.p_td[p2].add(0.0)
+                for z2 in RZ_ZONES + ("o20",):
+                    self.p_z[(p2, z2)].add(0.0)
+                self.p_long[p2].add(0.0)
         for r in rows:
             p = r["player_display_name"]
             self.pos[p] = r["position"]
@@ -263,6 +369,10 @@ class Engine:
             # (position, tier) mean the credibility shrink targets.
             self.p_env_td[p].add(team_td[r["team"]])
             self.tier_td[(r["position"], tiers[p])].add(r["rushing_tds"] + r["receiving_tds"])
+            if has_rz:
+                for z in RZ_ZONES + ("o20",):
+                    self.p_z[(p, z)].add(r.get(z, 0) or 0)
+                self.p_long[p].add(r.get("o20_td", 0) or 0)
 
 
 def load_seasons(first, last):
@@ -273,6 +383,56 @@ def load_seasons(first, last):
         frames.append(df)
         print(f"  loaded {s}: {len(df)} player-weeks")
     return pd.concat(frames, ignore_index=True)
+
+
+def load_rz(first, last, cache_dir=None):
+    """Aggregate nflverse play-by-play into per-player-week red-zone
+    usage: zone opportunities and TDs, keyed by gsis player_id. REG
+    season, 2-pt plays excluded. cache_dir keeps the ~20MB/season pbp
+    downloads across runs (env RZ_CACHE_DIR overrides)."""
+    import urllib.request
+    cache_dir = cache_dir or os.environ.get("RZ_CACHE_DIR") or "/tmp/nfl_pbp_cache"
+    os.makedirs(cache_dir, exist_ok=True)
+    frames = []
+    for season in range(first, last + 1):
+        path = os.path.join(cache_dir, f"pbp_{season}.parquet")
+        if not os.path.exists(path):
+            urllib.request.urlretrieve(PBP_URL.format(season=season), path)
+        pbp = pd.read_parquet(path, columns=PBP_COLS)
+        pbp = pbp[(pbp["season_type"] == "REG") & (pbp["two_point_attempt"].fillna(0) == 0)]
+        parts = []
+        for idc, att, tdc, is_rush in (("rusher_player_id", "rush_attempt", "rush_touchdown", True),
+                                       ("receiver_player_id", "pass_attempt", "pass_touchdown", False)):
+            d = pbp[(pbp[att].fillna(0) == 1) & pbp[idc].notna()].copy()
+            y = d["yardline_100"]
+            if is_rush:
+                d["z"] = np.where(y <= 5, "c5", np.where(y <= 10, "c10", "o20"))
+            else:
+                d["z"] = np.where(y <= 10, "t10", np.where(y <= 20, "t20", "o20"))
+            d["td"] = d[tdc].fillna(0).astype(int)
+            d = d.rename(columns={idc: "player_id"})
+            parts.append(d[["season", "week", "player_id", "z", "td"]])
+        d = pd.concat(parts, ignore_index=True)
+        g = d.groupby(["season", "week", "player_id", "z"]).agg(opp=("td", "size"), td=("td", "sum")).reset_index()
+        wide = g.pivot_table(index=["season", "week", "player_id"], columns="z",
+                             values=["opp", "td"], fill_value=0)
+        wide.columns = [z if k == "opp" else z + "_td" for k, z in wide.columns]
+        wide = wide.reset_index()
+        for c in [z for z in RZ_ZONES + ("o20",)] + [z + "_td" for z in RZ_ZONES + ("o20",)]:
+            if c not in wide.columns:
+                wide[c] = 0
+        frames.append(wide)
+        print(f"  rz {season}: {len(wide)} player-weeks")
+    return pd.concat(frames, ignore_index=True)
+
+
+def merge_rz(data, rz):
+    """Left-join stats player-weeks with red-zone usage; missing = 0."""
+    zcols = [z for z in RZ_ZONES + ("o20",)] + [z + "_td" for z in RZ_ZONES + ("o20",)]
+    out = data.merge(rz[["season", "week", "player_id"] + zcols],
+                     on=["season", "week", "player_id"], how="left")
+    out[zcols] = out[zcols].fillna(0)
+    return out
 
 
 def walk_forward(first=2016, last=2025, data=None):
@@ -302,9 +462,11 @@ def walk_forward(first=2016, last=2025, data=None):
                 c = eng.td_components(p, r["team"], r["opponent_team"])
                 lam = eng.project_td_lambda(p, r["team"], r["opponent_team"])
                 if lam is not None and r["position"] in ("RB", "WR", "TE") and max(lam, c["base"]) >= TD_MIN_LAMBDA:
+                    u = eng.td_usage_lambda(p, r["team"], r["opponent_team"])
                     preds.append({"season": season, "week": week, "player": p, "mkt": "anytime_td",
                                   "proj": lam, "tier": c["tier"], "td_base": c["base"],
                                   "td_env": c["env_ratio"], "td_opp": c["opp_dev"],
+                                  "td_usage": u if u is not None else np.nan,
                                   "actual": float(r["rushing_tds"] + r["receiving_tds"] > 0)})
             for r in rows:
                 for mkt in MARKETS:
@@ -477,7 +639,13 @@ class LiveProjector:
     def __init__(self, season, data=None):
         self.shapes = load_shapes()
         self.eng = Engine()
-        data = data if data is not None else load_seasons(season - 1, season)
+        if data is None:
+            data = load_seasons(season - 1, season)
+            try:
+                data = merge_rz(data, load_rz(season - 1, season))
+                print("[engine] red-zone usage merged")
+            except Exception as e:                        # noqa: BLE001
+                print(f"[engine] rz unavailable ({e}); TD lambda falls back to v2")
         first = data["season"].min()
         for yr in sorted(data["season"].unique()):
             if yr != first:
@@ -517,7 +685,13 @@ class LiveProjector:
 
 
 def main():
-    preds, _ = walk_forward(2016, 2025)
+    data = load_seasons(2016, 2025)
+    try:
+        data = merge_rz(data, load_rz(2016, 2025))
+        print("red-zone usage merged")
+    except Exception as e:                                # noqa: BLE001
+        print(f"[rz] unavailable ({e}); walk runs v2-only")
+    preds, _ = walk_forward(2016, 2025, data=data)
     train = preds[preds["season"] <= 2023]
     shapes = build_shape(train)
     print(f"\nwalk-forward predictions: {len(preds)} | train {len(train)} | shapes: " +

@@ -340,6 +340,43 @@ def test_player_projection_engine():
 
 
 
+def test_rz_usage_lambda():
+    """v3 structural gates: red-zone usage present -> usage lambda
+    exists and a goal-line role beats an identical-volume role with no
+    inside-5 work; rz data absent -> usage lambda is None and the TD
+    blend degrades to pure v2 (graceful pbp-outage behavior)."""
+    from model.player_projection import Engine, RZ_ZONES
+    eng = Engine()
+    def row(name, c5, o20, td):
+        r = {"player_display_name": name, "position": "RB", "team": "DET",
+             "opponent_team": "CHI", "season": 2025, "week": 0, "season_type": "REG",
+             "attempts": 0, "carries": 15, "targets": 2,
+             "passing_yards": 0, "rushing_yards": 70, "receiving_yards": 10,
+             "passing_tds": 0, "rushing_tds": td, "receiving_tds": 0,
+             "c5": c5, "c10": 1, "t10": 0, "t20": 0, "o20": o20,
+             "c5_td": td, "c10_td": 0, "t10_td": 0, "t20_td": 0, "o20_td": 0}
+        return r
+    for wk in range(1, 8):
+        r1 = row("Goal Line Back", 3, 11, 1)
+        r2 = row("Between Twenties Back", 0, 16, 0)
+        r2["team"], r2["opponent_team"] = "CHI", "DET"
+        for r in (r1, r2): r["week"] = wk
+        eng.update_week([r1, r2])
+    u1 = eng.td_usage_lambda("Goal Line Back", "DET", "CHI")
+    u2 = eng.td_usage_lambda("Between Twenties Back", "CHI", "DET")
+    assert u1 is not None and u2 is not None and u1 > u2 * 1.5
+    # no-rz engine: usage silent, blend returns the pure v2 lambda
+    eng2 = Engine()
+    for wk in range(1, 8):
+        r = row("Plain Back", 0, 0, 1)
+        for z in RZ_ZONES + ("o20",):
+            del r[z]; del r[z + "_td"]
+        r["week"] = wk
+        eng2.update_week([r])
+    assert eng2.td_usage_lambda("Plain Back", "DET", "CHI") is None
+    assert eng2.project_td_lambda("Plain Back", "DET", "CHI") is not None
+
+
 def test_mlb_walk_skips_unplayed_games():
     """A postponed/unplayed game (NaN scores) must neither enter the
     walk-forward states nor emit a prediction row: one NaN April game in
