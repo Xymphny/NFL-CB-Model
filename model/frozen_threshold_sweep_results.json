@@ -1,0 +1,174 @@
+{
+  "_provenance": {
+    "script": "model/frozen_threshold_sweep.py",
+    "generated": "2026-09-20",
+    "prompted_by": "model/pass_yds_stratum_drift.py"
+  },
+  "verdicts": {
+    "yardage_stratum_cuts": "HIT -- see pass_yds_stratum_drift_results.json",
+    "TIER_CUTS": "clean",
+    "CONV_DEFAULT": "clean",
+    "CRED_OPP": "clean"
+  },
+  "rule_of_thumb": "The bug bites where a constant PARTITIONS data, not where it scales or shrinks it. Partitions are step functions: drift moves rows across a boundary and they inherit a different distribution wholesale. Shrinkage is continuous and its error is proportional.",
+  "still_unswept": [
+    "PLAY_GAP/LEAN_GAP",
+    "in-season de-bias offsets"
+  ],
+  "conversion_rates": {
+    "c5": {
+      "pooled_constant": 0.42,
+      "mean_2016_19": 0.4211,
+      "mean_2024_25": 0.4,
+      "drift": -0.0211,
+      "pct_vs_constant": -4.8,
+      "season_range": [
+        0.3889,
+        0.4334
+      ],
+      "by_season": {
+        "2016": 0.4334,
+        "2017": 0.3945,
+        "2018": 0.4243,
+        "2019": 0.432,
+        "2020": 0.4284,
+        "2021": 0.4228,
+        "2022": 0.4122,
+        "2023": 0.4144,
+        "2024": 0.411,
+        "2025": 0.3889
+      }
+    },
+    "c10": {
+      "pooled_constant": 0.13,
+      "mean_2016_19": 0.1268,
+      "mean_2024_25": 0.1323,
+      "drift": 0.0055,
+      "pct_vs_constant": 1.8,
+      "season_range": [
+        0.1121,
+        0.1389
+      ],
+      "by_season": {
+        "2016": 0.1272,
+        "2017": 0.1221,
+        "2018": 0.1389,
+        "2019": 0.119,
+        "2020": 0.122,
+        "2021": 0.1322,
+        "2022": 0.1158,
+        "2023": 0.1121,
+        "2024": 0.1314,
+        "2025": 0.1333
+      }
+    },
+    "t10": {
+      "pooled_constant": 0.38,
+      "mean_2016_19": 0.371,
+      "mean_2024_25": 0.394,
+      "drift": 0.0229,
+      "pct_vs_constant": 3.7,
+      "season_range": [
+        0.3635,
+        0.412
+      ],
+      "by_season": {
+        "2016": 0.3678,
+        "2017": 0.3649,
+        "2018": 0.3731,
+        "2019": 0.3784,
+        "2020": 0.412,
+        "2021": 0.381,
+        "2022": 0.368,
+        "2023": 0.3635,
+        "2024": 0.3986,
+        "2025": 0.3893
+      }
+    },
+    "t20": {
+      "pooled_constant": 0.14,
+      "mean_2016_19": 0.1414,
+      "mean_2024_25": 0.143,
+      "drift": 0.0016,
+      "pct_vs_constant": 2.1,
+      "season_range": [
+        0.1207,
+        0.169
+      ],
+      "by_season": {
+        "2016": 0.1207,
+        "2017": 0.1342,
+        "2018": 0.169,
+        "2019": 0.1417,
+        "2020": 0.146,
+        "2021": 0.1395,
+        "2022": 0.1285,
+        "2023": 0.1338,
+        "2024": 0.1394,
+        "2025": 0.1466
+      }
+    },
+    "o20": {
+      "pooled_constant": 0.013,
+      "mean_2016_19": 0.0127,
+      "mean_2024_25": 0.0129,
+      "drift": 0.0002,
+      "pct_vs_constant": -0.8,
+      "season_range": [
+        0.0118,
+        0.0137
+      ],
+      "by_season": {
+        "2016": 0.0118,
+        "2017": 0.0121,
+        "2018": 0.0137,
+        "2019": 0.0134,
+        "2020": 0.0134,
+        "2021": 0.0119,
+        "2022": 0.0122,
+        "2023": 0.0119,
+        "2024": 0.0124,
+        "2025": 0.0134
+      }
+    }
+  },
+  "tier_cuts": {
+    "train_shares": [
+      0.623,
+      0.255,
+      0.122
+    ],
+    "holdout_shares": [
+      0.636,
+      0.229,
+      0.135
+    ],
+    "max_shift_pp": 2.6
+  },
+  "credibility": {
+    "pass_yds": {
+      "k": 90,
+      "median_opp_then": 36.31,
+      "median_opp_now": 32.9,
+      "games_to_credibility_then": 2.48,
+      "games_to_credibility_now": 2.74,
+      "shift_games": 0.26
+    },
+    "rush_yds": {
+      "k": 45,
+      "median_opp_then": 14.71,
+      "median_opp_now": 15.32,
+      "games_to_credibility_then": 3.06,
+      "games_to_credibility_now": 2.94,
+      "shift_games": -0.12
+    },
+    "rec_yds": {
+      "k": 18,
+      "median_opp_then": 6.29,
+      "median_opp_now": 6.2,
+      "games_to_credibility_then": 2.86,
+      "games_to_credibility_now": 2.9,
+      "shift_games": 0.04
+    }
+  }
+}

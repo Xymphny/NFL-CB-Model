@@ -921,6 +921,28 @@ highest precedence).
   so a move has to be called out as a move and verified afterwards.
   The verification that caught this was checking the live repo state
   rather than assuming the delivery landed as described.
+- FROZEN-THRESHOLD SWEEP, CLOSED (2026-09-20): the pass_yds finding
+  generalized and finished. One hit, three clean. HIT: the yardage
+  stratum cuts (13.5pp composition shift, explains the gate failure).
+  CLEAN: TIER_CUTS on the TD board, where tier shares move 2.6pp
+  because carries and targets have not fallen the way pass attempts
+  have; CONV_DEFAULT, the red-zone conversion rates pooled over
+  2016-2025, where 2024-25 sits -4.8% to +3.7% against the constants
+  and inside the ordinary season band (c5 alone ranges .389-.433
+  across the decade); CRED_OPP, where pass_yds now takes 2.74 games to
+  reach credibility instead of 2.48 -- a quarter of a game. THE RULE
+  THE SWEEP PRODUCED, which is the part worth keeping: the bug bites
+  where a constant PARTITIONS data, not where it scales or shrinks it.
+  A partition is a step function -- drift moves rows across a boundary
+  and they inherit a different distribution wholesale. A shrinkage
+  denominator is continuous, and its error is proportional rather than
+  discontinuous. So when hunting this class again, look for cuts,
+  terciles, tiers and thresholds, and skip the coefficients.
+  STILL UNSWEPT and named so the gap stays visible: PLAY_GAP/LEAN_GAP
+  and the in-season de-bias offsets -- both partition, so both are
+  candidates by that rule. model/frozen_threshold_sweep.py +
+  _results.json, 1 guard test pinning the verdicts so a finished audit
+  is not repeated.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

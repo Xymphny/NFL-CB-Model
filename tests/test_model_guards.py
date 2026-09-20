@@ -622,6 +622,28 @@ def test_every_data_file_the_board_fetches_actually_ships():
 
 
 
+def test_frozen_threshold_sweep_is_closed():
+    """A finished audit should not be re-run from scratch. Pin the
+    verdicts and the rule they produced, so the next person inherits
+    the conclusion rather than the search."""
+    import json
+    path = os.path.join(REPO, "model", "frozen_threshold_sweep_results.json")
+    assert os.path.exists(path), "run model/frozen_threshold_sweep.py"
+    d = json.load(open(path))
+    v = d["verdicts"]
+    assert v["yardage_stratum_cuts"].startswith("HIT")
+    for clean in ("TIER_CUTS", "CONV_DEFAULT", "CRED_OPP"):
+        assert v[clean] == "clean", f"{clean} changed verdict without a new entry"
+    # The distinction that makes the rule useful.
+    assert "PARTITION" in d["rule_of_thumb"].upper()
+    # The gap must stay named rather than quietly dropped.
+    assert d["still_unswept"], "unswept constants must stay listed"
+    # And the one real hit must still be reproducible from its own artifact.
+    assert os.path.exists(os.path.join(
+        REPO, "model", "pass_yds_stratum_drift_results.json"))
+
+
+
 if __name__ == "__main__":
     # RUN EVERYTHING, THEN REPORT (2026-09-20). This loop used to let
     # the first failure abort the process. On 2026-09-20 one stale file
