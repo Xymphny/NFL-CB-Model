@@ -1089,6 +1089,26 @@ highest precedence).
   games either way. The artifact is now committed and a guard test
   pins every quoted site to it, including a check that the
   double-counted 9 cannot reappear.
+- NOTHING RAN THE SUITES AUTOMATICALLY (2026-09-20): every check all
+  day happened because someone remembered, and once nobody did.
+  Correcting the regime figure changed a string tests/test_parsers.py
+  asserts on; the guard suite was re-run, the parser suite was not,
+  and main sat red until the next manual pass caught it. The failure
+  was not the wrong edit -- it was that one command out of two got
+  run. FIXED WITH PLUMBING, not vigilance. .github/workflows/checks.yml
+  runs both suites and the dashboard build on every push and PR.
+  scripts/check.sh runs the same three locally in one command and
+  installs as a pre-commit hook with a single symlink. CI DELIBERATELY
+  SKIPS the per-snapshot directories the odds and MLB jobs commit
+  every few hours -- minutes spent on commits that cannot break
+  anything -- but does NOT skip data/*.json at the top level, because
+  the withheld-market verdicts live there (totals_validation.json,
+  margin_dist.json, spread_validation.json) and guard tests assert on
+  their contents: flipping a `supported` flag must run the suites.
+  Both were regression-tested against the real failure by reverting
+  the chip text to 0/9: the script exits 1 and BOTH suites fire, the
+  parser test on the changed string and the new guard on the artifact
+  mismatch.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).
