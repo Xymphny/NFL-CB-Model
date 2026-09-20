@@ -1,3 +1,4 @@
+import os
 """
 Committed regression tests backing the docstring claims in
 deploy/game_context.py, deploy/espn_extras.py, deploy/qb_status.py and
@@ -412,7 +413,34 @@ def test_mlb_walk_skips_unplayed_games():
 
 
 if __name__ == "__main__":
+    # RUN EVERYTHING, THEN REPORT (2026-09-20). This loop used to let
+    # the first failure abort the process. On 2026-09-20 one stale file
+    # -- a delete that did not travel with a file-by-file delivery --
+    # failed the second test alphabetically and left 25 of 27 guards
+    # silently unrun, including every one protecting the Tuesday prop
+    # ledger. A suite that stops at the first failure hides exactly the
+    # failures it exists to catch.
+    import traceback
+
+    passed, failed = [], []
     for name, fn in sorted(globals().items()):
-        if name.startswith("test_"):
-            fn(); print(f"  {name}: OK")
+        if not name.startswith("test_"):
+            continue
+        try:
+            fn()
+            passed.append(name)
+            print(f"  {name}: OK")
+        except Exception as err:                          # noqa: BLE001
+            failed.append((name, err))
+            print(f"  {name}: FAIL -- {err}")
+            if os.environ.get("GUARD_TRACEBACKS"):
+                traceback.print_exc()
+
+    print(f"\n{len(passed)} passed, {len(failed)} failed, "
+          f"{len(passed) + len(failed)} total")
+    if failed:
+        print("\nfailures:")
+        for name, err in failed:
+            print(f"  {name}: {err}")
+        sys.exit(1)
     print("all parser regression tests passed")

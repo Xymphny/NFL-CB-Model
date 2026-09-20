@@ -901,6 +901,26 @@ highest precedence).
   fires. This is the fourth instance of the same shape: a surface
   reading a file nothing writes, failing silently because every one of
   these hooks catches and renders an empty state.
+- ONE STALE FILE BLINDED 25 OF 27 GUARDS (2026-09-20): the
+  cfb_edge_calibration.json fix moved the artifact from model/ to
+  data/. The add travelled with the file-by-file delivery; the DELETE
+  did not, because a deletion is not a file. Both copies then existed
+  on main, which is exactly what the new guard asserts against -- so
+  it failed, and the runner aborted on it. That test is second
+  alphabetically, so 25 of 27 guards never executed, including every
+  one protecting Tuesday's prop ledger: the swallow check, the
+  empty-report check, the false-alarm check, the ledger-reaches-the-
+  site check. The suite still printed nothing alarming to a skimming
+  reader, because what it printed was a traceback and not a count.
+  TWO FIXES. The stale file is deleted. And both runners now execute
+  every test, print a "N passed, M failed, T total" line, list the
+  failures by name, and exit non-zero -- so a single failure can never
+  again hide the rest. Regression-tested by reintroducing the stale
+  file: 26 passed, 1 failed, named, exit 1. LESSON FOR THIS DELIVERY
+  MODEL: file-by-file delivery cannot express a deletion or a rename,
+  so a move has to be called out as a move and verified afterwards.
+  The verification that caught this was checking the live repo state
+  rather than assuming the delivery landed as described.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).
