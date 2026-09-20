@@ -607,6 +607,14 @@ function KpiStrip({ perf }) {
       note: 'Mean abs. error, points',
       tone: '',
     },
+    // Signal calibration: slope of actual margins on stated margins.
+    // 1.00 = margins mean what they say; below it they overstate.
+    ...(perf && perf.calibration && perf.calibration.slope_model != null ? [{
+      label: 'Signal calibration',
+      value: `${perf.calibration.slope_model.toFixed(2)}× / ${perf.calibration.slope_market.toFixed(2)}×`,
+      note: `actual-margin slope, model / market · n=${perf.calibration.n_games}`,
+      tone: '',
+    }] : []),
   ]
 
   return (
@@ -674,12 +682,82 @@ function useClvReport(league) {
   return state
 }
 
+const GATES = [
+  {
+    status: 'withheld', tone: 'withheld',
+    title: 'Passing yards props: not shown',
+    body: 'The player engine\u2019s biggest market over-claimed on 2024\u201325 held-out data and failed its gate \u2014 twice. It stays off the board until a revision passes the same test. The biggest market sitting out is the point.',
+  },
+  {
+    status: 'shipped', tone: 'shipped',
+    title: 'New-coach flags capped at Lean',
+    body: 'Early-season flags backing first-year external head coaches went 0/9 against the spread in 2016\u201323 backtests. Those flags now cap at half a unit through week 4 \u2014 and live closing-line value audits the cap.',
+  },
+  {
+    status: 'shipped', tone: 'shipped',
+    title: 'No CFB Play badges before week 5',
+    body: 'College flags graded 48.3% held-out in weeks 1\u20134 \u2014 below the 52.4% breakeven. Ratings are data-starved early, so early college edges show as Leans at most.',
+  },
+  {
+    status: 'watch mode', tone: 'watch',
+    title: 'Player engine: opinions, not verdicts',
+    body: 'The projection engine\u2019s probabilities appear on prop cards as labeled second opinions only. They earn verdict authority through live graded results, or not at all.',
+  },
+]
+
+function GatesLedger() {
+  return (
+    <section>
+      <h2 className="section-heading">The gates</h2>
+      <p className="section-sub">
+        Nothing ships to this site without held-out evidence, and what fails its test is withheld or
+        capped — publicly. These are the rules currently in force, each with the number that put it there.
+      </p>
+      <div className="gate-grid">
+        {GATES.map((g) => (
+          <div key={g.title} className={`gate-card ${g.tone}`}>
+            <span className="gate-status">{g.status}</span>
+            <p className="gate-title">{g.title}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function TrackRecord({ league }) {
   const perf = usePerformance(league)
   const clv = useClvReport(league)
+  const p = perf.data
+  const atsPct = p && p.ats_wins + p.ats_losses > 0 ? p.ats_wins / (p.ats_wins + p.ats_losses) : null
 
   return (
     <div>
+      <div className="hero-record">
+        <div className="hero-stats">
+          <div className="hero-stat">
+            <span className={`hero-stat-value ${atsPct == null ? '' : atsPct >= 0.524 ? 'up' : 'down'}`}>
+              {p ? `${p.ats_wins}\u2013${p.ats_losses}` : '\u2014'}
+            </span>
+            <span className="hero-stat-label">Flagged plays ATS · breakeven 52.4%</span>
+          </div>
+          <div className="hero-stat">
+            <span className={`hero-stat-value ${p && p.units > 0 ? 'up' : p && p.units < 0 ? 'down' : ''}`}>
+              {p && p.units != null ? formatSigned(p.units, 1) : '\u2014'}
+            </span>
+            <span className="hero-stat-label">Units, flat stakes</span>
+          </div>
+          <div className="hero-stat">
+            <span className={`hero-stat-value ${p && p.avg_clv > 0 ? 'up' : p && p.avg_clv < 0 ? 'down' : ''}`}>
+              {p && p.avg_clv != null ? `${formatSigned(p.avg_clv, 1)} pts` : '\u2014'}
+            </span>
+            <span className="hero-stat-label">Avg closing-line value per play</span>
+          </div>
+        </div>
+      </div>
+
+      <GatesLedger />
+
       <section>
         <h2 className="section-heading">Season scorecard — {league}</h2>
         <p className="section-sub">
@@ -1210,11 +1288,11 @@ function PlayerGradesSection({ grades }) {
 /* ---------------- App shell ---------------- */
 
 const TABS = [
+  { id: 'record', label: 'The record' },
   { id: 'board', label: 'This week' },
-  { id: 'schedule', label: 'Schedule' },
-  { id: 'record', label: 'Track record' },
-  { id: 'ratings', label: 'Teams' },
   { id: 'players', label: 'Players' },
+  { id: 'ratings', label: 'Teams' },
+  { id: 'schedule', label: 'Schedule' },
   { id: 'book', label: 'My book' },
 ]
 
@@ -1319,7 +1397,7 @@ function useLiveScores(league, active, cfbNames) {
 
 export default function App() {
   const [league, setLeague] = useState('NFL')
-  const [tab, setTab] = useState('board')
+  const [tab, setTab] = useState('record')
   const [selectedTeam, setSelectedTeam] = useState(null)
   const manifestState = useJson('/data/manifest.json')
   const siteTeams = useJson('/data/site/teams.json')
@@ -1370,7 +1448,10 @@ export default function App() {
     <div className="page">
       <header className="masthead">
         <div className="masthead-row">
-          <h1 className="brand">Cover<em>line</em></h1>
+          <div>
+            <h1 className="brand">Cover<em>line</em></h1>
+            <p className="tagline">every number on this board is graded in public</p>
+          </div>
           <div className="masthead-right">
             <AccountChip account={account} />
             <div className="league-toggle" role="tablist" aria-label="League">
