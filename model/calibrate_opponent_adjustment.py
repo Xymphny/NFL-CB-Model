@@ -100,7 +100,8 @@ if __name__ == "__main__":
     for it in [1, 2, 3, 5]:
         train_mae, test_mae, test_acc = evaluate(it, 0.5, cache)
         iter_results[it] = (train_mae, test_mae, test_acc)
-        print(f"  iterations={it}: train MAE={train_mae:.3f} | test MAE={test_mae:.3f}, test acc={test_acc:.4f}")
+        # Training error only until a selection exists -- model/holdout_discipline.py.
+        print(f"  iterations={it}: train MAE={train_mae:.3f}")
 
     best_iterations = min(iter_results, key=lambda k: iter_results[k][0])
     print(f"\nBest iterations (by training MAE): {best_iterations}")
@@ -110,7 +111,7 @@ if __name__ == "__main__":
     for reg in [0.3, 0.5, 0.7]:
         train_mae, test_mae, test_acc = evaluate(best_iterations, reg, cache)
         reg_results[reg] = (train_mae, test_mae, test_acc)
-        print(f"  regression={reg}: train MAE={train_mae:.3f} | test MAE={test_mae:.3f}, test acc={test_acc:.4f}")
+        print(f"  regression={reg}: train MAE={train_mae:.3f}")
 
     best_regression = min(reg_results, key=lambda k: reg_results[k][0])
     print(f"\nBest regression (by training MAE): {best_regression}")

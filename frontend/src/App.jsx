@@ -705,6 +705,12 @@ function useClvReport(league) {
 
               const earliest = appearances[0]
               const latest = appearances[appearances.length - 1]
+              // CLV measures how the market moved relative to a MODEL OPINION.
+              // MLB rows are observation-only -- no market_spread, no
+              // spread_gap -- and NaN comparisons silently rendered every game
+              // as "Moved away", a verdict against a model that never spoke.
+              // No opinion, no row.
+              if (earliest.market_spread == null || earliest.spread_gap == null) return
               const modelSpread = earliest.market_spread + earliest.spread_gap
               const divergenceDirection = modelSpread - earliest.market_spread
               const marketMovement = latest.market_spread - earliest.market_spread
@@ -765,6 +771,13 @@ const GATES = [
     source: 'data/prop_grades/summary.json',
     body: 'The projection engine\u2019s probabilities appear on prop cards as labeled second opinions only. They earn verdict authority through live graded results, or not at all.',
   },
+  {
+    status: 'evidence withdrawn', tone: 'watch',
+    title: 'Recency weighting: no longer claimed',
+    evidence: 'worst of 8 on untouched 2024-25 \u00b7 2023 result did not replicate',
+    source: 'model/revalidate_half_life_2024_25_results.json',
+    body: 'The rating\u2019s recency half-life was set to 100 because that scored best on the 2023 test set \u2014 a set that had already been seen. Graded on 2024\u201325, which no calibration here had touched, it came last of eight and the trend reversed. The value stays (it is the \u201cno weighting\u201d choice and moving it mid-season moves every live rating), but the accuracy claim behind it is withdrawn.',
+  },
 ]
 
 function GatesLedger() {
@@ -785,6 +798,31 @@ function GatesLedger() {
         ))}
       </div>
     </section>
+  )
+}
+
+// A league with no model opinion has no record. Saying "\u2014" and
+// "Tracking starts week 1" implies a grader exists and is merely waiting;
+// for MLB none exists. The board's own snapshots say so -- this surfaces
+// that instead of a placeholder.
+function ObservationOnlyRecord({ league }) {
+  return (
+    <div>
+      <section>
+        <h2 className="section-heading">Season scorecard \u2014 {league}</h2>
+        <p className="section-sub">
+          There is no record here, and that is not a loading state. The {league} board is
+          observation-only: it stores market lines and probable starters, and publishes no
+          model opinion at all. Nothing is flagged, so nothing is graded, so there is no
+          win\u2013loss, no units and no closing-line value to show.
+        </p>
+        <p className="section-sub">
+          A record appears here when the archive backtest publishes a threshold table that
+          clears its gate \u2014 and not before. Until then the honest number is no number.
+        </p>
+      </section>
+      <GatesLedger />
+    </div>
   )
 }
 
@@ -1672,7 +1710,9 @@ export default function App() {
         </section>
       )}
 
-      {tab === 'record' && <TrackRecord league={league} />}
+      {tab === 'record' && (league === 'MLB'
+        ? <ObservationOnlyRecord league={league} />
+        : <TrackRecord league={league} />)}
 
       {tab === 'book' && <MyBook book={book} account={account} />}
 

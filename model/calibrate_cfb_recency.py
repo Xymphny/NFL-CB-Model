@@ -97,7 +97,8 @@ if __name__ == "__main__":
     for hl in CANDIDATE_HALF_LIVES:
         train_mae, test_mae, test_acc = evaluate(hl, cache)
         results[hl] = (train_mae, test_mae, test_acc)
-        print(f"half_life={hl}: train MAE={train_mae:.3f} | test MAE={test_mae:.3f}, test acc={test_acc:.4f}")
+        # Training error only until a selection exists -- model/holdout_discipline.py.
+    print(f"half_life={hl}: train MAE={train_mae:.3f}")
 
     best_hl = min(results, key=lambda hl: results[hl][0])
     print(f"\nBest half-life selected using ONLY training MAE: {best_hl}")

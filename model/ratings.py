@@ -128,28 +128,47 @@ def opponent_adjust(df: pd.DataFrame, iterations: int = 3, regression: float = 0
 
 def add_recency_weights(df: pd.DataFrame, half_life_weeks: float = 100.0) -> pd.DataFrame:
     """
-    Recency weighting (accuracy improvement, not in original spec).
+    Recency weighting (not in the original spec; no longer claimed as an
+    accuracy improvement -- see below).
 
     Exponential decay by week-distance from the most recent week in the
     data, so a next-game prediction leans more on recent form than a flat
     season average would.
 
-    DEFAULT CHANGED FROM 6.0 TO 100.0 (effectively minimal weighting)
-    based on real, held-out walk-forward calibration
-    (model/calibrate_recency_half_life.py): tested 8 candidate values,
-    selecting via training-set MAE alone actively picked the WORST
-    real-world choice, because training and test performance were
-    directly opposed -- training MAE monotonically favored shorter
-    half-lives (more aggressive weighting), while held-out test MAE
-    monotonically favored longer ones. The old default (6 weeks) gave
-    the worst straight-up accuracy of everything tested (56.25%); a
-    long half-life (100, effectively flat season-long averaging) gave
-    the best (59.13%) -- consistent and monotonic across all 8 tested
-    values on the held-out 2023 season, not a single lucky data point.
-    Likely explanation: NFL teams don't show strong week-to-week "hot
-    streak" signal independent of true season-long quality -- 
-    discounting earlier-season data trades away real sample size for
-    responsiveness to what's often just noise.
+    DEFAULT IS 100.0 (effectively flat, season-long averaging), AND THE
+    EVIDENCE THAT PUT IT THERE HAS BEEN WITHDRAWN.
+
+    How it was chosen (2025): eight candidates were run walk-forward.
+    Selecting on training MAE alone picked a SHORT half-life. That
+    choice was overridden because the held-out 2023 column -- printed
+    beside every candidate -- ran the other way: 6 weeks gave the worst
+    straight-up accuracy tested (56.25%) and 100 the best (59.13%),
+    monotonically across the grid. The monotonicity was the real
+    argument, and it was a reasonable one.
+
+    Why it no longer stands (2026-09-20): that was selection on the
+    test set, whatever the argmin line said, so the 2023 numbers were
+    never a clean estimate. Graded on 2024-25 -- seasons no calibration
+    in this repo has ever touched -- the pattern REVERSES. half_life=100
+    is the worst of the same eight candidates on both metrics (MAE
+    10.547, straight-up 60.34%), the short half-lives the train argmin
+    originally wanted are the best (4 weeks: MAE 10.437, 62.26%), and
+    the monotone trend is gone in both directions. The paired gap
+    against the 6-week default is -1.9pp +/- 1.6pp (n=416) -- the wrong
+    sign, and inside its own error.
+
+    WHAT THIS MEANS. No half-life value in this grid is supported by
+    evidence: 2023 and 2024-25 disagree completely, which is what a
+    knob with no real signal looks like. The value is LEFT AT 100 --
+    not because it won anything, but because 100 is effectively "no
+    recency weighting," the choice that assumes least, and because
+    changing it mid-season would move every live rating on the board.
+    It is a held position, not a validated one. Do not cite the 59.13%
+    figure; it did not replicate.
+
+    See model/revalidate_half_life_2024_25.py for the grading run and
+    model/holdout_discipline.py for the control that now stops the
+    test column from being visible at selection time.
     """
     df = df.copy()
     max_week = df["week"].max()

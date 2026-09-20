@@ -340,6 +340,101 @@ def test_ngs_replay_does_not_overclaim():
 
 
 
+def test_holdout_vault_seals_until_selection():
+    """The control that stops a test column from overriding a train
+    argmin. Reading held-out metrics before select() must raise."""
+    import sys
+    sys.path.insert(0, REPO)
+    from model.holdout_discipline import HoldoutLeak, HoldoutVault
+
+    v = HoldoutVault(select_by="train_mae", minimize=True)
+    v.record(2, train_mae=9.0, test_mae=10.5)
+    v.record(100, train_mae=9.5, test_mae=10.1)
+    try:
+        v.held_out()
+        raise AssertionError("held-out metrics readable before select()")
+    except HoldoutLeak:
+        pass
+    # The training table is the only thing visible early.
+    assert all("test_mae" not in m for m in v.training_table().values())
+    assert v.select() == 2, "selection must follow the training argmin"
+    assert v.held_out()["test_mae"] == 10.5
+    # Selecting ON a held-out metric is refused outright.
+    try:
+        HoldoutVault(select_by="test_mae").record(1, test_mae=1.0)
+        raise AssertionError("allowed selection on a held-out metric")
+    except HoldoutLeak:
+        pass
+
+
+def test_calibrate_scripts_do_not_print_per_candidate_holdout():
+    """The leak itself: a per-candidate test column printed beside the
+    train argmin is how half_life=100 got chosen. It must not come back."""
+    import glob
+    import re
+    offenders = []
+    for path in glob.glob(os.path.join(REPO, "model", "calibrate_*.py")):
+        for i, line in enumerate(open(path), 1):
+            if not line.strip().startswith("print"):
+                continue
+            # A print carrying BOTH a train and a held-out metric is the
+            # side-by-side comparison that does the damage.
+            if re.search(r"train[_ ]", line) and re.search(r"test[_ ](acc|mae|MAE|brier|Brier)", line):
+                offenders.append(f"{os.path.basename(path)}:{i}")
+    assert not offenders, f"held-out column printed beside training error: {offenders}"
+
+
+def test_half_life_claim_is_withdrawn_not_restated():
+    """ratings.py claimed held-out validation for a value selected on the
+    test set. The claim must stay withdrawn and the failing number must
+    not be quoted as support."""
+    src = open(os.path.join(REPO, "model", "ratings.py")).read()
+    doc = src[src.index("def add_recency_weights"):]
+    doc = doc[:doc.index('"""', doc.index('"""') + 3)]
+    assert "WITHDRAWN" in doc.upper(), "the withdrawal must stay stated"
+    assert "revalidate_half_life_2024_25" in doc, "must point at the grading run"
+    # Narrating the history is fine and necessary. What must not happen is
+    # the old figure appearing WITHOUT the reversal that retired it.
+    if "59.13" in doc:
+        assert "did not replicate" in doc.lower() or "reverse" in doc.lower(), \
+            "the 2023 figure is quoted with no mention that it failed to replicate"
+    assert "selection on the test set" in doc.lower() or "test set" in doc.lower(), \
+        "the docstring must disclose HOW the value was chosen, not just that it lost"
+
+
+def test_half_life_revalidation_recorded_the_failure():
+    import json
+    path = os.path.join(REPO, "model", "revalidate_half_life_2024_25_results.json")
+    assert os.path.exists(path), "run model/revalidate_half_life_2024_25.py"
+    r = json.load(open(path))
+    q = r["questions"]
+    # Pin the finding, so a future edit cannot quietly turn a failure into a pass.
+    assert q["shipped_beats_prior_default"] is False
+    assert q["monotone_in_half_life_accuracy"] is False
+    assert r["_provenance"]["holdout_seasons"] == [2024, 2025]
+    # And pin the refusal to re-tune on the holdout.
+    assert "argmin_on_holdout_reported_not_adopted" in q
+    import model.ratings as R
+    import inspect
+    shipped = inspect.signature(R.add_recency_weights).parameters["half_life_weeks"].default
+    assert shipped == r["shipped_value"], \
+        "the knob moved without the ledger moving with it"
+
+
+def test_mlb_never_renders_a_graded_verdict():
+    """MLB publishes no model opinion. The record tab must not imply one
+    exists -- it rendered 36 'Moved away' CLV verdicts before 2026-09-20."""
+    src = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    assert "ObservationOnlyRecord" in src, "MLB needs its own observation-only record view"
+    assert "league === 'MLB'\n        ? <ObservationOnlyRecord" in src.replace("\r", ""), \
+        "the record tab must route MLB away from TrackRecord"
+    # CLV is meaningless without a model opinion; the hook must refuse rows
+    # that carry no spread rather than comparing NaN.
+    assert "earliest.market_spread == null || earliest.spread_gap == null" in src, \
+        "useClvReport must skip rows with no model opinion"
+
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

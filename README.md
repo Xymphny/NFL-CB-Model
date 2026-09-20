@@ -700,6 +700,62 @@ highest precedence).
   stands. The script withholds any slope computed on predictions that
   barely vary, since a ratio with a near-zero denominator is not an
   estimate. model/ngs_coefficient_replay.py + _results.json.
+- TEST-SET SELECTION, FOUND AND GRADED (2026-09-20): every
+  calibrate_* script selects on training error -- the argmin lines are
+  honest -- but each also PRINTED the held-out column beside every
+  candidate, so whoever ran them saw the full test curve before
+  deciding whether to accept the argmin. That is not a hypothetical
+  risk; it changed a shipped value. model/ratings.py set
+  half_life_weeks=100 because the train argmin picked a SHORT half-life
+  and the operator overrode it on the strength of the 2023 test column
+  (6 weeks worst at 56.25%, 100 best at 59.13%, monotone across the
+  grid), then described the result as "real, held-out walk-forward
+  calibration". GRADED ON UNTOUCHED DATA: no calibration in this repo
+  has ever used 2024 or 2025, so the same 8-candidate grid was replayed
+  there once. The finding REVERSES. half_life=100 is the WORST of the
+  eight on both metrics (MAE 10.547, straight-up 60.34%); the short
+  half-lives the train argmin originally wanted are the best (4 weeks:
+  10.437, 62.26%); the monotone trend is gone in both directions; and
+  the paired gap against the 6-week default is -1.9pp +/- 1.6pp
+  (n=416) -- wrong sign, inside its own error. The train argmin had
+  been right, and the test column is what talked us out of it.
+  VERDICT: no half-life in this grid is evidence-backed; 2023 and
+  2024-25 disagree completely, which is what a knob with no signal
+  looks like. The value STAYS at 100 -- not because it won, but
+  because 100 is effectively "no recency weighting", the assumption-
+  minimal choice, and because moving it mid-season moves every live
+  rating. It is a held position, not a validated one, and the site now
+  carries an "evidence withdrawn" gate card saying so. NOT RE-TUNED:
+  the holdout argmin (4 weeks) is reported and explicitly not adopted,
+  since re-selecting there would restart the identical leak one season
+  later; publishing this spends 2024-25 as a selection set and the
+  artifact says so. THE LEAK IS NOW CLOSED IN CODE:
+  model/holdout_discipline.py adds a vault that refuses to return any
+  held-out metric until a selection has been made on training data,
+  and raises if asked to select ON a held-out metric; the half-life and
+  Elo scripts are retrofitted onto it and the remaining three no longer
+  print the column. Elo's K=20 was checked and is CLEAN -- every stage
+  selects by training accuracy and reveals held-out once, for the
+  selected combo -- so the leak existed there without being acted on.
+  model/revalidate_half_life_2024_25.py + _results.json, 4 guard tests.
+- MLB RECORD TAB FABRICATED VERDICTS (2026-09-20): the MLB board is
+  observation-only by design -- its snapshots carry market lines and
+  probable starters, zero model fields, and say so in their own note.
+  The frontend ignored that. The record tab fetched a
+  mlb_performance.json that nothing in the repo produces, fell back to
+  "Tracking starts week 1" (implying a grader exists and is merely
+  waiting), asserted "Every flagged play is graded against the closing
+  line" for a league that flags nothing, and -- worst -- ran the shared
+  CLV hook, which computed market_spread + spread_gap on rows that have
+  neither. NaN > 0 is false, so every game rendered as "Moved away":
+  36 fabricated negative verdicts against a model that never made a
+  prediction. Verified live by rebuilding the pre-fix bundle and
+  reading the rendered page, not by inspection. FIXED: MLB routes to an
+  explicit observation-only record view that states there is no record
+  and why, and useClvReport now skips any row carrying no model
+  opinion -- a structural guard, so the next league added cannot
+  inherit this. NFL re-checked after the change: 32 CLV rows, scorecard
+  intact, no console errors. 1 guard test.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

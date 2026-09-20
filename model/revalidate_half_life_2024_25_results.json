@@ -1,0 +1,66 @@
+{
+  "_provenance": {
+    "script": "model/revalidate_half_life_2024_25.py",
+    "generated": "2026-09-20",
+    "holdout_seasons": [
+      2024,
+      2025
+    ],
+    "why_these_seasons": "Every calibrate_* script in this repo trains and tests only on 2021-2023 (Elo 2014-2023). These two were never used to select anything.",
+    "what_is_being_tested": "half_life=100 was selected on the 2023 TEST set, overriding a train argmin that favored short half-lives. model/ratings.py describes that as held-out calibration. This grades it on data that actually was.",
+    "selection_spent": "Publishing this burns 2024-25 as a future selection set. Stated so the next person knows."
+  },
+  "shipped_value": 100.0,
+  "prior_default": 6.0,
+  "per_candidate": {
+    "2": {
+      "mae": 10.486536067261673,
+      "straight_up": 0.6201923076923077,
+      "n": 416
+    },
+    "4": {
+      "mae": 10.437314590955335,
+      "straight_up": 0.6225961538461539,
+      "n": 416
+    },
+    "6": {
+      "mae": 10.468974783766672,
+      "straight_up": 0.6225961538461539,
+      "n": 416
+    },
+    "8": {
+      "mae": 10.488171597208416,
+      "straight_up": 0.625,
+      "n": 416
+    },
+    "10": {
+      "mae": 10.500186885019732,
+      "straight_up": 0.6153846153846154,
+      "n": 416
+    },
+    "12": {
+      "mae": 10.508068167061786,
+      "straight_up": 0.6153846153846154,
+      "n": 416
+    },
+    "16": {
+      "mae": 10.518085939005337,
+      "straight_up": 0.6153846153846154,
+      "n": 416
+    },
+    "100": {
+      "mae": 10.547042465204111,
+      "straight_up": 0.6033653846153846,
+      "n": 416
+    }
+  },
+  "questions": {
+    "shipped_beats_prior_default": false,
+    "monotone_in_half_life_accuracy": false,
+    "monotone_in_half_life_mae": false,
+    "paired_accuracy_gap": -0.01923,
+    "paired_gap_standard_error": 0.01594,
+    "gap_exceeds_one_se": true,
+    "argmin_on_holdout_reported_not_adopted": 4
+  }
+}

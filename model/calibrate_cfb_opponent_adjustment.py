@@ -104,6 +104,8 @@ if __name__ == "__main__":
     for val in candidates:
         train_mae, test_mae, test_acc = evaluate(df, key_col, val)
         results[val] = (train_mae, test_mae, test_acc)
-        print(f"  {key_col}={val}: train MAE={train_mae:.3f} | test MAE={test_mae:.3f}, test acc={test_acc:.4f}")
+        # Training error only; the held-out column is not shown until a
+        # selection exists. See model/holdout_discipline.py.
+        print(f"  {key_col}={val}: train MAE={train_mae:.3f}")
     best_val = min(results, key=lambda k: results[k][0])
     print(f"\nBest {key_col} (by training MAE): {best_val}")

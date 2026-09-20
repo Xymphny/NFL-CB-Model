@@ -28,6 +28,7 @@ from model.ratings import (
     compute_raw_voa, opponent_adjust, filter_garbage_time,
     add_home_field_and_rest, add_recency_weights, team_ratings,
 )
+from model.holdout_discipline import HoldoutVault
 from model.prediction import predict_margin
 
 BACKTEST_SEASONS = [2021, 2022, 2023]
@@ -97,23 +98,27 @@ if __name__ == "__main__":
     print("Building cached dataframes (the expensive, half-life-independent part, computed once)...")
     cache = build_cached_dataframes()
 
-    results = {}
+    vault = HoldoutVault(select_by="train_mae", minimize=True)
     for hl in CANDIDATE_HALF_LIVES:
         print(f"Testing half_life={hl}...")
         df = run_walk_forward_test(hl, cache)
         train = df[df["season"].isin([2021, 2022])]
         test = df[df["season"] == 2023]
+        vault.record(
+            hl,
+            train_mae=float(np.mean(np.abs(train["pred_margin"] - train["actual_margin"]))),
+            test_mae=float(np.mean(np.abs(test["pred_margin"] - test["actual_margin"]))),
+            test_acc=float(((test["pred_margin"] > 0) == test["actual_home_win"]).mean()),
+        )
+        # Training error only. The held-out column is sealed until a
+        # selection exists -- see model/holdout_discipline.py for why.
+        print(f"  train MAE={vault.training_table()[hl]['train_mae']:.3f}")
 
-        train_mae = np.mean(np.abs(train["pred_margin"] - train["actual_margin"]))
-        test_mae = np.mean(np.abs(test["pred_margin"] - test["actual_margin"]))
-        test_acc = ((test["pred_margin"] > 0) == test["actual_home_win"]).mean()
-
-        results[hl] = {"train_mae": train_mae, "test_mae": test_mae, "test_acc": test_acc}
-        print(f"  train MAE={train_mae:.3f} | test MAE={test_mae:.3f}, test straight-up={test_acc:.4f}")
-
-    best_hl = min(results, key=lambda hl: results[hl]["train_mae"])
+    best_hl = vault.select()
     print(f"\nBest half-life selected using ONLY training MAE: {best_hl}")
-    print(f"Its held-out test performance: MAE={results[best_hl]['test_mae']:.3f}, "
-          f"straight-up={results[best_hl]['test_acc']:.4f}")
-    print(f"\nCurrent default (6 weeks) held-out performance: "
-          f"MAE={results[6]['test_mae']:.3f}, straight-up={results[6]['test_acc']:.4f}")
+    print(f"Its held-out test performance: {vault.held_out(best_hl)}")
+    print(f"Incumbent default (6 weeks) held-out: {vault.held_out(6)}")
+    print("\nNOTE: whichever way these two compare, the selection above is the")
+    print("result. Overriding a train argmin because the held-out column looks")
+    print("better is what shipped half_life=100, and 2024-25 graded that choice")
+    print("worst of eight (model/revalidate_half_life_2024_25.py).")
