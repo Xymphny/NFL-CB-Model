@@ -710,9 +710,17 @@ highest precedence).
   and the operator overrode it on the strength of the 2023 test column
   (6 weeks worst at 56.25%, 100 best at 59.13%, monotone across the
   grid), then described the result as "real, held-out walk-forward
-  calibration". GRADED ON UNTOUCHED DATA: no calibration in this repo
-  has ever used 2024 or 2025, so the same 8-candidate grid was replayed
-  there once. The finding REVERSES. half_life=100 is the WORST of the
+  calibration". GRADED ON DATA THE CALIBRATIONS HAD NOT TOUCHED: no
+  calibrate_* script uses 2024 or 2025, so the same 8-candidate grid
+  was replayed there once. CORRECTION (same day): an earlier version of
+  this entry said those seasons were untouched by anything. They are
+  not -- model/player_projection.py gates its markets on 2024-25 and
+  has withheld pass_yds there twice, and its team-TD environment is
+  derived from these same ratings, so the two uses are not strictly
+  independent. The margin read below stands (it was graded once and
+  not tuned), but the holdout budget is smaller than that sentence
+  implied and the overstatement is left visible rather than edited
+  away. The finding REVERSES. half_life=100 is the WORST of the
   eight on both metrics (MAE 10.547, straight-up 60.34%); the short
   half-lives the train argmin originally wanted are the best (4 weeks:
   10.437, 62.26%); the monotone trend is gone in both directions; and
@@ -789,6 +797,49 @@ highest precedence).
   snapshot on, it can. 2 guard tests; the end-to-end write is not
   covered because it needs live odds, so the tests pin the prediction
   path functionally and the writer structurally.
+- WHY pass_yds FAILS, FINALLY ESTABLISHED (2026-09-20): the engine's
+  biggest market had been withheld twice with no identified cause.
+  Cause: prob_over() reads an ECDF of actual/proj ratios stratified by
+  projected opportunities, and the stratum cuts are TRAIN terciles,
+  frozen. League passing volume has fallen -- median projected attempts
+  36-37 in 2017-2020, 32-33 in 2024-25 -- so 46.8% of held-out pass_yds
+  rows land in stratum 0 instead of the 33.3% the terciles were built
+  to hold, and stratum 0 is the low-volume shape where train
+  P(ratio > 1) is 47% against 23% and 5%. Mixing the shifted weights
+  gives 0.467*0.4705 + 0.364*0.2288 + 0.169*0.0529 = 0.3119, which is
+  the published claim to four decimals. THE SAME ARITHMETIC REPRODUCES
+  ALL THREE MARKETS' published claims (pass 0.3118 vs 0.3119, rush
+  0.2676, rec 0.2636) and predicts each one's gate status from its
+  volume drift alone: pass -3.03 attempts -> +6.11pp inflation ->
+  withheld; rush +1.11 -> -1.29pp -> ships conservative; rec -0.08 ->
+  +0.24pp -> ships calibrated. One frozen-threshold bug, three
+  outcomes, each the sign it predicts. This is the cold-start family
+  again: a constant fitted in one era applied to another. A SIMPSON'S
+  PARADOX sat on top and is why it read as outcome drift -- pooled,
+  held-out actual (26.5%) is HIGHER than train (25.1%); within every
+  stratum it is 4-5pp LOWER. CANDIDATE FIX TESTED AND REJECTED:
+  stratifying on volume normalized by the league's trailing median,
+  graded on a train-internal split (fit 2017-2020, grade 2021-2023, so
+  the holdout was never spent) removes the over-claim (+0.0269 ->
+  -0.0026 worst) but worsens mean error (0.0152 -> 0.0200) -- an
+  over-claim traded for a larger under-claim. NOT SHIPPED; pass_yds
+  stays withheld, now for a reason rather than a mystery, and the gate
+  card says so. METHOD NOTE KEPT VISIBLE: the first version of that
+  test normalized by the FULL season median, which is not knowable at
+  prediction time; it scored 0.0105 and looked like a fix. The causal
+  numbers are the real ones. OPERATIONAL CONSEQUENCE: rush_yds and
+  rec_yds are calibrated today only because their volume has not
+  drifted, and nothing protects them if it starts -- the stratum-0
+  share is the thing to watch and the script prints it for all three.
+  model/pass_yds_stratum_drift.py + _results.json, 2 guard tests.
+- HOLDOUT BUDGET, CORRECTED (2026-09-20): an earlier entry today said
+  2024-25 had never been used by any calibration. Wrong, and corrected
+  in place above: model/player_projection.py holds those exact seasons
+  out as its gate set and has made ship/withhold decisions on them,
+  pass_yds twice. The margin read still stands -- it was graded once
+  and not tuned -- but the remaining holdout is smaller than that
+  sentence implied, and the engine's team-TD environment comes from
+  these same ratings, so the two uses are not strictly independent.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

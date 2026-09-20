@@ -148,8 +148,9 @@ def add_recency_weights(df: pd.DataFrame, half_life_weeks: float = 100.0) -> pd.
 
     Why it no longer stands (2026-09-20): that was selection on the
     test set, whatever the argmin line said, so the 2023 numbers were
-    never a clean estimate. Graded on 2024-25 -- seasons no calibration
-    in this repo has ever touched -- the pattern REVERSES. half_life=100
+    never a clean estimate. Graded on 2024-25 -- seasons no calibrate_*
+    script had touched, though the player engine does gate there -- the
+    pattern REVERSES. half_life=100
     is the worst of the same eight candidates on both metrics (MAE
     10.547, straight-up 60.34%), the short half-lives the train argmin
     originally wanted are the best (4 weeks: MAE 10.437, 62.26%), and

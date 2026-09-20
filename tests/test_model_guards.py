@@ -494,6 +494,44 @@ def test_prop_grading_failure_is_not_swallowed():
         "week 2 published engine opinions; the alarm needs to see them"
 
 
+def test_pass_yds_failure_has_a_named_mechanism():
+    """pass_yds was withheld twice with no established cause. The
+    diagnosis reproduces the engine's OWN published claim for all three
+    markets from stratum composition alone -- that reconstruction is
+    what makes the mechanism a finding rather than a story, so it is
+    pinned."""
+    import json
+    path = os.path.join(REPO, "model", "pass_yds_stratum_drift_results.json")
+    assert os.path.exists(path), "run model/pass_yds_stratum_drift.py"
+    d = json.load(open(path))
+    published = json.load(open(os.path.join(
+        REPO, "model", "player_projection_results.json")))["held_out"]["yardage"]
+    for mkt in ("pass_yds", "rush_yds", "rec_yds"):
+        claimed = [l for l in published[mkt]["lines"] if l["mult"] == 1.0][0]["claimed"]
+        rebuilt = d["markets"][mkt]["reconstructed_claim_at_1x"]
+        assert abs(rebuilt - claimed) < 0.001, \
+            f"{mkt}: composition no longer reproduces the published claim " \
+            f"({rebuilt} vs {claimed}) -- the mechanism claim is stale"
+    # The direction of the effect must match each market's gate status.
+    assert d["markets"]["pass_yds"]["claim_inflation_vs_pooled"] > 0.03
+    assert d["markets"]["rush_yds"]["claim_inflation_vs_pooled"] < 0
+    assert abs(d["markets"]["rec_yds"]["claim_inflation_vs_pooled"]) < 0.01
+    # And the rejected fix must stay rejected with its lookahead warning.
+    fix = d["candidate_fix_rejected"]
+    assert fix["pass_yds_mean_abs_err"]["causal_normalized"] > \
+        fix["pass_yds_mean_abs_err"]["frozen"], "the rejected fix is recorded as an improvement"
+    assert "lookahead" in json.dumps(fix).lower()
+
+
+def test_pass_yds_stays_withheld():
+    """The diagnosis explains the failure; it does not license shipping."""
+    import json
+    res = json.load(open(os.path.join(REPO, "model", "player_projection_results.json")))
+    assert res["held_out"]["yardage"]["pass_yds"]["withheld"] is True
+    assert "pass_yds" not in res["_provenance"]["calibrated_markets"]
+
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

@@ -6,7 +6,7 @@
       2024,
       2025
     ],
-    "why_these_seasons": "Every calibrate_* script in this repo trains and tests only on 2021-2023 (Elo 2014-2023). These two were never used to select anything.",
+    "why_these_seasons": "Every calibrate_* script trains and tests only on 2021-2023 (Elo 2014-2023), so these two are clean for a MARGIN question. They are not unused in general: model/player_projection.py gates its markets here and has withheld pass_yds on them twice. Different quantity, same seasons, and not strictly independent -- the engine's team-TD environment comes from these ratings.",
     "what_is_being_tested": "half_life=100 was selected on the 2023 TEST set, overriding a train argmin that favored short half-lives. model/ratings.py describes that as held-out calibration. This grades it on data that actually was.",
     "selection_spent": "Publishing this burns 2024-25 as a future selection set. Stated so the next person knows."
   },

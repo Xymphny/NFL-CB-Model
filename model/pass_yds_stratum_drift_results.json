@@ -1,0 +1,131 @@
+{
+  "_provenance": {
+    "script": "model/pass_yds_stratum_drift.py",
+    "generated": "2026-09-20",
+    "train": [
+      2017,
+      2023
+    ],
+    "holdout": [
+      2024,
+      2025
+    ],
+    "what_this_is": "A diagnosis of a known gate failure, not a new gate. The holdout numbers here re-describe a decision already made on these seasons (pass_yds was withheld on them twice); no parameter is selected from them."
+  },
+  "finding": "Stratum cuts are frozen train terciles. League passing volume fell, so 46.8% of held-out pass_yds rows land in the low-volume stratum instead of 33.3%, and that stratum claims 47%. Mixing the shifted weights reproduces the published 0.3119 claim exactly.",
+  "candidate_fix_rejected": {
+    "name": "stratify on volume normalized by the league's trailing median",
+    "graded_on": "train-internal split (fit 2017-2020, grade 2021-2023)",
+    "pass_yds_mean_abs_err": {
+      "frozen": 0.0152,
+      "causal_normalized": 0.02
+    },
+    "pass_yds_worst_over_claim": {
+      "frozen": 0.0269,
+      "causal_normalized": -0.0026
+    },
+    "verdict": "Removes the over-claim, worsens mean error -- trades an over-claim for a larger under-claim. Not shipped.",
+    "lookahead_warning": "Normalizing by the FULL season median scores 0.0105 and looks like a fix. That number is not available at prediction time. The causal figures above are the real ones."
+  },
+  "markets": {
+    "pass_yds": {
+      "train_median_opp": 35.93,
+      "holdout_median_opp": 32.9,
+      "volume_drift": -3.03,
+      "stratum_0_share_holdout": 0.4667,
+      "stratum_0_share_expected": 0.3333,
+      "claim_inflation_vs_pooled": 0.0611,
+      "reconstructed_claim_at_1x": 0.3118,
+      "actual_at_1x": 0.2649,
+      "strata": [
+        {
+          "stratum": 0,
+          "n_train": 1001,
+          "train_p_ratio_gt_1": 0.4705,
+          "holdout_share": 0.4667,
+          "holdout_p_ratio_gt_1": 0.4225
+        },
+        {
+          "stratum": 1,
+          "n_train": 1001,
+          "train_p_ratio_gt_1": 0.2288,
+          "holdout_share": 0.3641,
+          "holdout_p_ratio_gt_1": 0.1795
+        },
+        {
+          "stratum": 2,
+          "n_train": 1001,
+          "train_p_ratio_gt_1": 0.0529,
+          "holdout_share": 0.1692,
+          "holdout_p_ratio_gt_1": 0.0138
+        }
+      ]
+    },
+    "rush_yds": {
+      "train_median_opp": 14.22,
+      "holdout_median_opp": 15.32,
+      "volume_drift": 1.11,
+      "stratum_0_share_holdout": 0.2741,
+      "stratum_0_share_expected": 0.3333,
+      "claim_inflation_vs_pooled": -0.0129,
+      "reconstructed_claim_at_1x": 0.2676,
+      "actual_at_1x": 0.2963,
+      "strata": [
+        {
+          "stratum": 0,
+          "n_train": 1163,
+          "train_p_ratio_gt_1": 0.3474,
+          "holdout_share": 0.2741,
+          "holdout_p_ratio_gt_1": 0.3074
+        },
+        {
+          "stratum": 1,
+          "n_train": 1162,
+          "train_p_ratio_gt_1": 0.3124,
+          "holdout_share": 0.3102,
+          "holdout_p_ratio_gt_1": 0.3672
+        },
+        {
+          "stratum": 2,
+          "n_train": 1162,
+          "train_p_ratio_gt_1": 0.1816,
+          "holdout_share": 0.4157,
+          "holdout_p_ratio_gt_1": 0.2361
+        }
+      ]
+    },
+    "rec_yds": {
+      "train_median_opp": 6.28,
+      "holdout_median_opp": 6.2,
+      "volume_drift": -0.08,
+      "stratum_0_share_holdout": 0.3278,
+      "stratum_0_share_expected": 0.3333,
+      "claim_inflation_vs_pooled": 0.0024,
+      "reconstructed_claim_at_1x": 0.2636,
+      "actual_at_1x": 0.2606,
+      "strata": [
+        {
+          "stratum": 0,
+          "n_train": 3924,
+          "train_p_ratio_gt_1": 0.3109,
+          "holdout_share": 0.3278,
+          "holdout_p_ratio_gt_1": 0.3206
+        },
+        {
+          "stratum": 1,
+          "n_train": 3923,
+          "train_p_ratio_gt_1": 0.2835,
+          "holdout_share": 0.3663,
+          "holdout_p_ratio_gt_1": 0.2711
+        },
+        {
+          "stratum": 2,
+          "n_train": 3923,
+          "train_p_ratio_gt_1": 0.1891,
+          "holdout_share": 0.3058,
+          "holdout_p_ratio_gt_1": 0.1838
+        }
+      ]
+    }
+  }
+}

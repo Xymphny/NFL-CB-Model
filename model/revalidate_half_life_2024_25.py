@@ -21,10 +21,19 @@ chance than a single lucky argmin. A monotone trend across a grid is a
 real claim about football: that week-to-week form carries little
 signal beyond season-long quality. Real claims replicate.
 
-WHAT THIS RUNS. Every calibration script in this repo touches only
-2021-2023 (Elo: 2014-2023). 2024 and 2025 have never been used to
-select anything. This replays the same walk-forward over those two
-seasons, over the same 8-candidate grid, and asks three questions:
+WHAT THIS RUNS. Every calibrate_* script in this repo touches only
+2021-2023 (Elo: 2014-2023), so 2024-25 are clean for a margin
+question. They are NOT virgin ground in general, and an earlier draft
+of this file wrongly said they were: model/player_projection.py holds
+them out as its gate set and has already made ship/withhold decisions
+there, pass_yds twice. Different quantity -- player prop shapes, not
+team margin error -- but the same seasons, and the engine's team-TD
+environment is derived from these same ratings, so the two are not
+strictly independent. Recorded because the size of the remaining
+holdout budget is exactly the kind of thing that gets rounded up.
+
+This replays the same walk-forward over those two seasons, over the
+same 8-candidate grid, and asks three questions:
 
   1. Does 100 still beat 6?
   2. Is the trend still monotone in half-life?
@@ -56,7 +65,7 @@ from model.ratings import (add_home_field_and_rest, add_recency_weights,
                            opponent_adjust, score_all_plays, team_ratings)
 from model.prediction import predict_margin
 
-HOLDOUT_SEASONS = [2024, 2025]      # untouched by every calibrate_* script
+HOLDOUT_SEASONS = [2024, 2025]      # clean for margin work; see docstring
 BACKTEST_WEEKS = range(4, 18)
 CANDIDATE_HALF_LIVES = [2, 4, 6, 8, 10, 12, 16, 100]
 SHIPPED = 100.0
@@ -110,7 +119,7 @@ def run_walk_forward(half_life, cache):
 
 
 def main():
-    print("Building cached dataframes for the untouched seasons...", flush=True)
+    print("Building cached dataframes for the holdout seasons...", flush=True)
     cache = build_cached_dataframes()
 
     results, preds = {}, {}
@@ -161,9 +170,13 @@ def main():
             "script": "model/revalidate_half_life_2024_25.py",
             "generated": __import__("datetime").date.today().isoformat(),
             "holdout_seasons": HOLDOUT_SEASONS,
-            "why_these_seasons": ("Every calibrate_* script in this repo trains and tests "
-                                  "only on 2021-2023 (Elo 2014-2023). These two were never "
-                                  "used to select anything."),
+            "why_these_seasons": ("Every calibrate_* script trains and tests only on "
+                                  "2021-2023 (Elo 2014-2023), so these two are clean for a "
+                                  "MARGIN question. They are not unused in general: "
+                                  "model/player_projection.py gates its markets here and has "
+                                  "withheld pass_yds on them twice. Different quantity, same "
+                                  "seasons, and not strictly independent -- the engine's "
+                                  "team-TD environment comes from these ratings."),
             "what_is_being_tested": ("half_life=100 was selected on the 2023 TEST set, "
                                      "overriding a train argmin that favored short "
                                      "half-lives. model/ratings.py describes that as "

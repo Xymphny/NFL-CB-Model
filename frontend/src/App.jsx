@@ -740,9 +740,9 @@ const GATES = [
   {
     status: 'withheld', tone: 'withheld',
     title: 'Passing yards: no engine opinion',
-    evidence: 'held-out 2024-25 \u00b7 over-claimed at every line',
-    source: 'model/player_projection_results.json',
-    body: 'The player engine\u2019s biggest market over-claimed on 2024\u201325 held-out data and failed its gate \u2014 twice. It stays off the board until a revision passes the same test. The biggest market sitting out is the point.',
+    evidence: 'held-out 2024-25 \u00b7 over-claimed at every line \u00b7 cause identified',
+    source: 'model/pass_yds_stratum_drift_results.json',
+    body: 'The player engine\u2019s biggest market over-claimed on 2024\u201325 held-out data and failed its gate \u2014 twice. The cause is now known: the outcome shapes are stratified by projected volume using cuts frozen from older seasons, and league passing volume has fallen since, so most held-out rows land in the low-volume bucket and inherit its 47% over-rate. One candidate fix was tested and rejected for trading the over-claim for a larger under-claim. Still withheld \u2014 now for a reason rather than a mystery.',
   },
   {
     status: 'shipped', tone: 'shipped',
