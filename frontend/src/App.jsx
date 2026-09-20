@@ -462,7 +462,7 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
                   if (!r) continue
                   const team = side === 'home' ? d.home_team : d.away_team
                   const backed = (side === 'home') === pickedHome
-                  chips.push(`${team} new regime (${r.coach}${r.tier >= 2 ? ' — HC + staff' : ''})${backed && d.tier_cap ? ': capped at Lean — backed-regime early flags went 0/9 in backtests' : ': early-season prior less reliable'}`)
+                  chips.push(`${team} new regime (${r.coach}${r.tier >= 2 ? ' — HC + staff' : ''})${backed && d.tier_cap ? ': capped at Lean — backed-regime early flags went 0/6 in backtests' : ': early-season prior less reliable'}`)
                 }
               }
               // Line movement vs the week's opener (spread picks only).
@@ -759,9 +759,9 @@ const GATES = [
   {
     status: 'shipped', tone: 'shipped',
     title: 'New-coach flags capped at Lean',
-    evidence: '0/9 ATS \u00b7 2016-23 \u00b7 weeks 1-4',
+    evidence: '0/6 ATS \u00b7 2016-23 \u00b7 weeks 1-4 \u00b7 n is small',
     source: 'model/coach_regime_results.json',
-    body: 'Early-season flags backing first-year external head coaches went 0/9 against the spread in 2016\u201323 backtests. Those flags now cap at half a unit through week 4 \u2014 and live closing-line value audits the cap.',
+    body: 'Early-season flags backing first-year external head coaches went 0 for 6 against the spread in 2016\u201323 backtests (0 for 3 at the Play threshold). Six graded games is thin evidence, which is why the rule caps stakes rather than blocking the play \u2014 and live closing-line value audits the cap. The board quoted 0/9 until 2026-09-20; the reproducible artifact says 0/6.',
   },
   {
     status: 'shipped', tone: 'shipped',

@@ -769,6 +769,42 @@ def test_elo_gap_is_recorded():
 
 
 
+def test_regime_cap_number_matches_its_artifact():
+    """The board quoted 0/9 for backed-regime early flags -- on a gate
+    card, in a live chip, in the odds job and in the README -- and the
+    artifact says 0/6 at Lean, 0/3 at Play. Play is a SUBSET of Lean,
+    so 6 + 3 = 9 double-counts three games. The number underwrites a
+    staking rule, so it is pinned to the evidence that produces it."""
+    import json
+    import re
+    path = os.path.join(REPO, "model", "coach_regime_results.json")
+    assert os.path.exists(path), "run model/coach_regime_experiment.py"
+    grades = json.load(open(path))["grades"]
+    backed = {g["min_edge"]: (g["wins"], g["n_graded"]) for g in grades
+              if g["label"] == "model BACKED the regime team"}
+    wins, n = backed[2.5]
+    quoted = f"{wins}/{n}"
+
+    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    job = open(os.path.join(REPO, "deploy", "odds_watch_job.py")).read()
+    readme = open(os.path.join(REPO, "README.md")).read()
+
+    # The Lean-threshold cell is the one the cap acts on.
+    assert f"{quoted} ATS" in app, f"the gate card must quote {quoted}, the artifact's number"
+    assert f"went {quoted} in backtests" in app, "the live chip must quote the same number"
+    assert f"graded {quoted} in 2016-2023" in job, "the odds job's chip must match"
+    assert f"went {quoted} ATS" in readme, "the README must match"
+
+    # And the double-count must not come back anywhere that faces a user.
+    bad = wins + backed[4.0][0], n + backed[4.0][1]
+    stale = f"{bad[0]}/{bad[1]}"
+    for name, src in (("App.jsx", app), ("odds_watch_job.py", job)):
+        hits = [ln for ln in src.splitlines()
+                if stale in ln and "until 2026-09-20" not in ln]
+        assert not hits, f"{name}: the double-counted {stale} is quoted again"
+
+
+
 if __name__ == "__main__":
     # RUN EVERYTHING, THEN REPORT (2026-09-20). This loop used to let
     # the first failure abort the process. On 2026-09-20 one stale file

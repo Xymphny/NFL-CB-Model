@@ -1,0 +1,127 @@
+{
+  "_provenance": {
+    "script": "model/coach_regime_experiment.py",
+    "generated": "2026-09-20",
+    "seasons": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "early_weeks": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "regime_source": "data/coach_changes.json (tier >= 1 = external hire)",
+    "n_external_team_seasons": 69,
+    "caveat": "Small samples. The headline backed-regime cell is single-digit; read the SE column before treating any cell as settled. The seasons here overlap the 2016-2021 window MARGIN_COEFFICIENTS was fit on, so the ensemble margins are partly in-sample for those years."
+  },
+  "grades": [
+    {
+      "label": "STABLE-regime early flags",
+      "min_edge": 2.5,
+      "n_flags": 24,
+      "n_graded": 24,
+      "wins": 15,
+      "pushes": 0,
+      "ats_pct": 62.5,
+      "se_pct": 10.21
+    },
+    {
+      "label": "REGIME-game early flags",
+      "min_edge": 2.5,
+      "n_flags": 15,
+      "n_graded": 15,
+      "wins": 5,
+      "pushes": 0,
+      "ats_pct": 33.33,
+      "se_pct": 12.91
+    },
+    {
+      "label": "model BACKED the regime team",
+      "min_edge": 2.5,
+      "n_flags": 6,
+      "n_graded": 6,
+      "wins": 0,
+      "pushes": 0,
+      "ats_pct": 0.0,
+      "se_pct": 20.41
+    },
+    {
+      "label": "model FADED the regime team",
+      "min_edge": 2.5,
+      "n_flags": 9,
+      "n_graded": 9,
+      "wins": 5,
+      "pushes": 0,
+      "ats_pct": 55.56,
+      "se_pct": 16.67
+    },
+    {
+      "label": "STABLE-regime early flags",
+      "min_edge": 4.0,
+      "n_flags": 13,
+      "n_graded": 13,
+      "wins": 9,
+      "pushes": 0,
+      "ats_pct": 69.23,
+      "se_pct": 13.87
+    },
+    {
+      "label": "REGIME-game early flags",
+      "min_edge": 4.0,
+      "n_flags": 7,
+      "n_graded": 7,
+      "wins": 2,
+      "pushes": 0,
+      "ats_pct": 28.57,
+      "se_pct": 18.9
+    },
+    {
+      "label": "model BACKED the regime team",
+      "min_edge": 4.0,
+      "n_flags": 3,
+      "n_graded": 3,
+      "wins": 0,
+      "pushes": 0,
+      "ats_pct": 0.0,
+      "se_pct": 28.87
+    },
+    {
+      "label": "model FADED the regime team",
+      "min_edge": 4.0,
+      "n_flags": 4,
+      "n_graded": 4,
+      "wins": 2,
+      "pushes": 0,
+      "ats_pct": 50.0,
+      "se_pct": 25.0
+    },
+    {
+      "label": "weeks 5+ all flags",
+      "min_edge": 2.5,
+      "n_flags": 474,
+      "n_graded": 461,
+      "wins": 250,
+      "pushes": 13,
+      "ats_pct": 54.23,
+      "se_pct": 2.33
+    },
+    {
+      "label": "weeks 5+ all flags",
+      "min_edge": 4.0,
+      "n_flags": 236,
+      "n_graded": 230,
+      "wins": 123,
+      "pushes": 6,
+      "ats_pct": 53.48,
+      "se_pct": 3.3
+    }
+  ]
+}

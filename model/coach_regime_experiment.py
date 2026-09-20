@@ -68,13 +68,22 @@ def main():
         lambda r: (r["season"], r["home_team"]) in ext or (r["season"], r["away_team"]) in ext, axis=1)
     print(f"early-season games with lines: {len(early)} | regime games: {early['regime_game'].sum()}")
 
-    # EVIDENCE ARTIFACT (2026-09-20). The 0/9 result this script
-    # produces is quoted verbatim to users on the live board and
-    # underwrites a staking rule, but existed only as stdout from a
-    # run nobody can reproduce without several minutes of pbp+NGS
-    # downloads. Every graded cell is now captured and written to
-    # model/coach_regime_results.json, following the precedent set by
-    # model/cfb_backtest_2023_results.json.
+    # EVIDENCE ARTIFACT (2026-09-20). A 0/9 result was quoted verbatim
+    # to users on the live board and underwrote a staking rule, but
+    # existed only as stdout from a run nobody could reproduce without
+    # several minutes of pbp+NGS downloads. Every graded cell is now
+    # captured and written to model/coach_regime_results.json,
+    # following the precedent set by model/cfb_backtest_2023_results.json.
+    #
+    # AND CAPTURING IT IMMEDIATELY CONTRADICTED THE QUOTED NUMBER.
+    # There is no 0/9 cell. Backed-regime early flags grade 0/6 at the
+    # Lean threshold and 0/3 at Play -- and Play is a SUBSET of Lean,
+    # so 6 + 3 = 9 double-counts three games. Whether the original was
+    # that double-count or a stale run cannot be recovered from stdout
+    # that no longer exists, which is the whole argument for writing
+    # the artifact. Every quoted site was corrected to 0/6 on
+    # 2026-09-20; the rule itself stands, because 0/6 still points the
+    # same way and the rule only caps stakes rather than blocking.
     captured = []
 
     def grade(df, label, min_edge):

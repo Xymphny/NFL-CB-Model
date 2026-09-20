@@ -1067,6 +1067,28 @@ highest precedence).
   gap is -0.23 and nothing flags, so no harm today; but "which model
   priced this edge" is now a question the board can answer and the
   threshold does not ask.
+- A LIVE NUMBER THAT ITS OWN EVIDENCE CONTRADICTS (2026-09-20):
+  found by a full-repo health check, auditing every gate card's
+  quoted figure against the artifact it cites. Seven of eight matched.
+  The eighth cited model/coach_regime_results.json -- WHICH WAS NEVER
+  COMMITTED. The script writes it; the file had simply never landed,
+  so a number underwriting a staking rule was uncheckable. Its own
+  comment said as much: the result "existed only as stdout from a run
+  nobody can reproduce". REGENERATING IT IMMEDIATELY CONTRADICTED THE
+  QUOTED NUMBER. There is no 0/9 cell. Backed-regime early flags grade
+  0/6 at the Lean threshold and 0/3 at Play -- and Play is a SUBSET of
+  Lean, so 6 + 3 = 9 double-counts three games. Whether the original
+  was that double-count or a stale run cannot be recovered from stdout
+  that no longer exists, which is precisely the argument for writing
+  artifacts. 0/9 appeared in FIVE user-facing places: the gate card's
+  evidence line and body, the live board chip, the odds job's
+  subscriber alert text, and the README. All corrected to 0/6, with
+  the card stating plainly that it quoted 0/9 until today. THE RULE
+  STANDS: 0/6 points the same way, and the rule caps stakes rather
+  than blocking the play -- which is the right response to six graded
+  games either way. The artifact is now committed and a guard test
+  pins every quoted site to it, including a check that the
+  double-counted 9 cannot reappear.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).
@@ -1084,7 +1106,7 @@ highest precedence).
   distorting them; excluded anyway (MLB_BURN_IN_GAMES) for hygiene in
   both mlb_model and mlb_backtest fits.
 - COACH REGIME (2026-09-18): early-season flags BACKING first-year
-  external-HC teams went 0/9 ATS (2016-2023, model/coach_regime_experiment.py);
+  external-HC teams went 0/6 ATS (2016-2023, model/coach_regime_experiment.py);
   faded-regime flags graded at baseline. Shipped as a narrow Lean cap on
   backed-regime spread flags, weeks 1-4 only (stake reduction, still
   graded -- live CLV audits it), plus advisory chips and a regime-aware

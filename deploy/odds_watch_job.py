@@ -449,7 +449,7 @@ def apply_regime_layer(divergences, regimes, week):
 
     Evidence (model/coach_regime_experiment.py, 2016-2023 held
     history): early-season flags that BACKED a first-year external-HC
-    team against the market went 0/9 ATS -- the ghost prior liking a
+    team against the market went 0/6 ATS -- the ghost prior liking a
     new-coach team more than the repriced market has never once been
     right in our sample. Flags FADING regime teams graded at baseline
     (60%), so they are deliberately untouched. Weeks 1-2 are
@@ -470,7 +470,7 @@ def apply_regime_layer(divergences, regimes, week):
             if picked in regimes:
                 d["tier_cap"] = "lean"
                 d["tier_cap_reason"] = (f"{picked} first-year staff ({regimes[picked]['coach']}): "
-                                        "flags backing new-regime teams graded 0/9 in 2016-2023 "
+                                        "flags backing new-regime teams graded 0/6 in 2016-2023 "
                                         "early-season history; stake capped, still graded")
     return divergences
 
