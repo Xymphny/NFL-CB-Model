@@ -81,6 +81,7 @@ ENV_CLAMP = (0.6, 1.5)          # bounds on the (damped) environment multiplier
 TIER_CUTS = (8.0, 15.0)         # opportunities/game -> tier 0 / 1 / 2
 TIER_K = {0: 5.0, 1: 3.0, 2: 1.5}   # TD credibility k by volume tier
 TD_POWER = 0.4                  # b in P(score) = 1 - exp(-a_tier * lam^b)
+TD_MIN_LAMBDA = 0.15            # calibrated-pool floor: no TD opinion below it
 BURN_IN_SEASONS = 1             # cold-start seasons excluded from shape fitting
 MARKETS = ("pass_yds", "rush_yds", "rec_yds")
 MK_OPP = {"pass_yds": "attempts", "rush_yds": "carries", "rec_yds": "targets"}
@@ -300,7 +301,7 @@ def walk_forward(first=2016, last=2025, data=None):
                                       "baseline": (sum(t4) / len(t4)) if len(t4) >= 2 else None})
                 c = eng.td_components(p, r["team"], r["opponent_team"])
                 lam = eng.project_td_lambda(p, r["team"], r["opponent_team"])
-                if lam is not None and r["position"] in ("RB", "WR", "TE") and max(lam, c["base"]) >= 0.15:
+                if lam is not None and r["position"] in ("RB", "WR", "TE") and max(lam, c["base"]) >= TD_MIN_LAMBDA:
                     preds.append({"season": season, "week": week, "player": p, "mkt": "anytime_td",
                                   "proj": lam, "tier": c["tier"], "td_base": c["base"],
                                   "td_env": c["env_ratio"], "td_opp": c["opp_dev"],
@@ -494,8 +495,13 @@ class LiveProjector:
             return None            # unknown player or name mismatch: silence beats guessing
         opponent = away_team if team == home_team else home_team
         if mkt == "anytime_td":
+            c = self.eng.td_components(player, team, opponent)
             lam = self.eng.project_td_lambda(player, team, opponent)
-            if lam is None:
+            if lam is None or max(lam, c["base"]) < TD_MIN_LAMBDA:
+                # Below the calibrated pool (the held-out gate was fit and
+                # verified on this floor). b < 1 inflates tiny lambdas, so
+                # out-of-pool extrapolation flatters exactly the fringe
+                # players the edge board already over-surfaces. Silence.
                 return None
             tier = self.eng.volume_tier(player)
             return {"market": mkt, "p_score": round(prob_score(self.shapes, lam, tier), 4), "kind": "score"}

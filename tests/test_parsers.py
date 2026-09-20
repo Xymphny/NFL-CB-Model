@@ -324,6 +324,19 @@ def test_player_projection_engine():
     assert lp.prop_opinion("Test Back", "KC", "DEN", "player_rush_yds", 70.5) is None    # wrong game
     td = lp.prop_opinion("Test Back", "DET", "CHI", "player_anytime_td", None)
     assert td is not None and 0.3 < td["p_score"] < 0.95
+    # Pool floor: a fringe player whose lambda sits below the calibrated
+    # pool (TD_MIN_LAMBDA) gets SILENCE, not an extrapolated claim --
+    # b < 1 inflates tiny lambdas, so out-of-pool chips would flatter
+    # exactly the low-usage players the edge board over-surfaces.
+    rows2 = list(rows)
+    for wk in range(1, 7):
+        rows2.append({"player_display_name": "Fringe Guy", "position": "WR", "team": "DET",
+                      "opponent_team": "CHI", "season": 2025, "week": wk, "season_type": "REG",
+                      "attempts": 0, "carries": 0, "targets": 2,
+                      "passing_yards": 0, "rushing_yards": 0, "receiving_yards": 12,
+                      "passing_tds": 0, "rushing_tds": 0, "receiving_tds": 0})
+    lp2 = LiveProjector(2025, data=pd.DataFrame(rows2))
+    assert lp2.prop_opinion("Fringe Guy", "DET", "CHI", "player_anytime_td", None) is None
 
 
 
