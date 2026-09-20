@@ -776,6 +776,15 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
             "market_total": market_total,
             "best_prices": best_prices,
             "sharp_anchor": sharp_anchor,
+            # CONDITIONS OF PRODUCTION (2026-09-20). predict_game has
+            # returned these since the NGS fix and its comment claimed
+            # they were "published per row" -- they were not, so nothing
+            # in a published board said which coefficient vector made
+            # it. The week-6 calibration checkpoint has to separate
+            # pre-fix boards from post-fix ones, and it cannot do that
+            # from a number alone.
+            "coefficient_set": pred.get("coefficient_set"),
+            "features": pred.get("features"),
             **divergence,
         })
 
@@ -1154,6 +1163,12 @@ def main():
                 "qb1_map": qb1_map,
                 "debias_offsets": list(debias_applied),
                 "provenance": provenance,
+                "coefficient_sets": sorted(
+                    {d["coefficient_set"] for d in divergences
+                     if d.get("coefficient_set")}),
+                "ngs_present_games": sum(
+                    1 for d in divergences
+                    if (d.get("features") or {}).get("ngs")),
                 "dropped_no_pregame": dropped_no_pregame,
                 "divergences": divergences,
             }), f, indent=2, allow_nan=False)

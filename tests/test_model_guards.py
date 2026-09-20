@@ -435,6 +435,65 @@ def test_mlb_never_renders_a_graded_verdict():
 
 
 
+def test_board_records_which_coefficients_made_it():
+    """A published margin must carry the conditions that produced it.
+    predict_game has returned coefficient_set since the NGS fix and its
+    comment claimed it was 'published per row' -- the divergence writer
+    dropped it, so no published board said whether it was pre- or
+    post-fix. The week-6 slope checkpoint depends on telling them apart.
+    """
+    import sys
+    sys.path.insert(0, REPO)
+    import pandas as pd
+    from model.prediction import build_week_predictions
+
+    # Functional: the live condition all season has been NGS absent.
+    ratings = pd.DataFrame(
+        {"offense_voa": [0.1, -0.05], "defense_voa": [-0.02, 0.03],
+         "total_rating": [0.12, -0.08]}, index=["KC", "DEN"])
+    games = pd.DataFrame([{"home_team": "KC", "away_team": "DEN", "home_rest": 7,
+                           "away_rest": 7, "wind": 0.0, "is_neutral_site": False}])
+    pred = build_week_predictions(ratings, games, ngs_features=None, elo_ratings=None)["KC"]
+    assert pred["coefficient_set"] == "v1_rating_only_no_ngs"
+    assert pred["features"]["ngs"] is False
+    # The rating must actually move the number under the fix; the bug
+    # was that it moved it by hundredths of a point.
+    assert abs(pred["spread"]) > 1.0, "rating is not reaching the published margin"
+
+    # Structural: the writer must carry it through. The end-to-end write
+    # needs live odds, so this pins the assembly rather than the file.
+    src = open(os.path.join(REPO, "deploy", "odds_watch_job.py")).read()
+    assert '"coefficient_set": pred.get("coefficient_set")' in src, \
+        "divergence rows must stamp the coefficient vector"
+    assert '"coefficient_sets": sorted(' in src, \
+        "the snapshot needs a roll-up so a reader need not scan every row"
+
+
+def test_prop_grading_failure_is_not_swallowed():
+    """The first prop ledger is the largest claim surface in the system
+    and the on-ramp rule is built on it. A grading failure used to print
+    and let the job report success."""
+    import sys
+    sys.path.insert(0, REPO)
+    from deploy.weekly_job import _published_prop_opinions
+
+    src = open(os.path.join(REPO, "deploy", "weekly_job.py")).read()
+    assert "prop grading skipped:" not in src, \
+        "the swallow-and-continue path is back"
+    assert "prop_failure" in src and "report_failure" in src, \
+        "a prop grading failure must escalate, not print"
+    # The success report must not fire over a known prop failure.
+    i_fail = src.index("if prop_failure:\n            # The ratings pipeline")
+    i_ok = src.index('report_success("weekly_ratings_job", summary=f"{season} week')
+    assert i_fail < i_ok, "report_success must be gated behind the prop-failure check"
+
+    # An unfinished week must NOT alarm: no props file means nothing owed.
+    assert _published_prop_opinions(2026, 99) == 0
+    # And a real published week must be counted, or the guard can never fire.
+    assert _published_prop_opinions(2026, 2) > 0, \
+        "week 2 published engine opinions; the alarm needs to see them"
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

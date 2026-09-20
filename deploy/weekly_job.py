@@ -404,6 +404,33 @@ def write_output(result: dict, path: str):
     return output_file
 
 
+def _published_prop_opinions(season, week, data_dir=None):
+    """How many engine opinions were published for this week.
+
+    Used only to tell "the week is unfinished" apart from "grading
+    broke": if opinions went out and the games have been played, a
+    grading run that produces nothing is a miss, not an absence.
+    Returns 0 on any read problem -- this is an alarm-suppressor, and
+    it must never itself become the thing that raises.
+    """
+    import json as _json
+    path = os.path.join(data_dir or REPO_DATA_PATH, "props",
+                        f"{season}-week-{week:02d}.json")
+    try:
+        payload = _json.load(open(path))
+    except Exception:                                     # noqa: BLE001
+        return 0
+    n = 0
+    for game in payload.get("games", {}).values():
+        for players in game.get("markets", {}).values():
+            if not isinstance(players, dict):
+                continue
+            for row in players.values():
+                if isinstance(row, dict) and row.get("model"):
+                    n += 1
+    return n
+
+
 def main():
     season = int(os.environ.get("SEASON", datetime.now().year))
     # Auto-detects the current week unless explicitly overridden — the
@@ -428,17 +455,51 @@ def main():
         # watch-mode opinions are the largest claim surface in the
         # system by volume and went ungraded until 2026-09-20; this is
         # the machinery its own on-ramp rule depends on.
+        #
+        # FAILS LOUDLY (2026-09-20). This block used to swallow every
+        # exception into a print and let the job go on to report
+        # success, so a broken first ledger would have surfaced only in
+        # a cron log nobody reads. The prop board is the largest claim
+        # surface in the system -- 386 engine opinions in week 2 alone --
+        # and the on-ramp rule that gates market-as-noise ranking is
+        # built on it being graded. Same escalation the odds job's
+        # collapse alert got.
+        #
+        # The distinction that matters: "nothing to grade yet" is not a
+        # failure. grade_week returns None both when the week is simply
+        # unfinished (no box scores) and when it breaks. Only the second
+        # one is an alarm, so the gradeable-ness is checked here rather
+        # than inferred from a null.
         prop_files = []
+        prop_failure = None
         try:
-            from deploy.grade_props import grade_week as grade_props_week, rebuild_summary
+            from deploy.grade_props import (grade_week as grade_props_week,
+                                            load_actuals, rebuild_summary)
             graded = grade_props_week(season, week, data_dir=REPO_DATA_PATH)
             if graded:
                 prop_files.append(graded)
                 summary = rebuild_summary(season, data_dir=REPO_DATA_PATH)
                 if summary:
                     prop_files.append(summary)
+            else:
+                # Was there anything gradeable? Opinions published AND
+                # box scores available means grading should have produced
+                # a file; returning nothing is then a real miss.
+                opinions = _published_prop_opinions(season, week)
+                if opinions and load_actuals(season, week):
+                    prop_failure = (f"prop grading produced nothing for {season} week {week} "
+                                    f"with {opinions} published engine opinions and box "
+                                    f"scores available")
         except Exception as prop_err:                     # noqa: BLE001
-            print(f"[weekly_job] prop grading skipped: {prop_err}")
+            prop_failure = f"prop grading raised: {prop_err!r}"
+
+        if prop_failure:
+            print(f"[weekly_job] ALERT -- {prop_failure}")
+            try:
+                from deploy.notify import send_webhook_alert
+                send_webhook_alert(f"[weekly_ratings_job] {prop_failure}")
+            except Exception:
+                pass
 
         if GIT_REPO_URL:
             git_commit_and_push(output_file, commit_message=f"Update ratings: {season} week {week}")
@@ -448,6 +509,14 @@ def main():
                 git_commit_and_push(pf, commit_message=f"Prop grades: {season} week {week}")
         else:
             print("[weekly_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
+
+        if prop_failure:
+            # The ratings pipeline itself succeeded and its output is
+            # already pushed -- that is why this is reported as a
+            # failure rather than raised. The run is not clean.
+            report_failure("weekly_ratings_job",
+                           error=f"ratings ok, {prop_failure}")
+            sys.exit(1)
 
         report_success("weekly_ratings_job", summary=f"{season} week {week}, {len(result['ratings'])} teams")
 

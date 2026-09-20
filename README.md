@@ -756,6 +756,39 @@ highest precedence).
   opinion -- a structural guard, so the next league added cannot
   inherit this. NFL re-checked after the change: 32 CLV rows, scorecard
   intact, no console errors. 1 guard test.
+- TUESDAY'S LEDGER COULD HAVE FAILED IN SILENCE (2026-09-20): the
+  prop grading call in deploy/weekly_job.py sat inside a bare
+  `except Exception: print(...)`, after which the job went on to
+  report_success. The first prop ledger -- 386 engine opinions across
+  758 published rows in week 2, the largest claim surface in the
+  system and the thing the market-as-noise on-ramp rule is gated on --
+  was due to run Tuesday 11:00 UTC, and a break would have left one
+  line in a cron log nobody reads. Now escalates the way the odds
+  job's collapse alert does: webhook, report_failure, non-zero exit,
+  and report_success gated behind the check so a prop failure cannot
+  be papered over by a clean ratings run. The distinction is kept
+  deliberately: "the week is unfinished" is NOT an alarm -- grade_week
+  returns None both when there are no box scores yet and when it
+  breaks, so the caller now counts published engine opinions and
+  checks box-score availability rather than inferring from a null.
+- BOARDS DID NOT SAY WHICH MODEL MADE THEM (2026-09-20):
+  predict_game has returned `coefficient_set` since the NGS fix, and
+  the comment beside it claimed "Which vector ran is published per
+  row." It was not -- compute_divergences dropped it. So no published
+  board recorded whether it was built pre-fix (rating effectively off,
+  0.4% of the margin's variation) or post-fix, which would have left
+  the week-6 calibration checkpoint unable to separate the two
+  populations it exists to compare. Rows now carry coefficient_set and
+  the ngs/elo/wind feature flags, and each snapshot carries a
+  coefficient_sets roll-up plus ngs_present_games. Related open
+  question, stated rather than answered: published model-margin spread
+  has gone from 3.06 on the weeks 1-2 boards the replay measured to
+  4.41 today, which is consistent with the fix being live on Render,
+  but season progression confounds it (week-1 ratings are regressed
+  priors) and no committed artifact can settle it. From the next
+  snapshot on, it can. 2 guard tests; the end-to-end write is not
+  covered because it needs live odds, so the tests pin the prediction
+  path functionally and the writer structurally.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).
