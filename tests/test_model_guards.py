@@ -622,25 +622,71 @@ def test_every_data_file_the_board_fetches_actually_ships():
 
 
 
-def test_frozen_threshold_sweep_is_closed():
-    """A finished audit should not be re-run from scratch. Pin the
-    verdicts and the rule they produced, so the next person inherits
-    the conclusion rather than the search."""
+def test_preseason_prior_is_regressed_not_raw():
+    """The prior asserted that last season carries forward whole. It
+    carries at 0.441, and below a year-over-year correlation of 0.5 a
+    slope of 1.0 loses to a slope of zero -- the raw prior was worse
+    than predicting the league mean."""
+    import sys
+    sys.path.insert(0, REPO)
+    from model.preseason_prior import PRIOR_CARRYOVER, blend_rating, regress_prior
+
+    for comp in ("offense_voa", "defense_voa", "total_rating"):
+        slope = PRIOR_CARRYOVER[comp][0]
+        assert 0.2 < slope < 0.7, f"{comp} carryover {slope} is implausible"
+    # Defense carries over less than offense -- if that inverts, the fit
+    # was rerun on something different and the comment no longer holds.
+    assert PRIOR_CARRYOVER["defense_voa"][0] < PRIOR_CARRYOVER["offense_voa"][0]
+
+    assert abs(regress_prior(0.10, "total_rating")) < 0.10, "prior must move toward the mean"
+    assert regress_prior(0.10, "not_a_component") == 0.10, \
+        "an unknown component must pass through, not be silently mis-regressed"
+
+    # The live path regresses; the k-calibration path must not, because
+    # k=2 was fitted against the raw prior.
+    raw = blend_rating(0.10, 0.02, games_played=1)
+    live = blend_rating(0.10, 0.02, games_played=1, carryover="offense_voa")
+    assert live < raw, "the live blend must pull the prior toward the mean"
+    assert abs(raw - (1 / 3 * 0.02 + 2 / 3 * 0.10)) < 1e-9, \
+        "the default path changed; calibrate_credibility_k measures that path"
+
+    cal = open(os.path.join(REPO, "model", "calibrate_credibility_k.py")).read()
+    assert "carryover=" not in cal, \
+        "the k calibration must keep measuring the raw prior it was fitted against"
+
+
+def test_preseason_prior_regression_was_gated():
+    """Fitted on 2017-2022, graded once on 2023-2025. Pin the result and
+    H1a's rejection so neither drifts into folklore."""
     import json
-    path = os.path.join(REPO, "model", "frozen_threshold_sweep_results.json")
-    assert os.path.exists(path), "run model/frozen_threshold_sweep.py"
+    import sys
+    sys.path.insert(0, REPO)
+    from model.preseason_prior import PRIOR_CARRYOVER
+
+    path = os.path.join(REPO, "model", "preseason_prior_regression_results.json")
+    assert os.path.exists(path), "run model/preseason_prior_regression.py"
     d = json.load(open(path))
-    v = d["verdicts"]
-    assert v["yardage_stratum_cuts"].startswith("HIT")
-    for clean in ("TIER_CUTS", "CONV_DEFAULT", "CRED_OPP"):
-        assert v[clean] == "clean", f"{clean} changed verdict without a new entry"
-    # The distinction that makes the rule useful.
-    assert "PARTITION" in d["rule_of_thumb"].upper()
-    # The gap must stay named rather than quietly dropped.
-    assert d["still_unswept"], "unswept constants must stay listed"
-    # And the one real hit must still be reproducible from its own artifact.
-    assert os.path.exists(os.path.join(
-        REPO, "model", "pass_yds_stratum_drift_results.json"))
+
+    assert d["_provenance"]["fit_seasons"] == [2017, 2022]
+    assert d["_provenance"]["graded_seasons"] == [2023, 2025]
+    g = d["holdout_grade"]
+    assert g["regressed_per_component"]["mae"] < g["raw_prev_shipped"]["mae"]
+    # The finding that makes this more than a tweak.
+    assert g["raw_prev_shipped"]["mae"] > g["league_mean_no_prior"]["mae"], \
+        "the raw prior being worse than no prior is the whole argument"
+    assert d["paired_mae_gain"]["significant_at_95"] is True
+
+    # H1a stays rejected: not significant, and negative on both targets.
+    h = d["h1a_continuity_priors"]
+    assert h["verdict"] == "REJECTED"
+    for k in ("interaction_on_point_differential", "interaction_on_voa_rating"):
+        assert abs(h[k]["t"]) < 2, f"{k} would now be significant -- re-open H1a deliberately"
+        assert h[k]["estimate"] < 0, "the interaction was negative; the hypothesis wanted positive"
+
+    # Shipped constants must match what was graded.
+    for comp, rec in d["carryover"].items():
+        assert abs(PRIOR_CARRYOVER[comp][0] - rec["slope"]) < 5e-4, \
+            f"{comp}: shipped coefficient drifted from the graded artifact"
 
 
 

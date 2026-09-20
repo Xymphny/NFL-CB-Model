@@ -71,6 +71,41 @@ def vegas_win_total_to_rating(win_total: float, league: str = "NFL") -> float:
     return (win_pct - 0.5) * 1.0
 
 
+# YEAR-OVER-YEAR CARRYOVER (2026-09-20). The prior was applied RAW --
+# effective_prior = prior_rating -- which asserts that last season's
+# rating carries forward whole. Measured on 2017-2022 it carries at
+# 0.441 (SE 0.063), and below a year-over-year correlation of 0.5 a
+# slope of 1.0 is worse than a slope of ZERO: on held-out 2023-2025 the
+# raw prior scored MAE 0.0913 against 0.0846 for simply predicting the
+# league mean. It was worse than having no prior at all.
+#
+# Regressing it wins on the same held-out seasons: MAE 0.0785, a 13.9%
+# improvement, paired gain +0.0128 (SE 0.0056, t = +2.28), better in
+# each of the three seasons separately. Offense and defense are
+# regressed apart because defense carries over less -- a real fact
+# about football, not a fitting artifact -- and total stays exactly
+# offense minus defense, as it already did.
+#
+# The intercepts are ~0 because VOA is centered; they are carried
+# anyway so the fit is applied as fitted rather than as assumed.
+# model/preseason_prior_regression.py regenerates all of this.
+PRIOR_CARRYOVER = {
+    "offense_voa": (0.432, -0.00333),
+    "defense_voa": (0.3476, 4e-05),
+    "total_rating": (0.4415, -0.00332),
+}
+
+
+def regress_prior(prior_rating: float, component: str = "total_rating") -> float:
+    """Pull a prior-season rating toward the league mean by its measured
+    carryover. An unknown component is returned untouched rather than
+    silently regressed by the wrong coefficient."""
+    if component not in PRIOR_CARRYOVER:
+        return prior_rating
+    slope, intercept = PRIOR_CARRYOVER[component]
+    return slope * prior_rating + intercept
+
+
 def blend_rating(
     prior_rating: float,
     in_season_rating: float,
@@ -79,13 +114,18 @@ def blend_rating(
     vegas_win_total: float = None,
     vegas_weight: float = 0.0,
     league: str = "NFL",
+    carryover: str = None,
 ) -> float:
     """
     The actual blend. If vegas_win_total is provided, it's blended into
     the prior itself at vegas_weight (default 0.0 — off unless real
     line data is supplied) before the credibility weighting is applied.
     """
-    effective_prior = prior_rating
+    # carryover=None leaves the prior untouched, which is what
+    # calibrate_credibility_k.py needs: k=2 was fitted against the raw
+    # prior, so that script must keep measuring the thing it measured.
+    effective_prior = prior_rating if carryover is None else regress_prior(
+        prior_rating, carryover)
     if vegas_win_total is not None and vegas_weight > 0:
         vegas_rating = vegas_win_total_to_rating(vegas_win_total, league=league)
         effective_prior = (1 - vegas_weight) * prior_rating + vegas_weight * vegas_rating
@@ -122,11 +162,11 @@ def blend_team_ratings(
 
         blended.loc[team, "offense_voa"] = blend_rating(
             prior_ratings.loc[team, "offense_voa"], in_season_ratings.loc[team, "offense_voa"],
-            games_played=games_played, k=k,
+            games_played=games_played, k=k, carryover="offense_voa",
         )
         blended.loc[team, "defense_voa"] = blend_rating(
             prior_ratings.loc[team, "defense_voa"], in_season_ratings.loc[team, "defense_voa"],
-            games_played=games_played, k=k,
+            games_played=games_played, k=k, carryover="defense_voa",
         )
 
     blended["total_rating"] = blended["offense_voa"] - blended["defense_voa"]

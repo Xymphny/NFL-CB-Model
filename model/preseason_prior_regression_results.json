@@ -1,0 +1,72 @@
+{
+  "_provenance": {
+    "script": "model/preseason_prior_regression.py",
+    "generated": "2026-09-20",
+    "fit_seasons": [
+      2017,
+      2022
+    ],
+    "graded_seasons": [
+      2023,
+      2025
+    ],
+    "graded_once": true
+  },
+  "h1a_continuity_priors": {
+    "verdict": "REJECTED",
+    "interaction_on_point_differential": {
+      "estimate": -0.3026,
+      "se": 0.3395,
+      "t": -0.89
+    },
+    "interaction_on_voa_rating": {
+      "estimate": -0.1313,
+      "se": 0.3493,
+      "t": -0.38
+    },
+    "tercile_slopes_non_monotonic": [
+      0.432,
+      0.193,
+      0.464
+    ],
+    "note": "Not significant on either target and negative on both -- the opposite sign to the hypothesis. CFB's returning-production discount beats raw prev on NFL history only because it shrinks; a flat shrink does better and preserves rank correlation (0.433 vs 0.399), which the discount degrades. NFL is not CFB, but CFB ships this untested."
+  },
+  "carryover": {
+    "total_rating": {
+      "slope": 0.4415,
+      "intercept": -0.00332,
+      "standard_error": 0.0632
+    },
+    "offense_voa": {
+      "slope": 0.432,
+      "intercept": -0.00333,
+      "standard_error": 0.063
+    },
+    "defense_voa": {
+      "slope": 0.3476,
+      "intercept": 4e-05,
+      "standard_error": 0.0668
+    }
+  },
+  "holdout_grade": {
+    "raw_prev_shipped": {
+      "mae": 0.0913,
+      "rmse": 0.1117
+    },
+    "regressed_per_component": {
+      "mae": 0.0785,
+      "rmse": 0.0955
+    },
+    "league_mean_no_prior": {
+      "mae": 0.0846,
+      "rmse": 0.1063
+    }
+  },
+  "paired_mae_gain": {
+    "estimate": 0.01281,
+    "standard_error": 0.00562,
+    "t": 2.28,
+    "significant_at_95": true
+  },
+  "open": "k=2 was calibrated against the RAW prior. A better prior deserves more weight, so k=2 is now conservative -- but re-tuning it on these same seasons is the leak holdout_discipline.py exists to prevent."
+}

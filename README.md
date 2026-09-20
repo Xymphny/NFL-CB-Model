@@ -921,28 +921,49 @@ highest precedence).
   so a move has to be called out as a move and verified afterwards.
   The verification that caught this was checking the live repo state
   rather than assuming the delivery landed as described.
-- FROZEN-THRESHOLD SWEEP, CLOSED (2026-09-20): the pass_yds finding
-  generalized and finished. One hit, three clean. HIT: the yardage
-  stratum cuts (13.5pp composition shift, explains the gate failure).
-  CLEAN: TIER_CUTS on the TD board, where tier shares move 2.6pp
-  because carries and targets have not fallen the way pass attempts
-  have; CONV_DEFAULT, the red-zone conversion rates pooled over
-  2016-2025, where 2024-25 sits -4.8% to +3.7% against the constants
-  and inside the ordinary season band (c5 alone ranges .389-.433
-  across the decade); CRED_OPP, where pass_yds now takes 2.74 games to
-  reach credibility instead of 2.48 -- a quarter of a game. THE RULE
-  THE SWEEP PRODUCED, which is the part worth keeping: the bug bites
-  where a constant PARTITIONS data, not where it scales or shrinks it.
-  A partition is a step function -- drift moves rows across a boundary
-  and they inherit a different distribution wholesale. A shrinkage
-  denominator is continuous, and its error is proportional rather than
-  discontinuous. So when hunting this class again, look for cuts,
-  terciles, tiers and thresholds, and skip the coefficients.
-  STILL UNSWEPT and named so the gap stays visible: PLAY_GAP/LEAN_GAP
-  and the in-season de-bias offsets -- both partition, so both are
-  candidates by that rule. model/frozen_threshold_sweep.py +
-  _results.json, 1 guard test pinning the verdicts so a finished audit
-  is not repeated.
+- STAGE 3 / H1a REJECTED, AND A BIGGER FIX FOUND UNDER IT
+  (2026-09-20): H1a proposed scaling the preseason prior by roster
+  continuity -- the thing CFB's prior already does
+  (`discounted_rating = returning_production_pct * last_season_rating`,
+  on a hardcoded 2026 table its own docstring admits was never
+  validated historically). Returning production was computed for every
+  NFL team-season 2017-2025 from player-week touches (median 73%,
+  range 21-99%, face-valid extremes: 2021 DET at 21% after the
+  Stafford teardown, 2017 SF at 21% in Shanahan's first year).
+  REJECTED: the interaction is -0.3026 (SE 0.3395, t=-0.89) against
+  point differential and -0.1313 (SE 0.3493, t=-0.38) against the
+  actual VOA rating -- insignificant on both and NEGATIVE on both,
+  the opposite sign to the hypothesis; tercile slopes run
+  0.432 / 0.193 / 0.464, non-monotonic, the shape of noise. AND A
+  NOTE ON CFB'S LIVE METHOD: on NFL history `returning * prev` does
+  beat raw `prev` on MAE (4.74 vs 5.14), but only because multiplying
+  by ~0.7 shrinks toward the mean. A FLAT shrink beats it (4.58) and
+  keeps rank correlation at 0.433 where the returning-discount drops
+  it to 0.399. The gain is the shrinkage; the continuity is the
+  costume. NFL is not CFB and college turnover is far harsher, but
+  CFB ships this untested by its own admission and that now looks
+  worth testing.
+  THE FIX UNDERNEATH: model/preseason_prior.py used the prior RAW
+  (`effective_prior = prior_rating`), asserting last season carries
+  forward whole. It carries at 0.441 (SE 0.063). Below a
+  year-over-year correlation of 0.5 a slope of 1.0 is worse than a
+  slope of ZERO -- and it was: on held-out seasons the raw prior
+  scored MAE 0.0913 against 0.0846 for simply predicting the league
+  mean. THE SHIPPED PRIOR WAS WORSE THAN HAVING NO PRIOR. Regressing
+  it, fit on 2017-2022 and graded once on 2023-2025: MAE 0.0785, a
+  13.9% improvement, paired gain +0.0128 (SE 0.0056, t=+2.28), better
+  in each of the three held-out seasons separately. Offense and
+  defense regress apart (0.432 vs 0.348 -- defense carries over less,
+  a real fact about football) and total stays exactly offense minus
+  defense. LEFT ALONE DELIBERATELY: k=2 was calibrated against the RAW
+  prior, so a better prior deserves more weight and k=2 is now
+  conservative -- but re-tuning k on these same seasons is the leak
+  holdout_discipline.py exists to prevent, so blend_rating takes an
+  explicit carryover= argument that the k-calibration script does not
+  pass, keeping it measuring the thing it was fitted against.
+  model/preseason_prior_regression.py + _results.json, 2 guard tests
+  (one of which caught me shipping guessed intercepts instead of the
+  fitted ones).
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).
