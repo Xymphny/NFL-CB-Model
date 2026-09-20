@@ -135,20 +135,8 @@ def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
             import statistics
             fair = statistics.median(_implied(p) for _, p in priced)
             ev = _decimal(best_p) * fair - 1
-            # Longshot guard (audit catch 2026-09-20: a fringe receiver's
-            # anytime TD ranked as "+93% EV" -- the top card on the live
-            # board). Median-implied fair value is least trustworthy
-            # exactly where prices are long: there is no two-way de-vig,
-            # longshot bias means true probability sits BELOW any
-            # implied estimate, and huge price dispersion on tails is
-            # usually one stale quote, not free money. Yes-market EV is
-            # only claimable at fair_prob >= 0.20.
-            if fair >= 0.20:
-                out["edge"] = {"side": "yes", "ev_pct": round(ev * 100, 2), "fair_prob": round(fair, 4),
-                               "n_books": len(priced), "price": best_p, "book": best_b, "basis": "median-implied (vig-in, conservative)"}
-        if out.get("edge") and out["edge"]["ev_pct"] > 20:
-            out["suspect_quote"] = out["edge"]
-            out["edge"] = None
+            out["edge"] = {"side": "yes", "ev_pct": round(ev * 100, 2), "fair_prob": round(fair, 4),
+                           "n_books": len(priced), "price": best_p, "book": best_b, "basis": "median-implied (vig-in, conservative)"}
         return out
     lined = [(b, q) for b, q in quotes.items() if q.get("line") is not None]
     if not lined:
@@ -173,12 +161,6 @@ def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
         side = max(evs, key=evs.get)
         out["edge"] = {"side": side, "ev_pct": round(evs[side] * 100, 2), "fair_prob": round(fair_over if side == "over" else 1 - fair_over, 4),
                        "n_books": len(two_way), "price": out[side]["price"], "book": out[side]["book"], "basis": "de-vigged consensus at matching line"}
-    # Stale-quote guard: any single book beating the whole consensus by
-    # >20% EV is far more likely an un-updated line than an edge --
-    # surface it as a suspect quote, never as a ranked play.
-    if out.get("edge") and out["edge"]["ev_pct"] > 20:
-        out["suspect_quote"] = out["edge"]
-        out["edge"] = None
     return out
 
 
@@ -195,6 +177,13 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
     player in `description`, Over/Under in `name`); first live run
     verifies it like every external feed before it."""
     out_path = os.path.join(data_dir, "props", f"{season}-week-{week:02d}.json")
+    projector = None
+    try:
+        from model.player_projection import LiveProjector
+        projector = LiveProjector(season)
+        print("[props] projection engine loaded (watch mode; pass_yds withheld)")
+    except Exception as proj_err:
+        print(f"[props] projection engine unavailable, market-only board: {proj_err}")
     if os.path.exists(out_path):
         try:
             if json.load(open(out_path)).get("format", 1) >= PROPS_FORMAT:
@@ -236,6 +225,20 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
             for mk_key, mk_rows in markets.items():
                 for row in mk_rows.values():
                     row.update(consensus_edge(row["books"], yes_market=(mk_key == "player_anytime_td")))
+            # Player-projection second opinion (WATCH MODE): calibrated
+            # markets only -- pass_yds is withheld by its held-out
+            # failure. Informational, never a verdict input. Soft-fail.
+            if projector is not None:
+                ht = ODDS_TEAM_TO_ABBR.get(ev.get("home_team"), ev.get("home_team"))
+                at = ODDS_TEAM_TO_ABBR.get(ev.get("away_team"), ev.get("away_team"))
+                for mk_key, mk_rows in markets.items():
+                    for pl, row in mk_rows.items():
+                        try:
+                            op = projector.prop_opinion(pl, ht, at, mk_key, row.get("line"))
+                        except Exception:
+                            op = None
+                        if op:
+                            row["model"] = op
             games[f"{ODDS_TEAM_TO_ABBR.get(ev.get('away_team'), ev.get('away_team'))}@{ODDS_TEAM_TO_ABBR.get(ev.get('home_team'), ev.get('home_team'))}"] = {
                 "kickoff": ev.get("commence_time"), "markets": markets}
     if not games:
@@ -245,7 +248,7 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
                   for r in m.values() if r.get("edge") and r["edge"].get("ev_pct") is not None)
     payload = _json_sanitize({
         "season": season, "week": week, "format": PROPS_FORMAT,
-        "note": ("Market-derived edges only: the fair value here is the DE-VIGGED MULTI-BOOK CONSENSUS, "
+        "note": ("Market-derived edges plus, where shown, a WATCH-MODE opinion from the player projection engine (calibrated held-out; pass yards withheld by its failed gate; graded live before it ever drives a verdict). Fair value for edges is the DE-VIGGED MULTI-BOOK CONSENSUS, "
                  "and the edge is the best available price against it -- this finds mispriced BOOKS, "
                  "not mispriced players. No player projection model exists here; nothing on this page "
                  "is a model opinion, and these are not Play/Lean verdicts."),

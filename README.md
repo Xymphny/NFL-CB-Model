@@ -615,6 +615,29 @@ highest precedence).
   pbp pressure proxy (PFF-class), FTN charting, CFB roster priors,
   quantified QB adjustment (worse in backup games -- QB info is fully
   priced; annotation-only design is doubly evidence-backed).
+- PLAYER PROJECTION ENGINE v2 (2026-09-20): sovereign (team-model-blind)
+  usage x efficiency engine with DNP-decayed EWMA states, volume-stratified
+  empirical outcome distributions (train <= 2023, frozen). v2 rebuilt the
+  TD model causally: lambda = star-tier credibility base (shrink toward the
+  (position, volume-tier) mean, workhorses trusted with k=1.5 vs fringe
+  k=5) x sqrt-damped team-TD-environment ratio (QB injuries and team
+  changes flow in immediately instead of by EWMA lag) x opponent
+  TD-defense multiplier, then P(score) = 1 - exp(-a_tier * lambda^0.4)
+  with a/b fit on train (the b < 1 concavity is what earns the causal
+  channels their place: raw multipliers ran ~12pp hot at the top because
+  hot streaks mean-revert; with it, env+opp beats channels-off on train
+  log-loss AND calibrates held-out). Also: burn-in exclusion -- 2016, the
+  cold-start season, is a violent within-train outlier in every market's
+  ratio distribution (KS D 0.31/0.20/0.14 vs <= 0.10 for all later
+  seasons) and is now excluded from shape fitting; this, not era drift,
+  was most of pass_yds' v1 failure. HELD-OUT 2024-25 verdict: anytime_td
+  within 1.5pp in every probability bucket and every tier (conservative
+  side); rec_yds within 0.4pp at every synthetic line; rush_yds passes
+  1.6-2.9pp conservative -> all three live in WATCH MODE on prop cards;
+  pass_yds improved from +5-8pp to +2-6pp hot -> STILL WITHHELD (the
+  remainder is a train/test shape mismatch no train-only fit can see);
+  point estimates still trail trailing-4 baselines -> still not quoted.
+  Grading of live watch-mode opinions precedes any verdict authority.
 - COACH REGIME (2026-09-18): early-season flags BACKING first-year
   external-HC teams went 0/9 ATS (2016-2023, model/coach_regime_experiment.py);
   faded-regime flags graded at baseline. Shipped as a narrow Lean cap on

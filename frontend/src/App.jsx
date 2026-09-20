@@ -607,12 +607,6 @@ function KpiStrip({ perf }) {
       note: 'Mean abs. error, points',
       tone: '',
     },
-    {
-      label: 'Signal calibration',
-      value: perf && perf.calibration && perf.calibration.slope_model != null ? perf.calibration.slope_model.toFixed(2) : '—',
-      note: perf && perf.calibration ? `market ${perf.calibration.slope_market != null ? perf.calibration.slope_market.toFixed(2) : '—'} · 1.00 = honest amplitude · ${perf.calibration.n_games} priced games` : 'Needs ~8 finished games',
-      tone: perf && perf.calibration && perf.calibration.slope_model != null && perf.calibration.slope_model >= 0.85 && perf.calibration.slope_model <= 1.15 ? 'up' : '',
-    },
   ]
 
   return (
@@ -869,11 +863,7 @@ function PlayersTab({ playerLeaders, manifest }) {
             for (const [gm, gdata] of Object.entries(propsState.data.games)) {
               for (const [mk, players] of Object.entries(gdata.markets)) {
                 for (const [pl, r] of Object.entries(players)) {
-                  const e = r.edge
-                  // Mirror the backend guards for files written before them:
-                  // no yes-market longshots (fair < 20%), no >20% "edges"
-                  // (stale quotes, not opportunities).
-                  if (e && e.ev_pct != null && e.ev_pct <= 20 && (e.side !== 'yes' || e.fair_prob >= 0.20)) rows.push({ gm, mk, pl, r, kickoff: gdata.kickoff })
+                  if (r.edge && r.edge.ev_pct != null) rows.push({ gm, mk, pl, r, kickoff: gdata.kickoff })
                 }
               }
             }
@@ -907,6 +897,9 @@ function PlayersTab({ playerLeaders, manifest }) {
                         <div className="card-chips">
                           <span className="card-chip">Best: {r.edge.price > 0 ? `+${r.edge.price}` : r.edge.price} ({r.edge.book}) · consensus fair {(r.edge.fair_prob * 100).toFixed(1)}% across {r.edge.n_books} books</span>
                           <span className="card-chip">{r.edge.basis}</span>
+                          {r.model && (
+                            <span className="card-chip">Engine (watch): {r.model.kind === 'score' ? `${Math.round(r.model.p_score * 100)}% to score` : `${Math.round(r.model.p_over * 100)}% over · median ${r.model.median}`}</span>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -936,7 +929,7 @@ function PlayersTab({ playerLeaders, manifest }) {
                 <div key={mk} className="props-market">
                   <h4 className="props-market-title">{MARKET_LABELS[mk] || mk}</h4>
                   <table className="ratings-table props-table">
-                    <thead><tr><th>Player</th><th className="numeric">Line</th><th className="numeric">Best Over</th><th className="numeric">Best Under / Yes</th></tr></thead>
+                    <thead><tr><th>Player</th><th className="numeric">Line</th><th className="numeric">Best Over</th><th className="numeric">Best Under / Yes</th><th className="numeric">Engine</th></tr></thead>
                     <tbody>
                       {Object.entries(players).sort((a, b) => (b[1].line || 0) - (a[1].line || 0)).map(([pl, row]) => (
                         <tr key={pl}>
@@ -944,6 +937,7 @@ function PlayersTab({ playerLeaders, manifest }) {
                           <td className="numeric">{row.line != null ? row.line : '—'}</td>
                           <td className="numeric">{row.over ? `${fmtPrice(row.over.price)} (${row.over.book})` : '—'}</td>
                           <td className="numeric">{row.under ? `${fmtPrice(row.under.price)} (${row.under.book})` : row.yes ? `${fmtPrice(row.yes.price)} (${row.yes.book})` : '—'}</td>
+                          <td className="numeric">{row.model ? (row.model.kind === 'score' ? `${Math.round(row.model.p_score * 100)}%` : `${Math.round(row.model.p_over * 100)}% o`) : '—'}</td>
                         </tr>
                       ))}
                     </tbody>
