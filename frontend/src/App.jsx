@@ -800,9 +800,9 @@ const GATES = [
   {
     status: 'disclosed', tone: 'watch',
     title: 'Flagged spreads: breakeven not demonstrated',
-    evidence: '1,964 walk-forward games \u00b7 Play tier 51.2% \u00b7 needs 52.4%',
+    evidence: '1,964 walk-forward games \u00b7 Play tier 51.7% \u00b7 needs 52.4%',
     source: 'data/spread_validation.json',
-    body: 'The 4-point Play threshold has never had a committed backtest behind it. Measured across ten seasons it hits 51.2% against the 52.4% a \u2212110 bet needs, with a confidence interval that contains breakeven \u2014 not proof it loses, but no evidence it wins. Season records swing from 44% to 61%, which is what a near coin flip looks like at ~70 games a year. Published here rather than quietly assumed.',
+    body: 'The 4-point Play threshold has never had a committed backtest behind it. Measured across ten seasons in the configuration that actually ships \u2014 full ensemble where NGS is present, plus the in-season de-bias \u2014 it hits 51.7% against the 52.4% a \u2212110 bet needs, with a confidence interval that contains breakeven. Not proof it loses; no evidence it wins. Season records swing from 44% to 61%, which is what a near coin flip looks like at ~70 games a year. Published rather than quietly assumed.',
   },
 ]
 

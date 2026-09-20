@@ -1121,6 +1121,50 @@ highest precedence).
   requirements.txt is installable at all -- something a hand-picked
   list silently never does. Reproduced locally in a venv holding
   exactly what CI held, before and after.
+- THE FOUR OPEN THREADS, CLOSED (2026-09-20): the items left named
+  but unaddressed, taken as a batch.
+  (1) DE-BIAS OFFSETS SWEPT -- the last frozen threshold. Its
+  `len(s_res) >= 8` guard is a partition, the shape that produced the
+  pass_yds bug, and it is INERT: no slate in 2016-2025 weeks 4-17 had
+  fewer than eight priced games. The de-bias itself helps modestly
+  (play tier 51.18% -> 52.53% on the rating-only path), the opposite
+  of the concern.
+  (2) AND SWEEPING IT EXPOSED A SECOND SCOPE ERROR IN MY OWN SPREAD
+  FIGURES. They graded V1_RATING_ONLY with NO de-bias; the board uses
+  full_ensemble wherever NGS is present AND de-biases every number.
+  Re-measured as shipped: MAE 10.436 (market 10.099), prediction sd
+  5.81 (market 6.24), Play tier 51.70% with interval [.473, .561].
+  THE CONCLUSION SURVIVES -- still no evidence the threshold clears
+  52.4% -- BUT ONE ARGUMENT IS WITHDRAWN: the compression claim. The
+  shipped spread model has sd 5.81 against the market's 6.24, not the
+  3.79 the rating-only path showed. It is NOT a near-constant fading
+  market extremes the way the totals model demonstrably is, and saying
+  so was overreach.
+  (3) ELO GAP RESOLVED, NOT SHIPPED. The rating-only vector carries no
+  elo term, so the NGS fix removed Elo wherever NGS is missing. Fitted
+  on NGS-absent train games, elo_diff is t=+4.14; graded held-out with
+  full-slate de-bias it gains +0.0995 MAE (SE 0.0690, t=1.44) --
+  directional, not significant. And the exposure is narrow: 471 of
+  1,964 games are NGS-absent, almost all 2016-2017, roughly 13 a
+  season since. EXCEPT during an NGS outage, when it is every game on
+  the board -- which is what the first weeks of 2026 were. Left
+  unshipped on the same gate everything else got; the outage case is
+  the reason to revisit.
+  (4) CFB RETURNING PRODUCTION -- split verdict, honestly. The direct
+  test needs CFBD /player/returning; the host is unreachable from both
+  this container and the desktop (curl 000) and CFBD_API_KEY is
+  Render-only, so it is NOT answered and is marked so. What IS
+  measurable from committed data: CFB's year-over-year carryover,
+  recovered by least squares from cfb_full_walk_forward_cache.csv
+  (residuals ~0.06). 2021->2022 0.467, 2022->2023 0.417, average
+  0.442 -- against NFL's measured 0.441. Two leagues with roughly 40%
+  and 10% annual roster churn carry last season forward by the same
+  fraction. The shipped discount averages ~0.55, so it UNDER-SHRINKS
+  by about a quarter, but is far closer than no discount, which is
+  what the NFL prior did until today. Its team-specific variation
+  stays untested. Nothing changed.
+  model/cfb_carryover_check.py + _results.json, spread validation
+  regenerated, 2 guard tests (36 total).
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

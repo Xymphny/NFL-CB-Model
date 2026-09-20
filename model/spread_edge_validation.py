@@ -13,60 +13,57 @@ the weeks before each game, margins from
 MARGIN_COEFFICIENTS_V1_RATING_ONLY -- the vector selected whenever NGS
 is absent -- graded against nflverse closing lines, pushes dropped.
 
-SCOPE CORRECTION (2026-09-20, same day). An earlier version of this
-file called that "the coefficient vector the board actually uses now
-... which is every 2026 board". That was true when it was written and
-stopped being true hours later: NGS came back online between the 16:01
-and 20:04 UTC boards, and the 20:04 board prices six of its seven live
-games on `full_ensemble`, one on the rating-only path, with the rest
-preserved from earlier snapshots. So the numbers below describe the
-NGS-ABSENT configuration. That configuration is not hypothetical -- it
-ran for the whole NGS outage and still runs per-game whenever a team
-is missing from the NGS frame -- but it is not unconditionally what
-ships, and this file should not be read as having graded the live
-board. Re-run it against the full-ensemble path before treating the
-ATS figures as a verdict on what is on the board today.
+SCOPE CORRECTED TWICE (2026-09-20). The figures below now grade what
+actually ships. Two errors preceded them, both mine, both the same
+shape -- measuring a simpler thing than the board runs:
 
-A SECOND THING THAT FELL OUT OF CHECKING. A single slate can carry
-BOTH vectors, which the new coefficient_set stamp made visible for the
-first time. Both predict margins in points, so they are not
-unit-incompatible, but they are differently confident: held out, the
-rating-only path's predictions have sd 3.880 against ~5.8 for one
-carrying Elo. One fixed 4.0-point threshold is therefore being applied
-to gaps drawn from two distributions. On the 20:04 board the lone
-rating-only game's gap is -0.23 and nothing flags, so no harm today --
-but "which model priced this edge" is now a question the board can
-answer and the threshold does not ask.
+  1. WRONG COEFFICIENTS. The first version called
+     MARGIN_COEFFICIENTS_V1_RATING_ONLY "the vector the board actually
+     uses now ... every 2026 board". NGS came back online hours later
+     and most games price on `full_ensemble`. Across 2016-2025 the
+     split is 1,493 full-ensemble to 471 rating-only -- and the
+     rating-only games are almost all 2016-2017, with roughly 13 a
+     season since.
+  2. NO DE-BIAS. The board adds an in-season offset to every model
+     number (inseason_offsets in deploy/odds_watch_job.py): the median
+     of market-minus-model across the slate, centering the model's
+     slate on the market's. The walk-forward did not, so it graded a
+     model the board has never shipped.
 
-WHAT IT FOUND (n=1,964):
+WHAT EACH CORRECTION WAS WORTH (2016-2025, n=1,964, pushes dropped):
 
-  threshold             n      ATS     95% CI          needs 52.4%
-  Lean |gap| >= 2.5   1155   49.70%  [.468, .526]          no
-  Play |gap| >= 4.0    719   51.18%  [.475, .548]          no
-  |gap| >= 6           335   53.73%  [.484, .591]          no
-  all games           1964   49.80%  [.476, .520]      z = -2.31
+  configuration                        MAE    pred sd   Play ATS
+  rating-only, no de-bias (published) 10.724    3.79     51.18%
+  rating-only + de-bias               10.687    4.11     52.53%
+  FULL ENSEMBLE + de-bias (SHIPPED)   10.436    5.81     51.70%
+  market                              10.099    6.24       --
 
-The Play threshold -- the one that takes a full unit -- sits at 51.18%
-against the 52.4% a -110 bet needs. Its interval contains breakeven,
-so this is not proof the threshold loses; it is the absence of
-evidence that it wins, across ten seasons and 719 flagged games.
+THE CONCLUSION SURVIVES; ONE OF ITS ARGUMENTS DOES NOT. The Play tier
+still does not clear the 52.4% a -110 bet needs -- 51.70%, interval
+[.473, .561], spanning breakeven. But the compression argument the
+first version leaned on is much weaker for the real configuration:
+the shipped model's predictions have sd 5.81 against the market's
+6.24, not the 3.79-vs-6.24 the rating-only path showed. The shipped
+spread model is NOT a near-constant fading market extremes the way
+the totals model demonstrably is. That distinction was overstated and
+is withdrawn.
 
-Season by season at the Play threshold: 53.7, 44.4, 48.2, 51.3, 57.0,
-47.3, 60.9, 54.8, 45.5, 50.0. Five above breakeven and five below,
-swinging 16 points either side -- exactly what a near-coin-flip looks
-like at ~70 games a season, and a warning about reading any single
-season's record as signal.
+THE DE-BIAS ITSELF, swept because it was the last frozen threshold
+left unchecked. Its `len(s_res) >= 8` guard is a partition -- below
+eight priced games the offset is zero, at eight it is the full median
+-- and partitions are the shape that produced the pass_yds bug. It is
+INERT: no slate in 2016-2025 weeks 4-17 had fewer than eight priced
+games, so the branch never fires. The de-bias itself helps modestly
+and consistently (the middle row above), which is the opposite of the
+concern.
 
-WHY THIS IS NOT THE TOTALS CASE, and is not treated the same. Totals
-were withheld on three findings together: pooled BELOW 50%, a model
-that loses to the market on MAE, and predictions so compressed
-(sd 2.5 against the market's 4.3) that its disagreements were 81%
-explained by the market's own number -- it was fading extremes toward
-the league average, not reading the teams. Spreads share the first
-concern but not the third to the same degree, and the Play threshold
-is above 50% rather than below it. Withholding the entire board on
-this evidence would be a bigger call than the evidence supports, and
-it is not one to make unilaterally. The number is published instead.
+MIXED-PATH SLATES. A single slate can carry both vectors, which the
+coefficient_set stamp made visible. Both predict margins in points, so
+they are not unit-incompatible, but one fixed 4.0-point threshold is
+applied to gaps from two distributions. In the modern era this touches
+roughly 13 games a season -- except during an NGS outage, when it
+touches every game on the board, which is what happened for the first
+weeks of 2026.
 
 THE ELO GAP, found while measuring this. The NGS fix restored the team
 rating and silently dropped Elo: MARGIN_COEFFICIENTS carries

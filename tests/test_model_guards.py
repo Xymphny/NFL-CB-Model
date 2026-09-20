@@ -805,6 +805,46 @@ def test_regime_cap_number_matches_its_artifact():
 
 
 
+def test_spread_validation_grades_what_ships():
+    """Twice this figure graded a simpler model than the board runs --
+    wrong coefficients, then no de-bias. Pin it to the shipped
+    configuration so a third version cannot drift back."""
+    import json
+    v = json.load(open(os.path.join(REPO, "data", "spread_validation.json")))
+    prov = v["_provenance"]
+    assert "full_ensemble" in prov["coefficients"], "must grade the shipped coefficient path"
+    assert "applied" in prov["debias"], "the board de-biases; the grade must too"
+    assert prov["coefficient_split"], "the path split must be recorded"
+    play = [b for b in v["shipped"]["by_threshold"] if b["tier"] == "play"][0]
+    assert not play["clears_breakeven"] and play["ci95"][0] < 0.524 < play["ci95"][1]
+    # The compression argument was withdrawn -- the shipped model is not near-constant.
+    assert v["shipped"]["prediction_sd"] > 5.0, \
+        "the shipped model's spread collapsed; the withdrawn compression claim may be back"
+    assert "compression_claim_withdrawn" in v
+    # The de-bias guard is inert, not a frozen-threshold bug.
+    assert v["debias_sweep"]["verdict"] == "inert"
+    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    assert f'Play tier {play["ats"]*100:.1f}%' in app, "the card must quote the shipped figure"
+
+
+def test_cfb_carryover_recorded_without_overclaiming():
+    """CFB's returning-production discount could not be tested directly
+    here -- CFBD is unreachable. What was measurable is recorded, and
+    what was not must stay marked as not tested."""
+    import json
+    d = json.load(open(os.path.join(REPO, "model", "cfb_carryover_check_results.json")))
+    assert 0.3 < d["cfb_carryover"] < 0.6
+    assert abs(d["cfb_carryover"] - d["nfl_carryover"]) < 0.05, \
+        "the two leagues' carryover converged; if that changed, the write-up is stale"
+    assert "not_tested_here" in d and "unreachable" in d["not_tested_here"]
+    assert d["next_test"], "the test that could not run must stay named"
+    # And nothing was silently changed in the CFB prior on this evidence.
+    src = open(os.path.join(REPO, "model", "cfb_preseason_prior.py")).read()
+    assert "returning_production_pct" in src, \
+        "the CFB prior changed; this check assumed it was left alone"
+
+
+
 if __name__ == "__main__":
     # RUN EVERYTHING, THEN REPORT (2026-09-20). This loop used to let
     # the first failure abort the process. On 2026-09-20 one stale file

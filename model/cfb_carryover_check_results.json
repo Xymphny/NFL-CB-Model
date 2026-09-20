@@ -1,0 +1,30 @@
+{
+  "_provenance": {
+    "script": "model/cfb_carryover_check.py",
+    "generated": "2026-09-20",
+    "source": "model/cfb_full_walk_forward_cache.csv (committed)",
+    "method": "per-team season ratings recovered by least squares from rating_diff, identified up to an additive constant"
+  },
+  "not_tested_here": "Whether CFB returning production modulates carryover. That needs CFBD /player/returning; api.collegefootballdata.com is unreachable from this container and the desktop (curl 000) and CFBD_API_KEY is a Render-only env var.",
+  "transitions": [
+    {
+      "from": 2021,
+      "to": 2022,
+      "carryover": 0.4675,
+      "r": 0.4327,
+      "n_teams": 130
+    },
+    {
+      "from": 2022,
+      "to": 2023,
+      "carryover": 0.4173,
+      "r": 0.3998,
+      "n_teams": 131
+    }
+  ],
+  "cfb_carryover": 0.4424,
+  "nfl_carryover": 0.441,
+  "shipped_discount_mean": 0.55,
+  "verdict": "Size roughly right and far better than no discount; team-specific variation is the part the NFL test found to be noise and is untested for CFB. Nothing changed.",
+  "next_test": "ingest/cfb_roster_priors.build_roster_priors([2021, 2022, 2023]), then interact returning production with the carryover above."
+}

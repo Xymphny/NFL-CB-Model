@@ -7,9 +7,14 @@
       2016,
       2025
     ],
-    "coefficients": "MARGIN_COEFFICIENTS_V1_RATING_ONLY -- the NGS-ABSENT path, not unconditionally the live one",
+    "coefficients": "as shipped: full_ensemble when NGS present, V1_RATING_ONLY otherwise",
     "method": "walk-forward; ratings use only weeks before each game",
-    "scope_correction": "An earlier version called this the vector the board uses 'now ... every 2026 board'. NGS came back online between the 16:01 and 20:04 UTC boards on 2026-09-20; the 20:04 board prices 6 of 7 live games on full_ensemble. These figures grade the NGS-absent configuration, which ran through the outage and still runs per-game when a team is missing from the NGS frame -- but they do not grade today's board."
+    "scope_correction": "Corrected twice. The first version graded V1_RATING_ONLY with no de-bias -- neither is what ships. Both errors were the same shape: measuring a simpler thing than the board runs.",
+    "debias": "applied, as the board does (median slate residual added to every model number)",
+    "coefficient_split": {
+      "full_ensemble": 1493,
+      "v1_rating_only_no_ngs": 471
+    }
   },
   "supported": false,
   "action": "DISCLOSED, NOT WITHHELD",
@@ -17,45 +22,31 @@
     {
       "tier": "lean",
       "min_abs_gap": 2.5,
-      "n": 1155,
-      "ats": 0.497,
-      "se": 0.0147,
+      "n": 878,
+      "ats": 0.5103,
+      "se": 0.0169,
       "ci95": [
-        0.468,
-        0.526
+        0.477,
+        0.543
       ],
       "clears_breakeven": false
     },
     {
       "tier": "play",
       "min_abs_gap": 4.0,
-      "n": 719,
-      "ats": 0.5118,
-      "se": 0.0186,
+      "n": 501,
+      "ats": 0.517,
+      "se": 0.0223,
       "ci95": [
-        0.475,
-        0.548
-      ],
-      "clears_breakeven": false
-    },
-    {
-      "tier": "gap_6",
-      "min_abs_gap": 6.0,
-      "n": 335,
-      "ats": 0.5373,
-      "se": 0.0272,
-      "ci95": [
-        0.484,
-        0.591
+        0.473,
+        0.561
       ],
       "clears_breakeven": false
     }
   ],
   "pooled": {
     "n": 1964,
-    "ats": 0.498,
-    "se": 0.0113,
-    "z_vs_breakeven": -2.31
+    "note": "see shipped.by_threshold; pooled over all games is not the bet the board makes"
   },
   "play_threshold_by_season": {
     "2016": 0.537,
@@ -88,5 +79,108 @@
     "observed": "2026-week-02 20:04Z: 6 full_ensemble, 1 v1_rating_only_no_ngs, rest preserved",
     "concern": "Both vectors predict margins in points, so they are not unit-incompatible, but held out the rating-only path's predictions have sd 3.880 against ~5.8 for one carrying Elo. A single 4.0-point threshold is applied to gaps drawn from two distributions.",
     "harm_today": "the lone rating-only game's gap is -0.23; nothing flags"
+  },
+  "shipped": {
+    "mae": 10.436,
+    "prediction_sd": 5.808,
+    "by_threshold": [
+      {
+        "tier": "lean",
+        "min_abs_gap": 2.5,
+        "n": 878,
+        "ats": 0.5103,
+        "se": 0.0169,
+        "ci95": [
+          0.477,
+          0.543
+        ],
+        "clears_breakeven": false
+      },
+      {
+        "tier": "play",
+        "min_abs_gap": 4.0,
+        "n": 501,
+        "ats": 0.517,
+        "se": 0.0223,
+        "ci95": [
+          0.473,
+          0.561
+        ],
+        "clears_breakeven": false
+      }
+    ]
+  },
+  "variants_for_comparison": {
+    "rating_only_no_debias_originally_published": {
+      "mae": 10.724,
+      "prediction_sd": 3.786,
+      "by_threshold": [
+        {
+          "tier": "lean",
+          "min_abs_gap": 2.5,
+          "n": 1155,
+          "ats": 0.497,
+          "se": 0.0147,
+          "ci95": [
+            0.468,
+            0.526
+          ],
+          "clears_breakeven": false
+        },
+        {
+          "tier": "play",
+          "min_abs_gap": 4.0,
+          "n": 719,
+          "ats": 0.5118,
+          "se": 0.0186,
+          "ci95": [
+            0.475,
+            0.548
+          ],
+          "clears_breakeven": false
+        }
+      ]
+    },
+    "rating_only_with_debias": {
+      "mae": 10.687,
+      "prediction_sd": 4.115,
+      "by_threshold": [
+        {
+          "tier": "lean",
+          "min_abs_gap": 2.5,
+          "n": 1066,
+          "ats": 0.5047,
+          "se": 0.0153,
+          "ci95": [
+            0.475,
+            0.535
+          ],
+          "clears_breakeven": false
+        },
+        {
+          "tier": "play",
+          "min_abs_gap": 4.0,
+          "n": 672,
+          "ats": 0.5253,
+          "se": 0.0193,
+          "ci95": [
+            0.488,
+            0.563
+          ],
+          "clears_breakeven": false
+        }
+      ]
+    },
+    "market": {
+      "mae": 10.099,
+      "prediction_sd": 6.236
+    }
+  },
+  "compression_claim_withdrawn": "The first version argued the model's predictions were compressed (sd 3.79 vs the market's 6.24). That was the rating-only path. The shipped model has sd 5.81 against 6.24 -- the spread model is NOT a near-constant fading market extremes the way the totals model demonstrably is.",
+  "debias_sweep": {
+    "guard": "len(s_res) >= 8",
+    "verdict": "inert",
+    "evidence": "no slate in 2016-2025 weeks 4-17 had fewer than 8 priced games",
+    "effect": "de-bias helps modestly: play tier 51.18% -> 52.53% on the rating-only path"
   }
 }
