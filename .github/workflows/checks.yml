@@ -42,11 +42,18 @@ jobs:
         with:
           python-version: '3.11'
           cache: pip
-      # Only what the suites import. The full requirements.txt carries
-      # pyreadr and pyarrow, which need a toolchain and are not used by
-      # either suite -- installing them here would buy build time and
-      # no coverage.
-      - run: pip install "pandas>=2.0" "numpy>=1.24" "scipy>=1.11"
+      # Install the DECLARED environment, not a hand-picked subset.
+      # The first version of this file installed only pandas, numpy and
+      # scipy, reasoning from the imports written at the top of the two
+      # test files. That missed `requests`, which arrives transitively
+      # through deploy/odds_watch_job.py and deploy/weekly_job.py, and
+      # four guard tests failed on the first CI run. It also assumed
+      # pyreadr and pyarrow needed a toolchain; they ship wheels, and
+      # the whole file installs in about eight seconds.
+      #
+      # Installing requirements.txt also checks that requirements.txt
+      # is installable, which a hand-picked list silently never does.
+      - run: pip install -r requirements.txt
       - name: guard tests
         run: python3 tests/test_model_guards.py
       - name: parser regression tests

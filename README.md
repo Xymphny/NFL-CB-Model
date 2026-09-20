@@ -1108,7 +1108,19 @@ highest precedence).
   Both were regression-tested against the real failure by reverting
   the chip text to 0/9: the script exits 1 and BOTH suites fire, the
   parser test on the changed string and the new guard on the artifact
-  mismatch.
+  mismatch. AND CI CAUGHT ME ON ITS FIRST RUN, which is the best
+  possible advertisement for it. The workflow installed only pandas,
+  numpy and scipy -- reasoned from the imports written at the top of
+  the two test files -- and four guard tests failed on `requests`,
+  which arrives transitively through deploy/odds_watch_job.py and
+  deploy/weekly_job.py. The same mistake shape as everything else
+  today: checked the direct thing, missed what it pulls in. It now
+  installs requirements.txt, which is the declared environment, takes
+  about eight seconds (pyreadr and pyarrow ship wheels, contrary to
+  the comment I wrote) and has the side benefit of checking that
+  requirements.txt is installable at all -- something a hand-picked
+  list silently never does. Reproduced locally in a venv holding
+  exactly what CI held, before and after.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).
