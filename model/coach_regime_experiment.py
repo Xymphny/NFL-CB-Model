@@ -68,10 +68,27 @@ def main():
         lambda r: (r["season"], r["home_team"]) in ext or (r["season"], r["away_team"]) in ext, axis=1)
     print(f"early-season games with lines: {len(early)} | regime games: {early['regime_game'].sum()}")
 
+    # EVIDENCE ARTIFACT (2026-09-20). The 0/9 result this script
+    # produces is quoted verbatim to users on the live board and
+    # underwrites a staking rule, but existed only as stdout from a
+    # run nobody can reproduce without several minutes of pbp+NGS
+    # downloads. Every graded cell is now captured and written to
+    # model/coach_regime_results.json, following the precedent set by
+    # model/cfb_backtest_2023_results.json.
+    captured = []
+
     def grade(df, label, min_edge):
         d = df[df["edge"].abs() >= min_edge]
         pushes = d["actual_margin"] == d["spread_line"]
         win = ((d["edge"] > 0) == (d["actual_margin"] > d["spread_line"]))[~pushes]
+        captured.append({
+            "label": label.strip(), "min_edge": min_edge,
+            "n_flags": int(len(d)), "n_graded": int(len(win)),
+            "wins": int(win.sum()) if len(win) else 0,
+            "pushes": int(pushes.sum()),
+            "ats_pct": round(float(win.mean() * 100), 2) if len(win) else None,
+            "se_pct": round(float(100 * (0.25 / len(win)) ** 0.5), 2) if len(win) else None,
+        })
         if len(win) == 0:
             return
         pct = win.mean() * 100
@@ -99,6 +116,26 @@ def main():
     late = comb[~comb["week"].isin(EARLY_WEEKS)]
     for t in (2.5, 4.0):
         grade(late, f"weeks 5+ all flags", t)
+
+    out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "coach_regime_results.json")
+    with open(out_path, "w") as fh:
+        json.dump({
+            "_provenance": {
+                "script": "model/coach_regime_experiment.py",
+                "generated": __import__("datetime").date.today().isoformat(),
+                "seasons": list(SEASONS),
+                "early_weeks": list(EARLY_WEEKS),
+                "regime_source": "data/coach_changes.json (tier >= 1 = external hire)",
+                "n_external_team_seasons": len(ext),
+                "caveat": ("Small samples. The headline backed-regime cell is single-digit; "
+                           "read the SE column before treating any cell as settled. The seasons "
+                           "here overlap the 2016-2021 window MARGIN_COEFFICIENTS was fit on, so "
+                           "the ensemble margins are partly in-sample for those years."),
+            },
+            "grades": captured,
+        }, fh, indent=2)
+    print(f"\nwrote {out_path}: {len(captured)} graded cells")
 
 
 if __name__ == "__main__":

@@ -34,10 +34,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pandas as pd
 
-# Base Layer 2, fit on all of 2021-2023 for production (standard
-# practice: validate via held-out split first, then refit on all
-# available data for the final model) -- validated above to
-# genuinely generalize, unlike the extended version.
+# Base Layer 2. PROVENANCE, corrected 2026-09-20: this vector is the
+# 2016-2021 co-calibrated fit, NOT a refit on 2021-2023. The old
+# "refit on all of 2021-2023 for production" sentence that stood here
+# was stale and load-bearing in the wrong direction -- read literally
+# it said the flagship 2022-2023 backtest was in-sample. It is not:
+# regressing actuals on the held-out rows returns rating_diff ~9.36,
+# nothing like the 0.1078 shipped here, confirming these coefficients
+# never saw 2022-2023 outcomes.
 # Properly co-calibrated on the expanded 2016-2021 training set (NGS
 # data's earliest available year), tested on 2022-2023 (389 games,
 # fully held out) -- a substantial, real, validated improvement:
@@ -136,6 +140,7 @@ def predict_margin(
     yac_oe_diff: float = 0.0, ryoe_diff: float = 0.0,
     cushion_diff: float = 0.0, catch_pct_diff: float = 0.0,
     stacked_box_diff: float = 0.0, elo_diff: float = None,
+    coefficients: dict = None,
 ) -> float:
     """
     cushion_diff, catch_pct_diff, stacked_box_diff kept as accepted
@@ -158,7 +163,13 @@ def predict_margin(
     unavailable" switches to MARGIN_COEFFICIENTS_PRE_ELO instead, which
     was properly calibrated for exactly this case.
     """
-    coefficients = MARGIN_COEFFICIENTS if elo_diff is not None else MARGIN_COEFFICIENTS_PRE_ELO
+    # An explicit vector wins: callers that KNOW a feature block is
+    # missing pass the vector fitted for that configuration rather
+    # than letting a co-calibrated one run against zeros. See the NGS
+    # case in predict_game -- same bug class as the Elo one described
+    # above, found live 2026-09-20.
+    if coefficients is None:
+        coefficients = MARGIN_COEFFICIENTS if elo_diff is not None else MARGIN_COEFFICIENTS_PRE_ELO
     elo_diff = elo_diff if elo_diff is not None else 0.0
 
     home_field = 0.0 if is_neutral_site else 1.0
@@ -166,10 +177,13 @@ def predict_margin(
         coefficients["rating_diff"] * rating_diff
         + coefficients["home_field"] * home_field
         + coefficients["rest_diff"] * rest_diff
-        + coefficients["cpoe_diff"] * cpoe_diff
-        + coefficients["separation_diff"] * separation_diff
-        + coefficients["yac_oe_diff"] * yac_oe_diff
-        + coefficients["ryoe_diff"] * ryoe_diff
+        # .get for the optional blocks: a vector fitted without the NGS
+        # or Elo features simply has no term for them, and a missing
+        # term must contribute nothing rather than raise.
+        + coefficients.get("cpoe_diff", 0.0) * cpoe_diff
+        + coefficients.get("separation_diff", 0.0) * separation_diff
+        + coefficients.get("yac_oe_diff", 0.0) * yac_oe_diff
+        + coefficients.get("ryoe_diff", 0.0) * ryoe_diff
         + coefficients.get("elo_diff", 0.0) * elo_diff
         + coefficients["intercept"]
     )
@@ -207,6 +221,7 @@ def predict_game(
     yac_oe_diff: float = 0.0, ryoe_diff: float = 0.0,
     cushion_diff: float = 0.0, catch_pct_diff: float = 0.0,
     stacked_box_diff: float = 0.0, elo_diff: float = None,
+    ngs_present: bool = True,
 ) -> dict:
     """
     Full prediction for one game: predicted points for each team, spread,
@@ -223,12 +238,32 @@ def predict_game(
     need to be distinguished, not silently treated the same.
     """
     rating_diff = home_rating - away_rating
+    # COEFFICIENT SELECTION (2026-09-20 fix). MARGIN_COEFFICIENTS was
+    # co-calibrated WITH the NGS block; rating_diff carries 0.1078
+    # there because the NGS features and Elo absorb that signal. Run
+    # it against zeroed NGS inputs and the team rating is understated
+    # ~211x (0.1078 vs the rating-only fit's 22.7091) -- the published
+    # margin collapses to rescaled-Elo-plus-a-constant. That is what
+    # happened to every 2026 prediction while nflverse's per-season
+    # NGS files were 404ing, and week 1 of every season enters this
+    # path by construction (layer2_ngs needs completed weeks).
+    # MARGIN_COEFFICIENTS_V1_RATING_ONLY is a properly held-out
+    # rating-only fit; losing the Elo term with it is a bounded,
+    # honest degradation. Which vector ran is published per row.
+    coef_set = "full_ensemble"
+    coefficients = None
+    if not ngs_present:
+        coefficients = MARGIN_COEFFICIENTS_V1_RATING_ONLY
+        coef_set = "v1_rating_only_no_ngs"
+    elif elo_diff is None:
+        coef_set = "pre_elo"
     margin = predict_margin(
         rating_diff, is_neutral_site, rest_diff,
         cpoe_diff=cpoe_diff, separation_diff=separation_diff,
         yac_oe_diff=yac_oe_diff, ryoe_diff=ryoe_diff,
         cushion_diff=cushion_diff, catch_pct_diff=catch_pct_diff,
         stacked_box_diff=stacked_box_diff, elo_diff=elo_diff,
+        coefficients=coefficients,
     )
     total = predict_total(home_offense + away_offense, wind)
 
@@ -242,6 +277,10 @@ def predict_game(
         "spread": margin,       # positive = home favored, matches nflverse's spread_line convention direction
         "total": total,
         "win_prob_home": win_prob_home,
+        # Conditions of production, carried with the number itself.
+        "coefficient_set": coef_set,
+        "features": {"ngs": bool(ngs_present), "elo": elo_diff is not None,
+                     "wind": bool(wind)},
     }
 
 
@@ -303,7 +342,11 @@ def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, 
 
         cpoe_diff = separation_diff = yac_oe_diff = ryoe_diff = 0.0
         cushion_diff = catch_pct_diff = stacked_box_diff = 0.0
-        if ngs_features is not None and home in ngs_features.index and away in ngs_features.index:
+        # Per-GAME availability, not per-slate: a team missing from the
+        # NGS frame is the same degradation as the whole feed being down.
+        ngs_present = (ngs_features is not None
+                       and home in ngs_features.index and away in ngs_features.index)
+        if ngs_present:
             cpoe_diff = ngs_features.loc[home, "team_cpoe"] - ngs_features.loc[away, "team_cpoe"]
             separation_diff = ngs_features.loc[home, "team_avg_separation"] - ngs_features.loc[away, "team_avg_separation"]
             yac_oe_diff = ngs_features.loc[home, "team_yac_over_expected"] - ngs_features.loc[away, "team_yac_over_expected"]
@@ -329,6 +372,7 @@ def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, 
             yac_oe_diff=yac_oe_diff, ryoe_diff=ryoe_diff,
             cushion_diff=cushion_diff, catch_pct_diff=catch_pct_diff,
             stacked_box_diff=stacked_box_diff, elo_diff=elo_diff,
+            ngs_present=ngs_present,
         )
         predictions[home] = result
 

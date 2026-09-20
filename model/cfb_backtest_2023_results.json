@@ -3,9 +3,55 @@
   "join": "1731/1731 cached games matched to lines (100%)",
   "margin_fit": "43.28 * rating_diff + 2.83 (train 2021-2022)",
   "held_out_2023_rating_only": {
-    "games": 574, "model_mae": 13.64, "market_mae": 12.19,
-    "ats_by_min_edge": {"all": [302, 574], "2": [251, 467], "3": [216, 407], "4": [187, 350], "5": [161, 295], "7": [117, 212], "10": [68, 120]}
+    "games": 574,
+    "model_mae": 13.64,
+    "market_mae": 12.19,
+    "ats_by_min_edge": {
+      "all": [
+        302,
+        574
+      ],
+      "2": [
+        251,
+        467
+      ],
+      "3": [
+        216,
+        407
+      ],
+      "4": [
+        187,
+        350
+      ],
+      "5": [
+        161,
+        295
+      ],
+      "7": [
+        117,
+        212
+      ],
+      "10": [
+        68,
+        120
+      ]
+    }
   },
-  "held_out_2023_weeks_1_4": {"games": 60, "ats_all": [29, 60], "note": "below breakeven -> board caps early-season verdicts at Lean"},
+  "held_out_2023_week_4_only": {
+    "games": 60,
+    "ats_all": [
+      29,
+      60
+    ],
+    "note": "below breakeven -> board caps early-season verdicts at Lean | RENAMED 2026-09-20: the walk-forward cache starts at week 4 (BACKTEST_WEEKS = range(4, 14)), so this block contains ZERO games from weeks 1-3. The live \"no CFB Play badge before week 5\" cap rests on 60 week-4 games from a model variant that was not shipped; the deployed rating-only model grades 27/60 on the same pool. The cap may still be right on priors, but the record must stop implying weeks 1-3 were tested.",
+    "weeks_present": [
+      4
+    ],
+    "model": "rating + roster priors (the DECLINED variant -- see README ledger)",
+    "rating_only_week4": [
+      27,
+      60
+    ]
+  },
   "roster_priors": "tested and declined: degrades the broad pool (52.6->51.6 all); see README experiment ledger"
 }

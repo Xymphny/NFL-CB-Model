@@ -40,7 +40,18 @@ GAMES_URL = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/game
 
 
 def load_week_snapshots(data_dir, season):
-    """Earliest snapshot per real week (week >= 1), keyed by week."""
+    """Per real week (week >= 1), a synthetic snapshot whose rows are
+    each game's FIRST APPEARANCE AS A NON-PASS.
+
+    Previously this took only the week's earliest file, so a game that
+    the board flagged later in the week never entered the record at
+    all -- week 1 lost BUF@HOU (a lean that would have LOST) and
+    GB@MIN (a 1u Play total that would have WON). The docstring's own
+    rule is "you bet when the model first flags it", which was only
+    true for games flagged at the open. Entry is the first snapshot
+    where the row grades non-pass, so the price recorded is the price
+    that was actually showing when the claim was made.
+    """
     pattern = os.path.join(data_dir, "divergence", f"{season}-week-*.json")
     by_week = {}
     for path in sorted(glob.glob(pattern)):
@@ -48,11 +59,40 @@ def load_week_snapshots(data_dir, season):
         if not m:
             continue
         week = int(m.group(1))
-        if week < 1 or week in by_week:
-            continue  # sorted() => first file per week is the earliest
-        with open(path) as f:
-            by_week[week] = json.load(f)
-    return by_week
+        if week < 1:
+            continue
+        try:
+            with open(path) as f:
+                snap = json.load(f)
+        except Exception as e:                            # noqa: BLE001
+            print(f"[performance] skipping unreadable snapshot {os.path.basename(path)}: {e}")
+            continue
+        slot = by_week.setdefault(week, {"_meta": snap, "_rows": {}, "_all": {}})
+        for row in snap.get("divergences", []):
+            gkey = (row.get("home_team"), row.get("away_team"))
+            if gkey not in slot["_all"] and row.get("spread_gap") is not None:
+                slot["_all"][gkey] = row                  # first PRICED appearance
+            if gkey in slot["_rows"]:
+                continue                                  # already entered earlier
+            if _flags_non_pass(row):
+                slot["_rows"][gkey] = row
+    out, allrows = {}, {}
+    for week, slot in by_week.items():
+        snap = dict(slot["_meta"])
+        snap["divergences"] = list(slot["_rows"].values())
+        out[week] = snap
+        full = dict(slot["_meta"])
+        full["divergences"] = list(slot["_all"].values())
+        allrows[week] = full
+    return out, allrows
+
+
+def _flags_non_pass(d):
+    """True when this row would have shown a Play or Lean on the board."""
+    sg, tg = d.get("spread_gap"), d.get("total_gap")
+    se = abs(sg) if sg is not None else 0.0
+    te = abs(tg) if tg is not None else 0.0
+    return se >= LEAN_GAP or te >= LEAN_GAP + 1
 
 
 def grade_divergence(d, week, results_by_game):
@@ -62,17 +102,36 @@ def grade_divergence(d, week, results_by_game):
     if game is None:
         return []
 
+    # VERDICT SELECTION -- must mirror gradeGameInner in
+    # frontend/src/staking.js exactly. Two drifts were found on
+    # 2026-09-20 and are fixed here:
+    #   1. totals were graded at PLAY_GAP/LEAN_GAP while the board
+    #      required PLAY_GAP+1 / LEAN_GAP+1, so the grader booked
+    #      claims the board never made (a fabricated week-1 ATL@PIT
+    #      loss among them);
+    #   2. both markets were graded per game while the board shows
+    #      ONE verdict, spread taking priority.
+    # Replaying both versions over the committed snapshots, 6 of 16
+    # week-1 games and 5 of 16 week-2 games graded differently.
+    spread_gap = d.get("spread_gap")
+    total_gap = d.get("total_gap")
+    spread_edge = abs(spread_gap) if spread_gap is not None else 0.0
+    total_edge = abs(total_gap) if total_gap is not None else 0.0
+
+    if spread_edge >= PLAY_GAP or total_edge >= PLAY_GAP + 1:
+        tier = "play"
+        market = "spread" if spread_edge >= PLAY_GAP else "total"
+    elif spread_edge >= LEAN_GAP or total_edge >= LEAN_GAP + 1:
+        tier = "lean"
+        market = "spread" if spread_edge >= LEAN_GAP else "total"
+    else:
+        return []
+
     graded = []
-    for market, gap in (("spread", d.get("spread_gap")), ("total", d.get("total_gap"))):
+    for market, gap in ((market, spread_gap if market == "spread" else total_gap),):
         if gap is None:
             continue
         edge = abs(gap)
-        if edge >= PLAY_GAP:
-            tier = "play"
-        elif edge >= LEAN_GAP:
-            tier = "lean"
-        else:
-            continue
         # Regime cap: the board showed these at Lean stakes (see
         # apply_regime_layer) -- grade what the board showed.
         if market == "spread" and d.get("tier_cap") == "lean":
@@ -196,7 +255,7 @@ def generate(data_dir, season, games_df=None):
         for _, g in season_games.iterrows()
     }
 
-    snapshots = load_week_snapshots(data_dir, season)
+    snapshots, all_priced = load_week_snapshots(data_dir, season)
     plays = []
     for week, snap in sorted(snapshots.items()):
         for d in snap.get("divergences", []):
@@ -207,7 +266,10 @@ def generate(data_dir, season, games_df=None):
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "graded_weeks": sorted({p["week"] for p in plays}),
         **summarize(plays),
-        "calibration": calibration_stats(snapshots, results_by_game),
+        # Calibration measures AMPLITUDE over every priced game, not
+        # only flagged ones -- narrowing it to flags would make the
+        # instrument report on its own selection.
+        "calibration": calibration_stats(all_priced, results_by_game),
         "plays": plays,
     }
 

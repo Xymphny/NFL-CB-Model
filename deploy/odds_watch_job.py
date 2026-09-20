@@ -56,6 +56,27 @@ def fetch_current_odds(sport_key: str = "americanfootball_nfl") -> list:
     remaining = resp.headers.get("x-requests-remaining")
     used = resp.headers.get("x-requests-used")
     print(f"[odds_watch] API credits used this period (cumulative): {used}, remaining: {remaining}")
+    # CREDIT RESERVE (2026-09-20). Running out mid-season is not a
+    # cosmetic failure: with no odds, every game that kicks off during
+    # the blackout has no pregame snapshot to freeze and leaves the
+    # record entirely. The remaining count was read and only printed.
+    # Now it gates the optional spend (props) and shouts before the
+    # board itself goes dark.
+    global CREDITS_REMAINING
+    try:
+        CREDITS_REMAINING = int(remaining) if remaining is not None else None
+    except (TypeError, ValueError):
+        CREDITS_REMAINING = None
+    if CREDITS_REMAINING is not None and CREDITS_REMAINING <= CREDIT_ALERT:
+        msg = (f"Odds API credits low: {CREDITS_REMAINING} remaining "
+               f"(reserve {CREDIT_RESERVE}). Props fetching pauses below the reserve so the "
+               f"core board keeps its snapshots; below that the board itself goes dark and "
+               f"games kicking off during the gap leave the record.")
+        print(f"[odds_watch] ALERT -- {msg}")
+        try:
+            send_webhook_alert(f"[odds_watch_job] {msg}")
+        except Exception:                                 # noqa: BLE001
+            pass
 
     data = resp.json()
     print(f"[odds_watch] {len(data)} games returned with posted odds "
@@ -86,7 +107,18 @@ ODDS_TEAM_TO_ABBR = {
 }
 
 
-PROPS_MARKETS = "player_pass_yds,player_rush_yds,player_reception_yds,player_anytime_td"
+# player_pass_yds dropped 2026-09-20: the projection engine withholds
+# that market (failed its held-out gate twice), so paying credits to
+# quote a market the system has already said it will not speak on is
+# pure cost. Restore it the day a pass-yards revision passes the gate.
+PROPS_MARKETS = "player_rush_yds,player_reception_yds,player_anytime_td"
+
+# Credit reserve. The core board (one call per run) is what produces the
+# snapshots the whole record depends on; the weekly props bake costs one
+# call PER GAME. When the budget tightens, props yield first.
+CREDIT_RESERVE = 120        # below this, skip the weekly props bake
+CREDIT_ALERT = 200          # below this, shout
+CREDITS_REMAINING = None    # set by fetch_odds from x-requests-remaining
 
 
 PROPS_FORMAT = 2        # bumped when the payload schema changes; older files refetch once
@@ -100,6 +132,37 @@ def _implied(american):
 def _decimal(american):
     a = float(american)
     return 1 + (a / 100 if a > 0 else 100 / -a)
+
+
+EDGE_MAX_EV_PCT = 20.0      # above this, a quote is a stale/erroneous line, not an edge
+EDGE_MIN_FAIR_YES = 0.20    # longshot yes-markets: vig-in fair value is unreliable here
+
+
+def _apply_edge_guards(out):
+    """Move an edge that fails a guard into `suppressed_edge` and record
+    why. Publishing the reason beats deleting the row: a reader can see
+    that the system looked and declined, which is the same discipline
+    the engine's withheld markets follow."""
+    e = out.get("edge")
+    if not e:
+        return
+    reason = None
+    if e.get("ev_pct") is not None and e["ev_pct"] > EDGE_MAX_EV_PCT:
+        reason = "suspect_quote"
+    elif e.get("side") == "yes" and (e.get("fair_prob") or 0.0) < EDGE_MIN_FAIR_YES:
+        reason = "longshot"
+    if reason:
+        e["suppressed"] = reason
+        out["suppressed_edge"] = e
+        out["edge"] = None
+
+
+def _engine_version():
+    try:
+        from model.player_projection import ENGINE_VERSION
+        return ENGINE_VERSION
+    except Exception:                                     # noqa: BLE001
+        return None
 
 
 def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
@@ -117,12 +180,21 @@ def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
     signal) rather than folded into EV.
 
     Yes-markets (anytime TD): no two-way de-vig exists, so fair value
-    is the median implied probability across books -- vig-inflated,
-    which makes the computed EV an UNDERSTATEMENT of the true edge:
-    conservative by construction.
+    is the median implied probability across books. That figure is
+    vig-INFLATED, and since EV = decimal x fair - 1, an inflated fair
+    probability OVERSTATES the edge. The docstring said the opposite
+    until 2026-09-20 and the basis string shipped the word
+    "conservative" to users; both are corrected. Treat anytime-TD EV
+    as an upper bound, not a floor.
 
     Requires min_books at the consensus line; thinner markets report
-    line/best prices but no EV (never an edge from two quotes)."""
+    line/best prices but no EV (never an edge from two quotes).
+
+    GUARDS (write time, 2026-09-20). The published file previously
+    carried 112 rows above 20% EV and 271 longshot yes-rows below 0.20
+    fair probability; only the website filtered them, so the data file
+    asserted edges the site denied. Suppression now happens here, and
+    the REASON is published rather than the row silently vanishing."""
     out = {"line": None, "over": None, "under": None, "yes": None, "edge": None, "off_market": []}
     quotes = {b: q for b, q in books.items() if q}
     if yes_market:
@@ -136,7 +208,9 @@ def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
             fair = statistics.median(_implied(p) for _, p in priced)
             ev = _decimal(best_p) * fair - 1
             out["edge"] = {"side": "yes", "ev_pct": round(ev * 100, 2), "fair_prob": round(fair, 4),
-                           "n_books": len(priced), "price": best_p, "book": best_b, "basis": "median-implied (vig-in, conservative)"}
+                           "n_books": len(priced), "price": best_p, "book": best_b,
+                           "basis": "median-implied, vig NOT removed -- EV overstated"}
+            _apply_edge_guards(out)
         return out
     lined = [(b, q) for b, q in quotes.items() if q.get("line") is not None]
     if not lined:
@@ -161,6 +235,7 @@ def consensus_edge(books, yes_market=False, line_tol=0.26, min_books=3):
         side = max(evs, key=evs.get)
         out["edge"] = {"side": side, "ev_pct": round(evs[side] * 100, 2), "fair_prob": round(fair_over if side == "over" else 1 - fair_over, 4),
                        "n_books": len(two_way), "price": out[side]["price"], "book": out[side]["book"], "basis": "de-vigged consensus at matching line"}
+        _apply_edge_guards(out)
     return out
 
 
@@ -182,8 +257,19 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
             if json.load(open(out_path)).get("format", 1) >= PROPS_FORMAT:
                 return None
             print("[props] existing file is an older format; refetching with per-book quotes")
-        except Exception:
+        except (json.JSONDecodeError, UnicodeDecodeError) as e:
+            # A corrupt file used to return None, the same signal as
+            # "already baked, do not spend credits" -- so a truncated
+            # write left the board broken for the rest of the week with
+            # no alert. Corruption now falls through to a refetch.
+            print(f"[props] existing file is unreadable ({e}); refetching")
+        except Exception as e:                            # noqa: BLE001
+            print(f"[props] existing file could not be checked ({e}); not refetching")
             return None
+    if CREDITS_REMAINING is not None and CREDITS_REMAINING < CREDIT_RESERVE:
+        print(f"[props] skipping the weekly bake: {CREDITS_REMAINING} credits remaining is "
+              f"below the {CREDIT_RESERVE} reserve held for the core board")
+        return None
     projector = None
     try:
         from model.player_projection import LiveProjector
@@ -248,7 +334,8 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
                   for r in m.values() if r.get("edge") and r["edge"].get("ev_pct") is not None)
     payload = _json_sanitize({
         "season": season, "week": week, "format": PROPS_FORMAT,
-        "note": ("Market-derived edges plus, where shown, a WATCH-MODE opinion from the player projection engine (calibrated held-out; pass yards withheld by its failed gate; graded live before it ever drives a verdict). Fair value for edges is the DE-VIGGED MULTI-BOOK CONSENSUS, "
+        "engine_version": _engine_version(),
+        "note": ("Market-derived edges plus, where shown, a WATCH-MODE opinion from the player projection engine (calibrated held-out; pass yards withheld by its failed gate; NOT YET GRADED -- no prop ledger exists, so these carry no track record). Fair value for edges is the DE-VIGGED MULTI-BOOK CONSENSUS, "
                  "and the edge is the best available price against it -- this finds mispriced BOOKS, "
                  "not mispriced players. Engine chips are labeled watch-mode opinions, "
                  "and these are not Play/Lean verdicts."),
@@ -313,15 +400,23 @@ def annotate_week_props(season, week, data_dir):
                     if row.get("model") != op:
                         row["model"] = op
                         changed += 1
-                elif row.pop("model", None) is not None:
-                    changed += 1                          # fell below the calibrated pool: silence
+                elif row.get("model") is not None:
+                    # The claim was published; it does not get erased.
+                    # Retaining it under model_frozen keeps an
+                    # append-only record for the grader, which is the
+                    # difference between withdrawing an opinion and
+                    # pretending it was never offered.
+                    row["model_frozen"] = dict(row.pop("model"),
+                                               withdrawn_at=now.isoformat())
+                    changed += 1
     if not changed:
         print("[props] annotate: engine opinions unchanged")
         return None
     payload["model_annotated_at"] = now.isoformat()
+    payload["engine_version"] = _engine_version()
     payload["note"] = ("Market-derived edges plus, where shown, a WATCH-MODE opinion from the player "
                        "projection engine (calibrated held-out; pass yards withheld by its failed gate; "
-                       "graded live before it ever drives a verdict). Fair value for edges is the "
+                       "NOT YET GRADED -- no prop ledger exists, so these carry no track record). Fair value for edges is the "
                        "DE-VIGGED MULTI-BOOK CONSENSUS, and the edge is the best available price against "
                        "it -- this finds mispriced BOOKS, not mispriced players. Engine chips are labeled "
                        "watch-mode opinions, and these are not Play/Lean verdicts.")
@@ -416,11 +511,24 @@ def inseason_offsets(probe):
     backtest-validated at native scale and is not rescaled), median
     for robustness so a genuinely large edge survives at full size.
     Returns (spread_offset, total_offset) to ADD to model numbers."""
+    import math
     import statistics
-    s_res = [-d["spread_gap"] for d in probe if d.get("spread_gap") is not None]
-    t_res = [-d["total_gap"] for d in probe if d.get("total_gap") is not None]
+
+    def _finite(vals):
+        # A single NaN quote poisons statistics.median, and NaN is
+        # TRUTHY -- so an unguarded offset passed the `if s_off` checks
+        # below and was added to every prediction, nulling the model's
+        # spread opinion on 15 of 16 games (live, 2026-09-20 13:38Z).
+        return [v for v in vals if isinstance(v, (int, float)) and math.isfinite(v)]
+
+    s_res = _finite([-d["spread_gap"] for d in probe if d.get("spread_gap") is not None])
+    t_res = _finite([-d["total_gap"] for d in probe if d.get("total_gap") is not None])
     s_off = statistics.median(s_res) if len(s_res) >= 8 else 0.0
     t_off = statistics.median(t_res) if len(t_res) >= 8 else 0.0
+    if not math.isfinite(s_off):
+        s_off = 0.0
+    if not math.isfinite(t_off):
+        t_off = 0.0
     return s_off, t_off
 
 
@@ -480,15 +588,19 @@ def split_started_and_carry(odds_data, prior_snapshots, now_iso):
 def load_prior_snapshots(data_dir, subdir, season, week):
     """All same-week snapshots as [(computed_at, rows)], oldest first."""
     out = []
-    try:
-        import glob as _g
-        pattern = os.path.join(data_dir, subdir, f"{season}-week-{week:02d}-*.json")
-        for path in sorted(_g.glob(pattern)):
+    import glob as _g
+    pattern = os.path.join(data_dir, subdir, f"{season}-week-{week:02d}-*.json")
+    # Per-FILE guard. A single try around the whole loop meant one
+    # unparseable snapshot silently truncated the entire freeze
+    # history, which is what the kickoff freeze reads to decide what a
+    # started game claimed.
+    for path in sorted(_g.glob(pattern)):
+        try:
             with open(path) as f:
                 snap = json.load(f)
             out.append((snap.get("computed_at"), snap.get("divergences", [])))
-    except Exception as e:
-        print(f"[line_freeze] prior snapshots unavailable: {e}")
+        except Exception as e:                            # noqa: BLE001
+            print(f"[line_freeze] skipping unreadable snapshot {os.path.basename(path)}: {e}")
     return out
 
 
@@ -745,11 +857,19 @@ def main():
         # backtesting — see model/walk_forward_layer2_test.py). Falls
         # back gracefully to unenhanced predictions if NGS data can't
         # be fetched (e.g. very early in a season before enough data exists).
+        # PROVENANCE (2026-09-20). Every degradation below records
+        # itself here and ships inside the snapshot, so a reader can
+        # tell a full-ensemble number from a near-degenerate one. The
+        # old behaviour -- one print to a cron log nobody reads -- is
+        # how a 211x coefficient substitution ran for two weeks.
+        provenance = {"ngs": True, "elo": True, "weather": True, "injuries": True}
         try:
             ngs_features = compute_team_ngs_features(season, through_week=current_week)
         except Exception as e:
             print(f"[odds_watch_job] Layer 2 NGS features unavailable ({e}), predicting without them")
             ngs_features = None
+            provenance["ngs"] = False
+            provenance["ngs_error"] = str(e)[:200]
 
         # Real Elo ensemble (model/elo_rating.py) -- validated to give
         # a substantial additional accuracy improvement on top of Layer
@@ -774,9 +894,20 @@ def main():
         # publish time) -- fetches a real near-kickoff forecast instead of
         # silently defaulting to 0 for every outdoor game.
         upcoming_games = upcoming_games.copy()
+        # WEATHER IS ANNOTATION, NOT ADJUSTMENT (2026-09-20).
+        # This loop used to write the forecast into `wind`, which
+        # TOTAL_COEFFICIENTS["wind"] = -0.2801 then applied: a 15 mph
+        # forecast moved the model's total 4.2 points, on a market
+        # whose total flag threshold is 3.5. Meanwhile the card said
+        # "wind -- not modeled". Forecasts are public information the
+        # market has already priced, which is the same argument that
+        # made QB status annotation-only, so the forecast is now
+        # carried for DISPLAY only and never enters the prediction.
+        wind_annotations = {}
         for idx, game in upcoming_games.iterrows():
             forecast = fetch_forecast(game["home_team"])
-            upcoming_games.loc[idx, "wind"] = forecast.get("wind", 0.0)
+            wind_annotations[game["home_team"]] = forecast.get("wind", 0.0)
+            upcoming_games.loc[idx, "wind"] = 0.0
 
         model_predictions = build_week_predictions(ratings, upcoming_games, ngs_features=ngs_features, elo_ratings=elo_ratings)
         # Tag each prediction with its intended opponent. Without this,
@@ -849,11 +980,17 @@ def main():
             # stakes) stays internally consistent.
             probe = compute_divergences(odds_data, model_predictions)
             s_off, t_off = inseason_offsets(probe)
-            if not (s_off or t_off):
+            import math as _math
+            _ok = lambda v: isinstance(v, (int, float)) and _math.isfinite(v) and v != 0.0
+            if not (_ok(s_off) or _ok(t_off)):
                 prior_off = load_prior_debias(REPO_DATA_PATH, "divergence", season, current_week)
                 if prior_off:
                     s_off, t_off = prior_off
                     print(f"[odds_watch] slate too small to measure de-bias; using this week's prior offsets")
+            if not _ok(s_off):
+                s_off = 0.0
+            if not _ok(t_off):
+                t_off = 0.0
             debias_applied = (s_off, t_off)
             if s_off or t_off:
                 from model.prediction import margin_to_win_probability
@@ -870,6 +1007,22 @@ def main():
         odds_data, carried_closed = split_started_and_carry(odds_data, prior_snaps, now_iso)
         if carried_closed:
             print(f"[odds_watch] {len(carried_closed)} started game(s): lines frozen at close, carried forward")
+        # A started game with no pregame snapshot cannot be carried, so it
+        # silently leaves the board and is never graded. That is a claim
+        # vanishing, which matters most during a credit blackout -- so the
+        # disappearance is itself published.
+        _carried_keys = {(c.get("away_team"), c.get("home_team")) for c in carried_closed}
+        dropped_no_pregame = []
+        for g in (prior_snaps[-1][1] if prior_snaps else []):
+            k = (g.get("away_team"), g.get("home_team"))
+            if k in _carried_keys:
+                continue
+            if not any(o.get("away_team") == k[0] and o.get("home_team") == k[1]
+                       for o in odds_data):
+                dropped_no_pregame.append(f"{k[0]}@{k[1]}")
+        if dropped_no_pregame:
+            print(f"[odds_watch] {len(dropped_no_pregame)} game(s) left the board with no "
+                  f"pregame snapshot to freeze: {', '.join(dropped_no_pregame)}")
 
         divergences = compute_divergences(odds_data, model_predictions)
         for d in divergences:
@@ -1000,6 +1153,8 @@ def main():
                 "note": preseason_note,
                 "qb1_map": qb1_map,
                 "debias_offsets": list(debias_applied),
+                "provenance": provenance,
+                "dropped_no_pregame": dropped_no_pregame,
                 "divergences": divergences,
             }), f, indent=2, allow_nan=False)
 
@@ -1016,7 +1171,41 @@ def main():
         else:
             print("[odds_watch_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 
-        report_success("odds_watch_job", summary=f"{len(divergences)} games compared")
+        # DROP ALERT (2026-09-20). A run that produces a board with no
+        # opinions is a failure that currently reports success. Compare
+        # the count of live spread opinions against the prior snapshot
+        # for this week and escalate on a collapse.
+        _live = sum(1 for d in divergences if d.get("spread_gap") is not None)
+        _prior_rows = load_prior_snapshots(REPO_DATA_PATH, "divergence", season, current_week)
+        _prior_live = None
+        if _prior_rows:
+            _prior_live = sum(1 for d in _prior_rows[-1][1] if d.get("spread_gap") is not None)
+        if _prior_live and _live < 0.7 * _prior_live:
+            msg = (f"spread opinions collapsed: {_live} of {len(divergences)} games "
+                   f"(prior snapshot had {_prior_live}); provenance={provenance}")
+            print(f"[odds_watch_job] ALERT -- {msg}")
+            try:
+                send_webhook_alert(f"[odds_watch_job] {msg}")
+            except Exception:
+                pass
+            report_failure("odds_watch_job", msg)
+        elif not _live and divergences:
+            msg = f"board published with ZERO spread opinions across {len(divergences)} games"
+            print(f"[odds_watch_job] ALERT -- {msg}")
+            try:
+                send_webhook_alert(f"[odds_watch_job] {msg}")
+            except Exception:
+                pass
+            report_failure("odds_watch_job", msg)
+        else:
+            if not provenance.get("ngs") and (current_week or 0) >= 2:
+                try:
+                    send_webhook_alert(f"[odds_watch_job] NGS features missing at week "
+                                       f"{current_week}; board ran on the rating-only "
+                                       f"coefficient set")
+                except Exception:
+                    pass
+            report_success("odds_watch_job", summary=f"{len(divergences)} games compared")
 
     except ValidationError as e:
         report_failure("odds_watch_job", error=f"Validation failed: {e}")

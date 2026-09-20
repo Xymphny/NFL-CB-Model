@@ -78,7 +78,10 @@ services:
   - type: cron
     name: cfb-odds-watch-job
     runtime: python
-    schedule: "0 */6 * * 4,5,6"
+    schedule: "30 */6 * * 4,5,6"   # :30 offset added 2026-09-20 so this never
+    # collides with the NFL job's "0 */4 * * *" (they previously overlapped at
+    # 00:00 and 12:00 on Thu/Fri/Sat -- six races per week, each one able to
+    # lose a snapshot to a rebase abort).
     buildCommand: pip install -r requirements.txt
     startCommand: python3 -c "import os; os.environ['RUN_LIVE_CFB_ODDS_WATCH']='true'; import deploy.cfb_odds_watch"
     envVars:
@@ -176,7 +179,10 @@ services:
   - type: cron
     name: mlb-odds-watch-job
     env: python
-    schedule: "0 15,19,22 * 3-10 *"   # 3x daily, March-October (MLB season); suspend rest of year
+    schedule: "0 19 * 3-10 *"   # 1x daily, March-October. Cut from 3x on 2026-09-20:
+    # the MLB board is self-declared OBSERVATION-ONLY (no Play badge, no
+    # model probabilities wired in yet), so extra intraday refreshes buy
+    # no epistemic value and cost ~120 credits/month against a ~500 cap.
     buildCommand: pip install -r requirements.txt
     startCommand: python deploy/mlb_odds_watch.py
     envVars:
