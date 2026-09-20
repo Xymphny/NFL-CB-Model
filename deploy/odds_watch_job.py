@@ -55,7 +55,7 @@ def fetch_current_odds(sport_key: str = "americanfootball_nfl") -> list:
 
     remaining = resp.headers.get("x-requests-remaining")
     used = resp.headers.get("x-requests-used")
-    print(f"[odds_watch] API credits used this call: {used}, remaining this period: {remaining}")
+    print(f"[odds_watch] API credits used this period (cumulative): {used}, remaining: {remaining}")
 
     data = resp.json()
     print(f"[odds_watch] {len(data)} games returned with posted odds "

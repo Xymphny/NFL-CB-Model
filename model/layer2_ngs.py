@@ -23,13 +23,20 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 import numpy as np
 
-NGS_URL = "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_{season}_{stat_type}.csv.gz"
+NGS_URL = "https://github.com/nflverse/nflverse-data/releases/download/nextgen_stats/ngs_{stat_type}.parquet"
+
+_NGS_CACHE = {}
 
 
 def load_ngs_data(season, stat_type):
-    url = NGS_URL.format(season=season, stat_type=stat_type)
-    df = pd.read_csv(url, compression="gzip", low_memory=False)
-    return df[df["season_type"] == "REG"].copy()
+    """nflverse consolidated NGS into combined all-season files (the
+    per-season ngs_{season}_{type}.csv.gz assets were retired and now
+    404 -- found 2026-09-20 when week-2 predictions ran NGS-less).
+    Load the combined parquet once per process, filter to the season."""
+    if stat_type not in _NGS_CACHE:
+        _NGS_CACHE[stat_type] = pd.read_parquet(NGS_URL.format(stat_type=stat_type))
+    df = _NGS_CACHE[stat_type]
+    return df[(df["season"] == season) & (df["season_type"] == "REG")].copy()
 
 
 def compute_team_ngs_features(season, through_week=None, preloaded_data=None, min_teams=28):
