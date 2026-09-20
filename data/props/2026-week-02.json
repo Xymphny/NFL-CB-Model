@@ -2,7 +2,7 @@
  "season": 2026,
  "week": 2,
  "format": 2,
- "note": "Market-derived edges only: the fair value here is the DE-VIGGED MULTI-BOOK CONSENSUS, and the edge is the best available price against it -- this finds mispriced BOOKS, not mispriced players. No player projection model exists here; nothing on this page is a model opinion, and these are not Play/Lean verdicts.",
+ "note": "Market-derived edges plus, where shown, a WATCH-MODE opinion from the player projection engine (calibrated held-out; pass yards withheld by its failed gate; graded live before it ever drives a verdict). Fair value for edges is the DE-VIGGED MULTI-BOOK CONSENSUS, and the edge is the best available price against it -- this finds mispriced BOOKS, not mispriced players. Engine chips are labeled watch-mode opinions, and these are not Play/Lean verdicts.",
  "games": {
   "CAR@ATL": {
    "kickoff": "2026-09-20T17:00:00Z",
@@ -46,7 +46,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.5336,
+       "kind": "score"
+      }
      },
      "Chuba Hubbard": {
       "books": {
@@ -86,7 +91,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.379,
+       "kind": "score"
+      }
      },
      "Tetairoa McMillan": {
       "books": {
@@ -126,7 +136,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3168,
+       "kind": "score"
+      }
      },
      "Drake London": {
       "books": {
@@ -166,7 +181,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2435,
+       "kind": "score"
+      }
      },
      "Jalen Coker": {
       "books": {
@@ -206,7 +226,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2771,
+       "kind": "score"
+      }
      },
      "Brian Robinson Jr.": {
       "books": {
@@ -246,7 +271,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2684,
+       "kind": "score"
+      }
      },
      "Jonathon Brooks": {
       "books": {
@@ -326,7 +356,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1997,
+       "kind": "score"
+      }
      },
      "Kyle Pitts": {
       "books": {
@@ -366,7 +401,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3465,
+       "kind": "score"
+      }
      },
      "Bryce Young": {
       "books": {
@@ -406,7 +446,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.202,
+       "kind": "score"
+      }
      },
      "Xavier Legette": {
       "books": {
@@ -446,7 +491,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1709,
+       "kind": "score"
+      }
      },
      "Carolina Panthers D/ST": {
       "books": {
@@ -517,7 +567,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.163,
+       "kind": "score"
+      }
      },
      "Olamide Zaccheaus": {
       "books": {
@@ -557,7 +612,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1991,
+       "kind": "score"
+      }
      },
      "Tommy Tremble": {
       "books": {
@@ -597,7 +657,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1917,
+       "kind": "score"
+      }
      },
      "Atlanta Falcons D/ST": {
       "books": {
@@ -668,7 +733,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2072,
+       "kind": "score"
+      }
      },
      "Zachariah Branch": {
       "books": {
@@ -816,7 +886,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1788,
+       "kind": "score"
+      }
      },
      "Austin Hooper": {
       "books": {
@@ -896,7 +971,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1113,
+       "kind": "score"
+      }
      },
      "Brycen Tremayne": {
       "books": {
@@ -973,7 +1053,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1005,
+       "kind": "score"
+      }
      },
      "Charlie Woerner": {
       "books": {
@@ -1013,7 +1098,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1215,
+       "kind": "score"
+      }
      },
      "Chris Blair": {
       "books": {
@@ -1296,7 +1386,13 @@
         "line": 69.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5911,
+       "median": 70.3,
+       "kind": "yards"
+      }
      },
      "Drake London": {
       "books": {
@@ -1368,7 +1464,13 @@
         "line": 67.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5613,
+       "median": 65.5,
+       "kind": "yards"
+      }
      },
      "Jalen Coker": {
       "books": {
@@ -1440,7 +1542,13 @@
         "line": 61.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6283,
+       "median": 65.4,
+       "kind": "yards"
+      }
      },
      "Bijan Robinson": {
       "books": {
@@ -1512,7 +1620,13 @@
         "line": 53.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6809,
+       "median": 62.9,
+       "kind": "yards"
+      }
      },
      "Kyle Pitts": {
       "books": {
@@ -1579,7 +1693,13 @@
         "line": 30.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.8014,
+       "median": 68.6,
+       "kind": "yards"
+      }
      },
      "Darren Waller": {
       "books": {
@@ -1703,7 +1823,13 @@
         "line": 14.5,
         "vs_consensus": -2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7393,
+       "median": 36.0,
+       "kind": "yards"
+      }
      },
      "Jahan Dotson": {
       "books": {
@@ -1754,7 +1880,13 @@
         "line": 15.5,
         "vs_consensus": -1.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6723,
+       "median": 29.0,
+       "kind": "yards"
+      }
      },
      "Tommy Tremble": {
       "books": {
@@ -2070,7 +2202,13 @@
         "line": 101.5,
         "vs_consensus": 20.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7057,
+       "median": 122.6,
+       "kind": "yards"
+      }
      },
      "Chuba Hubbard": {
       "books": {
@@ -2141,7 +2279,13 @@
         "line": 64.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.4695,
+       "median": 52.4,
+       "kind": "yards"
+      }
      },
      "Brian Robinson Jr.": {
       "books": {
@@ -2425,7 +2569,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.6009,
+       "kind": "score"
+      }
      },
      "Mark Andrews": {
       "books": {
@@ -2465,7 +2614,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.268,
+       "kind": "score"
+      }
      },
      "Travis Etienne Jr.": {
       "books": {
@@ -2505,7 +2659,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.494,
+       "kind": "score"
+      }
      },
      "Lamar Jackson": {
       "books": {
@@ -2545,7 +2704,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2108,
+       "kind": "score"
+      }
      },
      "Rashod Bateman": {
       "books": {
@@ -2585,7 +2749,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1548,
+       "kind": "score"
+      }
      },
      "Chris Olave": {
       "books": {
@@ -2625,7 +2794,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3397,
+       "kind": "score"
+      }
      },
      "Juwan Johnson": {
       "books": {
@@ -2665,7 +2839,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3066,
+       "kind": "score"
+      }
      },
      "LaJohntay Wester": {
       "books": {
@@ -2785,7 +2964,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1958,
+       "kind": "score"
+      }
      },
      "Tyler Shough": {
       "books": {
@@ -2825,7 +3009,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2508,
+       "kind": "score"
+      }
      },
      "Baltimore Ravens D/ST": {
       "books": {
@@ -2965,7 +3154,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1006,
+       "kind": "score"
+      }
      },
      "New Orleans Saints D/ST": {
       "books": {
@@ -3076,7 +3270,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.215,
+       "kind": "score"
+      }
      },
      "Elijah Sarratt": {
       "books": {
@@ -3136,7 +3335,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1574,
+       "kind": "score"
+      }
      },
      "Kendre Miller": {
       "books": {
@@ -3176,7 +3380,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.153,
+       "kind": "score"
+      }
      },
      "Matthew Hibner": {
       "books": {
@@ -3444,7 +3653,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1585,
+       "kind": "score"
+      }
      },
      "New Orleans Saints Defense": {
       "books": {
@@ -3699,7 +3913,13 @@
         "line": 78.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7199,
+       "median": 114.6,
+       "kind": "yards"
+      }
      },
      "Mark Andrews": {
       "books": {
@@ -3766,7 +3986,13 @@
         "line": 49.5,
         "vs_consensus": 3.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4025,
+       "median": 38.2,
+       "kind": "yards"
+      }
      },
      "Devaughn Vele": {
       "books": {
@@ -3827,7 +4053,13 @@
         "line": 52.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4982,
+       "median": 41.8,
+       "kind": "yards"
+      }
      },
      "Rashod Bateman": {
       "books": {
@@ -3966,7 +4198,13 @@
         "line": 47.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7688,
+       "median": 74.8,
+       "kind": "yards"
+      }
      },
      "LaJohntay Wester": {
       "books": {
@@ -4162,7 +4400,13 @@
         "line": 12.5,
         "vs_consensus": -2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7039,
+       "median": 27.4,
+       "kind": "yards"
+      }
      },
      "Justice Hill": {
       "books": {
@@ -4275,7 +4519,13 @@
         "line": 12.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.8132,
+       "median": 33.6,
+       "kind": "yards"
+      }
      },
      "Alvin Kamara": {
       "books": {
@@ -4457,7 +4707,13 @@
         "line": 115.5,
         "vs_consensus": 20.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7108,
+       "median": 146.4,
+       "kind": "yards"
+      }
      },
      "Travis Etienne Jr.": {
       "books": {
@@ -4526,7 +4782,13 @@
         "line": 51.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7642,
+       "median": 72.6,
+       "kind": "yards"
+      }
      },
      "Lamar Jackson": {
       "books": {
@@ -4813,7 +5075,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.5165,
+       "kind": "score"
+      }
      },
      "Aaron Jones": {
       "books": {
@@ -4853,7 +5120,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4092,
+       "kind": "score"
+      }
      },
      "Justin Jefferson": {
       "books": {
@@ -4893,7 +5165,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4104,
+       "kind": "score"
+      }
      },
      "Luther Burden III": {
       "books": {
@@ -4933,7 +5210,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1588,
+       "kind": "score"
+      }
      },
      "Colston Loveland": {
       "books": {
@@ -4973,7 +5255,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3532,
+       "kind": "score"
+      }
      },
      "Kyle Monangai": {
       "books": {
@@ -5013,7 +5300,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4197,
+       "kind": "score"
+      }
      },
      "Rome Odunze": {
       "books": {
@@ -5053,7 +5345,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1607,
+       "kind": "score"
+      }
      },
      "Jordan Addison": {
       "books": {
@@ -5093,7 +5390,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2535,
+       "kind": "score"
+      }
      },
      "T.J. Hockenson": {
       "books": {
@@ -5133,7 +5435,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2403,
+       "kind": "score"
+      }
      },
      "Caleb Williams": {
       "books": {
@@ -5173,7 +5480,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2469,
+       "kind": "score"
+      }
      },
      "Kalif Raymond": {
       "books": {
@@ -5253,7 +5565,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1824,
+       "kind": "score"
+      }
      },
      "DeeJay Dallas": {
       "books": {
@@ -5330,7 +5647,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1842,
+       "kind": "score"
+      }
      },
      "Chicago Bears D/ST": {
       "books": {
@@ -5472,7 +5794,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2078,
+       "kind": "score"
+      }
      },
      "Carson Wentz": {
       "books": {
@@ -5512,7 +5839,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1087,
+       "kind": "score"
+      }
      },
      "Tai Felton": {
       "books": {
@@ -6012,7 +6344,13 @@
         "line": 100.5,
         "vs_consensus": 20.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5447,
+       "median": 86.9,
+       "kind": "yards"
+      }
      },
      "Colston Loveland": {
       "books": {
@@ -6081,7 +6419,13 @@
         "line": 63.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5901,
+       "median": 63.6,
+       "kind": "yards"
+      }
      },
      "Luther Burden III": {
       "books": {
@@ -6150,7 +6494,13 @@
         "line": 62.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6192,
+       "median": 70.3,
+       "kind": "yards"
+      }
      },
      "Jordan Addison": {
       "books": {
@@ -6206,7 +6556,13 @@
         "line": 51.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5697,
+       "median": 48.7,
+       "kind": "yards"
+      }
      },
      "Rome Odunze": {
       "books": {
@@ -6268,7 +6624,13 @@
         "line": 48.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.3976,
+       "median": 31.1,
+       "kind": "yards"
+      }
      },
      "T.J. Hockenson": {
       "books": {
@@ -6308,7 +6670,13 @@
       "under": null,
       "yes": null,
       "edge": null,
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.554,
+       "median": 34.7,
+       "kind": "yards"
+      }
      },
      "Kalif Raymond": {
       "books": {
@@ -6370,7 +6738,13 @@
         "line": 22.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6845,
+       "median": 41.4,
+       "kind": "yards"
+      }
      },
      "Aaron Jones": {
       "books": {
@@ -6561,7 +6935,13 @@
         "line": 12.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7396,
+       "median": 29.6,
+       "kind": "yards"
+      }
      },
      "D'Andre Swift": {
       "books": {
@@ -6743,7 +7123,13 @@
         "line": 73.5,
         "vs_consensus": 12.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.6532,
+       "median": 79.7,
+       "kind": "yards"
+      }
      },
      "Aaron Jones": {
       "books": {
@@ -6815,7 +7201,13 @@
         "line": 71.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.6231,
+       "median": 79.0,
+       "kind": "yards"
+      }
      },
      "Kyle Monangai": {
       "books": {
@@ -6882,7 +7274,13 @@
         "line": 47.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.8107,
+       "median": 81.7,
+       "kind": "yards"
+      }
      },
      "Caleb Williams": {
       "books": {
@@ -7055,7 +7453,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.539,
+       "kind": "score"
+      }
      },
      "Chase Brown": {
       "books": {
@@ -7095,7 +7498,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.5722,
+       "kind": "score"
+      }
      },
      "Ja'Marr Chase": {
       "books": {
@@ -7135,7 +7543,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3901,
+       "kind": "score"
+      }
      },
      "Tee Higgins": {
       "books": {
@@ -7175,7 +7588,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3667,
+       "kind": "score"
+      }
      },
      "Woody Marks": {
       "books": {
@@ -7215,7 +7633,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.402,
+       "kind": "score"
+      }
      },
      "Dalton Schultz": {
       "books": {
@@ -7255,7 +7678,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3133,
+       "kind": "score"
+      }
      },
      "Xavier Hutchinson": {
       "books": {
@@ -7295,7 +7723,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1849,
+       "kind": "score"
+      }
      },
      "Kayshon Boutte": {
       "books": {
@@ -7335,7 +7768,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1616,
+       "kind": "score"
+      }
      },
      "Jaylin Noel": {
       "books": {
@@ -7375,7 +7813,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1669,
+       "kind": "score"
+      }
      },
      "Mike Gesicki": {
       "books": {
@@ -7415,7 +7858,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2806,
+       "kind": "score"
+      }
      },
      "Houston Texans D/ST": {
       "books": {
@@ -7517,7 +7965,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2289,
+       "kind": "score"
+      }
      },
      "Samaje Perine": {
       "books": {
@@ -7557,7 +8010,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3403,
+       "kind": "score"
+      }
      },
      "Foster Moreau": {
       "books": {
@@ -7597,7 +8055,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1221,
+       "kind": "score"
+      }
      },
      "Joe Burrow": {
       "books": {
@@ -7637,7 +8100,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1594,
+       "kind": "score"
+      }
      },
      "Dohnte Meyers": {
       "books": {
@@ -7717,7 +8185,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2056,
+       "kind": "score"
+      }
      },
      "Jared Wayne": {
       "books": {
@@ -7794,7 +8267,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1939,
+       "kind": "score"
+      }
      },
      "Erick All": {
       "books": {
@@ -7874,7 +8352,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1805,
+       "kind": "score"
+      }
      },
      "Drew Sample": {
       "books": {
@@ -7914,7 +8397,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1539,
+       "kind": "score"
+      }
      },
      "Brevin Jordan": {
       "books": {
@@ -8426,7 +8914,13 @@
         "line": 85.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6286,
+       "median": 99.1,
+       "kind": "yards"
+      }
      },
      "Tee Higgins": {
       "books": {
@@ -8493,7 +8987,13 @@
         "line": 62.5,
         "vs_consensus": 7.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6289,
+       "median": 72.0,
+       "kind": "yards"
+      }
      },
      "Dalton Schultz": {
       "books": {
@@ -8564,7 +9064,13 @@
         "line": 54.5,
         "vs_consensus": 11.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6765,
+       "median": 62.7,
+       "kind": "yards"
+      }
      },
      "Kayshon Boutte": {
       "books": {
@@ -8688,7 +9194,13 @@
         "line": 29.5,
         "vs_consensus": -2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6724,
+       "median": 50.6,
+       "kind": "yards"
+      }
      },
      "Jaylin Noel": {
       "books": {
@@ -8824,7 +9336,13 @@
         "line": 25.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6486,
+       "median": 38.6,
+       "kind": "yards"
+      }
      },
      "Chase Brown": {
       "books": {
@@ -8886,7 +9404,13 @@
         "line": 21.5,
         "vs_consensus": 2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7984,
+       "median": 41.8,
+       "kind": "yards"
+      }
      },
      "Andrei Iosivas": {
       "books": {
@@ -8958,7 +9482,13 @@
         "line": 13.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7582,
+       "median": 35.1,
+       "kind": "yards"
+      }
      },
      "David Montgomery": {
       "books": {
@@ -9191,7 +9721,13 @@
         "line": 72.5,
         "vs_consensus": 9.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.642,
+       "median": 85.5,
+       "kind": "yards"
+      }
      },
      "Chase Brown": {
       "books": {
@@ -9258,7 +9794,13 @@
         "line": 65.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.6997,
+       "median": 81.9,
+       "kind": "yards"
+      }
      },
      "Woody Marks": {
       "books": {
@@ -9325,7 +9867,13 @@
         "line": 39.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.833,
+       "median": 69.3,
+       "kind": "yards"
+      }
      },
      "Samaje Perine": {
       "books": {
@@ -9557,7 +10105,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3633,
+       "kind": "score"
+      }
      },
      "Emeka Egbuka": {
       "books": {
@@ -9597,7 +10150,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2768,
+       "kind": "score"
+      }
      },
      "Quinshon Judkins": {
       "books": {
@@ -9637,7 +10195,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.41,
+       "kind": "score"
+      }
      },
      "Kenny Gainwell": {
       "books": {
@@ -9677,7 +10240,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4875,
+       "kind": "score"
+      }
      },
      "Chris Godwin": {
       "books": {
@@ -9717,7 +10285,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2534,
+       "kind": "score"
+      }
      },
      "Sean Tucker": {
       "books": {
@@ -9754,7 +10327,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3418,
+       "kind": "score"
+      }
      },
      "Cade Otton": {
       "books": {
@@ -9794,7 +10372,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2491,
+       "kind": "score"
+      }
      },
      "Jalen McMillan": {
       "books": {
@@ -9874,7 +10457,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3365,
+       "kind": "score"
+      }
      },
      "Denzel Boston": {
       "books": {
@@ -9994,7 +10582,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2374,
+       "kind": "score"
+      }
      },
      "KC Concepcion": {
       "books": {
@@ -10105,7 +10698,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1898,
+       "kind": "score"
+      }
      },
      "Deshaun Watson": {
       "books": {
@@ -10213,7 +10811,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2118,
+       "kind": "score"
+      }
      },
      "Raheim Sanders": {
       "books": {
@@ -10253,7 +10856,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2006,
+       "kind": "score"
+      }
      },
      "Jaleel McLaughlin": {
       "books": {
@@ -10330,7 +10938,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1253,
+       "kind": "score"
+      }
      },
      "Isaiah Bond": {
       "books": {
@@ -10524,7 +11137,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1063,
+       "kind": "score"
+      }
      },
      "Blake Whiteheart": {
       "books": {
@@ -10564,7 +11182,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1091,
+       "kind": "score"
+      }
      },
      "Carsen Ryan": {
       "books": {
@@ -10638,7 +11261,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1773,
+       "kind": "score"
+      }
      },
      "Michael Burton": {
       "books": {
@@ -10895,7 +11523,13 @@
         "line": 64.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5223,
+       "median": 55.9,
+       "kind": "yards"
+      }
      },
      "Chris Godwin": {
       "books": {
@@ -10964,7 +11598,13 @@
         "line": 47.5,
         "vs_consensus": 8.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6016,
+       "median": 51.5,
+       "kind": "yards"
+      }
      },
      "Harold Fannin Jr.": {
       "books": {
@@ -11033,7 +11673,13 @@
         "line": 45.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6401,
+       "median": 46.1,
+       "kind": "yards"
+      }
      },
      "KC Concepcion": {
       "books": {
@@ -11209,7 +11855,13 @@
       "under": null,
       "yes": null,
       "edge": null,
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7061,
+       "median": 50.1,
+       "kind": "yards"
+      }
      },
      "Jerry Jeudy": {
       "books": {
@@ -11278,7 +11930,13 @@
         "line": 26.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7408,
+       "median": 49.2,
+       "kind": "yards"
+      }
      },
      "Jalen McMillan": {
       "books": {
@@ -11402,7 +12060,13 @@
         "line": 15.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.658,
+       "median": 26.8,
+       "kind": "yards"
+      }
      },
      "Kenny Gainwell": {
       "books": {
@@ -11469,7 +12133,13 @@
         "line": 12.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.87,
+       "median": 41.5,
+       "kind": "yards"
+      }
      },
      "Quinshon Judkins": {
       "books": {
@@ -11589,7 +12259,13 @@
         "line": 75.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.4905,
+       "median": 63.5,
+       "kind": "yards"
+      }
      },
      "Quinshon Judkins": {
       "books": {
@@ -11658,7 +12334,13 @@
         "line": 60.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.6084,
+       "median": 62.3,
+       "kind": "yards"
+      }
      },
      "Kenny Gainwell": {
       "books": {
@@ -11980,7 +12662,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4577,
+       "kind": "score"
+      }
      },
      "MarShawn Lloyd": {
       "books": {
@@ -12060,7 +12747,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1802,
+       "kind": "score"
+      }
      },
      "Christian Watson": {
       "books": {
@@ -12100,7 +12792,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3288,
+       "kind": "score"
+      }
      },
      "Garrett Wilson": {
       "books": {
@@ -12180,7 +12877,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1763,
+       "kind": "score"
+      }
      },
      "Matthew Golden": {
       "books": {
@@ -12220,7 +12922,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.212,
+       "kind": "score"
+      }
      },
      "Jayden Reed": {
       "books": {
@@ -12260,7 +12967,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1986,
+       "kind": "score"
+      }
      },
      "Braelon Allen": {
       "books": {
@@ -12340,7 +13052,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2252,
+       "kind": "score"
+      }
      },
      "Mason Taylor": {
       "books": {
@@ -12380,7 +13097,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1755,
+       "kind": "score"
+      }
      },
      "Isaiah Williams": {
       "books": {
@@ -12497,7 +13219,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2229,
+       "kind": "score"
+      }
      },
      "Green Bay Packers D/ST": {
       "books": {
@@ -12568,7 +13295,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.177,
+       "kind": "score"
+      }
      },
      "Kaleb Johnson": {
       "books": {
@@ -12676,7 +13408,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1757,
+       "kind": "score"
+      }
      },
      "Bo Melton": {
       "books": {
@@ -12756,7 +13493,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1704,
+       "kind": "score"
+      }
      },
      "Josh Whyle": {
       "books": {
@@ -12793,7 +13535,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1397,
+       "kind": "score"
+      }
      },
      "Isaiah Davis": {
       "books": {
@@ -12873,7 +13620,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1727,
+       "kind": "score"
+      }
      },
      "Mark Redman": {
       "books": {
@@ -13030,7 +13782,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1818,
+       "kind": "score"
+      }
      },
      "Green Bay Packers Defense": {
       "books": {
@@ -13390,7 +14147,13 @@
         "line": 70.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6332,
+       "median": 79.4,
+       "kind": "yards"
+      }
      },
      "Matthew Golden": {
       "books": {
@@ -13462,7 +14225,13 @@
         "line": 59.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4706,
+       "median": 46.4,
+       "kind": "yards"
+      }
      },
      "Tucker Kraft": {
       "books": {
@@ -13585,7 +14354,13 @@
         "line": 47.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.449,
+       "median": 33.5,
+       "kind": "yards"
+      }
      },
      "Adonai Mitchell": {
       "books": {
@@ -13652,7 +14427,13 @@
         "line": 44.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6898,
+       "median": 52.3,
+       "kind": "yards"
+      }
      },
      "Kenyon Sadiq": {
       "books": {
@@ -13906,7 +14687,13 @@
         "line": 11.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7449,
+       "median": 28.2,
+       "kind": "yards"
+      }
      },
      "Chris Brooks": {
       "books": {
@@ -14088,7 +14875,13 @@
         "line": 75.5,
         "vs_consensus": 9.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.6127,
+       "median": 80.3,
+       "kind": "yards"
+      }
      },
      "MarShawn Lloyd": {
       "books": {
@@ -14444,7 +15237,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4529,
+       "kind": "score"
+      }
      },
      "Jaylen Warren": {
       "books": {
@@ -14484,7 +15282,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4916,
+       "kind": "score"
+      }
      },
      "Rico Dowdle": {
       "books": {
@@ -14524,7 +15327,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3582,
+       "kind": "score"
+      }
      },
      "TreVeyon Henderson": {
       "books": {
@@ -14564,7 +15372,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4803,
+       "kind": "score"
+      }
      },
      "Hunter Henry": {
       "books": {
@@ -14604,7 +15417,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2956,
+       "kind": "score"
+      }
      },
      "Drake Maye": {
       "books": {
@@ -14644,7 +15462,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2999,
+       "kind": "score"
+      }
      },
      "DK Metcalf": {
       "books": {
@@ -14684,7 +15507,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2794,
+       "kind": "score"
+      }
      },
      "Mack Hollins": {
       "books": {
@@ -14724,7 +15552,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.167,
+       "kind": "score"
+      }
      },
      "Romeo Doubs": {
       "books": {
@@ -14764,7 +15597,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2461,
+       "kind": "score"
+      }
      },
      "Roman Wilson": {
       "books": {
@@ -14844,7 +15682,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1509,
+       "kind": "score"
+      }
      },
      "Pat Freiermuth": {
       "books": {
@@ -14884,7 +15727,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2599,
+       "kind": "score"
+      }
      },
      "New England Patriots D/ST": {
       "books": {
@@ -14986,7 +15834,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1801,
+       "kind": "score"
+      }
      },
      "Eli Raridon": {
       "books": {
@@ -15066,7 +15919,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1226,
+       "kind": "score"
+      }
      },
      "Germie Bernard": {
       "books": {
@@ -15146,7 +16004,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1592,
+       "kind": "score"
+      }
      },
      "Aaron Rodgers": {
       "books": {
@@ -15186,7 +16049,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1451,
+       "kind": "score"
+      }
      },
      "Kaden Wetjen": {
       "books": {
@@ -15781,7 +16649,13 @@
         "line": 67.5,
         "vs_consensus": 8.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.467,
+       "median": 56.1,
+       "kind": "yards"
+      }
      },
      "Romeo Doubs": {
       "books": {
@@ -15837,7 +16711,13 @@
         "line": 51.5,
         "vs_consensus": 11.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6018,
+       "median": 52.1,
+       "kind": "yards"
+      }
      },
      "Hunter Henry": {
       "books": {
@@ -15904,7 +16784,13 @@
         "line": 47.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7,
+       "median": 66.1,
+       "kind": "yards"
+      }
      },
      "DeMario Douglas": {
       "books": {
@@ -15976,7 +16862,13 @@
         "line": 46.5,
         "vs_consensus": 12.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5693,
+       "median": 41.6,
+       "kind": "yards"
+      }
      },
      "Mack Hollins": {
       "books": {
@@ -16038,7 +16930,13 @@
         "line": 45.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6671,
+       "median": 56.2,
+       "kind": "yards"
+      }
      },
      "Roman Wilson": {
       "books": {
@@ -16151,7 +17049,13 @@
         "line": 33.5,
         "vs_consensus": 2.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6281,
+       "median": 43.4,
+       "kind": "yards"
+      }
      },
      "Jaylen Warren": {
       "books": {
@@ -16223,7 +17127,13 @@
         "line": 20.5,
         "vs_consensus": 2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6307,
+       "median": 27.0,
+       "kind": "yards"
+      }
      },
      "Rhamondre Stevenson": {
       "books": {
@@ -16279,7 +17189,13 @@
        "book": "DraftKings",
        "basis": "de-vigged consensus at matching line"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.736,
+       "median": 37.7,
+       "kind": "yards"
+      }
      },
      "Germie Bernard": {
       "books": {
@@ -16470,7 +17386,13 @@
         "line": 13.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6605,
+       "median": 22.3,
+       "kind": "yards"
+      }
      },
      "TreVeyon Henderson": {
       "books": {
@@ -16563,7 +17485,13 @@
         "line": 58.5,
         "vs_consensus": 9.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7324,
+       "median": 84.4,
+       "kind": "yards"
+      }
      },
      "Jaylen Warren": {
       "books": {
@@ -16635,7 +17563,13 @@
         "line": 53.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7453,
+       "median": 74.2,
+       "kind": "yards"
+      }
      },
      "TreVeyon Henderson": {
       "books": {
@@ -16694,7 +17628,13 @@
         "line": 34.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.8554,
+       "median": 89.8,
+       "kind": "yards"
+      }
      },
      "Rico Dowdle": {
       "books": {
@@ -16750,7 +17690,13 @@
         "line": 42.5,
         "vs_consensus": 9.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7616,
+       "median": 58.7,
+       "kind": "yards"
+      }
      },
      "Drake Maye": {
       "books": {
@@ -16910,7 +17856,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.5006,
+       "kind": "score"
+      }
      },
      "Jalen Hurts": {
       "books": {
@@ -16950,7 +17901,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2629,
+       "kind": "score"
+      }
      },
      "DeVonta Smith": {
       "books": {
@@ -16990,7 +17946,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2951,
+       "kind": "score"
+      }
      },
      "Tony Pollard": {
       "books": {
@@ -17030,7 +17991,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3658,
+       "kind": "score"
+      }
      },
      "Dallas Goedert": {
       "books": {
@@ -17070,7 +18036,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3548,
+       "kind": "score"
+      }
      },
      "Dontayvion Wicks": {
       "books": {
@@ -17110,7 +18081,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2162,
+       "kind": "score"
+      }
      },
      "Tyjae Spears": {
       "books": {
@@ -17150,7 +18126,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3315,
+       "kind": "score"
+      }
      },
      "Carnell Tate": {
       "books": {
@@ -17261,7 +18242,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3167,
+       "kind": "score"
+      }
      },
      "Makai Lemon": {
       "books": {
@@ -17341,7 +18327,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3912,
+       "kind": "score"
+      }
      },
      "Tennessee Titans D/ST": {
       "books": {
@@ -17412,7 +18403,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2208,
+       "kind": "score"
+      }
      },
      "Elic Ayomanor": {
       "books": {
@@ -17452,7 +18448,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2582,
+       "kind": "score"
+      }
      },
      "Cam Ward": {
       "books": {
@@ -17492,7 +18493,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1858,
+       "kind": "score"
+      }
      },
      "Calvin Ridley": {
       "books": {
@@ -17572,7 +18578,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1809,
+       "kind": "score"
+      }
      },
      "Johnny Mundt": {
       "books": {
@@ -17692,7 +18703,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2608,
+       "kind": "score"
+      }
      },
      "Darius Cooper": {
       "books": {
@@ -17806,7 +18822,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1032,
+       "kind": "score"
+      }
      },
      "Britain Covey": {
       "books": {
@@ -17917,7 +18938,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1386,
+       "kind": "score"
+      }
      },
      "David Martin-Robinson": {
       "books": {
@@ -17954,7 +18980,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1134,
+       "kind": "score"
+      }
      },
      "Elijah Moore": {
       "books": {
@@ -18257,7 +19288,13 @@
         "line": 60.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6072,
+       "median": 73.3,
+       "kind": "yards"
+      }
      },
      "Carnell Tate": {
       "books": {
@@ -18393,7 +19430,13 @@
         "line": 39.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6704,
+       "median": 61.7,
+       "kind": "yards"
+      }
      },
      "Wan'Dale Robinson": {
       "books": {
@@ -18439,7 +19482,13 @@
         "line": 36.5,
         "vs_consensus": -1.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7262,
+       "median": 64.4,
+       "kind": "yards"
+      }
      },
      "Dontayvion Wicks": {
       "books": {
@@ -18639,7 +19688,13 @@
         "line": 23.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.591,
+       "median": 28.7,
+       "kind": "yards"
+      }
      },
      "Calvin Ridley": {
       "books": {
@@ -18747,7 +19802,13 @@
         "line": 14.5,
         "vs_consensus": -2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7173,
+       "median": 30.7,
+       "kind": "yards"
+      }
      },
      "Saquon Barkley": {
       "books": {
@@ -18955,7 +20016,13 @@
         "line": 80.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.537,
+       "median": 85.6,
+       "kind": "yards"
+      }
      },
      "Tony Pollard": {
       "books": {
@@ -19022,7 +20089,13 @@
         "line": 40.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.796,
+       "median": 78.9,
+       "kind": "yards"
+      }
      },
      "Jalen Hurts": {
       "books": {
@@ -19250,7 +20323,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1708,
+       "kind": "score"
+      }
      },
      "Jaylen Waddle": {
       "books": {
@@ -19290,7 +20368,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1961,
+       "kind": "score"
+      }
      },
      "Bhayshul Tuten": {
       "books": {
@@ -19330,7 +20413,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3174,
+       "kind": "score"
+      }
      },
      "Parker Washington": {
       "books": {
@@ -19370,7 +20458,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3488,
+       "kind": "score"
+      }
      },
      "Courtland Sutton": {
       "books": {
@@ -19410,7 +20503,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3593,
+       "kind": "score"
+      }
      },
      "Jakobi Meyers": {
       "books": {
@@ -19450,7 +20548,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3495,
+       "kind": "score"
+      }
      },
      "RJ Harvey": {
       "books": {
@@ -19487,7 +20590,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4945,
+       "kind": "score"
+      }
      },
      "Chris Rodriguez Jr.": {
       "books": {
@@ -19527,7 +20635,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4528,
+       "kind": "score"
+      }
      },
      "Brenton Strange": {
       "books": {
@@ -19567,7 +20680,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2893,
+       "kind": "score"
+      }
      },
      "Bo Nix": {
       "books": {
@@ -19607,7 +20725,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2022,
+       "kind": "score"
+      }
      },
      "Pat Bryant": {
       "books": {
@@ -19647,7 +20770,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2101,
+       "kind": "score"
+      }
      },
      "Jonah Coleman": {
       "books": {
@@ -19724,7 +20852,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1978,
+       "kind": "score"
+      }
      },
      "Trevor Lawrence": {
       "books": {
@@ -19764,7 +20897,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2944,
+       "kind": "score"
+      }
      },
      "Evan Engram": {
       "books": {
@@ -19804,7 +20942,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2187,
+       "kind": "score"
+      }
      },
      "Denver Broncos D/ST": {
       "books": {
@@ -19884,7 +21027,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2452,
+       "kind": "score"
+      }
      },
      "Tyler Badie": {
       "books": {
@@ -19921,7 +21069,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1671,
+       "kind": "score"
+      }
      },
      "Adam Trautman": {
       "books": {
@@ -19961,7 +21114,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1205,
+       "kind": "score"
+      }
      },
      "LeQuint Allen Jr.": {
       "books": {
@@ -20232,7 +21390,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1658,
+       "kind": "score"
+      }
      },
      "Nate Adkins": {
       "books": {
@@ -20272,7 +21435,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1096,
+       "kind": "score"
+      }
      },
      "Quintin Morris": {
       "books": {
@@ -20312,7 +21480,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1721,
+       "kind": "score"
+      }
      },
      "Tanner Koziol": {
       "books": {
@@ -20457,7 +21630,12 @@
        "book": "BetRivers"
       },
       "edge": null,
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1648,
+       "kind": "score"
+      }
      }
     },
     "player_pass_yds": {
@@ -20649,7 +21827,13 @@
         "line": 68.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6444,
+       "median": 78.1,
+       "kind": "yards"
+      }
      },
      "Jaylen Waddle": {
       "books": {
@@ -20720,7 +21904,13 @@
         "line": 66.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4203,
+       "median": 47.3,
+       "kind": "yards"
+      }
      },
      "Courtland Sutton": {
       "books": {
@@ -20787,7 +21977,13 @@
         "line": 50.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6826,
+       "median": 60.4,
+       "kind": "yards"
+      }
      },
      "Jakobi Meyers": {
       "books": {
@@ -20854,7 +22050,13 @@
         "line": 46.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7107,
+       "median": 60.2,
+       "kind": "yards"
+      }
      },
      "Pat Bryant": {
       "books": {
@@ -20926,7 +22128,13 @@
         "line": 43.5,
         "vs_consensus": 13.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6161,
+       "median": 41.3,
+       "kind": "yards"
+      }
      },
      "Brian Thomas Jr": {
       "books": {
@@ -20982,7 +22190,13 @@
         "line": 42.5,
         "vs_consensus": 7.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6699,
+       "median": 55.9,
+       "kind": "yards"
+      }
      },
      "Brenton Strange": {
       "books": {
@@ -21033,7 +22247,13 @@
         "line": 40.5,
         "vs_consensus": 9.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6332,
+       "median": 43.9,
+       "kind": "yards"
+      }
      },
      "Evan Engram": {
       "books": {
@@ -21100,7 +22320,13 @@
         "line": 23.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6995,
+       "median": 43.0,
+       "kind": "yards"
+      }
      },
      "Bhayshul Tuten": {
       "books": {
@@ -21426,7 +22652,13 @@
         "line": 25.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.8126,
+       "median": 61.8,
+       "kind": "yards"
+      }
      },
      "Bo Nix": {
       "books": {
@@ -21586,7 +22818,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3841,
+       "kind": "score"
+      }
      },
      "Ashton Jeanty": {
       "books": {
@@ -21626,7 +22863,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4677,
+       "kind": "score"
+      }
      },
      "Quentin Johnston": {
       "books": {
@@ -21666,7 +22908,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2393,
+       "kind": "score"
+      }
      },
      "Ladd McConkey": {
       "books": {
@@ -21703,7 +22950,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2999,
+       "kind": "score"
+      }
      },
      "Michael Mayer": {
       "books": {
@@ -21743,7 +22995,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.19,
+       "kind": "score"
+      }
      },
      "Tre Harris": {
       "books": {
@@ -21783,7 +23040,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1548,
+       "kind": "score"
+      }
      },
      "David Njoku": {
       "books": {
@@ -21823,7 +23085,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.197,
+       "kind": "score"
+      }
      },
      "Tre Tucker": {
       "books": {
@@ -21863,7 +23130,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2708,
+       "kind": "score"
+      }
      },
      "Keaton Mitchell": {
       "books": {
@@ -21903,7 +23175,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2183,
+       "kind": "score"
+      }
      },
      "Los Angeles Chargers D/ST": {
       "books": {
@@ -21963,7 +23240,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.223,
+       "kind": "score"
+      }
      },
      "Jalen Nailor": {
       "books": {
@@ -22003,7 +23285,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1781,
+       "kind": "score"
+      }
      },
      "Charlie Kolar": {
       "books": {
@@ -22043,7 +23330,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1306,
+       "kind": "score"
+      }
      },
      "Mike Washington Jr.": {
       "books": {
@@ -22154,7 +23446,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2387,
+       "kind": "score"
+      }
      },
      "Brenen Thompson": {
       "books": {
@@ -22234,7 +23531,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1716,
+       "kind": "score"
+      }
      },
      "Derius Davis": {
       "books": {
@@ -22311,7 +23613,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3144,
+       "kind": "score"
+      }
      },
      "Malik Benson": {
       "books": {
@@ -22391,7 +23698,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.0955,
+       "kind": "score"
+      }
      },
      "Connor Heyward": {
       "books": {
@@ -22431,7 +23743,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.213,
+       "kind": "score"
+      }
      },
      "Dylan Laube": {
       "books": {
@@ -22511,7 +23828,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1441,
+       "kind": "score"
+      }
      },
      "Cody White": {
       "books": {
@@ -22582,7 +23904,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.0951,
+       "kind": "score"
+      }
      },
      "Dareke Young": {
       "books": {
@@ -22857,7 +24184,13 @@
         "line": 52.5,
         "vs_consensus": 1.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5106,
+       "median": 52.5,
+       "kind": "yards"
+      }
      },
      "Michael Mayer": {
       "books": {
@@ -22914,7 +24247,13 @@
         "line": 43.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4344,
+       "median": 38.8,
+       "kind": "yards"
+      }
      },
      "Tre Tucker": {
       "books": {
@@ -22973,7 +24312,13 @@
         "line": 34.5,
         "vs_consensus": -2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6146,
+       "median": 45.8,
+       "kind": "yards"
+      }
      },
      "Jalen Nailor": {
       "books": {
@@ -23024,7 +24369,13 @@
        "book": "DraftKings",
        "basis": "de-vigged consensus at matching line"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.581,
+       "median": 40.3,
+       "kind": "yards"
+      }
      },
      "Tre Harris": {
       "books": {
@@ -23086,7 +24437,13 @@
         "line": 31.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5919,
+       "median": 41.0,
+       "kind": "yards"
+      }
      },
      "Ashton Jeanty": {
       "books": {
@@ -23132,7 +24489,13 @@
         "line": 23.5,
         "vs_consensus": -2.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.558,
+       "median": 30.0,
+       "kind": "yards"
+      }
      },
      "David Njoku": {
       "books": {
@@ -23261,7 +24624,13 @@
         "line": 16.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7928,
+       "median": 44.6,
+       "kind": "yards"
+      }
      },
      "Omarion Hampton": {
       "books": {
@@ -23376,7 +24745,13 @@
         "line": 73.5,
         "vs_consensus": 9.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.6566,
+       "median": 84.4,
+       "kind": "yards"
+      }
      },
      "Omarion Hampton": {
       "books": {
@@ -23438,7 +24813,13 @@
         "line": 72.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.4592,
+       "median": 58.2,
+       "kind": "yards"
+      }
      },
      "Keaton Mitchell": {
       "books": {
@@ -23693,7 +25074,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4951,
+       "kind": "score"
+      }
      },
      "Jadarian Price": {
       "books": {
@@ -23773,7 +25159,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4867,
+       "kind": "score"
+      }
      },
      "Jeremiyah Love": {
       "books": {
@@ -23853,7 +25244,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4037,
+       "kind": "score"
+      }
      },
      "George Holani": {
       "books": {
@@ -23933,7 +25329,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2711,
+       "kind": "score"
+      }
      },
      "Cooper Kupp": {
       "books": {
@@ -23973,7 +25374,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2561,
+       "kind": "score"
+      }
      },
      "Rashid Shaheed": {
       "books": {
@@ -24013,7 +25419,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1557,
+       "kind": "score"
+      }
      },
      "Michael Wilson": {
       "books": {
@@ -24053,7 +25464,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3551,
+       "kind": "score"
+      }
      },
      "Marvin Harrison Jr.": {
       "books": {
@@ -24093,7 +25509,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1625,
+       "kind": "score"
+      }
      },
      "Drew Lock": {
       "books": {
@@ -24133,7 +25554,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1024,
+       "kind": "score"
+      }
      },
      "Kendrick Bourne": {
       "books": {
@@ -24213,7 +25639,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2915,
+       "kind": "score"
+      }
      },
      "Jacoby Brissett": {
       "books": {
@@ -24253,7 +25684,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.165,
+       "kind": "score"
+      }
      },
      "Elijah Arroyo": {
       "books": {
@@ -24293,7 +25729,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1411,
+       "kind": "score"
+      }
      },
      "Tory Horton": {
       "books": {
@@ -24373,7 +25814,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1683,
+       "kind": "score"
+      }
      },
      "Hunter Long": {
       "books": {
@@ -24410,7 +25856,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1202,
+       "kind": "score"
+      }
      },
      "Eric Saubert": {
       "books": {
@@ -24450,7 +25901,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1563,
+       "kind": "score"
+      }
      },
      "Devin Duvernay": {
       "books": {
@@ -24527,7 +25983,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1439,
+       "kind": "score"
+      }
      },
      "Zonovan Knight": {
       "books": {
@@ -24812,7 +26273,12 @@
        "book": "FanDuel"
       },
       "edge": null,
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2295,
+       "kind": "score"
+      }
      },
      "Seattle Seahawks D/ST": {
       "books": {
@@ -25044,7 +26510,13 @@
         "line": 101.5,
         "vs_consensus": 20.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7316,
+       "median": 140.6,
+       "kind": "yards"
+      }
      },
      "Trey McBride": {
       "books": {
@@ -25113,7 +26585,13 @@
         "line": 72.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6628,
+       "median": 87.5,
+       "kind": "yards"
+      }
      },
      "Michael Wilson": {
       "books": {
@@ -25180,7 +26658,13 @@
         "line": 47.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.8228,
+       "median": 88.5,
+       "kind": "yards"
+      }
      },
      "Marvin Harrison Jr.": {
       "books": {
@@ -25313,7 +26797,13 @@
         "line": 23.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6667,
+       "median": 41.1,
+       "kind": "yards"
+      }
      },
      "Kendrick Bourne": {
       "books": {
@@ -25365,7 +26855,13 @@
         "line": 24.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.634,
+       "median": 35.2,
+       "kind": "yards"
+      }
      },
      "AJ Barner": {
       "books": {
@@ -25437,7 +26933,13 @@
         "line": 21.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7604,
+       "median": 49.5,
+       "kind": "yards"
+      }
      },
      "Cooper Kupp": {
       "books": {
@@ -25504,7 +27006,13 @@
         "line": 23.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7578,
+       "median": 48.9,
+       "kind": "yards"
+      }
      },
      "Jeremiyah Love": {
       "books": {
@@ -25824,7 +27332,13 @@
         "line": 44.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7341,
+       "median": 59.9,
+       "kind": "yards"
+      }
      },
      "George Holani": {
       "books": {
@@ -26051,7 +27565,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.579,
+       "kind": "score"
+      }
      },
      "Jacory Croskey-Merritt": {
       "books": {
@@ -26091,7 +27610,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.532,
+       "kind": "score"
+      }
      },
      "CeeDee Lamb": {
       "books": {
@@ -26131,7 +27655,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3973,
+       "kind": "score"
+      }
      },
      "George Pickens": {
       "books": {
@@ -26171,7 +27700,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3891,
+       "kind": "score"
+      }
      },
      "Terry McLaurin": {
       "books": {
@@ -26211,7 +27745,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2509,
+       "kind": "score"
+      }
      },
      "Jayden Daniels": {
       "books": {
@@ -26251,7 +27790,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1568,
+       "kind": "score"
+      }
      },
      "Rachaad White": {
       "books": {
@@ -26288,7 +27832,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3431,
+       "kind": "score"
+      }
      },
      "Stefon Diggs": {
       "books": {
@@ -26328,7 +27877,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.342,
+       "kind": "score"
+      }
      },
      "Jake Ferguson": {
       "books": {
@@ -26368,7 +27922,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3508,
+       "kind": "score"
+      }
      },
      "Ryan Flournoy": {
       "books": {
@@ -26408,7 +27967,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2389,
+       "kind": "score"
+      }
      },
      "Emari Demercado": {
       "books": {
@@ -26445,7 +28009,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.156,
+       "kind": "score"
+      }
      },
      "Antonio Williams": {
       "books": {
@@ -26545,7 +28114,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2361,
+       "kind": "score"
+      }
      },
      "John Bates": {
       "books": {
@@ -26585,7 +28159,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2326,
+       "kind": "score"
+      }
      },
      "Dallas Cowboys D/ST": {
       "books": {
@@ -26685,7 +28264,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1635,
+       "kind": "score"
+      }
      },
      "KaVontae Turpin": {
       "books": {
@@ -26725,7 +28309,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1814,
+       "kind": "score"
+      }
      },
      "Dyami Brown": {
       "books": {
@@ -26805,7 +28394,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1477,
+       "kind": "score"
+      }
      },
      "Hunter Luepke": {
       "books": {
@@ -26845,7 +28439,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1701,
+       "kind": "score"
+      }
      },
      "Jonathan Mingo": {
       "books": {
@@ -26925,7 +28524,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1312,
+       "kind": "score"
+      }
      },
      "Jaylin Lane": {
       "books": {
@@ -27079,7 +28683,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2363,
+       "kind": "score"
+      }
      },
      "Tyler Goodson": {
       "books": {
@@ -27150,7 +28759,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1163,
+       "kind": "score"
+      }
      },
      "Washington Commanders Defense": {
       "books": {
@@ -27367,7 +28981,13 @@
         "line": 97.5,
         "vs_consensus": 21.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5618,
+       "median": 84.9,
+       "kind": "yards"
+      }
      },
      "George Pickens": {
       "books": {
@@ -27418,7 +29038,13 @@
         "line": 73.5,
         "vs_consensus": 9.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6477,
+       "median": 87.0,
+       "kind": "yards"
+      }
      },
      "Terry McLaurin": {
       "books": {
@@ -27490,7 +29116,13 @@
         "line": 64.5,
         "vs_consensus": 11.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5985,
+       "median": 69.0,
+       "kind": "yards"
+      }
      },
      "Stefon Diggs": {
       "books": {
@@ -27562,7 +29194,13 @@
         "line": 58.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7385,
+       "median": 86.1,
+       "kind": "yards"
+      }
      },
      "Ryan Flournoy": {
       "books": {
@@ -27613,7 +29251,13 @@
         "line": 30.5,
         "vs_consensus": 1.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7051,
+       "median": 51.8,
+       "kind": "yards"
+      }
      },
      "Antonio Williams": {
       "books": {
@@ -27757,7 +29401,13 @@
         "line": 25.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6788,
+       "median": 43.5,
+       "kind": "yards"
+      }
      },
      "Javonte Williams": {
       "books": {
@@ -27944,7 +29594,13 @@
         "line": 97.5,
         "vs_consensus": 20.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.4923,
+       "median": 75.9,
+       "kind": "yards"
+      }
      },
      "Jacory Croskey-Merritt": {
       "books": {
@@ -28016,7 +29672,13 @@
         "line": 63.5,
         "vs_consensus": 12.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.685,
+       "median": 71.9,
+       "kind": "yards"
+      }
      },
      "Jayden Daniels": {
       "books": {
@@ -28289,7 +29951,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.6258,
+       "kind": "score"
+      }
      },
      "De'Von Achane": {
       "books": {
@@ -28329,7 +29996,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4228,
+       "kind": "score"
+      }
      },
      "Mike Evans": {
       "books": {
@@ -28369,7 +30041,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.312,
+       "kind": "score"
+      }
      },
      "George Kittle": {
       "books": {
@@ -28409,7 +30086,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3714,
+       "kind": "score"
+      }
      },
      "Deebo Samuel": {
       "books": {
@@ -28449,7 +30131,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3949,
+       "kind": "score"
+      }
      },
      "Kaelon Black": {
       "books": {
@@ -28529,7 +30216,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2319,
+       "kind": "score"
+      }
      },
      "Demarcus Robinson": {
       "books": {
@@ -28569,7 +30261,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2335,
+       "kind": "score"
+      }
      },
      "Malik Willis": {
       "books": {
@@ -28609,7 +30306,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2367,
+       "kind": "score"
+      }
      },
      "Caleb Douglas": {
       "books": {
@@ -28689,7 +30391,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2413,
+       "kind": "score"
+      }
      },
      "San Francisco 49ers D/ST": {
       "books": {
@@ -28760,7 +30467,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2412,
+       "kind": "score"
+      }
      },
      "Miami Dolphins D/ST": {
       "books": {
@@ -28871,7 +30583,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1677,
+       "kind": "score"
+      }
      },
      "Kyle Juszczyk": {
       "books": {
@@ -28911,7 +30628,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2022,
+       "kind": "score"
+      }
      },
      "James Jordan": {
       "books": {
@@ -29028,7 +30750,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2206,
+       "kind": "score"
+      }
      },
      "Jaylen Wright": {
       "books": {
@@ -29068,7 +30795,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3256,
+       "kind": "score"
+      }
      },
      "Will Kacmarek": {
       "books": {
@@ -29361,7 +31093,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1129,
+       "kind": "score"
+      }
      },
      "Seydou Traore": {
       "books": {
@@ -29678,7 +31415,13 @@
         "line": 59.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4469,
+       "median": 44.4,
+       "kind": "yards"
+      }
      },
      "Christian McCaffrey": {
       "books": {
@@ -29734,7 +31477,13 @@
         "line": 51.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6062,
+       "median": 50.4,
+       "kind": "yards"
+      }
      },
      "George Kittle": {
       "books": {
@@ -29796,7 +31545,13 @@
         "line": 50.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6388,
+       "median": 53.9,
+       "kind": "yards"
+      }
      },
      "Caleb Douglas": {
       "books": {
@@ -29934,7 +31689,13 @@
         "line": 43.5,
         "vs_consensus": 8.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7232,
+       "median": 59.3,
+       "kind": "yards"
+      }
      },
      "Malik Washington": {
       "books": {
@@ -30003,7 +31764,13 @@
         "line": 42.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5478,
+       "median": 37.8,
+       "kind": "yards"
+      }
      },
      "De'Von Achane": {
       "books": {
@@ -30043,7 +31810,13 @@
       "under": null,
       "yes": null,
       "edge": null,
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5916,
+       "median": 34.1,
+       "kind": "yards"
+      }
      },
      "Demarcus Robinson": {
       "books": {
@@ -30156,7 +31929,13 @@
         "line": 21.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7082,
+       "median": 43.5,
+       "kind": "yards"
+      }
      },
      "Chris Bell": {
       "books": {
@@ -30275,7 +32054,13 @@
         "line": 72.5,
         "vs_consensus": 11.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7392,
+       "median": 100.5,
+       "kind": "yards"
+      }
      },
      "De'Von Achane": {
       "books": {
@@ -30344,7 +32129,13 @@
         "line": 71.5,
         "vs_consensus": 13.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7065,
+       "median": 88.2,
+       "kind": "yards"
+      }
      },
      "Malik Willis": {
       "books": {
@@ -30591,7 +32382,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4592,
+       "kind": "score"
+      }
      },
      "Jonathan Taylor": {
       "books": {
@@ -30631,7 +32427,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.5641,
+       "kind": "score"
+      }
      },
      "Rashee Rice": {
       "books": {
@@ -30671,7 +32472,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3283,
+       "kind": "score"
+      }
      },
      "Travis Kelce": {
       "books": {
@@ -30711,7 +32517,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2926,
+       "kind": "score"
+      }
      },
      "Tyler Warren": {
       "books": {
@@ -30751,7 +32562,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3871,
+       "kind": "score"
+      }
      },
      "Xavier Worthy": {
       "books": {
@@ -30791,7 +32607,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.173,
+       "kind": "score"
+      }
      },
      "Patrick Mahomes": {
       "books": {
@@ -30831,7 +32652,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2061,
+       "kind": "score"
+      }
      },
      "Josh Downs": {
       "books": {
@@ -30871,7 +32697,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2822,
+       "kind": "score"
+      }
      },
      "Alec Pierce": {
       "books": {
@@ -30911,7 +32742,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3408,
+       "kind": "score"
+      }
      },
      "Keenan Allen": {
       "books": {
@@ -30951,7 +32787,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2994,
+       "kind": "score"
+      }
      },
      "Emmett Johnson": {
       "books": {
@@ -31091,7 +32932,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1505,
+       "kind": "score"
+      }
      },
      "Indianapolis Colts D/ST": {
       "books": {
@@ -31162,7 +33008,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1406,
+       "kind": "score"
+      }
      },
      "Seth McGowan": {
       "books": {
@@ -31282,7 +33133,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1995,
+       "kind": "score"
+      }
      },
      "Jared Wiley": {
       "books": {
@@ -31319,7 +33175,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.113,
+       "kind": "score"
+      }
      },
      "Laquon Treadwell": {
       "books": {
@@ -31436,7 +33297,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2107,
+       "kind": "score"
+      }
      },
      "Cyrus Allen": {
       "books": {
@@ -31936,7 +33802,13 @@
         "line": 62.5,
         "vs_consensus": 10.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5621,
+       "median": 60.4,
+       "kind": "yards"
+      }
      },
      "Alec Pierce": {
       "books": {
@@ -32003,7 +33875,13 @@
         "line": 54.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7061,
+       "median": 70.6,
+       "kind": "yards"
+      }
      },
      "Tyler Warren": {
       "books": {
@@ -32072,7 +33950,13 @@
         "line": 53.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4991,
+       "median": 43.4,
+       "kind": "yards"
+      }
      },
      "Josh Downs": {
       "books": {
@@ -32144,7 +34028,13 @@
         "line": 52.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5712,
+       "median": 48.7,
+       "kind": "yards"
+      }
      },
      "Travis Kelce": {
       "books": {
@@ -32216,7 +34106,13 @@
         "line": 51.5,
         "vs_consensus": 9.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6775,
+       "median": 62.2,
+       "kind": "yards"
+      }
      },
      "Xavier Worthy": {
       "books": {
@@ -32288,7 +34184,13 @@
         "line": 49.5,
         "vs_consensus": 10.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.5978,
+       "median": 50.8,
+       "kind": "yards"
+      }
      },
      "Keenan Allen": {
       "books": {
@@ -32360,7 +34262,13 @@
         "line": 33.5,
         "vs_consensus": 4.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7385,
+       "median": 52.4,
+       "kind": "yards"
+      }
      },
      "Kenneth Walker III": {
       "books": {
@@ -32406,7 +34314,13 @@
         "line": 19.5,
         "vs_consensus": -1.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6491,
+       "median": 33.2,
+       "kind": "yards"
+      }
      },
      "Tyquan Thornton": {
       "books": {
@@ -32529,7 +34443,13 @@
         "line": 15.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.6572,
+       "median": 26.7,
+       "kind": "yards"
+      }
      },
      "Noah Gray": {
       "books": {
@@ -32721,7 +34641,13 @@
         "line": 104.5,
         "vs_consensus": 19.5
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.5947,
+       "median": 99.3,
+       "kind": "yards"
+      }
      },
      "Kenneth Walker III": {
       "books": {
@@ -32793,7 +34719,13 @@
         "line": 102.5,
         "vs_consensus": 21.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.5826,
+       "median": 94.0,
+       "kind": "yards"
+      }
      },
      "Emmett Johnson": {
       "books": {
@@ -32999,7 +34931,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.5316,
+       "kind": "score"
+      }
      },
      "Davante Adams": {
       "books": {
@@ -33039,7 +34976,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3147,
+       "kind": "score"
+      }
      },
      "Puka Nacua": {
       "books": {
@@ -33079,7 +35021,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4781,
+       "kind": "score"
+      }
      },
      "Cam Skattebo": {
       "books": {
@@ -33119,7 +35066,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2604,
+       "kind": "score"
+      }
      },
      "Malik Nabers": {
       "books": {
@@ -33199,7 +35151,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.4381,
+       "kind": "score"
+      }
      },
      "Jaxson Dart": {
       "books": {
@@ -33239,7 +35196,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3476,
+       "kind": "score"
+      }
      },
      "Isaiah Likely": {
       "books": {
@@ -33279,7 +35241,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.275,
+       "kind": "score"
+      }
      },
      "Colby Parkinson": {
       "books": {
@@ -33319,7 +35286,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3517,
+       "kind": "score"
+      }
      },
      "Terrance Ferguson": {
       "books": {
@@ -33359,7 +35331,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2048,
+       "kind": "score"
+      }
      },
      "Jordan Whittington": {
       "books": {
@@ -33433,7 +35410,12 @@
        "book": "BetMGM",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1959,
+       "kind": "score"
+      }
      },
      "Devin Singletary": {
       "books": {
@@ -33473,7 +35455,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.472,
+       "kind": "score"
+      }
      },
      "Malachi Fields": {
       "books": {
@@ -33584,7 +35571,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1544,
+       "kind": "score"
+      }
      },
      "Najee Harris": {
       "books": {
@@ -33732,7 +35724,12 @@
        "book": "FanDuel",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2004,
+       "kind": "score"
+      }
      },
      "Theo Johnson": {
       "books": {
@@ -33772,7 +35769,12 @@
        "book": "DraftKings",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2109,
+       "kind": "score"
+      }
      },
      "Xavier Smith": {
       "books": {
@@ -33886,7 +35888,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1856,
+       "kind": "score"
+      }
      },
      "Odell Beckham Jr.": {
       "books": {
@@ -33966,7 +35973,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.172,
+       "kind": "score"
+      }
      },
      "Max Klare": {
       "books": {
@@ -34074,7 +36086,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1332,
+       "kind": "score"
+      }
      },
      "Ronnie Rivers": {
       "books": {
@@ -34191,7 +36208,12 @@
        "book": "BetRivers",
        "basis": "median-implied (vig-in, conservative)"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.091,
+       "kind": "score"
+      }
      },
      "Tyrone Tracy Jr.": {
       "books": {
@@ -34211,7 +36233,12 @@
        "book": "BetRivers"
       },
       "edge": null,
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3964,
+       "kind": "score"
+      }
      },
      "New York Giants Defense": {
       "books": {
@@ -34448,7 +36475,13 @@
         "line": 81.5,
         "vs_consensus": -2.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.7033,
+       "median": 131.3,
+       "kind": "yards"
+      }
      },
      "Malik Nabers": {
       "books": {
@@ -34582,7 +36615,13 @@
         "line": 53.5,
         "vs_consensus": -1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4713,
+       "median": 51.2,
+       "kind": "yards"
+      }
      },
      "Isaiah Likely": {
       "books": {
@@ -34649,7 +36688,13 @@
         "line": 42.5,
         "vs_consensus": -3.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.4332,
+       "median": 39.2,
+       "kind": "yards"
+      }
      },
      "Malachi Fields": {
       "books": {
@@ -34746,7 +36791,13 @@
        "book": "BetRivers",
        "basis": "de-vigged consensus at matching line"
       },
-      "off_market": []
+      "off_market": [],
+      "model": {
+       "market": "rec_yds",
+       "p_over": 0.725,
+       "median": 25.7,
+       "kind": "yards"
+      }
      },
      "Cam Skattebo": {
       "books": {
@@ -34912,7 +36963,13 @@
         "line": 64.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7065,
+       "median": 96.0,
+       "kind": "yards"
+      }
      },
      "Cam Skattebo": {
       "books": {
@@ -35056,7 +37113,13 @@
         "line": 48.5,
         "vs_consensus": 1.0
        }
-      ]
+      ],
+      "model": {
+       "market": "rush_yds",
+       "p_over": 0.7806,
+       "median": 94.2,
+       "kind": "yards"
+      }
      },
      "Jaxson Dart": {
       "books": {
@@ -35128,5 +37191,6 @@
     }
    }
   }
- }
+ },
+ "model_annotated_at": "2026-09-20T12:55:15.957343+00:00"
 }
