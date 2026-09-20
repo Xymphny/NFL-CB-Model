@@ -2,7 +2,7 @@
  "season": 2026,
  "week": 2,
  "format": 2,
- "note": "Market-derived edges plus, where shown, a WATCH-MODE opinion from the player projection engine (calibrated held-out; pass yards withheld by its failed gate; graded live before it ever drives a verdict). Fair value for edges is the DE-VIGGED MULTI-BOOK CONSENSUS, and the edge is the best available price against it -- this finds mispriced BOOKS, not mispriced players. Engine chips are labeled watch-mode opinions, and these are not Play/Lean verdicts.",
+ "note": "Market-derived edges plus, where shown, a WATCH-MODE opinion from the player projection engine (calibrated held-out; pass yards withheld by its failed gate; NOT YET GRADED -- no prop ledger exists, so these carry no track record). Fair value for edges is the DE-VIGGED MULTI-BOOK CONSENSUS, and the edge is the best available price against it -- this finds mispriced BOOKS, not mispriced players. Engine chips are labeled watch-mode opinions, and these are not Play/Lean verdicts.",
  "games": {
   "CAR@ATL": {
    "kickoff": "2026-09-20T17:00:00Z",
@@ -20321,13 +20321,15 @@
        "n_books": 6,
        "price": 110,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.1708,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jaylen Waddle": {
@@ -20366,13 +20368,15 @@
        "n_books": 6,
        "price": 190,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.1961,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Bhayshul Tuten": {
@@ -20411,13 +20415,15 @@
        "n_books": 6,
        "price": 180,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3174,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Parker Washington": {
@@ -20456,13 +20462,15 @@
        "n_books": 6,
        "price": 200,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3488,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Courtland Sutton": {
@@ -20501,13 +20509,15 @@
        "n_books": 6,
        "price": 250,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3593,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jakobi Meyers": {
@@ -20546,13 +20556,15 @@
        "n_books": 6,
        "price": 300,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3495,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "RJ Harvey": {
@@ -20588,13 +20600,15 @@
        "n_books": 5,
        "price": 285,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4945,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Chris Rodriguez Jr.": {
@@ -20633,13 +20647,15 @@
        "n_books": 6,
        "price": 350,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4528,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Brenton Strange": {
@@ -20678,13 +20694,15 @@
        "n_books": 6,
        "price": 340,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2893,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Bo Nix": {
@@ -20723,13 +20741,15 @@
        "n_books": 6,
        "price": 350,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2022,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Pat Bryant": {
@@ -20768,13 +20788,15 @@
        "n_books": 6,
        "price": 360,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2101,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jonah Coleman": {
@@ -20803,16 +20825,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 52.17,
        "fair_prob": 0.2174,
        "n_books": 5,
        "price": 600,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Brian Thomas Jr": {
       "books": {
@@ -20850,13 +20874,15 @@
        "n_books": 6,
        "price": 370,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.1978,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Trevor Lawrence": {
@@ -20895,13 +20921,15 @@
        "n_books": 6,
        "price": 380,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2944,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Evan Engram": {
@@ -20940,13 +20968,15 @@
        "n_books": 6,
        "price": 390,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2187,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Denver Broncos D/ST": {
@@ -21018,20 +21048,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2452,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 25.82,
        "fair_prob": 0.1144,
        "n_books": 6,
        "price": 1000,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2452,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Tyler Badie": {
@@ -21060,20 +21094,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1671,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 44.44,
        "fair_prob": 0.1111,
        "n_books": 5,
        "price": 1200,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1671,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Adam Trautman": {
@@ -21105,20 +21143,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1205,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 8.66,
        "fair_prob": 0.1144,
        "n_books": 6,
        "price": 850,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1205,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "LeQuint Allen Jr.": {
@@ -21150,16 +21192,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 4.55,
        "fair_prob": 0.0909,
        "n_books": 6,
        "price": 1050,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Ameer Abdullah": {
       "books": {
@@ -21187,16 +21231,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 18.18,
        "fair_prob": 0.0909,
        "n_books": 5,
        "price": 1200,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Travis Hunter": {
       "books": {
@@ -21227,16 +21273,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 22.73,
        "fair_prob": 0.0909,
        "n_books": 6,
        "price": 1250,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Nate Boerkircher": {
       "books": {
@@ -21267,16 +21315,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 20.3,
        "fair_prob": 0.1003,
        "n_books": 6,
        "price": 1100,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Josh Cameron": {
       "books": {
@@ -21307,16 +21357,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 25.48,
        "fair_prob": 0.0697,
        "n_books": 6,
        "price": 1700,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "CJ Williams": {
       "books": {
@@ -21344,16 +21396,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 14.29,
        "fair_prob": 0.0714,
        "n_books": 5,
        "price": 1500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Lil'Jordan Humphrey": {
       "books": {
@@ -21381,20 +21435,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1658,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 9.52,
        "fair_prob": 0.0476,
        "n_books": 5,
        "price": 2200,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1658,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Nate Adkins": {
@@ -21426,20 +21484,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1096,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 12.26,
        "fair_prob": 0.0488,
        "n_books": 6,
        "price": 2200,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1096,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Quintin Morris": {
@@ -21471,20 +21533,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1721,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 26.09,
        "fair_prob": 0.0435,
        "n_books": 6,
        "price": 2800,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1721,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Tanner Koziol": {
@@ -21516,16 +21582,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 2.0,
        "fair_prob": 0.0392,
        "n_books": 6,
        "price": 2500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Dallen Bentley": {
       "books": {
@@ -21553,16 +21621,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 80.0,
        "fair_prob": 0.05,
        "n_books": 5,
        "price": 3500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Jacksonville Jaguars Defense": {
       "books": {
@@ -21634,7 +21704,9 @@
       "model": {
        "market": "anytime_td",
        "p_score": 0.1648,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      }
     },
@@ -21832,7 +21904,9 @@
        "market": "rec_yds",
        "p_over": 0.6444,
        "median": 78.1,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jaylen Waddle": {
@@ -21909,7 +21983,9 @@
        "market": "rec_yds",
        "p_over": 0.4203,
        "median": 47.3,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Courtland Sutton": {
@@ -21982,7 +22058,9 @@
        "market": "rec_yds",
        "p_over": 0.6826,
        "median": 60.4,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jakobi Meyers": {
@@ -22055,7 +22133,9 @@
        "market": "rec_yds",
        "p_over": 0.7107,
        "median": 60.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Pat Bryant": {
@@ -22133,7 +22213,9 @@
        "market": "rec_yds",
        "p_over": 0.6161,
        "median": 41.3,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Brian Thomas Jr": {
@@ -22195,7 +22277,9 @@
        "market": "rec_yds",
        "p_over": 0.6699,
        "median": 55.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Brenton Strange": {
@@ -22252,7 +22336,9 @@
        "market": "rec_yds",
        "p_over": 0.6332,
        "median": 43.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Evan Engram": {
@@ -22325,7 +22411,9 @@
        "market": "rec_yds",
        "p_over": 0.6995,
        "median": 43.0,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Bhayshul Tuten": {
@@ -22657,7 +22745,9 @@
        "market": "rush_yds",
        "p_over": 0.8126,
        "median": 61.8,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Bo Nix": {
@@ -22816,13 +22906,15 @@
        "n_books": 6,
        "price": -148,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3841,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Ashton Jeanty": {
@@ -22861,13 +22953,15 @@
        "n_books": 6,
        "price": -105,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4677,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Quentin Johnston": {
@@ -22906,13 +23000,15 @@
        "n_books": 6,
        "price": 155,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2393,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Ladd McConkey": {
@@ -22948,13 +23044,15 @@
        "n_books": 5,
        "price": 185,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2999,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Michael Mayer": {
@@ -22993,13 +23091,15 @@
        "n_books": 6,
        "price": 270,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.19,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Tre Harris": {
@@ -23038,13 +23138,15 @@
        "n_books": 6,
        "price": 270,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.1548,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "David Njoku": {
@@ -23076,20 +23178,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.197,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 22.5,
        "fair_prob": 0.25,
        "n_books": 6,
        "price": 390,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.197,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Tre Tucker": {
@@ -23128,13 +23234,15 @@
        "n_books": 6,
        "price": 320,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2708,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Keaton Mitchell": {
@@ -23173,13 +23281,15 @@
        "n_books": 6,
        "price": 480,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2183,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Los Angeles Chargers D/ST": {
@@ -23231,20 +23341,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.223,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 10.15,
        "fair_prob": 0.1762,
        "n_books": 6,
        "price": 525,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.223,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Jalen Nailor": {
@@ -23276,20 +23390,24 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1781,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 3.57,
        "fair_prob": 0.1786,
        "n_books": 6,
        "price": 480,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1781,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Charlie Kolar": {
@@ -23321,20 +23439,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1306,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 16.67,
        "fair_prob": 0.1667,
        "n_books": 6,
        "price": 600,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1306,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Mike Washington Jr.": {
@@ -23366,16 +23488,18 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 8.33,
        "fair_prob": 0.1667,
        "n_books": 6,
        "price": 550,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Las Vegas Raiders D/ST": {
       "books": {
@@ -23397,16 +23521,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 11.54,
        "fair_prob": 0.1538,
        "n_books": 3,
        "price": 625,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Oronde Gadsden II": {
       "books": {
@@ -23437,20 +23563,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2387,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 26.96,
        "fair_prob": 0.1693,
        "n_books": 6,
        "price": 650,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2387,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Brenen Thompson": {
@@ -23482,16 +23612,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 42.41,
        "fair_prob": 0.1356,
        "n_books": 6,
        "price": 950,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Jack Bech": {
       "books": {
@@ -23522,20 +23654,24 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1716,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 8.51,
        "fair_prob": 0.1356,
        "n_books": 6,
        "price": 700,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1716,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Derius Davis": {
@@ -23564,16 +23700,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 23.53,
        "fair_prob": 0.1176,
        "n_books": 5,
        "price": 950,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Kimani Vidal": {
       "books": {
@@ -23604,20 +23742,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3144,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 21.32,
        "fair_prob": 0.1213,
        "n_books": 6,
        "price": 900,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.3144,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Malik Benson": {
@@ -23649,16 +23791,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 30.3,
        "fair_prob": 0.0931,
        "n_books": 6,
        "price": 1300,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Ian Thomas": {
       "books": {
@@ -23689,20 +23833,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.0955,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 21.43,
        "fair_prob": 0.0714,
        "n_books": 6,
        "price": 1600,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.0955,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Connor Heyward": {
@@ -23734,20 +23882,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.213,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 6.25,
        "fair_prob": 0.059,
        "n_books": 6,
        "price": 1700,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.213,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Dylan Laube": {
@@ -23779,16 +23931,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 15.0,
        "fair_prob": 0.05,
        "n_books": 6,
        "price": 2200,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Kirk Cousins": {
       "books": {
@@ -23819,20 +23973,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1441,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.0435,
        "n_books": 6,
        "price": 2200,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1441,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Cody White": {
@@ -23858,16 +24016,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.0435,
        "n_books": 4,
        "price": 2200,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Alec Ingold": {
       "books": {
@@ -23895,20 +24055,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.0951,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 3.57,
        "fair_prob": 0.0357,
        "n_books": 5,
        "price": 2800,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.0951,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Dareke Young": {
@@ -23934,16 +24098,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 93.1,
        "fair_prob": 0.0345,
        "n_books": 4,
        "price": 5500,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Gary Jennings": {
       "books": {
@@ -24189,7 +24355,9 @@
        "market": "rec_yds",
        "p_over": 0.5106,
        "median": 52.5,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Michael Mayer": {
@@ -24252,7 +24420,9 @@
        "market": "rec_yds",
        "p_over": 0.4344,
        "median": 38.8,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Tre Tucker": {
@@ -24317,7 +24487,9 @@
        "market": "rec_yds",
        "p_over": 0.6146,
        "median": 45.8,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jalen Nailor": {
@@ -24374,7 +24546,9 @@
        "market": "rec_yds",
        "p_over": 0.581,
        "median": 40.3,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Tre Harris": {
@@ -24442,7 +24616,9 @@
        "market": "rec_yds",
        "p_over": 0.5919,
        "median": 41.0,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Ashton Jeanty": {
@@ -24494,7 +24670,9 @@
        "market": "rec_yds",
        "p_over": 0.558,
        "median": 30.0,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "David Njoku": {
@@ -24629,7 +24807,9 @@
        "market": "rec_yds",
        "p_over": 0.7928,
        "median": 44.6,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Omarion Hampton": {
@@ -24750,7 +24930,9 @@
        "market": "rush_yds",
        "p_over": 0.6566,
        "median": 84.4,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Omarion Hampton": {
@@ -24818,7 +25000,9 @@
        "market": "rush_yds",
        "p_over": 0.4592,
        "median": 58.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Keaton Mitchell": {
@@ -25072,13 +25256,15 @@
        "n_books": 6,
        "price": 135,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4951,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jadarian Price": {
@@ -25117,7 +25303,7 @@
        "n_books": 6,
        "price": 170,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": []
      },
@@ -25157,13 +25343,15 @@
        "n_books": 6,
        "price": 195,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4867,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jeremiyah Love": {
@@ -25202,7 +25390,7 @@
        "n_books": 6,
        "price": 190,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": []
      },
@@ -25242,13 +25430,15 @@
        "n_books": 6,
        "price": 220,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4037,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "George Holani": {
@@ -25287,7 +25477,7 @@
        "n_books": 6,
        "price": 220,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": []
      },
@@ -25327,13 +25517,15 @@
        "n_books": 6,
        "price": 320,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2711,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Cooper Kupp": {
@@ -25372,13 +25564,15 @@
        "n_books": 6,
        "price": 450,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2561,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Rashid Shaheed": {
@@ -25417,13 +25611,15 @@
        "n_books": 6,
        "price": 370,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.1557,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Michael Wilson": {
@@ -25462,13 +25658,15 @@
        "n_books": 6,
        "price": 380,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3551,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Marvin Harrison Jr.": {
@@ -25507,13 +25705,15 @@
        "n_books": 6,
        "price": 400,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.1625,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Drew Lock": {
@@ -25545,20 +25745,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1024,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 42.21,
        "fair_prob": 0.1835,
        "n_books": 6,
        "price": 675,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1024,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Kendrick Bourne": {
@@ -25590,16 +25794,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.1333,
        "n_books": 6,
        "price": 650,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Emanuel Wilson": {
       "books": {
@@ -25630,20 +25836,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2915,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 4.95,
        "fair_prob": 0.1312,
        "n_books": 6,
        "price": 700,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2915,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Jacoby Brissett": {
@@ -25675,20 +25885,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.165,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 8.66,
        "fair_prob": 0.1144,
        "n_books": 6,
        "price": 850,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.165,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Elijah Arroyo": {
@@ -25720,20 +25934,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1411,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 2.63,
        "fair_prob": 0.1026,
        "n_books": 6,
        "price": 900,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1411,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Tory Horton": {
@@ -25765,16 +25983,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 20.0,
        "fair_prob": 0.1,
        "n_books": 6,
        "price": 1100,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Elijah Higgins": {
       "books": {
@@ -25805,20 +26025,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1683,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 13.02,
        "fair_prob": 0.0646,
        "n_books": 6,
        "price": 1650,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1683,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Hunter Long": {
@@ -25847,20 +26071,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1202,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 43.75,
        "fair_prob": 0.0625,
        "n_books": 5,
        "price": 2200,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1202,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Eric Saubert": {
@@ -25892,20 +26120,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1563,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 59.08,
        "fair_prob": 0.0513,
        "n_books": 6,
        "price": 3000,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1563,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Devin Duvernay": {
@@ -25937,16 +26169,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 61.9,
        "fair_prob": 0.0476,
        "n_books": 6,
        "price": 3300,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Nick Kallerup": {
       "books": {
@@ -25974,20 +26208,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1439,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 26.09,
        "fair_prob": 0.0435,
        "n_books": 5,
        "price": 2800,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1439,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Zonovan Knight": {
@@ -26013,16 +26251,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 25.48,
        "fair_prob": 0.0405,
        "n_books": 4,
        "price": 3000,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Simi Fehoko": {
       "books": {
@@ -26053,16 +26293,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 50.86,
        "fair_prob": 0.0328,
        "n_books": 6,
        "price": 4500,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Brady Russell": {
       "books": {
@@ -26093,16 +26335,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 2.94,
        "fair_prob": 0.0286,
        "n_books": 6,
        "price": 3500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Reggie Virgil": {
       "books": {
@@ -26130,16 +26374,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 20.59,
        "fair_prob": 0.0294,
        "n_books": 5,
        "price": 4000,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Jalen Brooks": {
       "books": {
@@ -26170,16 +26416,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 36.59,
        "fair_prob": 0.0244,
        "n_books": 6,
        "price": 5500,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Montorie Foster Jr.": {
       "books": {
@@ -26210,16 +26458,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 9.8,
        "fair_prob": 0.0196,
        "n_books": 6,
        "price": 5500,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Arizona Cardinals Defense": {
       "books": {
@@ -26277,7 +26527,9 @@
       "model": {
        "market": "anytime_td",
        "p_score": 0.2295,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Seattle Seahawks D/ST": {
@@ -26515,7 +26767,9 @@
        "market": "rec_yds",
        "p_over": 0.7316,
        "median": 140.6,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Trey McBride": {
@@ -26590,7 +26844,9 @@
        "market": "rec_yds",
        "p_over": 0.6628,
        "median": 87.5,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Michael Wilson": {
@@ -26663,7 +26919,9 @@
        "market": "rec_yds",
        "p_over": 0.8228,
        "median": 88.5,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Marvin Harrison Jr.": {
@@ -26802,7 +27060,9 @@
        "market": "rec_yds",
        "p_over": 0.6667,
        "median": 41.1,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Kendrick Bourne": {
@@ -26860,7 +27120,9 @@
        "market": "rec_yds",
        "p_over": 0.634,
        "median": 35.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "AJ Barner": {
@@ -26938,7 +27200,9 @@
        "market": "rec_yds",
        "p_over": 0.7604,
        "median": 49.5,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Cooper Kupp": {
@@ -27011,7 +27275,9 @@
        "market": "rec_yds",
        "p_over": 0.7578,
        "median": 48.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jeremiyah Love": {
@@ -27337,7 +27603,9 @@
        "market": "rush_yds",
        "p_over": 0.7341,
        "median": 59.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "George Holani": {
@@ -27563,13 +27831,15 @@
        "n_books": 6,
        "price": -175,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.579,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jacory Croskey-Merritt": {
@@ -27608,13 +27878,15 @@
        "n_books": 6,
        "price": 120,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.532,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "CeeDee Lamb": {
@@ -27653,13 +27925,15 @@
        "n_books": 6,
        "price": 116,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3973,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "George Pickens": {
@@ -27698,13 +27972,15 @@
        "n_books": 6,
        "price": 143,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3891,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Terry McLaurin": {
@@ -27743,13 +28019,15 @@
        "n_books": 6,
        "price": 220,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2509,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jayden Daniels": {
@@ -27788,13 +28066,15 @@
        "n_books": 6,
        "price": 210,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.1568,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Rachaad White": {
@@ -27830,13 +28110,15 @@
        "n_books": 5,
        "price": 210,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3431,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Stefon Diggs": {
@@ -27875,13 +28157,15 @@
        "n_books": 6,
        "price": 230,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.342,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jake Ferguson": {
@@ -27920,13 +28204,15 @@
        "n_books": 6,
        "price": 265,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3508,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Ryan Flournoy": {
@@ -27965,13 +28251,15 @@
        "n_books": 6,
        "price": 350,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2389,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Emari Demercado": {
@@ -28000,20 +28288,24 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.156,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 3.7,
        "fair_prob": 0.1852,
        "n_books": 5,
        "price": 460,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.156,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Antonio Williams": {
@@ -28045,16 +28337,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 7.88,
        "fair_prob": 0.1962,
        "n_books": 6,
        "price": 450,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Washington Commanders D/ST": {
       "books": {
@@ -28105,20 +28399,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2361,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 4.17,
        "fair_prob": 0.1667,
        "n_books": 6,
        "price": 525,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2361,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "John Bates": {
@@ -28150,20 +28448,24 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2326,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 8.33,
        "fair_prob": 0.1667,
        "n_books": 6,
        "price": 550,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2326,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Dallas Cowboys D/ST": {
@@ -28215,16 +28517,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 19.48,
        "fair_prob": 0.1292,
        "n_books": 6,
        "price": 825,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Brevyn Spann-Ford": {
       "books": {
@@ -28255,20 +28559,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1635,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 15.26,
        "fair_prob": 0.1213,
        "n_books": 6,
        "price": 850,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1635,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "KaVontae Turpin": {
@@ -28300,20 +28608,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1814,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 25.49,
        "fair_prob": 0.1255,
        "n_books": 6,
        "price": 900,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1814,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Dyami Brown": {
@@ -28345,16 +28657,18 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 10.0,
        "fair_prob": 0.1,
        "n_books": 6,
        "price": 1000,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Ben Sinnott": {
       "books": {
@@ -28385,20 +28699,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1477,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 10.0,
        "fair_prob": 0.1,
        "n_books": 6,
        "price": 1000,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1477,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Hunter Luepke": {
@@ -28430,20 +28748,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1701,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 11.11,
        "fair_prob": 0.101,
        "n_books": 6,
        "price": 1000,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1701,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Jonathan Mingo": {
@@ -28475,16 +28797,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 77.98,
        "fair_prob": 0.0774,
        "n_books": 6,
        "price": 2200,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Luke Schoonmaker": {
       "books": {
@@ -28515,20 +28839,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1312,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 4.55,
        "fair_prob": 0.0871,
        "n_books": 6,
        "price": 1100,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1312,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Jaylin Lane": {
@@ -28560,16 +28888,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 21.43,
        "fair_prob": 0.0714,
        "n_books": 6,
        "price": 1600,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Luke McCaffrey": {
       "books": {
@@ -28600,16 +28930,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 34.63,
        "fair_prob": 0.0792,
        "n_books": 6,
        "price": 1600,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Camden Brown": {
       "books": {
@@ -28637,16 +28969,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 14.29,
        "fair_prob": 0.0714,
        "n_books": 5,
        "price": 1500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Treylon Burks": {
       "books": {
@@ -28674,20 +29008,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2363,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 26.67,
        "fair_prob": 0.0667,
        "n_books": 5,
        "price": 1800,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2363,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Tyler Goodson": {
@@ -28713,16 +29051,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.0435,
        "n_books": 4,
        "price": 2200,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Colson Yankoff": {
       "books": {
@@ -28750,20 +29090,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1163,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.0385,
        "n_books": 5,
        "price": 2500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1163,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Washington Commanders Defense": {
@@ -28986,7 +29330,9 @@
        "market": "rec_yds",
        "p_over": 0.5618,
        "median": 84.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "George Pickens": {
@@ -29043,7 +29389,9 @@
        "market": "rec_yds",
        "p_over": 0.6477,
        "median": 87.0,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Terry McLaurin": {
@@ -29121,7 +29469,9 @@
        "market": "rec_yds",
        "p_over": 0.5985,
        "median": 69.0,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Stefon Diggs": {
@@ -29199,7 +29549,9 @@
        "market": "rec_yds",
        "p_over": 0.7385,
        "median": 86.1,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Ryan Flournoy": {
@@ -29256,7 +29608,9 @@
        "market": "rec_yds",
        "p_over": 0.7051,
        "median": 51.8,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Antonio Williams": {
@@ -29406,7 +29760,9 @@
        "market": "rec_yds",
        "p_over": 0.6788,
        "median": 43.5,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Javonte Williams": {
@@ -29599,7 +29955,9 @@
        "market": "rush_yds",
        "p_over": 0.4923,
        "median": 75.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jacory Croskey-Merritt": {
@@ -29677,7 +30035,9 @@
        "market": "rush_yds",
        "p_over": 0.685,
        "median": 71.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jayden Daniels": {
@@ -29949,13 +30309,15 @@
        "n_books": 6,
        "price": -220,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.6258,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "De'Von Achane": {
@@ -29994,13 +30356,15 @@
        "n_books": 6,
        "price": 140,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4228,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Mike Evans": {
@@ -30039,13 +30403,15 @@
        "n_books": 6,
        "price": 150,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.312,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "George Kittle": {
@@ -30084,13 +30450,15 @@
        "n_books": 6,
        "price": 185,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3714,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Deebo Samuel": {
@@ -30129,13 +30497,15 @@
        "n_books": 6,
        "price": 220,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3949,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Kaelon Black": {
@@ -30174,7 +30544,7 @@
        "n_books": 6,
        "price": 260,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": []
      },
@@ -30214,13 +30584,15 @@
        "n_books": 6,
        "price": 340,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2319,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Demarcus Robinson": {
@@ -30259,13 +30631,15 @@
        "n_books": 6,
        "price": 310,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2335,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Malik Willis": {
@@ -30304,13 +30678,15 @@
        "n_books": 6,
        "price": 320,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2367,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Caleb Douglas": {
@@ -30342,16 +30718,18 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 11.81,
        "fair_prob": 0.1962,
        "n_books": 6,
        "price": 470,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Malik Washington": {
       "books": {
@@ -30382,20 +30760,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2413,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 6.89,
        "fair_prob": 0.1943,
        "n_books": 6,
        "price": 450,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2413,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "San Francisco 49ers D/ST": {
@@ -30418,16 +30800,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 4.0,
        "fair_prob": 0.16,
        "n_books": 3,
        "price": 550,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Greg Dulcich": {
       "books": {
@@ -30458,20 +30842,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2412,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.1429,
        "n_books": 6,
        "price": 600,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2412,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Miami Dolphins D/ST": {
@@ -30494,16 +30882,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.125,
        "n_books": 3,
        "price": 700,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Chris Bell": {
       "books": {
@@ -30534,16 +30924,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.125,
        "n_books": 6,
        "price": 700,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Luke Farrell": {
       "books": {
@@ -30574,20 +30966,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1677,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 2.94,
        "fair_prob": 0.1144,
        "n_books": 6,
        "price": 800,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1677,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Kyle Juszczyk": {
@@ -30619,20 +31015,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2022,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 1.35,
        "fair_prob": 0.1067,
        "n_books": 6,
        "price": 850,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2022,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "James Jordan": {
@@ -30661,16 +31061,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.1,
        "n_books": 5,
        "price": 900,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Jacob Cowing": {
       "books": {
@@ -30701,16 +31103,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 61.07,
        "fair_prob": 0.0976,
        "n_books": 6,
        "price": 1550,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Ollie Gordon II": {
       "books": {
@@ -30741,20 +31145,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2206,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.0833,
        "n_books": 6,
        "price": 1100,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2206,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Jaylen Wright": {
@@ -30786,20 +31194,24 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3256,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 12.18,
        "fair_prob": 0.0801,
        "n_books": 6,
        "price": 1300,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.3256,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Will Kacmarek": {
@@ -30831,16 +31243,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 53.33,
        "fair_prob": 0.0667,
        "n_books": 6,
        "price": 2200,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Kevin Coleman Jr.": {
       "books": {
@@ -30871,16 +31285,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 10.48,
        "fair_prob": 0.069,
        "n_books": 6,
        "price": 1500,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Jordan Watkins": {
       "books": {
@@ -30905,16 +31321,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 43.75,
        "fair_prob": 0.0625,
        "n_books": 4,
        "price": 2200,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Jalen Tolbert": {
       "books": {
@@ -30942,16 +31360,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 35.71,
        "fair_prob": 0.0714,
        "n_books": 5,
        "price": 1800,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "KhaDarel Hodge": {
       "books": {
@@ -30979,16 +31399,18 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 75.86,
        "fair_prob": 0.0345,
        "n_books": 5,
        "price": 5000,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Justin Joly": {
       "books": {
@@ -31013,16 +31435,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 2.94,
        "fair_prob": 0.0286,
        "n_books": 4,
        "price": 3500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "DJ Herman": {
       "books": {
@@ -31047,16 +31471,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 2.94,
        "fair_prob": 0.0286,
        "n_books": 4,
        "price": 3500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Brayden Willis": {
       "books": {
@@ -31084,20 +31510,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1129,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 38.46,
        "fair_prob": 0.0385,
        "n_books": 5,
        "price": 3500,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1129,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Seydou Traore": {
@@ -31129,16 +31559,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 41.67,
        "fair_prob": 0.0278,
        "n_books": 6,
        "price": 5000,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Ryan Miller": {
       "books": {
@@ -31169,16 +31601,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 20.83,
        "fair_prob": 0.0237,
        "n_books": 6,
        "price": 5000,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Miami Dolphins Defense": {
       "books": {
@@ -31420,7 +31854,9 @@
        "market": "rec_yds",
        "p_over": 0.4469,
        "median": 44.4,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Christian McCaffrey": {
@@ -31482,7 +31918,9 @@
        "market": "rec_yds",
        "p_over": 0.6062,
        "median": 50.4,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "George Kittle": {
@@ -31550,7 +31988,9 @@
        "market": "rec_yds",
        "p_over": 0.6388,
        "median": 53.9,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Caleb Douglas": {
@@ -31694,7 +32134,9 @@
        "market": "rec_yds",
        "p_over": 0.7232,
        "median": 59.3,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Malik Washington": {
@@ -31769,7 +32211,9 @@
        "market": "rec_yds",
        "p_over": 0.5478,
        "median": 37.8,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "De'Von Achane": {
@@ -31815,7 +32259,9 @@
        "market": "rec_yds",
        "p_over": 0.5916,
        "median": 34.1,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Demarcus Robinson": {
@@ -31934,7 +32380,9 @@
        "market": "rec_yds",
        "p_over": 0.7082,
        "median": 43.5,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Chris Bell": {
@@ -32059,7 +32507,9 @@
        "market": "rush_yds",
        "p_over": 0.7392,
        "median": 100.5,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "De'Von Achane": {
@@ -32134,7 +32584,9 @@
        "market": "rush_yds",
        "p_over": 0.7065,
        "median": 88.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Malik Willis": {
@@ -32380,13 +32832,15 @@
        "n_books": 6,
        "price": -200,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4592,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jonathan Taylor": {
@@ -32425,13 +32879,15 @@
        "n_books": 6,
        "price": -150,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.5641,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Rashee Rice": {
@@ -32470,13 +32926,15 @@
        "n_books": 6,
        "price": 160,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3283,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Travis Kelce": {
@@ -32515,13 +32973,15 @@
        "n_books": 6,
        "price": 180,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2926,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Tyler Warren": {
@@ -32560,13 +33020,15 @@
        "n_books": 6,
        "price": 245,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3871,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Xavier Worthy": {
@@ -32605,13 +33067,15 @@
        "n_books": 6,
        "price": 235,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.173,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Patrick Mahomes": {
@@ -32650,13 +33114,15 @@
        "n_books": 6,
        "price": 360,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2061,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Josh Downs": {
@@ -32695,13 +33161,15 @@
        "n_books": 6,
        "price": 330,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2822,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Alec Pierce": {
@@ -32740,13 +33208,15 @@
        "n_books": 6,
        "price": 330,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3408,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Keenan Allen": {
@@ -32785,13 +33255,15 @@
        "n_books": 6,
        "price": 400,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2994,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Emmett Johnson": {
@@ -32823,16 +33295,18 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 11.01,
        "fair_prob": 0.1914,
        "n_books": 6,
        "price": 480,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Kansas City Chiefs D/ST": {
       "books": {
@@ -32883,16 +33357,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 2.0,
        "fair_prob": 0.1569,
        "n_books": 6,
        "price": 550,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Daniel Jones": {
       "books": {
@@ -32923,20 +33399,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1505,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 7.69,
        "fair_prob": 0.1538,
        "n_books": 6,
        "price": 600,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1505,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Indianapolis Colts D/ST": {
@@ -32959,16 +33439,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 3.45,
        "fair_prob": 0.1379,
        "n_books": 3,
        "price": 650,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Noah Gray": {
       "books": {
@@ -32999,20 +33481,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1406,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 6.67,
        "fair_prob": 0.1333,
        "n_books": 6,
        "price": 700,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1406,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Seth McGowan": {
@@ -33044,16 +33530,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 15.0,
        "fair_prob": 0.1,
        "n_books": 6,
        "price": 1050,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Jake Briningstool": {
       "books": {
@@ -33084,16 +33572,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 36.36,
        "fair_prob": 0.0909,
        "n_books": 6,
        "price": 1400,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Mo Alie-Cox": {
       "books": {
@@ -33124,20 +33614,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1995,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 45.45,
        "fair_prob": 0.0909,
        "n_books": 6,
        "price": 1500,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1995,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Jared Wiley": {
@@ -33166,20 +33660,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.113,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 15.38,
        "fair_prob": 0.0769,
        "n_books": 5,
        "price": 1400,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.113,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Laquon Treadwell": {
@@ -33211,16 +33709,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 53.85,
        "fair_prob": 0.0769,
        "n_books": 6,
        "price": 1900,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "DJ Giddens": {
       "books": {
@@ -33248,16 +33748,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 13.04,
        "fair_prob": 0.087,
        "n_books": 5,
        "price": 1200,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Brashard Smith": {
       "books": {
@@ -33288,20 +33790,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2107,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 33.33,
        "fair_prob": 0.0667,
        "n_books": 6,
        "price": 1900,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2107,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Cyrus Allen": {
@@ -33333,16 +33839,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 23.53,
        "fair_prob": 0.0588,
        "n_books": 6,
        "price": 2000,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Jalen Royals": {
       "books": {
@@ -33373,16 +33881,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 21.05,
        "fair_prob": 0.0526,
        "n_books": 6,
        "price": 2200,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Deion Burks": {
       "books": {
@@ -33413,16 +33923,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 84.74,
        "fair_prob": 0.0513,
        "n_books": 6,
        "price": 3500,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Nikko Remigio": {
       "books": {
@@ -33453,16 +33965,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 22.5,
        "fair_prob": 0.0583,
        "n_books": 6,
        "price": 2000,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Drew Ogletree": {
       "books": {
@@ -33493,16 +34007,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 19.23,
        "fair_prob": 0.0385,
        "n_books": 6,
        "price": 3000,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Ben VanSumeren": {
       "books": {
@@ -33527,16 +34043,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 12.2,
        "fair_prob": 0.0244,
        "n_books": 4,
        "price": 4500,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Indianapolis Colts Defense": {
       "books": {
@@ -33807,7 +34325,9 @@
        "market": "rec_yds",
        "p_over": 0.5621,
        "median": 60.4,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Alec Pierce": {
@@ -33880,7 +34400,9 @@
        "market": "rec_yds",
        "p_over": 0.7061,
        "median": 70.6,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Tyler Warren": {
@@ -33955,7 +34477,9 @@
        "market": "rec_yds",
        "p_over": 0.4991,
        "median": 43.4,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Josh Downs": {
@@ -34033,7 +34557,9 @@
        "market": "rec_yds",
        "p_over": 0.5712,
        "median": 48.7,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Travis Kelce": {
@@ -34111,7 +34637,9 @@
        "market": "rec_yds",
        "p_over": 0.6775,
        "median": 62.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Xavier Worthy": {
@@ -34189,7 +34717,9 @@
        "market": "rec_yds",
        "p_over": 0.5978,
        "median": 50.8,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Keenan Allen": {
@@ -34267,7 +34797,9 @@
        "market": "rec_yds",
        "p_over": 0.7385,
        "median": 52.4,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Kenneth Walker III": {
@@ -34319,7 +34851,9 @@
        "market": "rec_yds",
        "p_over": 0.6491,
        "median": 33.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Tyquan Thornton": {
@@ -34448,7 +34982,9 @@
        "market": "rec_yds",
        "p_over": 0.6572,
        "median": 26.7,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Noah Gray": {
@@ -34646,7 +35182,9 @@
        "market": "rush_yds",
        "p_over": 0.5947,
        "median": 99.3,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Kenneth Walker III": {
@@ -34724,7 +35262,9 @@
        "market": "rush_yds",
        "p_over": 0.5826,
        "median": 94.0,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Emmett Johnson": {
@@ -34929,13 +35469,15 @@
        "n_books": 6,
        "price": -167,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.5316,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Davante Adams": {
@@ -34974,13 +35516,15 @@
        "n_books": 6,
        "price": 110,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3147,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Puka Nacua": {
@@ -35019,13 +35563,15 @@
        "n_books": 6,
        "price": 110,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4781,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Cam Skattebo": {
@@ -35064,13 +35610,15 @@
        "n_books": 6,
        "price": 120,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.2604,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Malik Nabers": {
@@ -35109,7 +35657,7 @@
        "n_books": 6,
        "price": 185,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": []
      },
@@ -35149,13 +35697,15 @@
        "n_books": 6,
        "price": 195,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.4381,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jaxson Dart": {
@@ -35194,13 +35744,15 @@
        "n_books": 6,
        "price": 240,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.3476,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Isaiah Likely": {
@@ -35239,13 +35791,15 @@
        "n_books": 6,
        "price": 280,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
+       "basis": "median-implied, vig NOT removed -- EV overstated"
       },
       "off_market": [],
       "model": {
        "market": "anytime_td",
        "p_score": 0.275,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Colby Parkinson": {
@@ -35277,20 +35831,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.3517,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 31.66,
        "fair_prob": 0.2582,
        "n_books": 6,
        "price": 410,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.3517,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Terrance Ferguson": {
@@ -35322,20 +35880,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2048,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 20.93,
        "fair_prob": 0.2326,
        "n_books": 6,
        "price": 420,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2048,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Jordan Whittington": {
@@ -35361,16 +35923,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 38.3,
        "fair_prob": 0.2128,
        "n_books": 4,
        "price": 550,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Tyler Higbee": {
       "books": {
@@ -35401,20 +35965,24 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1959,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 30.21,
        "fair_prob": 0.2083,
        "n_books": 6,
        "price": 525,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1959,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Devin Singletary": {
@@ -35446,20 +36014,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.472,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 8.75,
        "fair_prob": 0.1942,
        "n_books": 6,
        "price": 460,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.472,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Malachi Fields": {
@@ -35491,16 +36063,18 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 3.96,
        "fair_prob": 0.1962,
        "n_books": 6,
        "price": 430,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Los Angeles Rams D/ST": {
       "books": {
@@ -35522,16 +36096,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 4.0,
        "fair_prob": 0.16,
        "n_books": 3,
        "price": 550,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Konata Mumpfield": {
       "books": {
@@ -35562,20 +36138,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1544,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 65.13,
        "fair_prob": 0.1436,
        "n_books": 6,
        "price": 1050,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1544,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Najee Harris": {
@@ -35607,16 +36187,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 7.14,
        "fair_prob": 0.1429,
        "n_books": 6,
        "price": 650,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "New York Giants D/ST": {
       "books": {
@@ -35638,16 +36220,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 3.33,
        "fair_prob": 0.1333,
        "n_books": 3,
        "price": 675,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Tutu Atwell": {
       "books": {
@@ -35675,16 +36259,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 26.67,
        "fair_prob": 0.1333,
        "n_books": 5,
        "price": 850,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "Darnell Mooney": {
       "books": {
@@ -35715,20 +36301,24 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2004,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 18.75,
        "fair_prob": 0.125,
        "n_books": 6,
        "price": 850,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2004,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Theo Johnson": {
@@ -35760,20 +36350,24 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.2109,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 8.66,
        "fair_prob": 0.1144,
        "n_books": 6,
        "price": 850,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.2109,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
       }
      },
      "Xavier Smith": {
@@ -35805,16 +36399,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 52.73,
        "fair_prob": 0.0955,
        "n_books": 6,
        "price": 1500,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
+      }
      },
      "CJ Daniels": {
       "books": {
@@ -35842,16 +36438,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 19.05,
        "fair_prob": 0.0952,
        "n_books": 5,
        "price": 1150,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Davis Allen": {
       "books": {
@@ -35879,20 +36477,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1856,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 41.67,
        "fair_prob": 0.0833,
        "n_books": 5,
        "price": 1600,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1856,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Odell Beckham Jr.": {
@@ -35924,16 +36526,18 @@
        "point": null,
        "book": "FanDuel"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 6.25,
        "fair_prob": 0.0625,
        "n_books": 6,
        "price": 1600,
        "book": "FanDuel",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Matthew Stafford": {
       "books": {
@@ -35964,20 +36568,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.172,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 33.05,
        "fair_prob": 0.0532,
        "n_books": 6,
        "price": 2400,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.172,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Max Klare": {
@@ -36006,16 +36614,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 0.0,
        "fair_prob": 0.0435,
        "n_books": 5,
        "price": 2200,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Braxton Berrios": {
       "books": {
@@ -36037,16 +36647,18 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 15.38,
        "fair_prob": 0.0385,
        "n_books": 3,
        "price": 2900,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Chris Manhertz": {
       "books": {
@@ -36077,20 +36689,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.1332,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 93.1,
        "fair_prob": 0.0345,
        "n_books": 6,
        "price": 5500,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.1332,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Ronnie Rivers": {
@@ -36122,16 +36738,18 @@
        "point": null,
        "book": "DraftKings"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 14.97,
        "fair_prob": 0.0371,
        "n_books": 6,
        "price": 3000,
        "book": "DraftKings",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Patrick Ricard": {
       "books": {
@@ -36162,16 +36780,18 @@
        "point": null,
        "book": "BetMGM"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 11.51,
        "fair_prob": 0.0328,
        "n_books": 6,
        "price": 3300,
        "book": "BetMGM",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": []
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "longshot"
+      }
      },
      "Thomas Fidone": {
       "books": {
@@ -36199,20 +36819,24 @@
        "point": null,
        "book": "BetRivers"
       },
-      "edge": {
+      "edge": null,
+      "off_market": [],
+      "model": {
+       "market": "anytime_td",
+       "p_score": 0.091,
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
+      },
+      "suppressed_edge": {
        "side": "yes",
        "ev_pct": 36.59,
        "fair_prob": 0.0244,
        "n_books": 5,
        "price": 5500,
        "book": "BetRivers",
-       "basis": "median-implied (vig-in, conservative)"
-      },
-      "off_market": [],
-      "model": {
-       "market": "anytime_td",
-       "p_score": 0.091,
-       "kind": "score"
+       "basis": "median-implied, vig NOT removed -- EV overstated",
+       "suppressed": "suspect_quote"
       }
      },
      "Tyrone Tracy Jr.": {
@@ -36237,7 +36861,9 @@
       "model": {
        "market": "anytime_td",
        "p_score": 0.3964,
-       "kind": "score"
+       "kind": "score",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "New York Giants Defense": {
@@ -36480,7 +37106,9 @@
        "market": "rec_yds",
        "p_over": 0.7033,
        "median": 131.3,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Malik Nabers": {
@@ -36620,7 +37248,9 @@
        "market": "rec_yds",
        "p_over": 0.4713,
        "median": 51.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Isaiah Likely": {
@@ -36693,7 +37323,9 @@
        "market": "rec_yds",
        "p_over": 0.4332,
        "median": 39.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Malachi Fields": {
@@ -36796,7 +37428,9 @@
        "market": "rec_yds",
        "p_over": 0.725,
        "median": 25.7,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Cam Skattebo": {
@@ -36968,7 +37602,9 @@
        "market": "rush_yds",
        "p_over": 0.7065,
        "median": 96.0,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Cam Skattebo": {
@@ -37118,7 +37754,9 @@
        "market": "rush_yds",
        "p_over": 0.7806,
        "median": 94.2,
-       "kind": "yards"
+       "kind": "yards",
+       "engine": "v3-rz",
+       "rz": true
       }
      },
      "Jaxson Dart": {
@@ -37192,5 +37830,6 @@
    }
   }
  },
- "model_annotated_at": "2026-09-20T12:55:15.957343+00:00"
+ "model_annotated_at": "2026-09-20T20:04:21.698734+00:00",
+ "engine_version": "v3-rz"
 }
