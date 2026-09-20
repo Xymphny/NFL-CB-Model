@@ -1,32 +1,37 @@
 {
   "season": 2026,
-  "updated_at": "2026-09-18T09:10:04.510378+00:00",
+  "updated_at": "2026-09-20T16:14:26.700301+00:00",
   "graded_weeks": [
     1,
     2
   ],
-  "ats_wins": 5,
+  "ats_wins": 4,
   "ats_losses": 8,
   "pushes": 0,
-  "units": -4.22,
-  "roi": -0.4694,
-  "avg_clv": 0.15,
-  "n_clv_bets": 13,
-  "model_mae": 15.88,
-  "market_mae": 15.07,
+  "units": -2.73,
+  "roi": -0.3635,
+  "avg_clv": 0.21,
+  "n_clv_bets": 12,
+  "model_mae": 14.74,
+  "market_mae": 13.69,
   "tier_stats": {
-    "n_plays": 5,
-    "ats_pct": 0.0
+    "n_plays": 3,
+    "ats_pct": 0.3333
   },
   "tier_stats_by_tier": {
     "play": {
-      "n_plays": 5,
-      "ats_pct": 0.0
+      "n_plays": 3,
+      "ats_pct": 0.3333
     },
     "lean": {
-      "n_plays": 8,
-      "ats_pct": 0.625
+      "n_plays": 9,
+      "ats_pct": 0.3333
     }
+  },
+  "calibration": {
+    "slope_model": 0.68,
+    "slope_market": 1.142,
+    "n_games": 17
   },
   "plays": [
     {
@@ -46,21 +51,6 @@
     },
     {
       "week": 1,
-      "market": "total",
-      "tier": "lean",
-      "label": "ATL/PIT over 42",
-      "line": 42.0,
-      "close": 40.5,
-      "result": "loss",
-      "units": -0.5,
-      "clv": -1.5,
-      "edge": 3.17,
-      "model_margin": null,
-      "actual_margin": null,
-      "market_spread": null
-    },
-    {
-      "week": 1,
       "market": "spread",
       "tier": "lean",
       "label": "IND +3.5",
@@ -77,12 +67,12 @@
     {
       "week": 1,
       "market": "total",
-      "tier": "play",
+      "tier": "lean",
       "label": "TB/CIN under 50.5",
       "line": 50.5,
       "close": 50.5,
       "result": "loss",
-      "units": -1.0,
+      "units": -0.5,
       "clv": 0.0,
       "edge": 4.9,
       "model_margin": null,
@@ -92,12 +82,12 @@
     {
       "week": 1,
       "market": "total",
-      "tier": "play",
+      "tier": "lean",
       "label": "NO/DET under 50",
       "line": 50.0,
       "close": 49.5,
       "result": "loss",
-      "units": -1.0,
+      "units": -0.5,
       "clv": 0.5,
       "edge": 4.96,
       "model_margin": null,
@@ -118,21 +108,6 @@
       "model_margin": 7.4267461163483794,
       "actual_margin": -12,
       "market_spread": 10.0
-    },
-    {
-      "week": 1,
-      "market": "total",
-      "tier": "lean",
-      "label": "ARI/LAC under 47",
-      "line": 47.0,
-      "close": 47.5,
-      "result": "win",
-      "units": 0.455,
-      "clv": -0.5,
-      "edge": 3.55,
-      "model_margin": null,
-      "actual_margin": null,
-      "market_spread": null
     },
     {
       "week": 1,
@@ -166,21 +141,6 @@
     },
     {
       "week": 1,
-      "market": "total",
-      "tier": "lean",
-      "label": "DAL/NYG under 48.5",
-      "line": 48.5,
-      "close": 47.5,
-      "result": "win",
-      "units": 0.455,
-      "clv": 1.0,
-      "edge": 3.17,
-      "model_margin": null,
-      "actual_margin": null,
-      "market_spread": null
-    },
-    {
-      "week": 1,
       "market": "spread",
       "tier": "lean",
       "label": "DEN +2.5",
@@ -193,6 +153,51 @@
       "model_margin": -1.3447344891263842,
       "actual_margin": 21,
       "market_spread": 2.5
+    },
+    {
+      "week": 1,
+      "market": "total",
+      "tier": "lean",
+      "label": "ATL/PIT over 41.5",
+      "line": 41.5,
+      "close": 40.5,
+      "result": "loss",
+      "units": -0.5,
+      "clv": -1.0,
+      "edge": 4.15,
+      "model_margin": null,
+      "actual_margin": null,
+      "market_spread": null
+    },
+    {
+      "week": 1,
+      "market": "spread",
+      "tier": "lean",
+      "label": "HOU +1",
+      "line": -1.0,
+      "close": -1.5,
+      "result": "loss",
+      "units": -0.5,
+      "clv": -0.5,
+      "edge": 2.73,
+      "model_margin": 1.7322315591255664,
+      "actual_margin": -5,
+      "market_spread": -1.0
+    },
+    {
+      "week": 1,
+      "market": "total",
+      "tier": "play",
+      "label": "GB/MIN over 45.5",
+      "line": 45.5,
+      "close": 46.5,
+      "result": "win",
+      "units": 0.909,
+      "clv": 1.0,
+      "edge": 5.49,
+      "model_margin": null,
+      "actual_margin": null,
+      "market_spread": null
     },
     {
       "week": 2,
@@ -208,21 +213,6 @@
       "model_margin": 0.9652456478317708,
       "actual_margin": 10,
       "market_spread": 5.0
-    },
-    {
-      "week": 2,
-      "market": "total",
-      "tier": "play",
-      "label": "DET/BUF under 54.5",
-      "line": 54.5,
-      "close": 54.5,
-      "result": "loss",
-      "units": -1.0,
-      "clv": 0.0,
-      "edge": 7.23,
-      "model_margin": null,
-      "actual_margin": null,
-      "market_spread": null
     }
   ]
 }

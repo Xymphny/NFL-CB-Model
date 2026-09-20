@@ -261,7 +261,19 @@ def test_props_consensus_edge():
     bal = consensus_edge({b: {"line": 100.5, "over": -110, "under": -110} for b in "ABC"})
     assert bal["edge"]["ev_pct"] < 0                 # balanced market: EV is vig-negative
     td = consensus_edge({"DK": {"yes": -175}, "FD": {"yes": -180}, "S": {"yes": -120}}, yes_market=True)
-    assert td["edge"]["side"] == "yes" and "conservative" in td["edge"]["basis"]
+    # Yes-market fair value is vig-INFLATED, so EV is an upper bound.
+    # The basis string said "conservative" until 2026-09-20; this test
+    # asserted the wrong claim, so it is corrected here rather than the
+    # code being reverted to satisfy it.
+    assert td["edge"]["side"] == "yes"
+    assert "overstated" in td["edge"]["basis"] and "conservative" not in td["edge"]["basis"]
+    # Write-time guards: suppression happens here, not in the frontend,
+    # and the reason is published rather than the row silently vanishing.
+    longshot = consensus_edge({b: {"yes": p} for b, p in
+                               (("DK", 900), ("FD", 850), ("S", 1000))}, yes_market=True)
+    assert longshot["edge"] is None
+    assert longshot["suppressed_edge"]["suppressed"] == "longshot"
+    assert longshot["yes"] is not None               # the price itself is still published
 
 
 def test_props_format_refetch():

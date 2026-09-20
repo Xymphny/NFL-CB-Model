@@ -256,8 +256,16 @@ def run_pipeline(season: int, current_week: int) -> dict:
         if len(injured_teams) > 0:
             print(f"[weekly_job] applied real injury adjustments for {len(injured_teams)} teams: "
                   f"{dict(zip(injured_teams.index, injured_teams['injury_note']))}")
-            ratings["offense_voa"] = injury_adjusted["offense_voa_injury_adjusted"]
-            ratings["total_rating"] = injury_adjusted["total_rating_injury_adjusted"]
+            # ANNOTATION, NOT ADJUSTMENT (2026-09-20). These two lines
+            # used to overwrite the shipped ratings with replacement-
+            # level numbers whenever a QB was ruled out -- the only
+            # path in the repo by which public injury news silently
+            # moved a published figure, contradicting both
+            # deploy/qb_status.py's header and the README ledger entry
+            # that says QB information is fully priced by the market.
+            # The note is carried instead; model/injury_impact.py
+            # remains available as a reference module.
+            ratings["injury_note"] = injury_adjusted["injury_note"]
     except Exception as e:
         print(f"[weekly_job] real injury data unavailable for {season} week {current_week + 1} ({e}), skipping")
 
@@ -416,10 +424,28 @@ def main():
         except Exception as perf_err:
             print(f"[weekly_job] performance grading skipped: {perf_err}")
 
+        # Prop grading rides the same Tuesday cadence. The engine's
+        # watch-mode opinions are the largest claim surface in the
+        # system by volume and went ungraded until 2026-09-20; this is
+        # the machinery its own on-ramp rule depends on.
+        prop_files = []
+        try:
+            from deploy.grade_props import grade_week as grade_props_week, rebuild_summary
+            graded = grade_props_week(season, week, data_dir=REPO_DATA_PATH)
+            if graded:
+                prop_files.append(graded)
+                summary = rebuild_summary(season, data_dir=REPO_DATA_PATH)
+                if summary:
+                    prop_files.append(summary)
+        except Exception as prop_err:                     # noqa: BLE001
+            print(f"[weekly_job] prop grading skipped: {prop_err}")
+
         if GIT_REPO_URL:
             git_commit_and_push(output_file, commit_message=f"Update ratings: {season} week {week}")
             if perf_file:
                 git_commit_and_push(perf_file, commit_message=f"Grade performance through {season} week {week}")
+            for pf in prop_files:
+                git_commit_and_push(pf, commit_message=f"Prop grades: {season} week {week}")
         else:
             print("[weekly_job] GIT_REPO_URL not set, skipping commit/push (local-only run)")
 

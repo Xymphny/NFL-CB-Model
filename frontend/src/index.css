@@ -42,6 +42,25 @@
 
 html { -webkit-text-size-adjust: 100%; }
 
+button, input, select { font-family: var(--body-font); }
+
+::selection { background: rgba(234, 181, 79, 0.28); color: var(--chalk); }
+
+/* One focus ring, everywhere. Keyboard users get the same chalk-gold
+   outline on every control -- the redesign must not cost a11y. */
+:where(a, button, input, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold-text);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tabs button, .league-toggle button, .week-chip, .log-bet-btn,
+  .grade-btn, .clickable-row td, .alt-lines-toggle, .props-game-head {
+    transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  }
+}
+
 body {
   margin: 0;
   background:
@@ -155,7 +174,13 @@ a { color: var(--gold-text); }
   margin-top: 12px;
   overflow-x: auto;
   padding-bottom: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
 }
+
+.tabs::-webkit-scrollbar { height: 3px; }
+.tabs::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 2px; }
+.tabs::-webkit-scrollbar-track { background: transparent; }
 
 .tabs button {
   background: transparent;
@@ -293,6 +318,13 @@ section { margin-top: 34px; }
 
 .gate-title { font-weight: 600; font-size: 14.5px; margin: 3px 0 4px; }
 .gate-body { color: var(--chalk-dim); font-size: 13px; margin: 0; }
+.gate-evidence {
+  color: var(--chalk-faint);
+  font-family: var(--nums);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  margin: 3px 0 0;
+}
 
 /* ---------------- board summary ---------------- */
 
@@ -423,7 +455,8 @@ section { margin-top: 34px; }
 .conf-seg { height: 7px; flex: 1; border-radius: 3px; background: var(--panel-raised); border: 1px solid var(--line); }
 .conf-seg.on { background: var(--win); border-color: var(--win); }
 .conf-seg.bad { background: var(--loss); border-color: var(--loss); }
-.conf-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+.conf-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 7px; }
+.conf-chip { line-height: 1.5; white-space: nowrap; }
 .conf-chip { font-size: 11.5px; color: var(--chalk-faint); border: 1px solid var(--line); border-radius: 5px; padding: 1px 7px; }
 .conf-chip.on { color: var(--win-text); border-color: rgba(92, 199, 148, 0.45); }
 .conf-chip.bad { color: var(--loss-text); border-color: rgba(234, 128, 120, 0.45); }
@@ -576,7 +609,8 @@ section { margin-top: 34px; }
 .ratings-table th.numeric, .ratings-table td.numeric { text-align: right; }
 .ratings-table th.sorted { color: var(--gold-text); }
 .ratings-table td { border-bottom: 1px dashed var(--line); padding: 7px 8px; }
-.ratings-table th.numeric { cursor: pointer; }
+.ratings-table th.sortable { cursor: pointer; }
+.ratings-table th.sortable:hover { color: var(--chalk); }
 .clickable-row { cursor: pointer; }
 .clickable-row:hover td { background: rgba(236, 233, 220, 0.04); }
 .rank-cell { color: var(--chalk-faint); width: 30px; }
@@ -722,8 +756,20 @@ section { margin-top: 34px; }
 
 /* ---------------- responsive ---------------- */
 
+@media (hover: none) {
+  /* Thumb-sized targets on touch, without inflating the desktop chrome. */
+  .tabs button { padding: 12px 14px 11px; }
+  .league-toggle button { padding: 11px 15px; }
+  .week-chip { padding: 8px 13px; }
+  .grade-btn { padding: 7px 13px; }
+  .alt-lines-toggle { padding: 6px 0; }
+}
+
 @media (max-width: 720px) {
   .brand { font-size: 34px; }
+  .masthead-row { align-items: flex-start; }
+  .masthead-right { width: 100%; justify-content: space-between; }
+  .tagline { font-size: 17px; }
   .hero-stats { grid-template-columns: 1fr; }
   .gate-grid { grid-template-columns: 1fr; }
   .divisions-grid { grid-template-columns: 1fr; }

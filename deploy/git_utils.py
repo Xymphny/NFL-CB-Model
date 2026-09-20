@@ -111,7 +111,7 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
     # moved remote is conflict-free by construction; if a rebase ever
     # does conflict, abort and fail loudly rather than force anything.
     push_result = None
-    for attempt in range(3):
+    for attempt in range(4):        # 1 initial push + 3 documented retries
         push_result = subprocess.run(
             ["git", "push", "origin", f"HEAD:{target_branch}"], cwd=repo_dir, capture_output=True, text=True,
         )
@@ -121,11 +121,27 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
             break  # not a race -- do not retry auth/network errors blindly
         print(f"[git_utils] push rejected (remote moved), attempt {attempt + 1}: fetching and rebasing")
         subprocess.run(["git", "fetch", "origin", target_branch], cwd=repo_dir, capture_output=True, text=True)
+        # A rebase refuses to start while a TRACKED file is modified but
+        # unstaged -- and both cron jobs guarantee exactly that at push
+        # time (odds_watch has already rewritten the props file; the
+        # weekly job has perf_file open). So the rebase failed precisely
+        # when the remote had moved, which is the case it exists for, and
+        # the run's snapshot was lost. Stash first, restore after.
+        stashed = subprocess.run(
+            ["git", "stash", "push", "--include-untracked", "-m", "coverline-autostash"],
+            cwd=repo_dir, capture_output=True, text=True)
+        did_stash = stashed.returncode == 0 and "No local changes" not in stashed.stdout
         rebase = subprocess.run(["git", "rebase", "FETCH_HEAD"], cwd=repo_dir, capture_output=True, text=True)
         if rebase.returncode != 0:
             subprocess.run(["git", "rebase", "--abort"], cwd=repo_dir, capture_output=True, text=True)
             print(f"[git_utils] rebase conflicted -- aborting rather than forcing: {rebase.stderr.strip()[:200]}")
+            if did_stash:
+                subprocess.run(["git", "stash", "pop"], cwd=repo_dir, capture_output=True, text=True)
             break
+        if did_stash:
+            pop = subprocess.run(["git", "stash", "pop"], cwd=repo_dir, capture_output=True, text=True)
+            if pop.returncode != 0:
+                print(f"[git_utils] stash pop failed after rebase: {pop.stderr.strip()[:200]}")
     print(f"[git_utils] git push exit code: {push_result.returncode}")
     print(f"[git_utils] git push stderr: {push_result.stderr.strip()}")
 

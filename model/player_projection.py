@@ -89,9 +89,14 @@ SEASON_CARRY = 0.6              # state weight surviving a season boundary
 CRED_OPP = {"pass_yds": 90, "rush_yds": 45, "rec_yds": 18}   # opportunities before player >> position mean
 MIN_PROJ_OPP = {"pass_yds": 20.0, "rush_yds": 10.0, "rec_yds": 4.0}  # proppable-volume threshold
 OPP_SHRINK = 0.5
-# v2 TD constants. ENV_DAMP / OPP_SHRINK_TD / TD_POWER were chosen on
-# TRAIN-ONLY log-loss + bucket calibration (grid in the ledger); the
-# held-out gate then verified the single chosen config once.
+# v2/v3 TD constants, chosen on TRAIN-ONLY log-loss + bucket
+# calibration; the held-out gate then verified the single chosen
+# config once. HONESTY NOTE (2026-09-20): earlier comments here cited
+# "the grid in the ledger". No such grid was ever committed -- the
+# search ran in a scratch harness. What IS reproducible is the
+# held-out table for these constants, written by main() to
+# model/player_projection_results.json. Treat the constants as
+# asserted-not-shown until a calibrate_player_td_lambda.py exists.
 OPP_SHRINK_TD = 0.5             # opponent TD-defense multiplier shrink
 ENV_DAMP = 0.5                  # sqrt damping on the team-environment ratio
 ENV_CLAMP = (0.6, 1.5)          # bounds on the (damped) environment multiplier
@@ -99,6 +104,12 @@ TIER_CUTS = (8.0, 15.0)         # opportunities/game -> tier 0 / 1 / 2
 TIER_K = {0: 5.0, 1: 3.0, 2: 1.5}   # TD credibility k by volume tier
 TD_POWER = 0.55                 # b in P(score) = 1 - exp(-a_tier * lam^b) (v3 refit)
 TD_MIN_LAMBDA = 0.15            # calibrated-pool floor: no TD opinion below it
+# Engine version stamped onto every opinion. model/version.py already
+# states the lesson -- "without a version tag on the output data
+# itself, comparing a v1 rating to a v3 rating is comparing different
+# things" -- and it was not applied here until 2026-09-20. A grader
+# written in October cannot otherwise attribute a September chip.
+ENGINE_VERSION = "v3-rz"
 BURN_IN_SEASONS = 1             # cold-start seasons excluded from shape fitting
 # v3 red-zone usage constants. Zones: c5/c10 = carries by yardline,
 # t10/t20 = targets by yardline, o20 = touches outside the 20. League
@@ -295,9 +306,20 @@ class Engine:
         ALL_Z = RZ_ZONES + ("o20",)
         wk_opp = defaultdict(float)
         wk_td = defaultdict(float)
-        has_rz = any(r.get(z) for r in rows for z in ALL_Z)
+        # PER-TEAM availability (2026-09-20 fix). This was a single
+        # week-global flag: one nonzero red-zone value anywhere turned
+        # zone updating on for EVERY team, and teams absent from that
+        # week's play-by-play had 0.0 written into their zone volume
+        # states as though they had genuinely run no red-zone plays.
+        # nflverse publishes pbp and stats_player_week on different
+        # cadences, so a partial week is routine -- and with USAGE_W
+        # at 0.7 the resulting lambda understates by roughly 70%.
+        rz_teams = {r["team"] for r in rows if any(r.get(z) for z in ALL_Z)}
+        has_rz = bool(rz_teams)
         if has_rz:
             for r in rows:
+                if r["team"] not in rz_teams:
+                    continue
                 for z in ALL_Z:
                     wk_opp[(r["team"], z)] += r.get(z, 0) or 0
                     wk_td[(r["team"], z)] += r.get(z + "_td", 0) or 0
@@ -306,7 +328,7 @@ class Engine:
             for (team, z), n in wk_opp.items():
                 lg_o[z] += n
                 lg_t[z] += wk_td[(team, z)]
-            for team in {r["team"] for r in rows}:
+            for team in rz_teams:
                 rz_faced = rz_allowed = 0.0
                 for z in ALL_Z:
                     self.t_z[(team, z)].add(wk_opp.get((team, z), 0.0))
@@ -349,9 +371,10 @@ class Engine:
                 for mkt2 in MARKETS:
                     self.p_opp[(p2, mkt2)].add(0.0)
                 self.p_td[p2].add(0.0)
-                for z2 in RZ_ZONES + ("o20",):
-                    self.p_z[(p2, z2)].add(0.0)
-                self.p_long[p2].add(0.0)
+                if team2 in rz_teams:
+                    for z2 in RZ_ZONES + ("o20",):
+                        self.p_z[(p2, z2)].add(0.0)
+                    self.p_long[p2].add(0.0)
         for r in rows:
             p = r["player_display_name"]
             self.pos[p] = r["position"]
@@ -369,7 +392,7 @@ class Engine:
             # (position, tier) mean the credibility shrink targets.
             self.p_env_td[p].add(team_td[r["team"]])
             self.tier_td[(r["position"], tiers[p])].add(r["rushing_tds"] + r["receiving_tds"])
-            if has_rz:
+            if r["team"] in rz_teams:
                 for z in RZ_ZONES + ("o20",):
                     self.p_z[(p, z)].add(r.get(z, 0) or 0)
                 self.p_long[p].add(r.get("o20_td", 0) or 0)
@@ -559,10 +582,32 @@ def prob_over(shapes, mkt, proj, line, opp_proj=None):
         ratios = shapes.get(mkt)
     if ratios is None or len(ratios) < 200 or proj <= 0:
         return None
-    return float(1.0 - np.searchsorted(ratios, line / proj, side="left") / len(ratios))
+    p = 1.0 - np.searchsorted(ratios, line / proj, side="left") / len(ratios)
+    # Never claim certainty the ECDF cannot support: beyond the
+    # empirical max this returns exactly 0.0, which as a probability
+    # asserts impossibility from a few thousand observations.
+    eps = 1.0 / (len(ratios) + 1)
+    return float(min(max(p, eps), 1.0 - eps))
 
 
-def calibration_report(preds, shapes, test_seasons):
+def _logloss_brier(p, y):
+    p = np.clip(np.asarray(p, dtype=float), 1e-9, 1 - 1e-9)
+    y = np.asarray(y, dtype=float)
+    return (float(-(y * np.log(p) + (1 - y) * np.log(1 - p)).mean()),
+            float(((p - y) ** 2).mean()))
+
+
+def calibration_report(preds, shapes, test_seasons, results=None):
+    """Prints the held-out table and, when `results` is a dict, fills it
+    with the same numbers so main() can persist them.
+
+    The selection criterion for this engine's constants is held-out
+    log-loss and bucket calibration, but until 2026-09-20 the report
+    computed NEITHER log-loss nor Brier -- the numbers quoted in the
+    README ledger came from a scratch harness that was never
+    committed, so no claim about v3 beating v2 could be checked from
+    the repo. They are computed here now and written to
+    model/player_projection_results.json."""
     test = preds[preds["season"].isin(test_seasons)]
     print(f"\n===== HELD-OUT CALIBRATION ({test_seasons}) =====")
     for mkt in MARKETS:
@@ -575,6 +620,16 @@ def calibration_report(preds, shapes, test_seasons):
             claimed = [prob_over(shapes, mkt, p, p * mult, o) for p, o in zip(t["proj"], t["opp_proj"])]
             actual = (t["actual"] > t["proj"] * mult).mean()
             print(f"    {mult:4.2f} x proj      {np.mean(claimed):.3f}             {actual:.3f}")
+        if results is not None:
+            results.setdefault("yardage", {})[mkt] = {
+                "n": int(len(t)),
+                "lines": [{"mult": mult,
+                           "claimed": round(float(np.mean([prob_over(shapes, mkt, p, p * mult, o)
+                                                           for p, o in zip(t["proj"], t["opp_proj"])])), 4),
+                           "actual": round(float((t["actual"] > t["proj"] * mult).mean()), 4)}
+                          for mult in (0.7, 0.85, 1.0, 1.15, 1.3)],
+                "withheld": mkt not in CALIBRATED_MARKETS,
+            }
         centered = pd.Series([p * shapes["_center"].get((mkt, _stratum(shapes, mkt, o)), shapes["_center"][mkt])
                               for p, o in zip(t["proj"], t["opp_proj"])], index=t.index)
         mae = (t["actual"] - centered).abs().mean()
@@ -598,6 +653,22 @@ def calibration_report(preds, shapes, test_seasons):
                 b = td[td["tier"] == tier]
                 if len(b) > 30:
                     print(f"  tier {tier}        {b['p'].mean():.3f}     {b['actual'].mean():.3f}   {len(b)}")
+        ll, br = _logloss_brier(td["p"].values, td["actual"].values)
+        print(f"  HELD-OUT log-loss {ll:.5f}  Brier {br:.5f}  n={len(td)}")
+        if results is not None:
+            results["anytime_td"] = {
+                "n": int(len(td)), "log_loss": round(ll, 5), "brier": round(br, 5),
+                "buckets": [
+                    {"lo": lo, "hi": hi, "claimed": round(float(b["p"].mean()), 4),
+                     "actual": round(float(b["actual"].mean()), 4), "n": int(len(b))}
+                    for lo, hi in ((0.1, 0.25), (0.25, 0.4), (0.4, 0.55), (0.55, 0.75), (0.75, 0.95))
+                    for b in [td[(td["p"] >= lo) & (td["p"] < hi)]] if len(b) > 30],
+                "by_tier": [
+                    {"tier": t, "claimed": round(float(b["p"].mean()), 4),
+                     "actual": round(float(b["actual"].mean()), 4), "n": int(len(b))}
+                    for t in (0, 1, 2)
+                    for b in [td[td["tier"] == t]] if len(b) > 30],
+            }
 
 
 # ---------------- live pipeline API (watch mode) ----------------
@@ -621,6 +692,8 @@ def load_shapes(path=None):
               "_td_a": {t: float(z["td_a"][t]) for t in range(3)}}
     shapes["_td_a"]["pooled"] = float(z["td_a"][3])
     for m in MARKETS:
+        if m not in z.files:
+            continue            # withheld market: no shapes shipped at all
         shapes[m] = z[m]
         shapes["_cuts"][m] = z[m + "_cuts"]
         for st in range(3):
@@ -654,13 +727,17 @@ class LiveProjector:
     def __init__(self, season, data=None):
         self.shapes = load_shapes()
         self.eng = Engine()
+        self.rz_loaded = False
         if data is None:
             data = load_seasons(season - 1, season)
             try:
                 data = merge_rz(data, load_rz(season - 1, season))
+                self.rz_loaded = True
                 print("[engine] red-zone usage merged")
             except Exception as e:                        # noqa: BLE001
                 print(f"[engine] rz unavailable ({e}); TD lambda falls back to v2")
+        else:
+            self.rz_loaded = any(z in getattr(data, "columns", []) for z in RZ_ZONES)
         first = data["season"].min()
         for yr in sorted(data["season"].unique()):
             if yr != first:
@@ -703,7 +780,8 @@ class LiveProjector:
                 # players the edge board already over-surfaces. Silence.
                 return None
             tier = self.eng.volume_tier(player)
-            return {"market": mkt, "p_score": round(prob_score(self.shapes, lam, tier), 4), "kind": "score"}
+            return {"market": mkt, "p_score": round(prob_score(self.shapes, lam, tier), 4),
+                    "kind": "score", "engine": ENGINE_VERSION, "rz": self.rz_loaded}
         pr = self.eng.project(player, team, opponent, mkt)
         if pr is None or pr["opp"] < MIN_PROJ_OPP[mkt] or line is None:
             return None
@@ -712,7 +790,8 @@ class LiveProjector:
             return None
         st = _stratum(self.shapes, mkt, pr["opp"])
         center = self.shapes["_center"].get((mkt, st), self.shapes["_center"].get(mkt, 1.0))
-        return {"market": mkt, "p_over": round(p, 4), "median": round(pr["yards"] * center, 1), "kind": "yards"}
+        return {"market": mkt, "p_over": round(p, 4), "median": round(pr["yards"] * center, 1),
+                "kind": "yards", "engine": ENGINE_VERSION, "rz": self.rz_loaded}
 
 
 def main():
@@ -727,19 +806,57 @@ def main():
     shapes = build_shape(train)
     print(f"\nwalk-forward predictions: {len(preds)} | train {len(train)} | shapes: " +
           ", ".join(f"{m}:{len(shapes[m])}" for m in MARKETS))
-    calibration_report(preds, shapes, [2024, 2025])
+    results = {}
+    calibration_report(preds, shapes, [2024, 2025], results=results)
+    import json as _json
+    import subprocess as _sp
+    try:
+        _sha = _sp.check_output(["git", "rev-parse", "--short", "HEAD"],
+                                cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                text=True).strip()
+    except Exception:                                     # noqa: BLE001
+        _sha = None
+    res_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "player_projection_results.json")
+    with open(res_path, "w") as fh:
+        _json.dump({
+            "_provenance": {
+                "script": "model/player_projection.py",
+                "generated": __import__("datetime").date.today().isoformat(),
+                "git_sha": _sha,
+                "train_seasons": "<= 2023 (first season excluded as burn-in)",
+                "test_seasons": [2024, 2025],
+                "constants": {"USAGE_W": USAGE_W, "TD_POWER": TD_POWER, "ENV_DAMP": ENV_DAMP,
+                              "OPP_SHRINK_TD": OPP_SHRINK_TD, "TIER_K": TIER_K,
+                              "TIER_CUTS": list(TIER_CUTS), "TD_MIN_LAMBDA": TD_MIN_LAMBDA,
+                              "LONG_CRED": LONG_CRED, "RZ_OPP_SHRINK": RZ_OPP_SHRINK,
+                              "BURN_IN_SEASONS": BURN_IN_SEASONS},
+                "calibrated_markets": sorted(CALIBRATED_MARKETS),
+                "note": ("Held-out numbers for the CURRENT constants. To compare engine "
+                         "versions, check out the other version and re-run: this file records "
+                         "one configuration, it does not archive the comparison."),
+            },
+            "held_out": results,
+        }, fh, indent=2)
+    print(f"wrote {res_path}")
     # persist shapes for the live pipeline
+    # Structural withholding: pass_yds failed its gate twice, so its
+    # shapes are not written into the deployed artifact at all. The
+    # market is now unanswerable rather than merely unanswered.
+    deployed = [m for m in MARKETS if m in CALIBRATED_MARKETS]
     save = {"td_b": np.array([shapes["_td_b"]]),
             "td_a": np.array([shapes["_td_a"].get(t, shapes["_td_a"].get("pooled", 1.0))
                               for t in (0, 1, 2, "pooled")])}
-    for m in MARKETS:
+    for m in deployed:
         save[m] = shapes[m]
         save[m + "_cuts"] = shapes["_cuts"][m]
         for st in range(3):
             save[m + "_s%d" % st] = shapes[(m, st)]
             save[m + "_c%d" % st] = np.array([shapes["_center"][(m, st)]])
     np.savez(os.path.join(os.path.dirname(os.path.abspath(__file__)), "player_shape_ecdf.npz"), **save)
-    print("\nshapes frozen to model/player_shape_ecdf.npz (train <= 2023)")
+    print(f"\nshapes frozen to model/player_shape_ecdf.npz (train <= 2023); "
+          f"deployed markets: {', '.join(deployed)}; "
+          f"withheld: {', '.join(m for m in MARKETS if m not in deployed) or 'none'}")
 
 
 if __name__ == "__main__":

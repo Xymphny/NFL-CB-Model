@@ -27,11 +27,17 @@ export function normCdf(z) {
 /* Calibrated cover probability. edgeCoef comes from margin_dist.json's
  * logistic fit on held-out backtest games -- the honest mapping (a
  * 4-pt edge -> ~51%, NOT the ~61% the normal approximation claims).
- * Falls back to the normal approximation only when the calibration
- * file hasn't loaded. */
+ * Returns null when the calibration file hasn't loaded.
+ *
+ * It used to fall back to the normal approximation, which is the one
+ * failure mode that silently made the site MORE confident: a 4-point
+ * edge jumped 51.3% -> 61.4% on a margin_dist.json fetch failure, and
+ * because sizeStake consumes the same probability, full Kelly went
+ * ~0.014 -> ~0.19 of bankroll. A missing calibration is now visible
+ * (the caller renders a dash) and stakes fall back to flat. */
 export function coverProb(gap, edgeCoef = null) {
   if (edgeCoef) return 1 / (1 + Math.exp(-edgeCoef * Math.abs(gap)))
-  return normCdf(Math.abs(gap) / ATS_SIGMA)
+  return null
 }
 
 export function breakevenProb(americanPrice) {
@@ -58,20 +64,32 @@ export const STAKING_MODES = {
 }
 
 /* Returns { units, dollars, fullKelly, applied } for one play. */
-export function sizeStake({ prob, price = DEFAULT_PRICE, settings }) {
+export function sizeStake({ prob, price = DEFAULT_PRICE, settings, capped = false }) {
   const { bankroll, unitPct, mode } = settings
   const unitDollars = (bankroll * unitPct) / 100
+  // No calibration -> no Kelly. Sizing off an uncalibrated guess is
+  // exactly the failure this file exists to prevent.
+  if (prob == null) {
+    const units = capped ? 0.5 : 1
+    return { units, dollars: Math.round(units * unitDollars), fullKelly: null, applied: null,
+             uncalibrated: true }
+  }
   const fullK = fullKellyFraction(prob, price)
 
   if (mode === 'flat' || fullK <= 0) {
-    const units = fullK > 0 || mode === 'flat' ? 1 : 0
-    return { units, dollars: units * unitDollars, fullKelly: fullK, applied: mode === 'flat' ? 0 : fullK }
+    let units = fullK > 0 || mode === 'flat' ? 1 : 0
+    if (capped) units = Math.min(units, 0.5)
+    return { units, dollars: Math.round(units * unitDollars), fullKelly: fullK, applied: mode === 'flat' ? 0 : fullK }
   }
 
   const mult = STAKING_MODES[mode] ? STAKING_MODES[mode].multiplier : 0.25
   const applied = fullK * mult
   let units = (applied * bankroll) / unitDollars
   units = Math.min(units, MAX_STAKE_UNITS)
+  // A regime-capped game shows the word "Lean" and is GRADED at 0.5u
+  // by deploy/generate_performance.py. The dollar figure has to agree
+  // with both, or the cap is decoration.
+  if (capped) units = Math.min(units, 0.5)
   units = Math.round(units * 20) / 20
   return { units, dollars: Math.round(units * unitDollars), fullKelly: fullK, applied }
 }

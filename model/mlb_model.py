@@ -160,6 +160,13 @@ def elo_baseline(schedule, k=4, home_adv=24):
     ratings = defaultdict(lambda: 1500.0)
     probs, outcomes, seasons = [], [], []
     for g in schedule.sort_values(["date", "game_key"]).to_dict("records"):
+        if pd.isna(g["home_score"]) or pd.isna(g["away_score"]):
+            # Same guard as run_walk_forward. Without it, int(NaN > NaN)
+            # scored every postponed game as a phantom AWAY win, and the
+            # baseline was then graded on a larger row set than the model
+            # it is the ship gate for -- an apples-to-oranges comparison
+            # on the one number that decides whether Layer 1 ships.
+            continue
         eh = 1 / (1 + 10 ** (-(ratings[g["home_team"]] + home_adv - ratings[g["away_team"]]) / 400))
         probs.append(eh)
         won = int(g["home_score"] > g["away_score"])

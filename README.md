@@ -273,7 +273,7 @@ Found and fixed a real methodological issue: `walk_forward_layer2_test.py` and i
 
 **The real, honest conclusion**: Layer 2 provides a genuine but far more modest improvement (~1 percentage point) than the previously-reported 58.22% → 64.90%, which was significantly inflated by in-sample coefficient fitting. The "extended" round-2 features (cushion, catch%, stacked-box rate) added **zero** genuine value once tested rigorously — identical accuracy to the simpler 4-feature model, meaning their apparent earlier improvement was pure overfitting.
 
-**Production reverted accordingly**: `model/prediction.py`'s `MARGIN_COEFFICIENTS` now uses the base 4-feature model, refit on all 2021-2023 data (standard practice: validate via held-out split, then use all available data for the final production model) — not the extended version, which is retained only for reference under `MARGIN_COEFFICIENTS_EXTENDED_NOT_RECOMMENDED`.
+**Production reverted accordingly**: `model/prediction.py`'s `MARGIN_COEFFICIENTS` now uses the base 4-feature model — not the extended version, which is retained only for reference under `MARGIN_COEFFICIENTS_EXTENDED_NOT_RECOMMENDED`. **Corrected 2026-09-20:** this line previously said the production vector was "refit on all 2021-2023 data". It was not, and as written it implied the flagship 2022-2023 backtest was in-sample. The shipped coefficients are the 2016-2021 fit; an OLS on the held-out rows returns a rating_diff near 9.36 against the 0.1078 actually shipped, which is the direct evidence that those outcomes were never fitted.
 
 This is worth sitting with honestly: the earlier reported numbers weren't fabricated, they were a real result from a real test — but the test itself had a flaw that inflated the result, and catching that matters more than the flattering number did.
 
@@ -692,6 +692,29 @@ highest precedence).
   `model/cfb_roster_priors.csv` after any such wipe.
 - Tests: `python3 tests/test_parsers.py` (network-free regression
   suite for every parser with a docstring claim).
+- RECOVERY PROCEDURES (added 2026-09-20; the runbook previously
+  covered one of four disaster cases):
+  - *Partial cron failure.* Jobs commit per artifact, so a run can die
+    having pushed some files. Nothing is corrupted by this -- snapshots
+    are timestamped and append-only -- so the fix is to re-run the job;
+    the props bake self-dedupes and the divergence write lands under a
+    new timestamp.
+  - *Corrupt props file.* Since 2026-09-20 a JSONDecodeError falls
+    through to a refetch instead of being read as "already baked".
+    Delete `data/props/{season}-week-NN.json` and re-run only if the
+    file is structurally valid but wrong; that costs one credit per
+    game, so check `x-requests-remaining` first.
+  - *Simultaneous pushes.* `git_utils` autostashes around the
+    fetch-rebase, so a modified-unstaged file no longer aborts the
+    rebase and loses the run. If a rebase genuinely conflicts it aborts
+    and fails loudly -- resolve by hand, never force.
+  - *`data/` wiped by a bad deploy.* The snapshot families
+    (`divergence/`, `props/`, `ratings/`, `prop_grades/`) are NOT
+    regeneratable -- unlike the CFB caches above, they are the record
+    itself, and git history is the only copy. Recover with
+    `git checkout <last-good-sha> -- data/` and push. Do not let the
+    site auto-deploy from a wiped `data/`: an empty manifest publishes
+    an empty board that looks like "no plays this week".
 - Weekly rhythm: Thu boards fill -> Fri QB research into overrides ->
   weekend games -> Tue weekly job grades into Track record. The metric
   that decides everything: CLV on graded plays.

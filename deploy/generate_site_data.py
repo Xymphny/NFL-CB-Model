@@ -118,9 +118,20 @@ def build_teams(season, data_dir):
                 remaining_opps.append(opp)
             schedule.append(entry)
         div = DIVISIONS[abbr]
-        rem_sos = round(sum(ratings.get(o, 0.0) for o in remaining_opps) / len(remaining_opps), 2) if remaining_opps else None
+
+        # Skip opponents with no rating rather than imputing 0.0. A
+        # partial ratings snapshot used to publish a silently-wrong
+        # strength of schedule, with league-average standing in for
+        # "unknown" and nothing saying so.
+        def _sos(opps):
+            vals = [ratings[o] for o in opps if o in ratings]
+            if not vals or len(vals) < len(opps) / 2:
+                return None
+            return round(sum(vals) / len(vals), 2)
+
+        rem_sos = _sos(remaining_opps) if remaining_opps else None
         played_opps = [s["opp"] for s in schedule if "result" in s]
-        played_sos = round(sum(ratings.get(o, 0.0) for o in played_opps) / len(played_opps), 2) if played_opps else None
+        played_sos = _sos(played_opps) if played_opps else None
         teams[abbr] = {
             "abbr": abbr,
             "name": names.loc[abbr, "full"] if abbr in names.index else abbr,

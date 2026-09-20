@@ -72,6 +72,12 @@ function formatSigned(value, digits = 1) {
   return `${sign}${value.toFixed(digits)}`
 }
 
+// Hyphen-minus is a stub at 34px display weight; U+2212 matches the
+// digit width. DISPLAY ONLY -- never applied to stored labels.
+function bigNum(text) {
+  return typeof text === 'string' ? text.replace(/-/g, '\u2212') : text
+}
+
 function formatPercent(value, digits = 1) {
   if (value === null || value === undefined) return '—'
   return `${(value * 100).toFixed(digits)}%`
@@ -122,7 +128,7 @@ function describePick(d, market) {
   return `${d.away_team}/${d.home_team} ${over ? 'over' : 'under'} ${d.market_total.toFixed(1)}`
 }
 
-function describeReason(d, market) {
+function describeReason(d, market, debias = null) {
   const parts = []
   if (market === 'spread') {
     const modelSpread = d.market_spread + d.spread_gap
@@ -130,6 +136,10 @@ function describeReason(d, market) {
   } else {
     const modelTotal = d.market_total + d.total_gap
     parts.push(`Model projects ${modelTotal.toFixed(1)} vs the market's ${d.market_total.toFixed(1)}`)
+  }
+  if (debias && debias[0]) {
+    parts.push(`after a slate de-bias of ${formatSigned(debias[0], 2)} applied to every spread on ` +
+               `this board (constant-term correction; relative opinions untouched)`)
   }
   if (d.moved_toward_model === true) parts.push('line has moved toward the model since open')
   if (d.moved_toward_model === false) parts.push('line has moved away from the model since open')
@@ -305,7 +315,7 @@ function MlbBoard({ snap }) {
   )
 }
 
-function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null, boardLeague = 'NFL', boardCfbLogos = null, boardScores = null, boardOpenLines = null, boardSiteTeams = null }) {
+function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null, boardLeague = 'NFL', boardCfbLogos = null, boardScores = null, boardOpenLines = null, boardSiteTeams = null, boardDebias = null }) {
   const [showPassed, setShowPassed] = useState(false)
   const { settings, logBet, betLog } = book
 
@@ -345,9 +355,20 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
 
       {actionable.length === 0 && (
         <div className="empty-state">
-          <strong>No plays this week</strong>
-          The model and the market are in agreement across the board. Passing is a position — forcing
-          bets without an edge is how bankrolls die.
+          {divergences.length === 0 ? (
+            <>
+              <strong>No games on the board</strong>
+              This is an absence of data, not a finding: no priced games reached this snapshot.
+              Sportsbooks open lines gradually, and a failed odds run looks the same from here —
+              so nothing is being claimed about any game.
+            </>
+          ) : (
+            <>
+              <strong>No plays this week</strong>
+              The model and the market are in agreement across the board. Passing is a position — forcing
+              bets without an edge is how bankrolls die.
+            </>
+          )}
         </div>
       )}
 
@@ -356,7 +377,8 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
         const gap = market === 'spread' ? d.spread_gap : d.total_gap
         const edgeCoef = edgeCoefOverride ?? (marginDist ? marginDist.edge_calibration?.edge_coef : null)
         const prob = coverProb(gap, edgeCoef)
-        const stake = sizeStake({ prob, price: DEFAULT_PRICE, settings })
+        const stake = sizeStake({ prob, price: DEFAULT_PRICE, settings,
+                                  capped: d.tier_cap === 'lean' })
         const drivers = confidenceDrivers(d, market, ratingsByTeam, perf ? perf.tier_stats : null)
         const pick = describePick(d, market)
         const capBlocked = exposedUnits + stake.units > settings.weeklyCapUnits
@@ -441,7 +463,9 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
             <div className="bet-stats">
               <div>
                 <span className="bet-stat-label">Est. cover</span>
-                <span className="bet-stat-value">{formatPercent(prob)}</span>
+                <span className="bet-stat-value">
+                  {prob == null ? '\u2014' : formatPercent(prob)}
+                </span>
               </div>
               <div>
                 <span className="bet-stat-label">Edge</span>
@@ -457,7 +481,7 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
             </div>
 
             <p className="bet-reason">
-              {describeReason(d, market)}
+              {describeReason(d, market, boardDebias)}
               {d.fpi_home_prob != null && d.market_win_prob_home_fair != null && (
                 <span className="fpi-ref">
                   {' '}· FPI {Math.round(d.fpi_home_prob * 100)}% / market {Math.round(d.market_win_prob_home_fair * 100)}% home
@@ -493,7 +517,13 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
             {market === 'spread' && marginDist && (
               <AltLines d={d} marginDist={marginDist} />
             )}
-            {settings.mode !== 'flat' && stake.units > 0 && (
+            {stake.uncalibrated && (
+              <p className="kelly-line">
+                Calibration file unavailable — cover probability withheld and stake held flat
+                rather than guessed.
+              </p>
+            )}
+            {settings.mode !== 'flat' && stake.units > 0 && !stake.uncalibrated && (
               <p className="kelly-line">
                 Kelly at −110: full {formatPercent(stake.fullKelly)} → applied {formatPercent(stake.applied)} of bankroll, capped at 2u
               </p>
@@ -596,13 +626,13 @@ function KpiStrip({ perf }) {
       tone: perf && perf.avg_clv > 0 ? 'up' : perf && perf.avg_clv < 0 ? 'down' : '',
     },
     {
-      label: 'Units (flat stakes)',
+      label: 'Units (1u Play / 0.5u Lean)',
       value: perf && perf.units != null ? formatSigned(perf.units, 1) : '—',
       note: perf && perf.roi != null ? `ROI ${formatSigned(perf.roi * 100, 1)}%` : 'Graded after each week',
       tone: perf && perf.units > 0 ? 'up' : perf && perf.units < 0 ? 'down' : '',
     },
     {
-      label: 'Model vs market error',
+      label: 'Model vs market error (graded spread plays)',
       value: perf && perf.model_mae != null ? `${perf.model_mae.toFixed(1)} / ${perf.market_mae.toFixed(1)}` : '—',
       note: 'Mean abs. error, points',
       tone: '',
@@ -622,7 +652,7 @@ function KpiStrip({ perf }) {
       {kpis.map((k) => (
         <div className="kpi" key={k.label}>
           <span className="kpi-label">{k.label}</span>
-          <div className={`kpi-value ${k.tone}`}>{k.value}</div>
+          <div className={`kpi-value ${k.tone}`}>{bigNum(k.value)}</div>
           <span className="kpi-note">{k.note}</span>
         </div>
       ))}
@@ -682,25 +712,36 @@ function useClvReport(league) {
   return state
 }
 
+// Each gate carries the number that put it there and the artifact it
+// came from. The subhead promises exactly this, and the section
+// rendered four bare assertions until 2026-09-20.
 const GATES = [
   {
     status: 'withheld', tone: 'withheld',
-    title: 'Passing yards props: not shown',
+    title: 'Passing yards: no engine opinion',
+    evidence: 'held-out 2024-25 \u00b7 over-claimed at every line',
+    source: 'model/player_projection_results.json',
     body: 'The player engine\u2019s biggest market over-claimed on 2024\u201325 held-out data and failed its gate \u2014 twice. It stays off the board until a revision passes the same test. The biggest market sitting out is the point.',
   },
   {
     status: 'shipped', tone: 'shipped',
     title: 'New-coach flags capped at Lean',
+    evidence: '0/9 ATS \u00b7 2016-23 \u00b7 weeks 1-4',
+    source: 'model/coach_regime_results.json',
     body: 'Early-season flags backing first-year external head coaches went 0/9 against the spread in 2016\u201323 backtests. Those flags now cap at half a unit through week 4 \u2014 and live closing-line value audits the cap.',
   },
   {
     status: 'shipped', tone: 'shipped',
     title: 'No CFB Play badges before week 5',
+    evidence: '48.3% held-out \u00b7 n=60 \u00b7 week 4 only',
+    source: 'model/cfb_backtest_2023_results.json',
     body: 'College flags graded 48.3% held-out in weeks 1\u20134 \u2014 below the 52.4% breakeven. Ratings are data-starved early, so early college edges show as Leans at most.',
   },
   {
     status: 'watch mode', tone: 'watch',
     title: 'Player engine: opinions, not verdicts',
+    evidence: 'graded weekly \u00b7 no verdict authority yet',
+    source: 'data/prop_grades/summary.json',
     body: 'The projection engine\u2019s probabilities appear on prop cards as labeled second opinions only. They earn verdict authority through live graded results, or not at all.',
   },
 ]
@@ -718,6 +759,7 @@ function GatesLedger() {
           <div key={g.title} className={`gate-card ${g.tone}`}>
             <span className="gate-status">{g.status}</span>
             <p className="gate-title">{g.title}</p>
+            {g.evidence && <p className="gate-evidence">{g.evidence}</p>}
           </div>
         ))}
       </div>
@@ -743,13 +785,13 @@ function TrackRecord({ league }) {
           </div>
           <div className="hero-stat">
             <span className={`hero-stat-value ${p && p.units > 0 ? 'up' : p && p.units < 0 ? 'down' : ''}`}>
-              {p && p.units != null ? formatSigned(p.units, 1) : '\u2014'}
+              {p && p.units != null ? bigNum(formatSigned(p.units, 1)) : '\u2014'}
             </span>
             <span className="hero-stat-label">Units, flat stakes</span>
           </div>
           <div className="hero-stat">
             <span className={`hero-stat-value ${p && p.avg_clv > 0 ? 'up' : p && p.avg_clv < 0 ? 'down' : ''}`}>
-              {p && p.avg_clv != null ? `${formatSigned(p.avg_clv, 1)} pts` : '\u2014'}
+              {p && p.avg_clv != null ? bigNum(`${formatSigned(p.avg_clv, 1)} pts`) : '\u2014'}
             </span>
             <span className="hero-stat-label">Avg closing-line value per play</span>
           </div>
@@ -968,7 +1010,7 @@ function PlayersTab({ playerLeaders, manifest }) {
             offMarket.sort((a, b) => Math.abs(b.vs_consensus) - Math.abs(a.vs_consensus))
             return (
               <>
-                <h3 className="division-heading">Best price edges — vs de-vigged consensus</h3>
+                <h3 className="division-heading">Best price edges — vs multi-book consensus (de-vigged for O/U; vig-in for anytime TD)</h3>
                 {top.length === 0 ? <p className="section-sub">No prop currently beats the multi-book consensus by ≥1% EV. That is a finding, not a failure — most weeks most books agree.</p> : (
                   <div className="props-edge-list">
                     {top.map(({ gm, mk, pl, r, kickoff }) => (
@@ -1108,7 +1150,11 @@ function RatingsTable({ ratings, onSelectTeam, league = 'NFL', cfbLogos = null }
   }
 
   function headerProps(key) {
-    return { className: `numeric${sortKey === key ? ' sorted' : ''}`, onClick: () => handleSort(key) }
+    return {
+      className: `numeric sortable${sortKey === key ? ' sorted' : ''}`,
+      onClick: () => handleSort(key),
+      'aria-sort': sortKey === key ? (sortDir === 'desc' ? 'descending' : 'ascending') : 'none',
+    }
   }
 
   return (
@@ -1146,35 +1192,75 @@ function RatingsTable({ ratings, onSelectTeam, league = 'NFL', cfbLogos = null }
 }
 
 function RatingTrendChart({ history, currentTeam }) {
+  const [hover, setHover] = useState(null)
   if (!history || history.length < 2) {
     return <p className="section-sub">Not enough weekly snapshots yet to show a trend.</p>
   }
 
   const width = 680
-  const height = 160
-  const padding = 24
+  const height = 180
+  const padTop = 30
+  const padBottom = 26
+  const padX = 26
   const values = history.map((h) => h.total_rating)
   const minVal = Math.min(...values, 0)
   const maxVal = Math.max(...values, 0)
   const range = maxVal - minVal || 1
 
-  const xStep = (width - padding * 2) / (history.length - 1)
-  const yFor = (v) => height - padding - ((v - minVal) / range) * (height - padding * 2)
+  const xStep = (width - padX * 2) / (history.length - 1)
+  const xFor = (i) => padX + i * xStep
+  const yFor = (v) => height - padBottom - ((v - minVal) / range) * (height - padTop - padBottom)
   const zeroY = yFor(0)
-  const points = history.map((h, i) => `${padding + i * xStep},${yFor(h.total_rating)}`).join(' ')
+  const points = history.map((h, i) => `${xFor(i)},${yFor(h.total_rating)}`).join(' ')
+  const last = history.length - 1
+  const shown = hover != null ? hover : last
+
+  function handleMove(e) {
+    const box = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - box.left) / box.width) * width
+    const i = Math.round((x - padX) / xStep)
+    setHover(i >= 0 && i < history.length ? i : null)
+  }
+
+  const hv = history[shown]
+  const hx = xFor(shown)
+  const hy = yFor(hv.total_rating)
+  const flip = hx > width - 120
 
   return (
-    <svg width="100%" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${currentTeam} rating trend by week`}>
-      <line x1={padding} y1={zeroY} x2={width - padding} y2={zeroY} stroke="rgba(232,238,241,0.15)" strokeWidth="1" />
-      <polyline points={points} fill="none" stroke="#f0a93b" strokeWidth="2" />
+    <svg
+      width="100%"
+      viewBox={`0 0 ${width} ${height}`}
+      role="img"
+      aria-label={`${currentTeam} rating by week: ${history.map((h) => `week ${h.week} ${(h.total_rating * 100).toFixed(1)}`).join(', ')}`}
+      onMouseMove={handleMove}
+      onMouseLeave={() => setHover(null)}
+      style={{ touchAction: 'pan-y' }}
+    >
+      {/* zero baseline: recessive, dashed -- it is a reference, not data */}
+      <line x1={padX} y1={zeroY} x2={width - padX} y2={zeroY}
+            stroke="var(--line-strong)" strokeWidth="1" strokeDasharray="3 4" />
+      <text x={padX} y={zeroY - 5} fontSize="10" fill="var(--chalk-faint)" letterSpacing="0.06em">LEAGUE AVG</text>
+      <polyline points={points} fill="none" stroke="var(--gold-text)" strokeWidth="2"
+                strokeLinejoin="round" strokeLinecap="round" />
       {history.map((h, i) => (
-        <circle key={h.week} cx={padding + i * xStep} cy={yFor(h.total_rating)} r="3" fill="#f0a93b" />
+        <circle key={h.week} cx={xFor(i)} cy={yFor(h.total_rating)} r="4"
+                fill="var(--gold-text)" stroke="var(--panel)" strokeWidth="2" />
       ))}
       {history.map((h, i) => (
-        <text key={`label-${h.week}`} x={padding + i * xStep} y={height - 4} fontSize="11" fill="#8c97a0" textAnchor="middle">
+        <text key={`label-${h.week}`} x={xFor(i)} y={height - 7} fontSize="11"
+              fill="var(--chalk-faint)" textAnchor="middle">
           Wk {h.week}
         </text>
       ))}
+      {/* hover layer: crosshair + single readout (selective labels, never one per point) */}
+      <line x1={hx} y1={padTop - 8} x2={hx} y2={height - padBottom}
+            stroke="var(--line-strong)" strokeWidth="1" />
+      <circle cx={hx} cy={hy} r="6" fill="none" stroke="var(--gold-text)" strokeWidth="2" />
+      <text x={flip ? hx - 10 : hx + 10} y={padTop - 12} fontSize="13"
+            fill="var(--chalk)" textAnchor={flip ? 'end' : 'start'} fontWeight="600">
+        Wk {hv.week} · {formatSigned(hv.total_rating * 100, 1)}
+      </text>
     </svg>
   )
 }
@@ -1409,6 +1495,7 @@ export default function App() {
   const account = useAccount()
   const book = useBook(account)
   const perf = usePerformance()
+  const cfbPerf = usePerformance('CFB')     // the CFB meter was passed null and could not see its own record
   const marginDist = useMarginDist()
 
   const ratingsState = useLatestSnapshot('ratings')
@@ -1450,13 +1537,14 @@ export default function App() {
         <div className="masthead-row">
           <div>
             <h1 className="brand">Cover<em>line</em></h1>
-            <p className="tagline">every number on this board is graded in public</p>
+            <p className="tagline">every flagged play graded in public</p>
           </div>
           <div className="masthead-right">
             <AccountChip account={account} />
             <div className="league-toggle" role="tablist" aria-label="League">
               {['NFL', 'CFB', 'MLB'].map((l) => (
-                <button key={l} className={league === l ? 'active' : ''} onClick={() => setLeague(l)}>
+                <button key={l} className={league === l ? 'active' : ''}
+                        aria-pressed={league === l} onClick={() => setLeague(l)}>
                   {l}
                 </button>
               ))}
@@ -1471,7 +1559,9 @@ export default function App() {
         )}
         <nav className="tabs" aria-label="Sections">
           {TABS.map((t) => (
-            <button key={t.id} className={tab === t.id ? 'active' : ''} onClick={() => setTab(t.id)}>
+            <button key={t.id} className={tab === t.id ? 'active' : ''}
+                    aria-current={tab === t.id ? 'page' : undefined}
+                    onClick={() => setTab(t.id)}>
               {t.label}
             </button>
           ))}
@@ -1508,6 +1598,7 @@ export default function App() {
                   boardScores={liveScores}
                   boardOpenLines={openingLines}
                   boardSiteTeams={siteTeams.data}
+                  boardDebias={divergenceState.data.debias_offsets}
                 />
               )}
             </>
@@ -1529,7 +1620,7 @@ export default function App() {
                   week={cfbDivergenceState.data.week}
                   book={book}
                   ratingsByTeam={cfbRatingsByTeam}
-                  perf={null}
+                  perf={cfbPerf.data}
                   marginDist={null}
                   /* Weeks 1-4 cap at Lean: the held-out backtest graded
                      early-season flags BELOW breakeven (48.3%) -- ratings
@@ -1547,6 +1638,7 @@ export default function App() {
                   boardCfbLogos={cfbLogos}
                   boardScores={liveScores}
                   boardOpenLines={openingLines}
+                  boardDebias={cfbDivergenceState.data.debias_offsets}
                 />
               )}
             </>
