@@ -1,0 +1,69 @@
+{
+  "_provenance": {
+    "script": "model/ngs_coefficient_replay.py",
+    "generated": "2026-09-20",
+    "season": 2026,
+    "n_games": 17,
+    "weeks": [
+      1,
+      2
+    ],
+    "inputs": [
+      "data/ratings/",
+      "data/divergence/",
+      "nflverse games.csv"
+    ],
+    "elo_not_reconstructable": "The committed ratings snapshots do not store Elo. The two 'rating alone' rows hold Elo at zero and isolate the coefficient path; they are not replays of the shipped number.",
+    "caveat": "Two weeks of games. Every slope here has SE > 0.8, so no configuration's slope separates from 1.0 or from any other's. Re-run at the week-6 checkpoint the ledger already committed to."
+  },
+  "rating_contribution_to_margin_spread": {
+    "shipped_coefficients_pts": 0.0127,
+    "fixed_coefficients_pts": 2.6774,
+    "ratio_fixed_over_shipped": 210.7,
+    "published_board_pts": 3.0618,
+    "rating_share_of_published_variation": 0.00415
+  },
+  "verdict": {
+    "compression_confirmed": true,
+    "explains_the_068_slope": false,
+    "why": "The substitution did switch the rating off -- it moved published margins by hundredths of a point. But compression toward a constant predicts a narrow published board, and the published board was not narrow (sd 3.06, wider than the fixed rating term's 2.68) because Elo supplied the variation. So the bug is real and worth fixing on its own terms, and the calibration slope remains unexplained."
+  },
+  "results": [
+    {
+      "configuration": "published board (as shipped)",
+      "slope": 0.6804,
+      "slope_se": 1.1945,
+      "prediction_spread": 3.062,
+      "rank_correlation": 0.0662,
+      "mae": 11.997,
+      "slope_withheld_degenerate": false
+    },
+    {
+      "configuration": "rating alone, shipped coefs",
+      "slope": null,
+      "slope_se": null,
+      "prediction_spread": 0.013,
+      "rank_correlation": 0.0049,
+      "mae": 12.272,
+      "slope_withheld_degenerate": true
+    },
+    {
+      "configuration": "rating alone, the fix",
+      "slope": 0.7867,
+      "slope_se": 1.3657,
+      "prediction_spread": 2.677,
+      "rank_correlation": 0.0049,
+      "mae": 11.519,
+      "slope_withheld_degenerate": false
+    },
+    {
+      "configuration": "market closing line",
+      "slope": 1.3387,
+      "slope_se": 0.8952,
+      "prediction_spread": 3.852,
+      "rank_correlation": 0.2438,
+      "mae": 10.882,
+      "slope_withheld_degenerate": false
+    }
+  ]
+}

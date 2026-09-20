@@ -253,6 +253,93 @@ def test_game_day_gate_precedes_any_spend():
     assert spend > gate, "no odds call may precede the game-day gate"
 
 
+def test_unsupported_edge_curve_is_withheld():
+    """A cover curve that cannot beat a coin flip must not be quoted.
+
+    coverProb feeds sizeStake, so a curve fitted on noise sizes real
+    money. Measured 2026-09-20 the NFL curve has a 95% interval
+    containing zero, flips sign between seasons, and loses to a coin
+    flip when fitted on 2022 and graded on 2023. The artifact must say
+    so, and the board must respect it.
+    """
+    import json
+    cal = json.load(open(os.path.join(REPO, "data", "margin_dist.json")))["edge_calibration"]
+
+    # The artifact carries its own uncertainty and verdict.
+    for field in ("standard_error", "ci95", "supported", "out_of_sample", "n_games"):
+        assert field in cal, f"edge_calibration is missing {field}"
+    lo, hi = cal["ci95"]
+    assert lo < cal["edge_coef"] < hi
+    # supported must be derived, not asserted: false whenever the
+    # interval spans zero or the out-of-sample check fails.
+    oos = cal["out_of_sample"] or {}
+    expect = lo > 0 and oos.get("beats_coin_flip", True)
+    assert cal["supported"] == bool(expect)
+
+    # The board must gate on `supported`, not merely on the field existing.
+    src = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    assert "supported !== false" in src, "App.jsx must withhold an unsupported cover curve"
+    # The historical value may appear in a comment documenting the fix;
+    # what must not survive is it being USED as the coefficient.
+    assert "edgeCoefOverride={0.01828}" not in src, \
+        "CFB's cover coefficient must come from the artifact, not a JSX literal"
+    assert "cfb_edge_calibration.json" in src, "the board must read the committed artifact"
+
+
+def test_cfb_edge_calibration_artifact():
+    """CFB's curve must be a committed, regenerable artifact."""
+    import json
+    path = os.path.join(REPO, "model", "cfb_edge_calibration.json")
+    assert os.path.exists(path), "run model/cfb_edge_calibration.py"
+    cal = json.load(open(path))
+    for field in ("edge_coef", "standard_error", "ci95", "n_games",
+                  "significant_at_95", "realized_monotonic_in_edge", "_provenance"):
+        assert field in cal, f"missing {field}"
+    lo, hi = cal["ci95"]
+    assert cal["significant_at_95"] == bool(lo > 0)
+
+
+def test_ngs_replay_withholds_degenerate_slopes():
+    """A regression slope computed on predictions that barely vary is a
+    ratio with a near-zero denominator, not an estimate. The replay
+    must refuse to publish one -- the same withholding discipline the
+    NFL cover curve and pass yards get."""
+    import json
+    path = os.path.join(REPO, "model", "ngs_coefficient_replay_results.json")
+    assert os.path.exists(path), "run model/ngs_coefficient_replay.py"
+    res = json.load(open(path))
+    rows = res["results"]
+    assert rows, "replay produced no configurations"
+    for row in rows:
+        if row["prediction_spread"] < 0.10:
+            assert row["slope"] is None and row["slope_se"] is None, \
+                f"{row['configuration']}: slope published on degenerate spread"
+            assert row["slope_withheld_degenerate"] is True
+        else:
+            assert row["slope"] is not None
+
+
+def test_ngs_replay_does_not_overclaim():
+    """The replay confirmed the rating was switched off; it did NOT
+    explain the 0.68 slope. The artifact must keep those separate, so
+    a later reader cannot mistake the confirmed half for the whole."""
+    import json
+    res = json.load(open(os.path.join(REPO, "model", "ngs_coefficient_replay_results.json")))
+    v = res["verdict"]
+    assert v["compression_confirmed"] is True
+    assert v["explains_the_068_slope"] is False, \
+        "the slope was never explained -- do not let this flip without new evidence"
+    contrib = res["rating_contribution_to_margin_spread"]
+    # The whole point: the fix restores the rating by the coefficient ratio.
+    assert contrib["ratio_fixed_over_shipped"] > 100, \
+        "the fix must materially restore the rating's contribution"
+    assert contrib["rating_share_of_published_variation"] < 0.05, \
+        "under the shipped coefficients the rating was effectively absent"
+    assert "elo_not_reconstructable" in res["_provenance"], \
+        "the Elo limitation must stay disclosed"
+
+
+
 if __name__ == "__main__":
     for name, fn in sorted(globals().items()):
         if name.startswith("test_"):

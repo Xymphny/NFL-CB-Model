@@ -654,6 +654,52 @@ highest precedence).
   the engine silently degrades to pure v2 -- never a crash. Still
   watch-mode: market-as-noise ranking on the TD board waits for live
   graded chips, per the standing on-ramp rule.
+- EDGE -> COVER CALIBRATION (2026-09-20): the layer that turns an
+  opinion into a stake was fitted AND reported on the same 2022-2023
+  games, with no uncertainty attached. Measured honestly it does not
+  survive: b = +0.01302 with SE 0.03153, so the 95% interval
+  [-0.049, +0.075] contains zero several times over; the sign FLIPS by
+  season (+0.0346 on 2022, -0.0187 on 2023); fit on 2022 and graded on
+  2023 it LOSES TO A COIN FLIP (log-loss 0.6959 vs 0.6931); and
+  realized cover is non-monotonic in edge (52.5 / 47.6 / 53.2 / 50.0%
+  across the 0-2 / 2-4 / 4-6 / 6+ buckets). VERDICT: the NFL model's
+  edge magnitude does not yet measurably predict cover probability.
+  `supported: false` ships in data/margin_dist.json, the board
+  WITHHOLDS the cover percentage and says why on the card, and stakes
+  stay flat instead of being sized from it -- the same treatment pass
+  yards gets. The machinery stays so the claim can be re-tested as
+  graded seasons accumulate; this is a verdict on the sample, not a
+  permanent one. CFB is a different story and is treated differently:
+  its realized cover RISES monotonically with edge (50.5 / 53.1 /
+  57.7% across 0-5 / 5-10 / 10-20, n=574), a real gradient that is
+  merely underpowered, so its number still shows -- now from the
+  committed, regenerable model/cfb_edge_calibration.json (0.01623 +/-
+  0.01009) rather than the bare 0.01828 literal that sat in JSX and
+  that no committed code reproduced -- carrying an explicit
+  "not significant at n=574" caveat on the card.
+- NGS COEFFICIENT REPLAY (2026-09-20): the week-6 calibration
+  checkpoint had an open suspect -- did the coefficient substitution
+  (rating_diff 0.1078 under the full-ensemble vector vs 22.7091 under
+  the rating-only fit, with NGS 404ing all season) cause the 0.68
+  slope? Replayed on the 17 completed 2026 games from committed
+  artifacts only. HALF CONFIRMED, and the half that failed is the one
+  that mattered. The rating WAS switched off: across the same games it
+  moved the published margin by 0.013 points of standard deviation
+  under the shipped coefficients vs 2.677 under the fix -- 211x, the
+  coefficient ratio itself -- so the team rating supplied 0.4% of the
+  published board's variation and Elo plus the de-bias term were
+  effectively the whole board. But that does NOT explain the slope:
+  compression toward a constant predicts a NARROW published board, and
+  the published board was not narrow (sd 3.06, wider than the fixed
+  rating term's 2.68) because Elo filled the gap. Every slope in the
+  comparison carries SE > 0.8 at n=17, separating from neither 1.0 nor
+  each other, and the rank correlations (0.066 published, 0.005 either
+  rating-only path, 0.244 market) all sit inside their own ~0.25 noise.
+  VERDICT: a real bug, quantified and worth the fix on its own terms;
+  the calibration slope stays unexplained and the week-6 checkpoint
+  stands. The script withholds any slope computed on predictions that
+  barely vary, since a ratio with a near-zero denominator is not an
+  estimate. model/ngs_coefficient_replay.py + _results.json.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

@@ -84,6 +84,14 @@ def main():
     has_performance = copy_single_file("performance.json")
     has_cfb_performance = copy_single_file("cfb_performance.json")
     copy_single_file("margin_dist.json")
+    # Evidence artifacts live in model/ but the board reads them from
+    # /data/. The CFB cover curve used to be a bare constant in JSX; it
+    # is now a committed, regenerable artifact that the site fetches.
+    _cfb_cal = os.path.join(REPO_ROOT, "model", "cfb_edge_calibration.json")
+    if os.path.exists(_cfb_cal):
+        _dest = os.path.join(REPO_ROOT, "frontend", "public", "data")
+        os.makedirs(_dest, exist_ok=True)
+        shutil.copy(_cfb_cal, os.path.join(_dest, "cfb_edge_calibration.json"))
 
     print(f"[generate_manifest] wrote {output_path}: "
           f"{len(manifest['ratings'])} ratings snapshots, "

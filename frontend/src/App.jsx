@@ -315,7 +315,7 @@ function MlbBoard({ snap }) {
   )
 }
 
-function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null, boardLeague = 'NFL', boardCfbLogos = null, boardScores = null, boardOpenLines = null, boardSiteTeams = null, boardDebias = null }) {
+function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null, boardLeague = 'NFL', boardCfbLogos = null, boardScores = null, boardOpenLines = null, boardSiteTeams = null, boardDebias = null, edgeCal = null }) {
   const [showPassed, setShowPassed] = useState(false)
   const { settings, logBet, betLog } = book
 
@@ -375,7 +375,15 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
       {actionable.map((d) => {
         const { verdict, market } = d.grade
         const gap = market === 'spread' ? d.spread_gap : d.total_gap
-        const edgeCoef = edgeCoefOverride ?? (marginDist ? marginDist.edge_calibration?.edge_coef : null)
+        // A curve whose 95% interval contains zero, whose sign flips
+        // between seasons, and which loses to a coin flip out of sample
+        // is not an instrument. supported=false withholds the
+        // probability entirely rather than quoting one the evidence
+        // cannot carry -- the same rule the engine applies to pass yards.
+        const nflCal = marginDist ? marginDist.edge_calibration : null
+        const nflCoef = nflCal && nflCal.supported !== false ? nflCal.edge_coef : null
+        const edgeCoef = edgeCoefOverride ?? nflCoef
+        const calMeta = edgeCal ?? nflCal
         const prob = coverProb(gap, edgeCoef)
         const stake = sizeStake({ prob, price: DEFAULT_PRICE, settings,
                                   capped: d.tier_cap === 'lean' })
@@ -466,6 +474,9 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
                 <span className="bet-stat-value">
                   {prob == null ? '\u2014' : formatPercent(prob)}
                 </span>
+                {prob != null && calMeta && calMeta.significant_at_95 === false && (
+                  <span className="stat-caveat">not significant at n={calMeta.n_games}</span>
+                )}
               </div>
               <div>
                 <span className="bet-stat-label">Edge</span>
@@ -519,8 +530,12 @@ function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf,
             )}
             {stake.uncalibrated && (
               <p className="kelly-line">
-                Calibration file unavailable — cover probability withheld and stake held flat
-                rather than guessed.
+                {nflCal && nflCal.supported === false
+                  ? `Cover probability withheld: across ${nflCal.n_games} graded games the edge→cover ` +
+                    `relationship is not distinguishable from chance (95% CI ${nflCal.ci95?.[0]} to ` +
+                    `${nflCal.ci95?.[1]}), and fitting one season to grade the next loses to a coin ` +
+                    `flip. Stake held flat rather than sized from it.`
+                  : 'Calibration file unavailable — cover probability withheld and stake held flat rather than guessed.'}
               </p>
             )}
             {settings.mode !== 'flat' && stake.units > 0 && !stake.uncalibrated && (
@@ -736,6 +751,12 @@ const GATES = [
     evidence: '48.3% held-out \u00b7 n=60 \u00b7 week 4 only',
     source: 'model/cfb_backtest_2023_results.json',
     body: 'College flags graded 48.3% held-out in weeks 1\u20134 \u2014 below the 52.4% breakeven. Ratings are data-starved early, so early college edges show as Leans at most.',
+  },
+  {
+    status: 'withheld', tone: 'withheld',
+    title: 'NFL cover probability: not shown',
+    evidence: '372 games \u00b7 95% CI spans zero \u00b7 loses to a coin flip out of sample',
+    source: 'data/margin_dist.json',
   },
   {
     status: 'watch mode', tone: 'watch',
@@ -1497,6 +1518,10 @@ export default function App() {
   const perf = usePerformance()
   const cfbPerf = usePerformance('CFB')     // the CFB meter was passed null and could not see its own record
   const marginDist = useMarginDist()
+  // CFB's cover curve used to be the literal 0.01828 in JSX, which no
+  // committed code reproduced. It now comes from a regenerable artifact
+  // (model/cfb_edge_calibration.py) that ships its own CI.
+  const cfbCal = useJson('/data/cfb_edge_calibration.json')
 
   const ratingsState = useLatestSnapshot('ratings')
   const cfbRatingsState = useLatestSnapshot('cfb_ratings')
@@ -1633,7 +1658,8 @@ export default function App() {
                      held-out 2023 bucket table (574 games). A 22-pt
                      carryover gap is ~60% cover, not the ~94% the NFL
                      normal approximation was displaying. */
-                  edgeCoefOverride={0.01828}
+                  edgeCoefOverride={cfbCal.data ? cfbCal.data.edge_coef : null}
+                  edgeCal={cfbCal.data}
                   boardLeague="CFB"
                   boardCfbLogos={cfbLogos}
                   boardScores={liveScores}
