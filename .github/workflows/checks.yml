@@ -1,0 +1,71 @@
+# Nothing ran these suites automatically until 2026-09-20.
+#
+# Every check that day happened because someone remembered to run it,
+# and on one occasion nobody did: correcting a quoted figure changed a
+# string that tests/test_parsers.py asserts on, the guard suite was
+# re-run, the parser suite was not, and main sat red until the next
+# manual check caught it. That is the exact failure this file exists
+# to prevent.
+#
+# WHAT IT DOES NOT RUN ON. The odds and MLB jobs commit fresh snapshots
+# every few hours. Running the suites on each of those would burn
+# minutes on commits that cannot break anything. The per-snapshot
+# directories are therefore ignored -- but data/*.json at the top level
+# is NOT, because the withheld-market verdicts live there
+# (totals_validation.json, margin_dist.json, spread_validation.json)
+# and guard tests assert on their contents. Flipping a `supported`
+# flag must run the suites.
+name: checks
+
+on:
+  push:
+    paths-ignore:
+      - 'data/divergence/**'
+      - 'data/cfb_divergence/**'
+      - 'data/mlb_divergence/**'
+      - 'data/ratings/**'
+      - 'data/cfb_ratings/**'
+      - 'data/props/**'
+      - 'data/prop_grades/**'
+      - 'data/site/**'
+      - 'data/priors/**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  python:
+    name: guard + parser suites
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      # Only what the suites import. The full requirements.txt carries
+      # pyreadr and pyarrow, which need a toolchain and are not used by
+      # either suite -- installing them here would buy build time and
+      # no coverage.
+      - run: pip install "pandas>=2.0" "numpy>=1.24" "scipy>=1.11"
+      - name: guard tests
+        run: python3 tests/test_model_guards.py
+      - name: parser regression tests
+        run: python3 tests/test_parsers.py
+      # Both suites exit non-zero on failure and print
+      # "N passed, M failed, T total" before doing so, so a red run
+      # names every failure rather than only the first.
+
+  frontend:
+    name: dashboard builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
