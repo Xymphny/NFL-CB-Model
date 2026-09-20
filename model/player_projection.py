@@ -630,6 +630,21 @@ def load_shapes(path=None):
     return shapes
 
 
+def _norm_name(name):
+    """Lowercase, punctuation-free; suffix tokens dropped separately by
+    the index builder. 'Brian Thomas Jr' (The Odds API) must find
+    'Brian Thomas Jr.' (nflverse)."""
+    return " ".join(str(name).lower().replace(".", "").replace(",", "").split())
+
+
+_SUFFIXES = {"jr", "sr", "ii", "iii", "iv", "v"}
+
+
+def _suffixless(norm):
+    parts = norm.split()
+    return " ".join(parts[:-1]) if len(parts) > 2 and parts[-1] in _SUFFIXES else None
+
+
 class LiveProjector:
     """Current-season projector for the odds watch: walks prior plus
     current season stats into an Engine, answers P(over line) and
@@ -653,11 +668,27 @@ class LiveProjector:
             sdf = data[data["season"] == yr]
             for wk in sorted(sdf["week"].unique()):
                 self.eng.update_week(sdf[sdf["week"] == wk].to_dict("records"))
+        # Name index: books and nflverse disagree on suffix punctuation.
+        # Ambiguous suffixless keys (two distinct players) are dropped.
+        self._names = {}
+        drop = set()
+        for name in self.eng.p_team:
+            for key in (_norm_name(name), _suffixless(_norm_name(name))):
+                if key is None:
+                    continue
+                if key in self._names and self._names[key] != name:
+                    drop.add(key)
+                self._names[key] = name
+        for key in drop:
+            self._names.pop(key, None)
 
     def prop_opinion(self, player, home_team, away_team, prop_market, line):
         mkt = PROP_MARKET_MAP.get(prop_market)
         if mkt is None or mkt not in CALIBRATED_MARKETS:
             return None
+        if player not in self.eng.p_team:
+            key = _norm_name(player)
+            player = self._names.get(key) or self._names.get(_suffixless(key) or "") or player
         team = self.eng.p_team.get(player)
         if team not in (home_team, away_team):
             return None            # unknown player or name mismatch: silence beats guessing

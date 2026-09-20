@@ -177,13 +177,6 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
     player in `description`, Over/Under in `name`); first live run
     verifies it like every external feed before it."""
     out_path = os.path.join(data_dir, "props", f"{season}-week-{week:02d}.json")
-    projector = None
-    try:
-        from model.player_projection import LiveProjector
-        projector = LiveProjector(season)
-        print("[props] projection engine loaded (watch mode; pass_yds withheld)")
-    except Exception as proj_err:
-        print(f"[props] projection engine unavailable, market-only board: {proj_err}")
     if os.path.exists(out_path):
         try:
             if json.load(open(out_path)).get("format", 1) >= PROPS_FORMAT:
@@ -191,6 +184,13 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
             print("[props] existing file is an older format; refetching with per-book quotes")
         except Exception:
             return None
+    projector = None
+    try:
+        from model.player_projection import LiveProjector
+        projector = LiveProjector(season)
+        print("[props] projection engine loaded (watch mode; pass_yds withheld)")
+    except Exception as proj_err:
+        print(f"[props] projection engine unavailable, market-only board: {proj_err}")
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     games = {}
     for game in odds_data:
@@ -250,12 +250,75 @@ def fetch_week_props(api_key, season, week, data_dir, odds_data):
         "season": season, "week": week, "format": PROPS_FORMAT,
         "note": ("Market-derived edges plus, where shown, a WATCH-MODE opinion from the player projection engine (calibrated held-out; pass yards withheld by its failed gate; graded live before it ever drives a verdict). Fair value for edges is the DE-VIGGED MULTI-BOOK CONSENSUS, "
                  "and the edge is the best available price against it -- this finds mispriced BOOKS, "
-                 "not mispriced players. No player projection model exists here; nothing on this page "
-                 "is a model opinion, and these are not Play/Lean verdicts."),
+                 "not mispriced players. Engine chips are labeled watch-mode opinions, "
+                 "and these are not Play/Lean verdicts."),
         "games": games})
     with open(out_path, "w") as f:
         json.dump(payload, f, indent=1, allow_nan=False)
     print(f"[props] wrote {out_path}: {len(games)} games, {n_edges} rows with computable consensus EV")
+    return out_path
+
+
+def annotate_week_props(season, week, data_dir):
+    """Refresh WATCH-MODE engine opinions on an already-baked weekly
+    props file WITHOUT refetching odds (zero API credits): prices stay
+    the honest weekly snapshot, opinions track the engine's current
+    states each run. Games already kicked off are left untouched -- the
+    grader scores the pregame chip, kickoff-freeze semantics. Returns
+    the path when the file changed, else None."""
+    from datetime import datetime, timezone
+    out_path = os.path.join(data_dir, "props", f"{season}-week-{week:02d}.json")
+    if not os.path.exists(out_path):
+        return None
+    try:
+        payload = json.load(open(out_path))
+    except Exception:
+        return None
+    if payload.get("format", 1) < PROPS_FORMAT:
+        return None
+    try:
+        from model.player_projection import LiveProjector
+        projector = LiveProjector(season)
+    except Exception as e:                                # noqa: BLE001
+        print(f"[props] annotate skipped, engine unavailable: {e}")
+        return None
+    now = datetime.now(timezone.utc)
+    changed = 0
+    for key, g in payload.get("games", {}).items():
+        ko = g.get("kickoff")
+        try:
+            if ko and datetime.fromisoformat(str(ko).replace("Z", "+00:00")) <= now:
+                continue                                  # pregame chip frozen at kickoff
+        except ValueError:
+            pass
+        if "@" not in key:
+            continue
+        at, ht = key.split("@", 1)
+        for mk_key, mk_rows in g.get("markets", {}).items():
+            for pl, row in mk_rows.items():
+                try:
+                    op = projector.prop_opinion(pl, ht, at, mk_key, row.get("line"))
+                except Exception:                         # noqa: BLE001
+                    op = None
+                if op:
+                    if row.get("model") != op:
+                        row["model"] = op
+                        changed += 1
+                elif row.pop("model", None) is not None:
+                    changed += 1                          # fell below the calibrated pool: silence
+    if not changed:
+        print("[props] annotate: engine opinions unchanged")
+        return None
+    payload["model_annotated_at"] = now.isoformat()
+    payload["note"] = ("Market-derived edges plus, where shown, a WATCH-MODE opinion from the player "
+                       "projection engine (calibrated held-out; pass yards withheld by its failed gate; "
+                       "graded live before it ever drives a verdict). Fair value for edges is the "
+                       "DE-VIGGED MULTI-BOOK CONSENSUS, and the edge is the best available price against "
+                       "it -- this finds mispriced BOOKS, not mispriced players. Engine chips are labeled "
+                       "watch-mode opinions, and these are not Play/Lean verdicts.")
+    with open(out_path, "w") as f:
+        json.dump(_json_sanitize(payload), f, indent=1, allow_nan=False)
+    print(f"[props] annotated {out_path}: {changed} engine opinion updates (no odds refetch)")
     return out_path
 
 
@@ -809,6 +872,11 @@ def main():
         # file exists). Pushed right after the divergence snapshot.
         try:
             props_path = fetch_week_props(ODDS_API_KEY, season, current_week, REPO_DATA_PATH, odds_data)
+            if props_path is None:
+                # Week already baked: refresh the engine's watch-mode
+                # opinions in place (zero credits) so chips track the
+                # latest states instead of freezing at bake time.
+                props_path = annotate_week_props(season, current_week, REPO_DATA_PATH)
         except Exception as props_err:
             props_path = None
             print(f"[props] skipped: {props_err}")
