@@ -840,6 +840,67 @@ highest precedence).
   and not tuned -- but the remaining holdout is smaller than that
   sentence implied, and the engine's team-TD environment comes from
   these same ratings, so the two uses are not strictly independent.
+- THE FIRST PROP LEDGER HAD NOWHERE TO GO (2026-09-20): three
+  defects found by tracing Tuesday's run end to end instead of
+  trusting it. (1) grade_props.py writes data/prop_grades/; the
+  manifest published only "player_grades", a directory nothing in the
+  repo has ever created, and the frontend read that same empty key.
+  The ledger would have been graded, committed, and never reached the
+  site. Manifest now publishes prop_grades and the Players tab carries
+  an Engine grades surface reading summary.json -- claimed vs actual
+  and log-loss/Brier per market, plus the claimed-probability buckets
+  that test whether a stated 60% means 60%. (2) Running the grader for
+  real exposed a harder one: load_actuals returning rows is NOT the
+  week being over. Mid-week it returns whichever games have finished.
+  Run today it matched 0 of 386 published opinions -- one final of
+  sixteen, and that game was not on the props board -- then WROTE the
+  empty report and RETURNED ITS PATH, which every caller reads as
+  success, including the fail-loudly alert added hours earlier. Fixed
+  on both sides: grade_week writes nothing and returns None on zero
+  claims, and the alert now gates on the MATCH RATE (>50% of published
+  opinions having box scores) instead of the mere existence of box
+  scores, which is true every Sunday afternoon. Verified: 0/386 today
+  correctly does not alarm. (3) The Teams tab carried "No player
+  grades yet -- Grades need a few weeks of in-season tracking data"
+  for a pipeline that does not exist, the same false-pending shape as
+  the MLB tab; it now renders only when real data is present.
+  CHECKED AND CLEAN: get_current_week returns 2 today, so Tuesday
+  grades week 2 props against week 2 box scores -- no off-by-one.
+  Surfaces verified by rendering the built page, populated and empty.
+  3 guard tests.
+- FROZEN-THRESHOLD SWEEP, PARTIAL (2026-09-20): the pass_yds finding
+  generalizes to "a constant fitted in one era meeting a moved
+  league", so the engine's other absolute thresholds were checked.
+  anytime_td TIER_CUTS (8/15 opp per game): CLEAN -- tier shares move
+  1-3pp between train and holdout ([.623 .255 .122] vs [.636 .229
+  .135]) against pass_yds's 13.5pp, because carries and targets have
+  not fallen the way pass attempts have. The shipping TD market is not
+  exposed. MIN_PROJ_OPP: NOT MEASURABLE from the prediction artifact,
+  because those rows are already filtered by the gate -- 100% clearing
+  is vacuous, not a negative, and it is recorded as unchecked rather
+  than passed. CRED_OPP and the pooled 2016-2025 red-zone conversion
+  rates remain unswept.
+- A REGRESSION I SHIPPED THIS MORNING (2026-09-20): the edge->cover
+  work replaced the hardcoded edgeCoefOverride={0.01828} in App.jsx
+  with a fetch of /data/cfb_edge_calibration.json -- and wrote the
+  artifact to model/, which nothing ships. The fetch 404s;
+  edgeCoefOverride falls back to the NFL coefficient; the NFL
+  coefficient is null because that same change withheld it as
+  unsupported. Net effect: the CFB board showed "EST. COVER -" for
+  the one league whose cover curve is actually monotonic. Verified by
+  rendering the built page with and without the file: 404 gives an em
+  dash, shipped gives "51.2% / not significant at n=574". FIXED: the
+  artifact is written to data/ beside margin_dist.json, copied into
+  the build by generate_manifest, and the duplicate under model/ is
+  deleted so the two cannot drift. FOUND BY SWEEPING THE CLASS rather
+  than by noticing this one: every literal /data/*.json the frontend
+  fetches, checked against what the repo produces. That is now a guard
+  test with an explicit allowlist -- none.json (a deliberate sentinel)
+  and mlb_performance.json (observation-only, routed away) -- and it
+  was regression-tested by removing the copy line and confirming it
+  fires. This is the fourth instance of the same shape: a surface
+  reading a file nothing writes, failing silently because every one of
+  these hooks catches and renders an empty state.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

@@ -404,14 +404,15 @@ def write_output(result: dict, path: str):
     return output_file
 
 
-def _published_prop_opinions(season, week, data_dir=None):
-    """How many engine opinions were published for this week.
+def _published_prop_opinions(season, week, data_dir=None, with_matches=False):
+    """How many engine opinions were published for this week, and
+    optionally how many of those players already have a box score.
 
     Used only to tell "the week is unfinished" apart from "grading
-    broke": if opinions went out and the games have been played, a
-    grading run that produces nothing is a miss, not an absence.
-    Returns 0 on any read problem -- this is an alarm-suppressor, and
-    it must never itself become the thing that raises.
+    broke". The match RATE is what separates them: mid-week a handful
+    of players have box scores, and after the week nearly all do.
+    Returns zeros on any read problem -- this is an alarm-suppressor,
+    and it must never itself become the thing that raises.
     """
     import json as _json
     path = os.path.join(data_dir or REPO_DATA_PATH, "props",
@@ -419,16 +420,28 @@ def _published_prop_opinions(season, week, data_dir=None):
     try:
         payload = _json.load(open(path))
     except Exception:                                     # noqa: BLE001
-        return 0
-    n = 0
+        return (0, 0) if with_matches else 0
+
+    actuals, norm = {}, None
+    if with_matches:
+        try:
+            from deploy.grade_props import load_actuals
+            from model.player_projection import _norm_name as norm
+            actuals = load_actuals(season, week) or {}
+        except Exception:                                 # noqa: BLE001
+            actuals, norm = {}, None
+
+    n = matched = 0
     for game in payload.get("games", {}).values():
         for players in game.get("markets", {}).values():
             if not isinstance(players, dict):
                 continue
-            for row in players.values():
+            for player, row in players.items():
                 if isinstance(row, dict) and row.get("model"):
                     n += 1
-    return n
+                    if norm is not None and norm(player) in actuals:
+                        matched += 1
+    return (n, matched) if with_matches else n
 
 
 def main():
@@ -482,14 +495,24 @@ def main():
                 if summary:
                     prop_files.append(summary)
             else:
-                # Was there anything gradeable? Opinions published AND
-                # box scores available means grading should have produced
-                # a file; returning nothing is then a real miss.
-                opinions = _published_prop_opinions(season, week)
-                if opinions and load_actuals(season, week):
+                # "Box scores exist" is NOT "the week is over": mid-week,
+                # load_actuals returns the players from whichever games
+                # have finished. On 2026-09-20 that was one final of
+                # sixteen, and an earlier version of this check would
+                # have alarmed on a perfectly normal unfinished Sunday.
+                # The honest signal is the MATCH RATE: when the week is
+                # done, nearly every published opinion has a box score.
+                opinions, matched = _published_prop_opinions(season, week, with_matches=True)
+                rate = (matched / opinions) if opinions else 0.0
+                if opinions and rate > 0.5:
                     prop_failure = (f"prop grading produced nothing for {season} week {week} "
-                                    f"with {opinions} published engine opinions and box "
-                                    f"scores available")
+                                    f"though {matched} of {opinions} published opinions "
+                                    f"({rate:.0%}) have box scores -- the week is graded "
+                                    f"enough that zero claims is a miss, not a wait")
+                else:
+                    print(f"[weekly_job] prop grading: {matched}/{opinions} published "
+                          f"opinions have box scores ({rate:.0%}); week not finished, "
+                          f"nothing graded, not an alarm")
         except Exception as prop_err:                     # noqa: BLE001
             prop_failure = f"prop grading raised: {prop_err!r}"
 

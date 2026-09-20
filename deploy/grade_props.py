@@ -167,6 +167,23 @@ def grade_week(season, week, data_dir=REPO_DATA_PATH):
                 "actual": round(sum(y for _, y in rows) / len(rows), 4),
             })
 
+    # A REPORT OF NOTHING IS NOT A RESULT (2026-09-20). load_actuals
+    # returning rows is not the same as the week being over: run
+    # mid-week, it returns the players from whichever games have
+    # finished, which defeats the "no box scores yet" guard above. On
+    # 2026-09-20, week 2 had one final of sixteen, its players were not
+    # on the props board, and this graded 0 of 386 and still wrote a
+    # file and returned its path -- which every caller reads as
+    # success. Write nothing and say which of the two it was.
+    if not graded:
+        share = len(graded) / (len(graded) + len(unmatched)) if unmatched else 0.0
+        print(f"[grade_props] {season} week {week}: 0 of "
+              f"{len(graded) + len(unmatched)} published opinions matched a box "
+              f"score ({share:.0%}). Nothing written. This is an unfinished "
+              f"week if the games have not been played, and a real miss if "
+              f"they have -- the caller decides with the slate in hand.")
+        return None
+
     out_dir = os.path.join(data_dir, "prop_grades")
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"{season}-week-{week:02d}.json")

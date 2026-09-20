@@ -32,7 +32,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "cfb_full_walk_forward_cache.csv")
 LINES = os.path.join(HERE, "cfb_lines_cache.csv")
-OUT = os.path.join(HERE, "cfb_edge_calibration.json")
+# Site-facing artifact, so it lives in data/ beside margin_dist.json
+# rather than in model/ with the caches. It was written to model/ until
+# 2026-09-20, where nothing shipped it: the board fetched
+# /data/cfb_edge_calibration.json, got a 404, fell through to the NFL
+# coefficient -- which is withheld as unsupported -- and quietly showed
+# no cover probability for the one league whose curve is monotonic.
+OUT = os.path.join(os.path.dirname(HERE), "data", "cfb_edge_calibration.json")
 TRAIN_MAX = 2022        # margin fit trains here; 2023 is the held-out grade
 
 

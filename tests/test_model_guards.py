@@ -289,8 +289,15 @@ def test_unsupported_edge_curve_is_withheld():
 def test_cfb_edge_calibration_artifact():
     """CFB's curve must be a committed, regenerable artifact."""
     import json
-    path = os.path.join(REPO, "model", "cfb_edge_calibration.json")
+    # data/, not model/: the board fetches it, so it has to ship with
+    # the site build like margin_dist.json does.
+    path = os.path.join(REPO, "data", "cfb_edge_calibration.json")
     assert os.path.exists(path), "run model/cfb_edge_calibration.py"
+    assert not os.path.exists(os.path.join(REPO, "model", "cfb_edge_calibration.json")), \
+        "two copies will drift; data/ is the one the site reads"
+    man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
+    assert 'copy_single_file("cfb_edge_calibration.json")' in man, \
+        "the artifact must be copied into the static build or the board 404s"
     cal = json.load(open(path))
     for field in ("edge_coef", "standard_error", "ci95", "n_games",
                   "significant_at_95", "realized_monotonic_in_edge", "_provenance"):
@@ -529,6 +536,89 @@ def test_pass_yds_stays_withheld():
     res = json.load(open(os.path.join(REPO, "model", "player_projection_results.json")))
     assert res["held_out"]["yardage"]["pass_yds"]["withheld"] is True
     assert "pass_yds" not in res["_provenance"]["calibrated_markets"]
+
+
+
+def test_prop_ledger_reaches_the_site():
+    """grade_props writes data/prop_grades/. The manifest published only
+    'player_grades' -- a directory nothing has ever created -- so the
+    ledger would have been graded, committed and never shown."""
+    man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
+    assert '"prop_grades": list_and_copy_snapshots("prop_grades")' in man, \
+        "the manifest must publish the directory grade_props actually writes"
+    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    assert "/data/prop_grades/summary.json" in app, "the site must read the ledger"
+    assert "EngineLedger" in app, "the ledger needs a surface, not just a file"
+
+
+def test_empty_prop_report_is_not_written():
+    """load_actuals returning rows is not the same as the week being
+    over: mid-week it returns whichever games have finished. On
+    2026-09-20 that was one final of sixteen and grading matched 0 of
+    386 -- then wrote a file and returned its path, which every caller
+    reads as success."""
+    gp = open(os.path.join(REPO, "deploy", "grade_props.py")).read()
+    assert "if not graded:" in gp and "return None" in gp, \
+        "a zero-claim report must not be written or returned as a path"
+    i_guard = gp.index("if not graded:")
+    i_write = gp.index('out_path = os.path.join(out_dir, f"{season}-week-')
+    assert i_guard < i_write, "the guard must precede the write"
+
+
+def test_unfinished_week_does_not_false_alarm():
+    """The prop alert must distinguish an unfinished week from a broken
+    grader. 'Box scores exist' cannot be the test -- it is true every
+    Sunday afternoon."""
+    import sys
+    sys.path.insert(0, REPO)
+    from deploy.weekly_job import _published_prop_opinions
+
+    wj = open(os.path.join(REPO, "deploy", "weekly_job.py")).read()
+    assert "rate > 0.5" in wj, "the alert must gate on a match RATE"
+    assert "with_matches=True" in wj
+    n, matched = _published_prop_opinions(2026, 2, with_matches=True)
+    assert n > 0, "week 2 published opinions; the check needs to see them"
+    # Whatever the week's state, the helper must never raise and must
+    # never report more matches than opinions.
+    assert 0 <= matched <= n
+
+
+
+def test_every_data_file_the_board_fetches_actually_ships():
+    """The class of bug, not one instance of it.
+
+    Three times now a surface has fetched a file nothing produces:
+    mlb_performance.json, player_grades/, and -- introduced the same
+    day the hardcoded CFB coefficient was removed --
+    cfb_edge_calibration.json, which left the CFB board showing
+    'EST. COVER -' for the one league whose curve is monotonic. A 404
+    here is silent by construction, because every one of these hooks
+    catches and renders an empty state.
+    """
+    import re
+    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
+
+    # Deliberate 404s, each with a reason. Anything else must ship.
+    ALLOWED = {
+        "none.json": "sentinel for 'nothing to fetch'; the hook catches it",
+        "mlb_performance.json": ("MLB is observation-only and nothing grades it; the "
+                                 "record tab routes to ObservationOnlyRecord instead"),
+    }
+
+    missing = []
+    for path in sorted(set(re.findall(r"['\"`]/data/([a-z0-9_]+\.json)['\"`]", app))):
+        if path in ALLOWED:
+            continue
+        on_disk = os.path.exists(os.path.join(REPO, "data", path))
+        copied = f'copy_single_file("{path}")' in man
+        if path == "manifest.json":
+            continue                       # written by generate_manifest itself
+        if not (on_disk and copied):
+            missing.append(f"{path} (on disk: {on_disk}, copied: {copied})")
+    assert not missing, (
+        "the board fetches these but nothing ships them, so they 404 silently: "
+        + "; ".join(missing))
 
 
 

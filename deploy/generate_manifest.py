@@ -56,6 +56,12 @@ def main():
     manifest = {
         "ratings": list_and_copy_snapshots("ratings"),
         "divergence": list_and_copy_snapshots("divergence"),
+        # The projection engine's live graded record. grade_props.py
+        # writes data/prop_grades/ on the Tuesday cadence; until
+        # 2026-09-20 the manifest published only "player_grades", a
+        # directory nothing has ever created, so the ledger would have
+        # been committed and never reached the site.
+        "prop_grades": list_and_copy_snapshots("prop_grades"),
         "player_grades": list_and_copy_snapshots("player_grades"),
         "cfb_ratings": list_and_copy_snapshots("cfb_ratings"),
         "cfb_divergence": list_and_copy_snapshots("cfb_divergence"),
@@ -84,6 +90,10 @@ def main():
     has_performance = copy_single_file("performance.json")
     has_cfb_performance = copy_single_file("cfb_performance.json")
     copy_single_file("margin_dist.json")
+    # The CFB cover curve. Added 2026-09-20: the board started reading
+    # this the same day the hardcoded 0.01828 was removed, and nothing
+    # shipped the file, so CFB lost its cover probability entirely.
+    copy_single_file("cfb_edge_calibration.json")
     # Evidence artifacts live in model/ but the board reads them from
     # /data/. The CFB cover curve used to be a bare constant in JSX; it
     # is now a committed, regenerable artifact that the site fetches.
@@ -96,6 +106,7 @@ def main():
     print(f"[generate_manifest] wrote {output_path}: "
           f"{len(manifest['ratings'])} ratings snapshots, "
           f"{len(manifest['divergence'])} divergence snapshots, "
+          f"{len(manifest['prop_grades'])} prop grade files, "
           f"{len(manifest['player_grades'])} player grade snapshots, "
           f"{len(manifest['cfb_ratings'])} CFB ratings snapshots, "
           f"performance.json {'copied' if has_performance else 'not present yet (Track record tab shows placeholders)'}, "

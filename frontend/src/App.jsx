@@ -1403,6 +1403,81 @@ function TeamProfilePage({ team, onBack, league = 'NFL', siteInfo = null, cfbLog
   )
 }
 
+// The projection engine's live graded record. Written by
+// deploy/grade_props.py on the Tuesday cadence. Until 2026-09-20 the
+// manifest published only "player_grades" -- a directory nothing has
+// ever created -- so this ledger would have been graded, committed and
+// never shown.
+function useEngineLedger() {
+  const [state, setState] = useState({ data: null, loading: true })
+  useEffect(() => {
+    fetch('/data/prop_grades/summary.json')
+      .then((res) => { if (!res.ok) throw new Error('none'); return res.json() })
+      .then((data) => setState({ data, loading: false }))
+      .catch(() => setState({ data: null, loading: false }))
+  }, [])
+  return state
+}
+
+function EngineLedger() {
+  const { data, loading } = useEngineLedger()
+  if (loading) return <p className="section-sub">Loading\u2026</p>
+  if (!data || !data.n_claims) {
+    return (
+      <div className="empty-state">
+        <strong>No graded claims yet</strong>
+        The engine publishes an opinion on every prop it can price, and none of them
+        count until they are graded here. The first ledger lands the Tuesday after a
+        completed week.
+      </div>
+    )
+  }
+  return (
+    <div>
+      <p className="section-sub">
+        {data.n_claims} claims graded across week{data.weeks_graded.length > 1 ? 's' : ''}{' '}
+        {data.weeks_graded.join(', ')}. Claimed is what the engine said; actual is what
+        happened. A market that claims higher than it hits is over-confident, and that is
+        the number that keeps it in watch mode.
+      </p>
+      {(data.by_market || []).map((m) => {
+        const gap = m.mean_claimed - m.actual_rate
+        return (
+          <div className="log-row" key={`${m.engine}-${m.market}`}>
+            <div className="log-main">
+              <span className="log-pick">{m.market}</span>
+              <span className="log-detail">
+                n={m.n} \u00b7 claimed {(m.mean_claimed * 100).toFixed(1)}% \u00b7 actual{' '}
+                {(m.actual_rate * 100).toFixed(1)}% \u00b7 log-loss {m.log_loss} \u00b7 Brier {m.brier}
+              </span>
+            </div>
+            <span className={`result-badge ${gap > 0.02 ? 'loss' : gap < -0.02 ? 'push' : 'win'}`}>
+              {gap > 0.02 ? 'hot' : gap < -0.02 ? 'cold' : 'on'}
+            </span>
+          </div>
+        )
+      })}
+      {(data.buckets || []).length > 0 && (
+        <>
+          <p className="section-sub" style={{ marginTop: '1rem' }}>
+            By claimed-probability bucket \u2014 the test of whether a stated 60% really means 60%.
+          </p>
+          {data.buckets.map((b) => (
+            <div className="log-row" key={`${b.lo}-${b.hi}`}>
+              <div className="log-main">
+                <span className="log-pick">{(b.lo * 100).toFixed(0)}\u2013{(b.hi * 100).toFixed(0)}%</span>
+                <span className="log-detail">
+                  n={b.n} \u00b7 claimed {(b.claimed * 100).toFixed(1)}% \u00b7 actual {(b.actual * 100).toFixed(1)}%
+                </span>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+    </div>
+  )
+}
+
 function PlayerGradesSection({ grades }) {
   const positions = [
     { key: 'QB', label: 'Quarterbacks' },
@@ -1727,7 +1802,20 @@ export default function App() {
         <section><h2 className="section-heading">Players — MLB</h2><p className="section-sub">MLB player surfaces arrive with the 2027 board launch.</p></section>
       )}
       {tab === 'players' && league !== 'MLB' && (league === 'NFL'
-        ? <PlayersTab playerLeaders={playerLeaders} manifest={manifestState.data} />
+        ? (
+          <>
+            <PlayersTab playerLeaders={playerLeaders} manifest={manifestState.data} />
+            <section>
+              <h2 className="section-heading">Engine grades \u2014 watch mode</h2>
+              <p className="section-sub">
+                Every opinion the projection engine publishes on the board above is graded here
+                against what the players actually did. It holds no verdict authority and sizes no
+                stake; it earns that here or not at all.
+              </p>
+              <EngineLedger />
+            </section>
+          </>
+        )
         : <section><h2 className="section-heading">Players — CFB</h2><p className="section-sub">Player surfaces are NFL-only for now (college player data volume is a different animal).</p></section>)}
 
       {tab === 'ratings' && league === 'MLB' && (
@@ -1758,21 +1846,14 @@ export default function App() {
             )}
           </section>
 
-          {league === 'NFL' && (
+          {league === 'NFL' && playerGradesState.data && (
             <section>
               <h2 className="section-heading">Player grades</h2>
               <p className="section-sub">
                 From real player-tracking data — accuracy over expectation for QBs, yards after catch
                 over expectation for receivers, rushing yards over expected for backs.
               </p>
-              {playerGradesState.data ? (
-                <PlayerGradesSection grades={playerGradesState.data.grades} />
-              ) : (
-                <div className="empty-state">
-                  <strong>No player grades yet</strong>
-                  Grades need a few weeks of in-season tracking data.
-                </div>
-              )}
+              <PlayerGradesSection grades={playerGradesState.data.grades} />
             </section>
           )}
         </>
