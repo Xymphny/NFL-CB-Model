@@ -68,6 +68,33 @@ components:
       gap it was meant to close.
       Takes effect on the services at their next build.
 
+  - id: execution-recommend
+    old_path: "(did not exist -- nothing joined model, market and stake)"
+    new_path: "src/coverline/execution/recommend.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor"
+    old_removed: false
+    notes: >-
+      The integration layer. Every other module produces one input to it -- a
+      league produces a ScoreDistribution, ingest produces quotes, the
+      evidence log produces a shrinkage weight, staking produces a size -- and
+      none of it does anything until something joins them.
+      FOUR RULES, each from something already learned here. Pushes are
+      CONDITIONED OUT, not ignored: a spread has three outcomes, and the
+      quantity comparable to a devigged two-way price is P(cover | not push).
+      An integer line is WITHHELD when the distribution has no measured
+      key-number correction, because a plain rounded normal understates
+      P(margin=3) roughly threefold and the resulting edge would be wrong in
+      the flattering direction. Every candidate becomes a ledger row,
+      including the declined ones. And it recommends without betting: no
+      network, no book API, no side effect beyond the ledger.
+      A withheld candidate produces NO signal at all -- withholding is not a
+      recommendation, including a negative one.
+
   - id: execution-bet-ledger
     old_path: "(did not exist -- no record of what was bet or why not)"
     new_path: "src/coverline/execution/ledger.py"
