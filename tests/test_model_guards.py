@@ -827,23 +827,33 @@ def test_spread_validation_grades_what_ships():
     assert f'Play tier {play["ats"]*100:.1f}%' in app, "the card must quote the shipped figure"
 
 
-def test_cfb_carryover_recorded_without_overclaiming():
-    """CFB's returning-production discount could not be tested directly
-    here -- CFBD is unreachable. What was measurable is recorded, and
-    what was not must stay marked as not tested."""
+def test_cfb_returning_production_finding_holds():
+    """CFB's discount was carried as untested, then as untestable
+    (CFBD unreachable), then tested via cfbfastR play-by-play -- and it
+    came back the OPPOSITE of the NFL result. That reversal is the part
+    most likely to be flattened into 'returning production is noise',
+    so it is pinned."""
     import json
     d = json.load(open(os.path.join(REPO, "model", "cfb_carryover_check_results.json")))
     assert 0.3 < d["cfb_carryover"] < 0.6
     assert abs(d["cfb_carryover"] - d["nfl_carryover"]) < 0.05, \
         "the two leagues' carryover converged; if that changed, the write-up is stale"
-    assert "not_tested_here" in d and "unreachable" in d["not_tested_here"]
-    assert d["next_test"], "the test that could not run must stay named"
-    # And nothing was silently changed in the CFB prior on this evidence.
+
+    t = d["returning_production_test"]
+    assert t["interaction"]["t"] > 2 and t["monotonic"], \
+        "the CFB interaction was significant and monotonic; a change here reopens the question"
+    r = t["held_out_rank_correlation"]
+    assert r["returning_times_prev"] > r["flat_shrink"], \
+        "in CFB the discount IMPROVES ordering -- the opposite of NFL, and the whole point"
+
+    # Significant on the pooled fit, still not shipped: the gate is what decides.
+    assert t["gate"]["t"] < 1.96 and "not shipped" in t["gate"]["verdict"]
     src = open(os.path.join(REPO, "model", "cfb_preseason_prior.py")).read()
-    assert "returning_production_pct" in src, \
-        "the CFB prior changed; this check assumed it was left alone"
+    assert "returning_production_pct" in src, "the CFB prior was changed on a t=1.93 result"
 
-
+    # The usage aggregates must ship, or the test cannot be re-run.
+    import glob
+    assert len(glob.glob(os.path.join(REPO, "model", "cfb_usage", "*.parquet"))) >= 3
 
 # RESTORED 2026-09-20. Both of these were written, committed, and then
 # silently dropped by a cherry-pick that resolved test_model_guards.py

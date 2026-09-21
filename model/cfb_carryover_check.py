@@ -10,13 +10,22 @@ targets, and the apparent benefit of `returning * prev` is shrinkage
 in disguise -- a flat shrink beats it and preserves rank correlation
 that the discount degrades.
 
-WHAT CANNOT BE TESTED HERE. Transferring that verdict to CFB requires
-historical returning production, which comes from CFBD's
-/player/returning endpoint. api.collegefootballdata.com is unreachable
-from both this container and the desktop (curl returns 000), and
-CFBD_API_KEY lives only as a Render env var. So the direct test --
-does CFB returning production modulate carryover? -- is NOT answered
-here, and saying so is better than approximating it.
+WHAT WAS THOUGHT TO BLOCK IT, AND DID NOT. The first version of this
+file recorded the direct test as impossible: returning production
+comes from CFBD's /player/returning, api.collegefootballdata.com is
+unreachable from both this container and the desktop, and CFBD_API_KEY
+is a Render-only variable. All true, and all beside the point --
+ingest/cfb_pbp.py already pulls CFB play-by-play from
+github.com/sportsdataverse (cfbfastR releases), which IS reachable,
+and that play-by-play carries rusher/passer/receiver names per team.
+Returning production can be computed exactly the way it was for the
+NFL: the share of a team's prior-season touches belonging to players
+who appear for that team again. "Blocked" was a statement about one
+API, mistaken for a statement about the data.
+
+Per-team-season usage is aggregated into model/cfb_usage/*.parquet
+(352 KB for three seasons) so the test reproduces without re-fetching
+270 MB of play-by-play.
 
 WHAT CAN BE TESTED, AND IS. The discount's MAGNITUDE, separately from
 its team-to-team variation. Multiplying last season's rating by
@@ -50,17 +59,46 @@ far closer to right than no discount at all, which is what the NFL
 prior did until today (slope 1.0 where 0.44 was correct, and worse
 than having no prior).
 
-SO THE VERDICT IS SPLIT, deliberately:
-  - the discount's SIZE is roughly right and much better than none;
-  - its TEAM-SPECIFIC variation is the part the NFL test found to be
-    noise, and it remains untested for CFB;
-  - a flat 0.44 shrink would be simpler and closer on average, but
-    "likely slightly better" is not evidence, and CFB gets the same
-    gate everything else got today.
-Nothing is changed here. When CFBD is reachable, run
-ingest/cfb_roster_priors.build_roster_priors([2021, 2022, 2023]) and
-interact returning production with the carryover measured below --
-that is the test this file could not run.
+THE TEST ITSELF, NOW THAT IT COULD BE RUN (261 team-seasons across
+two transitions):
+
+  cur ~ prev + prev x returning(centered)
+    prev              +0.4157  SE 0.0607  t = +6.85
+    prev x returning  +0.6013  SE 0.2820  t = +2.13   SIGNIFICANT
+
+  carryover by returning tercile:  0.302 / 0.322 / 0.614  -- MONOTONIC
+
+AND CFB IS NOT NFL. Every comparison runs the other way:
+
+                              NFL              CFB
+  interaction            -0.13 (t -0.38)   +0.60 (t +2.13)
+  terciles               non-monotonic     monotonic
+  rank r vs no discount  DEGRADES .433->   IMPROVES .400->
+                         .399              .419 (held out)
+
+The NFL verdict was that returning production is shrinkage wearing a
+costume -- a flat shrink beat it and the team-specific part damaged
+the ordering. In CFB the team-specific part IMPROVES the ordering,
+which is what the discount is for. Mechanistically that is the right
+shape: roughly 40% annual roster churn against roughly 10%.
+
+BUT A PROPER GATE IS UNDERPOWERED, so nothing changes. Two
+transitions is one to fit and one to grade. Fitting on 2021->2022 and
+grading once on 2022->2023: the train interaction alone is t = +1.43,
+and the one concrete candidate -- keep the method, fix its scale --
+gains +0.00182 (SE 0.00094, t = +1.93) held out. Just under the bar,
+like several things today, and treated the same way.
+
+THAT CANDIDATE, recorded for when there are more seasons. Returning
+production averages 0.516 while measured carryover is 0.442, so the
+discount UNDER-SHRINKS by about 15%; multiplying by 0.856 aligns them
+and is what the t = +1.93 measures. It leaves the ordering untouched
+(a positive rescale cannot change rank), so it is a pure scale fix.
+
+VERDICT: CFB's prior stands, unchanged and now with evidence behind
+it rather than an untested assumption. The thing NFL rejected is real
+here. Re-run when 2024 and 2025 ratings are in the walk-forward cache
+-- that is two more transitions and enough to gate the rescale.
 """
 
 import os

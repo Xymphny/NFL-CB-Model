@@ -3,9 +3,9 @@
     "script": "model/cfb_carryover_check.py",
     "generated": "2026-09-20",
     "source": "model/cfb_full_walk_forward_cache.csv (committed)",
-    "method": "per-team season ratings recovered by least squares from rating_diff, identified up to an additive constant"
+    "method": "per-team season ratings recovered by least squares from rating_diff, identified up to an additive constant",
+    "unblocked": "The direct test was recorded as impossible because CFBD is unreachable. cfbfastR play-by-play on GitHub is reachable and carries per-team player names, so returning production was computed the same way as for the NFL. Usage aggregates committed at model/cfb_usage/ (352 KB)."
   },
-  "not_tested_here": "Whether CFB returning production modulates carryover. That needs CFBD /player/returning; api.collegefootballdata.com is unreachable from this container and the desktop (curl 000) and CFBD_API_KEY is a Render-only env var.",
   "transitions": [
     {
       "from": 2021,
@@ -25,6 +25,39 @@
   "cfb_carryover": 0.4424,
   "nfl_carryover": 0.441,
   "shipped_discount_mean": 0.55,
-  "verdict": "Size roughly right and far better than no discount; team-specific variation is the part the NFL test found to be noise and is untested for CFB. Nothing changed.",
-  "next_test": "ingest/cfb_roster_priors.build_roster_priors([2021, 2022, 2023]), then interact returning production with the carryover above."
+  "verdict": "CFB's returning-production discount is VINDICATED where NFL's was rejected: significant interaction, monotonic terciles, and it improves held-out ordering. Unchanged anyway -- the scale fix (under-shrinks by ~15%) gates at t=1.93, just short. Re-run when 2024-2025 are in the walk-forward cache.",
+  "next_test": "extend cfb_full_walk_forward_cache.csv to 2024-2025; two more transitions gates the rescale",
+  "returning_production_test": {
+    "n_team_seasons": 261,
+    "seasons": [
+      2022,
+      2023
+    ],
+    "interaction": {
+      "estimate": 0.6013,
+      "se": 0.282,
+      "t": 2.13,
+      "significant": true
+    },
+    "carryover_by_tercile": [
+      0.302,
+      0.322,
+      0.614
+    ],
+    "monotonic": true,
+    "held_out_rank_correlation": {
+      "flat_shrink": 0.3998,
+      "returning_times_prev": 0.4191
+    },
+    "vs_nfl": "NFL: interaction -0.13 (t -0.38), non-monotonic, and returning DEGRADED rank correlation .433->.399. CFB: +0.60 (t +2.13), monotonic, and it IMPROVES rank .400->.419. Roughly 40% annual roster churn against roughly 10%.",
+    "gate": {
+      "method": "fit 2021->2022, grade once on 2022->2023",
+      "train_interaction_t": 1.43,
+      "candidate": "keep the method, rescale by 0.442/0.516 = 0.856",
+      "held_out_paired_gain": 0.00182,
+      "se": 0.00094,
+      "t": 1.93,
+      "verdict": "under the bar; not shipped"
+    }
+  }
 }

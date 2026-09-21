@@ -1150,21 +1150,37 @@ highest precedence).
   the board -- which is what the first weeks of 2026 were. Left
   unshipped on the same gate everything else got; the outage case is
   the reason to revisit.
-  (4) CFB RETURNING PRODUCTION -- split verdict, honestly. The direct
-  test needs CFBD /player/returning; the host is unreachable from both
-  this container and the desktop (curl 000) and CFBD_API_KEY is
-  Render-only, so it is NOT answered and is marked so. What IS
-  measurable from committed data: CFB's year-over-year carryover,
-  recovered by least squares from cfb_full_walk_forward_cache.csv
-  (residuals ~0.06). 2021->2022 0.467, 2022->2023 0.417, average
-  0.442 -- against NFL's measured 0.441. Two leagues with roughly 40%
-  and 10% annual roster churn carry last season forward by the same
-  fraction. The shipped discount averages ~0.55, so it UNDER-SHRINKS
-  by about a quarter, but is far closer than no discount, which is
-  what the NFL prior did until today. Its team-specific variation
-  stays untested. Nothing changed.
-  model/cfb_carryover_check.py + _results.json, spread validation
-  regenerated, 2 guard tests (36 total).
+  (4) CFB RETURNING PRODUCTION -- NOT BLOCKED AFTER ALL, and the
+  finding reverses NFL's. This was filed as unanswerable because CFBD
+  /player/returning is unreachable (curl 000, and CFBD_API_KEY is
+  Render-only). That was a statement about one API mistaken for a
+  statement about the data: ingest/cfb_pbp.py already pulls cfbfastR
+  play-by-play from GitHub, which IS reachable, and returning
+  production is computable from it directly -- the share of a team's
+  prior-season touches (rush + rec + pass attempts, by player name)
+  belonging to players who appear again for that team. Aggregated
+  2021-2023, committed as model/cfb_usage/*.parquet (352KB) so the
+  test reproduces without the ~270MB pbp re-download.
+  435 team-seasons, median returning 0.498. Every direction that came
+  back NEGATIVE for NFL comes back POSITIVE for CFB: the
+  returning x prev interaction is +0.6013 (SE 0.2820, t = +2.13,
+  significant) where NFL's was -0.1313 (t = -0.38); carryover by
+  returning-production tercile is monotonic 0.302 / 0.322 / 0.614
+  where NFL's was not; and using returning x prev IMPROVES held-out
+  rank correlation (0.3998 -> 0.4191) where for NFL it DEGRADED it
+  (0.433 -> 0.399). Two leagues, opposite answers, in the direction
+  roughly 40% versus roughly 10% annual roster churn predicts.
+  NOTHING SHIPPED ANYWAY. Under the same season-split gate everything
+  else got (fit 2021->2022, grade once on 2022->2023), the train-side
+  interaction is only t = +1.43, and the one candidate change --
+  keep the current method, rescale by 0.442/0.516 = 0.856, since
+  returning production averages 0.516 against the 0.442 carryover
+  actually measured -- gains +0.00182 held out, SE 0.00094, t = +1.93.
+  Under the bar. The evidence that the EFFECT is real is much stronger
+  than the evidence that any particular CHANGE helps, and only the
+  second one is a license to touch the model.
+  model/cfb_carryover_check.py + _results.json + cfb_usage/,
+  spread validation regenerated, 2 guard tests (38 total).
 - TWO GUARD TESTS WERE SILENTLY DROPPED, AND THE ARTIFACT THEY GUARD
   WENT STALE (2026-09-20): found by re-reading what the committed
   artifacts themselves mark as open. frozen_threshold_sweep_results
