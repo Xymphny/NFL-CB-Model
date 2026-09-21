@@ -116,3 +116,37 @@ artifacts:
 #     refresh: "weekly, Tue 11:00 UTC"
 #     staleness_error_hours: 200
 #     unconsumed_reason: null
+
+  # -- Fitted league parameters -------------------------------------------
+  #
+  # These two shipped with no producer at all: the ratings lived as loop
+  # locals inside walk_forward and were never returned, so the files could be
+  # read and not regenerated. Registering them here is the smaller half of the
+  # fix; model/export_fitted.py is the larger half.
+
+  - path: data/nhl_fitted.json
+    produced_by: model/export_fitted.py
+    consumed_by:
+      - src/coverline/leagues/nhl/model.py
+    kind: gold
+    refresh: "per season, after a fresh walk-forward grade on an unspent season"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/nba_fitted.json
+    produced_by: model/export_fitted.py
+    consumed_by:
+      - src/coverline/leagues/nba/model.py
+    kind: gold
+    refresh: "per season, after a fresh walk-forward grade on an unspent season"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: model/nhl_joint_structure.json
+    produced_by: model/measure_nhl_joint.py
+    consumed_by:
+      - tests/core/test_nhl_joint_structure.py
+    kind: gold
+    refresh: "when a season of NHL finals or goals is added to data/raw/nhl/"
+    staleness_error_hours: null
+    unconsumed_reason: null

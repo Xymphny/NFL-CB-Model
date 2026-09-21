@@ -44,11 +44,18 @@ SPENT_SEASON = 2025
 K = 0.03
 
 
-def walk_forward(df: pd.DataFrame, k: float = K) -> pd.DataFrame:
+def walk_forward(df: pd.DataFrame, k: float = K,
+                 state: dict | None = None) -> pd.DataFrame:
     """Attack/defence in log-goal space, updated after every game.
 
     Predicting game N uses only games 1..N-1, so there is no lookahead by
     construction.
+
+    Pass `state` to receive the final ratings and bases. They exist only as
+    loop locals otherwise, which is how data/nhl_fitted.json came to hold
+    numbers that no committed script could regenerate -- the same wound as
+    eight constants citing a grid search whose output was never written down.
+    model/export_fitted.py uses this to rebuild the artifact from source.
     """
     df = df.sort_values("game_date").reset_index(drop=True)
     base_h = np.log(df.home_score.mean())
@@ -75,6 +82,9 @@ def walk_forward(df: pd.DataFrame, k: float = K) -> pd.DataFrame:
         atk[g.away_team_abbr] = aa + k * ea
         dfn[g.home_team_abbr] = dh + k * ea
 
+    if state is not None:
+        state.update({"base_log_rate_home": base_h, "base_log_rate_away": base_a,
+                      "attack": dict(atk), "defence": dict(dfn), "k": k})
     return pd.DataFrame(rows)
 
 

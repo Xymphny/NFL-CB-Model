@@ -61,8 +61,13 @@ GRID = {
 
 
 def walk_forward(df: pd.DataFrame, k: float, home_adv: float,
-                 carryover: float) -> pd.DataFrame:
-    """Predict every game from prior games only."""
+                 carryover: float, state: dict | None = None) -> pd.DataFrame:
+    """Predict every game from prior games only.
+
+    Pass `state` to receive the final ratings. See the note in the NHL
+    script's walk_forward: a rating that lives only as a loop local is a
+    number the artifact cannot justify.
+    """
     df = df.sort_values(["season", "date"]).reset_index(drop=True)
     ratings: dict[str, float] = {}
     prev_season = None
@@ -85,6 +90,9 @@ def walk_forward(df: pd.DataFrame, k: float, home_adv: float,
         ratings[g.away] = ra - k * err
         rows.append({"season": g.season, "mu": mu, "margin": g.margin})
 
+    if state is not None:
+        state.update({"ratings": dict(ratings), "k": k,
+                      "home_adv": home_adv, "carryover": carryover})
     return pd.DataFrame(rows)
 
 

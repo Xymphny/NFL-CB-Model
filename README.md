@@ -47,7 +47,7 @@ wrong for pricing.
 | NFL | implemented, not live | <1e-9 on 1,945 cached games; live board margin reproduced to 1e-6 | full-ensemble parity needs one cron run carrying `feature_values` |
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
 | MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | distribution family chosen by measurement |
-| NHL | implemented, not live | n/a | rates graded t=+3.02; JOINT distribution still wrong |
+| NHL | implemented, not live | n/a | rates graded t=+3.02; puck line withheld -- it is a RULES problem, not a correlation ([ADR 0007](docs/decisions/0007-the-nhl-puck-line-is-a-rules-problem.md)) |
 | NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; static failed at −6.96 |
 
 `BUILT_LEAGUES` (can price a real board), `IMPLEMENTED_LEAGUES` (passes the
@@ -162,7 +162,15 @@ its own docstring -- and were fixed.
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.
-- NHL and NBA need fitting. The traps are written where a fitter will look.
+- The NHL puck line needs a rules layer: a regulation distribution, an
+  empty-net layer keyed to score state and time, and a deterministic overtime
+  layer. The first reason recorded for withholding it -- a negative score
+  correlation -- was measured and found to be the wrong mechanism by its own
+  algebra; [ADR 0007](docs/decisions/0007-the-nhl-puck-line-is-a-rules-problem.md)
+  has the correction and `model/nhl_joint_structure.json` has the numbers.
+- No NHL or NBA price has ever been compared to a book. Everything graded so
+  far is log-likelihood against a league-average baseline, which is a real
+  test of the rates and no test at all of the edge.
 - The shrinkage weight rests on seven observations with one dominating.
 - `frozen-threshold-grid` remains a permanently open ledger row: eight shipped
   constants citing a grid search whose output exists in no committed file.

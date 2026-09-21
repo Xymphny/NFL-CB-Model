@@ -33,6 +33,8 @@ import json
 import os
 import sys
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -42,11 +44,17 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model.fit_data_checks import NBA, check_scores  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = Path(HERE).parent
 OUT = os.path.join(HERE, "nba_fit_results.json")
 
 TRAIN_SEASONS = (2021, 2022, 2023)
 HOLDOUT_SEASONS = (2024, 2025)
-DATA = "/tmp/fitdata/nba_{year}.parquet"
+#: Retained IN THE REPOSITORY, not in a temp directory. A fit whose
+#: inputs live in /tmp is reproducible until the next reboot, which is
+#: not reproducible. The corrupt NHL 2021-2023 files are kept here too:
+#: the refusal that caught them is evidence, and evidence a reader
+#: cannot re-run is a claim.
+DATA = str(_ROOT / "data" / "raw" / "sportsdataverse" / "nba_{year}.parquet")
 RIDGE = 8.0
 
 

@@ -15,25 +15,66 @@ An earlier static fit across seasons measured t = -1.33 and did not ship.
 
 THE RATES ARE GRADED. THE JOINT DISTRIBUTION IS NOT.
 Independent Poisson under-predicts one-goal games by about ten points -- 28.4%
-against an actual 38.1% -- because the two scores are NEGATIVELY correlated
-(-0.14), and BivariatePoissonDistribution's shared component can only express
-POSITIVE correlation. Real games stay closer than independent rates allow: a
-leading team defends, a trailing team presses.
+against an actual 38.1%. That much is right, and the reason first recorded
+here for it was WRONG.
 
-That is a property of the joint distribution, not of the rates, and walking
-forward does not fix it. Any market priced on the closeness of the game is
-wrong here, which is why the puck line stays out of primary_markets.
+It said the two scores are negatively correlated at -0.14, so real games stay
+closer than independent rates allow. Negative covariance makes margins MORE
+dispersed, not less: Var(H - A) = Var(H) + Var(A) - 2Cov(H, A). The stated
+mechanism predicts FEWER one-goal games than independence, which is the
+opposite of the observed problem, and the measured dispersion ratio over
+9,576 games is 1.06 -- above one, as the algebra says it must be.
+
+WHAT IS ACTUALLY HAPPENING is two league RULES, and neither is a correlation.
+
+THE OVERTIME RULE IS DETERMINISTIC. No NHL game ends tied, and all 2,166
+games decided after regulation across 2016-2023 end at a margin of EXACTLY
+one, with no exceptions. So roughly 22% of the distribution's tie mass is
+relocated onto plus and minus one by fiat. That single rule is the larger
+part of the ten points, and no amount of fitting reaches it, because it is not
+a scoring process.
+
+EMPTY-NET GOALS ARE CONDITIONAL ON THE SCORE. 92% of them come with the
+scoring team leading by one or two. A team down two pulls its goalie and
+rarely comes back; a team down one pulls and often ties, vanishing into
+overtime and back out at one. The result is a NON-MONOTONE margin
+distribution -- more three-goal games than two-goal games, 22.7% against
+20.3% in the league's own data and 25.1% against 20.2% in a second source --
+across exactly the 1.5 line the puck line is priced on. Stripping empty-net
+goals out of the final scores restores monotonicity, which is what makes this
+the mechanism rather than a coincidence.
+
+SO THE REPAIR IS A RULES LAYER, NOT A FITTED CORRELATION. And a fitted
+correlation would be the wrong object anyway: it drifts from -0.055 in 2017 to
+-0.142 in 2023 as the league pulls goalies earlier every year, so a pooled
+estimate describes no season and a recent one has no reason to persist.
+
+Measured in model/measure_nhl_joint.py, recorded in
+model/nhl_joint_structure.json, pinned in tests/core/test_nhl_joint_structure.py.
+Until that layer exists the puck line stays out of primary_markets.
 
 THE FAMILY, AND THE ONE THING KNOWN TO BREAK IT
 Low-scoring counts, so the Poisson family, with two qualifications recorded
 now because they will otherwise be rediscovered expensively:
 
-EMPTY-NET GOALS. Roughly 7% of NHL goals, about 0.42 a game, and they are not
-random: they arrive conditional on a late one-goal deficit, in a league where
-about 57% of games are one-goal games. So they inflate the winner's score in
-exactly the games that decide the puck line. A homogeneous scoring process
-over-prices the underdog on -1.5 and under-prices the favourite. Whoever fits
-this needs a state-conditional empty-net layer, not a flat adjustment.
+EMPTY-NET GOALS. Now measured rather than estimated, over 56,834 goals in
+2016-2023: 5.15% of goals and 0.306 a game, rising from 0.270 a game in
+2016-2017 to 0.348 in 2022-2023 while the average one moved about twelve
+seconds earlier in the third period. The earlier note here said 7% and 0.42 a
+game, which was a guess and is high; it may yet be right for 2024-2025, where
+no goal-level data has been pulled.
+
+That note also said about 57% of games are one-goal games. As played the
+figure is 42.6%. Both can be defended and they are not the same quantity:
+55.5% of games are within one goal once empty-net goals are stripped out,
+which is the convention the 57% came from. Stated here because the ambiguity
+is exactly the kind that silently changes a puck-line price.
+
+They are not random. 92% arrive with the scoring team leading by one or two,
+so they inflate the winner's score in precisely the games that decide the
+puck line, and a homogeneous scoring process over-prices the underdog on -1.5
+and under-prices the favourite. Whoever fits this needs a state-conditional
+layer, not a flat adjustment.
 
 THE FIXED PUCK LINE. Unlike football, the spread does not move -- it is
 always 1.5, and the book expresses information through price instead. That
