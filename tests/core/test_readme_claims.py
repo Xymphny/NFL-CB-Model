@@ -91,18 +91,22 @@ def test_the_league_table_matches_the_conformance_sets(core_section):
         assert "not live" in core_section
 
 
-def test_the_test_count_claim_is_not_wildly_stale(core_section):
-    """A count nobody compares is not a check -- the lesson from the dropped
-    guard tests, applied to the document that quotes counts."""
-    m = re.search(r"(\d{3}) tests including every rot defence", core_section)
-    if not m:
-        pytest.skip("README no longer quotes a test count")
-    quoted = int(m.group(1))
-    manifest = (ROOT / "tests" / "MANIFEST.txt").read_text()
-    actual = sum(1 for l in manifest.splitlines() if l.startswith("tests/core/"))
-    assert abs(actual - quoted) < 150, (
-        f"README says {quoted} core tests; the manifest has {actual}. If the "
-        "suite grew, update the sentence rather than widening this test."
+def test_the_readme_quotes_no_bare_test_count(core_section):
+    """A test count in prose goes stale the next time anyone adds a test, and
+    a stale count in the ground-truth document is the failure this file
+    exists to prevent.
+
+    This test replaced one that compared a quoted count to the manifest. That
+    version was itself the problem: the README sentence was describing a
+    HISTORICAL state -- how many tests CI was skipping at the time -- and the
+    check read it as a current claim, so the document went red for being
+    accurate about the past. The fix was to stop quoting the number, not to
+    widen the tolerance.
+    """
+    stale = re.findall(r"\b(\d{3,4}) (?:core )?tests\b", core_section)
+    assert not stale, (
+        f"the core section quotes test counts {stale}, which go stale on the "
+        "next commit. Describe what runs, not how many."
     )
 
 

@@ -75,8 +75,9 @@ reading:
 4. **The board could not be re-derived from its own artifacts.** It recorded
    which features were used, not their values, so a model change could not be
    told from a data change. Fixed additively; verifiable from the next run on.
-5. **CI ran half the checks.** 223 tests including every rot defence ran only
-   when someone remembered `scripts/check.sh`.
+5. **CI ran half the checks.** The core suite and the manifest check -- every
+   rot defence in the project -- ran only when someone remembered
+   `scripts/check.sh`. A divergence guard now fails when the two lists differ.
 6. **CFB dispersion is 17.54, not the 18.65 I guessed** -- and the same
    measurement found a +2.16 point systematic lean, recorded and not
    corrected.
