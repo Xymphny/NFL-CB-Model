@@ -1,0 +1,209 @@
+{
+  "_provenance": {
+    "script": "model/export_fitted.py",
+    "fit": "model/fit_mlb_rules.py",
+    "tune_seasons": [
+      2021,
+      2022,
+      2023
+    ],
+    "holdout_seasons": [
+      2024,
+      2025
+    ],
+    "graded_once": true,
+    "hyperparameter_trials": 0,
+    "metric": "mean log-likelihood of the realised final scoreline",
+    "baseline": "independent negative binomials on observed rates -- what shipped before ADR 0017 withheld the moneyline",
+    "n_holdout": 4859,
+    "contamination": "R_HOME and R_AWAY were measured on all five seasons, so the holdout is not pristine for dispersion. They are held fixed and identical across both arms, so the comparison isolates the layer -- but this grade is weaker than the NHL rules grade, which had genuinely untouched seasons."
+  },
+  "inputs": [
+    "data/raw/mlb/linescores_2021.parquet",
+    "data/raw/mlb/linescores_2022.parquet",
+    "data/raw/mlb/linescores_2023.parquet",
+    "data/raw/mlb/linescores_2024.parquet",
+    "data/raw/mlb/linescores_2025.parquet"
+  ],
+  "scales": {
+    "home_eight": 0.92932,
+    "away_nine": 0.96869
+  },
+  "holdout_grade": {
+    "rules_model": -4.76753,
+    "baseline": -4.89396,
+    "paired_gain": 0.12643,
+    "standard_error": 0.00384,
+    "t": 32.94,
+    "supported": true
+  },
+  "decomposition": {
+    "no_ties_alone": {
+      "gain": 0.12087,
+      "standard_error": 0.00281,
+      "t": 43.07
+    },
+    "both": {
+      "gain": 0.12643,
+      "standard_error": 0.00384,
+      "t": 32.94
+    },
+    "measured_layer_over_and_above": {
+      "gain": 0.00556,
+      "standard_error": 0.00223,
+      "t": 2.49
+    },
+    "share_that_is_just_removing_ties": 0.956,
+    "note": "removing an impossible outcome is not a modelling result -- the baseline was pricing a tied final score at about a tenth of its mass. The measured layer is the part whose sign was in doubt, and it clears on its own."
+  },
+  "moneyline_bias_gate": {
+    "baseline": {
+      "bias": 0.02555,
+      "standard_error": 0.00708,
+      "t": 3.61,
+      "unbiased": false
+    },
+    "rules_model": {
+      "bias": 0.00248,
+      "standard_error": 0.00708,
+      "t": 0.35,
+      "unbiased": true
+    },
+    "gate": "the residual bias must be indistinguishable from zero; this is the defect ADR 0017 withheld the market for"
+  },
+  "moneyline_grade": {
+    "metric": "binary log-loss on the realised winner, lower is better",
+    "baseline": 0.6814,
+    "rules_model": 0.68008,
+    "paired_gain": 0.00131,
+    "standard_error": 0.00073,
+    "t": 1.79,
+    "supported": false,
+    "why_separate": "scoreline likelihood is dominated by the runs; a moneyline is a binary bet and deserves the binary metric. This is the number that decides whether the market comes back."
+  },
+  "moneyline_calibration": {
+    "baseline_mean_p_home": 0.5067,
+    "rules_mean_p_home": 0.5297,
+    "actual_home_win_rate": 0.5322,
+    "baseline_error": 0.0256,
+    "rules_error": 0.0025
+  },
+  "max_state": 4,
+  "ninth_inning_table": {
+    "-4": {
+      "0,0": 0.75646,
+      "2,0": 0.062016,
+      "1,0": 0.139535,
+      "5,0": 0.009044,
+      "3,0": 0.02907,
+      "6,0": 0.001938,
+      "7,0": 0.000646,
+      "4,2": 0.000646,
+      "4,1": 0.000646
+    },
+    "-3": {
+      "4,0": 0.024641,
+      "0,0": 0.780287,
+      "1,0": 0.12731,
+      "3,3": 0.002053,
+      "2,0": 0.043121,
+      "6,0": 0.004107,
+      "4,2": 0.004107,
+      "3,1": 0.004107,
+      "5,1": 0.004107,
+      "6,2": 0.002053,
+      "3,2": 0.002053,
+      "4,3": 0.002053
+    },
+    "-2": {
+      "0,0": 0.769748,
+      "4,1": 0.005042,
+      "1,0": 0.131092,
+      "7,4": 0.001681,
+      "3,0": 0.05042,
+      "4,0": 0.010084,
+      "2,1": 0.010084,
+      "3,3": 0.003361,
+      "4,5": 0.001681,
+      "2,4": 0.001681,
+      "3,2": 0.005042,
+      "5,2": 0.001681,
+      "4,9": 0.001681,
+      "6,3": 0.001681,
+      "4,3": 0.001681,
+      "5,0": 0.001681,
+      "2,2": 0.001681
+    },
+    "-1": {
+      "0,0": 0.773743,
+      "4,2": 0.006983,
+      "4,5": 0.002793,
+      "2,0": 0.131285,
+      "1,5": 0.001397,
+      "2,3": 0.005587,
+      "3,1": 0.018156,
+      "1,3": 0.006983,
+      "2,2": 0.009777,
+      "1,1": 0.013966,
+      "5,1": 0.001397,
+      "4,0": 0.005587,
+      "3,6": 0.001397,
+      "3,0": 0.005587,
+      "3,3": 0.001397,
+      "1,2": 0.006983,
+      "5,3": 0.00419,
+      "2,5": 0.001397,
+      "2,4": 0.001397
+    },
+    "0": {
+      "1,0": 0.41716,
+      "0,1": 0.106509,
+      "3,0": 0.026627,
+      "1,2": 0.050296,
+      "1,3": 0.029586,
+      "0,2": 0.048817,
+      "0,4": 0.011834,
+      "2,5": 0.008876,
+      "3,6": 0.002959,
+      "3,2": 0.026627,
+      "2,0": 0.029586,
+      "2,1": 0.075444,
+      "4,3": 0.008876,
+      "0,3": 0.039941,
+      "2,3": 0.016272,
+      "0,5": 0.005917,
+      "3,4": 0.002959,
+      "3,1": 0.011834,
+      "2,4": 0.008876,
+      "3,9": 0.001479,
+      "1,8": 0.001479,
+      "4,0": 0.007396,
+      "4,2": 0.004438,
+      "2,8": 0.001479,
+      "0,6": 0.001479,
+      "1,5": 0.011834,
+      "1,4": 0.016272,
+      "4,7": 0.002959,
+      "5,1": 0.002959,
+      "1,7": 0.001479,
+      "1,6": 0.004438,
+      "5,3": 0.002959,
+      "3,5": 0.002959,
+      "4,1": 0.004438,
+      "2,6": 0.002959
+    },
+    "1": {
+      "0,0": 1.0
+    },
+    "2": {
+      "0,0": 1.0
+    },
+    "3": {
+      "0,0": 1.0
+    },
+    "4": {
+      "0,0": 1.0
+    }
+  },
+  "what_this_does_not_show": "that the layer makes BETTER BETS. Binary log-loss on the realised winner improves by t = 1.79, which does not clear. It removes a bias without adding discrimination, and that is enough to reopen a market closed FOR a bias and not enough to claim an edge."
+}

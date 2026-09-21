@@ -46,7 +46,7 @@ wrong for pricing.
 |---|---|---|---|
 | NFL | implemented, not live | <1e-9 on 1,945 cached games; live board margin reproduced to 1e-6 | full-ensemble parity needs one cron run carrying `feature_values` |
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
-| MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | family chosen by measurement; MONEYLINE WITHHELD -- 2.5pp systematic bias from two league rules ([ADR 0017](docs/decisions/0017-mlb-has-the-same-two-rule-problem-as-hockey.md)) |
+| MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | ninth-inning layer graded once on 2024-25; moneyline bias t=3.61 -> t=0.35, market reopened ([ADR 0018](docs/decisions/0018-ship-the-mlb-ninth-inning-layer.md)) |
 | NHL | implemented, not live | n/a | rates t=+2.44 (was +3.02 before a lookahead fix); rules layer refreshed and re-graded t=+34.95, goalie-pull component +5.82, total bias now −0.006 ([ADR 0010](docs/decisions/0010-refresh-the-nhl-pull-table-and-check-shape.md)) |
 | NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; sigma constant, and ADR 0005's 0.60 claim shown to be bucketing noise ([ADR 0012](docs/decisions/0012-the-nba-sigma-claim-was-bucketing-noise.md)) |
 
@@ -133,12 +133,12 @@ date.
 `evidence/attempts.yaml` holds every candidate ever graded held-out,
 **failures included** -- computing the shrinkage weight from winners only is
 the selection effect the mechanism exists to undo.
-12 attempts, 4 non-positive. Pooled weight **0.9359**, robust weight
-**0.9203**. The slate runner defaults to the robust figure.
+13 attempts, 4 non-positive. Pooled weight **0.9327**, robust weight
+**0.9168**. The slate runner defaults to the robust figure.
 
 Two properties of that number worth knowing. It is no longer dominated by a
 single attempt -- it was, until two failed league fits were logged. And
-**28% of E[t^2] comes from rejections**: t is squared, so a candidate
+**26% of E[t^2] comes from rejections**: t is squared, so a candidate
 rejected at -6.96 raises the weight exactly as much as one accepted at +6.96.
 That is the formula behaving correctly, and it still means the weight
 currently describes a programme that fails decisively more than it succeeds.
@@ -283,7 +283,7 @@ better calibrated than it is.
   the 13.353 RMSE in its own withholding artifact — and neither was corrected,
   because a right sd on an ungraded mean is still an ungraded total
   ([ADR 0011](docs/decisions/0011-a-withheld-market-must-be-refused-by-the-object.md)).
-- The shrinkage weight rests on twelve observations. It is no longer
+- The shrinkage weight rests on thirteen observations. It is no longer
   dominated by any single one, and 28% of E[t^2] still comes from rejections.
   The log refuses any |t| at or above 12 without a written justification
   ([ADR 0014](docs/decisions/0014-a-ceiling-on-what-counts-as-an-attempt.md)):

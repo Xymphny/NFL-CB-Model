@@ -318,10 +318,49 @@ def export_nhl_rules() -> dict:
     }
 
 
+def export_mlb_rules() -> dict:
+    """The ninth-inning layer, graded once on 2024-2025.
+
+    Its gate is the BIAS gate, not the log-loss one, because a systematic
+    bias is what ADR 0017 withheld the moneyline for. Both are carried in the
+    artifact so a reader can see that the layer removes the bias (t = 3.61 to
+    t = 0.35) without demonstrably improving discrimination (log-loss
+    t = 1.79, which does not clear).
+    """
+    from model.fit_mlb_rules import HOLDOUT, TUNE
+
+    res = json.loads((ROOT / "model" / "mlb_rules_results.json").read_text())
+    return {
+        "_provenance": {
+            "script": "model/export_fitted.py",
+            "fit": "model/fit_mlb_rules.py",
+            **{k: v for k, v in res["_provenance"].items() if k != "script"},
+        },
+        "inputs": [f"data/raw/mlb/linescores_{y}.parquet"
+                   for y in TUNE + HOLDOUT],
+        "scales": res["scales"],
+        "holdout_grade": res["holdout_grade"],
+        "decomposition": res["decomposition"],
+        "moneyline_bias_gate": res["moneyline_bias_gate"],
+        "moneyline_grade": res["moneyline_grade"],
+        "moneyline_calibration": res["moneyline_calibration"],
+        "max_state": res["max_state"],
+        "ninth_inning_table": res["ninth_inning_table"],
+        "what_this_does_not_show": (
+            "that the layer makes BETTER BETS. Binary log-loss on the "
+            "realised winner improves by t = 1.79, which does not clear. It "
+            "removes a bias without adding discrimination, and that is "
+            "enough to reopen a market closed FOR a bias and not enough to "
+            "claim an edge."
+        ),
+    }
+
+
 def main() -> int:
     for name, build in (("nhl_fitted.json", export_nhl),
                         ("nba_fitted.json", export_nba),
-                        ("nhl_rules.json", export_nhl_rules)):
+                        ("nhl_rules.json", export_nhl_rules),
+                        ("mlb_rules.json", export_mlb_rules)):
         art = build()
         dest = DATA / name
         before = dest.read_text() if dest.exists() else None

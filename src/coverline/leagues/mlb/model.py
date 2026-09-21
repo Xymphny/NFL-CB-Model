@@ -32,8 +32,54 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Protocol, Sequence
 
+import json
+from pathlib import Path
+
 from coverline.core.distributions import NegativeBinomialScoreDistribution
 from coverline.core.interfaces import ScoreDistribution
+from coverline.leagues.mlb.rules import (
+    MLBFinalScoreDistribution, NinthInningLayer,
+)
+
+_ROOT = Path(__file__).resolve().parents[4]
+RULES_PATH = _ROOT / "data" / "mlb_rules.json"
+
+
+class NotFitted(NotImplementedError):
+    """No usable graded layer. Raised rather than falling back."""
+
+
+def load_rules(path: Path = RULES_PATH) -> tuple[NinthInningLayer, float, float]:
+    """Load the graded ninth-inning layer, refusing one that did not clear.
+
+    THE GATE HERE IS THE BIAS GATE, not the log-loss one. ADR 0017 withheld
+    the moneyline for a systematic 2.5 point understatement, so the matched
+    question is whether the residual bias is distinguishable from zero. On
+    the 2024-2025 holdout it is not: t = 0.35, against the baseline's 3.61.
+
+    The layer does NOT demonstrably make better bets -- binary log-loss
+    improves by t = 1.79, which does not clear -- and the artifact says so.
+    Removing a bias is enough to reopen a market closed for a bias, and not
+    enough to claim an edge.
+    """
+    if not Path(path).exists():
+        raise NotFitted(f"no graded MLB rules layer at {path}")
+    art = json.loads(Path(path).read_text())
+    gate = art.get("moneyline_bias_gate", {}).get("rules_model", {})
+    if not gate.get("unbiased"):
+        raise NotFitted(
+            f"{Path(path).name} does not clear its bias gate "
+            f"(t = {gate.get('t')}). The moneyline was withheld for a bias "
+            "and a layer that still carries one does not reopen it."
+        )
+    table = {
+        int(state): {tuple(int(x) for x in k.split(",")): float(v)
+                     for k, v in row.items()}
+        for state, row in art["ninth_inning_table"].items()
+    }
+    layer = NinthInningLayer(table=table, max_state=int(art["max_state"]))
+    sc = art["scales"]
+    return layer, float(sc["home_eight"]), float(sc["away_nine"])
 
 #: Dispersion, measured over 12,148 walk-forward games by
 #: model/mlb_dispersion.py. r is the negative binomial's shape: variance is
@@ -63,10 +109,13 @@ class MLBModel:
     """Implements core.interfaces.LeagueModel."""
 
     def __init__(self, source: FeatureSource,
-                 r_home: float = R_HOME, r_away: float = R_AWAY) -> None:
+                 r_home: float = R_HOME, r_away: float = R_AWAY,
+                 rules: tuple[NinthInningLayer, float, float] | None = None
+                 ) -> None:
         self._source = source
         self._r_home = r_home
         self._r_away = r_away
+        self._rules = rules
 
     @property
     def league(self) -> str:
@@ -105,8 +154,16 @@ class MLBModel:
         below the line against an actual 0.6409. That is the measurement, not
         an argument, and if either component moves the cancellation goes with
         it.
+
+        THE MONEYLINE RETURNS WITH THE LAYER AND NOT OTHERWISE. Graded once
+        on 2024-2025, the ninth-inning layer takes the residual bias from
+        t = 3.61 to t = 0.35 -- the defect that closed the market is gone.
+        Without the layer this model still carries it, so the market is still
+        absent. See load_rules for what that grade does NOT establish.
         """
-        return ("runline", "total")
+        if self._rules is None:
+            return ("runline", "total")
+        return ("moneyline", "runline", "total")
 
     @property
     def has_key_number_correction(self) -> bool:
@@ -123,6 +180,13 @@ class MLBModel:
                     f"[{MIN_EXPECTED_RUNS}, {MAX_EXPECTED_RUNS}]. That is an "
                     "upstream bug, not a real game; refusing to price it."
                 )
+        if self._rules is not None:
+            layer, home_scale, away_scale = self._rules
+            return MLBFinalScoreDistribution(
+                mu_home=f.exp_home, mu_away=f.exp_away,
+                r_home=self._r_home, r_away=self._r_away, layer=layer,
+                home_eight_scale=home_scale, away_nine_scale=away_scale,
+            )
         return NegativeBinomialScoreDistribution(
             mu_home=f.exp_home, mu_away=f.exp_away,
             r_home=self._r_home, r_away=self._r_away,

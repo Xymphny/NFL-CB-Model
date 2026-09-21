@@ -346,6 +346,36 @@ attempts:
       goals; that is the same question on a different holdout, so it is NOT
       logged again.
 
+  - id: mlb-ninth-inning-layer
+    date: "2026-09-21"
+    hypothesis: >-
+      A measured ninth-inning layer -- the home team stops batting when it
+      leads, and extra innings resolve every game -- beats independent
+      negative binomials, OVER AND ABOVE simply removing the impossible tie.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: 0.00556
+    standard_error: 0.00223
+    t: 2.49
+    decision: shipped
+    recovered: false
+    source: model/mlb_rules_results.json decomposition.measured_layer_over_and_above
+    note: >-
+      DECOMPOSED, like the NHL pull layer and for the same reason. The
+      composite grade was t = 32.94 on this holdout and 96% of it is removing
+      a tied final score the baseline priced at a tenth of its mass -- an
+      outcome the league forbids, whose sign was never in doubt. Logging the
+      composite would push E[t^2] past 100 on its own.
+      THE MARKET DID NOT REOPEN ON THIS NUMBER. It reopened on the BIAS gate:
+      the residual bias in P(home) goes from t = 3.61 to t = 0.35 on
+      2024-2025. Binary log-loss on the realised winner improves by only
+      t = 1.79 and does NOT clear, so the layer removes a bias without
+      demonstrably adding discrimination, and the artifact says so.
+      CONTAMINATION: R_HOME and R_AWAY were measured on all five seasons, so
+      no MLB season is pristine for dispersion. They are held fixed and
+      identical across both arms, which isolates the layer but makes this
+      grade weaker than the NHL one.
+
 # ---------------------------------------------------------------------------
 # NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.
 # Excluding these is a methodological choice, and a reader must be able to

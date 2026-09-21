@@ -41,11 +41,12 @@ def test_the_weight_is_what_the_arithmetic_says():
     those same two fits SUCCEEDED; 0.9359 when the NHL goalie-pull layer
     (t=5.82) was logged -- the DECOMPOSED component, not the composite t of
     34.95, which would have taken the weight to 0.9954 and stopped it
-    shrinking anything.
+    shrinking anything; 0.9327 when the MLB ninth-inning layer (t=2.49)
+    followed it, also decomposed, and pulled the mean back down.
     """
     log = E.load_attempts()
-    assert log.mean_t_squared == pytest.approx(15.5885, abs=1e-3)
-    assert log.weight() == pytest.approx(0.9359, abs=1e-3)
+    assert log.mean_t_squared == pytest.approx(14.8663, abs=1e-3)
+    assert log.weight() == pytest.approx(0.9327, abs=1e-3)
     assert E.current_weight() == pytest.approx(log.weight())
 
 
@@ -159,7 +160,7 @@ def test_the_weight_is_no_longer_dominated_by_one_attempt():
 
 def test_the_robust_weight_survives_losing_the_dominant_attempt():
     log = E.load_attempts()
-    assert log.robust_weight() == pytest.approx(0.9203, abs=1e-3)
+    assert log.robust_weight() == pytest.approx(0.9168, abs=1e-3)
     assert log.robust_weight() < log.weight()
     assert log.robust_weight() == min(log.leave_one_out_weights().values())
 

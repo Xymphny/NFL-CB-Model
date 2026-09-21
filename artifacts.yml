@@ -216,3 +216,21 @@ artifacts:
     refresh: "when the MLB caches or the shipped dispersion constants change"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: data/mlb_rules.json
+    produced_by: model/export_fitted.py
+    consumed_by:
+      - src/coverline/leagues/mlb/model.py
+    kind: gold
+    refresh: "per season, with a fresh bias-gate grade on an unspent season"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: model/mlb_rules_results.json
+    produced_by: model/fit_mlb_rules.py
+    consumed_by:
+      - model/export_fitted.py
+    kind: gold
+    refresh: "only on a re-grade, which needs an unspent season"
+    staleness_error_hours: null
+    unconsumed_reason: null
