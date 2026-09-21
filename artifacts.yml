@@ -47,6 +47,15 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/bronze/odds/**/historical-*.json
+    produced_by: src/coverline/execution/backfill.py
+    consumed_by:
+      - src/coverline/execution/normalize.py
+    kind: bronze
+    refresh: "one-shot backfill; resumable"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/bronze/odds/**/*.json
     produced_by: src/coverline/execution/odds_client.py
     consumed_by:

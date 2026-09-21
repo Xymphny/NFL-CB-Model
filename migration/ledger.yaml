@@ -42,6 +42,31 @@ updated: "2026-09-21"
 # ---------------------------------------------------------------------------
 components:
 
+  - id: execution-backfill
+    old_path: "(did not exist -- no historical odds were ever fetched)"
+    new_path: "src/coverline/execution/backfill.py + scripts/backfill.py"
+    disposition: rewritten
+    adr: 0002-odds-data-vendor-and-tier.md
+    data_artifacts:
+      - "data/bronze/odds/**/historical-*.json"
+    data_disposition: raw
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor"
+    old_removed: false
+    notes: >-
+      Built ahead of the subscription (expected Thursday 2026-09-24) so the
+      key can be put to work the day it arrives rather than starting a build.
+      Three protective properties, each tested by making it matter: cost is
+      computed with no network before anything is spent; the job is resumable
+      from bronze so a crash costs only the unfetched part; and a budget
+      refusal stops the run and GAPS the remainder rather than leaving holes
+      indistinguishable from timestamps the API had no data for.
+      Measured: the realistic five-league one-season plan is 2,992 snapshots
+      and 89,760 credits -- 90% of a month on the 100K tier, which crowds out
+      live capture. The CLI says so and suggests splitting across months.
+      Fetched snapshots are RAW: a close that was not captured is gone at any
+      price, and the backfill is the only way to obtain the past ones.
+
   - id: core-distributions
     old_path: "model/ (margin and total logic, per-league)"
     new_path: "src/coverline/core/distributions.py"
