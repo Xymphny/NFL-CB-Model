@@ -82,6 +82,27 @@ TOTAL_COEFFICIENTS: Mapping[str, float] = {
 }
 
 #: Residual sd around the closing line, nflverse 2010-2021 REG games.
+#:
+#: MEASURED AGAINST ITSELF AND FOUND TO BE A COMPROMISE. Graded in
+#: model/grade_distributions.py over 1,945 walk-forward games, 2014-2023: the
+#: realised residual sd is 13.75 pooled, a dispersion ratio of 1.034, and the
+#: 95% interval covers 93.2% rather than 95% -- tails thinner than this
+#: constant implies.
+#:
+#: The season table is the real finding. Residual sd runs from 11.73 in 2022
+#: to 15.15 in 2021 and Bartlett rejects equal variance across the ten seasons
+#: at p = 0.014, against a sampling SE of about 0.70 for one season's estimate.
+#: So a single constant cannot be right in every season, and Kelly divides by
+#: exactly this number.
+#:
+#: NOT CHANGED, because knowing the value moves is not the same as being able
+#: to forecast it. A season-varying sd would have to predict next season's
+#: dispersion and be graded on that, and no such forecast exists. The
+#: compromise is recorded rather than replaced.
+#:
+#: The BIAS, unlike the spread, is not systematic: season mean residuals run
+#: -1.90 to +1.55 and are consistent with noise at p = 0.24. There is nothing
+#: to de-bias here, which is the opposite of CFB's finding.
 MARGIN_SD = 13.2979
 
 #: Placeholder, and marked as such. No held-out measurement of total

@@ -170,6 +170,12 @@ its own docstring -- and were fixed.
 - No NHL or NBA price has ever been compared to a book. Everything graded so
   far is log-likelihood against a league-average baseline, which is a real
   test of the rates and no test at all of the edge.
+- **NFL's `MARGIN_SD` is a compromise across seasons that genuinely differ.**
+  Residual dispersion runs 11.73 to 15.15 across 2014-2023 and Bartlett
+  rejects equal variance at p = 0.014. Not changed, because forecasting next
+  season's dispersion is a separate model that would need its own grade
+  ([ADR 0009](docs/decisions/0009-grade-every-league-on-calibration.md)).
+  CFB's constant, checked the same way out of sample, holds up.
 - The shrinkage weight rests on seven observations with one dominating.
 - `frozen-threshold-grid` remains a permanently open ledger row: eight shipped
   constants citing a grid search whose output exists in no committed file.

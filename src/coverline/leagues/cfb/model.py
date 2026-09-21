@@ -63,6 +63,14 @@ MARGIN_COEFFICIENTS_DVOA_ONLY: Mapping[str, float] = {
 #: dispersed, and borrowing NFL's number would make every CFB probability
 #: too confident. This constant was first written as a guessed 18.65; the
 #: measurement disagreed, and the measurement won.
+#:
+#: AND IT SURVIVED THE CIRCLE BEING BROKEN. Measuring it on the same cache it
+#: is then judged against gives a dispersion ratio of exactly 1.0000, which is
+#: a tautology and not evidence. Re-estimated on 2021-2022 alone and checked
+#: on 2023, which it never saw: 17.62 against a realised 17.40, a ratio of
+#: 0.988, with the 95% interval covering 95.1%. Bartlett finds no evidence the
+#: spread varies by season (p = 0.23). Unlike NFL's, this constant is doing
+#: its job. model/grade_distributions.py has the table.
 MARGIN_SD = 17.5401
 
 #: The same measurement found the DVOA-only path carries a +2.16 point mean
@@ -74,6 +82,12 @@ MARGIN_SD = 17.5401
 #: through the gate with a held-out measurement like anything else. It is
 #: recorded so that a caller comparing CFB numbers to a market knows the
 #: model leans one way before the market does anything.
+#:
+#: NOW KNOWN TO BE SYSTEMATIC RATHER THAN A PERIOD. Every season carries it --
+#: +2.11 in 2021, +1.94 in 2022, +2.44 in 2023 -- and a weighted test finds no
+#: evidence it varies at all (p = 0.88). A bias that is the same size every
+#: year is a model defect, not a run of luck, and it is still not corrected
+#: here for the reason above.
 DVOA_ONLY_MEAN_RESIDUAL = 2.1644
 
 #: Absent, and deliberately. CFB key numbers (3 and 7 again, but with a much

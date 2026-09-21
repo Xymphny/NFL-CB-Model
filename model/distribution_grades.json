@@ -1,0 +1,250 @@
+{
+  "_provenance": {
+    "script": "model/grade_distributions.py",
+    "one_sided": "in-sample for coefficients and dispersion constants, walk-forward for ratings. A failure here is decisive; a pass proves nothing.",
+    "metrics": [
+      "dispersion_ratio",
+      "coverage",
+      "likelihood vs league-average baseline"
+    ]
+  },
+  "nfl": {
+    "n": 1945,
+    "shipped_sd": 13.2979,
+    "realised_residual_sd": 13.7467,
+    "dispersion_ratio": 1.0337,
+    "mean_residual": 0.2175,
+    "coverage": {
+      "50": 0.5383,
+      "80": 0.7825,
+      "95": 0.9316
+    },
+    "nominal_coverage": {
+      "50": 0.5,
+      "80": 0.8,
+      "95": 0.95
+    },
+    "mean_log_likelihood": -4.04072,
+    "baseline_log_likelihood": -4.08912,
+    "paired_gain": 0.0484,
+    "standard_error": 0.00631,
+    "t": 7.67,
+    "in_sample_for": "coefficients and MARGIN_SD; ratings are walk-forward",
+    "split_check": {
+      "available": true,
+      "cut_season": 2022,
+      "sd_estimated_on": "< 2022",
+      "n_estimate": 1530,
+      "n_check": 415,
+      "sd_from_early_seasons": 14.0105,
+      "realised_sd_on_later_seasons": 12.7042,
+      "dispersion_ratio": 0.9068,
+      "coverage": {
+        "50": 0.5904,
+        "80": 0.8313,
+        "95": 0.9614
+      },
+      "mean_residual": 1.0977
+    },
+    "by_season": {
+      "2014": {
+        "n": 173,
+        "residual_sd": 15.1483,
+        "mean_residual": 0.4746
+      },
+      "2015": {
+        "n": 171,
+        "residual_sd": 13.7264,
+        "mean_residual": 0.4769
+      },
+      "2016": {
+        "n": 184,
+        "residual_sd": 12.4371,
+        "mean_residual": 0.8038
+      },
+      "2017": {
+        "n": 196,
+        "residual_sd": 14.0499,
+        "mean_residual": 0.9712
+      },
+      "2018": {
+        "n": 195,
+        "residual_sd": 13.6136,
+        "mean_residual": 0.5438
+      },
+      "2019": {
+        "n": 195,
+        "residual_sd": 13.6815,
+        "mean_residual": -1.5555
+      },
+      "2020": {
+        "n": 208,
+        "residual_sd": 13.9689,
+        "mean_residual": -1.898
+      },
+      "2021": {
+        "n": 208,
+        "residual_sd": 15.1479,
+        "mean_residual": 0.2774
+      },
+      "2022": {
+        "n": 207,
+        "residual_sd": 11.7284,
+        "mean_residual": 0.6427
+      },
+      "2023": {
+        "n": 208,
+        "residual_sd": 13.6194,
+        "mean_residual": 1.5505
+      }
+    },
+    "path": "V1_RATING_ONLY -- the cache carries no NGS columns, so this grades the no-NGS path, which is what a caller without NGS gets and is the one the board falls back to",
+    "seasons": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "homogeneity": {
+      "seasons": 10,
+      "dispersion_varies_by_season": {
+        "test": "Bartlett",
+        "chi2": 20.77,
+        "df": 9,
+        "p": 0.0137,
+        "sd_range": [
+          11.7284,
+          15.1483
+        ],
+        "sampling_se_of_one_seasons_sd": 0.695
+      },
+      "bias_varies_by_season": {
+        "test": "weighted chi-square on season mean residuals",
+        "q": 11.5,
+        "df": 9,
+        "p": 0.24314,
+        "mean_residual_range": [
+          -1.898,
+          1.55
+        ],
+        "pooled_mean_residual": 0.2175
+      }
+    }
+  },
+  "cfb": {
+    "n": 1731,
+    "shipped_sd": 17.5401,
+    "realised_residual_sd": 17.5401,
+    "dispersion_ratio": 1.0,
+    "mean_residual": 2.1644,
+    "coverage": {
+      "50": 0.5211,
+      "80": 0.7863,
+      "95": 0.944
+    },
+    "nominal_coverage": {
+      "50": 0.5,
+      "80": 0.8,
+      "95": 0.95
+    },
+    "mean_log_likelihood": -4.29075,
+    "baseline_log_likelihood": -4.38639,
+    "paired_gain": 0.09563,
+    "standard_error": 0.00906,
+    "t": 10.55,
+    "in_sample_for": "coefficients and MARGIN_SD; ratings are walk-forward",
+    "dispersion_ratio_is_circular": "MARGIN_SD was MEASURED as the residual sd of this exact cache by model/cfb_margin_sd.py, so the ratio above is 1.0000 by construction and is not evidence of anything. See split_check.",
+    "split_check": {
+      "available": true,
+      "cut_season": 2023,
+      "sd_estimated_on": "< 2023",
+      "n_estimate": 1145,
+      "n_check": 586,
+      "sd_from_early_seasons": 17.6171,
+      "realised_sd_on_later_seasons": 17.4002,
+      "dispersion_ratio": 0.9877,
+      "coverage": {
+        "50": 0.5137,
+        "80": 0.7867,
+        "95": 0.9505
+      },
+      "mean_residual": 2.4433
+    },
+    "by_season": {
+      "2021": {
+        "n": 573,
+        "residual_sd": 18.2327,
+        "mean_residual": 2.1071
+      },
+      "2022": {
+        "n": 572,
+        "residual_sd": 16.9936,
+        "mean_residual": 1.9361
+      },
+      "2023": {
+        "n": 586,
+        "residual_sd": 17.4002,
+        "mean_residual": 2.4433
+      }
+    },
+    "path": "DVOA_ONLY -- the cache carries no elo",
+    "seasons": [
+      2021,
+      2022,
+      2023
+    ],
+    "homogeneity": {
+      "seasons": 3,
+      "dispersion_varies_by_season": {
+        "test": "Bartlett",
+        "chi2": 2.95,
+        "df": 2,
+        "p": 0.2285,
+        "sd_range": [
+          16.9936,
+          18.2327
+        ],
+        "sampling_se_of_one_seasons_sd": 0.516
+      },
+      "bias_varies_by_season": {
+        "test": "weighted chi-square on season mean residuals",
+        "q": 0.25,
+        "df": 2,
+        "p": 0.88209,
+        "mean_residual_range": [
+          1.936,
+          2.443
+        ],
+        "pooled_mean_residual": 2.1644
+      }
+    }
+  },
+  "mlb": {
+    "n": 12148,
+    "family": "independent negative binomial",
+    "r_home": 3.888,
+    "r_away": 3.2426,
+    "realised_margin_sd": 4.4841,
+    "realised_residual_sd": 4.4128,
+    "mean_residual": 0.0572,
+    "mean_log_likelihood": -4.8992,
+    "baseline_log_likelihood": -4.92073,
+    "paired_gain": 0.02153,
+    "standard_error": 0.00222,
+    "t": 9.7,
+    "in_sample_for": "r_home and r_away; expected runs are walk-forward",
+    "seasons": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ]
+  }
+}

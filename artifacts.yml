@@ -169,3 +169,13 @@ artifacts:
     refresh: "only on a re-grade, which needs an unspent season"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: model/distribution_grades.json
+    produced_by: model/grade_distributions.py
+    consumed_by:
+      - tests/core/test_distribution_grades.py
+    kind: gold
+    refresh: "when a league's coefficients, dispersion constant or
+      walk-forward cache changes"
+    staleness_error_hours: null
+    unconsumed_reason: null
