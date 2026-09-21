@@ -94,6 +94,20 @@ def test_game_ids_are_unique_and_canonical():
     assert game_id(2023, 7, "KC", "DEN") == "2023-W07-KC-DEN"
 
 
+def row_features(row):
+    """The cached row as the new core's GameFeatures.
+
+    Mirrors the source adapter so the parity comparison uses the same inputs
+    the model would receive, without going through predict().
+    """
+    return newnfl.GameFeatures(
+        rating_diff=float(row.rating_diff),
+        rest_diff=float(row.rest_diff),
+        is_neutral_site=not bool(row.home_field),
+        ngs_present=False,
+    )
+
+
 # ------------------------------------------------------------- parity ----
 
 def test_margins_match_the_legacy_model_on_every_cached_game(source, legacy):
@@ -110,7 +124,20 @@ def test_margins_match_the_legacy_model_on_every_cached_game(source, legacy):
             rest_diff=float(row.rest_diff),
             coefficients=coeffs,
         )
-        new = model.predict(gid, ASOF).margin_mean()
+        # predict_margin, NOT the distribution's mean.
+        #
+        # They were the same number until margin_mean stopped reporting
+        # mu_margin and started reporting the mean of the distribution it
+        # actually represents. With the shipped key-number table those differ
+        # by up to 0.52 points, because renormalising a multiplicative
+        # reweighting fixes the total mass and not the first moment.
+        #
+        # Parity is a claim about the COEFFICIENTS reproducing the legacy
+        # model, so it compares the coefficient output. The gap between that
+        # and the distribution's mean is a separate, real finding and is
+        # asserted in test_money_path_properties.py rather than hidden by
+        # widening this tolerance.
+        new = newnfl.predict_margin(row_features(row))
         diffs.append(new - old)
 
     diffs = np.asarray(diffs)

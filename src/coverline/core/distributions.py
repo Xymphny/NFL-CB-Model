@@ -117,6 +117,7 @@ class NormalMarginDistribution:
     _support: int = 60
     _norm_cache: Any = field(default=None, repr=False, compare=False)
     _cdf_cache: Any = field(default=None, repr=False, compare=False)
+    _atom_cache: Any = field(default=None, repr=False, compare=False)
 
     def __post_init__(self) -> None:
         if self.sd_margin <= 0 or self.sd_total <= 0:
@@ -141,6 +142,7 @@ class NormalMarginDistribution:
             # keeps the cdf fast and makes construction free again.
             object.__setattr__(self, "_norm_cache", None)
             object.__setattr__(self, "_cdf_cache", None)
+            object.__setattr__(self, "_atom_cache", None)
 
     # -- protocol ---------------------------------------------------------
 
@@ -159,10 +161,38 @@ class NormalMarginDistribution:
         return self.key_number_weights is not None
 
     def margin_mean(self) -> float:
-        return self.mu_margin
+        """The mean of the distribution this object actually represents.
+
+        NOT mu_margin, once key-number weights are present. Renormalising a
+        multiplicative reweighting fixes the total mass and does NOT fix the
+        first moment, so the intent recorded in _compute_normaliser -- that
+        the weights are a SHAPE adjustment -- is not what the arithmetic
+        does.
+
+        Measured on the shipped table in data/nfl_key_numbers.json, the mean
+        is pulled TOWARD ZERO by up to 0.46 points: a mu of -10 comes out at
+        -9.63 and a mu of +7 at +6.54. The weight at a margin of 0 is 0.1198,
+        correctly suppressing ties, and that hole is not symmetric about an
+        off-centre mean.
+
+        Reporting mu_margin here was a lie about the object's own pmf and
+        nothing else: prices come from margin_cdf and margin_pmf, so no
+        price changes. What changes is that a caller asking this
+        distribution for its mean now gets its mean.
+        """
+        if not (self.discrete and self.key_number_weights is not None):
+            return self.mu_margin
+        ks, mass = self._weighted_atoms()
+        return float((ks * mass).sum())
 
     def margin_sd(self) -> float:
-        return self.sd_margin
+        """Likewise the actual second moment. The table narrows it slightly,
+        to between 12.84 and 13.29 against an input 13.2979."""
+        if not (self.discrete and self.key_number_weights is not None):
+            return self.sd_margin
+        ks, mass = self._weighted_atoms()
+        mu = float((ks * mass).sum())
+        return float(np.sqrt(((ks - mu) ** 2 * mass).sum()))
 
     def margin_cdf(self, x: float) -> float:
         if self.discrete and self.key_number_weights is not None:
@@ -270,6 +300,22 @@ class NormalMarginDistribution:
         if self._cdf_cache is None:
             object.__setattr__(self, "_cdf_cache", self._compute_weighted_cdf())
         return self._cdf_cache
+
+    def _weighted_atoms(self) -> tuple[np.ndarray, np.ndarray]:
+        """The weighted, renormalised atoms over the support.
+
+        Cached with the cdf, so asking for a mean costs one table build and
+        never more -- the lazy-cache argument in __post_init__ applies here
+        for the same reason.
+        """
+        if self._atom_cache is None:
+            ks = np.arange(-self._support, self._support + 1)
+            raw = np.array([
+                self._raw_pmf(int(k), self.mu_margin, self.sd_margin)
+                * self._weight(int(k)) for k in ks
+            ])
+            object.__setattr__(self, "_atom_cache", (ks, raw / raw.sum()))
+        return self._atom_cache
 
     def _compute_normaliser(self) -> float:
         """Sum of weighted raw masses over the support.

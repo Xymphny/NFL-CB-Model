@@ -173,6 +173,23 @@ timing rather than a mitigation.
 has both, and the lesson about test shape: every existing test priced one side
 and checked it against a number derived the same way the code derives it.
 
+### And a fourth, found by applying the same pattern deliberately
+
+`tests/core/test_money_path_properties.py` puts oracle-free properties across
+devigging, shrinking, staking and the distributions: devigged probabilities
+sum to one, a shrunk probability lies between its inputs, a stake never rises
+when the edge falls, a distribution's own pmf reproduces its own mean. That
+last one failed. **`margin_mean()` was returning the input `mu_margin`, not
+the mean of the distribution it represents** -- renormalising a multiplicative
+key-number reweighting fixes the total mass and does not fix the first moment,
+and the shipped table pulls the mean toward zero by up to 0.46 points.
+
+No price changed, because prices come from `margin_cdf` and `margin_pmf`. What
+changed is that the object stopped misreporting itself -- and the NFL parity
+test broke, which turned out to be the finding: `predict_margin` (what a board
+publishes) and `margin_mean()` (what it prices from) are different quantities
+and were being treated as one.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.
