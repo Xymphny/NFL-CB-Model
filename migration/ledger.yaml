@@ -42,6 +42,32 @@ updated: "2026-09-21"
 # ---------------------------------------------------------------------------
 components:
 
+  - id: runtime-version-pin
+    old_path: "(nothing pinned -- CI 3.11, Render a creation-date default, laptop 3.9)"
+    new_path: ".python-version + .github/workflows/checks.yml"
+    disposition: rewritten
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_applicable
+    parity_tolerance: null
+    old_removed: false
+    notes: >-
+      Found 2026-09-21 while setting up a local environment: three runtimes,
+      none declared. CI pinned 3.11 via setup-python; the laptop had system
+      3.9 with no packages at all; and Render documents that an unpinned
+      service gets a default chosen by its CREATION DATE, anywhere from 3.7.10
+      to 3.14.3. So the interpreter running the live cron jobs was decided by
+      when the service happened to be created, and nothing recorded it.
+      Pinned with .python-version (3.11.16), which Render reads and which a
+      guard test now asserts agrees with the CI pin.
+      NOT pinned via render.yaml: a `pythonVersion:` key was added there first
+      and then reverted -- Render's docs support PYTHON_VERSION as an env var
+      or a .python-version file, and document no such blueprint key. Putting an
+      unrecognised key into a live Blueprint would have been worse than the
+      gap it was meant to close.
+      Takes effect on the services at their next build.
+
   - id: execution-capture
     old_path: "(did not exist -- no closing prices were ever captured)"
     new_path: "src/coverline/execution/capture.py"

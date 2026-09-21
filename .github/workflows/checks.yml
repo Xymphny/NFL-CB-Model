@@ -34,7 +34,7 @@ on:
 
 jobs:
   python:
-    name: guard + parser suites
+    name: python suites (must match scripts/check.sh)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,6 +54,23 @@ jobs:
       # Installing requirements.txt also checks that requirements.txt
       # is installable, which a hand-picked list silently never does.
       - run: pip install -r requirements.txt
+      # RUN EVERY SUITE scripts/check.sh RUNS, in the same order.
+      #
+      # Until 2026-09-21 this job ran only the two suites below, while the
+      # core suite -- 223 tests covering the five-league core, the pricing
+      # and staking layers, and EVERY rot defence (migration ledger, artifact
+      # manifest, conformance battery, tracked-files guard) -- ran only when
+      # someone remembered `scripts/check.sh`. The defences built to stop
+      # things breaking unnoticed were themselves unguarded, which is the
+      # failure described at the top of this file, one level up.
+      #
+      # If a suite is added to scripts/check.sh, add it here too. The two
+      # lists drifting apart is how this gap opened in the first place, and
+      # tests/core/test_ci_covers_check_sh.py now fails when they diverge.
+      - name: core suite
+        run: python3 -m pytest tests/core -q
+      - name: test manifest
+        run: python3 tools/test_manifest.py --check
       - name: guard tests
         run: python3 tests/test_model_guards.py
       - name: parser regression tests
