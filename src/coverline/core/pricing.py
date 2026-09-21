@@ -290,7 +290,29 @@ class ClosingLineValue:
     """Points of line beaten. None for markets without a line, e.g. moneylines."""
 
     price_cents: float
-    """American-odds cents beaten at the same line."""
+    """American-odds cents beaten at the same line.
+
+    A PRACTITIONER'S CONVENTION, AND IT MUST NOT BE AVERAGED. American odds
+    are discontinuous at even money -- there is no such thing as a price
+    between -100 and +100 -- and they are non-linear everywhere else, so this
+    figure is not comparable across price ranges:
+
+        2.050 -> 1.952   2.4 probability points   reported as  210.0 cents
+        1.200 -> 1.180   1.4 probability points   reported as   55.6 cents
+        1.910 -> 1.870   1.1 probability points   reported as    5.1 cents
+
+    A mean of those three numbers means nothing. It is kept because it is
+    what a bettor reads on a screen and will want to reconcile, and
+    `prob_points` below is the quantity to actually aggregate.
+    """
+
+    prob_points: float
+    """Fair probability beaten, in points: close fair minus bet implied.
+
+    Linear, continuous, and comparable across the whole price range, which
+    is what makes it the one safe to average. Positive means the bet was
+    taken at a better price than the devigged close.
+    """
 
     ev_pct: float
     """EV against the DEVIGGED fair close. The one that predicts profit."""
@@ -342,6 +364,10 @@ def closing_line_value(
     return ClosingLineValue(
         line_points=line_points,
         price_cents=float(bet_american - close_american),
+        # Against the FAIR close, not the posted one, for the same reason
+        # ev_pct is: the margin cannot be removed from one side alone, and a
+        # CLV that leaves it in flatters every bet by the hold.
+        prob_points=float(fair - decimal_to_implied(bet_decimal)),
         ev_pct=expected_value(fair, bet_decimal),
         naive_ev_pct=naive * bet_decimal - 1.0,
         valid=market_has_sharp_close,

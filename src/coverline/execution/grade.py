@@ -161,7 +161,8 @@ def clv_summary(ledger: BetLedger) -> dict[str, Any]:
     would produce a number that is neither. They are counted, not merged.
     """
     valid, invalid, ungraded = [], 0, 0
-    naive_gap = []
+    naive_gap: list[float] = []
+    points: list[float] = []
 
     for sig in ledger.signals():
         if not sig.placed:
@@ -174,6 +175,7 @@ def clv_summary(ledger: BetLedger) -> dict[str, Any]:
             invalid += 1
             continue
         valid.append(clv.ev_pct)
+        points.append(clv.prob_points)
         naive_gap.append(clv.devig_overstatement)
 
     n = len(valid)
@@ -182,10 +184,16 @@ def clv_summary(ledger: BetLedger) -> dict[str, Any]:
         "graded_invalid_no_sharp_close": invalid,
         "ungraded": ungraded,
         "mean_clv_devigged": round(sum(valid) / n, 5) if n else None,
+        "mean_clv_probability_points": (round(sum(points) / n, 5)
+                                        if n else None),
         "mean_overstatement_if_naive": (round(sum(naive_gap) / n, 5)
                                         if n else None),
         "note": ("mean_clv_devigged is EV against the fair close. The naive "
                  "figure -- against the posted close -- is higher by the hold, "
                  "and is what a CLV number means when nobody says which one "
-                 "they computed."),
+                 "they computed. NO MEAN IN AMERICAN CENTS IS REPORTED: that "
+                 "scale is discontinuous at even money and non-linear "
+                 "elsewhere, so 2.4 probability points can read as 210 cents "
+                 "while 1.1 points reads as 5. mean_clv_probability_points is "
+                 "the aggregate that means something."),
     }

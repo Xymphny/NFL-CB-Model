@@ -322,3 +322,93 @@ def test_the_published_margin_and_the_priced_margin_are_not_the_same_number():
         f"the gap has grown to {max(gaps):.2f} points, which is a key number "
         "in itself and too large to leave as an annotation"
     )
+
+
+# -- closing line value -----------------------------------------------------
+
+def _close(hold=0.045, p=0.55):
+    """A two-sided closing market with a bookmaker's margin on it."""
+    return [1.0 / (p * (1 + hold)), 1.0 / ((1 - p) * (1 + hold))]
+
+
+def test_betting_the_posted_close_is_a_losing_bet():
+    """The property that proves devigging is actually happening.
+
+    Taking exactly the price the market closed at must show NEGATIVE EV,
+    because that price carries the hold. A CLV implementation that forgot to
+    devig would report exactly zero here and flatter every bet by the margin
+    -- which is what a CLV number means when nobody says which one they
+    computed.
+    """
+    for hold in (0.01, 0.045, 0.08):
+        close = _close(hold=hold)
+        clv = P.closing_line_value(bet_decimal=close[0], close_decimals=close,
+                                   outcome_index=0)
+        assert clv.ev_pct < 0.0
+        assert clv.naive_ev_pct == pytest.approx(0.0, abs=1e-12)
+        assert clv.ev_pct < clv.naive_ev_pct
+
+
+def test_betting_the_fair_close_is_exactly_break_even():
+    """The other end of the same property."""
+    for p in (0.2, 0.5, 0.77):
+        close = _close(p=p)
+        fair = float(P.devig(close, "power")[0])
+        clv = P.closing_line_value(bet_decimal=1.0 / fair,
+                                   close_decimals=close, outcome_index=0)
+        assert clv.ev_pct == pytest.approx(0.0, abs=1e-9)
+        assert clv.prob_points == pytest.approx(0.0, abs=1e-9)
+
+
+def test_a_better_price_is_always_better_clv():
+    """Monotonicity in the price taken, at a fixed close."""
+    close = _close()
+    prev_ev, prev_pts = -9.9, -9.9
+    for bet in np.linspace(1.3, 4.0, 40):
+        clv = P.closing_line_value(bet_decimal=float(bet),
+                                   close_decimals=close, outcome_index=0)
+        assert clv.ev_pct >= prev_ev - 1e-12
+        assert clv.prob_points >= prev_pts - 1e-12
+        prev_ev, prev_pts = clv.ev_pct, clv.prob_points
+
+
+def test_american_cents_are_not_comparable_and_probability_points_are():
+    """Why no mean is reported in cents.
+
+    American odds are discontinuous at even money -- nothing exists between
+    -100 and +100 -- and non-linear elsewhere. A move of 2.4 probability
+    points that crosses the boundary reads as 210 cents, while 1.1 points
+    inside the favourite range reads as 5. Averaging those is meaningless,
+    and the trap is that the resulting number looks like a CLV.
+    """
+    def _row(bet, close_price):
+        close = [close_price, 1.0 / (1.0 - 1.0 / close_price)]
+        clv = P.closing_line_value(bet_decimal=bet, close_decimals=close,
+                                   outcome_index=0)
+        return abs(clv.prob_points), abs(clv.price_cents)
+
+    rows = [_row(2.05, 1.952), _row(1.20, 1.18), _row(1.91, 1.87)]
+    per_point = [cents / pts for pts, cents in rows]
+    assert max(per_point) / min(per_point) > 10, (
+        "cents per probability point is no longer wildly non-constant; the "
+        "discontinuity warning in ClosingLineValue may no longer apply"
+    )
+
+    # And the ranking genuinely inverts, which is the strongest form of it:
+    # a deep favourite moving by less than one probability point reads as
+    # more cents than a move of two and a half points across even money.
+    small_move_many_cents = _row(1.05, 1.04)
+    big_move_fewer_cents = _row(2.05, 1.952)
+    assert small_move_many_cents[0] < big_move_fewer_cents[0]
+    assert small_move_many_cents[1] > big_move_fewer_cents[1]
+
+
+def test_the_clv_summary_reports_a_scale_that_can_be_averaged():
+    """Guarding the summary itself, not just the primitive."""
+    import inspect
+
+    from coverline.execution import grade as G
+
+    src = inspect.getsource(G.clv_summary)
+    assert "mean_clv_probability_points" in src
+    assert "cents" in src, "the reason no cents mean is reported must stay stated"

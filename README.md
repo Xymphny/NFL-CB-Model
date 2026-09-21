@@ -190,6 +190,18 @@ test broke, which turned out to be the finding: `predict_margin` (what a board
 publishes) and `margin_mean()` (what it prices from) are different quantities
 and were being treated as one.
 
+### And a sixth, in the metric everything is judged by
+
+CLV was reported in American cents alongside the devigged EV. **American odds
+are discontinuous at even money and non-linear elsewhere**, so 2.45
+probability points reads as 210 cents while 1.12 points reads as 5 -- 19 times
+the cents per point -- and the ranking inverts outright for deep favourites. A
+mean over that is dominated by whichever bets sat near even money, which is
+exactly where NHL and MLB moneylines cluster. `prob_points` was added,
+`clv_summary` reports its mean, and no mean in cents is reported at all
+([ADR 0016](docs/decisions/0016-clv-is-averaged-in-probability-not-cents.md)).
+The legacy board was never affected: its `avg_clv` is line points.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.

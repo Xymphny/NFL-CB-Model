@@ -29,6 +29,7 @@ even if this directory is lost.
 | [0013](0013-the-missing-grid-reconstructed.md) | accepted | Reconstruct the missing grid without selecting anything |
 | [0014](0014-a-ceiling-on-what-counts-as-an-attempt.md) | accepted | Put a ceiling on what counts as an attempt |
 | [0015](0015-the-away-side-and-the-total-were-both-mispriced.md) | accepted | The away side and the total were both mispriced |
+| [0016](0016-clv-is-averaged-in-probability-not-cents.md) | accepted | Average CLV in probability points, never in American cents |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or
