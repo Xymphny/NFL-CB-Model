@@ -1165,6 +1165,28 @@ highest precedence).
   stays untested. Nothing changed.
   model/cfb_carryover_check.py + _results.json, spread validation
   regenerated, 2 guard tests (36 total).
+- TWO GUARD TESTS WERE SILENTLY DROPPED, AND THE ARTIFACT THEY GUARD
+  WENT STALE (2026-09-20): found by re-reading what the committed
+  artifacts themselves mark as open. frozen_threshold_sweep_results
+  still listed PLAY_GAP/LEAN_GAP and the de-bias offsets as unswept --
+  both were swept hours later, one finding they had never been
+  validated at all and the other that its partition is inert. A
+  committed artifact asserting something untrue is the exact thing the
+  0/9 correction was about, so it is updated with what each sweep
+  found rather than just emptied. THEN THE CHECK FOUND WORSE. The
+  guard test pinning that sweep did not exist in the repo, nor did the
+  one pinning H1b's rejection. Both were written, committed, and lost
+  by MY restack: a cherry-pick resolving test_model_guards.py with
+  `-X theirs` takes the incoming whole-file version, and the later
+  commits were built on a base lacking them. Nothing announced it --
+  the suite simply reported a smaller number that still said "all
+  passed". That is the superseding-files hazard this delivery model
+  has, realised. Both restored (38 guards) and regression-tested by
+  reverting the things they pin: returning a constant to unswept and
+  flipping H1b's gate to a pass both fail, by name. The lesson is the
+  same one CI taught an hour earlier -- a count nobody compares is not
+  a check, so the restored sweep test now also pins WHAT was swept,
+  not merely that the list is empty.
 - COLD-START AUDIT (2026-09-20): the engine's burn-in lesson applied
   project-wide. NFL margin fits: clean (edge calibration trained
   2016-21, scored 2022-23 wk4+; ATS residual PMF is market-only).

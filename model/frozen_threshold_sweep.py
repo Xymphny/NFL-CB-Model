@@ -38,9 +38,22 @@ proportional rather than discontinuous. So when hunting this class
 again, look for cuts, terciles, tiers and thresholds; skip the
 coefficients and the credibility constants.
 
-STILL UNSWEPT, named so the gap is visible: PLAY_GAP/LEAN_GAP on the
-margin side, and the in-season de-bias offsets. Both partition, so
-both are candidates by the rule above.
+BOTH REMAINING CANDIDATES WERE SWEPT LATER THE SAME DAY, and the
+rule above predicted them correctly in opposite directions.
+
+PLAY_GAP/LEAN_GAP: not a drift bug -- but it turned out they had
+never been validated at all, which is worse. The Play tier grades
+51.70% against the 52.4% a -110 bet needs, over 1,964 walk-forward
+games, with an interval spanning breakeven. Disclosed on a gate card.
+model/spread_edge_validation.py.
+
+The in-season de-bias offsets: its `len(s_res) >= 8` guard IS a
+partition, exactly as the rule flags -- and it is INERT. No slate in
+2016-2025 weeks 4-17 had fewer than eight priced games, so the branch
+never fires, and the de-bias itself helps modestly rather than
+hurting. A partition that never partitions.
+
+The sweep is closed. Every named constant has been checked.
 """
 
 import os

@@ -845,6 +845,68 @@ def test_cfb_carryover_recorded_without_overclaiming():
 
 
 
+# RESTORED 2026-09-20. Both of these were written, committed, and then
+# silently dropped by a cherry-pick that resolved test_model_guards.py
+# with -X theirs, taking a later whole-file version built on a base
+# that lacked them. They pin REJECTIONS -- the frozen-threshold
+# verdicts and H1b's failed gate -- which is exactly the kind of
+# result that quietly becomes folklore once its guard disappears.
+
+def test_frozen_threshold_sweep_is_closed():
+    """A finished audit should not be re-run from scratch. Pin the
+    verdicts and the rule they produced, so the next person inherits
+    the conclusion rather than the search."""
+    import json
+    path = os.path.join(REPO, "model", "frozen_threshold_sweep_results.json")
+    assert os.path.exists(path), "run model/frozen_threshold_sweep.py"
+    d = json.load(open(path))
+    v = d["verdicts"]
+    assert v["yardage_stratum_cuts"].startswith("HIT")
+    for clean in ("TIER_CUTS", "CONV_DEFAULT", "CRED_OPP"):
+        assert v[clean] == "clean", f"{clean} changed verdict without a new entry"
+    # The distinction that makes the rule useful.
+    assert "PARTITION" in d["rule_of_thumb"].upper()
+    # The sweep is closed: nothing may return to "unswept" without a
+    # new entry saying why, and what WAS swept must stay recorded.
+    assert d["still_unswept"] == [], "a constant went back to unswept without explanation"
+    assert set(d["swept_since"]) == {"PLAY_GAP/LEAN_GAP", "in-season de-bias offsets"}, \
+        "the last two sweeps must stay recorded with their findings"
+    # And the one real hit must still be reproducible from its own artifact.
+    assert os.path.exists(os.path.join(
+        REPO, "model", "pass_yds_stratum_drift_results.json"))
+
+
+def test_qb_continuity_stayed_out():
+    """H1b passed on train with a clean placebo and still failed its
+    gate. Pin the rejection: a hypothesis this well-supported on train
+    is exactly the one that gets quietly promoted later."""
+    import json
+    import sys
+    sys.path.insert(0, REPO)
+    from model.preseason_prior import PRIOR_CARRYOVER
+
+    path = os.path.join(REPO, "model", "qb_continuity_prior_results.json")
+    assert os.path.exists(path), "run model/qb_continuity_prior.py"
+    d = json.load(open(path))
+    assert d["verdict"].startswith("REJECTED")
+
+    # The train evidence was real -- that is why the record matters.
+    assert d["train_interactions"]["offense_voa"]["t"] > 2
+    # And the placebo held: offense moves, defense does not.
+    assert abs(d["train_interactions"]["defense_voa"]["t"]) < 1
+    # The gate is what kept it out.
+    assert abs(d["paired_gain"]["t"]) < 2, \
+        "the gate now passes -- re-open H1b deliberately, do not let this drift"
+    assert (d["holdout_grade"]["regressed_qb_conditional"]["mae"]
+            >= d["holdout_grade"]["regressed_unconditional_shipped"]["mae"])
+
+    # And it must not have leaked into the shipped prior, which stays
+    # unconditional: one offense coefficient, not one per QB state.
+    assert set(PRIOR_CARRYOVER) == {"offense_voa", "defense_voa", "total_rating"}, \
+        "the shipped prior gained a QB-conditional branch that never passed its gate"
+
+
+
 if __name__ == "__main__":
     # RUN EVERYTHING, THEN REPORT (2026-09-20). This loop used to let
     # the first failure abort the process. On 2026-09-20 one stale file

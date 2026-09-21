@@ -11,10 +11,7 @@
     "CRED_OPP": "clean"
   },
   "rule_of_thumb": "The bug bites where a constant PARTITIONS data, not where it scales or shrinks it. Partitions are step functions: drift moves rows across a boundary and they inherit a different distribution wholesale. Shrinkage is continuous and its error is proportional.",
-  "still_unswept": [
-    "PLAY_GAP/LEAN_GAP",
-    "in-season de-bias offsets"
-  ],
+  "still_unswept": [],
   "conversion_rates": {
     "c5": {
       "pooled_constant": 0.42,
@@ -170,5 +167,10 @@
       "games_to_credibility_now": 2.9,
       "shift_games": 0.04
     }
-  }
+  },
+  "swept_since": {
+    "PLAY_GAP/LEAN_GAP": "swept 2026-09-20 -- model/spread_edge_validation.py. Not a frozen-threshold bug but never validated at all: the Play tier grades 51.70% against the 52.4% needed, interval spanning breakeven. Disclosed on a gate card.",
+    "in-season de-bias offsets": "swept 2026-09-20 -- its `len(s_res) >= 8` guard IS a partition, and it is INERT: no slate in 2016-2025 weeks 4-17 had fewer than eight priced games, so the branch never fires. The de-bias itself helps modestly. data/spread_validation.json -> debias_sweep."
+  },
+  "sweep_status": "closed -- every named constant checked; see swept_since for the last two"
 }
