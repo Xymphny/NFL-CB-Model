@@ -21,6 +21,7 @@ even if this directory is lost.
 | [0005](0005-nhl-and-nba-structure-without-coefficients.md) | superseded | Ship NHL and NBA as structure, with no fitted coefficients |
 | [0006](0006-nhl-and-nba-fitted-walk-forward.md) | accepted | Fit NHL and NBA within season, and ship the graded parameters |
 | [0007](0007-the-nhl-puck-line-is-a-rules-problem.md) | accepted | The NHL joint distribution is a rules problem, not a correlation |
+| [0008](0008-ship-the-nhl-rules-layer-and-the-puck-line.md) | accepted | Ship the NHL rules layer, and release the puck line |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or

@@ -99,9 +99,13 @@ from typing import Protocol, Sequence
 
 from coverline.core.distributions import BivariatePoissonDistribution
 from coverline.core.interfaces import ScoreDistribution
+from coverline.leagues.nhl.rules import (
+    GoaliePullLayer, NHLFinalScoreDistribution, OvertimeLayer,
+)
 
 _ROOT = Path(__file__).resolve().parents[4]
 FITTED_PATH = _ROOT / "data" / "nhl_fitted.json"
+RULES_PATH = _ROOT / "data" / "nhl_rules.json"
 
 
 class NotFitted(NotImplementedError):
@@ -120,6 +124,33 @@ def load_fitted(path: Path = FITTED_PATH) -> dict:
             "from parameters that failed."
         )
     return art
+
+
+def load_rules(path: Path = RULES_PATH) -> tuple[GoaliePullLayer, OvertimeLayer]:
+    """Load the graded rules layers, refusing ones that did not clear.
+
+    Same contract as load_fitted: the artifact carries its own grade and this
+    refuses it if the grade does not hold. The layer was graded ONCE on
+    2022-2023 at t = 39.99, and that number is decomposed in the artifact
+    because most of it is not modelling -- it is the overtime rule, which
+    anyone can look up. The goalie-pull layer clears separately at t = 6.75.
+    """
+    if not Path(path).exists():
+        raise NotFitted(f"no fitted NHL rules layer at {path}")
+    art = json.loads(Path(path).read_text())
+    if not art.get("holdout_grade", {}).get("supported"):
+        raise NotFitted(
+            f"{Path(path).name} did not clear its held-out gate "
+            f"(t = {art.get('holdout_grade', {}).get('t')})."
+        )
+    table = {
+        int(lead): {tuple(int(x) for x in k.split(",")): float(v)
+                    for k, v in row.items()}
+        for lead, row in art["pull_table"].items()
+    }
+    pull = GoaliePullLayer(table=table, max_lead=int(art["max_lead"]))
+    overtime = OvertimeLayer(home_win_prob=float(art["overtime_home_win_prob"]))
+    return pull, overtime
 
 
 def rates_from_fit(art: dict, home: str, away: str) -> tuple[float, float]:
@@ -144,11 +175,20 @@ class GameFeatures:
     baseball does not -- pace, officiating and score effects lift both teams
     together. Whether it is non-zero is a measurement nobody has made here,
     so it defaults to 0.0 and a fitter must set it deliberately.
+
+    THE NO-PULL RATES ARE A DIFFERENT OBJECT and are carried separately on
+    purpose. lam_home and lam_away are fitted to FINAL scores, so they already
+    contain the empty-net goals the pull layer adds. Feeding them to the rules
+    composition would count those goals twice. lam_home_nopull and
+    lam_away_nopull are sixty minutes with both goalies on the ice, and the
+    model refuses to compose without them rather than silently substituting.
     """
 
     lam_home: float
     lam_away: float
     lam_shared: float = 0.0
+    lam_home_nopull: float | None = None
+    lam_away_nopull: float | None = None
 
 
 class FeatureSource(Protocol):
@@ -164,9 +204,14 @@ class NHLModel:
     """
 
     def __init__(self, source: FeatureSource,
+                 rules: tuple[GoaliePullLayer, OvertimeLayer] | None = None,
                  empty_net_layer: object | None = None) -> None:
         self._source = source
-        self._empty_net = empty_net_layer
+        # empty_net_layer predates the rules layer and is kept so existing
+        # callers do not break. `rules` is the real thing: both layers
+        # together, loaded from a graded artifact.
+        self._rules = rules
+        self._empty_net = empty_net_layer if rules is None else rules[0]
 
     @property
     def league(self) -> str:
@@ -174,14 +219,23 @@ class NHLModel:
 
     @property
     def primary_markets(self) -> Sequence[str]:
-        """Moneyline and total only.
+        """Moneyline and total always; the puck line once the layers are wired.
 
-        The PUCK LINE is deliberately absent. It is hockey's most distinctive
-        market and the one most exposed to the empty-net problem above;
-        offering it without a state-conditional layer would mean pricing the
-        market whose bias is best understood and least corrected.
+        The puck line was withheld for as long as the model could not express
+        what happens across 1.5 -- see ADR 0007 for why the first reason given
+        for that was wrong, and ADR 0008 for the layers that replaced it.
+        With a graded rules layer the model reproduces the non-monotonicity
+        (0.236 at a three-goal margin against 0.194 at two, holdout actuals
+        0.242 and 0.187) and puts exactly zero mass on a tie.
+
+        THIS IS PERMISSION TO PRICE IT, NOT A CLAIM OF EDGE. The layer was
+        graded on the likelihood of realised scorelines, never against a book.
+        Moneyline and total stand on exactly the same footing, which is why
+        they are in the same list.
         """
-        return ("moneyline", "total")
+        if self._rules is None:
+            return ("moneyline", "total")
+        return ("moneyline", "total", "puck_line")
 
     @property
     def has_key_number_correction(self) -> bool:
@@ -198,6 +252,23 @@ class NHLModel:
         f = self._source.features(game_id, asof)
         if f.lam_home <= 0 or f.lam_away <= 0:
             raise ValueError("expected goals must be positive")
-        return BivariatePoissonDistribution(
-            lam_home=f.lam_home, lam_away=f.lam_away, lam_shared=f.lam_shared,
+
+        if self._rules is None:
+            return BivariatePoissonDistribution(
+                lam_home=f.lam_home, lam_away=f.lam_away,
+                lam_shared=f.lam_shared,
+            )
+
+        if f.lam_home_nopull is None or f.lam_away_nopull is None:
+            raise ValueError(
+                "this model composes the goalie-pull and overtime layers and "
+                "needs NO-PULL rates. Passing the final-score rates instead "
+                "counts every empty-net goal twice -- see GameFeatures. "
+                "Provide lam_home_nopull and lam_away_nopull, or construct "
+                "NHLModel without rules."
+            )
+        pull, overtime = self._rules
+        return NHLFinalScoreDistribution(
+            lam_home=f.lam_home_nopull, lam_away=f.lam_away_nopull,
+            pull=pull, overtime=overtime,
         )

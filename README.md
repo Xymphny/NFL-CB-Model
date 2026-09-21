@@ -47,7 +47,7 @@ wrong for pricing.
 | NFL | implemented, not live | <1e-9 on 1,945 cached games; live board margin reproduced to 1e-6 | full-ensemble parity needs one cron run carrying `feature_values` |
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
 | MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | distribution family chosen by measurement |
-| NHL | implemented, not live | n/a | rates graded t=+3.02; puck line withheld -- it is a RULES problem, not a correlation ([ADR 0007](docs/decisions/0007-the-nhl-puck-line-is-a-rules-problem.md)) |
+| NHL | implemented, not live | n/a | rates t=+2.44 (was +3.02 before a lookahead fix); rules layer t=+39.99, of which the overtime rule is 82% and the goalie-pull layer +6.75 ([ADR 0008](docs/decisions/0008-ship-the-nhl-rules-layer-and-the-puck-line.md)) |
 | NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; static failed at −6.96 |
 
 `BUILT_LEAGUES` (can price a real board), `IMPLEMENTED_LEAGUES` (passes the
@@ -162,12 +162,11 @@ its own docstring -- and were fixed.
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.
-- The NHL puck line needs a rules layer: a regulation distribution, an
-  empty-net layer keyed to score state and time, and a deterministic overtime
-  layer. The first reason recorded for withholding it -- a negative score
-  correlation -- was measured and found to be the wrong mechanism by its own
-  algebra; [ADR 0007](docs/decisions/0007-the-nhl-puck-line-is-a-rules-problem.md)
-  has the correction and `model/nhl_joint_structure.json` has the numbers.
+- The NHL pull layer is a per-game table and the league is moving under it:
+  empty-net goals have gone from 0.241 a game in 2017 to 0.399 in 2025. It
+  should be re-measured per season, and a timing model -- a hazard over the
+  closing minutes rather than a per-game table -- is the real version. The
+  data supports it; this holdout cannot grade it.
 - No NHL or NBA price has ever been compared to a book. Everything graded so
   far is log-likelihood against a league-average baseline, which is a real
   test of the rates and no test at all of the edge.

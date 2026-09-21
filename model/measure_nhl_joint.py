@@ -56,26 +56,62 @@ RAW = ROOT / "data" / "raw"
 OUT = ROOT / "model" / "nhl_joint_structure.json"
 
 
+def cross_check_sources() -> dict:
+    """The same seasons from two pipelines, joined game by game.
+
+    sportsdataverse's 2021-2023 NHL files carry a constant score on every row,
+    which is why the league API was pulled at all. That raises the obvious
+    question of whether the rest of that vendor's data is trustworthy, and
+    whether the API's is. 2024 and 2025 exist in both, so the question is
+    answerable rather than assumed either way.
+    """
+    joined = mismatches = 0
+    seasons = []
+    for y in (2024, 2025):
+        a_path = RAW / "nhl" / f"nhl_{y}.parquet"
+        b_path = RAW / "sportsdataverse" / f"nhl_{y}.parquet"
+        if not (a_path.exists() and b_path.exists()):
+            continue
+        a = pd.read_parquet(a_path)
+        b = pd.read_parquet(b_path)
+        b = b[b.game_type == "R"] if "game_type" in b.columns else b
+        b = b.dropna(subset=["home_score", "away_score"])
+        if "game_id" not in b.columns:
+            continue
+        j = a.merge(b, on="game_id", suffixes=("_a", "_b"))
+        bad = int(
+            ((j.home_score_a != j.home_score_b.astype(int))
+             | (j.away_score_a != j.away_score_b.astype(int))).sum()
+        )
+        joined += len(j)
+        mismatches += bad
+        seasons.append(y)
+    return {
+        "seasons": seasons,
+        "games_joined": joined,
+        "score_mismatches": mismatches,
+        "note": ("the corruption in sportsdataverse's 2021-2023 NHL files is "
+                 "specific to those files, not systemic: where both sources "
+                 "cover the same season they agree on every game."
+                 if joined and not mismatches else
+                 "the two sources disagree; neither should be used until it "
+                 "is known which is wrong"),
+    }
+
+
 def load_finals() -> pd.DataFrame:
-    """Both sources, tagged. Agreement between them is the point."""
+    """The league API for every season, deduplicated against the vendor.
+
+    2024 and 2025 exist in both sources and agree on every game, so carrying
+    both would double-weight two seasons in every pooled number for no
+    information. The API copy is kept because it carries last_period_type,
+    without which the overtime rule cannot be seen at all. The agreement
+    itself is recorded by cross_check_sources.
+    """
     frames = []
     for f in sorted((RAW / "nhl").glob("nhl_20*.parquet")):
         d = pd.read_parquet(f)
         d["source"] = "nhle-api"
-        frames.append(d)
-    for y in (2024, 2025):
-        f = RAW / "sportsdataverse" / f"nhl_{y}.parquet"
-        if not f.exists():
-            continue
-        d = pd.read_parquet(f)
-        d = d[d.game_type == "R"] if "game_type" in d.columns else d
-        d = d.dropna(subset=["home_score", "away_score"])
-        d = d[["season", "home_team_abbr", "away_team_abbr",
-               "home_score", "away_score"]].copy()
-        d["home_score"] = d.home_score.astype(int)
-        d["away_score"] = d.away_score.astype(int)
-        d["last_period_type"] = None  # sportsdataverse does not carry it
-        d["source"] = "sportsdataverse"
         frames.append(d)
     df = pd.concat(frames, ignore_index=True)
     df["margin"] = df.home_score - df.away_score
@@ -275,6 +311,7 @@ def main() -> int:
             "note": "properties of the data, not a prediction -- nothing here "
                     "spends a holdout season",
         },
+        "source_agreement": cross_check_sources(),
         "overtime_rule": overtime_rule(finals),
         "by_season": {},
         "pooled": {},

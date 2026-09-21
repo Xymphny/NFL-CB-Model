@@ -150,3 +150,22 @@ artifacts:
     refresh: "when a season of NHL finals or goals is added to data/raw/nhl/"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: data/nhl_rules.json
+    produced_by: model/export_fitted.py
+    consumed_by:
+      - src/coverline/leagues/nhl/model.py
+    kind: gold
+    refresh: "per season -- the pull layer is drifting, from 0.241 empty-net
+      goals a game in 2017 to 0.399 in 2025"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: model/nhl_rules_results.json
+    produced_by: model/fit_nhl_rules.py
+    consumed_by:
+      - model/export_fitted.py
+    kind: gold
+    refresh: "only on a re-grade, which needs an unspent season"
+    staleness_error_hours: null
+    unconsumed_reason: null

@@ -43,6 +43,10 @@ SPENT_SEASON = 2025
 #: FIXED BEFORE THE GRADE, not searched. See the module docstring.
 K = 0.03
 
+#: Goals per side for the first game of a frame, before any prior games exist.
+#: A round number, chosen for being round and not for fitting anything.
+OPENING_RATE = 3.0
+
 
 def walk_forward(df: pd.DataFrame, k: float = K,
                  state: dict | None = None) -> pd.DataFrame:
@@ -58,13 +62,30 @@ def walk_forward(df: pd.DataFrame, k: float = K,
     model/export_fitted.py uses this to rebuild the artifact from source.
     """
     df = df.sort_values("game_date").reset_index(drop=True)
-    base_h = np.log(df.home_score.mean())
-    base_a = np.log(df.away_score.mean())
     atk: dict[str, float] = {}
     dfn: dict[str, float] = {}
     rows = []
 
-    for g in df.itertuples():
+    sum_h = sum_a = 0.0
+    for i, g in enumerate(df.itertuples()):
+        # THE LEAGUE BASE RATE USES PRIOR GAMES ONLY. It was the season mean,
+        # computed over the whole frame including games not yet played, which
+        # is lookahead: every prediction started from a base that already knew
+        # how much the season would score. Measured cost on the 2024 holdout,
+        # t = 3.02 with it and t = 2.38 without, so the shipped grade was
+        # inflated by about a fifth by a line that looked like bookkeeping.
+        #
+        # ONE PSEUDO-GAME at OPENING_RATE, a round number fixed here rather
+        # than read off the data. It removes the first-game special case and,
+        # more importantly, the zero: a frame whose opening games are all
+        # shutouts gives an expanding mean of exactly zero and a log of minus
+        # infinity. That is not hypothetical -- it is what the no-pull scores
+        # do, and the distribution's own guard is what caught it.
+        base_h = np.log((sum_h + OPENING_RATE) / (i + 1))
+        base_a = np.log((sum_a + OPENING_RATE) / (i + 1))
+        sum_h += float(g.home_score)
+        sum_a += float(g.away_score)
+
         ah, dh = atk.get(g.home_team_abbr, 0.0), dfn.get(g.home_team_abbr, 0.0)
         aa, da = atk.get(g.away_team_abbr, 0.0), dfn.get(g.away_team_abbr, 0.0)
 
@@ -83,6 +104,9 @@ def walk_forward(df: pd.DataFrame, k: float = K,
         dfn[g.home_team_abbr] = dh + k * ea
 
     if state is not None:
+        # The last base rates computed -- the expanding means over the whole
+        # frame, which is what a downstream caller pricing the NEXT game
+        # should start from.
         state.update({"base_log_rate_home": base_h, "base_log_rate_away": base_a,
                       "attack": dict(atk), "defence": dict(dfn), "k": k})
     return pd.DataFrame(rows)
@@ -144,11 +168,15 @@ def main() -> int:
         "closeness_check": {
             "predicted_one_goal_rate": round(float(np.mean(pred_one)), 4),
             "actual_one_goal_rate": round(actual_one_goal, 4),
-            "note": ("the static fit under-predicted one-goal games by 10 "
-                     "points because independent Poisson cannot express the "
-                     "negative correlation (-0.14) between the two scores. "
-                     "Walking forward does not fix that -- it is a property "
-                     "of the joint distribution, not of the rates."),
+            "note": ("independent Poisson under-predicts one-goal games by "
+                     "about ten points. The cause is the OVERTIME RULE, not "
+                     "the rates and not a correlation: 22.6% of games are "
+                     "decided after regulation and every one of them ends at "
+                     "a margin of exactly one. An earlier version of this "
+                     "note blamed a negative score correlation, which is "
+                     "wrong by its own algebra -- see ADR 0007 and "
+                     "model/nhl_joint_structure.json. Walking forward cannot "
+                     "fix a rule; modelling the rule can, and does."),
         },
     }
     with open(OUT, "w") as fh:

@@ -1,0 +1,130 @@
+{
+  "_provenance": {
+    "script": "model/fit_nhl_rules.py",
+    "tune_seasons": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "holdout_seasons": [
+      2022,
+      2023
+    ],
+    "graded_once": true,
+    "hyperparameter_trials": 0,
+    "k_inherited_from": "model/fit_nhl_walkforward.py",
+    "k": 0.03,
+    "metric": "mean log-likelihood of the realised final scoreline",
+    "baseline": "Poisson rates fitted to FINAL scores -- what ships today",
+    "n_holdout": 2624,
+    "source": "api-web.nhle.com via model/ingest/"
+  },
+  "holdout_grade": {
+    "rules_model": -3.66635,
+    "baseline": -3.87741,
+    "paired_gain": 0.21107,
+    "standard_error": 0.00528,
+    "t": 39.99,
+    "supported": true
+  },
+  "decomposition": {
+    "overtime_rule_alone": {
+      "gain": 0.17324,
+      "standard_error": 0.00444,
+      "t": 39.03
+    },
+    "both_layers": {
+      "gain": 0.21107,
+      "standard_error": 0.00528,
+      "t": 39.99
+    },
+    "goalie_pull_layer_over_and_above": {
+      "gain": 0.03783,
+      "standard_error": 0.0056,
+      "t": 6.75
+    },
+    "share_of_gain_that_is_the_overtime_rule": 0.8208,
+    "note": "the overtime rule is most of it, and it is a rule anyone can look up rather than a modelling result -- the shipped model was assigning real probability to an outcome the league forbids. The goalie-pull layer is the smaller, genuinely modelled part, and it clears its own gate separately."
+  },
+  "margin_shape": {
+    "0": {
+      "model": 0.0,
+      "actual": 0.0
+    },
+    "1": {
+      "model": 0.3942,
+      "actual": 0.3998
+    },
+    "2": {
+      "model": 0.194,
+      "actual": 0.1867
+    },
+    "3": {
+      "model": 0.2359,
+      "actual": 0.2424
+    },
+    "4": {
+      "model": 0.1058,
+      "actual": 0.1094
+    },
+    "5": {
+      "model": 0.0413,
+      "actual": 0.0358
+    }
+  },
+  "overtime_home_win_prob": 0.5,
+  "pull_table": {
+    "0": {
+      "0,0": 0.947991,
+      "0,1": 0.017336,
+      "0,2": 0.006304,
+      "1,0": 0.012608,
+      "1,1": 0.00788,
+      "2,0": 0.005516,
+      "3,0": 0.001576,
+      "3,1": 0.000788
+    },
+    "1": {
+      "0,0": 0.494966,
+      "0,1": 0.142198,
+      "1,0": 0.299497,
+      "1,1": 0.012164,
+      "1,2": 0.000419,
+      "2,0": 0.04656,
+      "2,1": 0.004195
+    },
+    "2": {
+      "0,0": 0.359517,
+      "0,1": 0.120242,
+      "0,2": 0.013897,
+      "1,0": 0.441088,
+      "1,1": 0.05136,
+      "1,2": 0.001208,
+      "2,0": 0.007251,
+      "2,1": 0.00423,
+      "2,2": 0.000604,
+      "3,0": 0.000604
+    },
+    "3": {
+      "0,0": 0.741599,
+      "0,1": 0.028969,
+      "0,2": 0.006952,
+      "1,0": 0.165701,
+      "1,1": 0.048667,
+      "1,2": 0.003476,
+      "1,3": 0.001159,
+      "2,0": 0.002317,
+      "2,1": 0.001159
+    },
+    "4": {
+      "0,0": 0.952625,
+      "0,1": 0.020487,
+      "1,0": 0.025608,
+      "1,1": 0.00128
+    }
+  },
+  "max_lead": 4
+}

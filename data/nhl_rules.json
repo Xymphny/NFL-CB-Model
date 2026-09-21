@@ -1,0 +1,226 @@
+{
+  "_provenance": {
+    "script": "model/export_fitted.py",
+    "fit": "model/fit_nhl_rules.py",
+    "tune_seasons": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021
+    ],
+    "holdout_seasons": [
+      2022,
+      2023
+    ],
+    "graded_once": true,
+    "hyperparameter_trials": 0,
+    "k_inherited_from": "model/fit_nhl_walkforward.py",
+    "k": 0.03,
+    "metric": "mean log-likelihood of the realised final scoreline",
+    "baseline": "Poisson rates fitted to FINAL scores -- what ships today",
+    "n_holdout": 2624,
+    "source": "api-web.nhle.com via model/ingest/"
+  },
+  "current_ratings": {
+    "season": 2025,
+    "basis": "no-pull regulation scores -- sixty minutes with both goalies on the ice",
+    "method": "walk forward within season, k = 0.03, as graded in model/fit_nhl_walkforward.py",
+    "not_a_new_grade": "the METHOD was graded; these are that method applied to the latest season to produce ratings, which spends no holdout",
+    "base_log_rate_home": 1.02317,
+    "base_log_rate_away": 0.92509,
+    "attack": {
+      "BUF": 0.15134,
+      "NJD": -0.08526,
+      "SEA": 0.01875,
+      "STL": 0.12239,
+      "FLA": -0.10004,
+      "BOS": -0.04114,
+      "UTA": 0.06361,
+      "CHI": -0.00057,
+      "MTL": -0.02714,
+      "TOR": 0.07876,
+      "PIT": 0.01563,
+      "NYR": 0.14961,
+      "EDM": 0.00636,
+      "WPG": 0.04153,
+      "VAN": -0.04489,
+      "CGY": -0.01622,
+      "VGK": 0.07318,
+      "COL": 0.0775,
+      "LAK": 0.07356,
+      "OTT": -0.03098,
+      "DET": 0.02884,
+      "NYI": -0.06253,
+      "NSH": -0.10085,
+      "DAL": 0.12373,
+      "MIN": -0.21134,
+      "CBJ": 0.14318,
+      "SJS": -0.1667,
+      "CAR": 0.04746,
+      "TBL": 0.12629,
+      "PHI": -0.06022,
+      "WSH": 0.07596,
+      "ANA": -0.09043
+    },
+    "defence": {
+      "NJD": -0.01064,
+      "BUF": 0.16551,
+      "STL": -0.15774,
+      "SEA": 0.08143,
+      "BOS": 0.10795,
+      "FLA": -0.17871,
+      "CHI": 0.22647,
+      "UTA": 0.02251,
+      "TOR": -0.09296,
+      "MTL": 0.01011,
+      "NYR": 0.08758,
+      "PIT": 0.09239,
+      "WPG": -0.25295,
+      "EDM": 0.01994,
+      "CGY": -0.1,
+      "VAN": -0.02183,
+      "COL": -0.10939,
+      "VGK": -0.11065,
+      "LAK": -0.19583,
+      "OTT": -0.04762,
+      "DET": -0.00914,
+      "NYI": 0.06871,
+      "DAL": 0.01983,
+      "NSH": 0.15429,
+      "CBJ": 0.04521,
+      "MIN": 0.04509,
+      "SJS": 0.29853,
+      "TBL": -0.14459,
+      "CAR": 0.0396,
+      "PHI": 0.14666,
+      "WSH": 0.07029,
+      "ANA": 0.10931
+    }
+  },
+  "inputs": [
+    "data/raw/nhl/nhl_2016.parquet",
+    "data/raw/nhl/nhl_2017.parquet",
+    "data/raw/nhl/nhl_2018.parquet",
+    "data/raw/nhl/nhl_2019.parquet",
+    "data/raw/nhl/nhl_2020.parquet",
+    "data/raw/nhl/nhl_2021.parquet",
+    "data/raw/nhl/nhl_2022.parquet",
+    "data/raw/nhl/nhl_2023.parquet",
+    "data/raw/nhl/goals_2016.parquet",
+    "data/raw/nhl/goals_2017.parquet",
+    "data/raw/nhl/goals_2018.parquet",
+    "data/raw/nhl/goals_2019.parquet",
+    "data/raw/nhl/goals_2020.parquet",
+    "data/raw/nhl/goals_2021.parquet",
+    "data/raw/nhl/goals_2022.parquet",
+    "data/raw/nhl/goals_2023.parquet"
+  ],
+  "holdout_grade": {
+    "rules_model": -3.66635,
+    "baseline": -3.87741,
+    "paired_gain": 0.21107,
+    "standard_error": 0.00528,
+    "t": 39.99,
+    "supported": true
+  },
+  "decomposition": {
+    "overtime_rule_alone": {
+      "gain": 0.17324,
+      "standard_error": 0.00444,
+      "t": 39.03
+    },
+    "both_layers": {
+      "gain": 0.21107,
+      "standard_error": 0.00528,
+      "t": 39.99
+    },
+    "goalie_pull_layer_over_and_above": {
+      "gain": 0.03783,
+      "standard_error": 0.0056,
+      "t": 6.75
+    },
+    "share_of_gain_that_is_the_overtime_rule": 0.8208,
+    "note": "the overtime rule is most of it, and it is a rule anyone can look up rather than a modelling result -- the shipped model was assigning real probability to an outcome the league forbids. The goalie-pull layer is the smaller, genuinely modelled part, and it clears its own gate separately."
+  },
+  "margin_shape": {
+    "0": {
+      "model": 0.0,
+      "actual": 0.0
+    },
+    "1": {
+      "model": 0.3942,
+      "actual": 0.3998
+    },
+    "2": {
+      "model": 0.194,
+      "actual": 0.1867
+    },
+    "3": {
+      "model": 0.2359,
+      "actual": 0.2424
+    },
+    "4": {
+      "model": 0.1058,
+      "actual": 0.1094
+    },
+    "5": {
+      "model": 0.0413,
+      "actual": 0.0358
+    }
+  },
+  "overtime_home_win_prob": 0.5,
+  "max_lead": 4,
+  "pull_table": {
+    "0": {
+      "0,0": 0.947991,
+      "0,1": 0.017336,
+      "0,2": 0.006304,
+      "1,0": 0.012608,
+      "1,1": 0.00788,
+      "2,0": 0.005516,
+      "3,0": 0.001576,
+      "3,1": 0.000788
+    },
+    "1": {
+      "0,0": 0.494966,
+      "0,1": 0.142198,
+      "1,0": 0.299497,
+      "1,1": 0.012164,
+      "1,2": 0.000419,
+      "2,0": 0.04656,
+      "2,1": 0.004195
+    },
+    "2": {
+      "0,0": 0.359517,
+      "0,1": 0.120242,
+      "0,2": 0.013897,
+      "1,0": 0.441088,
+      "1,1": 0.05136,
+      "1,2": 0.001208,
+      "2,0": 0.007251,
+      "2,1": 0.00423,
+      "2,2": 0.000604,
+      "3,0": 0.000604
+    },
+    "3": {
+      "0,0": 0.741599,
+      "0,1": 0.028969,
+      "0,2": 0.006952,
+      "1,0": 0.165701,
+      "1,1": 0.048667,
+      "1,2": 0.003476,
+      "1,3": 0.001159,
+      "2,0": 0.002317,
+      "2,1": 0.001159
+    },
+    "4": {
+      "0,0": 0.952625,
+      "0,1": 0.020487,
+      "1,0": 0.025608,
+      "1,1": 0.00128
+    }
+  },
+  "what_this_does_not_model": "TIMING. The pull layer is a per-game table, not a hazard over the closing minutes, so it cannot tell a pull with ninety seconds left from one with three minutes left. It also conditions on the NO-PULL margin, which is not what a coach sees -- they see the score as played, which differs whenever an earlier empty-net goal has already landed. Both are stated because they are the first things to revisit, not because they are believed harmless."
+}

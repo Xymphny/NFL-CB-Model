@@ -5,9 +5,18 @@
     "graded": false,
     "note": "properties of the data, not a prediction -- nothing here spends a holdout season"
   },
+  "source_agreement": {
+    "seasons": [
+      2024,
+      2025
+    ],
+    "games_joined": 2624,
+    "score_mismatches": 0,
+    "note": "the corruption in sportsdataverse's 2021-2023 NHL files is specific to those files, not systemic: where both sources cover the same season they agree on every game."
+  },
   "overtime_rule": {
-    "games_with_period_type": 9576,
-    "ot_or_so_share": 0.2262,
+    "games_with_period_type": 12200,
+    "ot_or_so_share": 0.222,
     "ties_in_final_scores": 0,
     "ot_games_not_decided_by_exactly_one": 0,
     "deterministic": true
@@ -69,14 +78,14 @@
       "var_margin_if_independent": 6.359,
       "dispersion_ratio": 1.085
     },
-    "sportsdataverse:2024": {
+    "nhle-api:2024": {
       "n": 1312,
       "corr": -0.1421,
       "var_margin": 7.1041,
       "var_margin_if_independent": 6.2256,
       "dispersion_ratio": 1.1411
     },
-    "sportsdataverse:2025": {
+    "nhle-api:2025": {
       "n": 1312,
       "corr": -0.1138,
       "var_margin": 6.7664,
@@ -86,109 +95,76 @@
   },
   "pooled": {
     "nhle-api": {
-      "n": 9576,
-      "corr": -0.0879,
-      "var_margin": 6.2795,
-      "var_margin_if_independent": 5.9436,
-      "dispersion_ratio": 1.0565
-    },
-    "sportsdataverse": {
-      "n": 2624,
-      "corr": -0.1278,
-      "var_margin": 6.9372,
-      "var_margin_if_independent": 6.1532,
-      "dispersion_ratio": 1.1274
+      "n": 12200,
+      "corr": -0.0962,
+      "var_margin": 6.421,
+      "var_margin_if_independent": 5.9887,
+      "dispersion_ratio": 1.0722
     }
   },
   "margin_shape": {
     "nhle-api": {
       "0": {
         "empirical": 0.0,
-        "independent_poisson": 0.1666
+        "independent_poisson": 0.1659
       },
       "1": {
-        "empirical": 0.4261,
-        "independent_poisson": 0.304
+        "empirical": 0.4166,
+        "independent_poisson": 0.303
       },
       "2": {
-        "empirical": 0.2025,
-        "independent_poisson": 0.2318
+        "empirical": 0.2042,
+        "independent_poisson": 0.2316
       },
       "3": {
-        "empirical": 0.2273,
-        "independent_poisson": 0.1494
+        "empirical": 0.2298,
+        "independent_poisson": 0.1498
       },
       "4": {
-        "empirical": 0.0928,
-        "independent_poisson": 0.0825
+        "empirical": 0.0962,
+        "independent_poisson": 0.0831
       },
       "5": {
-        "empirical": 0.0328,
-        "independent_poisson": 0.0396
-      }
-    },
-    "sportsdataverse": {
-      "0": {
-        "empirical": 0.0,
-        "independent_poisson": 0.1635
-      },
-      "1": {
-        "empirical": 0.3819,
-        "independent_poisson": 0.2994
-      },
-      "2": {
-        "empirical": 0.2104,
-        "independent_poisson": 0.2307
-      },
-      "3": {
-        "empirical": 0.2386,
-        "independent_poisson": 0.151
-      },
-      "4": {
-        "empirical": 0.1086,
-        "independent_poisson": 0.085
-      },
-      "5": {
-        "empirical": 0.0385,
-        "independent_poisson": 0.0418
+        "empirical": 0.034,
+        "independent_poisson": 0.0401
       }
     }
   },
   "regulation_only": {
-    "n": 9576,
-    "corr": -0.0545,
-    "var_margin": 6.0548,
-    "var_margin_if_independent": 5.7174,
-    "dispersion_ratio": 1.059,
+    "n": 12200,
+    "corr": -0.0647,
+    "var_margin": 6.2023,
+    "var_margin_if_independent": 5.7666,
+    "dispersion_ratio": 1.0755,
     "margin_shape": {
       "0": {
-        "empirical": 0.2262,
-        "independent_poisson": 0.1701
+        "empirical": 0.222,
+        "independent_poisson": 0.1693
       },
       "1": {
-        "empirical": 0.1999,
-        "independent_poisson": 0.309
+        "empirical": 0.1945,
+        "independent_poisson": 0.3079
       },
       "2": {
-        "empirical": 0.2025,
-        "independent_poisson": 0.233
+        "empirical": 0.2042,
+        "independent_poisson": 0.2327
       },
       "3": {
-        "empirical": 0.2273,
-        "independent_poisson": 0.1475
+        "empirical": 0.2298,
+        "independent_poisson": 0.148
       },
       "4": {
-        "empirical": 0.0928,
-        "independent_poisson": 0.0797
+        "empirical": 0.0962,
+        "independent_poisson": 0.0803
       },
       "5": {
-        "empirical": 0.0328,
-        "independent_poisson": 0.0373
+        "empirical": 0.034,
+        "independent_poisson": 0.0378
       }
     }
   },
   "empty_net": {
-    "goals": 56834,
+    "goals": 72980,
     "by_season": {
       "2016": {
         "empty_net_per_game": 0.2992,
@@ -221,50 +197,58 @@
       "2023": {
         "empty_net_per_game": 0.3338,
         "mean_minute_in_third": 18.57
+      },
+      "2024": {
+        "empty_net_per_game": 0.3407,
+        "mean_minute_in_third": 18.4
+      },
+      "2025": {
+        "empty_net_per_game": 0.3994,
+        "mean_minute_in_third": 18.5
       }
     },
-    "empty_net_share_of_goals": 0.0515,
-    "empty_net_goals_per_game": 0.3059,
-    "flag_agrees_with_situation_code": 0.99977,
+    "empty_net_share_of_goals": 0.0534,
+    "empty_net_goals_per_game": 0.3197,
+    "flag_agrees_with_situation_code": 0.99982,
     "flag_code_disagreements": {
       "n": 13,
-      "of": 56834,
+      "of": 72980,
       "flag_says_empty_code_says_not": 12,
       "in_the_last_five_minutes_of_the_third": 12,
       "verdict": "the situation code is the field in error, not the flag: a goal filed as empty-net at 19:18 of the third with a code reading both goalies on the ice is a bad code, not a bad flag"
     },
     "lead_of_scoring_team_before_empty_net_goal": {
       "-2": 0.0003,
-      "0": 0.0003,
-      "1": 0.4592,
-      "2": 0.4616,
-      "3": 0.0765,
-      "4": 0.002
+      "0": 0.0008,
+      "1": 0.4533,
+      "2": 0.461,
+      "3": 0.0823,
+      "4": 0.0023
     },
     "margin_shape_with_empty_net_goals_removed": {
       "0": {
-        "empirical": 0.0075,
-        "independent_poisson": 0.1714
+        "empirical": 0.0078,
+        "independent_poisson": 0.1709
       },
       "1": {
-        "empirical": 0.5553,
-        "independent_poisson": 0.311
+        "empirical": 0.5501,
+        "independent_poisson": 0.3102
       },
       "2": {
-        "empirical": 0.1985,
-        "independent_poisson": 0.2334
+        "empirical": 0.202,
+        "independent_poisson": 0.2332
       },
       "3": {
-        "empirical": 0.1202,
-        "independent_poisson": 0.1468
+        "empirical": 0.1189,
+        "independent_poisson": 0.1471
       },
       "4": {
-        "empirical": 0.0694,
-        "independent_poisson": 0.0786
+        "empirical": 0.0702,
+        "independent_poisson": 0.079
       },
       "5": {
-        "empirical": 0.0306,
-        "independent_poisson": 0.0364
+        "empirical": 0.0319,
+        "independent_poisson": 0.0367
       }
     },
     "seasons": [
@@ -275,7 +259,9 @@
       2020,
       2021,
       2022,
-      2023
+      2023,
+      2024,
+      2025
     ]
   }
 }

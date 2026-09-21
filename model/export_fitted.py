@@ -198,9 +198,96 @@ def export_nba() -> dict:
     return out
 
 
+def export_nhl_rules() -> dict:
+    """The goalie-pull and overtime layers, graded once on 2022-2023.
+
+    The pull table is re-measured from the tune seasons rather than copied out
+    of the results file, so this reproduces it rather than transcribing it.
+    """
+    from model.fit_nhl_rules import (
+        HOLDOUT, MAX_LEAD, TUNE, load, measure_overtime, measure_pull_table,
+    )
+
+    res = json.loads((ROOT / "model" / "nhl_rules_results.json").read_text())
+    tune = load(TUNE)
+    table = measure_pull_table(tune, max_lead=MAX_LEAD)
+    ot_home = measure_overtime(tune)
+
+    # CURRENT NO-PULL RATINGS, so the layer is usable and not merely graded.
+    # These are NOT a new claim. The rating method -- walk forward within
+    # season at k = 0.03 -- was graded separately on its own holdout; this
+    # applies that graded method to the most recent season with goal-level
+    # data to get ratings a live slate can be priced from. Producing ratings
+    # is not grading, and no season is spent here.
+    #
+    # They are also a DIFFERENT OBJECT from the ratings in nhl_fitted.json,
+    # which are fitted to final scores and therefore already contain the
+    # empty-net goals the pull layer adds. Composing with those would count
+    # them twice, which is why NHLModel refuses to.
+    latest = max(
+        int(f.stem.split("_")[1]) for f in (ROOT / "data" / "raw" / "nhl").glob(
+            "goals_20*.parquet")
+    )
+    current = load((latest,))
+    st: dict = {}
+    nhlwf.walk_forward(
+        current.rename(columns={"home_score": "_fh", "away_score": "_fa",
+                                "nopull_h": "home_score",
+                                "nopull_a": "away_score"}),
+        state=st,
+    )
+
+    return {
+        "_provenance": {
+            "script": "model/export_fitted.py",
+            "fit": "model/fit_nhl_rules.py",
+            **{k: v for k, v in res["_provenance"].items() if k != "script"},
+        },
+        "current_ratings": {
+            "season": latest,
+            "basis": "no-pull regulation scores -- sixty minutes with both "
+                     "goalies on the ice",
+            "method": "walk forward within season, k = 0.03, as graded in "
+                      "model/fit_nhl_walkforward.py",
+            "not_a_new_grade": "the METHOD was graded; these are that method "
+                               "applied to the latest season to produce "
+                               "ratings, which spends no holdout",
+            "base_log_rate_home": round(float(st["base_log_rate_home"]), ND),
+            "base_log_rate_away": round(float(st["base_log_rate_away"]), ND),
+            "attack": _round(st["attack"]),
+            "defence": _round(st["defence"]),
+        },
+        "inputs": (
+            [f"data/raw/nhl/nhl_{y}.parquet" for y in TUNE + HOLDOUT]
+            + [f"data/raw/nhl/goals_{y}.parquet" for y in TUNE + HOLDOUT]
+        ),
+        "holdout_grade": res["holdout_grade"],
+        "decomposition": res["decomposition"],
+        "margin_shape": res["margin_shape"],
+        "overtime_home_win_prob": round(float(ot_home), 4),
+        "max_lead": MAX_LEAD,
+        "pull_table": {
+            str(lead): {f"{i},{j}": round(float(p), 6)
+                        for (i, j), p in sorted(row.items())}
+            for lead, row in sorted(table.items())
+        },
+        "what_this_does_not_model": (
+            "TIMING. The pull layer is a per-game table, not a hazard over "
+            "the closing minutes, so it cannot tell a pull with ninety "
+            "seconds left from one with three minutes left. It also "
+            "conditions on the NO-PULL margin, which is not what a coach "
+            "sees -- they see the score as played, which differs whenever an "
+            "earlier empty-net goal has already landed. Both are stated "
+            "because they are the first things to revisit, not because they "
+            "are believed harmless."
+        ),
+    }
+
+
 def main() -> int:
     for name, build in (("nhl_fitted.json", export_nhl),
-                        ("nba_fitted.json", export_nba)):
+                        ("nba_fitted.json", export_nba),
+                        ("nhl_rules.json", export_nhl_rules)):
         art = build()
         dest = DATA / name
         before = dest.read_text() if dest.exists() else None
