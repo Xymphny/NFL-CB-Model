@@ -109,11 +109,19 @@ it proven offline against fixtures:
 ### Running it
 
 ```bash
+bash scripts/install_hooks.sh                     # once per clone -- see below
 python3 scripts/check.sh                          # everything CI runs
 python3 scripts/shakeout_odds_api.py              # ~15 credits, free tier
 python3 scripts/backfill.py                       # dry; --run to spend
 python3 scripts/recommend_slate.py --league nfl --week 2 --bankroll 100000
 ```
+
+`install_hooks.sh` adds a pre-commit hook that runs the full suite and
+refuses a red commit, keyed on check.sh's EXIT CODE. It exists because a
+commit went out red on 2026-09-21: the command gating it piped check.sh into
+grep, and grep exits 0 when it finds lines -- including the line reporting the
+failure. `.git/hooks/` is not tracked, so this is once per clone. Bypass with
+`git commit --no-verify` when you have a reason.
 
 Local environment: `.venv` on Python 3.11.16, matching the CI pin and
 `.python-version`. An unpinned runtime meant CI, Render and this laptop were
