@@ -205,10 +205,24 @@ def export_nhl_rules() -> dict:
     of the results file, so this reproduces it rather than transcribing it.
     """
     from model.fit_nhl_rules import (
-        HOLDOUT, MAX_LEAD, TUNE, load, measure_overtime, measure_pull_table,
+        MAX_LEAD, REFRESH_HOLDOUT, REFRESH_TUNE, load, measure_overtime,
+        measure_pull_table,
     )
 
-    res = json.loads((ROOT / "model" / "nhl_rules_results.json").read_text())
+    # THE REFRESHED TABLE SHIPS, not the one that was graded first.
+    #
+    # The 2016-2021 table cleared its gate and carried a measured total bias
+    # of +0.105 goals (t = +2.35), because it is old pull behaviour applied to
+    # a league that pulls more. Re-measured on 2022-2023 and graded once on
+    # 2024-2025 -- seasons nothing had touched -- it clears again at t = 34.95
+    # with the pull component at +5.82, and the total bias is -0.006 at
+    # t = -0.13. Gone.
+    #
+    # Shipping the stale table because it was graded first would be
+    # preferring the order things happened to what they measured.
+    TUNE, HOLDOUT = REFRESH_TUNE, REFRESH_HOLDOUT
+    res = json.loads(
+        (ROOT / "model" / "nhl_rules_refresh_results.json").read_text())
     tune = load(TUNE)
     table = measure_pull_table(tune, max_lead=MAX_LEAD)
     ot_home = measure_overtime(tune)
@@ -264,6 +278,26 @@ def export_nhl_rules() -> dict:
         "holdout_grade": res["holdout_grade"],
         "decomposition": res["decomposition"],
         "margin_shape": res["margin_shape"],
+        "total_bias": res["total_bias"],
+        "superseded_grade": {
+            "tune_seasons": [2016, 2017, 2018, 2019, 2020, 2021],
+            "holdout_seasons": [2022, 2023],
+            "t": 39.99,
+            "total_bias_t": 2.35,
+            "why_replaced": ("the table cleared its gate and shipped a total "
+                             "biased low by 0.105 goals, because it was "
+                             "2016-2021 pull behaviour applied to a league "
+                             "that pulls more. Recorded rather than deleted: "
+                             "it is the evidence that the drift is real and "
+                             "that re-measuring is what fixes it."),
+        },
+        "holdout_accounting": (
+            "NHL has nothing clean left again. 2016-2021 tuned the first "
+            "table, 2022-2023 graded it and then tuned this one, 2024-2025 "
+            "graded this one. The next unspent season is 2026, and it is the "
+            "next holdout. That is a real cost of refreshing and it is "
+            "written down rather than discovered later."
+        ),
         "overtime_home_win_prob": round(float(ot_home), 4),
         "max_lead": MAX_LEAD,
         "pull_table": {

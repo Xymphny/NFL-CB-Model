@@ -74,6 +74,26 @@ OUT = ROOT / "model" / "nhl_rules_results.json"
 TUNE = (2016, 2017, 2018, 2019, 2020, 2021)
 HOLDOUT = (2022, 2023)
 
+#: THE REFRESH, declared before it was run.
+#:
+#: The first grade found the layer well calibrated on the MARGIN -- a flat PIT
+#: histogram, maximum deviation 0.0103 against a Kolmogorov scale of 0.0265 --
+#: and biased on the TOTAL: it predicts 6.219 goals against an actual 6.324,
+#: a shortfall of 0.105 at t = +2.35.
+#:
+#: The cause is not a mystery and was written down as a revisit trigger before
+#: it bit: the table is 2016-2021 pull behaviour applied to a league that
+#: pulls more. The layer adds 0.617 goals a game; 2022-2023 actually delivered
+#: 0.727. The 0.110 gap IS the total bias, to three decimals.
+#:
+#: So the question is whether re-measuring on recent seasons removes it. Tune
+#: on 2022-2023 -- now spent as a holdout, therefore usable for tuning -- and
+#: grade ONCE on 2024-2025, which nothing has ever touched. Zero trials again.
+#: Declared here, in the file, before running, because "re-measure and see" is
+#: how a seasonal refresh turns into a search.
+REFRESH_TUNE = (2022, 2023)
+REFRESH_HOLDOUT = (2024, 2025)
+
 #: Inherited from the shipped fit, not searched here.
 K = 0.03
 
@@ -165,9 +185,21 @@ def rate(df: pd.DataFrame, home_col: str, away_col: str) -> pd.DataFrame:
     return pd.concat(out, ignore_index=True)
 
 
-def main() -> int:
-    tune, hold = load(TUNE), load(HOLDOUT)
-    print(f"tune {len(tune)} games {TUNE}   holdout {len(hold)} games {HOLDOUT}")
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    ap = argparse.ArgumentParser(description="grade the NHL rules layer")
+    ap.add_argument("--refresh", action="store_true",
+                    help="re-measure on 2022-2023 and grade once on 2024-2025")
+    a = ap.parse_args(argv)
+
+    tune_seasons = REFRESH_TUNE if a.refresh else TUNE
+    hold_seasons = REFRESH_HOLDOUT if a.refresh else HOLDOUT
+    out_path = (ROOT / "model" / "nhl_rules_refresh_results.json") if a.refresh else OUT
+
+    tune, hold = load(tune_seasons), load(hold_seasons)
+    print(f"tune {len(tune)} games {tune_seasons}   "
+          f"holdout {len(hold)} games {hold_seasons}")
 
     table = measure_pull_table(tune)
     ot_home = measure_overtime(tune)
@@ -248,6 +280,26 @@ def main() -> int:
                  "modelled part, and it clears its own gate separately."),
     }
 
+    # TOTAL BIAS, tracked because it is what the first grade got wrong. The
+    # margin came out well calibrated and the total came out 0.105 goals low,
+    # which is small until you remember NHL totals are priced in half-goal
+    # steps around six.
+    pred_total = np.array([
+        NHLFinalScoreDistribution(r.lam_h, r.lam_a, pull, overtime).total_mean()
+        for r in rules.itertuples()
+    ])
+    act_total = (finals.home_score + finals.away_score).to_numpy(float)
+    tb = act_total - pred_total
+    tb_se = float(tb.std(ddof=1) / np.sqrt(len(tb)))
+    total_bias = {
+        "predicted_mean": round(float(pred_total.mean()), 4),
+        "actual_mean": round(float(act_total.mean()), 4),
+        "bias": round(float(tb.mean()), 4),
+        "standard_error": round(tb_se, 4),
+        "t": round(float(tb.mean() / tb_se), 2),
+        "unbiased": bool(abs(tb.mean() / tb_se) < 2),
+    }
+
     # Shape check: does the composed model reproduce the non-monotonicity?
     shape_model = np.zeros(6)
     for r in rules.itertuples():
@@ -262,8 +314,9 @@ def main() -> int:
     art = {
         "_provenance": {
             "script": "model/fit_nhl_rules.py",
-            "tune_seasons": list(TUNE),
-            "holdout_seasons": list(HOLDOUT),
+            "tune_seasons": list(tune_seasons),
+            "holdout_seasons": list(hold_seasons),
+            "refresh": bool(a.refresh),
             "graded_once": True,
             "hyperparameter_trials": 0,
             "k_inherited_from": "model/fit_nhl_walkforward.py",
@@ -293,7 +346,8 @@ def main() -> int:
                        for L, row in sorted(table.items())},
         "max_lead": MAX_LEAD,
     }
-    OUT.write_text(json.dumps(art, indent=2) + "\n")
+    art["total_bias"] = total_bias
+    out_path.write_text(json.dumps(art, indent=2) + "\n")
     print(json.dumps(art["holdout_grade"], indent=1))
     print("decomposition:")
     for k in ("overtime_rule_alone", "goalie_pull_layer_over_and_above"):
@@ -303,7 +357,9 @@ def main() -> int:
     print("margin shape (model vs actual):")
     for j in range(6):
         print(f"  |m|={j}  {shape_model[j]:.4f}  {shape_actual[j]:.4f}")
-    print("wrote", OUT.relative_to(ROOT))
+    print("total bias: %+.4f goals  se %.4f  t %+.2f"
+          % (total_bias["bias"], total_bias["standard_error"], total_bias["t"]))
+    print("wrote", out_path.relative_to(ROOT))
     return 0
 
 

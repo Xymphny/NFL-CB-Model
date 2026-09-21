@@ -65,6 +65,12 @@ class OvertimeLayer:
     edge most bets are placed on.
     """
 
+    #: Pooled over 2016-2023. The SHIPPED value comes from
+    #: data/nhl_rules.json, measured on that artifact's own tune seasons, and
+    #: moves with them -- 0.5000 on 2016-2021, 0.5237 on 2022-2023, which is
+    #: about one standard error apart on roughly 590 overtime games and is
+    #: noise rather than a trend. This default exists so the class can be
+    #: constructed in a test without an artifact, not so anyone prices from it.
     home_win_prob: float = 0.5065
 
     def __post_init__(self) -> None:

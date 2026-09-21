@@ -47,7 +47,7 @@ wrong for pricing.
 | NFL | implemented, not live | <1e-9 on 1,945 cached games; live board margin reproduced to 1e-6 | full-ensemble parity needs one cron run carrying `feature_values` |
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
 | MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | distribution family chosen by measurement |
-| NHL | implemented, not live | n/a | rates t=+2.44 (was +3.02 before a lookahead fix); rules layer t=+39.99, of which the overtime rule is 82% and the goalie-pull layer +6.75 ([ADR 0008](docs/decisions/0008-ship-the-nhl-rules-layer-and-the-puck-line.md)) |
+| NHL | implemented, not live | n/a | rates t=+2.44 (was +3.02 before a lookahead fix); rules layer refreshed and re-graded t=+34.95, goalie-pull component +5.82, total bias now −0.006 ([ADR 0010](docs/decisions/0010-refresh-the-nhl-pull-table-and-check-shape.md)) |
 | NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; static failed at −6.96 |
 
 `BUILT_LEAGUES` (can price a real board), `IMPLEMENTED_LEAGUES` (passes the
@@ -162,11 +162,11 @@ its own docstring -- and were fixed.
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.
-- The NHL pull layer is a per-game table and the league is moving under it:
-  empty-net goals have gone from 0.241 a game in 2017 to 0.399 in 2025. It
-  should be re-measured per season, and a timing model -- a hazard over the
-  closing minutes rather than a per-game table -- is the real version. The
-  data supports it; this holdout cannot grade it.
+- The NHL pull table now has a refresh cadence and each refresh costs a
+  holdout. 2016-2021 tuned the first table, 2022-2023 graded it then tuned the
+  second, 2024-2025 graded that one. The next unspent season is 2026. A timing
+  model -- a hazard over the closing minutes rather than a per-game table --
+  is the real version and has to wait for a season to grade it on.
 - No NHL or NBA price has ever been compared to a book. Everything graded so
   far is log-likelihood against a league-average baseline, which is a real
   test of the rates and no test at all of the edge.

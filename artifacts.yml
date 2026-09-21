@@ -179,3 +179,22 @@ artifacts:
       walk-forward cache changes"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: model/calibration_pit.json
+    produced_by: model/calibration_pit.py
+    consumed_by:
+      - tests/core/test_calibration_pit.py
+    kind: gold
+    refresh: "with the layer it grades -- a refreshed pull table invalidates it"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: model/nhl_rules_refresh_results.json
+    produced_by: model/fit_nhl_rules.py
+    consumed_by:
+      - model/export_fitted.py
+    kind: gold
+    refresh: "only on a re-grade, which needs an unspent season -- the next
+      one is 2026"
+    staleness_error_hours: null
+    unconsumed_reason: null
