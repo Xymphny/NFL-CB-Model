@@ -163,6 +163,35 @@ components:
       Totals absent from primary_markets on purpose (totals_validation.json
       supported=false).
 
+  - id: ngs-team-code-mismatch
+    old_path: "model/prediction.py build_week_predictions + model/layer2_ngs.py"
+    new_path: "(not fixed -- recorded and guarded)"
+    disposition: deferred
+    adr: 0004-ngs-team-code-mismatch.md
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_applicable
+    parity_tolerance: null
+    old_removed: false
+    notes: >-
+      A LIVE BUG FOUND 2026-09-21 while porting the NGS fetch. The ratings
+      snapshot and the nflverse schedule call the Rams "LA"; the nflverse NGS
+      release calls them "LAR". build_week_predictions decides
+      ngs_present = home in ngs_features.index and away in ngs_features.index,
+      so EVERY Rams game falls back to MARGIN_COEFFICIENTS_V1_RATING_ONLY --
+      and that vector carries no elo_diff term, so those games lose Elo too.
+      Measured scope: 17 games a season in every one of 2022-2026, 85 games
+      across the committed range. It presents as "NGS unavailable for this
+      game", which is indistinguishable from the feed being down.
+      NOT FIXED IN THIS COMMIT, deliberately. The backtest that produced the
+      validated NGS improvement (58.22% -> 64.04% straight-up) ran against the
+      same mismatch, so the full ensemble's validated support excludes Rams
+      games. Switching them onto it is a model change and goes through the
+      gate with a held-out measurement, not a one-line mapping fix applied on
+      the strength of looking obviously right.
+      Guarded by tests/core/test_team_codes.py, which compares source
+      vocabularies directly so the next join mismatch fails loudly.
+
   - id: league-nfl-feature-source
     old_path: "model/ratings.py, model/elo_rating.py, model/layer2_ngs.py"
     new_path: "src/coverline/leagues/nfl/sources.py (cache adapter, not a rewrite)"
