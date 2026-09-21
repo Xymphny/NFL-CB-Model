@@ -181,6 +181,10 @@ def test_the_push_probability_is_not_the_normal_approximation():
     price this push at roughly a third of its true value."""
     from coverline.core.distributions import NormalMarginDistribution
     d = _model(rating_diff=3.0).predict("g", "2026-09-21T00:00:00Z")
+    # d.total_mean() is refused now -- the totals market failed its gate and
+    # the object stopped answering. The comparison here is about the MARGIN,
+    # so the total passed to the plain distribution is irrelevant and is
+    # named as irrelevant rather than borrowed from a refusal.
     plain = NormalMarginDistribution(d.margin_mean(), nfl.MARGIN_SD,
-                                     d.total_mean(), nfl.TOTAL_SD_UNVALIDATED)
+                                     44.0, nfl.TOTAL_SD_UNVALIDATED)
     assert d.margin_pmf(3) > 2.5 * plain.margin_pmf(3)

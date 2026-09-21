@@ -246,5 +246,46 @@
       2024,
       2025
     ]
+  },
+  "totals": {
+    "cfb": {
+      "n": 3863,
+      "seasons": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "shipped_mu": 52.0,
+      "actual_mean": 51.9304,
+      "mean_bias": -0.0696,
+      "mean_bias_t": -0.23,
+      "shipped_sd": 14.0,
+      "actual_sd": 18.7933,
+      "dispersion_ratio": 1.3424,
+      "coverage": {
+        "50": 0.4069,
+        "80": 0.6769,
+        "95": 0.8703
+      },
+      "exact_because": "mu_total is a constant, so residual and unconditional dispersion are the same number",
+      "verdict": "the number labelled PLACEHOLDER is accurate; the one labelled UNVALIDATED understates dispersion by a third"
+    },
+    "nfl": {
+      "shipped_sd": 10.0,
+      "model_rmse": 13.353,
+      "actual_total_sd": 13.678,
+      "dispersion_ratio": 1.3353,
+      "source": "data/totals_validation.json -- the artifact that withheld this market records the number that contradicts its sd",
+      "verdict": "understates residual dispersion by a third"
+    },
+    "nba": {
+      "n": 6000,
+      "shipped_sd": 18.0,
+      "unconditional_sd": 20.1118,
+      "residual_sd": null,
+      "not_measurable_here": "sd_total should be the residual around the model's predicted total, and the feature source that produces those totals is not in this repository. The unconditional sd bounds a residual only if the model has skill, which is the thing in question. Unmeasured, not passing."
+    }
   }
 }

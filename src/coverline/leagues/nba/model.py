@@ -157,5 +157,11 @@ class NBAModel:
         total = self._total(f) if self._total else 225.0
         return NormalMarginDistribution(
             mu_margin=mu, sd_margin=sd, mu_total=total, sd_total=18.0,
+            # Withheld in the market list and in the object. The 18.0 has
+            # never been graded against anything; NBA totals have an
+            # unconditional sd of 20.11 over 6,000 games, which bounds
+            # nothing about a residual and is exactly why this is refused
+            # rather than corrected.
+            total_validated=False,
             discrete=False,
         )

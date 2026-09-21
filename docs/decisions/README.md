@@ -24,6 +24,7 @@ even if this directory is lost.
 | [0008](0008-ship-the-nhl-rules-layer-and-the-puck-line.md) | accepted | Ship the NHL rules layer, and release the puck line |
 | [0009](0009-grade-every-league-on-calibration.md) | accepted | Grade every league on calibration, not only on beating a book |
 | [0010](0010-refresh-the-nhl-pull-table-and-check-shape.md) | accepted | Refresh the NHL pull table, and check shape rather than only likelihood |
+| [0011](0011-a-withheld-market-must-be-refused-by-the-object.md) | accepted | A withheld market must be refused by the object, not only by the list |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or

@@ -100,6 +100,20 @@ KEY_NUMBER_WEIGHTS: Mapping[int, float] | None = None
 #: No validated total model. The NFL totals model already graded
 #: supported=false on 1,039 games; CFB's has never been graded at all, which
 #: is a weaker position, not a stronger one.
+#:
+#: MEASURED, AND THE LABELS ARE THE WRONG WAY ROUND. Over 3,863 games in
+#: model/cfb_schedule_cache.csv the actual total averages 51.93, so the number
+#: labelled PLACEHOLDER is accurate to seven hundredths of a point (t = -0.23).
+#: The number labelled merely UNVALIDATED is the dangerous one: the actual sd
+#: is 18.79 against this 14.0, and because mu_total here is a CONSTANT the
+#: residual and unconditional dispersions are the same quantity, so that
+#: comparison is exact rather than indicative. The nominal 95% interval covers
+#: 87.0%, the 80% covers 67.7%, and the 50% covers 40.7%.
+#:
+#: NOT CORRECTED, because a correct sd on an ungraded mean is still an
+#: ungraded total, and fixing the visible half would make the market look
+#: ready. The distribution REFUSES total questions instead -- see
+#: UnvalidatedTotal in core.
 TOTAL_MEAN_PLACEHOLDER = 52.0
 TOTAL_SD_UNVALIDATED = 14.0
 
@@ -171,6 +185,11 @@ class CFBModel:
             sd_margin=MARGIN_SD,
             mu_total=TOTAL_MEAN_PLACEHOLDER,
             sd_total=TOTAL_SD_UNVALIDATED,
+            # The market is withheld and now the OBJECT refuses too. Asking
+            # this distribution for a total raises UnvalidatedTotal rather
+            # than returning 52.0 with a 14.0 spread, which is overconfident
+            # by a third -- see the note on TOTAL_SD_UNVALIDATED.
+            total_validated=False,
             discrete=True,
             key_number_weights=KEY_NUMBER_WEIGHTS,
         )

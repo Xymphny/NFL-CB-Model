@@ -176,6 +176,13 @@ its own docstring -- and were fixed.
   season's dispersion is a separate model that would need its own grade
   ([ADR 0009](docs/decisions/0009-grade-every-league-on-calibration.md)).
   CFB's constant, checked the same way out of sample, holds up.
+- **Totals are refused by the object now, not only absent from the market
+  list.** NFL, CFB and NBA all withheld totals and all three kept answering
+  `total_mean()` with a placeholder. Two of those placeholders understate
+  dispersion by a third — CFB 14.0 against a measured 18.79, NFL 10.0 against
+  the 13.353 RMSE in its own withholding artifact — and neither was corrected,
+  because a right sd on an ungraded mean is still an ungraded total
+  ([ADR 0011](docs/decisions/0011-a-withheld-market-must-be-refused-by-the-object.md)).
 - The shrinkage weight rests on seven observations with one dominating.
 - `frozen-threshold-grid` remains a permanently open ledger row: eight shipped
   constants citing a grid search whose output exists in no committed file.

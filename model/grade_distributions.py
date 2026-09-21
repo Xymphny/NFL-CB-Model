@@ -293,6 +293,79 @@ def grade_mlb() -> dict:
     }
 
 
+def grade_totals() -> dict:
+    """The three sd_total constants nobody had checked, and two are wrong.
+
+    All three leagues withhold totals from primary_markets and all three were
+    still answering total_mean() with a placeholder until the distribution was
+    taught to refuse. This measures how much that would have cost.
+
+    CFB is the exact case: its mu_total is a CONSTANT, so the residual and the
+    unconditional dispersion are the same quantity and the comparison needs no
+    model. NFL's comes from its own withholding artifact. NBA's cannot be done
+    here at all, because the residual needs the model's predicted totals and
+    the feature source that produces them is not in this repository -- the
+    unconditional sd bounds nothing, and saying so is the honest output.
+    """
+    out = {}
+
+    cfb = pd.read_csv(HERE / "cfb_schedule_cache.csv").dropna(
+        subset=["home_score", "away_score"])
+    tot = (cfb.home_score + cfb.away_score).to_numpy(float)
+    from coverline.leagues.cfb.model import (
+        TOTAL_MEAN_PLACEHOLDER, TOTAL_SD_UNVALIDATED,
+    )
+    resid = tot - TOTAL_MEAN_PLACEHOLDER
+    out["cfb"] = {
+        "n": int(len(tot)),
+        "seasons": sorted(int(s) for s in cfb.season.unique()),
+        "shipped_mu": TOTAL_MEAN_PLACEHOLDER,
+        "actual_mean": round(float(tot.mean()), 4),
+        "mean_bias": round(float(resid.mean()), 4),
+        "mean_bias_t": round(
+            float(resid.mean() / (tot.std(ddof=1) / np.sqrt(len(tot)))), 2),
+        "shipped_sd": TOTAL_SD_UNVALIDATED,
+        "actual_sd": round(float(tot.std(ddof=1)), 4),
+        "dispersion_ratio": round(float(tot.std(ddof=1)) / TOTAL_SD_UNVALIDATED, 4),
+        "coverage": _coverage(resid, TOTAL_SD_UNVALIDATED),
+        "exact_because": ("mu_total is a constant, so residual and "
+                          "unconditional dispersion are the same number"),
+        "verdict": ("the number labelled PLACEHOLDER is accurate; the one "
+                    "labelled UNVALIDATED understates dispersion by a third"),
+    }
+
+    val = json.loads((ROOT / "data" / "totals_validation.json").read_text())
+    from coverline.leagues.nfl.model import TOTAL_SD_UNVALIDATED as NFL_SD
+    rmse = float(val["accuracy"]["model"]["rmse"])
+    out["nfl"] = {
+        "shipped_sd": NFL_SD,
+        "model_rmse": rmse,
+        "actual_total_sd": float(val["accuracy"]["actual_sd"]),
+        "dispersion_ratio": round(rmse / NFL_SD, 4),
+        "source": "data/totals_validation.json -- the artifact that withheld "
+                  "this market records the number that contradicts its sd",
+        "verdict": "understates residual dispersion by a third",
+    }
+
+    from model.fit_nba import load as load_nba
+    nba = load_nba((2021, 2022, 2023, 2024, 2025))
+    ntot = (nba.home_score + nba.away_score).to_numpy(float)
+    out["nba"] = {
+        "n": int(len(ntot)),
+        "shipped_sd": 18.0,
+        "unconditional_sd": round(float(ntot.std(ddof=1)), 4),
+        "residual_sd": None,
+        "not_measurable_here": (
+            "sd_total should be the residual around the model's predicted "
+            "total, and the feature source that produces those totals is not "
+            "in this repository. The unconditional sd bounds a residual only "
+            "if the model has skill, which is the thing in question. "
+            "Unmeasured, not passing."
+        ),
+    }
+    return out
+
+
 def main() -> int:
     grades = {
         "_provenance": {
@@ -306,6 +379,7 @@ def main() -> int:
         "nfl": grade_nfl(),
         "cfb": grade_cfb(),
         "mlb": grade_mlb(),
+        "totals": grade_totals(),
     }
     for lg in ("nfl", "cfb"):
         grades[lg]["homogeneity"] = _homogeneity(grades[lg]["by_season"])
@@ -329,6 +403,13 @@ def main() -> int:
     g = grades["mlb"]
     print(f"MLB  n={g['n']:5d}  residual sd {g['realised_residual_sd']:.4f}  "
           f"mean resid {g['mean_residual']:+.3f}  t={g['t']:+.2f}")
+    t = grades["totals"]
+    print(f"TOTALS  cfb sd {t['cfb']['shipped_sd']} vs {t['cfb']['actual_sd']} "
+          f"(ratio {t['cfb']['dispersion_ratio']}, 95% covers "
+          f"{t['cfb']['coverage']['95']})")
+    print(f"        nfl sd {t['nfl']['shipped_sd']} vs rmse {t['nfl']['model_rmse']} "
+          f"(ratio {t['nfl']['dispersion_ratio']})")
+    print(f"        nba sd {t['nba']['shipped_sd']} -- not measurable here")
     print("wrote", OUT.relative_to(ROOT))
     return 0
 

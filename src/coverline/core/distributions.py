@@ -45,6 +45,28 @@ def _is_integer(x: float) -> bool:
     return float(x).is_integer()
 
 
+class UnvalidatedTotal(NotImplementedError):
+    """Raised when a distribution is asked for a total it does not model.
+
+    THE HAZARD THIS CLOSES
+    NFL, CFB and NBA all withhold totals from primary_markets, and all three
+    were still handing out a total when asked. A caller iterating markets was
+    safe; a caller asking the DISTRIBUTION -- which is the whole point of the
+    seam, since everything downstream imports core and talks to a
+    ScoreDistribution -- got a confident number built on a guess.
+
+    Two of the three guesses are measurably wrong by about a third. CFB ships
+    sd_total = 14.0 against a measured 18.79 over 3,863 games, where its
+    mu_total is a constant so residual and unconditional dispersion are the
+    same number; its nominal 95% interval covers 87.0%. NFL ships 10.0 against
+    the 13.353 its own totals_validation.json records as model RMSE. NBA's
+    18.0 is simply unmeasured here, which is not better.
+
+    Withholding a market in a list and answering it in the object is the kind
+    of half-connection this seam exists to prevent, so the object refuses.
+    """
+
+
 @dataclass(frozen=True)
 class NormalMarginDistribution:
     """Near-normal margin and total. Used by NFL, CFB and NBA.
@@ -66,6 +88,11 @@ class NormalMarginDistribution:
     sd_total: float
     discrete: bool = True
     rho: float = 0.0
+    #: False when the total is a placeholder or an ungraded guess. Every
+    #: method that depends on it then raises rather than answering. Default
+    #: True so that a caller who HAS validated a total gets the old behaviour
+    #: without saying anything; the three leagues that have not say so.
+    total_validated: bool = True
     key_number_weights: Mapping[int, float] | None = field(default=None)
     _support: int = 60
     _norm_cache: Any = field(default=None, repr=False, compare=False)
@@ -136,18 +163,44 @@ class NormalMarginDistribution:
         return base * self._weight(int(x)) / self._normaliser()
 
     def total_mean(self) -> float:
+        self._require_total("total_mean()")
         return self.mu_total
 
     def total_sd(self) -> float:
+        self._require_total("total_sd()")
         return self.sd_total
 
     def total_cdf(self, x: float) -> float:
+        self._require_total("total_cdf()")
         return self._cdf(x, self.mu_total, self.sd_total)
 
     def total_pmf(self, x: float) -> float:
+        self._require_total("total_pmf()")
         return self._pmf(x, self.mu_total, self.sd_total, None)
 
+    def _require_total(self, what: str) -> None:
+        if not self.total_validated:
+            raise UnvalidatedTotal(
+                f"{what} was asked of a distribution whose total is not "
+                "validated. mu_total and sd_total here are a placeholder, the "
+                "market is withheld from primary_markets, and answering would "
+                "hand back a confident number built on a guess. Use "
+                "sample_margin() if you need draws, or construct with "
+                "total_validated=True once a total model has been graded."
+            )
+
+    def sample_margin(self, n: int, rng: np.random.Generator) -> np.ndarray:
+        """Margins only, valid whether or not the total is modelled.
+
+        Exists so that refusing the total does not also refuse correlated
+        slate staking on spreads, which is the one thing sample() is needed
+        for and which never touches the total dimension.
+        """
+        draws = rng.normal(self.mu_margin, self.sd_margin, size=n)
+        return np.rint(draws) if self.discrete else draws
+
     def sample(self, n: int, rng: np.random.Generator) -> np.ndarray:
+        self._require_total("sample()")
         cov = [
             [self.sd_margin**2, self.rho * self.sd_margin * self.sd_total],
             [self.rho * self.sd_margin * self.sd_total, self.sd_total**2],

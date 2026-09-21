@@ -29,6 +29,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from coverline.core import registry  # noqa: E402
+from coverline.core.distributions import UnvalidatedTotal  # noqa: F401
 from coverline.core.distributions import (  # noqa: E402
     BivariatePoissonDistribution,
     NormalMarginDistribution,
@@ -168,7 +169,23 @@ def assert_distribution_conforms(dist, label: str) -> None:
     # moments are finite and sane
     assert np.isfinite(dist.margin_mean()), f"{label}: non-finite margin mean"
     assert dist.margin_sd() > 0, f"{label}: non-positive margin sd"
-    assert np.isfinite(dist.total_mean()), f"{label}: non-finite total mean"
+    # THE TOTAL IS EITHER MODELLED OR REFUSED, never guessed.
+    #
+    # Three leagues withheld totals from primary_markets and went on answering
+    # total_mean() with a placeholder. A caller iterating markets was safe; a
+    # caller asking the distribution -- which is what the seam is FOR -- got a
+    # confident number off a guess. So the battery now accepts a documented
+    # refusal and rejects a silent answer.
+    try:
+        assert np.isfinite(dist.total_mean()), f"{label}: non-finite total mean"
+        models_total = True
+    except UnvalidatedTotal:
+        models_total = False
+        for method, arg in (("total_sd", None), ("total_cdf", 50.0),
+                            ("total_pmf", 50.0)):
+            with pytest.raises(UnvalidatedTotal):
+                fn = getattr(dist, method)
+                fn() if arg is None else fn(arg)
 
     # cdf is a cdf
     lo = dist.margin_mean() - 6 * dist.margin_sd()
@@ -193,9 +210,21 @@ def assert_distribution_conforms(dist, label: str) -> None:
         assert dist.margin_pmf(0) == 0.0, f"{label}: continuous but claims an atom"
 
     # it can simulate itself, and the simulation agrees with the analytic mean
-    draws = dist.sample(20_000, rng)
-    assert draws.shape == (20_000, 2), f"{label}: sample returned the wrong shape"
-    sim_margin = (draws[:, 0] - draws[:, 1]).mean()
+    if models_total:
+        draws = dist.sample(20_000, rng)
+        assert draws.shape == (20_000, 2), (
+            f"{label}: sample returned the wrong shape")
+        sampled = draws[:, 0] - draws[:, 1]
+    else:
+        # A scoreline sample encodes a total, so it is refused with the rest.
+        # sample_margin is the escape hatch, and correlated slate staking on
+        # spreads is the reason it has to exist.
+        with pytest.raises(UnvalidatedTotal):
+            dist.sample(10, rng)
+        sampled = dist.sample_margin(20_000, rng)
+        assert sampled.shape == (20_000,), (
+            f"{label}: sample_margin returned the wrong shape")
+    sim_margin = sampled.mean()
     tol = 5 * dist.margin_sd() / np.sqrt(20_000)
     assert abs(sim_margin - dist.margin_mean()) < max(tol, 0.05), (
         f"{label}: simulated mean {sim_margin:.3f} disagrees with analytic "

@@ -147,3 +147,45 @@ def test_tail_coverage_is_reported_for_every_league(grades) -> None:
         cov = grades[lg]["coverage"]
         assert 0.90 < cov["95"] < 0.98, f"{lg}: 95% interval covers {cov['95']}"
         assert 0.72 < cov["80"] < 0.88, f"{lg}: 80% interval covers {cov['80']}"
+
+
+def test_the_two_measurable_total_sds_are_wrong_by_about_a_third(grades) -> None:
+    """The numbers behind the refusal, pinned so the refusal stays justified.
+
+    CFB's comparison is exact rather than indicative: its mu_total is a
+    constant, so the residual and unconditional dispersions are the same
+    quantity. NFL's comes from data/totals_validation.json -- the artifact
+    that withheld the market was already carrying the number that contradicts
+    its sd.
+    """
+    t = grades["totals"]
+    assert t["cfb"]["dispersion_ratio"] > 1.25, (
+        "CFB's total sd no longer understates dispersion; if a total model "
+        "has been graded, wire total_validated=True and add the market"
+    )
+    assert t["cfb"]["coverage"]["95"] < 0.92
+    assert t["nfl"]["dispersion_ratio"] > 1.25
+
+
+def test_the_cfb_total_mean_placeholder_is_the_accurate_one(grades) -> None:
+    """The labels are the wrong way round, and that is the point.
+
+    52.0 was a guess and is right to seven hundredths of a point. 14.0 was
+    merely 'unvalidated' and is the dangerous number. A label is not evidence
+    in either direction.
+    """
+    c = grades["totals"]["cfb"]
+    assert abs(c["mean_bias"]) < 0.5
+    assert abs(c["mean_bias_t"]) < 2
+
+
+def test_nba_total_dispersion_is_recorded_as_unmeasured(grades) -> None:
+    """Unmeasured is reported as unmeasured, not as a pass.
+
+    The unconditional sd bounds a residual only if the model has skill, which
+    is exactly what is in question, so no ratio is computed and none is
+    implied.
+    """
+    n = grades["totals"]["nba"]
+    assert n["residual_sd"] is None
+    assert n["not_measurable_here"]

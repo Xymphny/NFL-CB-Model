@@ -108,6 +108,17 @@ MARGIN_SD = 13.2979
 #: Placeholder, and marked as such. No held-out measurement of total
 #: dispersion has been made, so this is the one number here without evidence
 #: behind it. NFLTotalsWithheld below is why that is survivable.
+#:
+#: AND IT IS NOT ONLY UNVALIDATED, IT IS WRONG. data/totals_validation.json
+#: -- the artifact that withheld this market in the first place -- records the
+#: totals model's RMSE at 13.353 and the actual total sd at 13.678. So the
+#: residual dispersion is about 13.35 and this constant is 10.0, understating
+#: it by a third. It was sitting in the same file as the number that
+#: contradicts it.
+#:
+#: NOT CORRECTED. The market failed its gate; replacing a wrong sd with a
+#: right one would make a withheld market look ready. The distribution now
+#: REFUSES total questions instead -- see UnvalidatedTotal in core.
 TOTAL_SD_UNVALIDATED = 10.0
 
 
@@ -218,6 +229,11 @@ class NFLModel:
             sd_margin=MARGIN_SD,
             mu_total=predict_total(f),
             sd_total=TOTAL_SD_UNVALIDATED,
+            # Withheld in the market list and now in the object. The totals
+            # model graded supported=false on 1,039 games, and the sd beside
+            # it is 10.0 against the 13.353 RMSE that same artifact records --
+            # overconfident by a third on a market that already failed.
+            total_validated=False,
             discrete=True,
             key_number_weights=self._weights,
         )
