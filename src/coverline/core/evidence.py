@@ -74,6 +74,29 @@ REQUIRED_FIELDS = {
     "estimate", "standard_error", "t", "decision", "recovered", "source",
 }
 
+#: Above this, an attempt must explain itself in writing.
+#:
+#: WHY A CEILING AT ALL. The weight b = 1 - 1/E[t^2] is quadratic in t, so one
+#: enormous attempt swamps every ordinary one. This repository produced a
+#: held-out t of 39.99 on the same day this guard was written -- the NHL rules
+#: layer -- and by the letter of the eligibility rule it qualified: a held-out
+#: paired gain against the incumbent, estimate over standard error. Logging it
+#: would have moved E[t^2] from 14.2 to 215 and b from 0.9296 to 0.9954,
+#: which is shrinkage that has stopped shrinking.
+#:
+#: The reason it does not belong is not its size. It is that 82% of that gain
+#: was the OVERTIME RULE -- the incumbent was assigning probability to a tied
+#: final score, which the league does not permit. Fixing something already
+#: known to be wrong has a certain sign before the grade, so its t measures
+#: sample size rather than surprise, and the shrinkage weight is an estimate
+#: of how much surprise this project's attempts typically contain.
+#:
+#: The right row was the DECOMPOSED part: the goalie-pull component, t = 5.82,
+#: whose sign genuinely was in doubt. So the rule is not "no large t" but
+#: "decompose until what remains was uncertain", and the ceiling is the
+#: tripwire that forces the question.
+LARGE_T = 12.0
+
 
 @dataclass(frozen=True)
 class Attempt:
@@ -248,6 +271,16 @@ def load_attempts(path: Path | str = DEFAULT_LOG) -> AttemptLog:
             )
         if row["standard_error"] <= 0:
             raise ValueError(f"attempt {row['id']!r} has a non-positive standard error")
+        if abs(float(row["t"])) >= LARGE_T and not row.get("large_t_justification"):
+            raise ValueError(
+                f"attempt {row['id']!r} has |t| = {abs(float(row['t'])):.2f}, at "
+                f"or above {LARGE_T}, with no 'large_t_justification'. The "
+                "weight is quadratic in t, so one row this size decides it. "
+                "Before writing a justification, check whether the effect "
+                "decomposes: if most of it is a defect already known to be a "
+                "defect, its sign was never in doubt and the surprising part "
+                "is the smaller component. Log that instead."
+            )
 
         a = Attempt(
             id=row["id"], t=float(row["t"]), estimate=float(row["estimate"]),

@@ -38,11 +38,14 @@ def test_the_weight_is_what_the_arithmetic_says():
     logged -- a null result pulling the mean back down; 0.9194 after two
     league fits FAILED, because t is squared and a decisive rejection counts
     as much as a decisive success; 0.9296 once the walk-forward repairs of
-    those same two fits SUCCEEDED.
+    those same two fits SUCCEEDED; 0.9359 when the NHL goalie-pull layer
+    (t=5.82) was logged -- the DECOMPOSED component, not the composite t of
+    34.95, which would have taken the weight to 0.9954 and stopped it
+    shrinking anything.
     """
     log = E.load_attempts()
-    assert log.mean_t_squared == pytest.approx(14.2143, abs=1e-3)
-    assert log.weight() == pytest.approx(0.9296, abs=1e-3)
+    assert log.mean_t_squared == pytest.approx(15.5885, abs=1e-3)
+    assert log.weight() == pytest.approx(0.9359, abs=1e-3)
     assert E.current_weight() == pytest.approx(log.weight())
 
 
@@ -156,7 +159,7 @@ def test_the_weight_is_no_longer_dominated_by_one_attempt():
 
 def test_the_robust_weight_survives_losing_the_dominant_attempt():
     log = E.load_attempts()
-    assert log.robust_weight() == pytest.approx(0.9069, abs=1e-3)
+    assert log.robust_weight() == pytest.approx(0.9203, abs=1e-3)
     assert log.robust_weight() < log.weight()
     assert log.robust_weight() == min(log.leave_one_out_weights().values())
 
@@ -336,3 +339,53 @@ def test_a_ceiling_weight_still_produces_a_smaller_stake_than_full_confidence():
     unshrunk = size_bet(p_model=0.56, p_market=0.52, decimal_price=1.9091,
                         bankroll=100_000, shrinkage=1.0)
     assert derived.stake < unshrunk.stake
+
+
+def test_an_outsized_t_is_refused_without_a_written_justification(tmp_path):
+    """The tripwire, and the thing it caught.
+
+    b = 1 - 1/E[t^2] is quadratic in t, so one enormous row decides the
+    weight. On the day this guard was written the repository produced a
+    held-out t of 39.99 -- the NHL rules layer -- which qualified under the
+    eligibility rule as written: a held-out paired gain against the
+    incumbent, estimate over standard error. Logging it would have taken
+    E[t^2] from 14.2 to 215 and b from 0.9296 to 0.9954.
+
+    The guard does not say "no large t". It says an outsized t must explain
+    itself, because the usual explanation is that the effect decomposes and
+    the surprising part is smaller.
+    """
+    import yaml
+
+    src = yaml.safe_load((E.DEFAULT_LOG).read_text())
+    row = dict(src["attempts"][0])
+    row.update(id="oversized", estimate=0.21107, standard_error=0.00528, t=39.98)
+    src["attempts"] = [row]
+    bad = tmp_path / "attempts.yaml"
+    bad.write_text(yaml.safe_dump(src))
+
+    with pytest.raises(ValueError, match="large_t_justification"):
+        E.load_attempts(bad)
+
+    row["large_t_justification"] = "checked: it does not decompose further"
+    bad.write_text(yaml.safe_dump(src))
+    assert len(E.load_attempts(bad)) == 1
+
+
+def test_the_decomposed_component_is_what_got_logged():
+    """The row that exists, and the one that deliberately does not.
+
+    The composite rules-layer grade is not in the log at any t. What is in
+    the log is the goalie-pull component at 5.82, whose sign was genuinely in
+    doubt before the grade -- the overtime rule's was not, because the
+    incumbent was pricing an outcome the league forbids.
+    """
+    log = E.load_attempts()
+    ids = {a.id for a in log.attempts}
+    assert "nhl-goalie-pull-layer" in ids
+    pull = next(a for a in log.attempts if a.id == "nhl-goalie-pull-layer")
+    assert pull.t == pytest.approx(5.82, abs=0.01)
+    assert all(abs(a.t) < E.LARGE_T for a in log.attempts), (
+        "an attempt has crossed the large-t ceiling; read its justification "
+        "before accepting the weight it produces"
+    )

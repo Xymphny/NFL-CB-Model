@@ -57,7 +57,10 @@ def test_the_shrinkage_weights_match_the_attempt_log(core_section):
         f"README quotes a pooled weight that is not {log.weight():.4f}"
     )
     assert f"{log.robust_weight():.4f}" in core_section
-    assert f"{len(log)} attempts" in core_section or "Seven attempts" in core_section
+    # No "or Seven attempts" escape hatch. That clause was left behind when
+    # the log grew past seven and would have let a stale README pass the
+    # check it exists to fail.
+    assert f"{len(log)} attempts" in core_section
     assert f"{log.n_negative} non-positive" in core_section
 
 

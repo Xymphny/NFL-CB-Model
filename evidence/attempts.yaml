@@ -281,12 +281,19 @@ attempts:
       scoring rates.
     estimand: held_out_paired_gain
     metric: log_likelihood
-    estimate: 0.02674
-    standard_error: 0.00885
-    t: 3.02
+    estimate: 0.02140
+    standard_error: 0.00877
+    t: 2.44
     decision: shipped
     recovered: false
     source: model/nhl_walkforward_results.json (holdout_grade)
+    superseded_value: >-
+      t = 3.02 until 2026-09-21, when a lookahead was found and fixed: the
+      league base rate was the mean over the WHOLE frame, including games not
+      yet played, so every prediction started from a base that already knew
+      how much the season would score. Recomputing after a defect fix is the
+      same look with a corrected estimator, not a second look. Both numbers
+      stay recorded.
     note: >-
       Graded once on 2024, the only ungraded usable season -- 2021-2023 are
       corrupt (constant scores) and 2025 was spent on the static question.
@@ -295,11 +302,49 @@ attempts:
       grading on it is how a result gets manufactured. So there is no noise
       ceiling to clear.
       THE RATES SHIPPED; THE JOINT DISTRIBUTION DID NOT. Independent Poisson
-      still under-predicts one-goal games by ten points (28.4% against 38.1%)
-      because the two scores are negatively correlated at -0.14 and the
-      shared-component term can only express positive correlation. Walking
-      forward does not touch that -- it is a property of the joint, not the
-      rates -- so the puck line stays out of primary_markets.
+      still under-predicts one-goal games by ten points (28.4% against 38.1%).
+      The reason recorded here at the time -- a negative score correlation --
+      was refuted the same day: negative covariance makes margins MORE
+      dispersed, so it predicts the opposite of what is observed. The cause is
+      the OVERTIME RULE, which is deterministic (ADR 0007). The t above is
+      unaffected; only the explanation beside it was wrong. The joint
+      distribution shipped later the same day under ADR 0008, graded as its
+      own attempt, and the puck line went with it.
+
+  - id: nhl-goalie-pull-layer
+    date: "2026-09-21"
+    hypothesis: >-
+      A goalie-pull layer conditional on the no-pull margin beats independent
+      Poisson rates, OVER AND ABOVE the overtime rule.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: 0.03718
+    standard_error: 0.00638
+    t: 5.82
+    decision: shipped
+    recovered: false
+    source: model/nhl_rules_refresh_results.json decomposition.goalie_pull_layer_over_and_above
+    note: >-
+      THIS ROW IS A DECOMPOSED COMPONENT, DELIBERATELY. The composite grade for
+      the whole rules layer was t = 34.95 on this holdout and 39.99 on the
+      previous one. Logging that would have moved E[t^2] from 14.2 to 215 and
+      the weight from 0.9296 to 0.9954 -- shrinkage that has stopped
+      shrinking.
+      It does not belong, and not because it is large. 82% of it is the
+      OVERTIME RULE: the incumbent assigned about a sixth of its probability
+      to a tied final score, which the league does not permit. Fixing
+      something already known to be wrong has a certain sign before the grade,
+      so its t measures sample size rather than surprise -- and this weight
+      estimates how much surprise the project's attempts typically contain.
+      The goalie-pull component is the part whose sign genuinely was in doubt,
+      and it is what is logged. evidence.py now refuses any |t| at or above 12
+      without a written justification, so the next person meets this question
+      rather than discovering it afterwards.
+      Tuned on 2022-2023 and graded ONCE on 2024-2025. An earlier table tuned
+      on 2016-2021 measured t = 6.75 for the same component on the 2022-2023
+      holdout and was superseded for carrying a total biased low by 0.105
+      goals; that is the same question on a different holdout, so it is NOT
+      logged again.
 
 # ---------------------------------------------------------------------------
 # NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.

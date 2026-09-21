@@ -27,6 +27,7 @@ even if this directory is lost.
 | [0011](0011-a-withheld-market-must-be-refused-by-the-object.md) | accepted | A withheld market must be refused by the object, not only by the list |
 | [0012](0012-the-nba-sigma-claim-was-bucketing-noise.md) | accepted | The NBA sigma claim was bucketing noise |
 | [0013](0013-the-missing-grid-reconstructed.md) | accepted | Reconstruct the missing grid without selecting anything |
+| [0014](0014-a-ceiling-on-what-counts-as-an-attempt.md) | accepted | Put a ceiling on what counts as an attempt |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or

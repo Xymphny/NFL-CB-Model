@@ -132,12 +132,13 @@ date.
 
 `evidence/attempts.yaml` holds every candidate ever graded held-out,
 **failures included** -- computing the shrinkage weight from winners only is
-the selection effect the mechanism exists to undo. 7 attempts, 2 non-positive. 11 attempts, 4 non-positive. Pooled weight **0.9296**, robust weight
-**0.9069**. The slate runner defaults to the robust figure.
+the selection effect the mechanism exists to undo.
+12 attempts, 4 non-positive. Pooled weight **0.9359**, robust weight
+**0.9203**. The slate runner defaults to the robust figure.
 
 Two properties of that number worth knowing. It is no longer dominated by a
 single attempt -- it was, until two failed league fits were logged. And
-**33% of E[t^2] comes from rejections**: t is squared, so a candidate
+**28% of E[t^2] comes from rejections**: t is squared, so a candidate
 rejected at -6.96 raises the weight exactly as much as one accepted at +6.96.
 That is the formula behaving correctly, and it still means the weight
 currently describes a programme that fails decisively more than it succeeds.
@@ -183,7 +184,11 @@ its own docstring -- and were fixed.
   the 13.353 RMSE in its own withholding artifact — and neither was corrected,
   because a right sd on an ungraded mean is still an ungraded total
   ([ADR 0011](docs/decisions/0011-a-withheld-market-must-be-refused-by-the-object.md)).
-- The shrinkage weight rests on seven observations with one dominating.
+- The shrinkage weight rests on twelve observations. It is no longer
+  dominated by any single one, and 28% of E[t^2] still comes from rejections.
+  The log refuses any |t| at or above 12 without a written justification
+  ([ADR 0014](docs/decisions/0014-a-ceiling-on-what-counts-as-an-attempt.md)):
+  the weight is quadratic in t, so one outsized row decides it.
 - `frozen-threshold-grid` remains an open ledger row, but no longer an
   unexaminable one. The lost grid was reconstructed on training data alone
   ([ADR 0013](docs/decisions/0013-the-missing-grid-reconstructed.md)) and the
