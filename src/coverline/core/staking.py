@@ -21,16 +21,23 @@ and the weight is computed, not chosen -- see ``shrinkage_weight``. Withholding
 still exists, but it now means "this quantity is not measurable at all", not
 "this quantity failed a test".
 
-WHAT IS STILL WITHHELD HERE
+WHERE THE WEIGHT COMES FROM
 ---------------------------
-``shrinkage_weight`` needs the mean squared t-statistic across ALL candidates
-ever tested, including the failures. This project has not kept that log -- the
-ledger recorded findings, not attempts -- so the number does not exist yet and
-this module will not invent one. ``DEFAULT_SHRINKAGE`` is deliberately absent.
-A caller must pass a weight and say where it came from. Until the attempt log
-has entries, the honest weight is the most conservative one a caller is willing
-to defend, and ``shrinkage_weight`` exists to replace that judgement with
-arithmetic as soon as the log exists.
+``core.evidence`` holds the attempt log and computes the weight from it. As of
+2026-09-21 that log has 5 recovered attempts, RMS t = 1.580, and produces
+b = 0.5997 -- so candidates ship at roughly 60% weight rather than at 0 or 1.
+
+``DEFAULT_SHRINKAGE`` is still deliberately absent, and should stay absent. A
+module constant would be importable without reading the log, and the discipline
+is that the weight is derived, dated and auditable rather than chosen. Callers
+pass ``evidence.current_weight()`` explicitly, which fails loudly if the log is
+missing instead of falling back to a guess.
+
+Two properties of that weight matter at the call site. It is a CEILING while
+the log contains recovered attempts, because a reconstructed log is missing
+whatever was never written up and what goes unwritten skews toward nulls. And
+it can legitimately be 0.0: an RMS t near 1 is what pure noise produces, and
+the correct response is to bet nothing, which ``size_bet`` does.
 """
 
 from __future__ import annotations

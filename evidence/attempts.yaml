@@ -1,0 +1,187 @@
+# THE ATTEMPT LOG
+#
+# Every candidate model change ever evaluated on held-out data, INCLUDING the
+# ones that failed. This is the input to the empirical-Bayes shrinkage weight
+# b = 1 - 1/E[t^2] that replaced the old ship/no-ship significance gate.
+#
+# WHY FAILURES ARE THE POINT
+# The weight is an estimate of how much of the measured effect in a typical
+# candidate is real rather than noise. Computing it from winners only inflates
+# E[t^2] and returns a weight that ships noise at full size -- which is the
+# selection effect the whole mechanism exists to undo. A log that quietly drops
+# nulls is worse than no log, because it produces a confident wrong number.
+#
+# ELIGIBILITY -- one estimand, strictly
+# An attempt is eligible for the weight only if it is a HELD-OUT PAIRED GAIN
+# against the incumbent, expressed as estimate / standard_error. Training-side
+# coefficient t-statistics are NOT eligible and are recorded separately below:
+# they answer "is this variable associated with the target", not "does this
+# change help on data it has never seen", and mixing the two would badly
+# inflate the weight. The repo contains train-side t-statistics as large as
+# +8.51 whose held-out counterparts are far smaller; that gap is the reason
+# for the rule.
+#
+# THIS LOG IS A LOWER BOUND, AND THE WEIGHT IT PRODUCES IS AN UPPER BOUND
+# It was reconstructed on 2026-09-21 from committed artifacts and the README
+# ledger, because no attempt log was kept at the time -- the project recorded
+# findings, not attempts. Attempts that were tried and never written up are
+# therefore missing, and they skew toward failures, since nobody writes up a
+# null they were not already interested in. Missing failures mean E[t^2] is
+# biased UP, so b is biased UP. Treat the computed weight as a ceiling, not an
+# estimate, until enough prospectively-logged attempts accumulate to replace
+# the recovered ones.
+
+version: 1
+updated: "2026-09-21"
+
+policy:
+  eligible_estimand: "held-out paired gain vs incumbent, estimate / standard_error"
+  graded_once: true
+  recovered_are_a_lower_bound: true
+
+# ---------------------------------------------------------------------------
+# ELIGIBLE: held-out paired gains. These produce the weight.
+# ---------------------------------------------------------------------------
+attempts:
+
+  - id: preseason-prior-regression
+    date: "2026-09-20"
+    hypothesis: >-
+      Regress the preseason prior toward the mean per component instead of
+      carrying raw previous-season rating forward.
+    estimand: held_out_paired_gain
+    metric: mae
+    estimate: 0.0128
+    standard_error: 0.0056
+    t: 2.28
+    decision: shipped
+    recovered: true
+    source: model/preseason_prior_regression_results.json (paired_mae_gain)
+    note: >-
+      The one clear winner in the recovered set. 13.9% improvement on the
+      held-out seasons.
+
+  - id: qb-continuity-conditional-prior
+    date: "2026-09-20"
+    hypothesis: >-
+      Condition the carryover coefficient on whether the starting QB returned.
+    estimand: held_out_paired_gain
+    metric: mae
+    estimate: -0.00042
+    standard_error: 0.00245
+    t: -0.17
+    decision: rejected
+    recovered: true
+    source: model/qb_continuity_prior_results.json (paired_gain)
+    note: >-
+      The most informative row in this file. Train-side interaction was
+      t=+2.36 on total rating and +2.63 on offense, and the placebo PASSED --
+      QB continuity moved offense and not defense, exactly as a real effect
+      should. It still failed its held-out gate. A log of findings would have
+      recorded the placebo; only a log of attempts records the -0.17.
+
+  - id: cfb-returning-production-rescale
+    date: "2026-09-20"
+    hypothesis: >-
+      Rescale the CFB returning-production discount by 0.442/0.516 = 0.856 to
+      match the carryover actually measured.
+    estimand: held_out_paired_gain
+    metric: rank_correlation
+    estimate: 0.00182
+    standard_error: 0.00094
+    t: 1.93
+    decision: not_shipped
+    recovered: true
+    source: model/cfb_carryover_check_results.json (returning_production_test.gate)
+    note: >-
+      Effect direction well supported (interaction t=+2.13, monotonic
+      terciles, improves held-out rank correlation) while the specific change
+      gates at 1.93. The distinction between "the effect is real" and "this
+      change helps" in one row.
+
+  - id: elo-term-for-ngs-absent-games
+    date: "2026-09-20"
+    hypothesis: >-
+      Restore an elo_diff term on games where NGS data is absent, since the
+      rating-only coefficient vector carries none.
+    estimand: held_out_paired_gain
+    metric: mae
+    estimate: 0.0995
+    standard_error: 0.0690
+    t: 1.44
+    decision: not_shipped
+    recovered: true
+    source: README ledger, spread validation section
+    note: >-
+      Train-side elo_diff on NGS-absent games was t=+4.14. Held out, with
+      full-slate de-bias, the gain is t=1.44. The exposure is narrow in
+      normal weeks and total during an NGS outage, which is the reason to
+      revisit rather than close.
+
+  - id: half-life-100-vs-default-6
+    date: "2026-09-20"
+    hypothesis: >-
+      The shipped Elo half_life=100, selected on the 2023 test set, beats the
+      prior default of 6.
+    estimand: held_out_paired_gain
+    metric: straight_up_accuracy
+    estimate: -0.01923
+    standard_error: 0.01594
+    t: -1.21
+    decision: shipped_but_contradicted
+    recovered: true
+    source: model/revalidate_half_life_2024_25_results.json (questions)
+    note: >-
+      Negative: the shipped value is WORSE than the default it replaced, on
+      seasons that were genuinely clean for a margin question. Worst of 8
+      candidates. Retained pending a decision rather than reverted on one
+      held-out grade, but it is an open item, not a settled one.
+
+# ---------------------------------------------------------------------------
+# NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.
+# Excluding these is a methodological choice, and a reader must be able to
+# audit it without re-deriving which numbers exist.
+# ---------------------------------------------------------------------------
+excluded:
+
+  - id: h1a-continuity-interaction
+    t: [-0.89, -0.38]
+    reason: train_side_interaction
+    source: model/preseason_prior_regression_results.json
+    note: "Association test, not a paired gain. Both negative, verdict REJECTED."
+
+  - id: qb-continuity-train-interactions
+    t: [2.36, 2.63, -0.35]
+    reason: train_side_interaction
+    source: model/qb_continuity_prior_results.json
+    note: >-
+      The clearest illustration of why train-side t is ineligible: +2.63 on
+      train, -0.17 held out, same hypothesis.
+
+  - id: cfb-returning-interaction
+    t: [2.13, 1.43]
+    reason: train_side_interaction
+    source: model/cfb_carryover_check_results.json
+
+  - id: ngs-absent-elo-coefficient
+    t: [8.51, 4.14]
+    reason: train_side_coefficient
+    source: README ledger
+    note: "t=+8.51 on train against t=1.44 held out. Include this in the weight and it alone would push b above 0.9."
+
+  - id: totals-edge-support
+    reason: different_estimand
+    source: data/totals_validation.json
+    note: >-
+      Graded whether the model has any edge at all (hit rate vs break-even),
+      not whether a change improves on an incumbent. supported=false.
+
+  - id: spread-threshold-support
+    reason: different_estimand
+    source: data/spread_validation.json
+    note: "Same shape as totals. supported=false, DISCLOSED NOT WITHHELD."
+
+  - id: coach-regime-early-flags
+    reason: different_estimand
+    source: model/coach_regime_results.json
+    note: "0/6 ATS on backed first-year external-HC teams. Single-digit cells."
