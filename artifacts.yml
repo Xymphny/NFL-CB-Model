@@ -26,7 +26,38 @@ version: 1
 coverage_scope: "src/coverline/** only; legacy model/ and deploy/ artifacts are
   inventoried per-component in migration/ledger.yaml as they are examined"
 
-artifacts: []
+artifacts:
+
+  - path: data/bronze/odds/**/*.json
+    produced_by: src/coverline/execution/odds_client.py
+    consumed_by:
+      - src/coverline/execution/normalize.py
+    kind: bronze
+    refresh: "per capture; see the schedule once the runner exists"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/bronze/odds/_manifest.jsonl
+    produced_by: src/coverline/execution/bronze.py
+    consumed_by:
+      - src/coverline/execution/bronze.py
+    kind: bronze
+    refresh: "appended on every snapshot"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/bronze/odds/_gaps.jsonl
+    produced_by: src/coverline/execution/bronze.py
+    consumed_by:
+      - src/coverline/execution/bronze.py
+    kind: bronze
+    refresh: "appended whenever a capture does not happen"
+    staleness_error_hours: null
+    unconsumed_reason: >-
+      Read by coverage() rather than by a pipeline stage. It exists so that
+      absence is visible and countable; nothing downstream consumes it yet
+      because nothing is allowed to act on a gap except a human deciding
+      whether the capture process is degrading.
 
 # Shape of a row, for when the first one lands:
 #

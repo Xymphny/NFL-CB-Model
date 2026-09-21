@@ -42,25 +42,55 @@ def test_manifest_declares_what_it_does_not_cover():
     assert "legacy" in scope.lower() or "migration/ledger" in scope
 
 
-def test_empty_manifest_is_declared_not_accidental():
-    """While the new core publishes nothing, an empty list is correct. The
-    moment it publishes something, this test fails and demands a row."""
-    published_dirs = [CORE / "apps", ROOT / "data" / "published"]
-    core_writes_something = any(
-        d.exists() and any(d.rglob("*.py")) for d in [CORE / "apps"]
-    )
-    if not core_writes_something:
-        assert _artifacts() == [], (
-            "artifacts are listed but the new core has no publishing app yet; "
-            "either the manifest is describing legacy files it does not cover, "
-            "or coverage_scope needs updating"
+#: Modules that write files. Grown deliberately: this list started as
+#: [apps] when the core published nothing, and the guard below correctly
+#: refused to accept artifact rows while it said so. execution/ was added on
+#: 2026-09-21 when the bronze store landed. A new writing package must be
+#: added here on purpose, which is the friction the check is for.
+WRITING_PACKAGES = ("apps", "execution")
+
+
+def _core_writes_files() -> bool:
+    for pkg in WRITING_PACKAGES:
+        d = CORE / pkg
+        if d.exists() and any(p.stem != "__init__" for p in d.rglob("*.py")):
+            return True
+    return False
+
+
+def test_manifest_matches_whether_the_core_actually_writes_anything():
+    """Two failure modes, one test.
+
+    Empty manifest while the core writes files = unregistered artifacts, which
+    is the orphan problem. Rows listed while the core writes nothing = the
+    manifest is describing files it does not cover, which is worse, because it
+    asserts a lineage that is not there.
+    """
+    if _core_writes_files():
+        assert _artifacts(), (
+            f"a writing package exists under {WRITING_PACKAGES} but the "
+            "manifest is empty; every published file needs a row"
         )
     else:
-        assert _artifacts(), (
-            "src/coverline/apps/ now exists, so the core publishes something. "
-            "Every published file needs a manifest row -- that is the whole "
-            "defence against unread artifacts."
+        assert _artifacts() == [], (
+            "artifacts are listed but no core package writes files; either the "
+            "manifest describes legacy files outside coverage_scope, or "
+            "WRITING_PACKAGES needs updating"
         )
+
+
+def test_every_writing_package_is_represented_in_the_manifest():
+    """A package that writes files but appears in no `produced_by` is the
+    orphan case one level up: registered artifacts, unregistered writer."""
+    if not _core_writes_files():
+        pytest.skip("no writing packages yet")
+    producers = " ".join(a.get("produced_by", "") for a in _artifacts())
+    for pkg in WRITING_PACKAGES:
+        d = CORE / pkg
+        if d.exists() and any(p.stem != "__init__" for p in d.rglob("*.py")):
+            assert f"coverline/{pkg}/" in producers, (
+                f"{pkg}/ writes files but produces no manifest artifact"
+            )
 
 
 def test_every_artifact_has_a_consumer_or_an_excuse():

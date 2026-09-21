@@ -90,8 +90,8 @@ components:
 
   - id: execution-odds-ingest
     old_path: "(did not exist -- no market data was ever captured or stored)"
-    new_path: "src/coverline/execution/ (not yet built)"
-    disposition: pending
+    new_path: "src/coverline/execution/{odds_client,bronze,normalize}.py"
+    disposition: rewritten
     adr: 0002-odds-data-vendor-and-tier.md
     data_artifacts:
       - "data/bronze/odds/ -- captured snapshots, not yet created"
@@ -100,6 +100,9 @@ components:
     parity_tolerance: "no predecessor to compare against"
     old_removed: false
     notes: >-
+      Client BUILT and fully tested offline 2026-09-21 (27 tests, injected
+      transport, no key required) -- deliberately, since ADR 0002 says not to
+      subscribe until there is something to consume the data.
       Vendor and tier decided (ADR 0002): The Odds API, $59/100K. Pinnacle
       confirmed available in the eu region, with a published delay caveat that
       rules it out for steam-chasing. NOT YET SUBSCRIBED, deliberately -- the
