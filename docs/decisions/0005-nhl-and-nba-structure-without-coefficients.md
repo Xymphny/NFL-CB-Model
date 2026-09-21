@@ -100,11 +100,64 @@ supplying parameters to an existing interface and logging the fit as an
 attempt in `evidence/attempts.yaml` like any other change. The packages are at
 `src/coverline/leagues/{nhl,nba}/model.py`.
 
+## Fitted and graded, 2026-09-21 — and neither ships
+
+Both were fitted on real data with the holdout fixed before any result was
+seen. Neither earned its coefficients, so `STRUCTURAL_ONLY_LEAGUES` is
+unchanged and this record stands.
+
+**NHL** (`model/fit_nhl.py`, trained 2024, graded once on 2025): Poisson
+attack/defence ratings gained **−0.0137 mean log-likelihood, SE 0.0103,
+t = −1.33** against league-average rates. Directionally negative, not
+significant. Ratings from one season do not carry to the next well enough to
+beat knowing nothing.
+
+**NBA** (`model/fit_nba.py`, trained 2021–2023, graded once on 2024–2025):
+ridge team ratings gained **−0.0576, SE 0.0083, t = −6.96**. Decisively worse
+than predicting the league-average margin. Three-year-old ratings are not
+merely stale in this sport, they are actively misleading — which is why real
+NBA models rate within season and walk forward.
+
+### What the fits established anyway
+
+**Hockey IS approximately Poisson** — variance/mean 0.96 and 1.04, unlike
+MLB's 2.2 — so the family choice in this record holds.
+
+**But the two scores are NEGATIVELY correlated (−0.14),** and
+`BivariatePoissonDistribution`'s shared component can only express POSITIVE
+correlation. So it is the wrong instrument for hockey, in the opposite
+direction from how it was wrong for baseball. The model under-predicts
+one-goal games — 28.1% against an actual 38.3% — because real games stay
+closer than independent rates allow: a leading team defends, a trailing team
+presses. Empty-net goals push the other way, so the underlying closeness
+effect is *larger* than that 10-point gap shows.
+
+**The NBA sigma claim in this record is INCONCLUSIVE, not confirmed.** Fitted
+sigma slope was −0.111 and held-out correlation between predicted-spread
+magnitude and absolute residual was +0.015 — flat. But these ratings separate
+games only from 0.9 to 8.6 points on average, where real NBA spreads reach the
+high teens, and the 0.60 figure this record cites was measured against
+*market* spreads. The effect is ruled out where measured and untested where
+claimed. Testing it properly needs market spreads, which odds capture will
+supply.
+
+### The data fault that nearly went through
+
+The first NHL fit ran on sportsdataverse's 2021–2023 schedule files, in which
+**every game carries an identical score** — 1,312 rows all 6–3. It fitted,
+graded, and reported t = −5.12 with a straight face. `model/fit_data_checks.py`
+now refuses degenerate data, and it subsequently caught the NBA All-Star Game
+(EAST 211, WEST 186) entering the fit twice, because ESPN files it as
+`season_type == 2`.
+
 ## Revisit Triggers
 
-- **When either league is fitted**, move it from `STRUCTURAL_ONLY_LEAGUES` to
-  `IMPLEMENTED_LEAGUES` deliberately; a test already fails if the sets stop
-  accounting for all five.
+- ~~**When either league is fitted**~~ — attempted 2026-09-21; both failed
+  their gates and neither moved. The next attempt should rate WITHIN season
+  and walk forward, which is what both results point at.
+- **NHL needs a joint distribution that admits negative correlation.** The
+  shared-component Poisson cannot express it. Until then hockey's closeness
+  is unmodelled in a measurable, one-directional way.
 - **If a constant appears in either file**, the guard fails — and the right
   response is to ask what measured it, not to relax the guard.
 - **If NHL measures overdispersed**, as MLB did, the Poisson family choice in

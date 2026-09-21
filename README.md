@@ -132,9 +132,16 @@ date.
 
 `evidence/attempts.yaml` holds every candidate ever graded held-out,
 **failures included** -- computing the shrinkage weight from winners only is
-the selection effect the mechanism exists to undo. 7 attempts, 2 non-positive. Pooled weight **0.8862**, robust weight **0.5202**, and the
-whole gap rests on one attempt, which `is_dominated_by_one` reports. The slate
-runner defaults to the robust figure.
+the selection effect the mechanism exists to undo. 7 attempts, 2 non-positive. 9 attempts, 4 non-positive. Pooled weight **0.9194**, robust weight
+**0.8724**. The slate runner defaults to the robust figure.
+
+Two properties of that number worth knowing. It is no longer dominated by a
+single attempt -- it was, until two failed league fits were logged. And
+**46% of E[t^2] now comes from rejections**: t is squared, so a candidate
+rejected at -6.96 raises the weight exactly as much as one accepted at +6.96.
+That is the formula behaving correctly, and it still means the weight
+currently describes a programme that fails decisively more than it succeeds.
+`negative_share` reports it.
 
 ### Rot defences, and which work without you
 

@@ -196,6 +196,58 @@ attempts:
       question, and the measurement says so. Fixing it buys consistency across
       32 teams, not accuracy.
 
+  - id: nhl-cross-season-poisson-ratings
+    date: "2026-09-21"
+    hypothesis: >-
+      Poisson attack/defence ratings fitted on one NHL season predict the next
+      season's scorelines better than league-average rates.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: -0.01366
+    standard_error: 0.01028
+    t: -1.33
+    decision: not_shipped
+    recovered: false
+    source: model/nhl_fit_results.json (holdout_grade)
+    note: >-
+      Trained on 2024, graded once on 2025 -- only two seasons were usable,
+      because sportsdataverse's 2021-2023 NHL files carry a CONSTANT score on
+      every row and the degenerate-data guard rejects them. Directionally
+      negative and not significant: team ratings from one season do not carry
+      to the next well enough to beat knowing nothing.
+      What the fit DID establish, and what makes it worth keeping: hockey IS
+      approximately Poisson (variance/mean 0.96 and 1.04, unlike MLB's 2.2),
+      but the two scores are NEGATIVELY correlated (-0.14). The
+      shared-component term in BivariatePoissonDistribution can only express
+      POSITIVE correlation, so it is the wrong instrument for hockey in the
+      opposite direction from how it was wrong for baseball.
+
+  - id: nba-cross-season-ratings
+    date: "2026-09-21"
+    hypothesis: >-
+      Ridge team ratings fitted on 2021-2023 predict 2024-2025 NBA margins
+      better than the league-average margin.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: -0.05764
+    standard_error: 0.00828
+    t: -6.96
+    decision: rejected
+    recovered: false
+    source: model/nba_fit_results.json (ratings_vs_league_average)
+    note: >-
+      Strongly negative: stale cross-season ratings are WORSE than predicting
+      the league average, by a wide margin. NBA rosters turn over enough that
+      three-year-old ratings are actively misleading, which is why real models
+      in this sport rate within season and walk forward.
+      A second comparison on the same holdout -- sigma varying with predicted
+      spread against a constant sigma -- also came back negative (t = -6.48,
+      fitted slope -0.111). That does NOT refute ADR 0005's claim that NBA
+      variance rises with spread: the claim is about MARKET spreads across a
+      wide range, and these ratings separate games only from 0.9 to 8.6 points
+      on average. Residual sd is flat across the range tested and the test
+      cannot see beyond it. Recorded as inconclusive, not refuted.
+
 # ---------------------------------------------------------------------------
 # NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.
 # Excluding these is a methodological choice, and a reader must be able to

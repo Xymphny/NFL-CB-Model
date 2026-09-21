@@ -35,11 +35,13 @@ def test_the_weight_is_what_the_arithmetic_says():
 
     History: 0.5997 on 5 recovered attempts; 0.9024 when the key-number
     result (t=7.00) landed; 0.8862 once the NGS team-code fix (t=0.12) was
-    logged -- a null result pulling the mean back down.
+    logged -- a null result pulling the mean back down; 0.9194 after two
+    league fits FAILED, because t is squared and a decisive rejection counts
+    as much as a decisive success.
     """
     log = E.load_attempts()
-    assert log.mean_t_squared == pytest.approx(8.7863, abs=1e-3)
-    assert log.weight() == pytest.approx(0.8862, abs=1e-3)
+    assert log.mean_t_squared == pytest.approx(12.4128, abs=1e-3)
+    assert log.weight() == pytest.approx(0.9194, abs=1e-3)
     assert E.current_weight() == pytest.approx(log.weight())
 
 
@@ -68,15 +70,55 @@ def test_the_log_contains_failures():
     )
 
 
-def test_dropping_failures_inflates_the_weight_measurably():
-    """Quantifies the selection effect on this project's own data, so the cost
-    of a filtered log is a number rather than a warning."""
+def test_dropping_failures_changes_the_weight_and_the_direction_depends():
+    """Quantifies the selection effect on this project's own data -- and
+    corrects an earlier claim of mine that it always inflates.
+
+    When failures are NULL results (t near 0), dropping them raises E[t^2]
+    and inflates the weight; that was true of this log with five recovered
+    attempts, where the cherry-picked weight was 0.7272 against an honest
+    0.5997.
+
+    Once the log contained DECISIVE failures (t = -6.96, -1.33), dropping
+    them LOWERS E[t^2] instead, because a large negative t contributes as
+    much as a large positive one. The distortion is real either way; its sign
+    is not fixed, and the earlier version of this test asserted a direction
+    rather than a difference.
+    """
     log = E.load_attempts()
     cherry = E.drop_negative_for_demonstration(log)
-    assert cherry.weight() > log.weight()
+    assert cherry.weight() != pytest.approx(log.weight(), abs=1e-4), (
+        "filtering the log changed nothing, which would mean the failures "
+        "carry no information -- suspect the log"
+    )
+    # with decisive failures in the log, the distortion now runs downward
+    assert cherry.weight() < log.weight()
+
+    # and the opposite direction, demonstrated on a log of null failures
+    nulls = shrinkage_weight([2.28, 1.93, 1.44, 0.12, -0.17])
+    winners = shrinkage_weight([2.28, 1.93, 1.44, 0.12])
+    assert winners > nulls
 
 
-def test_the_weight_is_currently_dominated_by_one_attempt():
+def test_a_decisive_failure_raises_the_weight():
+    """Counterintuitive and correct. t is squared, so a candidate rejected at
+    -6.96 says as much about the size of effects in this programme as one
+    accepted at +6.96. Pinned because the intuition runs the other way and
+    someone will eventually try to 'fix' it."""
+    winners_only = [2.28, 1.93, 1.44, 7.00, 0.12]
+    with_failures = winners_only + [-6.96, -1.33]
+    assert shrinkage_weight(with_failures) > shrinkage_weight(winners_only)
+
+
+def test_the_share_of_the_weight_coming_from_rejections_is_reported():
+    """A weight built mostly from failures describes a programme that fails
+    decisively, not one that succeeds. A caller sizing bets should know."""
+    log = E.load_attempts()
+    assert log.negative_share > 0.3
+    assert "REJECTIONS" in log.summary()
+
+
+def test_the_weight_is_no_longer_dominated_by_one_attempt():
     """Six observations, and one of them moves the answer by 30 points.
 
     Not a failure -- the key-number effect is real and large. But a pooled
@@ -84,21 +126,19 @@ def test_the_weight_is_currently_dominated_by_one_attempt():
     on without knowing, so the log says so out loud.
     """
     log = E.load_attempts()
-    assert log.is_dominated_by_one is True
-    assert "DOMINATED BY ONE ATTEMPT" in log.summary()
-    loo = log.leave_one_out_weights()
-    assert loo["nfl-key-number-weights"] == pytest.approx(0.5202, abs=1e-3)
-    others = [w for k, w in loo.items() if k != "nfl-key-number-weights"]
-    assert all(w > 0.85 for w in others), (
-        "dropping any other single attempt should barely move the weight; if "
-        "that stops being true the dominance has shifted and this test should "
-        "be re-read rather than re-pinned"
+    assert log.is_dominated_by_one is False, (
+        "the log was dominated by the key-number attempt until two league "
+        "fits were logged. If dominance has returned, read which attempt is "
+        "carrying it before sizing anything from the pooled weight."
     )
+    loo = log.leave_one_out_weights()
+    spread = max(loo.values()) - min(loo.values())
+    assert spread < 0.10, f"leave-one-out spread {spread:.3f} is back above 0.10"
 
 
 def test_the_robust_weight_survives_losing_the_dominant_attempt():
     log = E.load_attempts()
-    assert log.robust_weight() == pytest.approx(0.5202, abs=1e-3)
+    assert log.robust_weight() == pytest.approx(0.8724, abs=1e-3)
     assert log.robust_weight() < log.weight()
     assert log.robust_weight() == min(log.leave_one_out_weights().values())
 
@@ -168,7 +208,6 @@ def test_the_dominant_attempt_currently_masks_that_distortion():
     log = E.load_attempts()
     pooled_polluted = shrinkage_weight(list(log.t_statistics) + TRAIN_SIDE)
     assert pooled_polluted - log.weight() < 0.05
-    assert log.is_dominated_by_one is True
 
 
 def test_the_qb_continuity_row_is_the_reason_for_the_rule():

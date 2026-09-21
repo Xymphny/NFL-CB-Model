@@ -21,6 +21,22 @@ QB-continuity hypothesis measured t=+2.63 on train and t=-0.17 held out, same
 idea, same week. Admitting train-side statistics would have produced a weight
 above 0.9 from numbers that predicted nothing.
 
+A DECISIVE FAILURE RAISES THE WEIGHT, AND THAT IS NOT A BUG
+b = 1 - 1/E[t^2] squares the t-statistics, so a candidate rejected at t = -6.96
+contributes exactly as much as one accepted at +6.96. Logging two failed
+league fits on 2026-09-21 moved the pooled weight from 0.8862 to 0.9194.
+
+That is the formula behaving correctly: E[t^2] estimates how large effects in
+this research programme tend to be, and a decisive rejection is evidence that
+they are large. A pipeline producing spectacular results in both directions
+genuinely should shrink less than one producing only ambiguity.
+
+It is still worth knowing, because the intuition runs the other way: finding
+out that something is badly wrong does not feel like it should let other
+things ship at higher weight. ``negative_share`` reports how much of E[t^2]
+comes from rejections, so a weight resting mostly on failures is visible
+rather than implied.
+
 WHY THE RESULT IS A CEILING AND NOT AN ESTIMATE
 The current log was reconstructed from committed artifacts because no attempt
 log was kept at the time; the project recorded findings, not attempts. Whatever
@@ -159,6 +175,22 @@ class AttemptLog:
             return False
         return max(abs(w - self.weight()) for w in loo.values()) > 0.10
 
+    @property
+    def negative_share(self) -> float:
+        """Share of E[t^2] contributed by attempts that came back negative.
+
+        High is not wrong -- see the module docstring -- but a weight built
+        mostly from rejections is describing a programme that fails
+        decisively, not one that succeeds, and a caller sizing bets from it
+        should know which.
+        """
+        if not self.attempts:
+            return 0.0
+        total = sum(a.t ** 2 for a in self.attempts)
+        if total == 0:
+            return 0.0
+        return float(sum(a.t ** 2 for a in self.attempts if a.t < 0) / total)
+
     def robust_weight(self) -> float:
         """The most conservative weight consistent with dropping any one row.
 
@@ -181,6 +213,9 @@ class AttemptLog:
         if self.is_dominated_by_one:
             line += (f"; DOMINATED BY ONE ATTEMPT -- robust weight "
                      f"{self.robust_weight():.4f}")
+        if self.negative_share > 0.4:
+            line += (f"; {self.negative_share:.0%} of E[t^2] comes from "
+                     "REJECTIONS")
         return line
 
 

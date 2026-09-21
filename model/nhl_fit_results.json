@@ -1,0 +1,123 @@
+{
+ "_provenance": {
+  "script": "model/fit_nhl.py",
+  "generated": "2026-09-21",
+  "source": "sportsdataverse nhl_schedules releases, regular season",
+  "train_seasons": [
+   2024
+  ],
+  "holdout_seasons": [
+   2025
+  ],
+  "graded_once": true,
+  "metric": "mean log-likelihood of the realised scoreline",
+  "baseline": "league-average Poisson rates, no team ratings",
+  "n_train": 1312,
+  "n_holdout": 1230,
+  "skipped_unknown_team": 82,
+  "sample_caveat": "one season trains and one grades, because sportsdataverse's 2021-2023 NHL files carry a constant score on every row and the degenerate-data guard rejects them. Thin, and stated as thin rather than padded by reusing the holdout."
+ },
+ "assumption_checks": {
+  "home": {
+   "mean": 3.2294,
+   "variance": 3.1075,
+   "variance_over_mean": 0.9622
+  },
+  "away": {
+   "mean": 2.9962,
+   "variance": 3.1175,
+   "variance_over_mean": 1.0405
+  },
+  "correlation": -0.1421,
+  "poisson_like": true,
+  "independent": false
+ },
+ "fit": {
+  "home_adv": 0.02702,
+  "base": 1.13552,
+  "n_teams": 32
+ },
+ "holdout_grade": {
+  "model": -3.91784,
+  "baseline": -3.90418,
+  "paired_gain": -0.01366,
+  "standard_error": 0.01028,
+  "t": -1.33,
+  "supported": false
+ },
+ "empty_net_check": {
+  "predicted_one_goal_rate": 0.2805,
+  "actual_one_goal_rate": 0.3826,
+  "note": "The model UNDER-predicts one-goal games -- 28.1% against an actual 38.3%. That is the opposite of what this check was written expecting, and it is the signature of NEGATIVE dependence between the two scores (measured corr -0.14), not of empty nets: real hockey games stay closer than independent Poisson rates allow, because a leading team defends and the trailing team presses. Empty-net goals push the other way, converting one-goal games into two-goal finals, so the underlying closeness effect is LARGER than this 10-point gap shows. Either way, independent Poisson is the wrong joint distribution for hockey."
+ },
+ "ratings": {
+  "attack": {
+   "ANA": -0.17194,
+   "ARI": 0.00915,
+   "BOS": 0.03831,
+   "BUF": -0.03175,
+   "CAR": 0.07521,
+   "CBJ": -0.05411,
+   "CGY": 0.00044,
+   "CHI": -0.26421,
+   "COL": 0.15659,
+   "DAL": 0.13873,
+   "DET": 0.07943,
+   "EDM": 0.12669,
+   "FLA": 0.03869,
+   "LAK": 0.00027,
+   "MIN": -0.00887,
+   "MTL": -0.0577,
+   "NJD": 0.03321,
+   "NSH": 0.04817,
+   "NYI": -0.02639,
+   "NYR": 0.08482,
+   "OTT": 0.0049,
+   "PHI": -0.06536,
+   "PIT": 0.00125,
+   "SEA": -0.13266,
+   "SJS": -0.25374,
+   "STL": -0.05281,
+   "TBL": 0.118,
+   "TOR": 0.1566,
+   "VAN": 0.07694,
+   "VGK": 0.03879,
+   "WPG": 0.01052,
+   "WSH": -0.1172
+  },
+  "defence": {
+   "ANA": 0.12922,
+   "ARI": 0.0648,
+   "BOS": -0.10764,
+   "BUF": -0.04017,
+   "CAR": -0.13032,
+   "CBJ": 0.14038,
+   "CGY": 0.05526,
+   "CHI": 0.10753,
+   "COL": 0.00611,
+   "DAL": -0.06296,
+   "DET": 0.06404,
+   "EDM": -0.05176,
+   "FLA": -0.19314,
+   "LAK": -0.13265,
+   "MIN": 0.02865,
+   "MTL": 0.10549,
+   "NJD": 0.09271,
+   "NSH": -0.0175,
+   "NYI": 0.02506,
+   "NYR": -0.08436,
+   "OTT": 0.08105,
+   "PHI": 0.01712,
+   "PIT": -0.01173,
+   "SEA": -0.06149,
+   "SJS": 0.23388,
+   "STL": -0.01452,
+   "TBL": 0.04487,
+   "TOR": 0.0293,
+   "VAN": -0.10317,
+   "VGK": -0.02496,
+   "WPG": -0.19164,
+   "WSH": 0.00258
+  }
+ }
+}

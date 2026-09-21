@@ -1,0 +1,107 @@
+{
+ "_provenance": {
+  "script": "model/fit_nba.py",
+  "generated": "2026-09-21",
+  "source": "sportsdataverse espn_nba_schedules, season_type==2",
+  "train_seasons": [
+   2021,
+   2022,
+   2023
+  ],
+  "holdout_seasons": [
+   2024,
+   2025
+  ],
+  "graded_once": true,
+  "metric": "mean log-likelihood of the realised margin",
+  "filters": "season_type == 2 AND type_abbreviation == STD, both scores non-zero. season_type alone is insufficient: ESPN files the All-Star Game (EAST 211, WEST 186) as regular season, and the degenerate-data guard caught it twice before the filter was right",
+  "n_train": 3540,
+  "n_holdout": 2460
+ },
+ "fit": {
+  "home_adv": 1.75508,
+  "n_teams": 30,
+  "ridge": 8.0,
+  "sigma_intercept": 14.038,
+  "sigma_slope": -0.11072,
+  "sigma_constant_alternative": 13.827
+ },
+ "holdout_grade": {
+  "ratings_vs_league_average": {
+   "paired_gain": -0.05764,
+   "standard_error": 0.00828,
+   "t": -6.96,
+   "supported": false
+  },
+  "varying_sigma_vs_constant_sigma": {
+   "paired_gain": -0.00997,
+   "standard_error": 0.00154,
+   "t": -6.48,
+   "supported": false
+  },
+  "mean_ll_varying": -4.24884,
+  "mean_ll_constant": -4.23888,
+  "mean_ll_baseline": -4.18123
+ },
+ "adr_0005_claim": {
+  "claim": "ADR 0005: NBA margin variance rises with spread magnitude (design research reported corr ~0.60 against MARKET spread)",
+  "holdout_corr_abs_mu_vs_abs_resid": 0.01499,
+  "sigma_slope": -0.11072,
+  "residual_sd_by_predicted_spread_quartile": [
+   {
+    "mean_abs_mu": 0.852,
+    "resid_sd": 16.314,
+    "n": 616
+   },
+   {
+    "mean_abs_mu": 2.659,
+    "resid_sd": 15.491,
+    "n": 615
+   },
+   {
+    "mean_abs_mu": 4.832,
+    "resid_sd": 16.429,
+    "n": 614
+   },
+   {
+    "mean_abs_mu": 8.58,
+    "resid_sd": 16.77,
+    "n": 615
+   }
+  ],
+  "verdict": "INCONCLUSIVE, not refuted",
+  "why_inconclusive": "The predicted spread here comes from cross-season team ratings, not from a market line, and those ratings barely separate the games: the top quartile averages under 9 points where real NBA spreads reach the high teens. A variance effect across a wide spread range would be largely invisible over this narrow one. Residual sd IS flat across the range tested (holdout corr +0.015), which rules the effect out WHERE MEASURED and says nothing about where it was claimed. Testing the claim properly needs market spreads, which this project will have once odds capture runs."
+ },
+ "ratings": {
+  "ATL": 1.24104,
+  "BKN": 1.87042,
+  "BOS": 4.88331,
+  "CHA": -2.40904,
+  "CHI": 0.05572,
+  "CLE": 0.01907,
+  "DAL": 1.71169,
+  "DEN": 3.18894,
+  "DET": -6.39626,
+  "GS": 2.68361,
+  "HOU": -7.54875,
+  "IND": -2.15793,
+  "LAC": 1.94745,
+  "LAL": -0.02238,
+  "MEM": 3.35395,
+  "MIA": 1.34064,
+  "MIL": 3.91895,
+  "MIN": -0.73306,
+  "NO": 0.20083,
+  "NY": 1.6162,
+  "OKC": -5.29334,
+  "ORL": -6.05002,
+  "PHI": 3.84727,
+  "PHX": 4.71611,
+  "POR": -3.67734,
+  "SA": -3.73096,
+  "SAC": -1.94361,
+  "TOR": 1.15062,
+  "UTAH": 4.22666,
+  "WSH": -2.00978
+ }
+}
