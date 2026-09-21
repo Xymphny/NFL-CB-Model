@@ -28,6 +28,15 @@ coverage_scope: "src/coverline/** only; legacy model/ and deploy/ artifacts are
 
 artifacts:
 
+  - path: data/ledger/signals.jsonl
+    produced_by: src/coverline/execution/ledger.py
+    consumed_by:
+      - src/coverline/execution/ledger.py
+    kind: ledger
+    refresh: "appended per recommendation, placed or not"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: model/expanded_walk_forward_cache.csv
     produced_by: model/build_expanded_walk_forward_cache.py
     consumed_by:

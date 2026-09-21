@@ -68,6 +68,38 @@ components:
       gap it was meant to close.
       Takes effect on the services at their next build.
 
+  - id: execution-bet-ledger
+    old_path: "(did not exist -- no record of what was bet or why not)"
+    new_path: "src/coverline/execution/ledger.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts:
+      - "data/ledger/signals.jsonl"
+      - "data/ledger/closes.jsonl"
+      - "data/ledger/settlements.jsonl"
+    data_disposition: raw
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor"
+    old_removed: false
+    notes: >-
+      THE DESIGN DECISION IS RECORDING SIGNALS THAT DID NOT BECOME BETS. A
+      ledger of placed bets measures how the bets you got performed; it cannot
+      measure what execution cost, because the ones you missed -- line moved,
+      book limited you, nobody was awake -- leave no trace. The gap between
+      recommendations and positions held IS the execution layer's performance,
+      and the strategy audit put that layer above model quality.
+      Append-only. A bet's later life (close, settlement) arrives as separate
+      rows keyed to it, never as an edit: rewriting a betting ledger is how a
+      losing week becomes a break-even one without anyone deciding to lie.
+      Refuses what it cannot later grade -- a placed bet without book, price
+      and stake; a free-text reason for a signal that did not convert (free
+      text is how the commonest reason becomes unqueryable); a close given as
+      one side of a market.
+      Unsurveyed bets count as UNMEASURED, not as zero slippage, so execution
+      quality is not flattered exactly where nothing was checked.
+      Stores no account identifiers or credentials; a test inspects the
+      dataclass fields rather than grepping prose.
+
   - id: execution-capture
     old_path: "(did not exist -- no closing prices were ever captured)"
     new_path: "src/coverline/execution/capture.py"
