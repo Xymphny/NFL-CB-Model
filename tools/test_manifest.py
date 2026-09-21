@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import importlib.util
 import subprocess
 import sys
 from pathlib import Path
@@ -41,18 +42,54 @@ MANIFEST = ROOT / "tests" / "MANIFEST.txt"
 LEGACY_SUITES = ("tests/test_model_guards.py", "tests/test_parsers.py")
 
 
+class CollectionUnavailable(RuntimeError):
+    """Collection could not run at all -- NOT the same as tests being gone."""
+
+
 def pytest_tests() -> list[str]:
-    """Ask pytest what it can collect under tests/core/."""
+    """Ask pytest what it can collect under tests/core/.
+
+    FAILS CLOSED. The first version of this function returned [] whenever
+    pytest was missing or collection errored, which made the tool report every
+    pytest test as DISAPPEARED on any machine without pytest installed -- a
+    false alarm indistinguishable from the real thing. A detector that cannot
+    tell "deleted" from "could not look" is worse than no detector: it trains
+    you to ignore it, and the one time it is right you will.
+
+    Found by running the tool on the desktop, which has no pytest. It claimed
+    82 tests had vanished.
+    """
+    if importlib.util.find_spec("pytest") is None:
+        raise CollectionUnavailable(
+            "pytest is not installed, so the test inventory cannot be read.\n"
+            "  This is an ENVIRONMENT problem, not a missing-test problem.\n"
+            "  fix:  pip install -r requirements.txt"
+        )
+
     proc = subprocess.run(
         [sys.executable, "-m", "pytest", "tests/core", "--collect-only", "-q",
          "--no-header", "-p", "no:cacheprovider"],
         cwd=ROOT, capture_output=True, text=True,
     )
+    # pytest exit codes: 0 = collected, 5 = collected nothing, others = error.
+    if proc.returncode not in (0, 5):
+        raise CollectionUnavailable(
+            f"pytest collection exited {proc.returncode}; the inventory is "
+            f"unreadable, so no conclusion about missing tests is possible.\n"
+            f"  stderr: {proc.stderr.strip()[:400]}"
+        )
+
     out = []
     for line in proc.stdout.splitlines():
         line = line.strip()
         if "::" in line and not line.startswith(("=", "_", "[")):
             out.append(line.split(" ")[0])
+
+    if proc.returncode == 0 and not out:
+        raise CollectionUnavailable(
+            "pytest reported success but named no tests; refusing to treat an "
+            "unparseable collection as an empty suite"
+        )
     return out
 
 
@@ -88,7 +125,13 @@ def main() -> int:
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
 
-    current = build()
+    try:
+        current = build()
+    except CollectionUnavailable as exc:
+        # Exit 2, matching scripts/check.sh: not verified is not the same as
+        # broken, and saying so keeps this from crying wolf.
+        print(f"INVENTORY UNAVAILABLE -- {exc}", file=sys.stderr)
+        return 2
 
     if args.write:
         MANIFEST.parent.mkdir(parents=True, exist_ok=True)
