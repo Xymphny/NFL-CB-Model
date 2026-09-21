@@ -1,0 +1,41 @@
+# THE ARTIFACT MANIFEST
+#
+# Every file the pipeline publishes declares who produces it and who consumes
+# it. An artifact with no consumer is either dead weight or a broken link, and
+# both are invisible without this file.
+#
+# This is the defence against orphaned components. Code that nothing calls can
+# be found by static analysis; a FILE that nothing reads cannot, because the
+# reader would be a path string in some other module, or the frontend, or
+# nothing at all. The manifest makes the consumer relationship explicit so the
+# absence of one is a CI failure rather than a slow accumulation.
+#
+# CI checks, in tests/core/test_artifact_manifest.py:
+#   1. every artifact has at least one consumer, or an explicit
+#      `unconsumed_reason` explaining why not
+#   2. no two artifacts claim the same path
+#   3. producers and consumers name real paths in the repo where they are code
+#
+# NOTE ON SCOPE: this manifest covers the NEW core's artifacts. The legacy
+# pipeline's published files are inventoried as their components are examined
+# and given ledger rows; until then they are out of scope rather than silently
+# blessed. `coverage_scope` below says so explicitly so nobody later reads an
+# absence here as an assertion of health.
+
+version: 1
+coverage_scope: "src/coverline/** only; legacy model/ and deploy/ artifacts are
+  inventoried per-component in migration/ledger.yaml as they are examined"
+
+artifacts: []
+
+# Shape of a row, for when the first one lands:
+#
+#   - path: data/published/nfl_board.json
+#     produced_by: src/coverline/apps/publish_board.py
+#     consumed_by:
+#       - frontend/src/App.jsx
+#       - src/coverline/execution/grade.py
+#     kind: gold              # bronze | silver | gold | ledger | archive
+#     refresh: "weekly, Tue 11:00 UTC"
+#     staleness_error_hours: 200
+#     unconsumed_reason: null

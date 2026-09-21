@@ -2,6 +2,74 @@
 
 Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it can go without live API keys, a real GitHub remote, or network access this sandbox doesn't have. This README is the ground truth on what's actually been run vs. what's structurally written but unverified — read it before bug-fixing anything.
 
+## THE FIVE-LEAGUE CORE (2026-09-21) -- new, built alongside, nothing retired yet
+
+The project is being rebuilt around one seam, following two audits. Read
+`reports/Coverline five league redesign.md` for the design; this section is
+what actually exists in the repo today.
+
+**What changed in principle.** The goal is personal profit, not a commercial
+product, and the audits found that execution -- price capture, sizing, account
+capacity -- moves more money than model quality does. So the new core leads
+with the layers the old system never had: devigging, expected value against a
+FAIR price, closing line value, and a staking engine. It also retires the
+ship/no-ship significance gate, which at these sample sizes had essentially no
+power (minimum detectable effect on ~2,000 NFL games is about +3.1 points of
+cover rate) and inflated whatever it did admit by roughly 2.7x. Conservatism
+moves from the ship decision to the bet-sizing decision.
+
+**The seam.** Every league produces a `ScoreDistribution`; everything
+downstream of it imports only `core`. Two implementations serve five leagues --
+`NormalMarginDistribution` (NFL, CFB, NBA) and `BivariatePoissonDistribution`
+(NHL, MLB). Enforcement is an annotated `REGISTRY: dict[str, LeagueModel]`, so
+a league missing a method fails at the `@register` line rather than on a
+Tuesday morning. `@runtime_checkable` + isinstance is explicitly NOT the
+mechanism: it does not check signatures.
+
+**Three findings from building it, all recorded rather than smoothed over.**
+(1) Two devig figures the research specified were wrong. Power was quoted at
+72.47% and is 73.31%; Shin was quoted at 73.05% and is 72.79%. Both
+implementations here satisfy their defining equations -- `sum(p^k) = 1` at
+k = 1.0793, and a single consistent z to machine precision across 2-, 3- and
+4-way markets -- and no value matching the quoted figures does. The tests
+assert the equations, not the numbers, which is the only reason this surfaced.
+(2) Shin and additive are the SAME method for two-outcome markets, exact to
+1e-16, and differ for three-way. That resolves a source conflict the research
+flagged and could not settle; on two-way markets there are three distinct
+methods available, not four.
+(3) Shrinking the probability and scaling the stake are not interchangeable,
+and which is larger depends on the price, crossing at even money. Below decimal
+2.0 -- which is virtually every bet this project places -- shrinking first is
+the conservative ordering and can VETO a bet that stake-scaling would place.
+
+**What is deliberately withheld, in code.** The NFL/CFB key-number mass table
+is absent, so push prices at 3 and 7 are known to be wrong and
+`has_key_number_correction` returns False rather than the code pretending
+otherwise. `staking.py` ships with NO default shrinkage weight, because the
+weight `b = 1 - 1/E[t^2]` needs the t-statistic of every candidate ever tested
+including failures, and this project has never kept that log -- it recorded
+findings, not attempts. Building that log is the open blocker on having a
+defensible weight.
+
+**The rot defences, and which actually work without you.** Structural:
+`tools/test_manifest.py` diffs a checked-in inventory of all 129 tests and
+fails CI naming any that vanished (verified by deleting one -- it named it);
+`migration/ledger.yaml` plus its CI tests make a component impossible to drop
+without an ADR that exists on disk (all five rules verified by breaking each);
+the conformance battery runs one assertion suite against every league and is
+proven able to fail against deliberately broken stand-ins. Discipline-dependent
+and honestly labelled as such: keeping the ledger rows current, and writing the
+ADR text well enough to be useful later.
+
+**A Condition-2 loss that already happened**, now a permanent open row in the
+ledger: eight shipped constants cite a grid search whose output exists in no
+committed file. They cannot be re-derived or updated on new data. The ledger
+test refuses to let that row be closed or its data reclassified as deletable.
+
+Nothing is retired. The legacy pipeline still runs the board; `artifacts.yml`
+states plainly that it covers `src/coverline/**` only, so its silence about
+`model/` and `deploy/` is never readable as a clean bill of health.
+
 ## September 2026 round -- ATS honesty, commercial dashboard, staking, CFB odds
 
 Everything in this section was built and tested in one collaborative session; each item states plainly whether it was run against real data or is awaiting a live credential.

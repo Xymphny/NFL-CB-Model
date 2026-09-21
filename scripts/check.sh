@@ -18,7 +18,7 @@ cd "$(dirname "$0")/.."
 # VM, for instance, has no scipy.
 missing=$(python3 - <<'PY'
 import importlib
-print(" ".join(m for m in ("pandas", "numpy", "scipy")
+print(" ".join(m for m in ("pandas", "numpy", "scipy", "pytest")
                 if importlib.util.find_spec(m) is None))
 PY
 )
@@ -35,6 +35,8 @@ run() {
   if "$@"; then :; else echo "  ^ FAILED"; fail=1; fi
 }
 
+run "core tests"    python3 -m pytest tests/core -q
+run "test manifest" python3 tools/test_manifest.py --check
 run "guard tests"   python3 tests/test_model_guards.py
 run "parser tests"  python3 tests/test_parsers.py
 

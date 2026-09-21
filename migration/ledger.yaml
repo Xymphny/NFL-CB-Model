@@ -1,0 +1,126 @@
+# THE MIGRATION LEDGER
+#
+# Every component of the current system gets exactly one row here, and every
+# row ends in a disposition. Nothing leaves the old system without a row, and
+# no row may sit in `pending` forever without being visible.
+#
+# This file is the enforcement mechanism for the first of the two conditions
+# attached to the rebuild: anything not carried over must be documented well
+# enough to revisit. `dropped` is a legitimate outcome -- silence is not.
+#
+# CI checks, in tests/core/test_migration_ledger.py:
+#   1. every row has a disposition from the closed set below
+#   2. every `dropped` or `deferred` row names an ADR that EXISTS on disk
+#   3. no row claims `old_removed: true` while its disposition is pending
+#   4. every data_artifact named here has a data_disposition
+#
+# DISPOSITIONS (closed set -- adding one means editing the test too):
+#   pending   - not yet decided. The only state with no ADR requirement.
+#   ported    - moved into the new core substantially as-is
+#   rewritten - reimplemented against the new interfaces; behaviour may differ
+#   dropped   - deliberately not carried over. REQUIRES an ADR with a Recovery
+#               section giving the git tag or path where it can be found.
+#   deferred  - will be revisited, not now. REQUIRES an ADR and a trigger.
+#
+# DATA DISPOSITIONS, for the second condition -- the data must survive:
+#   raw       - immutable source data. Never regenerated, never deleted.
+#   training  - derived but NOT reproducible (hand-corrections, manual entity
+#               matches, judgement encoded as data). Treat as raw. This is the
+#               category that quietly gets destroyed in rebuilds.
+#   derived   - reproducible from raw by code. Archive old, regenerate new,
+#               compare.
+#   cache     - reproducible and cheap. Safe to delete.
+
+version: 1
+updated: "2026-09-21"
+
+# ---------------------------------------------------------------------------
+# Seeded with the components the new core already replaces, plus the two known
+# Condition-2 hazards found during the audits. The rest of the inventory is
+# added as each component is examined -- an empty row list would let the CI
+# coverage check pass vacuously, which is why test_ledger_is_not_vacuous exists.
+# ---------------------------------------------------------------------------
+components:
+
+  - id: core-distributions
+    old_path: "model/ (margin and total logic, per-league)"
+    new_path: "src/coverline/core/distributions.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_started
+    parity_tolerance: "margin/total cdf within 3e-3 of the old model on a
+      common slate; pushes on key numbers EXCLUDED until the key-number table
+      is measured -- the new code is knowingly wrong there and says so"
+    old_removed: false
+    notes: >-
+      Two implementations replace five ad-hoc ones. The key-number mass table
+      is deliberately absent rather than guessed; NFL/CFB push prices from the
+      new code are known-wrong at 3 and 7 until it is measured.
+
+  - id: core-pricing-devig
+    old_path: "(did not exist -- vig was never removed)"
+    new_path: "src/coverline/core/pricing.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor to compare against"
+    old_removed: false
+    notes: >-
+      New capability, not a port. The old system compared model numbers to
+      posted prices without removing the margin, which the strategy audit
+      identified as overstating edge roughly fivefold.
+
+  - id: core-staking
+    old_path: "(did not exist -- no sizing layer)"
+    new_path: "src/coverline/core/staking.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor to compare against"
+    old_removed: false
+    notes: >-
+      Carries the shrinkage that replaces the old ship/no-ship gate. Ships with
+      NO default weight: the attempt log it needs does not exist yet.
+
+  - id: evidence-attempt-log
+    old_path: "README ledger (records findings, not attempts)"
+    new_path: "(not yet built)"
+    disposition: pending
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_started
+    parity_tolerance: null
+    old_removed: false
+    notes: >-
+      BLOCKS core-staking from having a defensible shrinkage weight. The old
+      ledger recorded what was found, which is the wrong variable: the weight
+      b = 1 - 1/E[t^2] needs the t-statistic of every candidate TESTED,
+      failures included. Until this exists every shrinkage weight is a
+      judgement call rather than arithmetic.
+
+  - id: frozen-threshold-grid
+    old_path: "model/ (eight constants citing a grid search)"
+    new_path: "(unresolved)"
+    disposition: pending
+    adr: null
+    data_artifacts:
+      - "the grid search output itself"
+    data_disposition: training
+    parity_status: not_applicable
+    parity_tolerance: null
+    old_removed: false
+    notes: >-
+      A CONDITION-2 LOSS THAT HAS ALREADY HAPPENED. Eight shipped constants
+      cite a grid search recorded in the ledger, and the grid's output exists
+      in no committed file. The constants cannot be re-derived, re-checked, or
+      updated on new data without rerunning a search whose specification is
+      also gone. This row stays open until either the output is found or the
+      search is rerun and committed. It is the worked example of why the data
+      condition is a first-class requirement and not an afterthought.
