@@ -239,6 +239,26 @@ path named in a docstring under `src/`, `model/`, `scripts/` or `tests/` must
 exist. It immediately found `model/cfb_edge_calibration.py` claiming to write
 to `model/` when it writes to `data/`.
 
+### And the MLB rule is now measured, not inferred
+
+ADR 0017 diagnosed baseball's two rules from the fingerprints final scores
+leave. Fingerprints are enough to know a rule is acting and not enough to
+model it, so the linescores were pulled -- 12,146 games, one request per date
+-- and the rule is now measured directly.
+
+It is **deterministic**: across every game, zero had the home team leading
+after the top of the ninth and still batting. Every state at +1 or better maps
+to that exact final margin with probability one. And tied after the top of the
+ninth, **the home team wins 62.8%** of the time on 1,149 games, purely from
+batting last -- the number a symmetric distribution cannot express and the
+source of the moneyline's 2.5-point bias.
+
+One trap is recorded for whoever builds the layer: `exp_home` is fitted to
+**observed** home runs (4.48), which are truncated in 45% of games. Untruncated
+nine-inning home scoring is about 4.68, so applying the rule on top of the
+observed rates would count the truncation twice and produce a model that looks
+better calibrated than it is.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.

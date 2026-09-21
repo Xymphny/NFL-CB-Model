@@ -138,3 +138,69 @@ def test_totals_are_offered_and_marked_untested():
     market is offered and the absence of evidence is recorded rather than
     dressed up as either confidence or caution."""
     assert "total" in _model().primary_markets
+
+
+# ---------------------------------------------------------------------------
+# The rule, measured from linescores rather than inferred from fingerprints.
+# ---------------------------------------------------------------------------
+
+def _rules():
+    return json.loads((ROOT / "model" / "mlb_rules_structure.json").read_text())
+
+
+def test_the_home_team_never_bats_while_leading():
+    """The rule is deterministic, and that is what makes it a rule.
+
+    Across 12,146 games, ZERO had the home team leading after the top of the
+    ninth and still batting. The converse has 74 exceptions -- shortened and
+    called games -- which is a real 0.6% and is stated rather than modelled.
+    """
+    lt = _rules()["linescore_transition"]
+    assert lt["measured"], "run model/ingest/mlb_linescores.py"
+    det = lt["rule_is_deterministic"]
+    assert det["home_led_after_top_nine_and_still_batted"] == 0
+    assert det["home_did_not_lead_and_did_not_bat"] < 0.02 * lt["n_games"]
+
+
+def test_a_lead_after_the_top_of_the_ninth_ends_the_game():
+    """Rows the layer does not have to fit, because the league fixes them.
+
+    Every state at +1 or better maps to that exact final margin with
+    probability one. A layer that produced anything else there would be
+    modelling a game that cannot happen.
+    """
+    table = _rules()["linescore_transition"]["transition_table"]
+    for state in ("1", "2", "3", "4"):
+        row = table[state]["final_margin"]
+        assert row == {state: 1.0}, (
+            f"state {state} no longer ends the game deterministically: {row}"
+        )
+
+
+def test_batting_last_is_worth_thirteen_points_when_tied():
+    """The number the shipped model cannot express.
+
+    Tied after the top of the ninth, the home team wins 62.8% of the time --
+    on 1,149 games -- because it bats last. A symmetric distribution says
+    50%, and conditioning a tie out proportionally keeps saying 50%. That gap
+    is where the moneyline's 2.5 point bias comes from.
+    """
+    w = _rules()["linescore_transition"]["walk_off_advantage"]
+    assert w["n"] > 800
+    assert w["p_home_wins_when_tied_after_top_nine"] > 0.58, (
+        "the walk-off advantage has shrunk; if it approaches 50% the "
+        "symmetric model stops being wrong and the moneyline can return"
+    )
+
+
+def test_the_rates_are_fitted_to_truncated_runs_and_that_is_recorded():
+    """The trap in front of whoever builds the layer.
+
+    exp_home is fitted to OBSERVED home runs, 4.4766, which are truncated in
+    45% of games. Untruncated nine-inning home scoring is about 4.68.
+    Applying the rule on top of the observed rates would count the truncation
+    twice, and the resulting model would look better calibrated than it is.
+    """
+    u = _rules()["linescore_transition"]["untruncated_scoring"]
+    assert u["implied_untruncated_home_nine_innings"] > u["home_runs_observed"]
+    assert u["why"]

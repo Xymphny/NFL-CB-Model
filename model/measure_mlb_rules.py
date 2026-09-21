@@ -66,6 +66,80 @@ from model.mlb_model import run_walk_forward  # noqa: E402
 OUT = HERE / "mlb_rules_structure.json"
 
 
+def linescore_transition() -> dict:
+    """The rule itself, measured, not inferred from fingerprints.
+
+    `state` is the margin after the TOP of the ninth: home runs through eight
+    minus away runs through nine. It is what the rule reads, and until the
+    linescores were pulled it was not in this repository at all.
+
+    The table below is the layer a corrected model needs. It is empirical,
+    every row has hundreds of games behind it, and two of its rows are
+    DETERMINISTIC rather than fitted.
+    """
+    import glob
+
+    files = sorted(glob.glob(str(ROOT / "data" / "raw" / "mlb" /
+                                 "linescores_*.parquet")))
+    if not files:
+        return {"measured": False,
+                "reason": "run model/ingest/mlb_linescores.py"}
+
+    d = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+    d["away_through_9"] = d.away_through_8 + d.away_ninth
+    d["state"] = d.home_through_8 - d.away_through_9
+    d["final_margin"] = d.home_score - d.away_score
+    leading = d.state > 0
+
+    table = {}
+    for st in range(-4, 5):
+        sub = d[d.state == st]
+        if len(sub) < 50:
+            continue
+        vc = sub.final_margin.value_counts(normalize=True).sort_index()
+        table[str(st)] = {"n": int(len(sub)),
+                          "final_margin": {str(int(k)): round(float(v), 5)
+                                           for k, v in vc.items()
+                                           if v >= 0.001}}
+
+    tied = d[d.state == 0]
+    return {
+        "measured": True,
+        "n_games": int(len(d)),
+        "seasons": sorted(int(x) for x in d.season.unique()),
+        "home_batted_ninth": round(float(d.home_batted_ninth.mean()), 4),
+        "rule_is_deterministic": {
+            "home_led_after_top_nine_and_still_batted": int(
+                (leading & d.home_batted_ninth).sum()),
+            "home_did_not_lead_and_did_not_bat": int(
+                ((~leading) & ~d.home_batted_ninth).sum()),
+            "note": ("the first must be zero and is. The second is 74 games "
+                     "in 12,146 -- shortened and called games, a real "
+                     "exception rather than a modelling failure, and small "
+                     "enough to state rather than model."),
+        },
+        "walk_off_advantage": {
+            "p_home_wins_when_tied_after_top_nine": round(
+                float((tied.final_margin > 0).mean()), 4),
+            "n": int(len(tied)),
+            "why": ("batting last. This single number is what the shipped "
+                    "model cannot express and what makes its conditioned "
+                    "moneyline 2.5 points low."),
+        },
+        "untruncated_scoring": {
+            "home_runs_through_eight": round(float(d.home_through_8.mean()), 4),
+            "away_runs_through_nine": round(float(d.away_through_9.mean()), 4),
+            "home_runs_observed": round(float(d.home_score.mean()), 4),
+            "implied_untruncated_home_nine_innings": round(
+                float(d.home_through_8.mean() * 9.0 / 8.0), 4),
+            "why": ("exp_home is fitted to OBSERVED home runs, which are "
+                    "truncated in 45% of games. A layer that applies the rule "
+                    "on top of those rates counts the truncation twice."),
+        },
+        "transition_table": table,
+    }
+
+
 def main() -> int:
     sch = pd.read_csv(HERE / "mlb_schedule_cache.csv")
     pitch = pd.read_csv(HERE / "mlb_pitching_cache.csv")
@@ -117,6 +191,7 @@ def main() -> int:
                      "actual": round(float((m == k).mean()), 4)}
             for i, k in enumerate(range(-4, 5))
         },
+        "linescore_transition": linescore_transition(),
         "market_impact": {
             "moneyline": {
                 "model_p_home_conditioned": round(float(np.mean(p_home)), 4),
@@ -141,6 +216,11 @@ def main() -> int:
     mk = report["market_impact"]
     print(f"ties: model {report['extra_innings_resolve_every_game']['model_mass_on_a_tie']}"
           f" actual {report['extra_innings_resolve_every_game']['ties_in_final_scores']}")
+    lt = report["linescore_transition"]
+    if lt.get("measured"):
+        print(f"home batted 9th {lt['home_batted_ninth']:.4f}   "
+              f"P(home wins | tied after top 9) "
+              f"{lt['walk_off_advantage']['p_home_wins_when_tied_after_top_nine']:.4f}")
     print(f"moneyline error {mk['moneyline']['error']:+.4f}   "
           f"runline error {mk['runline']['error']:+.4f}")
     print("wrote", OUT.relative_to(ROOT))

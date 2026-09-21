@@ -64,6 +64,127 @@
       "actual": 0.0587
     }
   },
+  "linescore_transition": {
+    "measured": true,
+    "n_games": 12146,
+    "seasons": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "home_batted_ninth": 0.5483,
+    "rule_is_deterministic": {
+      "home_led_after_top_nine_and_still_batted": 0,
+      "home_did_not_lead_and_did_not_bat": 74,
+      "note": "the first must be zero and is. The second is 74 games in 12,146 -- shortened and called games, a real exception rather than a modelling failure, and small enough to state rather than model."
+    },
+    "walk_off_advantage": {
+      "p_home_wins_when_tied_after_top_nine": 0.6284,
+      "n": 1149,
+      "why": "batting last. This single number is what the shipped model cannot express and what makes its conditioned moneyline 2.5 points low."
+    },
+    "untruncated_scoring": {
+      "home_runs_through_eight": 4.1559,
+      "away_runs_through_nine": 4.2938,
+      "home_runs_observed": 4.4766,
+      "implied_untruncated_home_nine_innings": 4.6754,
+      "why": "exp_home is fitted to OBSERVED home runs, which are truncated in 45% of games. A layer that applies the rule on top of those rates counts the truncation twice."
+    },
+    "transition_table": {
+      "-4": {
+        "n": 725,
+        "final_margin": {
+          "-4": 0.76414,
+          "-3": 0.13517,
+          "-2": 0.05241,
+          "-1": 0.02759,
+          "1": 0.01793,
+          "2": 0.00138,
+          "3": 0.00138
+        }
+      },
+      "-3": {
+        "n": 832,
+        "final_margin": {
+          "-4": 0.0012,
+          "-3": 0.77163,
+          "-2": 0.15144,
+          "-1": 0.05168,
+          "1": 0.02163,
+          "3": 0.0024
+        }
+      },
+      "-2": {
+        "n": 992,
+        "final_margin": {
+          "-9": 0.00101,
+          "-7": 0.00101,
+          "-4": 0.00101,
+          "-3": 0.00302,
+          "-2": 0.76915,
+          "-1": 0.14516,
+          "1": 0.07056,
+          "2": 0.00605,
+          "3": 0.00202,
+          "4": 0.00101
+        }
+      },
+      "-1": {
+        "n": 1154,
+        "final_margin": {
+          "-4": 0.00347,
+          "-3": 0.00693,
+          "-2": 0.013,
+          "-1": 0.80069,
+          "1": 0.16118,
+          "2": 0.00433,
+          "3": 0.00867
+        }
+      },
+      "0": {
+        "n": 1149,
+        "final_margin": {
+          "-7": 0.00174,
+          "-6": 0.00957,
+          "-5": 0.01393,
+          "-4": 0.02698,
+          "-3": 0.05483,
+          "-2": 0.08529,
+          "-1": 0.17929,
+          "1": 0.54482,
+          "2": 0.05048,
+          "3": 0.0235,
+          "4": 0.00957
+        }
+      },
+      "1": {
+        "n": 1179,
+        "final_margin": {
+          "1": 1.0
+        }
+      },
+      "2": {
+        "n": 1037,
+        "final_margin": {
+          "2": 1.0
+        }
+      },
+      "3": {
+        "n": 804,
+        "final_margin": {
+          "3": 1.0
+        }
+      },
+      "4": {
+        "n": 700,
+        "final_margin": {
+          "4": 1.0
+        }
+      }
+    }
+  },
   "market_impact": {
     "moneyline": {
       "model_p_home_conditioned": 0.5063,
