@@ -18,7 +18,8 @@ even if this directory is lost.
 | [0002](0002-odds-data-vendor-and-tier.md) | accepted | Buy The Odds API at the 100K tier, and never split the CLV baseline |
 | [0003](0003-attempt-log-and-the-derived-shrinkage-weight.md) | accepted | Reconstruct the attempt log, and treat the weight it yields as a ceiling |
 | [0004](0004-ngs-team-code-mismatch.md) | accepted | Record the NGS team-code mismatch; do not fix it in the same breath |
-| [0005](0005-nhl-and-nba-structure-without-coefficients.md) | accepted | Ship NHL and NBA as structure, with no fitted coefficients |
+| [0005](0005-nhl-and-nba-structure-without-coefficients.md) | superseded | Ship NHL and NBA as structure, with no fitted coefficients |
+| [0006](0006-nhl-and-nba-fitted-walk-forward.md) | accepted | Fit NHL and NBA within season, and ship the graded parameters |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or

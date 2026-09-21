@@ -248,6 +248,59 @@ attempts:
       on average. Residual sd is flat across the range tested and the test
       cannot see beyond it. Recorded as inconclusive, not refuted.
 
+  - id: nba-walkforward-ratings
+    date: "2026-09-21"
+    hypothesis: >-
+      NBA team ratings updated WITHIN season and walked forward beat the
+      league-average margin, where static cross-season ratings did not.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: 0.05708
+    standard_error: 0.00958
+    t: 5.96
+    decision: shipped
+    recovered: false
+    source: model/nba_walkforward_results.json (holdout_grade)
+    note: >-
+      The repair the static failure pointed at. Hyperparameters chosen on
+      2021-2022, graded ONCE on 2023 -- a season never graded before, chosen
+      because 2024-2025 were already spent on the static question and reusing
+      them would be test-set reuse. A real cost of having asked the static
+      question first: there is now nothing clean left for a third.
+      18 hyperparameter combinations were tried, whose pure-noise ceiling is
+      an expected best t of 1.85. The observed 5.96 clears it by more than
+      threefold. The trials were spent on the TUNING seasons, so the ceiling
+      bounds the selection rather than the grade directly.
+      Sign flip from the static fit's -6.96 is the finding: three-year-old NBA
+      ratings are not merely stale, they are actively misleading.
+
+  - id: nhl-walkforward-rates
+    date: "2026-09-21"
+    hypothesis: >-
+      NHL attack/defence rates updated within season beat league-average
+      scoring rates.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: 0.02674
+    standard_error: 0.00885
+    t: 3.02
+    decision: shipped
+    recovered: false
+    source: model/nhl_walkforward_results.json (holdout_grade)
+    note: >-
+      Graded once on 2024, the only ungraded usable season -- 2021-2023 are
+      corrupt (constant scores) and 2025 was spent on the static question.
+      ZERO hyperparameter trials: with nothing clean left to tune on, k was
+      fixed a priori, because searching on the only ungraded season and then
+      grading on it is how a result gets manufactured. So there is no noise
+      ceiling to clear.
+      THE RATES SHIPPED; THE JOINT DISTRIBUTION DID NOT. Independent Poisson
+      still under-predicts one-goal games by ten points (28.4% against 38.1%)
+      because the two scores are negatively correlated at -0.14 and the
+      shared-component term can only express positive correlation. Walking
+      forward does not touch that -- it is a property of the joint, not the
+      rates -- so the puck line stays out of primary_markets.
+
 # ---------------------------------------------------------------------------
 # NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.
 # Excluding these is a methodological choice, and a reader must be able to

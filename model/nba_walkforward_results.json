@@ -1,0 +1,46 @@
+{
+ "_provenance": {
+  "script": "model/fit_nba_walkforward.py",
+  "generated": "2026-09-21",
+  "tune_seasons": [
+   2021,
+   2022
+  ],
+  "holdout_season": 2023,
+  "graded_once": true,
+  "spent_seasons_not_used": [
+   2024,
+   2025
+  ],
+  "spent_because": "2024-2025 were graded once already for the static cross-season question in fit_nba.py; reusing them would be test-set reuse",
+  "hyperparameter_trials": 18,
+  "metric": "mean log-likelihood of the realised margin",
+  "baseline": "league-average margin and sd from the tuning seasons",
+  "n_holdout": 1230
+ },
+ "chosen_hyperparameters": {
+  "k": 0.05,
+  "home_adv": 2.0,
+  "carryover": 0.5
+ },
+ "sd_used": 14.1666,
+ "holdout_grade": {
+  "model": -3.99067,
+  "baseline": -4.04775,
+  "paired_gain": 0.05708,
+  "standard_error": 0.00958,
+  "t": 5.96,
+  "supported": true
+ },
+ "multiple_testing": {
+  "hyperparameter_trials": 18,
+  "expected_best_t_from_pure_noise": 1.854,
+  "observed_holdout_t": 5.96,
+  "clears_noise_ceiling": true,
+  "note": "the trials were spent choosing hyperparameters on the TUNING seasons; the holdout was graded once with the chosen values, so the ceiling bounds the selection, not the grade directly. Reported because a search this size can manufacture a tuning result that then fails to replicate."
+ },
+ "versus_static": {
+  "static_t": -6.96,
+  "note": "the static cross-season fit measured t = -6.96 against the same kind of baseline on a different holdout; the two are not directly comparable but the sign change is the point"
+ }
+}

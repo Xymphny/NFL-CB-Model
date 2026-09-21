@@ -64,7 +64,7 @@ BUILT_LEAGUES: frozenset[str] = frozenset()
 #: sources would price those 6 games with the rating-only vector and silently
 #: disagree with the board. Moving nfl to BUILT_LEAGUES needs the NGS fetch
 #: ported, which has its own ledger row.
-IMPLEMENTED_LEAGUES: frozenset[str] = frozenset({"nfl", "cfb", "mlb"})
+IMPLEMENTED_LEAGUES: frozenset[str] = frozenset({"nfl", "cfb", "mlb", "nhl", "nba"})
 
 #: Leagues whose package defines the SHAPE but ships no fitted coefficients.
 #: Distinct from IMPLEMENTED again, because a package that cannot produce a
@@ -75,7 +75,12 @@ IMPLEMENTED_LEAGUES: frozenset[str] = frozenset({"nfl", "cfb", "mlb"})
 #: NHL's empty-net conditioning and fixed puck line, NBA's sigma rising with
 #: spread and the minutes layer that is the actual model. A test fails if
 #: either file grows a module-level numeric constant.
-STRUCTURAL_ONLY_LEAGUES: frozenset[str] = frozenset({"nhl", "nba"})
+#: EMPTY as of 2026-09-21. nhl and nba moved to IMPLEMENTED when
+#: within-season walk-forward fits cleared held-out gates -- NBA t = +5.96 on
+#: a season never graded before, NHL t = +3.02 with zero hyperparameter
+#: trials. Static cross-season fits had failed first (t = -6.96, -1.33).
+#: Their parameters live in graded artifacts, not module constants.
+STRUCTURAL_ONLY_LEAGUES: frozenset[str] = frozenset()
 
 
 def test_registry_matches_the_checked_in_inventory():
@@ -116,6 +121,16 @@ def test_structural_leagues_have_a_package_but_no_fitted_model():
             f"{league} is listed as structure-only but does not declare "
             "NotFitted; if it has been fitted, move it deliberately"
         )
+
+
+def test_every_implemented_league_can_produce_a_number():
+    """The line between structure and implementation. A league in
+    IMPLEMENTED must be able to price something given a source."""
+    import importlib
+    for league in IMPLEMENTED_LEAGUES:
+        mod = importlib.import_module(f"coverline.leagues.{league}.model")
+        cls = getattr(mod, f"{league.upper()}Model")
+        assert callable(getattr(cls, "predict", None)), f"{league} cannot predict"
 
 
 def test_every_expected_league_is_accounted_for():

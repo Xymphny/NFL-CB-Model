@@ -1,17 +1,28 @@
-"""Hockey on the seam. STRUCTURE ONLY -- no fitted coefficients.
+"""Hockey on the seam. Rates FITTED AND GRADED; the joint distribution is not.
 
-WHY THERE ARE NO NUMBERS IN THIS FILE
-NHL is a new league for this project. There is no legacy model to port, no
-committed walk-forward cache, and no held-out grading. Shipping coefficients
-fitted in an afternoon would be exactly the failure the whole evidence
-apparatus exists to prevent: plausible constants indistinguishable, six months
-later, from measured ones.
+WHERE THE NUMBERS COME FROM
+Not from this file. data/nhl_fitted.json carries attack and defence ratings
+walked forward within the 2024 season and graded ONCE on it -- paired gain
++0.0267 in mean log-likelihood, SE 0.0089, t = +3.02, with ZERO
+hyperparameter trials, because only one ungraded season existed and searching
+it before grading on it is how a result gets manufactured.
 
-So this package defines the SHAPE -- what a hockey model must provide and
-which distribution family fits -- and refuses to run without fitted
-parameters supplied by a caller who has measured them. `NHLModel` takes rates
-as arguments; there is no default and no module-level constant to import by
-accident.
+The artifact carries its own grade and the loader REFUSES it if that grade
+does not clear. So the package still ships no unmeasured constant: what it
+ships is a number that earned its place and travels with the evidence.
+
+An earlier static fit across seasons measured t = -1.33 and did not ship.
+
+THE RATES ARE GRADED. THE JOINT DISTRIBUTION IS NOT.
+Independent Poisson under-predicts one-goal games by about ten points -- 28.4%
+against an actual 38.1% -- because the two scores are NEGATIVELY correlated
+(-0.14), and BivariatePoissonDistribution's shared component can only express
+POSITIVE correlation. Real games stay closer than independent rates allow: a
+leading team defends, a trailing team presses.
+
+That is a property of the joint distribution, not of the rates, and walking
+forward does not fix it. Any market priced on the closeness of the game is
+wrong here, which is why the puck line stays out of primary_markets.
 
 THE FAMILY, AND THE ONE THING KNOWN TO BREAK IT
 Low-scoring counts, so the Poisson family, with two qualifications recorded
@@ -39,15 +50,49 @@ independent.
 
 from __future__ import annotations
 
+import json
+import math
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Protocol, Sequence
 
 from coverline.core.distributions import BivariatePoissonDistribution
 from coverline.core.interfaces import ScoreDistribution
 
+_ROOT = Path(__file__).resolve().parents[4]
+FITTED_PATH = _ROOT / "data" / "nhl_fitted.json"
+
 
 class NotFitted(NotImplementedError):
-    """No fitted parameters exist for this league yet."""
+    """No usable fitted parameters. Raised rather than falling back."""
+
+
+def load_fitted(path: Path = FITTED_PATH) -> dict:
+    """Load the graded artifact, refusing one that did not clear its gate."""
+    if not Path(path).exists():
+        raise NotFitted(f"no fitted NHL parameters at {path}")
+    art = json.loads(Path(path).read_text())
+    if not art.get("holdout_grade", {}).get("supported"):
+        raise NotFitted(
+            f"{Path(path).name} did not clear its held-out gate "
+            f"(t = {art.get('holdout_grade', {}).get('t')}). Refusing to price "
+            "from parameters that failed."
+        )
+    return art
+
+
+def rates_from_fit(art: dict, home: str, away: str) -> tuple[float, float]:
+    """Expected goals for one matchup, from the fitted ratings."""
+    atk, dfn = art["attack"], art["defence"]
+    for t in (home, away):
+        if t not in atk or t not in dfn:
+            raise KeyError(
+                f"{t} has no fitted rating; refusing to price it as league "
+                "average"
+            )
+    lam_h = math.exp(art["base_log_rate_home"] + atk[home] + dfn[away])
+    lam_a = math.exp(art["base_log_rate_away"] + atk[away] + dfn[home])
+    return lam_h, lam_a
 
 
 @dataclass(frozen=True)

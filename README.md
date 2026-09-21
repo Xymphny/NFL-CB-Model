@@ -47,12 +47,12 @@ wrong for pricing.
 | NFL | implemented, not live | <1e-9 on 1,945 cached games; live board margin reproduced to 1e-6 | full-ensemble parity needs one cron run carrying `feature_values` |
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
 | MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | distribution family chosen by measurement |
-| NHL | **structure only** | n/a | no fitted coefficients; ADR 0005 |
-| NBA | **structure only** | n/a | no fitted coefficients; ADR 0005 |
+| NHL | implemented, not live | n/a | rates graded t=+3.02; JOINT distribution still wrong |
+| NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; static failed at −6.96 |
 
 `BUILT_LEAGUES` (can price a real board), `IMPLEMENTED_LEAGUES` (passes the
-battery) and `STRUCTURAL_ONLY_LEAGUES` (shape, no numbers) are separate sets
-and a test asserts all five are accounted for exactly once. Collapsing them is
+battery) and `STRUCTURAL_ONLY_LEAGUES` (shape, no numbers — now empty) are
+separate sets and a test asserts all five are accounted for exactly once. Collapsing them is
 how something half-connected gets treated as finished.
 
 ### What measuring found that assuming would not have
@@ -132,12 +132,12 @@ date.
 
 `evidence/attempts.yaml` holds every candidate ever graded held-out,
 **failures included** -- computing the shrinkage weight from winners only is
-the selection effect the mechanism exists to undo. 7 attempts, 2 non-positive. 9 attempts, 4 non-positive. Pooled weight **0.9194**, robust weight
-**0.8724**. The slate runner defaults to the robust figure.
+the selection effect the mechanism exists to undo. 7 attempts, 2 non-positive. 11 attempts, 4 non-positive. Pooled weight **0.9296**, robust weight
+**0.9069**. The slate runner defaults to the robust figure.
 
 Two properties of that number worth knowing. It is no longer dominated by a
 single attempt -- it was, until two failed league fits were logged. And
-**46% of E[t^2] now comes from rejections**: t is squared, so a candidate
+**33% of E[t^2] comes from rejections**: t is squared, so a candidate
 rejected at -6.96 raises the weight exactly as much as one accepted at +6.96.
 That is the formula behaving correctly, and it still means the weight
 currently describes a programme that fails decisively more than it succeeds.

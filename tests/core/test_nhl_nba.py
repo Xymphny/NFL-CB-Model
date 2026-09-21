@@ -1,9 +1,14 @@
-"""NHL and NBA: structure without fitted coefficients.
+"""NHL and NBA: fitted, graded, and still shipping no unmeasured constant.
 
-Both packages exist so the seam is proven for all five leagues. Neither ships
-a number. These tests exist to make sure that stays true -- a constant
-appearing in either file is the failure the whole evidence apparatus is built
-around, and it would be easy to add one while "finishing" the package.
+Both were structure-only until 2026-09-21, when within-season walk-forward
+fits cleared held-out gates -- NBA t = +5.96 on a season never graded before,
+NHL t = +3.02 with zero hyperparameter trials. Static cross-season fits had
+failed first (t = -6.96 and -1.33), which is why these walk forward.
+
+The parameters live in data/{nhl,nba}_fitted.json, NOT in the modules. Each
+artifact carries its own grade and the loader refuses one that did not clear
+it. So the original property holds: a number in these packages has earned its
+place and travels with the evidence for it.
 """
 
 import re
@@ -133,6 +138,73 @@ def test_neither_package_ships_a_fitted_constant(mod):
 
 
 @pytest.mark.parametrize("mod", [nhl, nba], ids=["nhl", "nba"])
-def test_both_packages_say_they_are_unfitted(mod):
+def test_both_packages_still_refuse_unfitted_parameters(mod):
+    """NotFitted survives the transition. The leagues are fitted now; the
+    refusal path is what keeps an ungraded artifact from being used later."""
     assert hasattr(mod, "NotFitted")
-    assert "STRUCTURE ONLY" in (mod.__doc__ or "")
+    assert hasattr(mod, "load_fitted")
+
+
+@pytest.mark.parametrize("mod", [nhl, nba], ids=["nhl", "nba"])
+def test_an_artifact_that_failed_its_gate_is_refused(mod, tmp_path):
+    """The property that makes shipping these numbers acceptable. A
+    regenerated fit that stopped clearing its gate must not load."""
+    import json
+    good = json.loads(mod.FITTED_PATH.read_text())
+    good["holdout_grade"]["supported"] = False
+    bad = tmp_path / "failed.json"
+    bad.write_text(json.dumps(good))
+    with pytest.raises(mod.NotFitted, match="gate"):
+        mod.load_fitted(bad)
+
+
+@pytest.mark.parametrize("mod", [nhl, nba], ids=["nhl", "nba"])
+def test_a_missing_artifact_raises_rather_than_defaulting(mod, tmp_path):
+    with pytest.raises(mod.NotFitted):
+        mod.load_fitted(tmp_path / "absent.json")
+
+
+def test_nhl_parameters_are_graded():
+    art = nhl.load_fitted()
+    assert art["holdout_grade"]["supported"] is True
+    assert art["holdout_grade"]["t"] >= 2.0
+    assert art["_provenance"]["hyperparameter_trials"] == 0, (
+        "NHL had no season left to tune on; a non-zero trial count means "
+        "something was searched on the only ungraded season"
+    )
+    assert len(art["attack"]) == 32
+
+
+def test_nba_parameters_are_graded_and_clear_their_noise_ceiling():
+    art = nba.load_fitted()
+    assert art["holdout_grade"]["supported"] is True
+    mt = art["multiple_testing"]
+    assert mt["clears_noise_ceiling"] is True
+    assert mt["observed_holdout_t"] > 2 * mt["expected_best_t_from_pure_noise"]
+    assert len(art["ratings"]) == 30
+
+
+def test_nba_sigma_is_constant_because_varying_was_rejected():
+    art = nba.load_fitted()
+    assert art["sigma_varies_with_spread"] is False
+    assert "REJECTED" in art["sigma_note"]
+    sigma = nba.constant_sigma(art)
+    assert sigma(0.0) == sigma(20.0), "sigma should not vary; that was tested"
+
+
+def test_nhl_records_that_its_joint_distribution_is_still_wrong():
+    """The rates are graded. The joint is not, and the artifact says so --
+    otherwise a future reader sees a supported grade and assumes the whole
+    model is sound."""
+    art = nhl.load_fitted()
+    assert "joint_distribution_warning" in art
+    c = art["closeness_check"]
+    assert c["actual_one_goal_rate"] - c["predicted_one_goal_rate"] > 0.05
+    assert "puck line" in art["joint_distribution_warning"]
+
+
+def test_an_unrated_team_is_refused_by_both(tmp_path):
+    with pytest.raises(KeyError, match="refusing"):
+        nhl.rates_from_fit(nhl.load_fitted(), "XXX", "BOS")
+    with pytest.raises(KeyError, match="refusing"):
+        nba.margin_from_fit(nba.load_fitted(), "XXX", "BOS")

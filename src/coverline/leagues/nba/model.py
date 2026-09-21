@@ -1,9 +1,28 @@
-"""Basketball on the seam. STRUCTURE ONLY -- no fitted coefficients.
+"""Basketball on the seam. Ratings FITTED AND GRADED; sigma is constant.
 
-WHY THERE ARE NO NUMBERS IN THIS FILE
-Same reason as NHL: no legacy model, no committed cache, no held-out grading.
-A model fitted in an afternoon and shipped would be indistinguishable later
-from one that was validated.
+WHERE THE NUMBERS COME FROM
+Not from this file. data/nba_fitted.json carries team ratings walked forward
+within season, with hyperparameters chosen on 2021-2022 and the model graded
+ONCE on 2023 -- a season never graded before. Paired gain +0.0571 in mean
+log-likelihood, SE 0.0096, t = +5.96, against a noise ceiling of 1.85 for the
+18 hyperparameter combinations tried.
+
+The artifact carries its grade and the loader refuses it if that grade does
+not clear, so the package still ships no unmeasured constant.
+
+An earlier STATIC fit across seasons measured t = -6.96 -- decisively worse
+than predicting the league average. Three-year-old ratings are not merely
+stale in this sport, they are actively misleading, and that is the whole
+reason this model walks forward.
+
+SIGMA IS CONSTANT, AND THAT WAS TESTED
+ADR 0005 predicted sigma should rise with spread magnitude. A varying sigma
+was fitted and graded and came back WORSE (t = -6.48, fitted slope -0.111).
+That does not refute the ADR -- these ratings separate games across a much
+narrower range than market spreads do, so the effect is ruled out only where
+it was measured. Until market spreads are available the constant is what the
+evidence supports, and NBAModel still takes sigma as a FUNCTION so the
+question stays open at the call site.
 
 THE FAMILY, AND THE ONE THING THAT WILL BREAK A PORTED FOOTBALL MODEL
 Near-normal margins, so NormalMarginDistribution -- the same family NFL and
@@ -34,15 +53,49 @@ the support is wide enough that atom mass at any single value is small, so
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Callable, Protocol, Sequence
 
 from coverline.core.distributions import NormalMarginDistribution
 from coverline.core.interfaces import ScoreDistribution
 
+_ROOT = Path(__file__).resolve().parents[4]
+FITTED_PATH = _ROOT / "data" / "nba_fitted.json"
+
 
 class NotFitted(NotImplementedError):
-    """No fitted parameters exist for this league yet."""
+    """No usable fitted parameters. Raised rather than falling back."""
+
+
+def load_fitted(path: Path = FITTED_PATH) -> dict:
+    """Load the graded artifact, refusing one that did not clear its gate."""
+    if not Path(path).exists():
+        raise NotFitted(f"no fitted NBA parameters at {path}")
+    art = json.loads(Path(path).read_text())
+    if not art.get("holdout_grade", {}).get("supported"):
+        raise NotFitted(
+            f"{Path(path).name} did not clear its held-out gate "
+            f"(t = {art.get('holdout_grade', {}).get('t')})."
+        )
+    return art
+
+
+def margin_from_fit(art: dict, home: str, away: str) -> float:
+    r = art["ratings"]
+    for t in (home, away):
+        if t not in r:
+            raise KeyError(f"{t} has no fitted rating; refusing to price it")
+    return r[home] - r[away] + art["hyperparameters"]["home_adv"]
+
+
+def constant_sigma(art: dict) -> Callable[[float], float]:
+    """The sigma the evidence supports: flat. Returned as a function so the
+    varying-sigma question stays open at the call site rather than being
+    closed by a constant in a signature."""
+    sd = float(art["sigma_constant"])
+    return lambda mu: sd
 
 
 @dataclass(frozen=True)

@@ -1,0 +1,29 @@
+{
+ "_provenance": {
+  "script": "model/fit_nhl_walkforward.py",
+  "generated": "2026-09-21",
+  "holdout_season": 2024,
+  "graded_once": true,
+  "spent_season_not_used": 2025,
+  "hyperparameter_trials": 0,
+  "hyperparameters_fixed_a_priori": {
+   "k": 0.03
+  },
+  "why_no_tuning": "only two NHL seasons are usable and one is already spent; searching hyperparameters on the only ungraded season and then grading on it is how a result gets manufactured",
+  "metric": "mean log-likelihood of the realised scoreline",
+  "n_holdout": 1312
+ },
+ "holdout_grade": {
+  "model": -3.89768,
+  "baseline": -3.92442,
+  "paired_gain": 0.02674,
+  "standard_error": 0.00885,
+  "t": 3.02,
+  "supported": true
+ },
+ "closeness_check": {
+  "predicted_one_goal_rate": 0.284,
+  "actual_one_goal_rate": 0.3811,
+  "note": "the static fit under-predicted one-goal games by 10 points because independent Poisson cannot express the negative correlation (-0.14) between the two scores. Walking forward does not fix that -- it is a property of the joint distribution, not of the rates."
+ }
+}

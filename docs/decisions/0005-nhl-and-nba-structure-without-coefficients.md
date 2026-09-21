@@ -1,8 +1,8 @@
 ---
-status: accepted
+status: superseded
 date: 2026-09-21
 supersedes: null
-superseded_by: null
+superseded_by: 0006-nhl-and-nba-fitted-walk-forward.md
 ledger_id: league-nhl-nba-structure
 ---
 
