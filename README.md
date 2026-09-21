@@ -202,6 +202,23 @@ exactly where NHL and MLB moneylines cluster. `prob_points` was added,
 ([ADR 0016](docs/decisions/0016-clv-is-averaged-in-probability-not-cents.md)).
 The legacy board was never affected: its `avg_clv` is line points.
 
+### The credit path, verified before it spends anything
+
+Thursday's sequence is free key -> `scripts/shakeout_odds_api.py` -> subscribe
+-> `--historical` -> `scripts/backfill.py`. The dry run costs the whole
+five-league season at **89,760 credits, 90% of a 100,000-credit month**, and
+says so with the suggestion to split by `--sports`.
+
+What was missing was any check that the dry run is *exact*. It is now a
+property: plan a backfill, execute the same plan against a fake transport, and
+require the credits spent to EQUAL the credits predicted. Not close. Alongside
+it: no random sequence of requests can exceed its budget, a refused request
+reaches the transport zero times, listing sports is free, a budget-exhausted
+backfill gaps every remaining snapshot rather than dropping it, and a
+deliberately wrong charge raises `CostModelDrift` -- the one guard that could
+catch the vendor repricing, and one that can only ever fire against a real
+response.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.

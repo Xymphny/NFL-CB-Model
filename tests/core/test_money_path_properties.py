@@ -412,3 +412,209 @@ def test_the_clv_summary_reports_a_scale_that_can_be_averaged():
     src = inspect.getsource(G.clv_summary)
     assert "mean_clv_probability_points" in src
     assert "cents" in src, "the reason no cents mean is reported must stay stated"
+
+
+# -- credits ----------------------------------------------------------------
+#
+# The budget guard is the only thing between a bug and a month's quota, and
+# Thursday is when a paid key arrives. These properties hold it to its own
+# claim -- "Nothing was issued" -- over random sequences rather than one
+# hand-picked case.
+
+
+class _CountingTransport:
+    """Records every URL it is asked for, and what the API 'charged'."""
+
+    def __init__(self, charge: int | None = None):
+        self.urls: list[str] = []
+        self.charge = charge
+
+    def get(self, url: str):
+        self.urls.append(url)
+        headers = {"x-requests-remaining": "400"}
+        if self.charge is not None:
+            headers["x-requests-last"] = str(self.charge)
+        return 200, b"[]", headers
+
+
+def _client(budget: int, transport, tolerance: int = 0):
+    from coverline.execution.odds_client import CreditLedger, OddsAPIClient
+
+    ledger = CreditLedger(budget=budget, drift_tolerance=tolerance)
+    return OddsAPIClient(api_key="k", ledger=ledger, transport=transport), ledger
+
+
+def test_the_cost_model_is_multiplicative_and_monotone():
+    """markets x regions, and ten times that for history.
+
+    Asserted as a shape rather than a table, so a formula change shows up
+    here rather than in a bill.
+    """
+    from coverline.execution.odds_client import HISTORICAL_MULTIPLIER as HM
+    from coverline.execution.odds_client import OddsAPIClient as C
+
+    for m in range(1, 6):
+        for r in range(1, 4):
+            markets, regions = ["x"] * m, ["y"] * r
+            assert C.cost_current(markets, regions) == m * r
+            assert C.cost_historical(markets, regions) == HM * m * r
+            assert C.cost_current(markets + ["z"], regions) > C.cost_current(
+                markets, regions)
+            assert C.cost_current(markets, regions + ["z"]) > C.cost_current(
+                markets, regions)
+
+
+def test_no_sequence_of_requests_can_exceed_the_budget():
+    """The guard, over random sequences instead of one example."""
+    from coverline.execution.odds_client import QuotaExceeded
+
+    for _ in range(80):
+        budget = int(RNG.integers(1, 60))
+        t = _CountingTransport()
+        client, ledger = _client(budget, t)
+        for _ in range(20):
+            m = int(RNG.integers(1, 4))
+            r = int(RNG.integers(1, 3))
+            try:
+                client.current_odds(sport="s", markets=["m"] * m,
+                                    regions=["r"] * r, captured_at="t")
+            except QuotaExceeded:
+                pass
+        assert ledger.spent_predicted <= budget
+
+
+def test_a_refused_request_issues_nothing():
+    """The exception says "Nothing was issued". This checks that it is true.
+
+    A guard that raises AFTER the call has already gone out is worse than no
+    guard, because it reports a budget that was already breached.
+    """
+    from coverline.execution.odds_client import QuotaExceeded
+
+    t = _CountingTransport()
+    client, _ = _client(2, t)
+    with pytest.raises(QuotaExceeded):
+        client.current_odds(sport="s", markets=["a", "b", "c"],
+                            regions=["uk"], captured_at="t")
+    assert t.urls == [], "a refused request still reached the transport"
+
+
+def test_listing_sports_is_free_and_does_not_touch_the_budget():
+    """The one free endpoint, and a budget of zero proves it is not charged."""
+    t = _CountingTransport()
+    client, ledger = _client(0, t)
+    client.sports(captured_at="t")
+    assert len(t.urls) == 1
+    assert ledger.spent_predicted == 0
+    assert ledger.remaining_reported == 400
+
+
+def test_a_wrong_cost_model_raises_rather_than_accumulating():
+    """The drift check, exercised by charging something other than predicted.
+
+    This is the one guard that can catch the vendor changing its pricing, and
+    it only ever fires against a real response -- so it is worth knowing it
+    fires at all before a paid key exists.
+    """
+    from coverline.execution.odds_client import CostModelDrift
+
+    t = _CountingTransport(charge=7)          # predicted will be 2
+    client, _ = _client(50, t)
+    with pytest.raises(CostModelDrift):
+        client.current_odds(sport="s", markets=["a", "b"], regions=["uk"],
+                            captured_at="t")
+
+    # And it does NOT fire when the API agrees.
+    t2 = _CountingTransport(charge=2)
+    client2, ledger2 = _client(50, t2)
+    client2.current_odds(sport="s", markets=["a", "b"], regions=["uk"],
+                         captured_at="t")
+    assert ledger2.spent_actual == 2
+
+
+def test_history_costs_ten_times_current_at_the_client_boundary():
+    """Not just in the static function -- through the call that spends it.
+
+    A backfill is the largest single spend this project will ever make, and
+    it is priced off this multiplier.
+    """
+    t = _CountingTransport()
+    client, ledger = _client(500, t)
+    client.current_odds(sport="s", markets=["h2h", "spreads"], regions=["uk"],
+                        captured_at="t")
+    after_current = ledger.spent_predicted
+    client.historical_odds(sport="s", markets=["h2h", "spreads"],
+                           regions=["uk"], date="2026-01-01T00:00:00Z",
+                           captured_at="t")
+    assert ledger.spent_predicted - after_current == 10 * after_current
+
+
+def test_the_backfill_dry_run_predicts_exactly_what_a_run_spends():
+    """The number Thursday's decision rests on.
+
+    A backfill is the single largest spend this project will ever make -- the
+    design costed one season across five leagues at roughly 92,000 credits
+    against a 100,000-credit month. What stops that going wrong is a dry run
+    that reports the cost before anything is issued, and a dry run is only
+    worth anything if it is EXACT.
+
+    So: plan a backfill, read its predicted total, execute the same plan
+    against a fake transport with a budget large enough not to bind, and
+    require the two to be equal. Not close. Equal.
+    """
+    import tempfile
+
+    from coverline.execution import backfill as B
+    from coverline.execution.bronze import BronzeStore
+
+    snaps = list(B.daily_snapshots(
+        sport="icehockey_nhl", start="2026-01-01", end="2026-01-05",
+        times_of_day=("23:00",), markets=("h2h", "spreads"), regions=("us",)))
+    p = B.plan(snaps)
+    assert len(p) > 0
+    predicted = p.total_cost
+
+    t = _CountingTransport(charge=None)
+    client, ledger = _client(predicted * 2, t)
+    with tempfile.TemporaryDirectory() as d:
+        res = B.run(p, client, BronzeStore(Path(d)))
+
+    assert not res.stopped_early
+    assert res.credits_spent == predicted, (
+        f"the dry run promised {predicted} credits and the run spent "
+        f"{res.credits_spent}. A dry run that is not exact is a dry run "
+        "nobody can act on."
+    )
+    assert ledger.spent_predicted == predicted
+
+
+def test_a_backfill_that_runs_out_of_budget_gaps_the_rest():
+    """Absence must stay legible.
+
+    Stopping silently leaves holes indistinguishable from timestamps the API
+    never had data for, and the gap log exists precisely so that difference
+    survives.
+    """
+    import tempfile
+
+    from coverline.execution import backfill as B
+    from coverline.execution.bronze import BronzeStore
+
+    snaps = list(B.daily_snapshots(
+        sport="icehockey_nhl", start="2026-01-01", end="2026-01-10",
+        times_of_day=("23:00",), markets=("h2h", "spreads"), regions=("us",)))
+    p = B.plan(snaps)
+    one = p.snapshots[0].cost
+
+    t = _CountingTransport()
+    client, _ = _client(one * 3, t)      # room for three, plan has ten
+    with tempfile.TemporaryDirectory() as d:
+        store = BronzeStore(Path(d))
+        res = B.run(p, client, store)
+
+    assert res.stopped_early
+    assert len(res.fetched) == 3
+    assert len(res.gapped) == len(p) - 3, (
+        "every snapshot the budget refused must be gapped, not dropped"
+    )
+    assert all(reason == "quota_exhausted" for _, reason in res.gapped)
