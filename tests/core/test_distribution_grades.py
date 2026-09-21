@@ -189,3 +189,55 @@ def test_nba_total_dispersion_is_recorded_as_unmeasured(grades) -> None:
     n = grades["totals"]["nba"]
     assert n["residual_sd"] is None
     assert n["not_measurable_here"]
+
+
+def test_the_nba_sigma_claim_is_inside_the_bucketing_noise(grades) -> None:
+    """ADR 0005's 0.60 was never evidence, and this is why.
+
+    A correlation over a handful of bucket means has enormous sampling
+    variability. Constant-variance noise pushed through the same five buckets
+    gives a median absolute correlation near 0.4 and a 90th percentile near
+    0.8, so "about 0.60" is unremarkable. The observed value on this data is
+    -0.73 -- larger and opposite in sign, and equally meaningless.
+    """
+    b = grades["nba"]["bucketed_correlation_noise_ceiling"]["5"]
+    assert b["p90_abs_from_constant_variance"] > 0.6, (
+        "five-bucket correlations no longer reach 0.6 under constant "
+        "variance, which would make ADR 0005's figure meaningful after all"
+    )
+    assert abs(b["observed"]) <= 1.0
+
+
+def test_nba_dispersion_does_not_vary_with_the_predicted_spread(grades) -> None:
+    """The per-game answer, on spreads that do reach where the claim lives.
+
+    ADR 0006 recorded the effect as untested because these ratings were
+    thought to separate games only across 0.9 to 8.6 points. Those were
+    BUCKET MEANS. The predicted spread actually ranges to 23.3, which is
+    where real NBA spreads live, so the question is answerable and the
+    answer is no.
+    """
+    pg = grades["nba"]["per_game_correlation"]
+    assert abs(pg["abs_spread_with_abs_residual"]) < 0.05
+    assert abs(pg["abs_spread_with_squared_residual"]) < 0.05
+    assert pg["predicted_spread_range"][1] > 15, (
+        "the predicted spread no longer reaches where market spreads live, "
+        "which would put the sigma question back out of reach"
+    )
+
+
+def test_nba_is_under_confident_on_its_graded_holdout(grades) -> None:
+    """The safe direction, recorded rather than celebrated.
+
+    Sigma is fitted on the tune seasons at 14.1666 and the graded holdout
+    realised 12.99, a ratio of 0.917. Intervals are too wide, so edges are
+    understated and stakes too small. That costs money slowly rather than
+    quickly, which is the right way round but is not free.
+    """
+    h = grades["nba"]["holdout"]
+    assert h["dispersion_ratio"] < 1.0, (
+        "NBA is no longer under-confident on its holdout; if the ratio has "
+        "gone above one the error has changed direction and the sigma choice "
+        "should be revisited"
+    )
+    assert h["coverage"]["95"] > 0.95

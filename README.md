@@ -48,7 +48,7 @@ wrong for pricing.
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
 | MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | distribution family chosen by measurement |
 | NHL | implemented, not live | n/a | rates t=+2.44 (was +3.02 before a lookahead fix); rules layer refreshed and re-graded t=+34.95, goalie-pull component +5.82, total bias now −0.006 ([ADR 0010](docs/decisions/0010-refresh-the-nhl-pull-table-and-check-shape.md)) |
-| NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; static failed at −6.96 |
+| NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; sigma constant, and ADR 0005's 0.60 claim shown to be bucketing noise ([ADR 0012](docs/decisions/0012-the-nba-sigma-claim-was-bucketing-noise.md)) |
 
 `BUILT_LEAGUES` (can price a real board), `IMPLEMENTED_LEAGUES` (passes the
 battery) and `STRUCTURAL_ONLY_LEAGUES` (shape, no numbers — now empty) are

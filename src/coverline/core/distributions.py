@@ -77,9 +77,29 @@ class NormalMarginDistribution:
     continuity-corrected integer masses so pushes price correctly.
 
     ``margin_sd`` is a constructor argument rather than a class constant on
-    purpose. In the NBA, margin variance correlates about 0.60 with spread
-    magnitude, against roughly -0.06 in the NFL -- a constant sigma is
-    defensible in football and wrong in basketball, so the caller owns it.
+    purpose, and the reason first written here was WRONG.
+
+    It said NBA margin variance correlates about 0.60 with spread magnitude,
+    so a constant sigma is defensible in football and wrong in basketball.
+    That 0.60 came from ADR 0005 by way of a bucketed correlation, and a
+    correlation over a handful of bucket means is not evidence of anything at
+    that size. Simulating CONSTANT-variance noise through the same bucketing
+    on 3,540 walk-forward NBA games gives a median absolute correlation of
+    0.397 at five buckets and a 90th percentile of 0.801. The same data gives
+    an observed -0.730 -- larger, opposite in sign, and equally meaningless.
+
+    The per-game correlation, which uses every game rather than a few means,
+    is -0.016 between predicted spread magnitude and absolute residual, over
+    predicted spreads spanning 0.003 to 23.3 points. Residual sd by decile is
+    flat from 13.1 to 14.4 with no trend. A constant sigma is defensible in
+    basketball too, as far as anything here can measure.
+
+    The argument stays a constructor argument anyway, for a better reason
+    than the original: a league should own its dispersion rather than inherit
+    a class constant, and NBAModel takes sigma as a FUNCTION so the question
+    stays open rather than being closed by a default. What is settled is that
+    the 0.60 was never a reason. See ADR 0012 and
+    model/distribution_grades.json.
     """
 
     mu_margin: float

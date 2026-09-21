@@ -246,6 +246,126 @@ def grade_cfb() -> dict:
     }
 
 
+def grade_nba() -> dict:
+    """NBA on the same scale as the rest, and the sigma question re-opened.
+
+    HOLDOUT ACCOUNTING. 2021-2022 tuned the shipped hyperparameters and 2023
+    graded them once; 2024-2025 were spent earlier on the static question.
+    Everything here is therefore either in sample or already graded, and this
+    asks a DIFFERENT question of the same grade -- is the distribution the
+    right shape -- which can embarrass it and cannot promote it. The 2023 row
+    is the one to read.
+
+    THE SIGMA QUESTION ADR 0005 LEFT OPEN. That record claimed NBA margin
+    variance correlates about 0.60 with spread magnitude, which would make a
+    constant sigma wrong. ADR 0006 recorded the claim as INCONCLUSIVE rather
+    than confirmed: the 0.60 was measured against MARKET spreads, and these
+    ratings separate games across a much narrower range, so the effect is
+    ruled out where it can be measured and untested where it was claimed.
+    This computes the by-bucket dispersion so the range is visible rather
+    than asserted.
+    """
+    from coverline.leagues.nba.model import load_fitted
+    from model import fit_nba_walkforward as nbawf
+    from model.fit_nba import load as load_nba
+
+    art = load_fitted()
+    hp = art["hyperparameters"]
+    sd = float(art["sigma_constant"])
+    tune = list(art["_provenance"]["tune_seasons"])
+    hold = int(art["_provenance"]["holdout_season"])
+
+    df = load_nba(tuple(tune) + (hold,))
+    pred = nbawf.walk_forward(df, hp["k"], hp["home_adv"], hp["carryover"])
+    pred = pred.assign(resid=pred.margin - pred.mu)
+
+    def _block(sub: pd.DataFrame, label: str) -> dict:
+        mu = sub.mu.to_numpy(float)
+        act = sub.margin.to_numpy(float)
+        g = _grade(label, mu, act, sd, "sigma_constant and hyperparameters")
+        # Dispersion by predicted-spread magnitude. Quartiles rather than
+        # fixed cut points, because the interesting number is the RANGE the
+        # ratings actually span.
+        q = np.quantile(np.abs(mu), [0.25, 0.5, 0.75])
+        buckets = {}
+        edges = [0.0, *q, np.inf]
+        for lo, hi in zip(edges[:-1], edges[1:]):
+            m = (np.abs(mu) >= lo) & (np.abs(mu) < hi)
+            if m.sum() < 30:
+                continue
+            buckets[f"{lo:.2f}-{hi:.2f}"] = {
+                "n": int(m.sum()),
+                "mean_abs_predicted_spread": round(float(np.abs(mu[m]).mean()), 3),
+                "residual_sd": round(float((act[m] - mu[m]).std(ddof=1)), 4),
+            }
+        g["dispersion_by_predicted_spread"] = buckets
+        g["predicted_spread_range"] = [round(float(np.abs(mu).min()), 3),
+                                       round(float(np.abs(mu).max()), 3)]
+        g["correlation_abs_spread_with_abs_residual"] = round(
+            float(np.corrcoef(np.abs(mu), np.abs(act - mu))[0, 1]), 4)
+        return g
+
+    # HOW BIG A BUCKETED CORRELATION DOES CONSTANT VARIANCE PRODUCE?
+    #
+    # ADR 0005 cited "about 0.60" between margin variance and spread
+    # magnitude. That is a correlation over a handful of BUCKET means, and a
+    # handful of points correlate strongly by accident. This simulates
+    # constant-variance noise through the same bucketing and reports what it
+    # gives, which is the only way to know whether 0.60 was ever evidence.
+    rng = np.random.default_rng(0)
+    a = np.abs(pred.mu.to_numpy(float))
+    r = pred.resid.to_numpy(float)
+    pooled_sd = float(r.std(ddof=1))
+    bucket_noise = {}
+    for nb in (5, 8, 10, 20):
+        q = np.quantile(a, np.linspace(0, 1, nb + 1))
+        masks = [(a >= q[i]) & (a < (q[i + 1] if i < nb - 1 else np.inf))
+                 for i in range(nb)]
+        masks = [m for m in masks if m.sum() >= 20]
+        xs = np.array([a[m].mean() for m in masks])
+        observed = float(np.corrcoef(
+            xs, [r[m].std(ddof=1) for m in masks])[0, 1])
+        sims = []
+        for _ in range(2000):
+            noise = rng.normal(0.0, pooled_sd, size=len(a))
+            sims.append(abs(float(np.corrcoef(
+                xs, [noise[m].std(ddof=1) for m in masks])[0, 1])))
+        bucket_noise[str(nb)] = {
+            "observed": round(observed, 3),
+            "median_abs_from_constant_variance": round(float(np.median(sims)), 3),
+            "p90_abs_from_constant_variance": round(
+                float(np.quantile(sims, 0.9)), 3),
+        }
+
+    out = {
+        "graded_holdout_season": hold,
+        "tune_seasons": tune,
+        "bucketed_correlation_noise_ceiling": bucket_noise,
+        "per_game_correlation": {
+            "abs_spread_with_abs_residual": round(
+                float(np.corrcoef(a, np.abs(r))[0, 1]), 4),
+            "abs_spread_with_squared_residual": round(
+                float(np.corrcoef(a, r ** 2)[0, 1]), 4),
+            "n": int(len(a)),
+            "predicted_spread_range": [round(float(a.min()), 3),
+                                       round(float(a.max()), 3)],
+            "note": ("the per-game correlation is the one carrying "
+                     "information; it uses every game instead of a handful "
+                     "of bucket means"),
+        },
+        "holdout": _block(pred[pred.season == hold], "nba-holdout"),
+        "tune_in_sample": _block(pred[pred.season.isin(tune)], "nba-tune"),
+        "sigma_question": (
+            "ADR 0005 claimed margin variance correlates about 0.60 with "
+            "spread magnitude, measured against MARKET spreads. These ratings "
+            "do not span that range, so the by-bucket table below rules the "
+            "effect out where it can be measured and leaves it untested where "
+            "it was claimed. Market spreads are what settles it."
+        ),
+    }
+    return out
+
+
 def grade_mlb() -> dict:
     """MLB is counts, so the normal machinery above does not apply.
 
@@ -379,6 +499,7 @@ def main() -> int:
         "nfl": grade_nfl(),
         "cfb": grade_cfb(),
         "mlb": grade_mlb(),
+        "nba": grade_nba(),
         "totals": grade_totals(),
     }
     for lg in ("nfl", "cfb"):

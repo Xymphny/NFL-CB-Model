@@ -247,6 +247,146 @@
       2025
     ]
   },
+  "nba": {
+    "graded_holdout_season": 2023,
+    "tune_seasons": [
+      2021,
+      2022
+    ],
+    "bucketed_correlation_noise_ceiling": {
+      "5": {
+        "observed": -0.73,
+        "median_abs_from_constant_variance": 0.397,
+        "p90_abs_from_constant_variance": 0.801
+      },
+      "8": {
+        "observed": -0.43,
+        "median_abs_from_constant_variance": 0.284,
+        "p90_abs_from_constant_variance": 0.612
+      },
+      "10": {
+        "observed": -0.181,
+        "median_abs_from_constant_variance": 0.238,
+        "p90_abs_from_constant_variance": 0.527
+      },
+      "20": {
+        "observed": -0.114,
+        "median_abs_from_constant_variance": 0.162,
+        "p90_abs_from_constant_variance": 0.379
+      }
+    },
+    "per_game_correlation": {
+      "abs_spread_with_abs_residual": -0.0163,
+      "abs_spread_with_squared_residual": -0.0079,
+      "n": 3540,
+      "predicted_spread_range": [
+        0.003,
+        23.325
+      ],
+      "note": "the per-game correlation is the one carrying information; it uses every game instead of a handful of bucket means"
+    },
+    "holdout": {
+      "n": 1230,
+      "shipped_sd": 14.1666,
+      "realised_residual_sd": 12.9903,
+      "dispersion_ratio": 0.917,
+      "mean_residual": 0.5564,
+      "coverage": {
+        "50": 0.5398,
+        "80": 0.848,
+        "95": 0.965
+      },
+      "nominal_coverage": {
+        "50": 0.5,
+        "80": 0.8,
+        "95": 0.95
+      },
+      "mean_log_likelihood": -3.99067,
+      "baseline_log_likelihood": -4.03367,
+      "paired_gain": 0.043,
+      "standard_error": 0.01133,
+      "t": 3.79,
+      "in_sample_for": "sigma_constant and hyperparameters",
+      "dispersion_by_predicted_spread": {
+        "0.00-1.73": {
+          "n": 308,
+          "mean_abs_predicted_spread": 0.856,
+          "residual_sd": 13.0269
+        },
+        "1.73-3.59": {
+          "n": 307,
+          "mean_abs_predicted_spread": 2.674,
+          "residual_sd": 13.2801
+        },
+        "3.59-6.33": {
+          "n": 307,
+          "mean_abs_predicted_spread": 4.88,
+          "residual_sd": 12.5725
+        },
+        "6.33-inf": {
+          "n": 308,
+          "mean_abs_predicted_spread": 9.228,
+          "residual_sd": 12.8825
+        }
+      },
+      "predicted_spread_range": [
+        0.004,
+        19.316
+      ],
+      "correlation_abs_spread_with_abs_residual": 0.0145
+    },
+    "tune_in_sample": {
+      "n": 2310,
+      "shipped_sd": 14.1666,
+      "realised_residual_sd": 14.1666,
+      "dispersion_ratio": 1.0,
+      "mean_residual": -0.679,
+      "coverage": {
+        "50": 0.5039,
+        "80": 0.8056,
+        "95": 0.9498
+      },
+      "nominal_coverage": {
+        "50": 0.5,
+        "80": 0.8,
+        "95": 0.95
+      },
+      "mean_log_likelihood": -4.07075,
+      "baseline_log_likelihood": -4.14357,
+      "paired_gain": 0.07281,
+      "standard_error": 0.00803,
+      "t": 9.07,
+      "in_sample_for": "sigma_constant and hyperparameters",
+      "dispersion_by_predicted_spread": {
+        "0.00-1.93": {
+          "n": 578,
+          "mean_abs_predicted_spread": 0.97,
+          "residual_sd": 14.7416
+        },
+        "1.93-4.16": {
+          "n": 577,
+          "mean_abs_predicted_spread": 2.998,
+          "residual_sd": 14.1118
+        },
+        "4.16-7.21": {
+          "n": 577,
+          "mean_abs_predicted_spread": 5.585,
+          "residual_sd": 14.1872
+        },
+        "7.21-inf": {
+          "n": 578,
+          "mean_abs_predicted_spread": 10.693,
+          "residual_sd": 13.6406
+        }
+      },
+      "predicted_spread_range": [
+        0.003,
+        23.325
+      ],
+      "correlation_abs_spread_with_abs_residual": -0.0354
+    },
+    "sigma_question": "ADR 0005 claimed margin variance correlates about 0.60 with spread magnitude, measured against MARKET spreads. These ratings do not span that range, so the by-bucket table below rules the effect out where it can be measured and leaves it untested where it was claimed. Market spreads are what settles it."
+  },
   "totals": {
     "cfb": {
       "n": 3863,
