@@ -1,0 +1,264 @@
+{
+ "_provenance": {
+  "script": "model/ngs_team_code_fix.py",
+  "generated": "2026-09-21",
+  "question": "what the ADR 0004 team-code fix is worth: Rams games priced with the full ensemble instead of the rating-only fallback",
+  "holdout_seasons": [
+   2022,
+   2023
+  ],
+  "why_holdout": "both coefficient vectors were fit on 2016-2021, so these seasons are clean for this comparison",
+  "graded_once": true,
+  "paired": "same game, same ratings, two vectors, one actual margin",
+  "elo_included": true,
+  "elo_note": "elo_diff is the real walk-forward pre-game difference, passed to BOTH vectors. The rating-only vector has no elo term, so it ignores it -- which is the shipped behaviour. The full ensemble uses it. So this measures the fix AS IT WOULD SHIP: NGS block plus Elo, against the fallback. An earlier version held elo at 0.0 on both sides, which compared rating-only against a full ensemble missing one of its own features."
+ },
+ "n_games": 26,
+ "skipped": [],
+ "mae": {
+  "rating_only_shipped": 10.8295,
+  "full_ensemble_fixed": 10.7384
+ },
+ "paired_gain": {
+  "estimate": 0.09113,
+  "standard_error": 0.757,
+  "t": 0.12,
+  "supported": false
+ },
+ "games": [
+  {
+   "season": 2022,
+   "week": 4,
+   "game": "SF/LA",
+   "actual": 15.0,
+   "elo_diff": -38.36,
+   "rating_only": 0.9700765866196619,
+   "full_ensemble": -2.135637804985186
+  },
+  {
+   "season": 2022,
+   "week": 5,
+   "game": "LA/DAL",
+   "actual": -12.0,
+   "elo_diff": -29.77,
+   "rating_only": 1.3898806349047315,
+   "full_ensemble": -2.187328066162648
+  },
+  {
+   "season": 2022,
+   "week": 6,
+   "game": "LA/CAR",
+   "actual": 14.0,
+   "elo_diff": 160.65,
+   "rating_only": 4.61235726374745,
+   "full_ensemble": 6.250332041491379
+  },
+  {
+   "season": 2022,
+   "week": 8,
+   "game": "LA/SF",
+   "actual": -17.0,
+   "elo_diff": 8.82,
+   "rating_only": -0.08818467968267951,
+   "full_ensemble": -0.45743022079657936
+  },
+  {
+   "season": 2022,
+   "week": 9,
+   "game": "TB/LA",
+   "actual": 3.0,
+   "elo_diff": 45.61,
+   "rating_only": 3.417022373508225,
+   "full_ensemble": 0.1343730712385387
+  },
+  {
+   "season": 2022,
+   "week": 10,
+   "game": "LA/ARI",
+   "actual": -10.0,
+   "elo_diff": 29.18,
+   "rating_only": 1.2094577445360575,
+   "full_ensemble": -1.2468162191900813
+  },
+  {
+   "season": 2022,
+   "week": 11,
+   "game": "NO/LA",
+   "actual": 7.0,
+   "elo_diff": -9.67,
+   "rating_only": 3.934939398818994,
+   "full_ensemble": -0.8636708356206451
+  },
+  {
+   "season": 2022,
+   "week": 12,
+   "game": "KC/LA",
+   "actual": 16.0,
+   "elo_diff": 259.18,
+   "rating_only": 8.181590416141876,
+   "full_ensemble": 8.890907821016027
+  },
+  {
+   "season": 2022,
+   "week": 13,
+   "game": "LA/SEA",
+   "actual": -4.0,
+   "elo_diff": -94.81,
+   "rating_only": -2.1595010520173177,
+   "full_ensemble": -8.185390376962758
+  },
+  {
+   "season": 2022,
+   "week": 14,
+   "game": "LA/LV",
+   "actual": 1.0,
+   "elo_diff": -59.42,
+   "rating_only": -3.4675850168811535,
+   "full_ensemble": -4.53718915265965
+  },
+  {
+   "season": 2022,
+   "week": 15,
+   "game": "GB/LA",
+   "actual": 12.0,
+   "elo_diff": 75.11,
+   "rating_only": 5.809947031335705,
+   "full_ensemble": 2.3549533793084434
+  },
+  {
+   "season": 2022,
+   "week": 16,
+   "game": "LA/DEN",
+   "actual": 37.0,
+   "elo_diff": 37.38,
+   "rating_only": 0.9205389963804047,
+   "full_ensemble": -0.01976848955495747
+  },
+  {
+   "season": 2022,
+   "week": 17,
+   "game": "LAC/LA",
+   "actual": 21.0,
+   "elo_diff": 83.96,
+   "rating_only": 2.9172762795313103,
+   "full_ensemble": 4.563745936387429
+  },
+  {
+   "season": 2023,
+   "week": 4,
+   "game": "IND/LA",
+   "actual": -6.0,
+   "elo_diff": -18.19,
+   "rating_only": 1.7344772293752246,
+   "full_ensemble": -1.9065517456822498
+  },
+  {
+   "season": 2023,
+   "week": 5,
+   "game": "LA/PHI",
+   "actual": -9.0,
+   "elo_diff": -158.32,
+   "rating_only": -0.9826964184868694,
+   "full_ensemble": -8.071874709847854
+  },
+  {
+   "season": 2023,
+   "week": 6,
+   "game": "LA/ARI",
+   "actual": 17.0,
+   "elo_diff": 67.39,
+   "rating_only": 0.2827655678361576,
+   "full_ensemble": 0.4460664176721645
+  },
+  {
+   "season": 2023,
+   "week": 7,
+   "game": "LA/PIT",
+   "actual": -7.0,
+   "elo_diff": -38.57,
+   "rating_only": 4.312703175496611,
+   "full_ensemble": -2.254575841457542
+  },
+  {
+   "season": 2023,
+   "week": 8,
+   "game": "DAL/LA",
+   "actual": 23.0,
+   "elo_diff": 144.16,
+   "rating_only": 0.2652018169455026,
+   "full_ensemble": 5.813878511812549
+  },
+  {
+   "season": 2023,
+   "week": 9,
+   "game": "GB/LA",
+   "actual": 17.0,
+   "elo_diff": 13.55,
+   "rating_only": -4.593431251481986,
+   "full_ensemble": -0.8871244610407776
+  },
+  {
+   "season": 2023,
+   "week": 11,
+   "game": "LA/SEA",
+   "actual": 1.0,
+   "elo_diff": -112.36,
+   "rating_only": 2.755282588877325,
+   "full_ensemble": -6.87413691311835
+  },
+  {
+   "season": 2023,
+   "week": 12,
+   "game": "ARI/LA",
+   "actual": -23.0,
+   "elo_diff": -85.56,
+   "rating_only": 0.7520230685531097,
+   "full_ensemble": -3.4298760552435192
+  },
+  {
+   "season": 2023,
+   "week": 13,
+   "game": "LA/CLE",
+   "actual": 17.0,
+   "elo_diff": -54.69,
+   "rating_only": 5.229046876971413,
+   "full_ensemble": -2.1391380432897567
+  },
+  {
+   "season": 2023,
+   "week": 14,
+   "game": "BAL/LA",
+   "actual": 6.0,
+   "elo_diff": 170.09,
+   "rating_only": 4.962665913915103,
+   "full_ensemble": 7.143690132541826
+  },
+  {
+   "season": 2023,
+   "week": 15,
+   "game": "LA/WAS",
+   "actual": 8.0,
+   "elo_diff": 118.17,
+   "rating_only": 4.4916517712624,
+   "full_ensemble": 1.6724957755786383
+  },
+  {
+   "season": 2023,
+   "week": 16,
+   "game": "LA/NO",
+   "actual": 8.0,
+   "elo_diff": 5.59,
+   "rating_only": 2.767343163646167,
+   "full_ensemble": -1.8437232925071496
+  },
+  {
+   "season": 2023,
+   "week": 17,
+   "game": "NYG/LA",
+   "actual": -1.0,
+   "elo_diff": -114.93,
+   "rating_only": -4.511210266536494,
+   "full_ensemble": -4.249660402777463
+  }
+ ]
+}

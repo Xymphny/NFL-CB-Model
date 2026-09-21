@@ -73,17 +73,54 @@ Also newly visible: the published NGS improvement figure was measured on a
 sample that excluded one team's games entirely. That does not invalidate it,
 but it means the figure describes 31 teams, and nothing said so.
 
+## Measured, 2026-09-21 — and the fix is NOT an improvement
+
+The port landed (`src/coverline/leagues/nfl/ngs.py`, which normalises) and the
+fix was graded on the 26 Rams games in 2022-2023, seasons neither coefficient
+vector was fit on. Paired per game: same game, same ratings, two vectors, one
+actual margin.
+
+| | MAE |
+|---|---|
+| rating-only (shipped, the bug) | 10.8295 |
+| full ensemble (fixed) | 10.7384 |
+
+Paired gain **+0.0911, SE 0.7570, t = +0.12**. Indistinguishable from nothing.
+
+A first version of this measurement returned **t = −1.68** and appeared to show
+the fix making predictions materially worse. That version held `elo_diff` at
+0.0 on both sides, which compares the rating-only vector against a full
+ensemble stripped of one of its own features. With the real walk-forward Elo
+difference passed to both — the rating-only vector simply has no term for it,
+which is the shipped behaviour — the sign flips and the effect vanishes. The
+unfair version was the more dramatic result and would have been the easier one
+to believe.
+
+**So this is a correctness question, not an edge question, and the measurement
+says so.** Fixing it buys consistency across 32 teams, not accuracy. Anyone
+expecting better predictions from it will be disappointed, and that is now
+written down rather than discovered later.
+
+The new core normalises. The legacy path is deliberately untouched: changing a
+live board on a t = +0.12 measurement needs a reason, and "no detectable
+difference" is not one. A test fails if someone patches the legacy without
+updating this record.
+
 ## Recovery
 
-Nothing was removed. The fix is a team-code normalisation applied wherever the
-NGS frame is joined, plus a held-out measurement of its effect logged as an
-attempt in `evidence/attempts.yaml`. The scope to re-measure is the 85 affected
-games.
+Nothing was removed. `model/ngs_team_code_fix.py` reproduces the measurement,
+and its result artifact records every graded game.
 
 ## Revisit Triggers
 
-- **Immediately, when the NGS port lands.** The port must normalise codes or
-  reproduce the bug; either way it needs this decision resolved first.
+- ~~**Immediately, when the NGS port lands.**~~ RESOLVED 2026-09-21: the port
+  normalises, and the fix measured at t = +0.12.
+- **If the new core takes over the live board**, the normalisation comes with
+  it and Rams games change coefficient vector. That is a publishing change
+  worth announcing even though it is not an accuracy change.
+- **If the sample grows** -- more seasons, or the same question asked across
+  all teams rather than one -- 26 games is thin, and a real effect of the size
+  seen here would need roughly 700 games to distinguish from zero.
 - **If nflverse switches NGS to `LA`**, the alias becomes a no-op and should
   be retired deliberately — a test already fails if `LAR` starts appearing in
   the canonical vocabulary.

@@ -164,6 +164,38 @@ attempts:
       dominance is exposed by AttemptLog.is_dominated_by_one and the
       conservative robust_weight() exists because of it.
 
+  - id: ngs-team-code-fix
+    date: "2026-09-21"
+    hypothesis: >-
+      Normalising the nflverse NGS team code LAR to the canonical LA lets Rams
+      games use the full ensemble instead of the rating-only fallback, and
+      improves their predictions.
+    estimand: held_out_paired_gain
+    metric: mae
+    estimate: 0.0911
+    standard_error: 0.7570
+    t: 0.12
+    decision: not_shipped
+    recovered: false
+    source: model/ngs_team_code_fix_results.json (paired_gain)
+    note: >-
+      The bug is unambiguous (ADR 0004): 17 games a season since 2022 priced
+      with the wrong vector because two sources spell the Rams differently.
+      The FIX is not. Graded on 26 held-out games in 2022-2023 -- seasons
+      neither coefficient vector was fit on -- it gains +0.0911 MAE, SE
+      0.7570, t = +0.12. Indistinguishable from nothing.
+      A first version of this measurement got t = -1.68 and looked like the
+      fix made things WORSE. That version held elo_diff at 0.0 on both sides,
+      which compares the rating-only vector against a full ensemble stripped
+      of one of its own features. With the real walk-forward Elo difference
+      passed to both -- the rating-only vector simply has no term for it,
+      which is the shipped behaviour -- the sign flips and the effect
+      vanishes. Recorded because the unfair version was the more dramatic
+      result and would have been the easier one to believe.
+      Consequence worth stating: this is a correctness question, not an edge
+      question, and the measurement says so. Fixing it buys consistency across
+      32 teams, not accuracy.
+
 # ---------------------------------------------------------------------------
 # NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.
 # Excluding these is a methodological choice, and a reader must be able to

@@ -27,9 +27,19 @@ def test_the_log_exists_and_loads():
 
 
 def test_the_weight_is_what_the_arithmetic_says():
+    """Pinned deliberately, not derived from the log.
+
+    Deriving it would make this vacuous. Pinning it means adding an attempt
+    fails here, which is the point: the weight moving is a fact about the
+    research programme and should be looked at, not absorbed silently.
+
+    History: 0.5997 on 5 recovered attempts; 0.9024 when the key-number
+    result (t=7.00) landed; 0.8862 once the NGS team-code fix (t=0.12) was
+    logged -- a null result pulling the mean back down.
+    """
     log = E.load_attempts()
-    assert log.mean_t_squared == pytest.approx(10.2483, abs=1e-3)
-    assert log.weight() == pytest.approx(0.9024, abs=1e-3)
+    assert log.mean_t_squared == pytest.approx(8.7863, abs=1e-3)
+    assert log.weight() == pytest.approx(0.8862, abs=1e-3)
     assert E.current_weight() == pytest.approx(log.weight())
 
 
@@ -77,9 +87,9 @@ def test_the_weight_is_currently_dominated_by_one_attempt():
     assert log.is_dominated_by_one is True
     assert "DOMINATED BY ONE ATTEMPT" in log.summary()
     loo = log.leave_one_out_weights()
-    assert loo["nfl-key-number-weights"] == pytest.approx(0.5997, abs=1e-3)
+    assert loo["nfl-key-number-weights"] == pytest.approx(0.5202, abs=1e-3)
     others = [w for k, w in loo.items() if k != "nfl-key-number-weights"]
-    assert all(w > 0.90 for w in others), (
+    assert all(w > 0.85 for w in others), (
         "dropping any other single attempt should barely move the weight; if "
         "that stops being true the dominance has shifted and this test should "
         "be re-read rather than re-pinned"
@@ -88,7 +98,7 @@ def test_the_weight_is_currently_dominated_by_one_attempt():
 
 def test_the_robust_weight_survives_losing_the_dominant_attempt():
     log = E.load_attempts()
-    assert log.robust_weight() == pytest.approx(0.5997, abs=1e-3)
+    assert log.robust_weight() == pytest.approx(0.5202, abs=1e-3)
     assert log.robust_weight() < log.weight()
     assert log.robust_weight() == min(log.leave_one_out_weights().values())
 

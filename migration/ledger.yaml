@@ -165,8 +165,8 @@ components:
 
   - id: ngs-team-code-mismatch
     old_path: "model/prediction.py build_week_predictions + model/layer2_ngs.py"
-    new_path: "(not fixed -- recorded and guarded)"
-    disposition: deferred
+    new_path: "src/coverline/leagues/nfl/ngs.py (new core normalises; legacy untouched)"
+    disposition: rewritten
     adr: 0004-ngs-team-code-mismatch.md
     data_artifacts: []
     data_disposition: null
@@ -183,12 +183,16 @@ components:
       Measured scope: 17 games a season in every one of 2022-2026, 85 games
       across the committed range. It presents as "NGS unavailable for this
       game", which is indistinguishable from the feed being down.
-      NOT FIXED IN THIS COMMIT, deliberately. The backtest that produced the
-      validated NGS improvement (58.22% -> 64.04% straight-up) ran against the
-      same mismatch, so the full ensemble's validated support excludes Rams
-      games. Switching them onto it is a model change and goes through the
-      gate with a held-out measurement, not a one-line mapping fix applied on
-      the strength of looking obviously right.
+      MEASURED 2026-09-21 and the fix is NOT an improvement: graded on the 26
+      Rams games in 2022-2023, paired gain +0.0911 MAE, SE 0.7570, t = +0.12.
+      A first version held elo at 0.0 on both sides and returned t = -1.68 --
+      comparing the rating-only vector against a full ensemble missing one of
+      its own features. The unfair version was the more dramatic one.
+      So: correctness question, not edge question. The new core normalises
+      because 31-teams-one-way is an unprincipled split that will confuse
+      every future per-team analysis. The LEGACY is deliberately untouched --
+      changing a live board on t = +0.12 needs a reason, and "no detectable
+      difference" is not one.
       Guarded by tests/core/test_team_codes.py, which compares source
       vocabularies directly so the next join mismatch fails loudly.
 
