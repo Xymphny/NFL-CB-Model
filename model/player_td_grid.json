@@ -1,0 +1,583 @@
+{
+  "_provenance": {
+    "script": "model/calibrate_player_td_lambda.py",
+    "closes": "migration/ledger.yaml frozen-threshold-grid",
+    "train_seasons": [
+      2016,
+      2023
+    ],
+    "burn_in_seasons": 1,
+    "metric": "log-loss of anytime_td on TRAINING seasons",
+    "no_holdout_metric_computed": "deliberately. 2024-2025 are spent on the shipped configuration's grade in model/player_projection_results.json, and model/ratings.py is the worked example of a test column consulted mid-selection. Nothing sealed exists in this process, so nothing can leak from it.",
+    "selects_nothing": "the train argmin is reported and NOT adopted. Adopting it would be a new selection that the next holdout has to pay for, and the point of this file is to document the surface, not to move along it."
+  },
+  "shipped_configuration": {
+    "train_log_loss": 0.532565,
+    "train_brier": 0.176345,
+    "n": 22945,
+    "coverage": 1.0
+  },
+  "fixed_evaluation_set": {
+    "n": 22945,
+    "definition": "the anytime_td player-weeks eligible under the SHIPPED constants, after the burn-in season",
+    "why": "eligibility is max(lambda, base) >= TD_MIN_LAMBDA and every constant here moves lambda, so a free-floating sample rewards permissiveness: admitting more low-lambda players lowers log-loss because they are easy negatives"
+  },
+  "sweeps": {
+    "TD_POWER": {
+      "shipped": 0.55,
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.55
+        },
+        {
+          "train_log_loss": 0.533327,
+          "train_brier": 0.176434,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.35
+        },
+        {
+          "train_log_loss": 0.532701,
+          "train_brier": 0.176299,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.45
+        },
+        {
+          "train_log_loss": 0.532916,
+          "train_brier": 0.176567,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.65
+        },
+        {
+          "train_log_loss": 0.533747,
+          "train_brier": 0.176962,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.75
+        },
+        {
+          "train_log_loss": 0.535054,
+          "train_brier": 0.177522,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.85
+        },
+        {
+          "train_log_loss": 0.537898,
+          "train_brier": 0.17866,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 1.0
+        }
+      ],
+      "train_argmin": 0.55,
+      "shipped_is_train_argmin": true,
+      "spread_of_train_log_loss": 0.005333,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": []
+    },
+    "OPP_SHRINK_TD": {
+      "shipped": 0.5,
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.5
+        },
+        {
+          "train_log_loss": 0.533331,
+          "train_brier": 0.176704,
+          "n": 22781,
+          "coverage": 0.9929,
+          "value": 0.0
+        },
+        {
+          "train_log_loss": 0.533226,
+          "train_brier": 0.176638,
+          "n": 22854,
+          "coverage": 0.996,
+          "value": 0.25
+        },
+        {
+          "train_log_loss": 0.532607,
+          "train_brier": 0.176354,
+          "n": 22934,
+          "coverage": 0.9995,
+          "value": 0.75
+        },
+        {
+          "train_log_loss": 0.532731,
+          "train_brier": 0.176394,
+          "n": 22925,
+          "coverage": 0.9991,
+          "value": 1.0
+        }
+      ],
+      "train_argmin": 0.5,
+      "shipped_is_train_argmin": true,
+      "spread_of_train_log_loss": 0.000766,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": []
+    },
+    "ENV_DAMP": {
+      "shipped": 0.5,
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.5
+        },
+        {
+          "train_log_loss": 0.532378,
+          "train_brier": 0.176258,
+          "n": 22916,
+          "coverage": 0.9987,
+          "value": 0.0
+        },
+        {
+          "train_log_loss": 0.532558,
+          "train_brier": 0.176338,
+          "n": 22929,
+          "coverage": 0.9993,
+          "value": 0.25
+        },
+        {
+          "train_log_loss": 0.532691,
+          "train_brier": 0.176404,
+          "n": 22922,
+          "coverage": 0.999,
+          "value": 0.75
+        },
+        {
+          "train_log_loss": 0.532846,
+          "train_brier": 0.176473,
+          "n": 22898,
+          "coverage": 0.998,
+          "value": 1.0
+        }
+      ],
+      "train_argmin": 0.0,
+      "shipped_is_train_argmin": false,
+      "spread_of_train_log_loss": 0.000468,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": []
+    },
+    "USAGE_W": {
+      "shipped": 0.7,
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.7
+        },
+        {
+          "train_log_loss": 0.541127,
+          "train_brier": 0.179534,
+          "n": 20669,
+          "coverage": 0.9008,
+          "value": 0.0
+        },
+        {
+          "train_log_loss": 0.537474,
+          "train_brier": 0.178168,
+          "n": 21887,
+          "coverage": 0.9539,
+          "value": 0.35
+        },
+        {
+          "train_log_loss": 0.532893,
+          "train_brier": 0.176614,
+          "n": 22917,
+          "coverage": 0.9988,
+          "value": 0.85
+        },
+        {
+          "train_log_loss": 0.534031,
+          "train_brier": 0.177053,
+          "n": 22907,
+          "coverage": 0.9983,
+          "value": 1.0
+        }
+      ],
+      "train_argmin": 0.7,
+      "shipped_is_train_argmin": true,
+      "spread_of_train_log_loss": 0.008562,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": [
+        0.0
+      ]
+    },
+    "RZ_OPP_SHRINK": {
+      "shipped": 0.5,
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.5
+        },
+        {
+          "train_log_loss": 0.533271,
+          "train_brier": 0.176658,
+          "n": 22734,
+          "coverage": 0.9908,
+          "value": 0.0
+        },
+        {
+          "train_log_loss": 0.532846,
+          "train_brier": 0.17647,
+          "n": 22843,
+          "coverage": 0.9956,
+          "value": 0.25
+        },
+        {
+          "train_log_loss": 0.532878,
+          "train_brier": 0.176483,
+          "n": 22906,
+          "coverage": 0.9983,
+          "value": 0.75
+        },
+        {
+          "train_log_loss": 0.533326,
+          "train_brier": 0.176677,
+          "n": 22866,
+          "coverage": 0.9966,
+          "value": 1.0
+        }
+      ],
+      "train_argmin": 0.5,
+      "shipped_is_train_argmin": true,
+      "spread_of_train_log_loss": 0.000761,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": []
+    },
+    "LONG_CRED": {
+      "shipped": 150.0,
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 150.0
+        },
+        {
+          "train_log_loss": 0.532782,
+          "train_brier": 0.176455,
+          "n": 22776,
+          "coverage": 0.9926,
+          "value": 50.0
+        },
+        {
+          "train_log_loss": 0.532496,
+          "train_brier": 0.176322,
+          "n": 22897,
+          "coverage": 0.9979,
+          "value": 100.0
+        },
+        {
+          "train_log_loss": 0.532796,
+          "train_brier": 0.176441,
+          "n": 22938,
+          "coverage": 0.9997,
+          "value": 250.0
+        },
+        {
+          "train_log_loss": 0.53303,
+          "train_brier": 0.176537,
+          "n": 22929,
+          "coverage": 0.9993,
+          "value": 400.0
+        }
+      ],
+      "train_argmin": 100.0,
+      "shipped_is_train_argmin": false,
+      "spread_of_train_log_loss": 0.000534,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": []
+    },
+    "ENV_CLAMP": {
+      "shipped": [
+        0.6,
+        1.5
+      ],
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": [
+            0.6,
+            1.5
+          ]
+        },
+        {
+          "train_log_loss": 0.532551,
+          "train_brier": 0.176337,
+          "n": 22942,
+          "coverage": 0.9999,
+          "value": [
+            0.8,
+            1.25
+          ]
+        },
+        {
+          "train_log_loss": 0.532566,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": [
+            0.7,
+            1.4
+          ]
+        },
+        {
+          "train_log_loss": 0.532569,
+          "train_brier": 0.176346,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": [
+            0.5,
+            1.75
+          ]
+        },
+        {
+          "train_log_loss": 0.532573,
+          "train_brier": 0.176347,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": [
+            0.4,
+            2.0
+          ]
+        }
+      ],
+      "train_argmin": [
+        0.8,
+        1.25
+      ],
+      "shipped_is_train_argmin": false,
+      "spread_of_train_log_loss": 2.2e-05,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": []
+    },
+    "TIER_CUTS": {
+      "shipped": [
+        8.0,
+        15.0
+      ],
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": [
+            8.0,
+            15.0
+          ]
+        },
+        {
+          "train_log_loss": 0.541935,
+          "train_brier": 0.180376,
+          "n": 21717,
+          "coverage": 0.9465,
+          "value": [
+            6.0,
+            12.0
+          ]
+        },
+        {
+          "train_log_loss": 0.535736,
+          "train_brier": 0.177685,
+          "n": 22588,
+          "coverage": 0.9844,
+          "value": [
+            7.0,
+            14.0
+          ]
+        },
+        {
+          "train_log_loss": 0.534953,
+          "train_brier": 0.177264,
+          "n": 22758,
+          "coverage": 0.9919,
+          "value": [
+            10.0,
+            18.0
+          ]
+        },
+        {
+          "train_log_loss": 0.535442,
+          "train_brier": 0.177444,
+          "n": 22717,
+          "coverage": 0.9901,
+          "value": [
+            12.0,
+            20.0
+          ]
+        }
+      ],
+      "train_argmin": [
+        8.0,
+        15.0
+      ],
+      "shipped_is_train_argmin": true,
+      "spread_of_train_log_loss": 0.00937,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": [
+        [
+          6.0,
+          12.0
+        ]
+      ]
+    },
+    "TIER_K": {
+      "shipped": {
+        "0": 5.0,
+        "1": 3.0,
+        "2": 1.5
+      },
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": {
+            "0": 5.0,
+            "1": 3.0,
+            "2": 1.5
+          }
+        },
+        {
+          "train_log_loss": 0.550899,
+          "train_brier": 0.183997,
+          "n": 20989,
+          "coverage": 0.9148,
+          "value": {
+            "0": 2.0,
+            "1": 1.5,
+            "2": 1.0
+          }
+        },
+        {
+          "train_log_loss": 0.542965,
+          "train_brier": 0.180686,
+          "n": 21779,
+          "coverage": 0.9492,
+          "value": {
+            "0": 3.0,
+            "1": 2.0,
+            "2": 1.0
+          }
+        },
+        {
+          "train_log_loss": 0.534889,
+          "train_brier": 0.177256,
+          "n": 22720,
+          "coverage": 0.9902,
+          "value": {
+            "0": 8.0,
+            "1": 5.0,
+            "2": 2.5
+          }
+        },
+        {
+          "train_log_loss": 0.535975,
+          "train_brier": 0.177676,
+          "n": 22566,
+          "coverage": 0.9835,
+          "value": {
+            "0": 12.0,
+            "1": 8.0,
+            "2": 4.0
+          }
+        }
+      ],
+      "train_argmin": {
+        "0": 5.0,
+        "1": 3.0,
+        "2": 1.5
+      },
+      "shipped_is_train_argmin": true,
+      "spread_of_train_log_loss": 0.018334,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": [
+        {
+          "0": 2.0,
+          "1": 1.5,
+          "2": 1.0
+        },
+        {
+          "0": 3.0,
+          "1": 2.0,
+          "2": 1.0
+        }
+      ]
+    },
+    "TD_MIN_LAMBDA": {
+      "shipped": 0.15,
+      "rows": [
+        {
+          "train_log_loss": 0.532565,
+          "train_brier": 0.176345,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.15
+        },
+        {
+          "train_log_loss": 0.532567,
+          "train_brier": 0.176347,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.05
+        },
+        {
+          "train_log_loss": 0.532567,
+          "train_brier": 0.176347,
+          "n": 22945,
+          "coverage": 1.0,
+          "value": 0.1
+        },
+        {
+          "train_log_loss": 0.561025,
+          "train_brier": 0.188537,
+          "n": 19022,
+          "coverage": 0.829,
+          "value": 0.2
+        },
+        {
+          "train_log_loss": 0.606195,
+          "train_brier": 0.208574,
+          "n": 12832,
+          "coverage": 0.5593,
+          "value": 0.3
+        }
+      ],
+      "train_argmin": 0.15,
+      "shipped_is_train_argmin": true,
+      "spread_of_train_log_loss": 0.07363,
+      "evaluated_on_fixed_population": true,
+      "values_with_incomplete_coverage": [
+        0.2,
+        0.3
+      ],
+      "note": "this constant decides eligibility directly, so a value above the shipped one cannot cover the fixed evaluation set at all. Read its coverage column before its log-loss column."
+    }
+  }
+}

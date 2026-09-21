@@ -198,3 +198,12 @@ artifacts:
       one is 2026"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: model/player_td_grid.json
+    produced_by: model/calibrate_player_td_lambda.py
+    consumed_by:
+      - tests/core/test_player_td_grid.py
+    kind: gold
+    refresh: "when any TD constant in model/player_projection.py changes"
+    staleness_error_hours: null
+    unconsumed_reason: null

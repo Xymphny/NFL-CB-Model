@@ -184,8 +184,14 @@ its own docstring -- and were fixed.
   because a right sd on an ungraded mean is still an ungraded total
   ([ADR 0011](docs/decisions/0011-a-withheld-market-must-be-refused-by-the-object.md)).
 - The shrinkage weight rests on seven observations with one dominating.
-- `frozen-threshold-grid` remains a permanently open ledger row: eight shipped
-  constants citing a grid search whose output exists in no committed file.
+- `frozen-threshold-grid` remains an open ledger row, but no longer an
+  unexaminable one. The lost grid was reconstructed on training data alone
+  ([ADR 0013](docs/decisions/0013-the-missing-grid-reconstructed.md)) and the
+  constants hold up: seven of ten sit on the training argmin, and the three
+  that do not have the three smallest spreads in the sweep — `ENV_CLAMP` moves
+  log-loss by 0.000022 across its whole range. Nothing was re-selected. The
+  row stays open because a reconstruction is not a recovery: the original
+  output and specification are still gone.
 
 ## September 2026 round -- ATS honesty, commercial dashboard, staking, CFB odds
 

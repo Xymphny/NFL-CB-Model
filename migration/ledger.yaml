@@ -586,20 +586,36 @@ components:
 
   - id: frozen-threshold-grid
     old_path: "model/ (eight constants citing a grid search)"
-    new_path: "(unresolved)"
+    new_path: "model/calibrate_player_td_lambda.py + model/player_td_grid.json"
     disposition: pending
-    adr: null
+    adr: 0013-the-missing-grid-reconstructed.md
     data_artifacts:
-      - "the grid search output itself"
+      - "the grid search output itself (still lost)"
+      - "model/player_td_grid.json (a reconstruction, not a recovery)"
     data_disposition: training
     parity_status: not_applicable
     parity_tolerance: null
     old_removed: false
     notes: >-
-      A CONDITION-2 LOSS THAT HAS ALREADY HAPPENED. Eight shipped constants
-      cite a grid search recorded in the ledger, and the grid's output exists
-      in no committed file. The constants cannot be re-derived, re-checked, or
-      updated on new data without rerunning a search whose specification is
-      also gone. This row stays open until either the output is found or the
-      search is rerun and committed. It is the worked example of why the data
-      condition is a first-class requirement and not an afterthought.
+      A CONDITION-2 LOSS THAT HAS ALREADY HAPPENED. Shipped constants in
+      model/player_projection.py cite a grid search whose output exists in no
+      committed file and whose specification is also gone.
+
+      PARTIALLY ADDRESSED 2026-09-21, and the row STAYS OPEN because the
+      original artifact is still lost and what exists now is a
+      reconstruction, not a recovery. model/calibrate_player_td_lambda.py
+      sweeps every one of those constants on training seasons alone and
+      commits the surface. The finding is that the constants hold up: seven
+      of ten sit exactly on the training argmin, and the three that do not --
+      ENV_DAMP, LONG_CRED, ENV_CLAMP -- have the three SMALLEST spreads in
+      the whole sweep, down to 0.000022 of log-loss for ENV_CLAMP. Whoever
+      ran the lost grid picked defensible values.
+
+      Nothing was re-selected. The three off-argmin values stay put, because
+      adopting a train argmin is a new selection that the next holdout pays
+      for, and because a spread of 0.00002 is not a reason to move anything.
+
+      It remains the worked example of why the data condition is first-class:
+      it took a day of work to find out that constants nobody could check
+      were fine, and that day would have been unnecessary if the grid had
+      been committed when it was run.
