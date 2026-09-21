@@ -68,6 +68,36 @@ components:
       gap it was meant to close.
       Takes effect on the services at their next build.
 
+  - id: execution-slate-runner
+    old_path: "(did not exist -- no single command ran a slate)"
+    new_path: "scripts/recommend_slate.py + src/coverline/leagues/nfl/events.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor"
+    old_removed: false
+    notes: >-
+      The operator-facing command: model -> market -> stake -> ledger, in one
+      run. Dry by default, because the ledger is append-only and a
+      misconfigured slate cannot be taken back out of it.
+      It defaults to the ROBUST shrinkage weight (0.5202) rather than the
+      pooled one (0.8862), and --pooled prints a warning naming the gap.
+      Sizing real money from a weight resting on a single experiment is the
+      mistake the shrinkage machinery exists to avoid.
+      BUILDING IT EXPOSED THE LAST STRUCTURAL GAP: bronze event ids are the
+      book's, and the model keys on 2026-W02-LA-NYG, so the runner had a model
+      and a market and no way to know they described the same game. events.py
+      is that join. Unknown names RAISE -- a relocation or rebrand should stop
+      the run, not quietly match a team to its predecessor -- and unmatched
+      events are NAMED, not counted, because a slate silently pricing 6 of 16
+      games is the shape of a problem that goes unnoticed for weeks.
+      The name table duplicates deploy/odds_watch_job.ODDS_TEAM_TO_ABBR. A
+      second table joined on the same key is the ADR 0004 failure exactly, so
+      a guard test asserts the two are equal; that test is the only thing that
+      makes the duplication acceptable.
+
   - id: execution-recommend
     old_path: "(did not exist -- nothing joined model, market and stake)"
     new_path: "src/coverline/execution/recommend.py"
