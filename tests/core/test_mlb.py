@@ -78,7 +78,34 @@ def test_a_poisson_would_understate_run_variance_by_more_than_half():
 def test_it_satisfies_the_league_contract():
     m = _model()
     assert m.league == "mlb"
-    assert "moneyline" in m.primary_markets
+    assert "runline" in m.primary_markets
+
+
+def test_the_moneyline_is_withheld_for_a_measured_reason():
+    """Withheld on 2026-09-21, and the reason is a number.
+
+    The model's conditioned P(home) averages 0.5063 over 12,148 games against
+    an actual home win rate of 0.5315: a 2.5 point understatement, systematic,
+    on every game. Two league rules cause it -- extra innings resolve every
+    game, and the home team stops batting when it leads -- and conditioning
+    the tie out redistributes that mass proportionally when the walk-off rule
+    gives it overwhelmingly to the home side.
+
+    The RUNLINE is not withheld, which is the surprising half: the fictitious
+    tie mass and the missing one-run wins sit on the same side of 1.5, so the
+    errors cancel where that market is priced.
+    """
+    art = json.loads((ROOT / "model" / "mlb_rules_structure.json").read_text())
+    ml = art["market_impact"]["moneyline"]
+    assert abs(ml["error"]) > 0.015, (
+        "the moneyline error has shrunk below a point and a half; if that "
+        "holds up the market can come back, but it comes back with a grade"
+    )
+    assert "moneyline" not in _model().primary_markets
+
+    rl = art["market_impact"]["runline"]
+    assert abs(rl["error"]) < 0.01
+    assert "runline" in _model().primary_markets
 
 
 def test_the_distribution_conforms_to_the_shared_battery():

@@ -82,8 +82,31 @@ class MLBModel:
         model. No such grading exists for MLB either way -- so this is an
         untested market being offered, which is recorded in the ledger row
         rather than hidden behind a confident-looking list.
+
+        THE MONEYLINE IS WITHHELD, and it is the market that looked safest.
+        Measured over 12,148 games in model/mlb_rules_structure.json: the
+        model's conditioned P(home) averages 0.5063 against an actual home win
+        rate of 0.5315. A 2.5 point understatement, systematic, in one
+        direction, on every game -- which is several times a typical edge and
+        would manufacture a false edge on the away side of every card.
+
+        The cause is two league RULES, which is the shape ADR 0007 found in
+        hockey. Extra innings resolve every game, so the 10.07% this model
+        puts on a tied final score is impossible. And the home team never bats
+        in the ninth while leading -- a walk-off ends play the instant it
+        takes the lead -- so P(home wins by exactly one) is 0.1725 against
+        0.1111 for the away side. recommend.py conditions the tie out, but it
+        redistributes that mass PROPORTIONALLY and the walk-off rule gives it
+        overwhelmingly to the home side.
+
+        THE RUNLINE STAYS, and it is right for a reason that could change.
+        The fictitious tie mass and the missing one-run wins sit on the SAME
+        side of 1.5, so the errors cancel where that market is priced: 0.6420
+        below the line against an actual 0.6409. That is the measurement, not
+        an argument, and if either component moves the cancellation goes with
+        it.
         """
-        return ("moneyline", "runline", "total")
+        return ("runline", "total")
 
     @property
     def has_key_number_correction(self) -> bool:

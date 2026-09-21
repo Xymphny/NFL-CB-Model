@@ -46,7 +46,7 @@ wrong for pricing.
 |---|---|---|---|
 | NFL | implemented, not live | <1e-9 on 1,945 cached games; live board margin reproduced to 1e-6 | full-ensemble parity needs one cron run carrying `feature_values` |
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
-| MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | distribution family chosen by measurement |
+| MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | family chosen by measurement; MONEYLINE WITHHELD -- 2.5pp systematic bias from two league rules ([ADR 0017](docs/decisions/0017-mlb-has-the-same-two-rule-problem-as-hockey.md)) |
 | NHL | implemented, not live | n/a | rates t=+2.44 (was +3.02 before a lookahead fix); rules layer refreshed and re-graded t=+34.95, goalie-pull component +5.82, total bias now −0.006 ([ADR 0010](docs/decisions/0010-refresh-the-nhl-pull-table-and-check-shape.md)) |
 | NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; sigma constant, and ADR 0005's 0.60 claim shown to be bucketing noise ([ADR 0012](docs/decisions/0012-the-nba-sigma-claim-was-bucketing-noise.md)) |
 

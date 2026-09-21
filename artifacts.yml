@@ -207,3 +207,12 @@ artifacts:
     refresh: "when any TD constant in model/player_projection.py changes"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: model/mlb_rules_structure.json
+    produced_by: model/measure_mlb_rules.py
+    consumed_by:
+      - tests/core/test_mlb.py
+    kind: gold
+    refresh: "when the MLB caches or the shipped dispersion constants change"
+    staleness_error_hours: null
+    unconsumed_reason: null
