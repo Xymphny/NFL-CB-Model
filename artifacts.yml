@@ -56,6 +56,15 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/bronze/odds/**/current-*.json
+    produced_by: src/coverline/execution/capture.py
+    consumed_by:
+      - src/coverline/execution/normalize.py
+    kind: bronze
+    refresh: "per capture window, near each slate's kickoff cluster"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/bronze/odds/**/*.json
     produced_by: src/coverline/execution/odds_client.py
     consumed_by:

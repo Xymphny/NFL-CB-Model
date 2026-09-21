@@ -42,6 +42,32 @@ updated: "2026-09-21"
 # ---------------------------------------------------------------------------
 components:
 
+  - id: execution-capture
+    old_path: "(did not exist -- no closing prices were ever captured)"
+    new_path: "src/coverline/execution/capture.py"
+    disposition: rewritten
+    adr: 0002-odds-data-vendor-and-tier.md
+    data_artifacts:
+      - "data/bronze/odds/**/current-*.json"
+    data_disposition: raw
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor"
+    old_removed: false
+    notes: >-
+      Built ahead of Thursday's subscription. Clusters a slate's kickoff times
+      into the fewest polls that cover it -- one request returns every game
+      live at that instant -- which is what makes five leagues affordable:
+      peak capture is 1,131 credits/month, recomputed in tests rather than
+      quoted from the ADR.
+      THE REFUSAL BEHAVIOUR IS THE POINT. A window whose moment has passed is
+      OVERDUE, not retryable: capturing it would file an in-play price under a
+      pre-game timestamp, a quieter corruption than missing it. Overdue
+      windows are gapped and never fetched, and a test asserts no request was
+      issued. A future window is neither captured nor gapped, because gapping
+      it would manufacture a hole.
+      Re-running is free: an already-captured window is skipped without a
+      request, so the job can sit on a tight cron without paying twice.
+
   - id: execution-backfill
     old_path: "(did not exist -- no historical odds were ever fetched)"
     new_path: "src/coverline/execution/backfill.py + scripts/backfill.py"
