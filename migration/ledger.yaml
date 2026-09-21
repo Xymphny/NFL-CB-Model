@@ -254,7 +254,7 @@ components:
 
   - id: league-mlb
     old_path: "model/mlb_model.py (walk-forward expected runs)"
-    new_path: "src/coverline/leagues/mlb/model.py"
+    new_path: "src/coverline/leagues/mlb/{model,sources}.py"
     disposition: ported
     adr: null
     data_artifacts:
@@ -280,6 +280,19 @@ components:
       So: independent negative binomials, a third distribution family added to
       core without touching pricing or staking. That is the seam earning its
       keep.
+      LIVE SOURCE ADDED 2026-09-21 over the in-season caches the cron keeps
+      current. It reports its own staleness rather than hiding it -- a source
+      quietly serving three-day-old expected runs for tonight's game would be
+      confidently wrong, which is worse than being unavailable -- and refuses
+      a game the walk-forward produced no expectation for instead of
+      approximating one.
+      BUILDING IT FOUND A BUG IN THE RECOMMENDER. MLB has an ~11% tie mass in
+      the modelled margin and baseball has no ties, so a game with a +0.42
+      expected margin reported P(home) = 0.49. The moneyline path was not
+      conditioning out its voiding outcome the way the spread path conditions
+      out a push -- a 5.9 point error, enough to flip the side on a near-even
+      market. A moneyline is a spread of zero and now routes through the same
+      function.
 
   - id: league-nhl-nba-structure
     old_path: "(no legacy -- new leagues)"

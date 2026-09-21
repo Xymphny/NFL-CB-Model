@@ -8,12 +8,16 @@ them into a recommendation.
 
 FOUR RULES IT ENFORCES, EACH FROM SOMETHING ALREADY LEARNED HERE
 
-1. PUSHES ARE CONDITIONED OUT, NOT IGNORED. A spread bet has three outcomes.
+1. VOIDING OUTCOMES ARE CONDITIONED OUT, NOT IGNORED. A spread bet has three
+   outcomes and so does a moneyline -- the push on one, the tie on the other.
    The quantity comparable to a devigged two-way market price is
    P(cover | not push), and on a key number the push is worth 7-8% -- the
    measured NFL weights put P(margin = 3) near 0.078 against a rounded
    normal's 0.027. Comparing raw P(cover) to a market probability silently
-   prices a two-way bet with three-way probabilities.
+   prices a two-way bet with three-way probabilities. The same applies to
+   moneylines, which this module got wrong until MLB made it obvious: the
+   negative binomial puts about 11% on an exact tie, and a game with a
+   positive expected margin reported a sub-50% win probability because of it.
 
 2. IT REFUSES TO PRICE A PUSH IT KNOWS IS WRONG. If the distribution reports
    no key-number correction and the line sits on an integer, the push
@@ -134,8 +138,17 @@ def price_candidate(
             "too, in the flattering direction."
         )
 
-    p_model, p_push = (cover_probability(dist, line) if line is not None
-                       else (1.0 - dist.margin_cdf(0.0), 0.0))
+    # A moneyline is a spread of zero. Routing it through the same function
+    # is not tidiness -- it is the fix for a real bug.
+    #
+    # This used to special-case moneylines as (1 - cdf(0), 0.0), conditioning
+    # nothing out. On a football spread the push is the obvious voiding
+    # outcome; on a moneyline it is the TIE, and it is just as voiding. MLB
+    # exposed it: a game with a +0.42 expected margin reported P(home) = 0.49,
+    # because 10.8% of the distribution's mass sat on margin = 0. Conditioned,
+    # the same game is 0.5495 -- a 5.9 point error, enough to flip the side on
+    # a near-even market.
+    p_model, p_push = cover_probability(dist, line if line is not None else 0.0)
     p_market = float(P.devig([q.price_decimal for q in sides], devig_method)[idx])
 
     plan = size_bet(p_model=p_model, p_market=p_market,

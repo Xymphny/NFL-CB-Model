@@ -218,3 +218,53 @@ def test_recommending_writes_nothing_unless_given_a_ledger(tmp_path):
     Rc.recommend(dist=_dist(mu=+10.0), quotes=_market(point=-3.0), event_id="e1",
                  market="spreads", league="nfl", bankroll=100_000, shrinkage=0.6)
     assert led.signals() == []
+
+
+# ------------------------------------------------- moneylines and ties ----
+
+def test_a_positive_expected_margin_implies_a_favourite():
+    """The invariant that catches an unconditioned voiding outcome.
+
+    This is the test that would have caught the moneyline bug on the day it
+    was written, and did not exist. A distribution with a positive expected
+    margin whose win probability reads below 0.5 has mass somewhere it should
+    not be counting.
+    """
+    from coverline.core.distributions import NegativeBinomialScoreDistribution
+    d = NegativeBinomialScoreDistribution(mu_home=4.6, mu_away=4.2,
+                                          r_home=3.9, r_away=3.2)
+    assert d.margin_mean() > 0
+    p, tie = Rc.cover_probability(d, 0.0)
+    assert tie > 0.05, "pick a distribution with real tie mass or this proves nothing"
+    assert p > 0.5, (
+        f"expected margin is {d.margin_mean():+.3f} but P(win) reads {p:.4f}; "
+        "a voiding outcome is being counted as a loss"
+    )
+
+
+def test_the_moneyline_conditions_the_tie_out_like_a_push():
+    """A moneyline is a spread of zero. The tie voids the bet exactly as a
+    push does, and conditioning it out is the same operation."""
+    from coverline.core.distributions import NegativeBinomialScoreDistribution
+    d = NegativeBinomialScoreDistribution(4.6, 4.2, 3.9, 3.2)
+    conditioned, tie = Rc.cover_probability(d, 0.0)
+    raw = 1.0 - d.margin_cdf(0.0)
+    assert conditioned == pytest.approx(raw / (1 - tie), abs=1e-12)
+    assert conditioned - raw > 0.03, "the correction should be material here"
+
+
+def test_the_two_moneyline_sides_are_complementary():
+    from coverline.core.distributions import NegativeBinomialScoreDistribution
+    d = NegativeBinomialScoreDistribution(4.6, 4.2, 3.9, 3.2)
+    home, tie = Rc.cover_probability(d, 0.0)
+    away = (d.margin_cdf(0.0) - d.margin_pmf(0.0)) / (1 - tie)
+    assert home + away == pytest.approx(1.0, abs=1e-12)
+
+
+def test_football_moneylines_condition_out_their_rarer_tie_too():
+    """Ties are rare in football, not impossible, and a rare voiding outcome
+    is still a voiding outcome."""
+    d = _dist(mu=+0.5)
+    conditioned, tie = Rc.cover_probability(d, 0.0)
+    assert 0.0 < tie < 0.05
+    assert conditioned > 1.0 - d.margin_cdf(0.0)
