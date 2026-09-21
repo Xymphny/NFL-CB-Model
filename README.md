@@ -219,6 +219,26 @@ deliberately wrong charge raises `CostModelDrift` -- the one guard that could
 catch the vendor repricing, and one that can only ever fire against a real
 response.
 
+### The seam's own contract had no guard
+
+`core/interfaces.py` -- the module everything downstream imports -- said the
+point-in-time contract was enforced by "the two-run guard test in
+`tests/core/test_point_in_time.py`". **That file did not exist.** The most
+important claim in the seam was cited by name, in the file that defines it,
+and checked by nothing.
+
+It exists now, across all five leagues: `asof` reaches the source unchanged,
+`predict` is a pure function of (game_id, asof) in any order and however many
+times, and a different `asof` actually changes the answer -- so a model that
+forwards the timestamp and ignores it fails too. The assertion is aimed at a
+deliberately leaky wrapper as well as at the real models, because a guard only
+ever pointed at code that passes is a guard nobody has tested.
+
+And a second guard now makes citations checkable at all: every concrete file
+path named in a docstring under `src/`, `model/`, `scripts/` or `tests/` must
+exist. It immediately found `model/cfb_edge_calibration.py` claiming to write
+to `model/` when it writes to `data/`.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.

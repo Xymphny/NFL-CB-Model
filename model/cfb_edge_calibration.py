@@ -8,7 +8,7 @@ is small, but a magic number in a display file is not evidence, and
 this project's whole claim is that its numbers are checkable.
 
 This script regenerates the value, its uncertainty, and the realized
-bucket table into model/cfb_edge_calibration.json, which the frontend
+bucket table into data/cfb_edge_calibration.json, which the frontend
 reads instead. Run it after any cfb-backtest-job refresh.
 
 WHAT IT FINDS (2026-09-20). Unlike the NFL curve, which is
