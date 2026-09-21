@@ -2,73 +2,154 @@
 
 Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it can go without live API keys, a real GitHub remote, or network access this sandbox doesn't have. This README is the ground truth on what's actually been run vs. what's structurally written but unverified — read it before bug-fixing anything.
 
-## THE FIVE-LEAGUE CORE (2026-09-21) -- new, built alongside, nothing retired yet
+## THE FIVE-LEAGUE CORE (2026-09-21) -- built alongside; nothing retired yet
 
-The project is being rebuilt around one seam, following two audits. Read
-`reports/Coverline five league redesign.md` for the design; this section is
-what actually exists in the repo today.
+Rebuilt around one seam after two audits. `reports/Coverline five league
+redesign.md` has the design; this section is what exists in the repo today.
+Nothing here has replaced the legacy pipeline: the weekly job still runs the
+board, and `artifacts.yml` states in writing that it covers `src/coverline/**`
+only, so its silence about `model/` and `deploy/` is never a clean bill of
+health.
 
-**What changed in principle.** The goal is personal profit, not a commercial
-product, and the audits found that execution -- price capture, sizing, account
-capacity -- moves more money than model quality does. So the new core leads
-with the layers the old system never had: devigging, expected value against a
-FAIR price, closing line value, and a staking engine. It also retires the
-ship/no-ship significance gate, which at these sample sizes had essentially no
-power (minimum detectable effect on ~2,000 NFL games is about +3.1 points of
-cover rate) and inflated whatever it did admit by roughly 2.7x. Conservatism
-moves from the ship decision to the bet-sizing decision.
+### Why it exists
 
-**The seam.** Every league produces a `ScoreDistribution`; everything
-downstream of it imports only `core`. Two implementations serve five leagues --
-`NormalMarginDistribution` (NFL, CFB, NBA) and `BivariatePoissonDistribution`
-(NHL, MLB). Enforcement is an annotated `REGISTRY: dict[str, LeagueModel]`, so
-a league missing a method fails at the `@register` line rather than on a
-Tuesday morning. `@runtime_checkable` + isinstance is explicitly NOT the
-mechanism: it does not check signatures.
+The strategy audit found that **execution binds, not model quality**.
+Capturing -105 instead of -110 is worth about +2.31 points of ROI against a
+realistic model edge of 1.9-2.9%. So the new core leads with the layers the
+old system never had -- devigging, expected value against a FAIR price,
+closing line value, staking -- and retires the ship/no-ship significance gate,
+which at these sample sizes had a minimum detectable effect of about +3.1
+points of cover rate and shipped roughly one real improvement in seven.
 
-**Three findings from building it, all recorded rather than smoothed over.**
-(1) Two devig figures the research specified were wrong. Power was quoted at
-72.47% and is 73.31%; Shin was quoted at 73.05% and is 72.79%. Both
-implementations here satisfy their defining equations -- `sum(p^k) = 1` at
-k = 1.0793, and a single consistent z to machine precision across 2-, 3- and
-4-way markets -- and no value matching the quoted figures does. The tests
-assert the equations, not the numbers, which is the only reason this surfaced.
-(2) Shin and additive are the SAME method for two-outcome markets, exact to
-1e-16, and differ for three-way. That resolves a source conflict the research
-flagged and could not settle; on two-way markets there are three distinct
-methods available, not four.
-(3) Shrinking the probability and scaling the stake are not interchangeable,
-and which is larger depends on the price, crossing at even money. Below decimal
-2.0 -- which is virtually every bet this project places -- shrinking first is
-the conservative ordering and can VETO a bet that stake-scaling would place.
+### The seam
 
-**What is deliberately withheld, in code.** The NFL/CFB key-number mass table
-is absent, so push prices at 3 and 7 are known to be wrong and
-`has_key_number_correction` returns False rather than the code pretending
-otherwise. `staking.py` ships with NO default shrinkage weight, because the
-weight `b = 1 - 1/E[t^2]` needs the t-statistic of every candidate ever tested
-including failures, and this project has never kept that log -- it recorded
-findings, not attempts. Building that log is the open blocker on having a
-defensible weight.
+Every league produces a `ScoreDistribution`; everything downstream of it --
+devigging, EV, Kelly, bankroll, calibration, grading -- imports only `core`.
+Enforcement is an annotated `REGISTRY: dict[str, LeagueModel]` checked by
+`mypy --strict`, so a league missing a method fails at the `@register` line.
+`@runtime_checkable` + `isinstance` is explicitly NOT the mechanism: it checks
+member presence, not signatures.
 
-**The rot defences, and which actually work without you.** Structural:
-`tools/test_manifest.py` diffs a checked-in inventory of all 129 tests and
-fails CI naming any that vanished (verified by deleting one -- it named it);
-`migration/ledger.yaml` plus its CI tests make a component impossible to drop
-without an ADR that exists on disk (all five rules verified by breaking each);
-the conformance battery runs one assertion suite against every league and is
-proven able to fail against deliberately broken stand-ins. Discipline-dependent
-and honestly labelled as such: keeping the ledger rows current, and writing the
-ADR text well enough to be useful later.
+`is_discrete` and the `*_pmf` methods are the non-obvious part. Four of five
+leagues price on integer lines, so push mass is first-class. General
+forecasting interfaces leave it implicit, which is fine for forecasting and
+wrong for pricing.
 
-**A Condition-2 loss that already happened**, now a permanent open row in the
-ledger: eight shipped constants cite a grid search whose output exists in no
-committed file. They cannot be re-derived or updated on new data. The ledger
-test refuses to let that row be closed or its data reclassified as deletable.
+**Three distribution families**, each chosen by measurement:
+- `NormalMarginDistribution` -- NFL, CFB, NBA
+- `BivariatePoissonDistribution` -- NHL
+- `NegativeBinomialScoreDistribution` -- MLB
 
-Nothing is retired. The legacy pipeline still runs the board; `artifacts.yml`
-states plainly that it covers `src/coverline/**` only, so its silence about
-`model/` and `deploy/` is never readable as a clean bill of health.
+### The five leagues, and what is actually true of each
+
+| league | state | parity | notes |
+|---|---|---|---|
+| NFL | implemented, not live | <1e-9 on 1,945 cached games; live board margin reproduced to 1e-6 | full-ensemble parity needs one cron run carrying `feature_values` |
+| CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
+| MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | distribution family chosen by measurement |
+| NHL | **structure only** | n/a | no fitted coefficients; ADR 0005 |
+| NBA | **structure only** | n/a | no fitted coefficients; ADR 0005 |
+
+`BUILT_LEAGUES` (can price a real board), `IMPLEMENTED_LEAGUES` (passes the
+battery) and `STRUCTURAL_ONLY_LEAGUES` (shape, no numbers) are separate sets
+and a test asserts all five are accounted for exactly once. Collapsing them is
+how something half-connected gets treated as finished.
+
+### What measuring found that assuming would not have
+
+Seven things, all from two sources disagreeing rather than from careful
+reading:
+
+1. **NFL key numbers.** A plain rounded normal puts P(margin=3) at 2.74%
+   against an empirical 7.36%. Every push price on a 3 was wrong by nearly
+   threefold. Measured 2010-2021, graded once on 2022-2025: **t = +7.00**, the
+   largest effect this project has recorded.
+2. **MLB is not Poisson.** Runs are 2.2x overdispersed over 12,148 games. The
+   shared-component Poisson was the natural fix and is wrong in a second way:
+   it buys total variance by inventing correlation, and the measured
+   correlation is +0.0006.
+3. **Every Rams game has priced without NGS or Elo since 2022.** The ratings
+   and schedule say `LA`; nflverse NGS says `LAR`. 17 games a season, 85
+   across the committed range. The fix measures at **t = +0.12** -- a
+   correctness question, not an edge question (ADR 0004).
+4. **The board could not be re-derived from its own artifacts.** It recorded
+   which features were used, not their values, so a model change could not be
+   told from a data change. Fixed additively; verifiable from the next run on.
+5. **CI ran half the checks.** 223 tests including every rot defence ran only
+   when someone remembered `scripts/check.sh`.
+6. **CFB dispersion is 17.54, not the 18.65 I guessed** -- and the same
+   measurement found a +2.16 point systematic lean, recorded and not
+   corrected.
+7. **Two devig figures in the design research were wrong.** Power and Shin
+   both fail their own defining equations at the quoted values. Shin and
+   additive are the SAME method for two-way markets, exact to 1e-16.
+
+### The execution layer
+
+Built before the subscription so the key goes to work on arrival, and all of
+it proven offline against fixtures:
+
+- **`odds_client`** -- pre-flight cost computation, a budget enforced BEFORE
+  any request is issued, and drift raised when predicted spend disagrees with
+  the API's own accounting.
+- **`bronze`** -- write-once snapshots. Missed captures go to a gap log with a
+  machine-readable reason; there is deliberately no gap-filling API.
+- **`capture`** -- clusters a slate's kickoffs into the fewest polls covering
+  it. An overdue window is gapped, never fetched late: an in-play price under
+  a pre-game timestamp is a quieter corruption than a missing close.
+- **`backfill`** -- costs itself with no network, resumes from bronze, and
+  gaps the remainder on a budget refusal.
+- **`ledger`** -- append-only, and records the signals that did NOT become
+  bets. That gap is the execution layer's performance and is invisible
+  otherwise.
+- **`recommend`** -- conditions pushes out, and WITHHOLDS an integer line when
+  the distribution has no measured key-number correction.
+
+### Running it
+
+```bash
+python3 scripts/check.sh                          # everything CI runs
+python3 scripts/shakeout_odds_api.py              # ~15 credits, free tier
+python3 scripts/backfill.py                       # dry; --run to spend
+python3 scripts/recommend_slate.py --league nfl --week 2 --bankroll 100000
+```
+
+Local environment: `.venv` on Python 3.11.16, matching the CI pin and
+`.python-version`. An unpinned runtime meant CI, Render and this laptop were
+three different interpreters, with Render's chosen by its service creation
+date.
+
+### The evidence machinery
+
+`evidence/attempts.yaml` holds every candidate ever graded held-out,
+**failures included** -- computing the shrinkage weight from winners only is
+the selection effect the mechanism exists to undo. 7 attempts, 2 non-positive. Pooled weight **0.8862**, robust weight **0.5202**, and the
+whole gap rests on one attempt, which `is_dominated_by_one` reports. The slate
+runner defaults to the robust figure.
+
+### Rot defences, and which work without you
+
+Structural: the test manifest (fails naming any test that vanished), the
+migration ledger (a component cannot be dropped without an ADR that exists on
+disk), the artifact manifest, the conformance battery, the tracked-files guard
+(`.gitignore`'s `*_key*` rule was silently swallowing two committed files),
+and the CI/check.sh divergence guard.
+
+Discipline-dependent, and honestly labelled: keeping ledger rows current, and
+writing ADR text well enough to be useful later.
+
+**Every guard was regression-tested by breaking it.** Three failed to catch
+what they claimed on the first attempt -- a pin test that accepted `3.x`, a
+secrets-rule test that matched its own comment, a credential test that matched
+its own docstring -- and were fixed.
+
+### Open, and waiting rather than unbuilt
+
+- NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.
+- NHL and NBA need fitting. The traps are written where a fitter will look.
+- The shrinkage weight rests on seven observations with one dominating.
+- `frozen-threshold-grid` remains a permanently open ledger row: eight shipped
+  constants citing a grid search whose output exists in no committed file.
 
 ## September 2026 round -- ATS honesty, commercial dashboard, staking, CFB odds
 
