@@ -82,6 +82,25 @@ so three seasons of CLV history accumulate by month three at no extra cost.
 one-shot bulk job that needs code to consume it, and a subscription idling
 during development is wasted money.
 
+**AMENDED 2026-09-21: validate on the free tier first.** The Starter plan is
+free and carries 500 credits/month, which is ample to prove the pipeline
+against the real API -- `scripts/shakeout_odds_api.py` does it for about 15
+credits, roughly 3% of a free month. What it proves: the key works, the cost
+model matches the API's own accounting, response shapes match the fixtures the
+client was built against, Pinnacle is genuinely present in the eu region, real
+two-sided markets devig sanely, line shopping finds a best price across
+regions, and bronze round-trips with the key redacted.
+
+What it CANNOT prove: **historical endpoints are paid-only** -- the API
+documentation states "This endpoint is only available on paid usage plans".
+So the backfill path stays unverified until a plan is bought. The sequence is
+therefore: free key -> shakeout -> subscribe -> re-run with `--historical` ->
+only then spend ~92,000 credits on the backfill. Checking the one remaining
+path costs 30 credits and protects a job three thousand times that size.
+
+This tightens rather than replaces the decision above: the tier and vendor are
+unchanged, and the point at which money is spent moves later.
+
 ## Consequences
 
 Better: a real fair-price baseline, so CLV becomes computable rather than
