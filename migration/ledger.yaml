@@ -88,6 +88,27 @@ components:
       Carries the shrinkage that replaces the old ship/no-ship gate. Ships with
       NO default weight: the attempt log it needs does not exist yet.
 
+  - id: execution-odds-ingest
+    old_path: "(did not exist -- no market data was ever captured or stored)"
+    new_path: "src/coverline/execution/ (not yet built)"
+    disposition: pending
+    adr: 0002-odds-data-vendor-and-tier.md
+    data_artifacts:
+      - "data/bronze/odds/ -- captured snapshots, not yet created"
+    data_disposition: raw
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor to compare against"
+    old_removed: false
+    notes: >-
+      Vendor and tier decided (ADR 0002): The Odds API, $59/100K. Pinnacle
+      confirmed available in the eu region, with a published delay caveat that
+      rules it out for steam-chasing. NOT YET SUBSCRIBED, deliberately -- the
+      backfill is a one-shot bulk job and a subscription idling during
+      development is wasted money. Build the client first.
+      Captured snapshots are RAW and immutable: they cannot be regenerated at
+      any price, because a market close that was not captured is gone. A gap in
+      the series must be recorded as a gap, never interpolated.
+
   - id: evidence-attempt-log
     old_path: "README ledger (records findings, not attempts)"
     new_path: "(not yet built)"

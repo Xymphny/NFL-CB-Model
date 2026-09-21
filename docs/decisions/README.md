@@ -15,6 +15,7 @@ even if this directory is lost.
 | ADR | Status | Decision |
 |-----|--------|----------|
 | [0001](0001-rebuild-around-a-distribution-seam.md) | accepted | Rebuild around a single distribution seam |
+| [0002](0002-odds-data-vendor-and-tier.md) | accepted | Buy The Odds API at the 100K tier, and never split the CLV baseline |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or
