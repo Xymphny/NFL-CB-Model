@@ -785,6 +785,11 @@ def compute_divergences(odds_data: list, model_predictions: dict) -> list:
             # from a number alone.
             "coefficient_set": pred.get("coefficient_set"),
             "features": pred.get("features"),
+            # The VALUES, not just which blocks were present. Without these a
+            # published margin cannot be re-derived later: NGS and Elo both
+            # move between runs. See model/prediction.py for how this was
+            # found. Additive provenance -- changes no published number.
+            "feature_values": pred.get("feature_values"),
             **divergence,
         })
 

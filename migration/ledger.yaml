@@ -163,6 +163,39 @@ components:
       Totals absent from primary_markets on purpose (totals_validation.json
       supported=false).
 
+  - id: board-feature-provenance
+    old_path: "deploy/odds_watch_job.py + model/prediction.py (recorded which features, not their values)"
+    new_path: "same files -- feature_values added, additive only"
+    disposition: rewritten
+    adr: null
+    data_artifacts:
+      - "data/divergence/*.json (feature_values field, from 2026-09-21)"
+    data_disposition: raw
+    parity_status: verified_forward_only
+    parity_tolerance: >-
+      Recorded values run through the recorded coefficient vector must
+      reproduce the published margin to 1e-6. Enforced by
+      tests/core/test_board_provenance.py, which SKIPS boards written before
+      the change rather than passing on them -- an old artifact cannot acquire
+      provenance retroactively.
+    old_removed: false
+    notes: >-
+      FOUND BY TRYING TO VERIFY FULL-ENSEMBLE PARITY AND FAILING. Reconstructing
+      the 2026 week 2 full-ensemble games from committed artifacts missed by
+      -2.3 to +3.8 points, and the Elo difference implied to close the gap
+      flipped sign on one game -- so the error could not be attributed to any
+      single input. NGS releases and Elo state both move between runs, so a
+      published number could not be re-derived and a model change could not be
+      told apart from a data change.
+      For a project whose pillar is that every claim is graded publicly, a
+      claim whose inputs are unrecorded is not really gradeable. The board now
+      records the feature VALUES alongside the booleans it already kept.
+      Strictly additive: nothing here changes a published number, and a test
+      asserts feature_values is only ever written after a prediction, never
+      read into one.
+      CONSEQUENCE: full-ensemble live parity is verifiable from the next cron
+      run onward, and is NOT verifiable for any board published before today.
+
   - id: ngs-team-code-mismatch
     old_path: "model/prediction.py build_week_predictions + model/layer2_ngs.py"
     new_path: "src/coverline/leagues/nfl/ngs.py (new core normalises; legacy untouched)"

@@ -374,6 +374,34 @@ def build_week_predictions(ratings: pd.DataFrame, upcoming_games: pd.DataFrame, 
             stacked_box_diff=stacked_box_diff, elo_diff=elo_diff,
             ngs_present=ngs_present,
         )
+
+        # FEATURE VALUES AS PROVENANCE (2026-09-21).
+        #
+        # The board already recorded WHICH features were used
+        # ({"ngs": false, "elo": true}) and which coefficient vector was
+        # selected. It did not record the VALUES, and without them a
+        # published number cannot be re-derived: NGS releases and Elo state
+        # both move between runs, so a later reader cannot tell a model
+        # change from a data change.
+        #
+        # Found by trying. Reconstructing the 2026 week 2 full-ensemble games
+        # from committed artifacts missed by -2.3 to +3.8 points, and the
+        # implied Elo needed to close the gap even flipped sign on one game --
+        # so the difference could not be attributed to any single input.
+        #
+        # This is ADDITIVE ONLY. Nothing here changes a prediction; it records
+        # what the prediction was computed from.
+        result["feature_values"] = {
+            "rating_diff": float(ratings.loc[home, "total_rating"]
+                                 - ratings.loc[away, "total_rating"]),
+            "rest_diff": float(game.get("home_rest", 7) - game.get("away_rest", 7)),
+            "cpoe_diff": float(cpoe_diff),
+            "separation_diff": float(separation_diff),
+            "yac_oe_diff": float(yac_oe_diff),
+            "ryoe_diff": float(ryoe_diff),
+            "elo_diff": None if elo_diff is None else float(elo_diff),
+            "is_neutral_site": bool(game.get("is_neutral_site", False)),
+        }
         predictions[home] = result
 
     return predictions
