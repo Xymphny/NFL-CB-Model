@@ -131,14 +131,57 @@ class AttemptLog:
         m = self.mean_t_squared
         return 0.0 if m <= 1.0 else 1.0 - 1.0 / m
 
+    def leave_one_out_weights(self) -> dict[str, float]:
+        """The weight recomputed with each attempt removed in turn.
+
+        A weight that moves a lot when one row is dropped is a weight built on
+        that row, and sizing real money from it is sizing from one experiment.
+        """
+        out: dict[str, float] = {}
+        for a in self.attempts:
+            rest = tuple(x for x in self.attempts if x.id != a.id)
+            if not rest:
+                continue
+            m = float(np.mean(np.asarray([r.t for r in rest]) ** 2))
+            out[a.id] = 0.0 if m <= 1.0 else 1.0 - 1.0 / m
+        return out
+
+    @property
+    def is_dominated_by_one(self) -> bool:
+        """True when removing a single attempt moves the weight by >0.10.
+
+        Not a failure -- an outsized effect can be real, and this project's
+        largest is. It is a statement that the pooled weight is resting on one
+        observation, which the caller should know before staking on it.
+        """
+        loo = self.leave_one_out_weights()
+        if not loo:
+            return False
+        return max(abs(w - self.weight()) for w in loo.values()) > 0.10
+
+    def robust_weight(self) -> float:
+        """The most conservative weight consistent with dropping any one row.
+
+        Prefer this over weight() for sizing. The pooled weight is the best
+        point estimate; this one survives the loss of the single most
+        influential observation, which matters when n is small enough that one
+        experiment can move the answer by 30 points -- as it currently can.
+        """
+        loo = self.leave_one_out_weights()
+        return min([self.weight(), *loo.values()]) if loo else self.weight()
+
     def summary(self) -> str:
         w = self.weight()
         kind = "CEILING (log contains recovered attempts)" if self.is_ceiling else "estimate"
-        return (
+        line = (
             f"{len(self)} attempts ({self.n_negative} at or below zero, "
             f"{self.n_recovered} recovered), RMS t = {self.rms_t:.3f}, "
             f"E[t^2] = {self.mean_t_squared:.4f}, weight b = {w:.4f} -- {kind}"
         )
+        if self.is_dominated_by_one:
+            line += (f"; DOMINATED BY ONE ATTEMPT -- robust weight "
+                     f"{self.robust_weight():.4f}")
+        return line
 
 
 def load_attempts(path: Path | str = DEFAULT_LOG) -> AttemptLog:

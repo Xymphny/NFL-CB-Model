@@ -137,6 +137,33 @@ attempts:
       candidates. Retained pending a decision rather than reverted on one
       held-out grade, but it is an open item, not a settled one.
 
+  - id: nfl-key-number-weights
+    date: "2026-09-21"
+    hypothesis: >-
+      Reweight the rounded-normal margin distribution by measured key-number
+      multipliers, so that P(margin = 3) and P(margin = 7) reflect how
+      football actually scores.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: 0.11399
+    standard_error: 0.01628
+    t: 7.00
+    decision: shipped
+    recovered: false
+    source: data/nfl_key_numbers.json (holdout_grade)
+    note: >-
+      The first prospectively-logged attempt, and by far the largest effect
+      this project has measured. Fitted on nflverse 2010-2021, graded once on
+      2022-2025 (1,084 games). The plain rounded normal puts P(margin=3) at
+      2.74% against an empirical 7.36%, so every push price on a 3 was wrong
+      by nearly 3x. CAUTION: this single row moves the pooled weight from
+      0.5997 to 0.9024. It is a structural fix to a known-wrong assumption
+      rather than a marginal edge, which is arguably a different population
+      from the other attempts. It is kept in rather than excluded -- removing
+      an inconvenient row is the cherry-picking failure in reverse -- but the
+      dominance is exposed by AttemptLog.is_dominated_by_one and the
+      conservative robust_weight() exists because of it.
+
 # ---------------------------------------------------------------------------
 # NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.
 # Excluding these is a methodological choice, and a reader must be able to

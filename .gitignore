@@ -24,4 +24,14 @@ frontend/public/data/
 .env.*
 *.pem
 *_key*
+# NEGATIONS. `*_key*` is a blunt instrument: it is meant to catch api_key,
+# private_key and the like, and it also silently swallows any legitimate file
+# with "_key" in its name. Silently is the dangerous part -- a file that is
+# ignored looks exactly like a file that was never written, which is how an
+# artifact ends up citing a generator that exists in no committed file.
+# tests/core/test_tracked_files.py now fails if anything referenced by
+# artifacts.yml or migration/ledger.yaml is untracked, so a future collision
+# is caught rather than discovered months later.
 !**/qb_overrides.json
+!**/nfl_key_numbers.py
+!**/nfl_key_numbers.json

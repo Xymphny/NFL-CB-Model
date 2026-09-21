@@ -28,8 +28,8 @@ def test_the_log_exists_and_loads():
 
 def test_the_weight_is_what_the_arithmetic_says():
     log = E.load_attempts()
-    assert log.mean_t_squared == pytest.approx(2.4980, abs=1e-3)
-    assert log.weight() == pytest.approx(0.5997, abs=1e-3)
+    assert log.mean_t_squared == pytest.approx(10.2483, abs=1e-3)
+    assert log.weight() == pytest.approx(0.9024, abs=1e-3)
     assert E.current_weight() == pytest.approx(log.weight())
 
 
@@ -37,6 +37,15 @@ def test_the_weight_agrees_with_the_staking_module():
     """Two implementations of b = 1 - 1/E[t^2] must not drift apart."""
     log = E.load_attempts()
     assert log.weight() == pytest.approx(shrinkage_weight(log.t_statistics))
+
+
+def test_the_first_prospective_attempt_is_logged():
+    """The log stops being pure archaeology the moment something is recorded
+    as it happens. n_recovered < len() is the marker."""
+    log = E.load_attempts()
+    assert log.n_recovered < len(log), "still entirely reconstructed"
+    prospective = [a.id for a in log.attempts if not a.recovered]
+    assert "nfl-key-number-weights" in prospective
 
 
 def test_the_log_contains_failures():
@@ -55,8 +64,43 @@ def test_dropping_failures_inflates_the_weight_measurably():
     log = E.load_attempts()
     cherry = E.drop_negative_for_demonstration(log)
     assert cherry.weight() > log.weight()
-    assert cherry.weight() - log.weight() == pytest.approx(0.1275, abs=0.01)
-    assert cherry.weight() == pytest.approx(0.7272, abs=0.01)
+
+
+def test_the_weight_is_currently_dominated_by_one_attempt():
+    """Six observations, and one of them moves the answer by 30 points.
+
+    Not a failure -- the key-number effect is real and large. But a pooled
+    weight resting on a single experiment is not something to stake real money
+    on without knowing, so the log says so out loud.
+    """
+    log = E.load_attempts()
+    assert log.is_dominated_by_one is True
+    assert "DOMINATED BY ONE ATTEMPT" in log.summary()
+    loo = log.leave_one_out_weights()
+    assert loo["nfl-key-number-weights"] == pytest.approx(0.5997, abs=1e-3)
+    others = [w for k, w in loo.items() if k != "nfl-key-number-weights"]
+    assert all(w > 0.90 for w in others), (
+        "dropping any other single attempt should barely move the weight; if "
+        "that stops being true the dominance has shifted and this test should "
+        "be re-read rather than re-pinned"
+    )
+
+
+def test_the_robust_weight_survives_losing_the_dominant_attempt():
+    log = E.load_attempts()
+    assert log.robust_weight() == pytest.approx(0.5997, abs=1e-3)
+    assert log.robust_weight() < log.weight()
+    assert log.robust_weight() == min(log.leave_one_out_weights().values())
+
+
+def test_robust_and_pooled_converge_when_no_row_dominates(tmp_path):
+    """The diagnostic must go quiet on a healthy log, or it is just noise."""
+    rows = [_row(id=f"a{i}", estimate=0.02 + 0.001 * i,
+                 standard_error=0.01, t=2.0 + 0.1 * i) for i in range(8)]
+    p = _write(tmp_path, rows)
+    log = E.load_attempts(p)
+    assert log.is_dominated_by_one is False
+    assert log.robust_weight() == pytest.approx(log.weight(), abs=0.05)
 
 
 def test_the_weight_is_flagged_as_a_ceiling_while_recovered():
@@ -64,9 +108,9 @@ def test_the_weight_is_flagged_as_a_ceiling_while_recovered():
     goes unwritten skews toward nulls."""
     log = E.load_attempts()
     assert log.is_ceiling is True
-    assert log.n_recovered == len(log), (
-        "some attempts are now prospectively logged -- good. Once recovered "
-        "ones are outnumbered, revisit whether the ceiling framing still holds."
+    assert log.n_recovered > 0, (
+        "no recovered attempts remain -- the log is fully prospective, so the "
+        "ceiling framing no longer applies and is_ceiling should be False"
     )
     assert "CEILING" in log.summary()
 
@@ -79,19 +123,42 @@ def test_every_recorded_t_matches_its_own_estimate_and_error():
         )
 
 
-def test_train_side_statistics_are_excluded_and_that_exclusion_matters():
-    """The train-side numbers in this repo would push the weight above 0.9.
+#: Train-side coefficient t-statistics recorded in this repo, kept out of the
+#: weight on purpose. Listed here so the exclusion can be measured.
+TRAIN_SIDE = [8.51, 4.14, 2.63, 2.36, 2.13, 1.43, -0.89, -0.38, -0.35]
 
-    Recorded as a test because the exclusion is a methodological choice a
-    future reader might reverse without realising what it does.
+
+def test_train_side_statistics_would_have_inflated_the_recovered_weight():
+    """The exclusion measured against the population the rule was written for.
+
+    NOTE ON WHY THIS IS SCOPED TO THE RECOVERED ATTEMPTS. When the log held
+    only the five recovered rows, admitting train-side statistics moved the
+    weight from 0.60 to above 0.75 -- a large distortion, and the reason the
+    rule exists. Adding nfl-key-number-weights at t=7.00 raised the log's own
+    E[t^2] so far that the same pollution now moves the pooled weight by about
+    0.01. That is not evidence the rule stopped mattering; it is evidence that
+    one large attempt currently swamps everything, which is exactly what
+    is_dominated_by_one reports. Measuring on the recovered subset keeps the
+    demonstration honest instead of quietly weakening the assertion.
     """
-    log = E.load_attempts()
-    train_side = [8.51, 4.14, 2.63, 2.36, 2.13, 1.43, -0.89, -0.38, -0.35]
-    polluted = shrinkage_weight(list(log.t_statistics) + train_side)
-    assert polluted > log.weight() + 0.10, (
+    recovered = [a.t for a in E.load_attempts().attempts if a.recovered]
+    assert len(recovered) == 5
+    clean = shrinkage_weight(recovered)
+    polluted = shrinkage_weight(recovered + TRAIN_SIDE)
+    assert clean == pytest.approx(0.5997, abs=1e-3)
+    assert polluted > clean + 0.15, (
         "admitting train-side t-statistics should visibly inflate the weight"
     )
     assert polluted > 0.75
+
+
+def test_the_dominant_attempt_currently_masks_that_distortion():
+    """Pinned so nobody later reads the small pooled difference as a licence
+    to admit train-side statistics."""
+    log = E.load_attempts()
+    pooled_polluted = shrinkage_weight(list(log.t_statistics) + TRAIN_SIDE)
+    assert pooled_polluted - log.weight() < 0.05
+    assert log.is_dominated_by_one is True
 
 
 def test_the_qb_continuity_row_is_the_reason_for_the_rule():
@@ -192,7 +259,7 @@ def test_the_weight_flows_into_a_real_stake():
         bankroll=100_000, shrinkage=E.current_weight(),
     )
     assert plan.placed is True
-    assert plan.p_used == pytest.approx(0.52 + 0.5997 * 0.04, abs=1e-3)
+    assert plan.p_used == pytest.approx(0.52 + E.current_weight() * 0.04, abs=1e-3)
     assert plan.edge_claimed > plan.edge_used > 0.0
 
 

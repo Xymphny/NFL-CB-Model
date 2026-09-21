@@ -5,23 +5,37 @@ low-count structure (NHL, MLB). Everything downstream sees only the
 ScoreDistribution protocol, so adding a sixth league means picking one of these
 or writing a third -- it does not mean touching pricing, staking or grading.
 
-WHAT IS DELIBERATELY NOT HERE
------------------------------
-NFL and CFB margins have excess mass on 3 and 7 that a rounded normal does not
-reproduce. The right fix is a measured key-number mass table, and this module
-accepts one (``key_number_mass``) but ships with None. Inventing those numbers
-would be exactly the failure the withholding pillar exists to prevent: a
-plausible constant with no evidence behind it, indistinguishable six months
-later from a measured one. Until the table is fitted on held-out data and
-recorded with its evidence, NFL and CFB push probabilities from this class are
-KNOWN to be wrong at the key numbers, and callers that price pushes on 3 or 7
-should check ``has_key_number_correction`` and withhold rather than guess.
+KEY NUMBERS: MEASURED, AND THE FIRST API DESIGN WAS WRONG
+---------------------------------------------------------
+NFL and CFB margins carry large excess mass on 3 and 7 that a rounded normal
+does not reproduce. This class originally accepted an absolute mass table
+(``key_number_mass``) that overrode pmf(k) outright. That was a design error,
+caught by measuring the effect properly: an absolute table cannot be right for
+a CONDITIONAL distribution, because P(margin = 3) must depend on how large the
+spread is. A game with a 14-point spread and a pick-em cannot share a fixed
+P(margin = 3).
+
+What is actually true is multiplicative. The excess is a property of how
+football scores -- field goals and touchdowns land on particular numbers --
+not of any one matchup. So the correction is a weight w(k) applied to the
+rounded-normal mass and then RENORMALISED, which adjusts the shape of the
+distribution without inventing or destroying total probability.
+
+Measured on nflverse 2010-2021 and graded once on 2022-2025
+(data/nfl_key_numbers.json): mean held-out log-likelihood improves by +0.114
+per game, SE 0.016, t = +7.00. The plain rounded normal puts P(margin = 3) at
+2.74% against an empirical 7.36% -- so every push price on a 3 computed
+without these weights was wrong by nearly a factor of three.
+
+Weights are still not a default. A distribution built without them reports
+``has_key_number_correction`` as False, and callers pricing pushes on key
+numbers should check it rather than assume.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Mapping
+from typing import Any, Mapping
 
 import numpy as np
 from scipy import stats
@@ -52,15 +66,29 @@ class NormalMarginDistribution:
     sd_total: float
     discrete: bool = True
     rho: float = 0.0
-    key_number_mass: Mapping[int, float] | None = field(default=None)
+    key_number_weights: Mapping[int, float] | None = field(default=None)
+    _support: int = 60
+    _norm_cache: float = field(default=1.0, repr=False, compare=False)
+    _cdf_cache: Any = field(default=None, repr=False, compare=False)
 
     def __post_init__(self) -> None:
         if self.sd_margin <= 0 or self.sd_total <= 0:
             raise ValueError("standard deviations must be positive")
         if not -1.0 < self.rho < 1.0:
             raise ValueError("rho must be strictly between -1 and 1")
-        if self.key_number_mass is not None and not self.discrete:
-            raise ValueError("key_number_mass is meaningless for a continuous margin")
+        if self.key_number_weights is not None:
+            if not self.discrete:
+                raise ValueError(
+                    "key_number_weights are meaningless for a continuous margin"
+                )
+            if any(w < 0 for w in self.key_number_weights.values()):
+                raise ValueError("key-number weights must be non-negative")
+            # Precompute the normaliser and the weighted cdf once. Without
+            # this, margin_cdf recomputed the normaliser for every atom it
+            # summed, making a single cdf call O(support^2) -- 35 seconds
+            # across one test module, which is how it was noticed.
+            object.__setattr__(self, "_norm_cache", self._compute_normaliser())
+            object.__setattr__(self, "_cdf_cache", self._compute_weighted_cdf())
 
     # -- protocol ---------------------------------------------------------
 
@@ -70,12 +98,13 @@ class NormalMarginDistribution:
 
     @property
     def has_key_number_correction(self) -> bool:
-        """False on every distribution this module currently produces.
+        """Whether measured key-number weights are in force.
 
-        Exposed so that pricing code can refuse to quote a push price on a key
-        number rather than quoting a wrong one. See the module docstring.
+        Exposed so pricing code can refuse to quote a push price on a key
+        number rather than quoting one that is wrong by ~3x. See the module
+        docstring for the measurement.
         """
-        return self.key_number_mass is not None
+        return self.key_number_weights is not None
 
     def margin_mean(self) -> float:
         return self.mu_margin
@@ -84,10 +113,22 @@ class NormalMarginDistribution:
         return self.sd_margin
 
     def margin_cdf(self, x: float) -> float:
+        if self.discrete and self.key_number_weights is not None:
+            lo = int(np.floor(x))
+            if lo < -self._support:
+                return 0.0
+            if lo >= self._support:
+                return 1.0
+            return float(self._cdf_cache[lo + self._support])
         return self._cdf(x, self.mu_margin, self.sd_margin)
 
     def margin_pmf(self, x: float) -> float:
-        return self._pmf(x, self.mu_margin, self.sd_margin, self.key_number_mass)
+        if not self.discrete or not _is_integer(x):
+            return 0.0
+        base = self._raw_pmf(int(x), self.mu_margin, self.sd_margin)
+        if self.key_number_weights is None:
+            return base
+        return base * self._weight(int(x)) / self._norm_cache
 
     def total_mean(self) -> float:
         return self.mu_total
@@ -131,12 +172,37 @@ class NormalMarginDistribution:
     ) -> float:
         if not self.discrete or not _is_integer(x):
             return 0.0
-        k = int(x)
-        if table is not None and k in table:
-            return float(table[k])
+        return self._raw_pmf(int(x), mu, sd)
+
+    @staticmethod
+    def _raw_pmf(k: int, mu: float, sd: float) -> float:
         upper = stats.norm.cdf((k + 0.5 - mu) / sd)
         lower = stats.norm.cdf((k - 0.5 - mu) / sd)
         return float(upper - lower)
+
+    def _weight(self, k: int) -> float:
+        return float(self.key_number_weights.get(k, 1.0))  # type: ignore[union-attr]
+
+    def _compute_normaliser(self) -> float:
+        """Sum of weighted raw masses over the support.
+
+        Renormalising is what makes the weights a SHAPE adjustment. Without it
+        the reweighted masses would not sum to one and every probability the
+        distribution reports would be inflated by the average weight.
+        """
+        total = 0.0
+        for k in range(-self._support, self._support + 1):
+            total += self._raw_pmf(k, self.mu_margin, self.sd_margin) * self._weight(k)
+        return total
+
+    def _compute_weighted_cdf(self) -> np.ndarray:
+        norm = self._norm_cache if hasattr(self, "_norm_cache") else self._compute_normaliser()
+        ks = np.arange(-self._support, self._support + 1)
+        masses = np.array([
+            self._raw_pmf(int(k), self.mu_margin, self.sd_margin) * self._weight(int(k))
+            for k in ks
+        ]) / norm
+        return np.cumsum(masses)
 
 
 @dataclass(frozen=True)

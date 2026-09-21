@@ -59,6 +59,70 @@ components:
       is deliberately absent rather than guessed; NFL/CFB push prices from the
       new code are known-wrong at 3 and 7 until it is measured.
 
+  - id: league-nfl-pricing-leaf
+    old_path: "model/prediction.py (predict_margin, coefficient vectors)"
+    new_path: "src/coverline/leagues/nfl/model.py"
+    disposition: ported
+    adr: null
+    data_artifacts:
+      - "data/nfl_key_numbers.json"
+    data_disposition: derived
+    parity_status: partial
+    parity_tolerance: >-
+      Coefficient vectors ported verbatim and pinned by test. Margin output is
+      identical by construction for a given feature set. NOT yet compared on a
+      real slate, because the feature source is not ported -- see
+      league-nfl-feature-source.
+    old_removed: false
+    notes: >-
+      Carries the documented home_field/intercept collinearity defect forward
+      unchanged: net home edge for equal teams is -1.13 against a market near
+      +2.5. Exposed as home_edge_for_equal_teams() and pinned by a test that
+      fails if someone corrects it in place. The vector was validated as a
+      vector; changing one term invalidates the validation. Fix belongs at the
+      next refit.
+      Totals absent from primary_markets on purpose (totals_validation.json
+      supported=false).
+
+  - id: league-nfl-feature-source
+    old_path: "model/ratings.py, model/elo_rating.py, model/layer2_ngs.py"
+    new_path: "(not ported -- injected FeatureSource stub today)"
+    disposition: pending
+    adr: null
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_started
+    parity_tolerance: >-
+      When ported: rating_diff and the NGS differences must reproduce the
+      legacy walk-forward cache within floating-point tolerance on a common
+      slate, with point-in-time correctness enforced by the asof contract.
+    old_removed: false
+    notes: >-
+      THE REASON nfl IS IMPLEMENTED BUT NOT LIVE. The pricing leaf is done and
+      conforms; the rating pipeline that feeds it is still upstream in model/.
+      Until this is ported, nfl stays out of the registry and in
+      IMPLEMENTED_LEAGUES, so a model that cannot price a real board is never
+      mistaken for one that can.
+
+  - id: nfl-key-numbers
+    old_path: "(did not exist -- push prices used a plain rounded normal)"
+    new_path: "model/nfl_key_numbers.py + data/nfl_key_numbers.json"
+    disposition: rewritten
+    adr: null
+    data_artifacts:
+      - "data/nfl_key_numbers.json"
+    data_disposition: derived
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor"
+    old_removed: false
+    notes: >-
+      Measured on nflverse 2010-2021, graded once on 2022-2025: +0.114 mean
+      held-out log-likelihood, SE 0.016, t = +7.00. Largest effect the project
+      has measured. Reproducible from the public source, hence derived rather
+      than training. Its discovery also corrected an API design error: the
+      first version of NormalMarginDistribution took an ABSOLUTE mass table,
+      which cannot be right for a conditional distribution.
+
   - id: core-pricing-devig
     old_path: "(did not exist -- vig was never removed)"
     new_path: "src/coverline/core/pricing.py"

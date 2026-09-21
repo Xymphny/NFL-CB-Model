@@ -34,11 +34,21 @@ from coverline.core.distributions import (  # noqa: E402
     NormalMarginDistribution,
 )
 
-#: Leagues actually built, checked in so that a disappearance is visible.
-#: EMPTY IS CORRECT TODAY -- no league package exists yet. Adding 'nfl' here
-#: without a working nfl package will fail the very next test, and building
-#: one without adding it here will fail this one.
+#: Leagues LIVE in the registry -- meaning they have a production feature
+#: source and can price a real board. Distinct from IMPLEMENTED_LEAGUES below,
+#: because a model class that works is not the same as a model that is wired
+#: to data, and collapsing the two is how something half-connected gets
+#: treated as finished.
+#: EMPTY IS CORRECT TODAY. See IMPLEMENTED_LEAGUES for why.
 BUILT_LEAGUES: frozenset[str] = frozenset()
+
+#: Leagues whose package exists and passes the conformance battery, but which
+#: are not registered because their feature source is not ported yet.
+#: nfl (2026-09-21): model/pricing leaf ported with the shipped coefficient
+#: vectors; the rating pipeline that produces rating_diff and the NGS feature
+#: differences is still upstream in model/ and has its own ledger row. The
+#: package is exercised against the shared battery in tests/core/test_nfl.py.
+IMPLEMENTED_LEAGUES: frozenset[str] = frozenset({"nfl"})
 
 
 def test_registry_matches_the_checked_in_inventory():
@@ -55,8 +65,27 @@ def test_expected_leagues_are_the_five_intended():
 
 def test_unbuilt_leagues_are_reported_rather_than_forgotten():
     missing = registry.missing()
-    print(f"\n  leagues declared but not built: {sorted(missing)}")
+    print(f"\n  live: {sorted(BUILT_LEAGUES)}  "
+          f"implemented not live: {sorted(IMPLEMENTED_LEAGUES)}  "
+          f"neither: {sorted(registry.EXPECTED_LEAGUES - BUILT_LEAGUES - IMPLEMENTED_LEAGUES)}")
     assert missing == registry.EXPECTED_LEAGUES - BUILT_LEAGUES
+
+
+def test_implemented_leagues_actually_have_a_package():
+    """A name in IMPLEMENTED_LEAGUES with no module behind it is a claim the
+    repo does not support."""
+    import importlib
+    for league in IMPLEMENTED_LEAGUES:
+        mod = importlib.import_module(f"coverline.leagues.{league}.model")
+        assert hasattr(mod, "predict_margin"), f"{league} has no margin model"
+
+
+def test_implemented_and_live_do_not_silently_merge():
+    """If a league becomes live, it must be moved deliberately, not end up in
+    both sets by accident."""
+    assert not (BUILT_LEAGUES & IMPLEMENTED_LEAGUES), (
+        "a league is listed as both live and not-yet-live; pick one"
+    )
 
 
 # ------------------------------------------- the shared assertion battery ----

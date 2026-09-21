@@ -1,0 +1,115 @@
+{
+ "_provenance": {
+  "script": "model/nfl_key_numbers.py",
+  "generated": "2026-09-21",
+  "source": "nflverse nfldata games.csv, REG season games with a closing spread",
+  "train_seasons": [
+   2010,
+   2021
+  ],
+  "holdout_seasons": [
+   2022,
+   2025
+  ],
+  "graded_once": true,
+  "method": "multiplicative weights on a rounded normal centred per game on the closing spread. w(k) = empirical count at k / summed predicted mass at k. Weights are applied then renormalised, so they adjust SHAPE and cannot change total probability.",
+  "why_multiplicative": "an absolute mass table would be wrong for a conditional distribution: P(margin=3) must depend on how big the spread is. The excess at key numbers is a property of how football scores, not of the game.",
+  "min_predicted_mass_to_estimate": 20.0,
+  "sigma_used": 13.2979,
+  "n_train": 3088,
+  "n_holdout": 1084
+ },
+ "weights": {
+  "-22": 0.462,
+  "-21": 1.3237,
+  "-20": 0.9304,
+  "-19": 0.5046,
+  "-18": 0.9775,
+  "-17": 1.1705,
+  "-16": 0.8941,
+  "-15": 0.5882,
+  "-14": 1.4585,
+  "-13": 0.8499,
+  "-12": 0.4347,
+  "-11": 0.532,
+  "-10": 0.9863,
+  "-9": 0.285,
+  "-8": 0.7985,
+  "-7": 1.9443,
+  "-6": 1.2865,
+  "-5": 0.7075,
+  "-4": 1.0094,
+  "-3": 2.584,
+  "-2": 0.8264,
+  "-1": 0.6913,
+  "0": 0.1198,
+  "1": 0.8203,
+  "2": 0.7349,
+  "3": 2.8617,
+  "4": 0.8724,
+  "5": 0.7251,
+  "6": 1.3014,
+  "7": 1.767,
+  "8": 0.9253,
+  "9": 0.3708,
+  "10": 1.4805,
+  "11": 0.5988,
+  "12": 0.447,
+  "13": 0.438,
+  "14": 1.5182,
+  "15": 0.5072,
+  "16": 0.8195,
+  "17": 0.9366,
+  "18": 0.9641,
+  "19": 0.3934,
+  "20": 1.0045,
+  "21": 1.287,
+  "22": 0.57,
+  "23": 0.5614,
+  "24": 1.3878,
+  "25": 0.7711,
+  "26": 0.9969
+ },
+ "holdout_grade": {
+  "metric": "mean log-likelihood of the realised margin",
+  "plain_rounded_normal": -3.9225,
+  "key_number_reweighted": -3.80851,
+  "paired_gain": 0.11399,
+  "standard_error": 0.01628,
+  "t": 7.0,
+  "supported": true
+ },
+ "push_probability_check": {
+  "0": {
+   "plain": 0.0274,
+   "reweighted": 0.0033,
+   "empirical_holdout": 0.0028
+  },
+  "3": {
+   "plain": 0.0274,
+   "reweighted": 0.0799,
+   "empirical_holdout": 0.0736
+  },
+  "6": {
+   "plain": 0.0263,
+   "reweighted": 0.0349,
+   "empirical_holdout": 0.0396
+  },
+  "7": {
+   "plain": 0.0257,
+   "reweighted": 0.0463,
+   "empirical_holdout": 0.0405
+  },
+  "10": {
+   "plain": 0.0233,
+   "reweighted": 0.0352,
+   "empirical_holdout": 0.0175
+  },
+  "14": {
+   "plain": 0.0191,
+   "reweighted": 0.0296,
+   "empirical_holdout": 0.0175
+  }
+ },
+ "note": "The plain rounded normal understates P(margin=3) by nearly 3x. Any push price or key-number calculation made without these weights was wrong by that factor."
+}

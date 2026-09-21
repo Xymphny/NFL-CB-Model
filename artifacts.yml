@@ -28,6 +28,16 @@ coverage_scope: "src/coverline/** only; legacy model/ and deploy/ artifacts are
 
 artifacts:
 
+  - path: data/nfl_key_numbers.json
+    produced_by: model/nfl_key_numbers.py
+    consumed_by:
+      - src/coverline/leagues/nfl/model.py
+      - tests/core/test_distributions.py
+    kind: gold
+    refresh: "refit only when a new holdout window is available; graded once"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/bronze/odds/**/*.json
     produced_by: src/coverline/execution/odds_client.py
     consumed_by:

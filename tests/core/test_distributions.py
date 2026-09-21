@@ -9,10 +9,18 @@ only way to catch an algebra error in code nobody will re-derive later.
 import sys
 from pathlib import Path
 
+import json
+
 import numpy as np
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+
+
+def _shipped_weights() -> dict[int, float]:
+    art = json.loads((ROOT / "data" / "nfl_key_numbers.json").read_text())
+    return {int(k): float(v) for k, v in art["weights"].items()}
 
 from coverline.core.distributions import (  # noqa: E402
     BivariatePoissonDistribution,
@@ -75,41 +83,87 @@ def test_discrete_cdf_includes_the_atom():
         assert step == pytest.approx(d.margin_pmf(k), abs=1e-12), k
 
 
-def test_key_number_table_is_absent_and_says_so():
-    """The evidence pillar, in test form: shipping without the measured table
-    is allowed, shipping while CLAIMING to have it is not."""
+def test_key_number_weights_are_absent_by_default_and_say_so():
+    """Shipping without the measured weights is allowed; shipping while
+    CLAIMING to have them is not."""
     d = NormalMarginDistribution(
         mu_margin=-3.0, sd_margin=13.6, mu_total=44.0, sd_total=10.0
     )
-    assert d.has_key_number_correction is False, (
-        "a key-number table appeared; if it was measured, record its evidence "
-        "and update this test -- if it was guessed, delete it"
-    )
+    assert d.has_key_number_correction is False
 
 
-def test_key_number_table_overrides_when_supplied():
+def test_key_number_weights_reshape_without_changing_total_probability():
+    """The property that makes them weights rather than an override. If the
+    renormaliser were dropped, every probability this class reports would be
+    inflated by the average weight and nothing else would visibly break."""
+    w = {3: 2.8617, -3: 2.584, 7: 1.767, -7: 1.9443, 0: 0.1198}
     d = NormalMarginDistribution(
-        mu_margin=-3.0,
-        sd_margin=13.6,
-        mu_total=44.0,
-        sd_total=10.0,
-        key_number_mass={3: 0.0975},
+        mu_margin=-3.0, sd_margin=13.3, mu_total=44.0, sd_total=10.0,
+        key_number_weights=w,
     )
     assert d.has_key_number_correction is True
-    assert d.margin_pmf(3) == pytest.approx(0.0975)
-    assert d.margin_pmf(4) < 0.05  # untouched values still come from the normal
+    assert sum(d.margin_pmf(k) for k in range(-60, 61)) == pytest.approx(1.0, abs=1e-9)
 
 
-def test_continuous_margin_rejects_a_key_number_table():
+def test_key_number_weights_move_the_push_price_by_about_three_times():
+    """The measured effect, pinned against the SHIPPED artifact.
+
+    Uses the full committed weight table rather than a hand-picked subset,
+    because the renormaliser depends on every weight in the table -- a subset
+    produces a different answer, which is how the first version of this test
+    got a number that looked right and was not.
+    """
+    weights = _shipped_weights()
+    plain = NormalMarginDistribution(-3.0, 13.3, 44.0, 10.0)
+    keyed = NormalMarginDistribution(-3.0, 13.3, 44.0, 10.0,
+                                     key_number_weights=weights)
+    assert plain.margin_pmf(3) == pytest.approx(0.027, abs=0.003)
+    assert keyed.margin_pmf(3) == pytest.approx(0.0785, abs=0.003)
+    assert keyed.margin_pmf(3) / plain.margin_pmf(3) > 2.5
+    # ties are nearly impossible in a league with overtime
+    assert keyed.margin_pmf(0) < plain.margin_pmf(0) / 5
+
+
+def test_the_shipped_weight_table_is_the_graded_one():
+    """Guards the artifact itself: if someone regenerates it without grading,
+    or edits a weight by hand, this is what objects."""
+    art = json.loads((ROOT / "data" / "nfl_key_numbers.json").read_text())
+    grade = art["holdout_grade"]
+    assert grade["t"] >= 5.0, "the key-number weights no longer clear their gate"
+    assert grade["supported"] is True
+    assert art["_provenance"]["graded_once"] is True
+    assert art["_provenance"]["train_seasons"] == [2010, 2021]
+    assert art["_provenance"]["holdout_seasons"] == [2022, 2025]
+    # the three weights the whole effect rests on
+    w = art["weights"]
+    assert float(w["3"]) > 2.5 and float(w["7"]) > 1.5 and float(w["0"]) < 0.2
+
+
+def test_weighted_cdf_still_steps_by_exactly_the_pmf():
+    """The reweighting path has its own cdf branch; it must stay consistent
+    with the atoms or push prices silently disagree with cover prices."""
+    d = NormalMarginDistribution(
+        -3.0, 13.3, 44.0, 10.0,
+        key_number_weights={3: 2.8617, 7: 1.767, 0: 0.1198},
+    )
+    for k in (-7, -3, 0, 3, 7):
+        step = d.margin_cdf(k) - d.margin_cdf(k - 1)
+        assert step == pytest.approx(d.margin_pmf(k), abs=1e-9), k
+    assert d.margin_cdf(60) == pytest.approx(1.0, abs=1e-6)
+
+
+def test_continuous_margin_rejects_key_number_weights():
     with pytest.raises(ValueError, match="meaningless"):
         NormalMarginDistribution(
-            mu_margin=0.0,
-            sd_margin=11.0,
-            mu_total=220.0,
-            sd_total=18.0,
-            discrete=False,
-            key_number_mass={3: 0.05},
+            mu_margin=0.0, sd_margin=11.0, mu_total=220.0, sd_total=18.0,
+            discrete=False, key_number_weights={3: 2.0},
         )
+
+
+def test_negative_weights_are_refused():
+    with pytest.raises(ValueError, match="non-negative"):
+        NormalMarginDistribution(-3.0, 13.3, 44.0, 10.0,
+                                 key_number_weights={3: -1.0})
 
 
 def test_normal_rejects_impossible_parameters():
