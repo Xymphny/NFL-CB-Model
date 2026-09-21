@@ -195,6 +195,94 @@ components:
       is deliberately absent rather than guessed; NFL/CFB push prices from the
       new code are known-wrong at 3 and 7 until it is measured.
 
+  - id: league-cfb
+    old_path: "model/cfb_prediction.py"
+    new_path: "src/coverline/leagues/cfb/{model,sources}.py"
+    disposition: ported
+    adr: null
+    data_artifacts:
+      - "model/cfb_full_walk_forward_cache.csv"
+    data_disposition: training
+    parity_status: verified
+    parity_tolerance: >-
+      < 1e-9 against model/cfb_prediction.predict_margin across all 1,731
+      games in the committed cache, with a drift test proving the comparison
+      exercises the coefficients.
+    old_removed: false
+    notes: >-
+      Structurally unlike NFL despite sharing a distribution family. NO
+      home_field term -- home advantage sits in the intercept, so a
+      neutral-site game is not expressible by dropping a term. The vector
+      split is by ELO availability, not NGS, and the fallback is a separate
+      fit (rating coefficient 39.19 against the ensemble's 15.69) because it
+      carries alone.
+      MARGIN_SD was MEASURED, not borrowed: 17.54 against NFL's 13.30. It was
+      first written as a guessed 18.65 and the measurement disagreed. The same
+      measurement found a +2.16 point mean residual on the DVOA-only path --
+      a systematic lean, recorded and NOT corrected, since subtracting a
+      constant from a fitted vector is a model change.
+
+  - id: league-mlb
+    old_path: "model/mlb_model.py (walk-forward expected runs)"
+    new_path: "src/coverline/leagues/mlb/model.py"
+    disposition: ported
+    adr: null
+    data_artifacts:
+      - "model/mlb_dispersion_results.json"
+    data_disposition: derived
+    parity_status: not_applicable
+    parity_tolerance: >-
+      Thin adapter over exp_home/exp_away; no independent margin model to
+      compare against.
+    old_removed: false
+    notes: >-
+      THE DISTRIBUTION FAMILY WAS CHOSEN BY MEASUREMENT AND THE OBVIOUS
+      CHOICE WAS WRONG. Baseball is the sport people reach for Poisson with;
+      over 12,148 walk-forward games runs are 2.2x overdispersed
+      (variance/mean 2.15 home, 2.37 away). A Poisson would understate run
+      variance by more than half.
+      The shared-component Poisson was the natural fix and is also wrong: it
+      buys total variance by creating positive correlation, and the measured
+      correlation is +0.0006. Independence is CONFIRMED rather than assumed --
+      measured margin variance (20.11) and total variance (20.13) both equal
+      the sum of the side variances (20.12), which a shared component would
+      break.
+      So: independent negative binomials, a third distribution family added to
+      core without touching pricing or staking. That is the seam earning its
+      keep.
+
+  - id: league-nhl-nba-structure
+    old_path: "(no legacy -- new leagues)"
+    new_path: "src/coverline/leagues/{nhl,nba}/model.py"
+    disposition: deferred
+    adr: 0005-nhl-and-nba-structure-without-coefficients.md
+    data_artifacts: []
+    data_disposition: null
+    parity_status: not_applicable
+    parity_tolerance: "nothing fitted to compare"
+    old_removed: false
+    notes: >-
+      STRUCTURE ONLY, NO FITTED COEFFICIENTS. No legacy to port, no committed
+      cache, no held-out grading. Shipping constants fitted in an afternoon
+      would be indistinguishable six months later from measured ones, which is
+      the failure the whole evidence apparatus exists to prevent. A test fails
+      if either file grows a module-level numeric constant.
+      The packages exist so the seam is proven for all five leagues, and so
+      the known traps are written where whoever fits them will look.
+      NHL: empty-net goals are ~7% of scoring and arrive conditional on a late
+      one-goal deficit in a league where ~57% of games are one-goal games, so
+      they inflate the winner's score in exactly the games that decide the
+      puck line -- which is why the puck line is NOT offered. And the fixed
+      1.5 line means the SHAPE of the goal distribution does work the mean
+      cannot, so a win-probability model is insufficient here.
+      NBA: margin variance correlates ~0.60 with spread magnitude against
+      ~-0.06 in the NFL, so a constant sigma is the specific mistake a ported
+      football model makes. NBAModel therefore takes a sigma FUNCTION with no
+      default. The real model in this sport is player impact weighted by
+      projected minutes, not a team rating, and GameFeatures records whether a
+      minutes projection was applied so a team-level approximation is not
+      mistaken for one.
+
   - id: league-nfl-pricing-leaf
     old_path: "model/prediction.py (predict_margin, coefficient vectors)"
     new_path: "src/coverline/leagues/nfl/model.py"

@@ -304,3 +304,151 @@ class BivariatePoissonDistribution:
         x2 = rng.poisson(self.lam_away, size=n)
         x3 = rng.poisson(self.lam_shared, size=n) if self.lam_shared > 0 else 0
         return np.column_stack([x1 + x3, x2 + x3])
+
+
+@dataclass(frozen=True)
+class NegativeBinomialScoreDistribution:
+    """Independent overdispersed scores. Used by MLB.
+
+    WHY NOT POISSON, WHICH IS THE OBVIOUS CHOICE
+    Baseball looks like the textbook Poisson sport and is not. Measured over
+    12,148 walk-forward games, runs are overdispersed by a factor of roughly
+    2.2: home variance/mean is 2.15, away 2.37, where Poisson requires 1.
+    Pricing MLB with a Poisson would understate run variance by more than
+    half, which matters most exactly where it is used -- totals, and the tails
+    of any derived probability.
+
+    WHY NOT THE SHARED COMPONENT IN BivariatePoissonDistribution
+    That was the natural fix and it is wrong here. The shared term inflates
+    total variance by creating POSITIVE CORRELATION between the two scores,
+    and the measured correlation is +0.0006 -- independence, to three decimal
+    places. Using it would buy the right total variance with a dependency that
+    does not exist, and would leave the margin variance still too small.
+
+    Independence is confirmed rather than assumed: measured margin variance
+    (20.11) and total variance (20.13) both equal the sum of the individual
+    variances (20.12), which is what independence predicts and what a shared
+    component would break.
+
+    So: independent negative binomials, one dispersion parameter per side.
+    Fitted r is about 3.9 (home) and 3.2 (away).
+
+    MECHANICS
+    The margin and total of two independent NBs have no convenient closed
+    form, so both are convolved numerically over a bounded support. Baseball
+    scores are small and the support is generous, which makes this exact to
+    floating point rather than approximate.
+    """
+
+    mu_home: float
+    mu_away: float
+    r_home: float
+    r_away: float
+    _max_runs: int = 40
+
+    def __post_init__(self) -> None:
+        for name, v in (("mu_home", self.mu_home), ("mu_away", self.mu_away)):
+            if v <= 0:
+                raise ValueError(f"{name} must be positive")
+        for name, v in (("r_home", self.r_home), ("r_away", self.r_away)):
+            if v <= 0:
+                raise ValueError(
+                    f"{name} must be positive; a non-positive dispersion "
+                    "parameter is not an overdispersed distribution"
+                )
+        object.__setattr__(self, "_pmf_cache", None)
+
+    # -- protocol ---------------------------------------------------------
+
+    @property
+    def is_discrete(self) -> bool:
+        return True
+
+    def margin_mean(self) -> float:
+        return self.mu_home - self.mu_away
+
+    def margin_sd(self) -> float:
+        return float(np.sqrt(self._var(self.mu_home, self.r_home)
+                             + self._var(self.mu_away, self.r_away)))
+
+    def total_mean(self) -> float:
+        return self.mu_home + self.mu_away
+
+    def total_sd(self) -> float:
+        return self.margin_sd()   # independent: both are the sum of variances
+
+    def margin_pmf(self, x: float) -> float:
+        if not _is_integer(x):
+            return 0.0
+        m, _ = self._grids()
+        k = int(x) + self._max_runs
+        return float(m[k]) if 0 <= k < len(m) else 0.0
+
+    def margin_cdf(self, x: float) -> float:
+        m, _ = self._grids()
+        k = int(np.floor(x)) + self._max_runs
+        if k < 0:
+            return 0.0
+        if k >= len(m):
+            return 1.0
+        return float(np.cumsum(m)[k])
+
+    def total_pmf(self, x: float) -> float:
+        if not _is_integer(x) or x < 0:
+            return 0.0
+        _, t = self._grids()
+        k = int(x)
+        return float(t[k]) if k < len(t) else 0.0
+
+    def total_cdf(self, x: float) -> float:
+        _, t = self._grids()
+        k = int(np.floor(x))
+        if k < 0:
+            return 0.0
+        if k >= len(t):
+            return 1.0
+        return float(np.cumsum(t)[k])
+
+    def sample(self, n: int, rng: np.random.Generator) -> np.ndarray:
+        h = self._draw(rng, n, self.mu_home, self.r_home)
+        a = self._draw(rng, n, self.mu_away, self.r_away)
+        return np.column_stack([h, a])
+
+    # -- internals --------------------------------------------------------
+
+    @staticmethod
+    def _var(mu: float, r: float) -> float:
+        return mu + mu * mu / r
+
+    @staticmethod
+    def _p(mu: float, r: float) -> float:
+        """scipy's nbinom uses (n=r, p), with mean = r(1-p)/p."""
+        return r / (r + mu)
+
+    def _side_pmf(self, mu: float, r: float) -> np.ndarray:
+        k = np.arange(0, self._max_runs + 1)
+        return stats.nbinom.pmf(k, r, self._p(mu, r))
+
+    def _grids(self) -> tuple[np.ndarray, np.ndarray]:
+        """(margin pmf indexed from -max_runs, total pmf indexed from 0)."""
+        if self._pmf_cache is not None:
+            return self._pmf_cache
+        h = self._side_pmf(self.mu_home, self.r_home)
+        a = self._side_pmf(self.mu_away, self.r_away)
+        total = np.convolve(h, a)
+        # margin: P(H - A = d) = sum_j h[j + d] * a[j]
+        size = 2 * self._max_runs + 1
+        margin = np.zeros(size)
+        for d in range(-self._max_runs, self._max_runs + 1):
+            lo = max(0, -d)
+            hi = min(self._max_runs, self._max_runs - d)
+            if lo > hi:
+                continue
+            j = np.arange(lo, hi + 1)
+            margin[d + self._max_runs] = float(np.sum(h[j + d] * a[j]))
+        out = (margin, total)
+        object.__setattr__(self, "_pmf_cache", out)
+        return out
+
+    def _draw(self, rng: np.random.Generator, n: int, mu: float, r: float) -> np.ndarray:
+        return rng.negative_binomial(r, self._p(mu, r), size=n)

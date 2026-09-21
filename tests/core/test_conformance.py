@@ -44,6 +44,14 @@ BUILT_LEAGUES: frozenset[str] = frozenset()
 
 #: Leagues whose package exists and passes the conformance battery, but which
 #: are not registered because their feature source is not ported yet.
+#: cfb (2026-09-21): ported with both shipped vectors; parity verified at
+#: <1e-9 across all 1,731 games in the committed walk-forward cache. Its
+#: margin sd was MEASURED (17.54, against NFL's 13.30) rather than borrowed.
+#: mlb (2026-09-21): adapter over the legacy walk-forward's expected runs.
+#: Distribution family chosen by measurement, not convention -- runs are 2.2x
+#: overdispersed, so negative binomial rather than the Poisson everyone
+#: reaches for, and independent rather than shared-component because the
+#: measured correlation is +0.0006.
 #: nfl (2026-09-21): pricing leaf ported with the shipped coefficient vectors.
 #: Two feature sources now exist -- a committed walk-forward cache for finished
 #: seasons and a live one reading the published weekly ratings snapshot -- and
@@ -56,7 +64,18 @@ BUILT_LEAGUES: frozenset[str] = frozenset()
 #: sources would price those 6 games with the rating-only vector and silently
 #: disagree with the board. Moving nfl to BUILT_LEAGUES needs the NGS fetch
 #: ported, which has its own ledger row.
-IMPLEMENTED_LEAGUES: frozenset[str] = frozenset({"nfl"})
+IMPLEMENTED_LEAGUES: frozenset[str] = frozenset({"nfl", "cfb", "mlb"})
+
+#: Leagues whose package defines the SHAPE but ships no fitted coefficients.
+#: Distinct from IMPLEMENTED again, because a package that cannot produce a
+#: number without a caller supplying one is not the same as a model.
+#: nhl, nba (2026-09-21): no legacy to port, no committed cache, no held-out
+#: grading. The packages exist so the seam is proven for all five leagues and
+#: so the known traps are written down where whoever fits them will look --
+#: NHL's empty-net conditioning and fixed puck line, NBA's sigma rising with
+#: spread and the minutes layer that is the actual model. A test fails if
+#: either file grows a module-level numeric constant.
+STRUCTURAL_ONLY_LEAGUES: frozenset[str] = frozenset({"nhl", "nba"})
 
 
 def test_registry_matches_the_checked_in_inventory():
@@ -85,7 +104,32 @@ def test_implemented_leagues_actually_have_a_package():
     import importlib
     for league in IMPLEMENTED_LEAGUES:
         mod = importlib.import_module(f"coverline.leagues.{league}.model")
-        assert hasattr(mod, "predict_margin"), f"{league} has no margin model"
+        cls = f"{league.upper()}Model"
+        assert hasattr(mod, cls), f"{league} has no {cls}"
+
+
+def test_structural_leagues_have_a_package_but_no_fitted_model():
+    import importlib
+    for league in STRUCTURAL_ONLY_LEAGUES:
+        mod = importlib.import_module(f"coverline.leagues.{league}.model")
+        assert hasattr(mod, "NotFitted"), (
+            f"{league} is listed as structure-only but does not declare "
+            "NotFitted; if it has been fitted, move it deliberately"
+        )
+
+
+def test_every_expected_league_is_accounted_for():
+    """No league may be silently missing from all three sets."""
+    covered = BUILT_LEAGUES | IMPLEMENTED_LEAGUES | STRUCTURAL_ONLY_LEAGUES
+    assert covered == registry.EXPECTED_LEAGUES, (
+        f"unaccounted leagues: {sorted(registry.EXPECTED_LEAGUES - covered)}"
+    )
+
+
+def test_the_three_sets_do_not_overlap():
+    assert not (BUILT_LEAGUES & IMPLEMENTED_LEAGUES)
+    assert not (IMPLEMENTED_LEAGUES & STRUCTURAL_ONLY_LEAGUES)
+    assert not (BUILT_LEAGUES & STRUCTURAL_ONLY_LEAGUES)
 
 
 def test_implemented_and_live_do_not_silently_merge():

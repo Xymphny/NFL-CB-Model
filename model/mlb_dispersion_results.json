@@ -1,0 +1,30 @@
+{
+ "_provenance": {
+  "script": "model/mlb_dispersion.py",
+  "generated": "2026-09-21",
+  "n_games": 12148,
+  "question": "is MLB scoring Poisson, and are the two sides independent"
+ },
+ "sides": {
+  "home": {
+   "mean": 4.4771,
+   "variance": 9.6326,
+   "variance_over_mean": 2.1515,
+   "nb_r": 3.888
+  },
+  "away": {
+   "mean": 4.431,
+   "variance": 10.486,
+   "variance_over_mean": 2.3665,
+   "nb_r": 3.2426
+  }
+ },
+ "independence": {
+  "correlation": 0.00059,
+  "margin_variance": 20.1067,
+  "total_variance": 20.1304,
+  "sum_of_side_variances": 20.1185,
+  "independent": true
+ },
+ "verdict": "NOT Poisson: variance/mean is ~2.2 on both sides, where Poisson requires 1. INDEPENDENT: correlation +0.0006, and both the margin and total variances equal the sum of the side variances, which a shared component would break. Family: independent negative binomial."
+}
