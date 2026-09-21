@@ -331,6 +331,19 @@ class BivariatePoissonDistribution:
     def is_discrete(self) -> bool:
         return True
 
+    @property
+    def pmf_is_exact(self) -> bool:
+        """This family computes its atoms exactly, so no key-number table.
+
+        The distinction matters at an integer line. A rounded normal has to
+        be TOLD what P(margin = 3) is, because integrating a continuous
+        density across [2.5, 3.5) understates it by nearly threefold in the
+        NFL. A count distribution has no such problem: its pmf IS the atom.
+        Without this property the push guard refused every integer total in
+        baseball and hockey, which withheld markets that price correctly.
+        """
+        return True
+
     def margin_mean(self) -> float:
         return self.lam_home - self.lam_away
 
@@ -435,6 +448,19 @@ class NegativeBinomialScoreDistribution:
 
     @property
     def is_discrete(self) -> bool:
+        return True
+
+    @property
+    def pmf_is_exact(self) -> bool:
+        """This family computes its atoms exactly, so no key-number table.
+
+        The distinction matters at an integer line. A rounded normal has to
+        be TOLD what P(margin = 3) is, because integrating a continuous
+        density across [2.5, 3.5) understates it by nearly threefold in the
+        NFL. A count distribution has no such problem: its pmf IS the atom.
+        Without this property the push guard refused every integer total in
+        baseball and hockey, which withheld markets that price correctly.
+        """
         return True
 
     def margin_mean(self) -> float:

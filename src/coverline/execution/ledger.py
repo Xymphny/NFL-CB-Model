@@ -87,6 +87,16 @@ class Signal:
     edge_used: float
 
     disposition: Disposition
+    #: P(the bet voids) under the model at the time: the push on a spread,
+    #: the tie on a moneyline. Recorded because it is the quantity that
+    #: caused the largest pricing error this project has found -- MLB
+    #: moneylines were out by 5.9 points because 10.8% of the mass sat on a
+    #: tied margin and nothing conditioned it out -- and because a graded bet
+    #: whose record does not carry it cannot be re-checked for that error.
+    #:
+    #: Optional with a None default so rows written before this field existed
+    #: still load. None means "not recorded", which is different from 0.0.
+    push_probability: float | None = None
     not_placed_reason: str | None = None
 
     # execution, present only when placed

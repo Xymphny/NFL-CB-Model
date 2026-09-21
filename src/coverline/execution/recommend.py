@@ -39,6 +39,7 @@ from datetime import datetime, timezone
 from typing import Sequence
 
 from coverline.core import pricing as P
+from coverline.core import markets as M
 from coverline.core.interfaces import ScoreDistribution
 from coverline.core.staking import StakePlan, size_bet
 from coverline.execution.ledger import BetLedger, Signal
@@ -91,16 +92,61 @@ def cover_probability(dist: ScoreDistribution, line: float) -> tuple[float, floa
     return p_cover / denom, p_push
 
 
-def _can_price_push(dist: ScoreDistribution, line: float) -> bool:
+def total_probability(dist: ScoreDistribution, line: float,
+                      over: bool) -> tuple[float, float]:
+    """(P(this side | not push), P(push)) for a total of `line`.
+
+    A SEPARATE FUNCTION BECAUSE A TOTAL IS NOT A MARGIN, which is not as
+    obvious as it sounds: until this existed, price_candidate routed every
+    market through cover_probability, so an Over 44.5 was priced as
+    P(margin > -44.5) and came back 0.9982 against a truth of 0.4801. MLB is
+    the only league that currently offers totals, and it would have bet every
+    Over at maximum stake.
+    """
+    p_push = dist.total_pmf(line) if dist.is_discrete else 0.0
+    p_over = 1.0 - dist.total_cdf(line)
+    denom = 1.0 - p_push
+    if denom <= 0:
+        raise ValueError("push probability of 1 leaves nothing to bet on")
+    p = p_over if over else 1.0 - p_over - p_push
+    return p / denom, p_push
+
+
+def _is_home_outcome(q: Quote) -> bool | None:
+    """True for the home side, False for the away side, None if neither.
+
+    Compared on the team names the quote itself carries, so a league that
+    renames a team cannot silently swap a side.
+    """
+    name = q.outcome.strip().casefold()
+    if name == (q.home_team or "").strip().casefold():
+        return True
+    if name == (q.away_team or "").strip().casefold():
+        return False
+    return None
+
+
+def _can_price_push(dist: ScoreDistribution, line: float,
+                    total: bool = False) -> bool:
     """A distribution without measured key numbers cannot price an integer line.
 
     Not a style preference: the plain rounded normal understates P(margin=3)
     by nearly threefold, so the conditioning above would be materially wrong
     in a direction that inflates the apparent edge.
+
+    A TOTAL's line is already in the distribution's own units, so it is
+    tested as it stands rather than negated -- negating it, as this function
+    did for every market, made an integer total of 44 look like -44 and
+    answered the wrong question about the wrong quantity.
     """
-    if not float(-line).is_integer():
+    if not float(line if total else -line).is_integer():
         return True
     if not dist.is_discrete:
+        return True
+    # A family whose pmf IS the atom needs no key-number table. Only a
+    # rounded continuous distribution does, and conflating the two withheld
+    # every integer total in baseball and hockey.
+    if bool(getattr(dist, "pmf_is_exact", False)):
         return True
     return bool(getattr(dist, "has_key_number_correction", False))
 
@@ -129,8 +175,11 @@ def price_candidate(
     if idx is None:
         raise ValueError(f"{selection!r} is not an outcome of that market")
 
-    line = sides[idx].point
-    if line is not None and not _can_price_push(dist, line):
+    quote = sides[idx]
+    line = quote.point
+    is_total = quote.outcome.strip().lower() in ("over", "under")
+
+    if line is not None and not _can_price_push(dist, line, total=is_total):
         raise PushPriceWithheld(
             f"{event_id} {market} sits on the integer line {line} and this "
             "distribution has no measured key-number correction. Its push "
@@ -138,17 +187,40 @@ def price_candidate(
             "too, in the flattering direction."
         )
 
-    # A moneyline is a spread of zero. Routing it through the same function
-    # is not tidiness -- it is the fix for a real bug.
-    #
-    # This used to special-case moneylines as (1 - cdf(0), 0.0), conditioning
-    # nothing out. On a football spread the push is the obvious voiding
-    # outcome; on a moneyline it is the TIE, and it is just as voiding. MLB
-    # exposed it: a game with a +0.42 expected margin reported P(home) = 0.49,
-    # because 10.8% of the distribution's mass sat on margin = 0. Conditioned,
-    # the same game is 0.5495 -- a 5.9 point error, enough to flip the side on
-    # a near-even market.
-    p_model, p_push = cover_probability(dist, line if line is not None else 0.0)
+    if is_total:
+        if line is None:
+            raise ValueError(f"{event_id} {market} Over/Under carries no line")
+        p_model, p_push = total_probability(
+            dist, line, over=quote.outcome.strip().lower() == "over")
+    else:
+        # WHICH SIDE IS THIS? Until this branch existed, the away side was
+        # priced by feeding ITS line into a function that always answers for
+        # the HOME team. On a home favourite at -6.5 that returned 0.5314 for
+        # the away side against a truth of 0.8214, and the two sides of a
+        # no-push market summed to 1.08 instead of 1. Every away-side
+        # handicap and moneyline price in every league was wrong, in a
+        # direction that flips with the sign of the line.
+        home = _is_home_outcome(quote)
+        if home is None:
+            raise ValueError(
+                f"{selection!r} matches neither {quote.home_team!r} nor "
+                f"{quote.away_team!r}; the side cannot be determined and "
+                "guessing it is how the away side was wrong before"
+            )
+        # The quoted point is that side's line. Convert to a HOME line, which
+        # is the only convention cover_probability speaks.
+        home_line = (line if line is not None else 0.0) if home else -(
+            line if line is not None else 0.0)
+        p_home, p_push = cover_probability(dist, home_line)
+        # A moneyline is a spread of zero. Routing it through the same
+        # function is not tidiness -- it is the fix for a real bug. It used
+        # to special-case moneylines as (1 - cdf(0), 0.0), conditioning
+        # nothing out. On a football spread the push is the obvious voiding
+        # outcome; on a moneyline it is the TIE, and just as voiding. MLB
+        # exposed it: a game with a +0.42 expected margin reported
+        # P(home) = 0.49 because 10.8% of the mass sat on margin = 0.
+        # Conditioned, the same game is 0.5495 -- a 5.9 point error.
+        p_model = p_home if home else 1.0 - p_home
     p_market = float(P.devig([q.price_decimal for q in sides], devig_method)[idx])
 
     plan = size_bet(p_model=p_model, p_market=p_market,
@@ -181,6 +253,10 @@ def to_signal(c: Candidate, *, league: str, bankroll: float,
         shrinkage=(c.plan.p_used - c.p_market) / (c.p_model - c.p_market)
         if c.p_model != c.p_market else 0.0,
         edge_claimed=c.edge_claimed, edge_used=c.edge_used,
+        # Carried through rather than dropped. It was computed, it decided
+        # the price, and a ledger row without it cannot be re-checked for the
+        # conditioning error that motivated computing it.
+        push_probability=c.push_probability,
     )
     if not c.plan.placed:
         return Signal(**common, disposition="not_placed",
@@ -205,29 +281,44 @@ def recommend(
     bankroll: float,
     shrinkage: float,
     ledger: BetLedger | None = None,
+    primary_markets: Sequence[str] | None = None,
     **staking,
 ) -> list[Signal]:
     """Price every book and side for one market, and record every candidate.
 
     Returns the signals. Writing them is optional so a caller can inspect a
     slate before committing anything to an append-only ledger.
+
+    `primary_markets` IS THE LEAGUE'S OWN LIST, and passing it turns that list
+    from documentation into a control. Until this parameter existed,
+    LeagueModel.primary_markets had no production consumer at all -- only
+    tests read it -- so a caller could price any league on any market and get
+    a signal back. See core/markets.py.
+
+    It is optional because making it required would break every existing call
+    site in one commit, which is how a safety feature gets reverted. A call
+    that omits it behaves exactly as before and is not protected, which is
+    stated here rather than left to be discovered.
     """
+    if primary_markets is not None:
+        M.require_offered(market, primary_markets, league)
+    vendor = M.vendor_key(market)
     books = sorted({q.bookmaker for q in quotes
-                    if q.event_id == event_id and q.market == market})
+                    if q.event_id == event_id and q.market == vendor})
     out: list[Signal] = []
 
     for book in books:
-        sides = two_sided(quotes, event_id=event_id, market=market, bookmaker=book)
+        sides = two_sided(quotes, event_id=event_id, market=vendor, bookmaker=book)
         for q in sides:
             try:
                 c = price_candidate(
-                    dist=dist, quotes=quotes, event_id=event_id, market=market,
+                    dist=dist, quotes=quotes, event_id=event_id, market=vendor,
                     bookmaker=book, selection=q.outcome, bankroll=bankroll,
                     shrinkage=shrinkage, **staking)
             except PushPriceWithheld:
                 continue     # withheld, not a recommendation of any kind
             best = max((x for x in quotes
-                        if x.event_id == event_id and x.market == market
+                        if x.event_id == event_id and x.market == vendor
                         and x.outcome == q.outcome),
                        key=lambda x: x.price_decimal, default=None)
             out.append(to_signal(c, league=league, bankroll=bankroll,

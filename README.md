@@ -160,6 +160,19 @@ what they claimed on the first attempt -- a pin test that accepted `3.x`, a
 secrets-rule test that matched its own comment, a credential test that matched
 its own docstring -- and were fixed.
 
+### Two pricing bugs, found by a property rather than by reading
+
+Pricing both sides of a market and comparing them -- which nothing had done --
+found that the **away side of every handicap and moneyline in every league**
+was priced with the home team's answer (0.5314 against a truth of 0.8214 on a
+home favourite at −6.5; the two sides summed to 1.0849), and that **a total
+was priced off the margin distribution** (Over 44.5 came back 0.9982 against a
+truth of 0.4801). Nothing has been bet through this code, which is luck about
+timing rather than a mitigation.
+[ADR 0015](docs/decisions/0015-the-away-side-and-the-total-were-both-mispriced.md)
+has both, and the lesson about test shape: every existing test priced one side
+and checked it against a number derived the same way the code derives it.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.

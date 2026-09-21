@@ -234,6 +234,15 @@ class NHLFinalScoreDistribution:
     def is_discrete(self) -> bool:
         return True
 
+    @property
+    def pmf_is_exact(self) -> bool:
+        """Composed from exact Poisson atoms, so integer lines price directly.
+
+        An NHL total of 6 is a real market. Without this the push guard read
+        the composed distribution as a rounded normal and withheld it.
+        """
+        return True
+
     def margin_mean(self) -> float:
         o, v = self._margin_pmf_vector()
         return float((o * v).sum())

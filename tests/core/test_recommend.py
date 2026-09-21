@@ -268,3 +268,103 @@ def test_football_moneylines_condition_out_their_rarer_tie_too():
     conditioned, tie = Rc.cover_probability(d, 0.0)
     assert 0.0 < tie < 0.05
     assert conditioned > 1.0 - d.margin_cdf(0.0)
+
+
+# ---------------------------------------------------------------------------
+# The two pricing bugs found on 2026-09-21, pinned as properties.
+#
+# Both were invisible to every test here because every test priced ONE side
+# and checked it against a number computed the same way the code computes it.
+# A property that relates the two sides catches what agreement with yourself
+# cannot.
+# ---------------------------------------------------------------------------
+
+
+def _pair(dist, point, market="spreads", outcomes=("H", "A")):
+    quotes = [_q(outcomes[0], 1.91, point, market=market),
+              _q(outcomes[1], 1.91, None if point is None else -point,
+                 market=market)]
+    if market == "totals":
+        quotes = [_q("Over", 1.91, point, market=market),
+                  _q("Under", 1.91, point, market=market)]
+    return [Rc.price_candidate(dist=dist, quotes=quotes, event_id="e1",
+                               market=market, bookmaker="pinnacle",
+                               selection=q.outcome, bankroll=100_000,
+                               shrinkage=0.9)
+            for q in quotes]
+
+
+@pytest.mark.parametrize("point", [-6.5, -3.5, 0.5, 2.5, 7.5])
+def test_the_two_sides_of_a_handicap_are_complementary(point):
+    """THE BUG: the away side was priced with the home team's answer.
+
+    cover_probability always answers for the HOME team at the line it is
+    given, and price_candidate used to hand it whichever line was on the
+    quote being priced. For a home favourite at -6.5 the away side came back
+    0.5314 against a truth of 0.8214, and the two sides summed to 1.0849.
+
+    The error flips sign with the line, so it was not a constant bias that
+    might have shown up as a losing record -- it inflated the away side on
+    some games and deflated it on others, and every away-side handicap price
+    in every league was wrong.
+    """
+    cands = _pair(_dist(mu=-6.0), point)
+    assert sum(c.p_model for c in cands) == pytest.approx(1.0, abs=1e-9)
+
+
+def test_the_two_sides_of_a_moneyline_are_complementary_after_the_tie():
+    """Same fix, and the tie must still be conditioned out of both sides."""
+    cands = _pair(_dist(mu=-6.0), None, market="h2h")
+    assert sum(c.p_model for c in cands) == pytest.approx(1.0, abs=1e-9)
+    assert cands[0].push_probability == cands[1].push_probability > 0
+
+
+def test_a_total_is_priced_off_the_total_not_the_margin():
+    """THE OTHER BUG, and the worse one.
+
+    Every market went through cover_probability, which reads margin_cdf. An
+    Over 44.5 was therefore priced as P(margin > -44.5) and came back 0.9982
+    against a truth of 0.4801. MLB is the only league that offers totals
+    today, and it would have bet every Over at maximum stake.
+    """
+    d = _dist(mu=-6.0)
+    truth = 1.0 - d.total_cdf(44.5)
+    over, under = _pair(d, 44.5, market="totals")
+    assert over.p_model == pytest.approx(truth, abs=1e-9)
+    assert over.p_model + under.p_model == pytest.approx(1.0, abs=1e-9)
+    assert over.p_model < 0.9, (
+        "an Over priced above 0.9 on a line near the mean is the margin "
+        "distribution answering a question about the total"
+    )
+
+
+def test_an_unknown_outcome_name_is_refused_rather_than_assumed():
+    """The side is read off the quote's own team names.
+
+    Guessing it -- by position, or by assuming the first side is home -- is
+    how the away side was wrong before, and a renamed team would reintroduce
+    it silently.
+    """
+    quotes = [_q("Home Team", 1.91, -3.5), _q("A", 1.91, 3.5)]
+    with pytest.raises(ValueError, match="neither"):
+        Rc.price_candidate(dist=_dist(mu=-6.0), quotes=quotes, event_id="e1",
+                           market="spreads", bookmaker="pinnacle",
+                           selection="Home Team", bankroll=100_000,
+                           shrinkage=0.9)
+
+
+def test_a_count_distribution_may_price_an_integer_line():
+    """A pmf that IS the atom needs no key-number table.
+
+    The push guard refused every integer total in baseball and hockey,
+    because it treated an exact count distribution as if it were a rounded
+    normal. That withheld markets that price correctly -- the conservative
+    direction, and still wrong.
+    """
+    from coverline.core.distributions import NegativeBinomialScoreDistribution
+
+    d = NegativeBinomialScoreDistribution(4.6, 4.2, 3.888, 3.2426)
+    over, under = _pair(d, 9.0, market="totals")
+    assert over.push_probability == pytest.approx(d.total_pmf(9), abs=1e-9)
+    assert over.push_probability > 0.05
+    assert over.p_model + under.p_model == pytest.approx(1.0, abs=1e-9)

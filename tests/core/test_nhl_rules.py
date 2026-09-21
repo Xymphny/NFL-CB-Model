@@ -202,3 +202,55 @@ def test_the_loader_refuses_an_artifact_that_did_not_clear(tmp_path) -> None:
         load_rules(bad)
     with pytest.raises(NotFitted, match="no fitted"):
         load_rules(tmp_path / "absent.json")
+
+
+def test_the_puck_line_prices_end_to_end(layers) -> None:
+    """The market enabled today, run through the actual recommender.
+
+    Adding "puck_line" to primary_markets changed nothing operationally until
+    core/markets.py existed, because nothing in production read that list and
+    "puck_line" is not the vendor's word for it. This is the first test that
+    takes the league's own market name, finds the quotes, prices both sides
+    and checks the numbers are sane.
+
+    The push assertion is the one that matters. A puck line sits at 1.5, so
+    there is no push -- but the same code path prices a moneyline as a spread
+    of zero, where the tie IS voiding, and getting that wrong was a 5.9 point
+    error in MLB.
+    """
+    from coverline.core.markets import vendor_key
+    from coverline.execution import recommend as Rc
+    from coverline.execution.normalize import Quote
+
+    model = NHLModel(
+        _Source(lam_home=3.2, lam_away=3.0,
+                lam_home_nopull=2.95, lam_away_nopull=2.65),
+        rules=layers,
+    )
+    dist = model.predict("e1", "2026-01-01T00:00:00Z")
+
+    def _q(outcome, price, point):
+        return Quote(event_id="e1", sport="icehockey_nhl",
+                     commence_time="2026-01-02T00:00:00Z", home_team="H",
+                     away_team="A", bookmaker="pinnacle",
+                     market=vendor_key("puck_line"), outcome=outcome,
+                     price_decimal=price, point=point,
+                     last_update=None, captured_at="2026-01-01T00:00:00Z")
+
+    quotes = [_q("H", 2.35, -1.5), _q("A", 1.63, 1.5)]
+    signals = Rc.recommend(
+        dist=dist, quotes=quotes, event_id="e1", market="puck_line",
+        league="nhl", bankroll=10_000.0, shrinkage=0.92,
+        primary_markets=model.primary_markets,
+    )
+
+    assert len(signals) == 2, "both sides of the puck line should be priced"
+    for s in signals:
+        assert 0.0 < s.p_model < 1.0
+        assert s.push_probability == 0.0, (
+            "a 1.5 line cannot push; a non-zero push here means the line was "
+            "rounded to an integer somewhere"
+        )
+    assert sum(s.p_model for s in signals) == pytest.approx(1.0, abs=1e-9), (
+        "the two sides of a no-push market must be complementary"
+    )
