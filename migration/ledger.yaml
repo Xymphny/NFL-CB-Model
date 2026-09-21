@@ -125,6 +125,35 @@ components:
       A withheld candidate produces NO signal at all -- withholding is not a
       recommendation, including a negative one.
 
+  - id: execution-grade
+    old_path: "(did not exist -- captured closes and recorded bets never met)"
+    new_path: "src/coverline/execution/grade.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts:
+      - "data/ledger/closes.jsonl"
+    data_disposition: raw
+    parity_status: not_applicable
+    parity_tolerance: "no predecessor"
+    old_removed: false
+    notes: >-
+      CLOSES THE LOOP. The ledger held what was recommended and bet; bronze
+      held what the market closed at; nothing joined them, so CLV was
+      computable in principle and computed never.
+      THE CLOSE IS THE LAST SNAPSHOT STRICTLY BEFORE KICKOFF, never the latest
+      available. A post-kickoff snapshot carries an in-play price, and using
+      it would move every CLV figure in whichever direction the game went --
+      a bias that would look like skill.
+      It will not invent a close: a signal whose event never appeared in a
+      captured snapshot stays ungraded and is REPORTED ungraded, because an
+      ungraded bet and a break-even one are different facts. It will not
+      re-grade either -- two closes for one signal is two versions of what the
+      market did.
+      Prop closes are marked invalid and COUNTED SEPARATELY, not averaged in.
+      The summary also reports how much a naive CLV figure would overstate,
+      which is the size of the mistake carried by any CLV number whose author
+      did not say which close it was computed against.
+
   - id: execution-bet-ledger
     old_path: "(did not exist -- no record of what was bet or why not)"
     new_path: "src/coverline/execution/ledger.py"
