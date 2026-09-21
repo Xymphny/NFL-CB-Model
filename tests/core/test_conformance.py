@@ -44,10 +44,18 @@ BUILT_LEAGUES: frozenset[str] = frozenset()
 
 #: Leagues whose package exists and passes the conformance battery, but which
 #: are not registered because their feature source is not ported yet.
-#: nfl (2026-09-21): model/pricing leaf ported with the shipped coefficient
-#: vectors; the rating pipeline that produces rating_diff and the NGS feature
-#: differences is still upstream in model/ and has its own ledger row. The
-#: package is exercised against the shared battery in tests/core/test_nfl.py.
+#: nfl (2026-09-21): pricing leaf ported with the shipped coefficient vectors.
+#: Two feature sources now exist -- a committed walk-forward cache for finished
+#: seasons and a live one reading the published weekly ratings snapshot -- and
+#: BOTH are verified against the legacy model: <1e-9 across 1,945 historical
+#: games, and an exact reconstruction of the published board margin for the
+#: rating-only games on the 2026 week 2 slate.
+#: STILL NOT LIVE, for one specific reason: the board runs the FULL ENSEMBLE on
+#: games where NGS features are present (6 of 16 that week), and NGS comes from
+#: a runtime fetch, not a committed artifact. A registered nfl driven by these
+#: sources would price those 6 games with the rating-only vector and silently
+#: disagree with the board. Moving nfl to BUILT_LEAGUES needs the NGS fetch
+#: ported, which has its own ledger row.
 IMPLEMENTED_LEAGUES: frozenset[str] = frozenset({"nfl"})
 
 

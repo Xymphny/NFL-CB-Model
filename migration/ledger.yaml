@@ -192,8 +192,21 @@ components:
       which is the truth and selects the rating-only vector. Claiming NGS with
       zero-valued differences would select the full ensemble and misprice every
       game -- the failure that ran for weeks before the audit.
-      A LIVE source (current-season ratings, not a historical cache) is still
-      needed before nfl can move from IMPLEMENTED_LEAGUES to BUILT_LEAGUES.
+      LIVE SOURCE ADDED 2026-09-21 (leagues/nfl/live.py): reads the published
+      weekly ratings snapshot joined to the nflverse schedule, which carries
+      home_rest/away_rest and neutral-site status directly. Verified by
+      reconstructing the PUBLISHED board margin for the rating-only games on
+      the 2026 week 2 slate to 1e-6 -- same ratings, same schedule, same
+      coefficients, same number the site shows.
+      Selection is by WEEK, never by mtime: the newest snapshot is always the
+      convenient one and is lookahead, since it has seen results the week in
+      question had not. A snapshot computed after a game raises.
+      STILL NOT ENOUGH FOR BUILT_LEAGUES. The board runs the full ensemble
+      wherever NGS is present -- 6 of 16 games that week -- and NGS is a
+      runtime fetch, not a committed artifact. Registering nfl now would make
+      the new core price those 6 games with the rating-only vector and
+      disagree with the board without saying so. The NGS fetch port is the
+      remaining blocker.
 
   - id: nfl-key-numbers
     old_path: "(did not exist -- push prices used a plain rounded normal)"
