@@ -28,6 +28,15 @@ coverage_scope: "src/coverline/** only; legacy model/ and deploy/ artifacts are
 
 artifacts:
 
+  - path: model/expanded_walk_forward_cache.csv
+    produced_by: model/build_expanded_walk_forward_cache.py
+    consumed_by:
+      - src/coverline/leagues/nfl/sources.py
+    kind: silver
+    refresh: "rebuilt when the rating pipeline changes; point-in-time by construction"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/nfl_key_numbers.json
     produced_by: model/nfl_key_numbers.py
     consumed_by:

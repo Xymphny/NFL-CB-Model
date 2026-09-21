@@ -67,12 +67,14 @@ components:
     data_artifacts:
       - "data/nfl_key_numbers.json"
     data_disposition: derived
-    parity_status: partial
+    parity_status: verified_rating_only
     parity_tolerance: >-
-      Coefficient vectors ported verbatim and pinned by test. Margin output is
-      identical by construction for a given feature set. NOT yet compared on a
-      real slate, because the feature source is not ported -- see
-      league-nfl-feature-source.
+      MEASURED 2026-09-21: new core vs model/prediction.predict_margin over all
+      1,945 games in the committed walk-forward cache (2014-2023), max absolute
+      divergence < 1e-9 points. The harness is itself checked -- a 1% change to
+      one coefficient must move the margin, or the comparison is not exercising
+      what it claims. Covers the RATING-ONLY vector only; full-ensemble parity
+      needs the NGS feature cache ported.
     old_removed: false
     notes: >-
       Carries the documented home_field/intercept collinearity defect forward
@@ -86,8 +88,8 @@ components:
 
   - id: league-nfl-feature-source
     old_path: "model/ratings.py, model/elo_rating.py, model/layer2_ngs.py"
-    new_path: "(not ported -- injected FeatureSource stub today)"
-    disposition: pending
+    new_path: "src/coverline/leagues/nfl/sources.py (cache adapter, not a rewrite)"
+    disposition: ported
     adr: null
     data_artifacts: []
     data_disposition: null
@@ -97,12 +99,24 @@ components:
       legacy walk-forward cache within floating-point tolerance on a common
       slate, with point-in-time correctness enforced by the asof contract.
     old_removed: false
+    data_artifacts:
+      - "model/expanded_walk_forward_cache.csv"
+    data_disposition: training
     notes: >-
-      THE REASON nfl IS IMPLEMENTED BUT NOT LIVE. The pricing leaf is done and
-      conforms; the rating pipeline that feeds it is still upstream in model/.
-      Until this is ported, nfl stays out of the registry and in
-      IMPLEMENTED_LEAGUES, so a model that cannot price a real board is never
-      mistaken for one that can.
+      BRANCH BY ABSTRACTION, NOT REWRITE. The rating pipeline itself is still
+      upstream in model/ and is deliberately NOT reimplemented: it is
+      numerically delicate, and rewriting it first would leave any divergence
+      from the board indistinguishable from a bug. Instead the new interface
+      is served from the committed walk-forward cache the legacy pipeline
+      produced, which makes parity measurable -- and it now measures at
+      < 1e-9 over 1,945 games.
+      LIMITS, STATED: the cache carries rating_diff, home_field and rest_diff
+      only. No NGS differences, no elo. So features report ngs_present=False,
+      which is the truth and selects the rating-only vector. Claiming NGS with
+      zero-valued differences would select the full ensemble and misprice every
+      game -- the failure that ran for weeks before the audit.
+      A LIVE source (current-season ratings, not a historical cache) is still
+      needed before nfl can move from IMPLEMENTED_LEAGUES to BUILT_LEAGUES.
 
   - id: nfl-key-numbers
     old_path: "(did not exist -- push prices used a plain rounded normal)"

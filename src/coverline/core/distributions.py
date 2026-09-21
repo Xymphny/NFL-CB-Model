@@ -68,7 +68,7 @@ class NormalMarginDistribution:
     rho: float = 0.0
     key_number_weights: Mapping[int, float] | None = field(default=None)
     _support: int = 60
-    _norm_cache: float = field(default=1.0, repr=False, compare=False)
+    _norm_cache: Any = field(default=None, repr=False, compare=False)
     _cdf_cache: Any = field(default=None, repr=False, compare=False)
 
     def __post_init__(self) -> None:
@@ -83,12 +83,17 @@ class NormalMarginDistribution:
                 )
             if any(w < 0 for w in self.key_number_weights.values()):
                 raise ValueError("key-number weights must be non-negative")
-            # Precompute the normaliser and the weighted cdf once. Without
-            # this, margin_cdf recomputed the normaliser for every atom it
-            # summed, making a single cdf call O(support^2) -- 35 seconds
-            # across one test module, which is how it was noticed.
-            object.__setattr__(self, "_norm_cache", self._compute_normaliser())
-            object.__setattr__(self, "_cdf_cache", self._compute_weighted_cdf())
+            # Caches are built LAZILY, on first use of pmf or cdf.
+            #
+            # They were originally built here, eagerly. That fixed the
+            # O(support^2) cdf -- margin_cdf had been recomputing the
+            # normaliser for every atom it summed -- but replaced it with a
+            # subtler cost: constructing a distribution to read its MEAN paid
+            # for a 121-point table it never touched. A parity run over 1,945
+            # games spent 39 seconds doing exactly that. Building on demand
+            # keeps the cdf fast and makes construction free again.
+            object.__setattr__(self, "_norm_cache", None)
+            object.__setattr__(self, "_cdf_cache", None)
 
     # -- protocol ---------------------------------------------------------
 
@@ -119,7 +124,7 @@ class NormalMarginDistribution:
                 return 0.0
             if lo >= self._support:
                 return 1.0
-            return float(self._cdf_cache[lo + self._support])
+            return float(self._weighted_cdf()[lo + self._support])
         return self._cdf(x, self.mu_margin, self.sd_margin)
 
     def margin_pmf(self, x: float) -> float:
@@ -128,7 +133,7 @@ class NormalMarginDistribution:
         base = self._raw_pmf(int(x), self.mu_margin, self.sd_margin)
         if self.key_number_weights is None:
             return base
-        return base * self._weight(int(x)) / self._norm_cache
+        return base * self._weight(int(x)) / self._normaliser()
 
     def total_mean(self) -> float:
         return self.mu_total
@@ -183,6 +188,16 @@ class NormalMarginDistribution:
     def _weight(self, k: int) -> float:
         return float(self.key_number_weights.get(k, 1.0))  # type: ignore[union-attr]
 
+    def _normaliser(self) -> float:
+        if self._norm_cache is None:
+            object.__setattr__(self, "_norm_cache", self._compute_normaliser())
+        return self._norm_cache
+
+    def _weighted_cdf(self) -> np.ndarray:
+        if self._cdf_cache is None:
+            object.__setattr__(self, "_cdf_cache", self._compute_weighted_cdf())
+        return self._cdf_cache
+
     def _compute_normaliser(self) -> float:
         """Sum of weighted raw masses over the support.
 
@@ -196,7 +211,7 @@ class NormalMarginDistribution:
         return total
 
     def _compute_weighted_cdf(self) -> np.ndarray:
-        norm = self._norm_cache if hasattr(self, "_norm_cache") else self._compute_normaliser()
+        norm = self._normaliser()
         ks = np.arange(-self._support, self._support + 1)
         masses = np.array([
             self._raw_pmf(int(k), self.mu_margin, self.sd_margin) * self._weight(int(k))
