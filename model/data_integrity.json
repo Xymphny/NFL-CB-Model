@@ -2,7 +2,7 @@
   "_provenance": {
     "script": "model/audit_data_integrity.py",
     "frames_checked": 29,
-    "failures": 3
+    "failures": 4
   },
   "frames": {
     "model/cfb_schedule_cache.csv": {
@@ -40,7 +40,8 @@
           "error": "model/cfb_full_walk_forward_cache.csv: 76 of 1731 rows (4.39%) are tied, and cfb permits at most 0.00%. A tie breaks nothing downstream -- means exist, variances exist, models converge -- so this has to be refused here or it is not refused at all."
         },
         "impossible_scores": {
-          "skipped": "no score columns"
+          "ok": false,
+          "error": "model/cfb_full_walk_forward_cache.csv: scores {1: 2} appear, and cfb cannot produce them. There is no way to score exactly one point in football."
         },
         "frame_shape": {
           "ok": true,

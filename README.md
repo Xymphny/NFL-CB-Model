@@ -299,10 +299,16 @@ completion column, so its 83 unfetched games are indistinguishable from played
 ones. A frame that can say a game was not played is a frame whose zeros are
 safe, and most frames here cannot.
 
-And one limit worth stating: a **margin-only** cache cannot be audited for
-scores. Kansas State 1-1 shows up as margin zero and is caught; FAU 1-0 shows
-up as margin +1 and is invisible. At least one impossible game is still inside
-the frame that produces `MARGIN_SD`.
+A limit it recorded has since been closed, and the worry that came with it was
+wrong. A **margin-only** cache cannot be audited for scores, so ADR 0020
+inferred that a corrupt row was sitting undetectable inside the frame that
+produces `MARGIN_SD`. The scores were never missing -- the generator read them
+and threw them away -- so they were joined back, checked against the recorded
+margin on all 1,731 rows, and the check now runs. It finds exactly one
+impossible game, Kansas State 1-1 TCU, which **the tie filter already
+excludes**; FAU 1-0 is not in that cache at all. No constant moves. Making the
+frame checkable is what settled it, which is the argument for making things
+checkable rather than reasoning about them.
 
 ### Open, and waiting rather than unbuilt
 

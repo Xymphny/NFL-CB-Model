@@ -90,19 +90,40 @@ def test_the_known_cfb_faults_are_still_reported(report) -> None:
     )
 
 
-def test_a_margin_only_cache_cannot_be_audited_for_scores(report) -> None:
-    """The structural limit, asserted so it is not mistaken for a pass.
+def test_the_constants_cache_is_now_auditable_for_scores(report) -> None:
+    """The limit ADR 0020 recorded, closed -- and the worry it raised, refuted.
 
-    model/cfb_full_walk_forward_cache.csv stores actual_margin and not the two
-    scores. Kansas State 1-1 TCU shows up as a margin of zero and is caught by
-    the tie check; Florida Atlantic 1-0 Georgia Southern shows up as a margin
-    of +1 and is undetectable. At least one corrupt row is therefore inside
-    the frame that produced MARGIN_SD, and no check here can find it.
+    That record said a margin-only cache cannot be audited for impossible
+    scores, and inferred that at least one corrupt row was therefore sitting
+    inside the frame that produced MARGIN_SD, undetectable.
+
+    THE LIMIT WAS REAL AND THE INFERENCE WAS WRONG. The scores were never
+    missing -- model/cfb_full_walk_forward.py read them and threw them away --
+    so they were joined back from the schedule cache, checked against the
+    margin already recorded on all 1,731 rows, and the check now runs. It
+    finds exactly one impossible game, Kansas State 1-1 TCU, which the tie
+    filter ALREADY excludes. Florida Atlantic 1-0 is not in this cache at all.
+
+    So no constant moves. Making the frame checkable is what established
+    that, which is the argument for making things checkable rather than
+    reasoning about them.
     """
     wf = report["frames"]["model/cfb_full_walk_forward_cache.csv"]
-    assert wf["checks"]["impossible_scores"].get("skipped"), (
-        "the walk-forward cache now carries scores; if that is real, the "
-        "score check applies to it and this limit has gone away"
+    assert wf["checks"]["impossible_scores"].get("ok") is False, (
+        "the score check no longer runs on the constants cache"
+    )
+
+    import pandas as pd
+
+    g = pd.read_csv(ROOT / "model" / "cfb_full_walk_forward_cache.csv")
+    assert {"home_score", "away_score"} <= set(g.columns)
+    assert (g.home_score - g.away_score).equals(g.actual_margin), (
+        "the backfilled scores no longer reproduce the recorded margin"
+    )
+    surviving = g[g.actual_margin != 0]
+    assert int(((surviving.home_score == 1) | (surviving.away_score == 1)).sum()) == 0, (
+        "an impossible score now survives the tie filter, which means a "
+        "constant measured through this cache IS affected and must be redone"
     )
 
 

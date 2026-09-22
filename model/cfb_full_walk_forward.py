@@ -58,6 +58,14 @@ def process_season(season):
             rows.append({
                 "season": season, "week": week, "home_team": home, "away_team": away,
                 "rating_diff": ratings.loc[home, "total_rating"] - ratings.loc[away, "total_rating"],
+                # BOTH SCORES, not only the margin. Keeping the margin alone
+                # made this cache unauditable for impossible scores: Kansas
+                # State 1-1 TCU shows up as a margin of zero and is caught,
+                # Florida Atlantic 1-0 Georgia Southern shows up as +1 and is
+                # invisible. Football cannot score one point, and this cache
+                # produces MARGIN_SD. See ADR 0020.
+                "home_score": int(game["home_score"]),
+                "away_score": int(game["away_score"]),
                 "actual_margin": actual_margin, "actual_home_win": actual_margin > 0,
             })
 
