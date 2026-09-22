@@ -72,6 +72,20 @@ def load_id_bridge(timeout=45):
     return bridge
 
 
+def pitcher_key(pid, bridge):
+    """Retrosheet id when the register has one, else "mlbam<id>". Shared by
+    the boxscore parser and the slate ingest so a probable starter and the
+    same man's completed start land on ONE key -- a mismatch would price
+    tonight's starter as a debut."""
+    return bridge.get(int(pid), f"mlbam{pid}")
+
+
+def game_number_of(g):
+    """0 for a single game; gameNumber-1 within a doubleheader. The game key
+    is built from this, so the slate and the finals must agree on it."""
+    return (g.get("gameNumber", 1) - 1) if g.get("doubleHeader") in ("Y", "S") else 0
+
+
 def parse_boxscore_pitching(box, bridge):
     """[(retro_team, pitcher_key, started, finished, outs, pitches,
     runs, er, h, hr, bb, so)] for both sides. Pure, unit-tested."""
@@ -92,7 +106,7 @@ def parse_boxscore_pitching(box, bridge):
             outs = int(whole) * 3 + int(frac)
             rows.append({
                 "team": abbr,
-                "pitcher": bridge.get(int(pid), f"mlbam{pid}"),
+                "pitcher": pitcher_key(pid, bridge),
                 "started": 1 if i == 0 else 0,
                 "finished": 1 if i == len(order) - 1 else 0,
                 "outs": outs,
@@ -116,7 +130,7 @@ def parse_schedule_finals(payload):
             out.append({
                 "game_pk": g["gamePk"],
                 "date": day["date"],
-                "game_number": (g.get("gameNumber", 1) - 1) if g.get("doubleHeader") in ("Y", "S") else 0,
+                "game_number": game_number_of(g),
                 "home_team": STATS_TO_RETRO.get(h["team"].get("abbreviation"), h["team"].get("abbreviation")),
                 "away_team": STATS_TO_RETRO.get(a["team"].get("abbreviation"), a["team"].get("abbreviation")),
                 "home_score": h.get("score"), "away_score": a.get("score"),

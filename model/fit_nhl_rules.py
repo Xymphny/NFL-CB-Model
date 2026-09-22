@@ -102,16 +102,17 @@ K = 0.03
 MAX_LEAD = 4
 
 
-def load(seasons) -> pd.DataFrame:
+def load(seasons, raw: Path = RAW) -> pd.DataFrame:
     """One row per game: final score, regulation score, no-pull regulation score.
 
     game_date is made unique per game so that every sort in this script and in
     walk_forward is a total order. Two frames of the same games must line up
     row for row, and pandas' default sort is not stable.
     """
-    fin = pd.concat([pd.read_parquet(RAW / f"nhl_{y}.parquet") for y in seasons],
+    raw = Path(raw)
+    fin = pd.concat([pd.read_parquet(raw / f"nhl_{y}.parquet") for y in seasons],
                     ignore_index=True)
-    gl = pd.concat([pd.read_parquet(RAW / f"goals_{y}.parquet") for y in seasons],
+    gl = pd.concat([pd.read_parquet(raw / f"goals_{y}.parquet") for y in seasons],
                    ignore_index=True)
 
     gl = gl.sort_values(["game_id", "period", "time_in_period"])

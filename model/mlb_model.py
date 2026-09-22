@@ -107,8 +107,13 @@ class WalkForwardState:
                 self.pen_outs[row["team"]][1] += row["outs"]
 
 
-def run_walk_forward(schedule, pitching):
-    """Predicted expected-runs pair for every game, strictly pregame."""
+def run_walk_forward(schedule, pitching, state_out=None):
+    """Predicted expected-runs pair for every game, strictly pregame.
+
+    Pass a dict as `state_out` to receive the final WalkForwardState under
+    "state". The live source prices tonight's games from that state rather
+    than re-implementing this loop, so the two cannot drift apart.
+    """
     pit_by_game = defaultdict(list)
     for r in pitching.to_dict("records"):
         pit_by_game[r["game_key"]].append(r)
@@ -132,6 +137,8 @@ def run_walk_forward(schedule, pitching):
                      "league_n": int(state.league_runs[1]),
                      "home_won": int(g["home_score"] > g["away_score"])})
         state.update(g, pit_by_game)
+    if state_out is not None:
+        state_out["state"] = state
     return pd.DataFrame(rows)
 
 

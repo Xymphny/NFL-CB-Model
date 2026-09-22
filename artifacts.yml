@@ -261,3 +261,36 @@ artifacts:
     refresh: "when a season is added to the NFL walk-forward cache"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: data/raw/nhl/schedule_*.parquet
+    produced_by: model/ingest/nhl_api.py
+    consumed_by:
+      - src/coverline/leagues/nhl/live.py
+    kind: bronze
+    refresh: "season in progress: re-pull with --force before each slate; the
+      live source refuses a pull in which a game that started hours ago is
+      not final"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/raw/sportsdataverse/nba_*.parquet
+    produced_by: model/ingest/nba_espn.py
+    consumed_by:
+      - model/fit_nba.py
+      - src/coverline/leagues/nba/live.py
+    kind: bronze
+    refresh: "2021-2025 are committed sportsdataverse files and FIT INPUTS; the
+      ingest refuses to overwrite them. 2026 onward come from the ingest, and
+      the season in progress is re-pulled with --force before each slate"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/raw/mlb/slates/*.json
+    produced_by: model/ingest/mlb_slate.py
+    consumed_by:
+      - src/coverline/leagues/mlb/live.py
+    kind: bronze
+    refresh: "per slate date, before first pitch; every pull is kept because
+      the probables a line was priced against are evidence for grading it"
+    staleness_error_hours: null
+    unconsumed_reason: null

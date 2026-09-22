@@ -58,10 +58,20 @@ DATA = str(_ROOT / "data" / "raw" / "sportsdataverse" / "nba_{year}.parquet")
 RIDGE = 8.0
 
 
-def load(seasons) -> pd.DataFrame:
+def load(seasons, data: str = DATA) -> pd.DataFrame:
+    """Completed regular-season games. `data` exists so the live source can
+    point the SAME filters at a directory of its own; it defaults to the
+    committed inputs every fit and artifact was built from."""
     frames = []
     for y in seasons:
-        d = pd.read_parquet(DATA.format(year=y))
+        d = pd.read_parquet(data.format(year=y))
+        # A file pulled mid-season carries games IN PROGRESS, with partial
+        # scores that pass the non-zero filter below. A 54-49 half-time score
+        # replayed as a final would move two ratings on a result that never
+        # happened. Every committed season is entirely final, so this changes
+        # nothing already fitted -- test_fitted_artifacts_reproduce proves it.
+        if "status_type_completed" in d.columns:
+            d = d[d.status_type_completed.fillna(False).astype(bool)]
         # BOTH filters are needed. ESPN classifies the All-Star Game as
         # season_type == 2, so that alone lets a 211-186 exhibition between
         # "EAST" and "WEST" into the fit. type_abbreviation == "STD" is what

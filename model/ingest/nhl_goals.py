@@ -94,20 +94,33 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--seasons", default="2016-2023")
     p.add_argument("--force", action="store_true")
+    p.add_argument("--update", action="store_true",
+                   help="fetch only finals with no goal rows yet (the season "
+                        "in progress); keeps every row already on disk")
     a = p.parse_args(argv)
     lo, hi = (int(x) for x in a.seasons.split("-"))
 
     for y in range(lo, hi + 1):
         dest = RAW / f"goals_{y}.parquet"
-        if dest.exists() and not a.force:
+        if dest.exists() and not (a.force or a.update):
             print(f"{y}: present, skipping", flush=True)
             continue
         sched = pd.read_parquet(RAW / f"nhl_{y}.parquet")
         ids = sched.game_id.tolist()
+        kept = pd.DataFrame()
+        if a.update and dest.exists():
+            kept = pd.read_parquet(dest)
+            have = set(kept.game_id) if len(kept) else set()
+            # A game decided 1-0 in a shootout has no goal rows at all, so it
+            # is refetched every run. That costs one call and is correct.
+            ids = [g for g in ids if g not in have]
         with ThreadPoolExecutor(max_workers=WORKERS) as ex:
             batches = list(ex.map(game_goals, ids))
         rows = [r for b in batches for r in b]
-        df = pd.DataFrame(rows)
+        df = pd.concat([kept, pd.DataFrame(rows)], ignore_index=True)
+        if df.empty:
+            print(f"{y}: no goals yet", flush=True)
+            continue
         df.to_parquet(dest, index=False)
         en = (df.goal_modifier == "empty-net").mean()
         print(

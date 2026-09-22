@@ -21,6 +21,12 @@ downstream predictions into NaN -- and this source inherits that guard rather
 than re-deriving it. What it adds is refusing to SERVE a row the walk-forward
 produced no expectation for, since a NaN expected-runs value would otherwise
 reach the distribution and fail far from its cause.
+
+FOR PRICING TONIGHT, USE live.py, NOT THIS. This source replays the CURRENT
+season alone -- every rating starts cold in March, while every fit and grade
+ran the historical cache continuously -- and it can only serve games that
+already have a final score. It remains for what it does correctly: serving
+the walk-forward's own rows for completed games.
 """
 
 from __future__ import annotations

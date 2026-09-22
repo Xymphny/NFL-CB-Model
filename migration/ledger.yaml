@@ -634,3 +634,60 @@ components:
       it took a day of work to find out that constants nobody could check
       were fine, and that day would have been unnecessary if the grid had
       been committed when it was run.
+
+  - id: operator-five-league
+    old_path: "scripts/recommend_slate.py (NFL and CFB only); deploy/mlb_odds_watch.py (observation-only MLB board, no model price)"
+    new_path: "scripts/recommend_slate.py + src/coverline/leagues/{mlb,nhl,nba}/live.py + src/coverline/execution/matching.py"
+    disposition: rewritten
+    adr: null
+    data_artifacts:
+      - "data/raw/nhl/schedule_*.parquet"
+      - "data/raw/sportsdataverse/nba_2026.parquet onward"
+      - "data/raw/mlb/slates/*.json"
+    data_disposition: raw
+    parity_status: verified
+    parity_tolerance: >-
+      Exact, not approximate. Each live source replays the fit script's own
+      walk-forward, imported rather than restated. NBA: a replay of 2021-2023
+      reproduces all 30 ratings in data/nba_fitted.json, and every 2023 game
+      priced as of its tip reproduces the graded margin (all 1,229
+      non-neutral games checked once at build; about 60 in CI). NHL:
+      the no-pull rates for any game equal fit_nhl_rules.rate's row for it.
+      MLB: the state before any game reproduces run_walk_forward's
+      exp_home/exp_away for it. Differences measured: 0.
+    old_removed: false
+    notes: >-
+      THE OPERATOR COMMAND COVERS ALL FIVE LEAGUES. Football slates are weeks,
+      the rest are US-Eastern dates; the wrong one is refused, not ignored.
+      Each league's inputs refuse with the command that fixes them.
+
+      MLB, NHL AND NBA PAPER-TRADE BY DEFAULT. The staking weight blends the
+      model toward the market, and the only weight the repository computes
+      (evidence/attempts.yaml) is graded model against model. None of these
+      three leagues has any market-facing grade, so the default weight is 0:
+      both prices are computed and recorded, nothing is staked, and --commit
+      writes the rows a market-relative grade will need. --market-weight
+      overrides it and says it is a guess. Football keeps its weight and now
+      prints what that weight does not measure.
+
+      THREE DEFECTS FOUND BUILDING IT. (1) The runner looked snapshots up as
+      "nfl" while capture.py stores them as "americanfootball_nfl", so a
+      captured snapshot would never have been found. (2) It never passed the
+      league's primary_markets to recommend(), so the market control was
+      off; it is on for every league now. (3) sources.WalkForwardSource, the
+      earlier MLB live source, replays the CURRENT season alone and cannot
+      price an unplayed game at all -- every fit and grade ran the historical
+      cache continuously, so it was a cold-start model different from the
+      one measured. mlb/live.py replays across seasons as graded.
+
+      TWO INGEST FIXES ALONG THE WAY. nhl_api.py kept any game with a score,
+      and the schedule endpoint returns a score for a game IN PROGRESS; it now
+      keeps only final states. fit_nba.load would have replayed a half-time
+      score from a mid-season pull as a result; it now requires completion.
+      Neither changes a committed season (test_fitted_artifacts_reproduce).
+
+      NOT YET VERIFIED AGAINST THE LIVE ENDPOINTS: the NHL and NBA team-name
+      tables (marked unverified in their modules), and the three ingests,
+      whose parsers are tested on captured shapes only. The first run from a
+      networked machine settles them; `nba_espn.py --verify 2025` is the
+      cross-source check for the NBA ingest before its output is trusted.

@@ -29,7 +29,10 @@ strength of schedule is not comparable to any other season in this set.
 Neither is dropped here -- dropping them is a modelling choice and belongs
 downstream, where it can be recorded -- but neither should be pooled blindly.
 
-Writes data/raw/nhl/nhl_{end_year}.parquet, one row per regular-season game.
+Writes data/raw/nhl/nhl_{end_year}.parquet, one row per FINISHED regular-season
+game, and data/raw/nhl/schedule_{end_year}.parquet, every regular-season game
+with its start time and state. For the season in progress, re-run with
+--force (the live source refuses a pull that is behind).
 """
 
 from __future__ import annotations
@@ -74,55 +77,101 @@ def _get(url: str, retries: int = 3) -> dict:
     raise RuntimeError(f"failed after {retries} attempts: {url}") from last
 
 
-def fetch_season(end_year: int) -> pd.DataFrame:
+#: The only game states whose score is a FINAL score. The schedule endpoint
+#: also returns a score for a game in progress, and the first version of this
+#: script kept any game with a score -- harmless on a finished season, and a
+#: live pull would have written a second-period score as a result.
+FINAL_STATES = frozenset({"OFF", "FINAL"})
+POSTPONED_STATES = frozenset({"PPD", "CNCL", "SUSP"})
+
+
+def parse_week(payload: dict, end_year: int) -> tuple[list[dict], list[dict]]:
+    """(finals, schedule) rows from one schedule response.
+
+    `schedule` is every regular-season game in the payload, played or not,
+    with its start time and state. The live source prices from it and uses it
+    to prove the finals are current: a game that started hours ago and is not
+    final means the pull is behind.
+    """
+    season_id = (end_year - 1) * 10000 + end_year
+    finals: list[dict] = []
+    schedule: list[dict] = []
+    for week in payload.get("gameWeek", []):
+        for g in week.get("games", []):
+            if g.get("season") != season_id or g.get("gameType") != REGULAR_SEASON:
+                continue
+            home, away = g.get("homeTeam", {}), g.get("awayTeam", {})
+            state = g.get("gameState")
+            schedule.append({
+                "season": end_year,
+                "game_id": g.get("id"),
+                "game_date": week.get("date"),
+                "start_utc": g.get("startTimeUTC"),
+                "home_team_abbr": home.get("abbrev"),
+                "away_team_abbr": away.get("abbrev"),
+                "game_state": state,
+                "neutral_site": bool(g.get("neutralSite", False)),
+            })
+            if home.get("score") is None or away.get("score") is None:
+                continue  # not played -- postponed, or the season is live
+            if state is not None and state not in FINAL_STATES:
+                continue  # in progress: a score, but not a result
+            finals.append({
+                "season": end_year,
+                "game_id": g["id"],
+                "game_date": week.get("date"),
+                "home_team_abbr": home.get("abbrev"),
+                "away_team_abbr": away.get("abbrev"),
+                "home_score": int(home["score"]),
+                "away_score": int(away["score"]),
+                "last_period_type": g.get("gameOutcome", {}).get(
+                    "lastPeriodType"
+                ),
+                "neutral_site": bool(g.get("neutralSite", False)),
+            })
+    return finals, schedule
+
+
+def fetch_season_full(end_year: int) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Walk the schedule week by week from the season's first day.
 
     The endpoint hands back nextStartDate, so the walk follows the league's
     own calendar rather than guessing week boundaries.
     """
-    season_id = (end_year - 1) * 10000 + end_year
     day = date(end_year - 1, 9, 15)
     stop = date(end_year, 7, 15)
-    seen: set[int] = set()
-    rows: list[dict] = []
+    finals: dict[int, dict] = {}
+    sched: dict[int, dict] = {}
 
     while day < stop:
         payload = _get(SCHEDULE.format(day=day.isoformat()))
-        for week in payload.get("gameWeek", []):
-            for g in week.get("games", []):
-                if g.get("id") in seen:
-                    continue
-                if g.get("season") != season_id:
-                    continue
-                if g.get("gameType") != REGULAR_SEASON:
-                    continue
-                home, away = g.get("homeTeam", {}), g.get("awayTeam", {})
-                if home.get("score") is None or away.get("score") is None:
-                    continue  # not played -- postponed, or the season is live
-                seen.add(g["id"])
-                rows.append(
-                    {
-                        "season": end_year,
-                        "game_id": g["id"],
-                        "game_date": week.get("date"),
-                        "home_team_abbr": home.get("abbrev"),
-                        "away_team_abbr": away.get("abbrev"),
-                        "home_score": int(home["score"]),
-                        "away_score": int(away["score"]),
-                        "last_period_type": g.get("gameOutcome", {}).get(
-                            "lastPeriodType"
-                        ),
-                        "neutral_site": bool(g.get("neutralSite", False)),
-                    }
-                )
+        f, s = parse_week(payload, end_year)
+        for r in f:
+            finals.setdefault(r["game_id"], r)
+        for r in s:
+            sched.setdefault(r["game_id"], r)
         nxt = payload.get("nextStartDate")
         day = date.fromisoformat(nxt) if nxt else day + timedelta(days=7)
         time.sleep(SLEEP_S)
 
-    df = pd.DataFrame(rows)
-    if df.empty:
+    if not sched:
         raise RuntimeError(f"no games returned for season {end_year}")
-    return df.sort_values(["game_date", "game_id"]).reset_index(drop=True)
+    cols = ["season", "game_id", "game_date", "home_team_abbr",
+            "away_team_abbr", "home_score", "away_score", "last_period_type",
+            "neutral_site"]
+    fin = pd.DataFrame(list(finals.values()), columns=cols)
+    fin = fin.sort_values(["game_date", "game_id"]).reset_index(drop=True)
+    sch = pd.DataFrame(list(sched.values()))
+    sch = sch.sort_values(["start_utc", "game_id"]).reset_index(drop=True)
+    return fin, sch
+
+
+def fetch_season(end_year: int) -> pd.DataFrame:
+    """Finals only -- the historical interface, unchanged."""
+    fin, _ = fetch_season_full(end_year)
+    if fin.empty:
+        raise RuntimeError(f"no games returned for season {end_year}")
+    return fin
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -141,8 +190,14 @@ def main(argv: list[str] | None = None) -> int:
         if dest.exists() and not a.force:
             print(f"{y}: present, skipping")
             continue
-        df = fetch_season(y)
+        df, sched = fetch_season_full(y)
         df.to_parquet(dest, index=False)
+        # The full schedule, for the live source: what is upcoming, and proof
+        # that every game already started is in the finals above.
+        sched.to_parquet(OUT_DIR / f"schedule_{y}.parquet", index=False)
+        if df.empty:
+            print(f"{y}: no finals yet; schedule of {len(sched)} games written")
+            continue
         ot = (df.last_period_type != "REG").mean()
         print(f"{y}: {len(df):4d} games  OT/SO {ot:.1%}  -> {dest.name}")
     return 0
