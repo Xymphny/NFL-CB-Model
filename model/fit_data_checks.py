@@ -42,6 +42,71 @@ NBA = Expectation(min_distinct=30, plausible_mean=(95.0, 130.0), plausible_max=(
 MLB = Expectation(min_distinct=8, plausible_mean=(3.0, 6.0), plausible_max=(10, 30))
 
 
+class ImpossibleOutcome(ValueError):
+    """The data contains results the league's own rules forbid."""
+
+
+#: The share of tied final scores each league permits. A tie is the cheapest
+#: impossibility to check and the one that keeps turning up.
+#:
+#: WHY THIS EXISTS. model/cfb_full_walk_forward_cache.csv carries 76 rows in
+#: 1,731 -- 4.39% -- with a final margin of zero, and college football has not
+#: permitted a tie since 1996. Every one of them is also recorded as a home
+#: LOSS, so a tie became an away win. That cache produced MARGIN_SD and
+#: DVOA_ONLY_MEAN_RESIDUAL and backed the CFB parity claim, and nothing
+#: objected, because a tie breaks nothing: means exist, variances exist,
+#: models converge.
+#:
+#: Two causes were found in the upstream schedule cache: 83 rows stored as
+#: 0-0 where no score was ever fetched, and 59 rows frozen at a mid-game or
+#: intermediate score -- Auburn 22-22 Alabama in 2021, a game Alabama won
+#: 24-22 in four overtimes.
+#:
+#: The NFL is the one league that genuinely permits ties, at roughly 0.2% of
+#: games, so its allowance is small and non-zero rather than absent.
+MAX_TIE_RATE = {
+    "nfl": 0.01,
+    "cfb": 0.0,
+    "nba": 0.0,
+    "nhl": 0.0,
+    "mlb": 0.0,
+}
+
+
+def check_no_impossible_ties(df: pd.DataFrame, league: str, *, label: str,
+                             home: str = "home_score",
+                             away: str = "away_score",
+                             margin: str | None = None) -> dict:
+    """Raise if a frame contains more tied results than the league allows.
+
+    `margin` names a precomputed margin column, for caches that carry one
+    instead of the two scores.
+    """
+    if league not in MAX_TIE_RATE:
+        raise ValueError(f"no tie policy recorded for {league!r}")
+    if len(df) == 0:
+        raise DegenerateData(f"{label}: no rows at all")
+
+    if margin is not None:
+        tied = df[margin] == 0
+    else:
+        tied = df[home] == df[away]
+    rate = float(tied.mean())
+    allowed = MAX_TIE_RATE[league]
+    out = {"label": label, "league": league, "n": int(len(df)),
+           "tied": int(tied.sum()), "tie_rate": round(rate, 5),
+           "allowed": allowed}
+    if rate > allowed:
+        raise ImpossibleOutcome(
+            f"{label}: {int(tied.sum())} of {len(df)} rows ({rate:.2%}) are "
+            f"tied, and {league} permits at most {allowed:.2%}. A tie breaks "
+            "nothing downstream -- means exist, variances exist, models "
+            "converge -- so this has to be refused here or it is not refused "
+            "at all."
+        )
+    return out
+
+
 def check_scores(df: pd.DataFrame, exp: Expectation, *, label: str,
                  home: str = "home_score", away: str = "away_score") -> dict:
     """Raise if this frame cannot support a fit. Returns the diagnostics."""

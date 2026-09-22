@@ -138,59 +138,59 @@
     }
   },
   "cfb": {
-    "n": 1731,
-    "shipped_sd": 17.5401,
-    "realised_residual_sd": 17.5401,
+    "n": 1655,
+    "shipped_sd": 17.878,
+    "realised_residual_sd": 17.878,
     "dispersion_ratio": 1.0,
-    "mean_residual": 2.1644,
+    "mean_residual": 2.2485,
     "coverage": {
-      "50": 0.5211,
-      "80": 0.7863,
-      "95": 0.944
+      "50": 0.5088,
+      "80": 0.7843,
+      "95": 0.9474
     },
     "nominal_coverage": {
       "50": 0.5,
       "80": 0.8,
       "95": 0.95
     },
-    "mean_log_likelihood": -4.29075,
-    "baseline_log_likelihood": -4.38639,
-    "paired_gain": 0.09563,
-    "standard_error": 0.00906,
-    "t": 10.55,
+    "mean_log_likelihood": -4.31012,
+    "baseline_log_likelihood": -4.40834,
+    "paired_gain": 0.09822,
+    "standard_error": 0.00912,
+    "t": 10.78,
     "in_sample_for": "coefficients and MARGIN_SD; ratings are walk-forward",
     "dispersion_ratio_is_circular": "MARGIN_SD was MEASURED as the residual sd of this exact cache by model/cfb_margin_sd.py, so the ratio above is 1.0000 by construction and is not evidence of anything. See split_check.",
     "split_check": {
       "available": true,
       "cut_season": 2023,
       "sd_estimated_on": "< 2023",
-      "n_estimate": 1145,
-      "n_check": 586,
-      "sd_from_early_seasons": 17.6171,
-      "realised_sd_on_later_seasons": 17.4002,
-      "dispersion_ratio": 0.9877,
+      "n_estimate": 1082,
+      "n_check": 573,
+      "sd_from_early_seasons": 18.0441,
+      "realised_sd_on_later_seasons": 17.5725,
+      "dispersion_ratio": 0.9739,
       "coverage": {
-        "50": 0.5137,
-        "80": 0.7867,
-        "95": 0.9505
+        "50": 0.5131,
+        "80": 0.7888,
+        "95": 0.9581
       },
-      "mean_residual": 2.4433
+      "mean_residual": 2.5215
     },
     "by_season": {
       "2021": {
-        "n": 573,
-        "residual_sd": 18.2327,
-        "mean_residual": 2.1071
+        "n": 538,
+        "residual_sd": 18.7192,
+        "mean_residual": 2.2462
       },
       "2022": {
-        "n": 572,
-        "residual_sd": 16.9936,
-        "mean_residual": 1.9361
+        "n": 544,
+        "residual_sd": 17.3669,
+        "mean_residual": 1.9633
       },
       "2023": {
-        "n": 586,
-        "residual_sd": 17.4002,
-        "mean_residual": 2.4433
+        "n": 573,
+        "residual_sd": 17.5725,
+        "mean_residual": 2.5215
       }
     },
     "path": "DVOA_ONLY -- the cache carries no elo",
@@ -203,25 +203,25 @@
       "seasons": 3,
       "dispersion_varies_by_season": {
         "test": "Bartlett",
-        "chi2": 2.95,
+        "chi2": 3.57,
         "df": 2,
-        "p": 0.2285,
+        "p": 0.1678,
         "sd_range": [
-          16.9936,
-          18.2327
+          17.3669,
+          18.7192
         ],
-        "sampling_se_of_one_seasons_sd": 0.516
+        "sampling_se_of_one_seasons_sd": 0.538
       },
       "bias_varies_by_season": {
         "test": "weighted chi-square on season mean residuals",
-        "q": 0.25,
+        "q": 0.27,
         "df": 2,
-        "p": 0.88209,
+        "p": 0.87294,
         "mean_residual_range": [
-          1.936,
-          2.443
+          1.963,
+          2.522
         ],
-        "pooled_mean_residual": 2.1644
+        "pooled_mean_residual": 2.2485
       }
     }
   },

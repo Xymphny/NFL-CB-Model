@@ -73,9 +73,14 @@ def test_elo_only_moves_the_margin_when_declared_present():
 # ------------------------------------------------------------ dispersion ----
 
 def test_the_margin_sd_is_the_measured_one_not_a_borrowed_one():
-    """17.54 against NFL's 13.30. Using NFL's would make every CFB
-    probability too confident."""
-    assert cfb.MARGIN_SD == pytest.approx(17.5401, abs=1e-4)
+    """17.88 against NFL's 13.30. Using NFL's would make every CFB
+    probability too confident.
+
+    Was 17.5401 until 2026-09-21, when 76 impossible tied rows were found in
+    the cache it is measured from -- 4.39%, in a sport that has not permitted
+    a tie since 1996. They shrank it by 1.93%, in the overconfident direction.
+    """
+    assert cfb.MARGIN_SD == pytest.approx(17.8780, abs=1e-4)
     assert cfb.MARGIN_SD > nfl.MARGIN_SD * 1.25
 
 
@@ -83,16 +88,40 @@ def test_the_margin_sd_still_matches_the_cache_it_was_measured_from(source):
     """Recomputes it rather than trusting the constant. If the cache is
     regenerated and dispersion moves, this fails instead of the constant
     quietly describing old data."""
+    # Excluding the impossible rows, exactly as model/cfb_margin_sd.py does.
+    frame = source.frame[source.frame.actual_margin != 0]
     pred = np.array([cfb.predict_margin(cfb.GameFeatures(
-        rating_diff=float(r), elo_present=False)) for r in source.frame.rating_diff])
-    resid = source.frame.actual_margin.values - pred
+        rating_diff=float(r), elo_present=False)) for r in frame.rating_diff])
+    resid = frame.actual_margin.values - pred
     assert float(resid.std(ddof=1)) == pytest.approx(cfb.MARGIN_SD, abs=1e-3)
+
+
+def test_the_cache_still_carries_the_impossible_rows_and_is_refused():
+    """The fault is NOT fixed in the data, and that is deliberate.
+
+    Rewriting 76 rows by hand would be inventing results. The cache stays as
+    it was fetched, the fault is refused at the point of use, and the ledger
+    carries the row. What must not happen again is a constant being measured
+    through it silently.
+    """
+    import pandas as pd
+
+    from model.fit_data_checks import ImpossibleOutcome, check_no_impossible_ties
+
+    g = pd.read_csv(ROOT / "model" / "cfb_full_walk_forward_cache.csv")
+    with pytest.raises(ImpossibleOutcome, match="tied"):
+        check_no_impossible_ties(g, "cfb", label="cfb cache",
+                                 margin="actual_margin")
+    clean = check_no_impossible_ties(g[g.actual_margin != 0], "cfb",
+                                     label="cleaned", margin="actual_margin")
+    assert clean["tied"] == 0
+    assert clean["n"] == len(g) - 76
 
 
 def test_the_known_bias_is_recorded_and_not_silently_corrected():
     """The DVOA-only path under-predicts the home margin by 2.16 points
     systematically. Subtracting it would be a model change."""
-    assert cfb.DVOA_ONLY_MEAN_RESIDUAL == pytest.approx(2.1644, abs=1e-4)
+    assert cfb.DVOA_ONLY_MEAN_RESIDUAL == pytest.approx(2.2485, abs=1e-4)
 
 
 def test_key_numbers_are_absent_so_integer_pushes_are_withheld():

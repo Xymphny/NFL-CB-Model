@@ -78,9 +78,11 @@ reading:
 5. **CI ran half the checks.** The core suite and the manifest check -- every
    rot defence in the project -- ran only when someone remembered
    `scripts/check.sh`. A divergence guard now fails when the two lists differ.
-6. **CFB dispersion is 17.54, not the 18.65 I guessed** -- and the same
-   measurement found a +2.16 point systematic lean, recorded and not
-   corrected.
+6. **CFB dispersion is 17.88, not the 18.65 I guessed** -- and the same
+   measurement found a +2.25 point systematic lean, recorded and not
+   corrected. Both were 17.54 and 2.16 until 76 impossible tied rows were
+   found in the cache they were measured from
+   ([ADR 0019](docs/decisions/0019-the-cfb-cache-carries-impossible-results.md)).
 7. **Two devig figures in the design research were wrong.** Power and Shin
    both fail their own defining equations at the quoted values. Shin and
    additive are the SAME method for two-way markets, exact to 1e-16.
@@ -258,6 +260,25 @@ One trap is recorded for whoever builds the layer: `exp_home` is fitted to
 nine-inning home scoring is about 4.68, so applying the rule on top of the
 observed rates would count the truncation twice and produce a model that looks
 better calibrated than it is.
+
+### A cache that carried results its league forbids
+
+Auditing every league for outcomes its own rules disallow -- the generalisation
+of what the NHL and MLB work found twice by accident -- turned up **76 of 1,731
+rows in `model/cfb_full_walk_forward_cache.csv` with a final margin of zero**,
+in a sport that has not permitted a tie since 1996. Every one is also recorded
+as a home **loss**, so a tie became an away win.
+
+Two upstream causes: 83 schedule rows stored as 0-0 where no score was ever
+fetched, and 59 frozen at an intermediate score -- Auburn 22-22 Alabama in
+2021, a game Alabama won 24-22 in four overtimes.
+
+That cache produced `MARGIN_SD` and `DVOA_ONLY_MEAN_RESIDUAL`. The ties shrank
+the dispersion by **1.93%, in the overconfident direction** -- a sd that is too
+small oversizes every stake that divides by it. Both constants are corrected,
+both old values recorded, and `model/fit_data_checks.py` now refuses any frame
+with more ties than its league permits. The NFL's allowance is small and
+non-zero, because it is the one league that genuinely has them.
 
 ### Open, and waiting rather than unbuilt
 

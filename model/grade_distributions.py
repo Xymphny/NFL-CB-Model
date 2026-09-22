@@ -226,6 +226,13 @@ def grade_cfb() -> dict:
     )
 
     d = pd.read_csv(HERE / "cfb_full_walk_forward_cache.csv")
+    # 76 rows carry an impossible tied margin -- see the note on MARGIN_SD.
+    # Grading calibration through them measured a distribution against 4.39%
+    # of outcomes that cannot occur.
+    from model.fit_data_checks import check_no_impossible_ties
+    d = d[d.actual_margin != 0].reset_index(drop=True)
+    check_no_impossible_ties(d, "cfb", label="cfb grading frame",
+                             margin="actual_margin")
     mu = C["intercept"] + C["rating_diff"] * d.rating_diff
     return _grade("cfb", mu.to_numpy(float), d.actual_margin.to_numpy(float),
                   MARGIN_SD,

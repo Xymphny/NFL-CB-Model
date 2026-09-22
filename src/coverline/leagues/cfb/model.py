@@ -71,7 +71,19 @@ MARGIN_COEFFICIENTS_DVOA_ONLY: Mapping[str, float] = {
 #: 0.988, with the 95% interval covering 95.1%. Bartlett finds no evidence the
 #: spread varies by season (p = 0.23). Unlike NFL's, this constant is doing
 #: its job. model/grade_distributions.py has the table.
-MARGIN_SD = 17.5401
+#:
+#: CORRECTED 2026-09-21, from 17.5401. The cache it is measured from carries
+#: 76 rows in 1,731 -- 4.39% -- with a final margin of ZERO, and college
+#: football has not permitted a tie since 1996. Two upstream causes: scores
+#: never fetched and stored as 0-0, and rows frozen at an intermediate score
+#: (Auburn 22-22 Alabama in 2021, which Alabama won 24-22 in four overtimes).
+#: Every one is also recorded as a home LOSS, so a tie became an away win.
+#:
+#: They shrank this constant by 1.93%, in the OVERCONFIDENT direction -- a
+#: dispersion that is too small oversizes every stake that divides by it.
+#: model/fit_data_checks.py now refuses a frame with more ties than its league
+#: permits, so this cannot recur silently.
+MARGIN_SD = 17.8780
 
 #: The same measurement found the DVOA-only path carries a +2.16 point mean
 #: residual on this cache: it under-predicts the home margin systematically,
@@ -88,7 +100,12 @@ MARGIN_SD = 17.5401
 #: evidence it varies at all (p = 0.88). A bias that is the same size every
 #: year is a model defect, not a run of luck, and it is still not corrected
 #: here for the reason above.
-DVOA_ONLY_MEAN_RESIDUAL = 2.1644
+#:
+#: CORRECTED 2026-09-21, from 2.1644, for the same reason as MARGIN_SD above:
+#: 76 impossible tied rows were in the measurement. Recomputing after finding
+#: a data fault is the same look with a corrected estimator, not a second
+#: look, and both numbers stay recorded.
+DVOA_ONLY_MEAN_RESIDUAL = 2.2485
 
 #: Absent, and deliberately. CFB key numbers (3 and 7 again, but with a much
 #: wider margin distribution diluting them) have not been measured the way
