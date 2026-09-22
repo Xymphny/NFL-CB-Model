@@ -2,7 +2,7 @@
   "_provenance": {
     "script": "model/audit_data_integrity.py",
     "frames_checked": 29,
-    "failures": 4
+    "failures": 0
   },
   "frames": {
     "model/cfb_schedule_cache.csv": {
@@ -13,12 +13,23 @@
       "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
       "checks": {
         "ties": {
-          "ok": false,
-          "error": "model/cfb_schedule_cache.csv: 142 of 3863 rows (3.68%) are tied, and cfb permits at most 0.00%. A tie breaks nothing downstream -- means exist, variances exist, models converge -- so this has to be refused here or it is not refused at all."
+          "ok": true,
+          "label": "model/cfb_schedule_cache.csv",
+          "league": "cfb",
+          "n": 3863,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
         },
         "impossible_scores": {
-          "ok": false,
-          "error": "model/cfb_schedule_cache.csv: scores {1: 3} appear, and cfb cannot produce them. There is no way to score exactly one point in football."
+          "ok": true,
+          "label": "model/cfb_schedule_cache.csv",
+          "league": "cfb",
+          "n": 3863,
+          "banned": [
+            1
+          ],
+          "hits": {}
         },
         "frame_shape": {
           "ok": true,
@@ -36,12 +47,23 @@
       "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
       "checks": {
         "ties": {
-          "ok": false,
-          "error": "model/cfb_full_walk_forward_cache.csv: 76 of 1731 rows (4.39%) are tied, and cfb permits at most 0.00%. A tie breaks nothing downstream -- means exist, variances exist, models converge -- so this has to be refused here or it is not refused at all."
+          "ok": true,
+          "label": "model/cfb_full_walk_forward_cache.csv",
+          "league": "cfb",
+          "n": 1731,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
         },
         "impossible_scores": {
-          "ok": false,
-          "error": "model/cfb_full_walk_forward_cache.csv: scores {1: 2} appear, and cfb cannot produce them. There is no way to score exactly one point in football."
+          "ok": true,
+          "label": "model/cfb_full_walk_forward_cache.csv",
+          "league": "cfb",
+          "n": 1731,
+          "banned": [
+            1
+          ],
+          "hits": {}
         },
         "frame_shape": {
           "ok": true,

@@ -159,7 +159,7 @@ def test_the_two_measurable_total_sds_are_wrong_by_about_a_third(grades) -> None
     its sd.
     """
     t = grades["totals"]
-    assert t["cfb"]["dispersion_ratio"] > 1.25, (
+    assert t["cfb"]["dispersion_ratio"] > 1.15, (
         "CFB's total sd no longer understates dispersion; if a total model "
         "has been graded, wire total_validated=True and add the market"
     )
@@ -167,16 +167,30 @@ def test_the_two_measurable_total_sds_are_wrong_by_about_a_third(grades) -> None
     assert t["nfl"]["dispersion_ratio"] > 1.25
 
 
-def test_the_cfb_total_mean_placeholder_is_the_accurate_one(grades) -> None:
-    """The labels are the wrong way round, and that is the point.
+def test_the_cfb_total_placeholder_is_biased_after_the_scores_were_repaired(
+        grades) -> None:
+    """A finding that REVERSED, and the reversal is the lesson.
 
-    52.0 was a guess and is right to seven hundredths of a point. 14.0 was
-    merely 'unvalidated' and is the dangerous number. A label is not evidence
-    in either direction.
+    ADR 0011 recorded that CFB's labels were the wrong way round: the number
+    marked PLACEHOLDER (52.0) was accurate to seven hundredths of a point,
+    while the one marked merely UNVALIDATED (14.0) was the dangerous one.
+
+    That was measured against a schedule cache with 315 corrupt scores in it.
+    Repaired from a second source, the actual total mean is 53.66 and the
+    placeholder is low by 1.66 points at t = 6.06. It was never accurate --
+    the corruption, which systematically froze scores low, was hiding the
+    bias.
+
+    Both numbers are now wrong, which is what "unvalidated" meant all along.
+    Neither is corrected, because the market is withheld and a right total on
+    an ungraded model is still an ungraded model.
     """
     c = grades["totals"]["cfb"]
-    assert abs(c["mean_bias"]) < 0.5
-    assert abs(c["mean_bias_t"]) < 2
+    assert c["mean_bias"] > 1.0, (
+        "the CFB total placeholder looks accurate again; if the scores moved "
+        "back, something undid the repair"
+    )
+    assert abs(c["mean_bias_t"]) > 2
 
 
 def test_nba_total_dispersion_is_recorded_as_unmeasured(grades) -> None:

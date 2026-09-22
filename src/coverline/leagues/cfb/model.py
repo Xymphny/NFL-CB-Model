@@ -83,7 +83,19 @@ MARGIN_COEFFICIENTS_DVOA_ONLY: Mapping[str, float] = {
 #: dispersion that is too small oversizes every stake that divides by it.
 #: model/fit_data_checks.py now refuses a frame with more ties than its league
 #: permits, so this cannot recur silently.
-MARGIN_SD = 17.8780
+#:
+#: CORRECTED AGAIN, same day, to 17.8047 -- and this time on REPAIRED data
+#: rather than on the survivors of corrupt data. A second source (ESPN, same
+#: event ids, with the completion flag the original cache lacks) showed the
+#: corruption is worse than a tie check can see: 159 of 1,731 rows carry a
+#: wrong score, 9.19% against the 4.39% that happened to land level, and 58
+#: of them FLIP THE WINNER. The pattern is a frozen score, not a missing one
+#: -- Vanderbilt 27-28 UConn was really 30-28.
+#:
+#: With the scores repaired there are ZERO ties across all 1,731 games, which
+#: is what a sport that abolished them in 1996 should look like, and the
+#: constant is measured on every game rather than on 1,655 survivors.
+MARGIN_SD = 17.8047
 
 #: The same measurement found the DVOA-only path carries a +2.16 point mean
 #: residual on this cache: it under-predicts the home margin systematically,
@@ -105,7 +117,12 @@ MARGIN_SD = 17.8780
 #: 76 impossible tied rows were in the measurement. Recomputing after finding
 #: a data fault is the same look with a corrected estimator, not a second
 #: look, and both numbers stay recorded.
-DVOA_ONLY_MEAN_RESIDUAL = 2.2485
+#:
+#: CORRECTED AGAIN to 2.0540 on the repaired scores. This one moved further
+#: than the dispersion did -- 0.19 of a point -- because a frozen score
+#: understates one side systematically, which biases a mean far more than it
+#: biases a spread.
+DVOA_ONLY_MEAN_RESIDUAL = 2.0540
 
 #: Absent, and deliberately. CFB key numbers (3 and 7 again, but with a much
 #: wider margin distribution diluting them) have not been measured the way

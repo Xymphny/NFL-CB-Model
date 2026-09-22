@@ -34,6 +34,7 @@ even if this directory is lost.
 | [0018](0018-ship-the-mlb-ninth-inning-layer.md) | accepted | Ship the MLB ninth-inning layer, and reopen the moneyline on the gate that closed it |
 | [0019](0019-the-cfb-cache-carries-impossible-results.md) | accepted | The CFB cache carries results its league forbids |
 | [0020](0020-audit-every-frame-for-impossible-results.md) | accepted | Audit every frame for impossible results, on purpose |
+| [0021](0021-repair-the-cfb-scores-from-a-second-source.md) | accepted | Repair the CFB scores from a second source |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or

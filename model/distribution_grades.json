@@ -138,59 +138,59 @@
     }
   },
   "cfb": {
-    "n": 1655,
-    "shipped_sd": 17.878,
-    "realised_residual_sd": 17.878,
+    "n": 1731,
+    "shipped_sd": 17.8047,
+    "realised_residual_sd": 17.8047,
     "dispersion_ratio": 1.0,
-    "mean_residual": 2.2485,
+    "mean_residual": 2.054,
     "coverage": {
-      "50": 0.5088,
-      "80": 0.7843,
-      "95": 0.9474
+      "50": 0.509,
+      "80": 0.7863,
+      "95": 0.9463
     },
     "nominal_coverage": {
       "50": 0.5,
       "80": 0.8,
       "95": 0.95
     },
-    "mean_log_likelihood": -4.31012,
-    "baseline_log_likelihood": -4.40834,
-    "paired_gain": 0.09822,
-    "standard_error": 0.00912,
-    "t": 10.78,
+    "mean_log_likelihood": -4.30476,
+    "baseline_log_likelihood": -4.40029,
+    "paired_gain": 0.09552,
+    "standard_error": 0.00891,
+    "t": 10.72,
     "in_sample_for": "coefficients and MARGIN_SD; ratings are walk-forward",
     "dispersion_ratio_is_circular": "MARGIN_SD was MEASURED as the residual sd of this exact cache by model/cfb_margin_sd.py, so the ratio above is 1.0000 by construction and is not evidence of anything. See split_check.",
     "split_check": {
       "available": true,
       "cut_season": 2023,
       "sd_estimated_on": "< 2023",
-      "n_estimate": 1082,
-      "n_check": 573,
-      "sd_from_early_seasons": 18.0441,
-      "realised_sd_on_later_seasons": 17.5725,
-      "dispersion_ratio": 0.9739,
+      "n_estimate": 1145,
+      "n_check": 586,
+      "sd_from_early_seasons": 17.9924,
+      "realised_sd_on_later_seasons": 17.4435,
+      "dispersion_ratio": 0.9695,
       "coverage": {
-        "50": 0.5131,
-        "80": 0.7888,
-        "95": 0.9581
+        "50": 0.5171,
+        "80": 0.7935,
+        "95": 0.959
       },
-      "mean_residual": 2.5215
+      "mean_residual": 2.3477
     },
     "by_season": {
       "2021": {
-        "n": 538,
-        "residual_sd": 18.7192,
-        "mean_residual": 2.2462
+        "n": 573,
+        "residual_sd": 18.691,
+        "mean_residual": 2.0407
       },
       "2022": {
-        "n": 544,
-        "residual_sd": 17.3669,
-        "mean_residual": 1.9633
+        "n": 572,
+        "residual_sd": 17.2796,
+        "mean_residual": 1.7665
       },
       "2023": {
-        "n": 573,
-        "residual_sd": 17.5725,
-        "mean_residual": 2.5215
+        "n": 586,
+        "residual_sd": 17.4435,
+        "mean_residual": 2.3477
       }
     },
     "path": "DVOA_ONLY -- the cache carries no elo",
@@ -203,25 +203,25 @@
       "seasons": 3,
       "dispersion_varies_by_season": {
         "test": "Bartlett",
-        "chi2": 3.57,
+        "chi2": 4.27,
         "df": 2,
-        "p": 0.1678,
+        "p": 0.118,
         "sd_range": [
-          17.3669,
-          18.7192
+          17.2796,
+          18.691
         ],
-        "sampling_se_of_one_seasons_sd": 0.538
+        "sampling_se_of_one_seasons_sd": 0.524
       },
       "bias_varies_by_season": {
         "test": "weighted chi-square on season mean residuals",
-        "q": 0.27,
+        "q": 0.31,
         "df": 2,
-        "p": 0.87294,
+        "p": 0.85701,
         "mean_residual_range": [
-          1.963,
-          2.522
+          1.766,
+          2.348
         ],
-        "pooled_mean_residual": 2.2485
+        "pooled_mean_residual": 2.054
       }
     }
   },
@@ -398,16 +398,16 @@
         2025
       ],
       "shipped_mu": 52.0,
-      "actual_mean": 51.9304,
-      "mean_bias": -0.0696,
-      "mean_bias_t": -0.23,
+      "actual_mean": 53.6554,
+      "mean_bias": 1.6554,
+      "mean_bias_t": 6.06,
       "shipped_sd": 14.0,
-      "actual_sd": 18.7933,
-      "dispersion_ratio": 1.3424,
+      "actual_sd": 16.9732,
+      "dispersion_ratio": 1.2124,
       "coverage": {
-        "50": 0.4069,
-        "80": 0.6769,
-        "95": 0.8703
+        "50": 0.4204,
+        "80": 0.7008,
+        "95": 0.8936
       },
       "exact_because": "mu_total is a constant, so residual and unconditional dispersion are the same number",
       "verdict": "the number labelled PLACEHOLDER is accurate; the one labelled UNVALIDATED understates dispersion by a third"

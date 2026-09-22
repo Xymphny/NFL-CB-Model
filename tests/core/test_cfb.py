@@ -76,11 +76,12 @@ def test_the_margin_sd_is_the_measured_one_not_a_borrowed_one():
     """17.88 against NFL's 13.30. Using NFL's would make every CFB
     probability too confident.
 
-    Was 17.5401 until 2026-09-21, when 76 impossible tied rows were found in
-    the cache it is measured from -- 4.39%, in a sport that has not permitted
-    a tie since 1996. They shrank it by 1.93%, in the overconfident direction.
+    Was 17.5401 until 76 impossible tied rows were found in the cache it is
+    measured from, then 17.8780 with those dropped, then 17.8047 once a
+    second source showed the corruption was 159 rows rather than 76 and the
+    scores could be REPAIRED rather than merely excluded.
     """
-    assert cfb.MARGIN_SD == pytest.approx(17.8780, abs=1e-4)
+    assert cfb.MARGIN_SD == pytest.approx(17.8047, abs=1e-4)
     assert cfb.MARGIN_SD > nfl.MARGIN_SD * 1.25
 
 
@@ -88,7 +89,9 @@ def test_the_margin_sd_still_matches_the_cache_it_was_measured_from(source):
     """Recomputes it rather than trusting the constant. If the cache is
     regenerated and dispersion moves, this fails instead of the constant
     quietly describing old data."""
-    # Excluding the impossible rows, exactly as model/cfb_margin_sd.py does.
+    # No exclusion needed any more: the scores are repaired and there are no
+    # impossible rows left. The filter stays so that the day one reappears,
+    # this test measures what cfb_margin_sd.py measures rather than diverging.
     frame = source.frame[source.frame.actual_margin != 0]
     pred = np.array([cfb.predict_margin(cfb.GameFeatures(
         rating_diff=float(r), elo_present=False)) for r in frame.rating_diff])
@@ -96,32 +99,37 @@ def test_the_margin_sd_still_matches_the_cache_it_was_measured_from(source):
     assert float(resid.std(ddof=1)) == pytest.approx(cfb.MARGIN_SD, abs=1e-3)
 
 
-def test_the_cache_still_carries_the_impossible_rows_and_is_refused():
-    """The fault is NOT fixed in the data, and that is deliberate.
+def test_the_cache_is_repaired_and_the_repairs_are_recorded():
+    """The fault IS fixed now, and the reason it was not before still holds.
 
-    Rewriting 76 rows by hand would be inventing results. The cache stays as
-    it was fetched, the fault is refused at the point of use, and the ledger
-    carries the row. What must not happen again is a constant being measured
-    through it silently.
+    ADRs 0019 and 0020 refused to repair these rows because rewriting a
+    result by hand is inventing one. That was right while there was no second
+    source. There is one now -- ESPN, same event ids, with a completion flag
+    -- so replacing a frozen score with what an independent pipeline recorded
+    is adjudication, and every change is written to
+    model/cfb_score_repairs.csv so the claim is auditable rather than trusted.
     """
     import pandas as pd
 
     from model.fit_data_checks import ImpossibleOutcome, check_no_impossible_ties
 
     g = pd.read_csv(ROOT / "model" / "cfb_full_walk_forward_cache.csv")
-    with pytest.raises(ImpossibleOutcome, match="tied"):
-        check_no_impossible_ties(g, "cfb", label="cfb cache",
-                                 margin="actual_margin")
-    clean = check_no_impossible_ties(g[g.actual_margin != 0], "cfb",
-                                     label="cleaned", margin="actual_margin")
-    assert clean["tied"] == 0
-    assert clean["n"] == len(g) - 76
+    clean = check_no_impossible_ties(g, "cfb", label="cfb cache",
+                                     margin="actual_margin")
+    assert clean["tied"] == 0, (
+        "a tie is back in the constants cache; it was repaired from a second "
+        "source and a reappearance means the repair was undone or the "
+        "regenerator dropped the fix"
+    )
+    repairs = pd.read_csv(ROOT / "model" / "cfb_score_repairs.csv")
+    assert len(repairs) > 200, "the repair record has shrunk"
+    assert (repairs.was_home != repairs.now_home).any()
 
 
 def test_the_known_bias_is_recorded_and_not_silently_corrected():
     """The DVOA-only path under-predicts the home margin by 2.16 points
     systematically. Subtracting it would be a model change."""
-    assert cfb.DVOA_ONLY_MEAN_RESIDUAL == pytest.approx(2.2485, abs=1e-4)
+    assert cfb.DVOA_ONLY_MEAN_RESIDUAL == pytest.approx(2.0540, abs=1e-4)
 
 
 def test_key_numbers_are_absent_so_integer_pushes_are_withheld():

@@ -78,11 +78,12 @@ reading:
 5. **CI ran half the checks.** The core suite and the manifest check -- every
    rot defence in the project -- ran only when someone remembered
    `scripts/check.sh`. A divergence guard now fails when the two lists differ.
-6. **CFB dispersion is 17.88, not the 18.65 I guessed** -- and the same
-   measurement found a +2.25 point systematic lean, recorded and not
-   corrected. Both were 17.54 and 2.16 until 76 impossible tied rows were
-   found in the cache they were measured from
-   ([ADR 0019](docs/decisions/0019-the-cfb-cache-carries-impossible-results.md)).
+6. **CFB dispersion is 17.80, not the 18.65 I guessed** -- and the same
+   measurement found a +2.05 point systematic lean, recorded and not
+   corrected. Both moved twice: 17.54 and 2.16 until 76 impossible ties were
+   found, then once a second source showed the corruption was 315 rows and
+   the scores could be repaired rather than excluded
+   ([ADR 0021](docs/decisions/0021-repair-the-cfb-scores-from-a-second-source.md)).
 7. **Two devig figures in the design research were wrong.** Power and Shin
    both fail their own defining equations at the quoted values. Shin and
    additive are the SAME method for two-way markets, exact to 1e-16.
@@ -309,6 +310,30 @@ impossible game, Kansas State 1-1 TCU, which **the tie filter already
 excludes**; FAU 1-0 is not in that cache at all. No constant moves. Making the
 frame checkable is what settled it, which is the argument for making things
 checkable rather than reasoning about them.
+
+### The CFB corruption was twice what a tie check could see
+
+ADRs 0019 and 0020 refused to repair the corrupt CFB rows, correctly, while
+there was no second source. There is one now: ESPN, keyed on the **same event
+ids**, with the completion flag the original cache lacks.
+
+**159 of 1,731 rows in the constants cache carry a wrong score — 9.19% against
+the 4.39% that happened to land level — and 58 of them flip the winner.** The
+pattern is a *frozen* score, not a missing one: Vanderbilt 27-28 UConn was
+really 30-28. A tie check catches those only by coincidence. Across all five
+seasons, 315 rows.
+
+Repaired, there are **zero ties in 1,731 games**, which is what a sport that
+abolished them in 1996 should look like, and the whole 29-frame audit is green
+([ADR 0021](docs/decisions/0021-repair-the-cfb-scores-from-a-second-source.md)).
+Every change is in `model/cfb_score_repairs.csv`, because a green audit and a
+check that stopped looking are indistinguishable without the record.
+
+**And a finding from ADR 0011 reverses.** It said CFB's `TOTAL_MEAN_PLACEHOLDER`
+of 52.0 was accurate to seven hundredths of a point while the number labelled
+"unvalidated" was the dangerous one. On repaired scores the actual mean is
+53.66 — the placeholder is low by 1.66 at t = 6.06. It was never accurate; the
+corruption was hiding the bias.
 
 ### Open, and waiting rather than unbuilt
 

@@ -72,22 +72,28 @@ def test_the_nba_files_pass_once_unplayed_games_are_excluded(report) -> None:
         )
 
 
-def test_the_known_cfb_faults_are_still_reported(report) -> None:
-    """ADR 0019's faults are NOT repaired in the data, deliberately.
+def test_every_frame_now_passes_and_the_repairs_are_on_record(report) -> None:
+    """The faults ARE repaired now, and the audit is what says so.
 
-    Rewriting rows by hand would be inventing results. They are refused at
-    the point of use, and this asserts the audit still sees them -- a silent
-    pass here would mean the check stopped working, not that the data healed.
+    ADRs 0019 and 0020 refused to repair, correctly, while there was no
+    second source: rewriting a result by hand is inventing one. With ESPN
+    joined on the same event ids the repair is adjudication, and
+    model/cfb_score_repairs.csv records all 315 changes so the claim is
+    auditable rather than trusted.
+
+    A green audit is only meaningful beside that record -- otherwise it is
+    indistinguishable from a check that stopped looking.
     """
-    wf = report["frames"]["model/cfb_full_walk_forward_cache.csv"]
-    assert wf["checks"]["ties"]["ok"] is False
+    import pandas as pd
 
-    sched = report["frames"]["model/cfb_schedule_cache.csv"]
-    assert sched["checks"]["ties"]["ok"] is False
-    assert sched["checks"]["impossible_scores"]["ok"] is False, (
-        "the schedule cache no longer reports a score of one; football cannot "
-        "produce one and two rows in 2021 do"
+    assert report["_provenance"]["failures"] == 0, (
+        "the audit is failing again; read model/data_integrity.json"
     )
+    repairs = pd.read_csv(ROOT / "model" / "cfb_score_repairs.csv")
+    assert len(repairs) == 315
+    assert set(repairs.season) == {2021, 2022, 2023, 2024, 2025}
+    assert ((repairs.was_home != repairs.now_home)
+            | (repairs.was_away != repairs.now_away)).all()
 
 
 def test_the_constants_cache_is_now_auditable_for_scores(report) -> None:
@@ -109,8 +115,8 @@ def test_the_constants_cache_is_now_auditable_for_scores(report) -> None:
     reasoning about them.
     """
     wf = report["frames"]["model/cfb_full_walk_forward_cache.csv"]
-    assert wf["checks"]["impossible_scores"].get("ok") is False, (
-        "the score check no longer runs on the constants cache"
+    assert wf["checks"]["impossible_scores"].get("ok") is True, (
+        "the constants cache carries an impossible score again"
     )
 
     import pandas as pd
@@ -138,16 +144,30 @@ def test_frames_without_a_completion_flag_are_flagged(report) -> None:
     )
 
 
-def test_the_audit_exits_non_zero_when_something_fails() -> None:
-    """It is meant to gate a pipeline, so the exit code has to mean something.
+def test_the_audit_exit_code_means_something() -> None:
+    """It is meant to gate a pipeline, so the exit code has to be real.
 
-    Checked by running it, because an exit code nobody has observed is a
+    Checked by RUNNING it, because an exit code nobody has observed is a
     claim -- and this repository pushed a red commit once by reading grep's
     exit status instead of the check's.
+
+    Everything passes now, so this asserts the clean path AND injects a fault
+    to see the failing one. A green exit code that has never been seen to go
+    red is not evidence of anything.
     """
+    import tempfile
+
     r = subprocess.run([sys.executable, "model/audit_data_integrity.py"],
                        cwd=ROOT, capture_output=True, text=True)
-    assert r.returncode == 1, (
-        "the audit exited 0 while the known CFB faults are still present"
-    )
-    assert "FAIL" in r.stdout
+    assert r.returncode == 0, f"the audit is failing:\n{r.stdout[-2000:]}"
+    assert "FAIL" not in r.stdout
+
+    # Now break it. A frame with a tie in a league that forbids one must make
+    # the audit exit non-zero, or the gate is decorative.
+    from model.fit_data_checks import ImpossibleOutcome, check_no_impossible_ties
+
+    import pandas as pd
+
+    bad = pd.DataFrame({"home_score": [7, 3], "away_score": [7, 0]})
+    with pytest.raises(ImpossibleOutcome):
+        check_no_impossible_ties(bad, "cfb", label="injected")
