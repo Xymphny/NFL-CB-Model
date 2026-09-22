@@ -64,6 +64,12 @@ class LookaheadRefused(ValueError):
     """A snapshot computed after the game it is being asked about."""
 
 
+def _parse_ts(ts: str) -> datetime:
+    """ISO-8601, with or without a zone. Naive means UTC here."""
+    d = datetime.fromisoformat(str(ts).replace("Z", "+00:00"))
+    return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+
+
 def snapshot_week(path: Path) -> int:
     m = re.search(r"week-(\d+)", path.name)
     if not m:
@@ -76,6 +82,47 @@ def available_snapshots(season: int, ratings_dir: Path = RATINGS_DIR) -> dict[in
     for p in sorted(Path(ratings_dir).glob(f"{season}-week-*.json")):
         out[snapshot_week(p)] = p
     return out
+
+
+def history_versions(season: int, week: int,
+                     ratings_dir: Path = RATINGS_DIR) -> list[Path]:
+    """Every immutable version of one week's snapshot, oldest first.
+
+    WHY THIS EXISTS. The canonical path is OVERWRITTEN. Across the committed
+    history, 2026 week 1 was written three times in one morning and week 2
+    twice, four days apart -- the second time after the week had finished, so
+    the ratings at that name had seen the results they were being asked to
+    predict. Pricing from the canonical file is therefore only point-in-time
+    by luck.
+
+    deploy/weekly_job.py now also writes data/ratings/history/, which is
+    write-once, and the versions already lost to overwriting were recovered
+    from git -- the exact bytes, not a reconstruction.
+    """
+    hist = Path(ratings_dir) / "history"
+    if not hist.is_dir():
+        return []
+    return sorted(hist.glob(f"{season}-week-{week:02d}-*.json"))
+
+
+def version_current_at(season: int, week: int, asof: str,
+                       ratings_dir: Path = RATINGS_DIR) -> Path | None:
+    """The newest version computed at or before `asof`, or None.
+
+    None rather than a fallback: substituting a later version is the lookahead
+    this whole module exists to refuse, and doing it quietly is worse than
+    doing it loudly.
+    """
+    cut = _parse_ts(asof)
+    best: tuple[datetime, Path] | None = None
+    for p in history_versions(season, week, ratings_dir):
+        try:
+            ca = _parse_ts(json.loads(p.read_text()).get("computed_at", ""))
+        except (ValueError, json.JSONDecodeError):
+            continue
+        if ca <= cut and (best is None or ca > best[0]):
+            best = (ca, p)
+    return best[1] if best else None
 
 
 def load_schedule(seasons: list[int], url: str = SCHEDULE_URL) -> pd.DataFrame:
@@ -98,11 +145,18 @@ class RatingsSnapshotSource:
 
     @classmethod
     def for_week(cls, season: int, week: int, schedule: pd.DataFrame,
-                 ratings_dir: Path = RATINGS_DIR) -> "RatingsSnapshotSource":
+                 ratings_dir: Path = RATINGS_DIR,
+                 asof: str | None = None) -> "RatingsSnapshotSource":
         """Load the snapshot FOR a week, selected by week and not by mtime.
 
         Picking the newest file is the obvious shortcut and is lookahead: the
         newest snapshot has seen results the week in question had not.
+
+        `asof` picks the IMMUTABLE version that was current at that instant,
+        from data/ratings/history. Without it the canonical path is used, and
+        that path is overwritten in place -- so it is point-in-time only by
+        luck, and the guard below is what turns that luck into an error
+        instead of a number.
         """
         snaps = available_snapshots(season, ratings_dir)
         if week not in snaps:
@@ -111,6 +165,16 @@ class RatingsSnapshotSource:
                 f"{sorted(snaps)}. Refusing to substitute another week."
             )
         path = snaps[week]
+        if asof is not None:
+            versioned = version_current_at(season, week, asof, ratings_dir)
+            if versioned is None:
+                raise NoRatingsSnapshot(
+                    f"no version of {season} week {week} was computed at or "
+                    f"before {asof}; have "
+                    f"{[p.name for p in history_versions(season, week, ratings_dir)]}. "
+                    "Refusing to substitute a later one."
+                )
+            path = versioned
         doc = json.loads(path.read_text())
         if doc.get("week") != week or doc.get("season") != season:
             raise ValueError(

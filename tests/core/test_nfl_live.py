@@ -48,31 +48,34 @@ def source(schedule):
 
 
 @pytest.fixture(scope="module")
-def pit_source(source):
-    """The same source, for tests that need it to be POINT-IN-TIME VALID.
+def pit_source(schedule):
+    """The version that was current before week 2 started -- recovered.
 
-    These priced week 2 from data/ratings/2026-week-02.json as published
-    2026-09-18 09:10. On 2026-09-22 11:00 the weekly cron rewrote that same
-    path with ratings computed after week 2 finished, and LookaheadRefused
-    began firing -- correctly, because those ratings have seen the results.
+    The canonical path is overwritten: data/ratings/2026-week-02.json held
+    ratings computed 2026-09-18 09:10 and, after the weekly cron ran again on
+    2026-09-22 11:00, holds ratings computed after week 2 finished. Those have
+    seen the results, so LookaheadRefused fires -- correctly.
 
-    The guard is working. What is broken is upstream: the snapshot path is
-    not immutable, so the file a published board was computed from can be
-    replaced under the same name and the board becomes unreproducible. See
-    test_the_ratings_snapshot_path_is_mutable.
-
-    Only the tests that actually reconstruct a price skip. The ones that check
-    loading, naming and refusal do not depend on the timestamp and still run.
+    The 09-18 bytes were never gone, only unaddressable: git had them, and
+    they now live in data/ratings/history/ alongside ten other versions
+    recovered the same way. `asof` selects the one that was current, so these
+    tests price week 2 from the snapshot the board actually used instead of
+    skipping.
     """
-    first_kick = pd.to_datetime(source.schedule.gameday.min(), utc=True)
-    computed = pd.to_datetime(source.computed_at, utc=True)
-    if computed > first_kick:
-        pytest.skip(
-            f"2026-week-02.json was recomputed {computed.date()}, after week 2 "
-            f"began {first_kick.date()}; this test needs the snapshot the "
-            "board actually used and it has been overwritten in place"
-        )
-    return source
+    wk = schedule[(schedule.season == 2026) & (schedule.week == 2)]
+    # The LAST kickoff of the week, not the first. Asking for the version
+    # current before the first would find none: the earliest week-2 snapshot
+    # was computed 2026-09-18, and week 2 opened on the Thursday, 09-17. So
+    # no version of this week has ever been point-in-time valid for its own
+    # opening game -- a snapshot named for week N is produced DURING week N.
+    # The per-game guard still refuses the Thursday game from this version,
+    # which is the correct answer rather than a problem to route around.
+    last_kick = pd.to_datetime(wk.gameday.max(), utc=True)
+    return L.RatingsSnapshotSource.for_week(
+        2026, 2, schedule, ratings_dir=ROOT / "data" / "ratings",
+        asof=last_kick.strftime("%Y-%m-%dT%H:%M:%SZ"))
+
+
 
 
 @pytest.fixture(scope="module")
@@ -211,29 +214,68 @@ def test_de_bias_is_the_boards_job_not_the_sources(pit_source):
 
 
 def test_the_ratings_snapshot_path_is_mutable(schedule):
-    """The defect the skip above is a symptom of, asserted so it is on record.
+    """The defect, and the recovery, both on record.
 
     data/ratings/2026-week-02.json held ratings computed 2026-09-18 09:10 and
     now holds ratings computed 2026-09-22 11:00. Same path, different content,
-    no version in the name. Every board published from the first version cites
-    a file that no longer contains what it cited.
+    no version in the name -- and it is routine, not a one-off: 2026 week 1
+    was written three times in one morning.
 
-    This is the shape of the repository's oldest wound -- eight constants
-    citing a grid search whose output exists in no committed file -- arriving
-    by a different route: not a file that was never written, but a file that
-    was written over.
-
-    The fix is upstream and is not made here, because the weekly job is a live
-    cron and changing what it writes is a deployment decision. What is made
-    here is the record.
+    The bytes were never lost, only unaddressable. Eleven versions were
+    recovered from git into data/ratings/history/, which deploy/weekly_job.py
+    now writes to as well, write-once. The canonical path is untouched, so
+    every existing reader keeps seeing the newest ratings at the name it knows.
     """
-    src = L.RatingsSnapshotSource.for_week(2026, 2, schedule,
-                                           ratings_dir=ROOT / "data" / "ratings")
-    computed = pd.to_datetime(src.computed_at, utc=True)
-    first_kick = pd.to_datetime(src.schedule.gameday.min(), utc=True)
-    if computed <= first_kick:
-        pytest.skip("the snapshot is point-in-time valid again; the pipeline "
-                    "may have been fixed, in which case delete this test")
-    assert computed > first_kick, (
-        "a snapshot named for week 2 was computed after week 2 started"
+    versions = L.history_versions(2026, 2, ROOT / "data" / "ratings")
+    assert len(versions) >= 2, (
+        "the week-2 history has fewer than two versions; the overwritten one "
+        "was recovered from git and must not go missing again"
     )
+    stamps = sorted(
+        json.loads(p.read_text())["computed_at"] for p in versions)
+    assert stamps[0] < stamps[-1]
+
+    wk = schedule[(schedule.season == 2026) & (schedule.week == 2)]
+    last_kick = pd.to_datetime(wk.gameday.max(), utc=True)
+    assert pd.to_datetime(stamps[-1], utc=True) > last_kick, (
+        "the newest version no longer postdates the week, so the canonical "
+        "path may be safe again -- check before deleting this test"
+    )
+
+
+def test_a_later_version_is_never_substituted(schedule):
+    """The refusal that makes `asof` worth having.
+
+    Falling back to whatever exists is the easiest lookahead there is,
+    because the newest file is always the convenient one.
+    """
+    with pytest.raises(L.NoRatingsSnapshot, match="Refusing to substitute"):
+        L.RatingsSnapshotSource.for_week(
+            2026, 2, schedule, ratings_dir=ROOT / "data" / "ratings",
+            asof="2026-09-01T00:00:00Z")
+
+
+def test_asof_picks_the_version_that_was_current(schedule):
+    """Between the two week-2 versions, each asof selects its own."""
+    d = ROOT / "data" / "ratings"
+    early = L.version_current_at(2026, 2, "2026-09-19T00:00:00Z", d)
+    late = L.version_current_at(2026, 2, "2026-09-30T00:00:00Z", d)
+    assert early is not None and late is not None
+    assert early != late
+    assert "20260918" in early.name and "20260922" in late.name
+
+
+def test_the_weekly_job_writes_an_immutable_copy():
+    """Asserted on the source, because the job cannot be run here.
+
+    It needs nflverse play-by-play and a git remote. What is checkable is
+    that it writes the history file and commits it -- committing only the
+    mutable path would leave the history on an ephemeral disk, which is the
+    same as not writing it.
+    """
+    src = (ROOT / "deploy" / "weekly_job.py").read_text()
+    assert 'os.path.join(ratings_dir, "history")' in src
+    assert "if not os.path.exists(history_file):" in src, (
+        "the history write is no longer write-once"
+    )
+    assert "git_commit_and_push(\n                history_file," in src

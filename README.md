@@ -416,14 +416,25 @@ version in the name.** Every board published from the first version cites a file
 that no longer contains what it cited.
 
 `LookaheadRefused` caught it immediately and correctly — the new ratings have
-seen week 2's results — so five point-in-time tests now skip with that reason
-rather than passing on substituted data. The guard is working; the pipeline
-upstream of it is not.
+seen week 2's results. And it is routine, not a one-off: **2026 week 1 was
+written three times in one morning.**
 
-This is the repository's oldest wound arriving by a different route: not a file
-that was never written, but a file that was written over. **The fix is not made
-here** — the weekly job is a live cron and changing what it writes is a
-deployment decision.
+**The bytes were never lost, only unaddressable.** Eleven versions were
+recovered from git into `data/ratings/history/`, which `deploy/weekly_job.py`
+now writes to as well, write-once. The canonical path is untouched, so every
+existing reader keeps seeing the newest ratings at the name it already knows —
+this only *adds* a record that cannot be overwritten.
+
+`for_week(..., asof=...)` then selects the version that was current at an
+instant, and **refuses rather than falling back** to a later one. The five
+tests that were skipping now run against the snapshot the board actually used.
+
+One thing the refusal exposed: **no version of week 2 has ever been
+point-in-time valid for its own opening game.** The earliest week-2 snapshot
+was computed 2026-09-18 and week 2 opened on the Thursday, 09-17 — a snapshot
+named for week *N* is produced *during* week *N*. The per-game guard refuses
+that Thursday game from it, which is the correct answer rather than a problem
+to route around.
 
 ### Open, and waiting rather than unbuilt
 

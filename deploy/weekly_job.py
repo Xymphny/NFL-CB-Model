@@ -398,10 +398,38 @@ def write_output(result: dict, path: str):
     # applied here. allow_nan=False makes any future NaN fail LOUDLY
     # in the cron log instead of silently in every visitor's browser.
     from deploy.odds_watch_job import _json_sanitize
+    clean = _json_sanitize(payload)
     with open(output_file, "w") as f:
-        json.dump(_json_sanitize(payload), f, indent=2, allow_nan=False)
+        json.dump(clean, f, indent=2, allow_nan=False)
 
-    return output_file
+    # AND AN IMMUTABLE COPY, because the line above overwrites.
+    #
+    # data/ratings/2026-week-02.json held ratings computed 2026-09-18 09:10
+    # and, after this job ran again on 2026-09-22 11:00, holds ratings
+    # computed after week 2 finished. Same path, different content, no version
+    # in the name -- so every board published from the first version cites a
+    # file that no longer contains what it cited, and the point-in-time guard
+    # in the NFL live source correctly refuses to price week 2 from it.
+    #
+    # The canonical path is left exactly as it was: every existing reader,
+    # including the dashboard, keeps seeing the newest ratings at the name it
+    # already knows. This only ADDS a record that cannot be overwritten.
+    history_dir = os.path.join(ratings_dir, "history")
+    os.makedirs(history_dir, exist_ok=True)
+    stamp = str(result["computed_at"]).replace(":", "").replace("-", "")
+    stamp = stamp.split(".")[0].replace("+0000", "Z")
+    history_file = os.path.join(
+        history_dir,
+        f"{result['season']}-week-{result['week']:02d}-{stamp}.json")
+    if not os.path.exists(history_file):
+        with open(history_file, "w") as f:
+            json.dump(clean, f, indent=2, allow_nan=False)
+    else:
+        # Same computed_at, same content, by construction. Rewriting would be
+        # the very mutability this exists to stop.
+        print(f"[weekly_job] history already has {os.path.basename(history_file)}")
+
+    return output_file, history_file
 
 
 def _published_prop_opinions(season, week, data_dir=None, with_matches=False):
@@ -452,7 +480,7 @@ def main():
 
     try:
         result = run_pipeline(season, week)
-        output_file = write_output(result, REPO_DATA_PATH)
+        output_file, history_file = write_output(result, REPO_DATA_PATH)
 
         # Grade last week's flagged plays and refresh performance.json.
         # Soft-fail by design: a grading hiccup (e.g. nflverse scores
@@ -526,6 +554,13 @@ def main():
 
         if GIT_REPO_URL:
             git_commit_and_push(output_file, commit_message=f"Update ratings: {season} week {week}")
+            # The immutable copy goes with it. Committing the mutable path
+            # and not this one would leave the history on an ephemeral disk,
+            # which is the same as not writing it.
+            git_commit_and_push(
+                history_file,
+                commit_message=f"Ratings history: {season} week {week} "
+                               f"{os.path.basename(history_file)}")
             if perf_file:
                 git_commit_and_push(perf_file, commit_message=f"Grade performance through {season} week {week}")
             for pf in prop_files:
