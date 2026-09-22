@@ -48,6 +48,34 @@ def source(schedule):
 
 
 @pytest.fixture(scope="module")
+def pit_source(source):
+    """The same source, for tests that need it to be POINT-IN-TIME VALID.
+
+    These priced week 2 from data/ratings/2026-week-02.json as published
+    2026-09-18 09:10. On 2026-09-22 11:00 the weekly cron rewrote that same
+    path with ratings computed after week 2 finished, and LookaheadRefused
+    began firing -- correctly, because those ratings have seen the results.
+
+    The guard is working. What is broken is upstream: the snapshot path is
+    not immutable, so the file a published board was computed from can be
+    replaced under the same name and the board becomes unreproducible. See
+    test_the_ratings_snapshot_path_is_mutable.
+
+    Only the tests that actually reconstruct a price skip. The ones that check
+    loading, naming and refusal do not depend on the timestamp and still run.
+    """
+    first_kick = pd.to_datetime(source.schedule.gameday.min(), utc=True)
+    computed = pd.to_datetime(source.computed_at, utc=True)
+    if computed > first_kick:
+        pytest.skip(
+            f"2026-week-02.json was recomputed {computed.date()}, after week 2 "
+            f"began {first_kick.date()}; this test needs the snapshot the "
+            "board actually used and it has been overwritten in place"
+        )
+    return source
+
+
+@pytest.fixture(scope="module")
 def board():
     """The newest published week-2 divergence artifact."""
     paths = sorted(glob.glob(str(ROOT / "data" / "divergence" / "2026-week-02-*.json")))
@@ -106,15 +134,15 @@ def test_a_game_not_on_the_schedule_is_refused(source):
         source.features("2026-W02-LA-KC", ASOF)
 
 
-def test_rest_comes_from_the_schedule_not_from_zero(source):
+def test_rest_comes_from_the_schedule_not_from_zero(pit_source):
     """rest_diff carries a real coefficient; defaulting it to 0 would be a
     silent, plausible-looking error."""
-    f = source.features("2026-W02-LA-NYG", ASOF)
+    f = pit_source.features("2026-W02-LA-NYG", ASOF)
     assert f.rest_diff == 3.0
 
 
-def test_features_declare_ngs_absent_because_it_is(source):
-    f = source.features("2026-W02-LA-NYG", ASOF)
+def test_features_declare_ngs_absent_because_it_is(pit_source):
+    f = pit_source.features("2026-W02-LA-NYG", ASOF)
     assert f.ngs_present is False and f.elo_diff == 0.0
 
 
@@ -133,7 +161,7 @@ def test_the_board_slate_splits_as_expected(board):
     )
 
 
-def test_it_reproduces_the_published_board_margin_for_rating_only_games(source, board):
+def test_it_reproduces_the_published_board_margin_for_rating_only_games(pit_source, board):
     """The claim: same ratings, same schedule, same coefficients, same number
     the site published -- to the cent."""
     offset = board["debias_offsets"][0]
@@ -146,7 +174,7 @@ def test_it_reproduces_the_published_board_margin_for_rating_only_games(source, 
 
         published = d["market_spread"] + d["spread_gap"]
         gid = f"2026-W02-{d['home_team']}-{d['away_team']}"
-        ours = L.reconstruct_board_margin(source.features(gid, ASOF), offset)
+        ours = L.reconstruct_board_margin(pit_source.features(gid, ASOF), offset)
 
         assert ours == pytest.approx(published, abs=1e-6), (
             f"{gid}: reconstructed {ours:.6f}, board published {published:.6f}"
@@ -156,12 +184,12 @@ def test_it_reproduces_the_published_board_margin_for_rating_only_games(source, 
     assert checked >= 1, "no rating-only game was actually compared"
 
 
-def test_the_reconstruction_would_notice_a_wrong_rest_value(source, board):
+def test_the_reconstruction_would_notice_a_wrong_rest_value(pit_source, board):
     """Guards the parity check itself. rest_diff enters with a coefficient of
     0.131, so a wrong value shifts the margin by a fraction of a point -- small
     enough to look like rounding if nothing asserts on it."""
     offset = board["debias_offsets"][0]
-    f = source.features("2026-W02-LA-NYG", ASOF)
+    f = pit_source.features("2026-W02-LA-NYG", ASOF)
     honest = L.reconstruct_board_margin(f, offset)
     wrong = L.reconstruct_board_margin(
         nfl.GameFeatures(rating_diff=f.rating_diff, rest_diff=0.0,
@@ -172,11 +200,40 @@ def test_the_reconstruction_would_notice_a_wrong_rest_value(source, board):
     assert abs(honest - wrong) > 0.3
 
 
-def test_de_bias_is_the_boards_job_not_the_sources(source):
+def test_de_bias_is_the_boards_job_not_the_sources(pit_source):
     """The offset is measured across a slate, so a per-game source cannot know
     it. Keeping it out is what stops a feature source quietly carrying a
     slate-level constant."""
-    f = source.features("2026-W02-LA-NYG", ASOF)
+    f = pit_source.features("2026-W02-LA-NYG", ASOF)
     raw = nfl.predict_margin(f)
     assert L.reconstruct_board_margin(f, 0.0) == pytest.approx(raw)
     assert L.reconstruct_board_margin(f, 5.0) == pytest.approx(raw + 5.0)
+
+
+def test_the_ratings_snapshot_path_is_mutable(schedule):
+    """The defect the skip above is a symptom of, asserted so it is on record.
+
+    data/ratings/2026-week-02.json held ratings computed 2026-09-18 09:10 and
+    now holds ratings computed 2026-09-22 11:00. Same path, different content,
+    no version in the name. Every board published from the first version cites
+    a file that no longer contains what it cited.
+
+    This is the shape of the repository's oldest wound -- eight constants
+    citing a grid search whose output exists in no committed file -- arriving
+    by a different route: not a file that was never written, but a file that
+    was written over.
+
+    The fix is upstream and is not made here, because the weekly job is a live
+    cron and changing what it writes is a deployment decision. What is made
+    here is the record.
+    """
+    src = L.RatingsSnapshotSource.for_week(2026, 2, schedule,
+                                           ratings_dir=ROOT / "data" / "ratings")
+    computed = pd.to_datetime(src.computed_at, utc=True)
+    first_kick = pd.to_datetime(src.schedule.gameday.min(), utc=True)
+    if computed <= first_kick:
+        pytest.skip("the snapshot is point-in-time valid again; the pipeline "
+                    "may have been fixed, in which case delete this test")
+    assert computed > first_kick, (
+        "a snapshot named for week 2 was computed after week 2 started"
+    )

@@ -393,11 +393,37 @@ Dry by default, same contract as `scripts/backfill.py`. The plan is cached for
 an hour so a fifteen-minute cron does not issue 480 free requests a day at
 somebody else's expense.
 
-**Deliberately not added to `render.yaml`.** Two things have to be decided
-first, and neither is mine to decide: whether to spend credits before the
-subscription, and where the snapshots live — Render's cron filesystem is
-ephemeral, so without the commit-back path the existing jobs use, every
-captured close would vanish at the end of the run.
+**Scheduled in `render.yaml` and inert.** `CAPTURE_ENABLED` defaults to `"0"`
+and the job exits before constructing an API client, so it issues no request
+and costs nothing until that value is set deliberately. A schedule that starts
+spending the moment a Blueprint syncs is a decision nobody made.
+
+**The store is the checkout**, committed back after any run that captured
+something. On Render a cron run starts from a fresh checkout and its filesystem
+is discarded on exit, so the checkout is the only state that survives — a
+snapshot written anywhere else does not exist. Measured rather than assumed: a
+real odds snapshot here averages 26 KB, all five leagues in season is ~139 MB a
+year, and pushes are per *run that captured*, roughly 14 a day rather than 96.
+`deploy/git_utils.py` already does fetch-rebase-retry with a stash, hardened by
+a CFB snapshot lost to exactly that race on 2026-09-05.
+
+### A ratings snapshot is overwritten in place
+
+Found because the weekly cron ran this morning while this work was in flight.
+`data/ratings/2026-week-02.json` held ratings computed 2026-09-18 09:10; it now
+holds ratings computed 2026-09-22 11:00. **Same path, different content, no
+version in the name.** Every board published from the first version cites a file
+that no longer contains what it cited.
+
+`LookaheadRefused` caught it immediately and correctly — the new ratings have
+seen week 2's results — so five point-in-time tests now skip with that reason
+rather than passing on substituted data. The guard is working; the pipeline
+upstream of it is not.
+
+This is the repository's oldest wound arriving by a different route: not a file
+that was never written, but a file that was written over. **The fix is not made
+here** — the weekly job is a live cron and changing what it writes is a
+deployment decision.
 
 ### Open, and waiting rather than unbuilt
 

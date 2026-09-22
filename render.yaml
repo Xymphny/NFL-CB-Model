@@ -40,6 +40,39 @@ services:
       - key: HEARTBEAT_URL
         sync: false
 
+  # CLOSE CAPTURE for the new core. INERT UNTIL CAPTURE_ENABLED IS "1":
+  # the job exits before constructing an API client, so it issues no
+  # request and costs no credit while that value is anything else. Flip it
+  # in the Render dashboard when the subscription is live -- deliberately
+  # NOT defaulted on, because a schedule that starts spending the moment a
+  # Blueprint syncs is a decision nobody made.
+  #
+  # Every fifteen minutes because a capture window is only due within ten
+  # minutes of its time; the slate plan itself is cached for an hour, so a
+  # run that has nothing due makes no network call at all.
+  #
+  # --persist commits data/bronze back to the repo. On Render a cron run
+  # starts from a fresh checkout and its filesystem is discarded on exit,
+  # so the checkout is the only state that survives; a snapshot written
+  # anywhere else does not exist. Measured cost: ~26 KB a snapshot, about
+  # 139 MB a year with every league in season, and roughly 14 pushes a day
+  # rather than 96 because only runs that captured something commit.
+  - type: cron
+    name: close-capture-job
+    runtime: python
+    schedule: "*/15 * * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 scripts/capture.py --run --persist
+    envVars:
+      - key: CAPTURE_ENABLED
+        value: "0"
+      - key: ODDS_API_KEY
+        sync: false
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+
   - type: cron
     name: odds-watch-job
     runtime: python

@@ -149,6 +149,7 @@ def test_the_entrypoint_is_dry_without_run(monkeypatch, capsys):
     """Same contract as scripts/backfill.py: nothing spends without --run."""
     import capture as entry
 
+    monkeypatch.setenv("CAPTURE_ENABLED", "1")
     monkeypatch.setenv("ODDS_API_KEY", "k")
     monkeypatch.setattr(entry, "SPORTS", {"basketball_nba": ("eu",)})
     monkeypatch.setattr(entry, "OddsAPIClient",
@@ -158,3 +159,94 @@ def test_the_entrypoint_is_dry_without_run(monkeypatch, capsys):
     out = capsys.readouterr().out
     assert "Dry run" in out
     assert "no credits were spent" in out
+
+
+# ---------------------------------------------------------------------------
+# The gate and the persistence path.
+# ---------------------------------------------------------------------------
+
+def test_the_job_cannot_spend_until_it_is_enabled(monkeypatch, capsys):
+    """The whole reason the schedule can exist before the subscription does.
+
+    An unset or non-"1" CAPTURE_ENABLED must exit BEFORE an API client is
+    constructed -- not merely before a paid call, because even the free
+    events endpoint is somebody else's bandwidth and the key may not exist
+    yet.
+    """
+    import capture as entry
+
+    monkeypatch.delenv("CAPTURE_ENABLED", raising=False)
+    monkeypatch.setenv("ODDS_API_KEY", "k")
+
+    def _boom(**kw):
+        raise AssertionError("an API client was constructed while disabled")
+
+    monkeypatch.setattr(entry, "OddsAPIClient", _boom)
+    assert entry.main([]) == 0
+    assert "costs nothing" in capsys.readouterr().out
+
+    for value in ("0", "true", "yes", ""):
+        monkeypatch.setenv("CAPTURE_ENABLED", value)
+        assert entry.main([]) == 0, f"{value!r} enabled the job"
+
+
+def test_nothing_captured_means_nothing_committed(monkeypatch, capsys):
+    """Most runs have no window due.
+
+    A push per run would be 96 a day against a branch three other crons and a
+    human already share. Only a run that captured or gapped something writes.
+    """
+    import capture as entry
+
+    monkeypatch.setenv("CAPTURE_ENABLED", "1")
+    monkeypatch.setenv("ODDS_API_KEY", "k")
+    monkeypatch.setattr(entry, "SPORTS", {"basketball_nba": ("eu",)})
+    monkeypatch.setattr(entry, "OddsAPIClient",
+                        lambda **kw: _client(["2026-01-02T00:00:00Z"])[0])
+    monkeypatch.setattr(entry, "plan", lambda *a, **k: [])
+
+    def _boom(*a, **k):
+        raise AssertionError("committed with nothing to commit")
+
+    monkeypatch.setitem(sys.modules, "deploy.git_utils",
+                        type(sys)("deploy.git_utils"))
+    sys.modules["deploy.git_utils"].git_commit_and_push = _boom
+
+    assert entry.main(["--run", "--persist"]) == 0
+    assert "no commit" in capsys.readouterr().out
+
+
+def test_the_store_lives_in_the_checkout():
+    """On Render nothing else survives a cron run.
+
+    The filesystem is discarded when the process exits, so a snapshot written
+    outside the checkout is a snapshot that does not exist -- which would be a
+    CLV series with silent holes, the failure capture.py exists to prevent.
+    """
+    import capture as entry
+
+    assert entry.BRONZE_ROOT == ROOT / "data" / "bronze"
+    assert entry.BRONZE_ROOT.is_relative_to(ROOT)
+
+
+def test_the_blueprint_schedules_it_disabled():
+    """A schedule that starts spending the moment a Blueprint syncs is a
+    decision nobody made."""
+    import yaml
+
+    blueprint = yaml.safe_load((ROOT / "render.yaml").read_text())
+    job = next(s for s in blueprint["services"]
+               if s["name"] == "close-capture-job")
+    gate = next(e for e in job["envVars"] if e["key"] == "CAPTURE_ENABLED")
+    assert gate["value"] == "0", (
+        "the capture cron is enabled in the Blueprint; it must default off "
+        "and be turned on deliberately"
+    )
+    assert "--persist" in job["startCommand"], (
+        "without --persist every captured close is discarded when the run ends"
+    )
+    for secret in ("ODDS_API_KEY", "GIT_REPO_URL", "GITHUB_TOKEN"):
+        e = next(x for x in job["envVars"] if x["key"] == secret)
+        assert e.get("sync") is False and "value" not in e, (
+            f"{secret} must not have a literal value in the Blueprint"
+        )

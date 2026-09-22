@@ -15,6 +15,30 @@ contract scripts/backfill.py has, and for the same reason: the monthly quota
 is shared with the backfill and running out in February is a planning failure
 rather than an error to handle.
 
+WHERE THE SNAPSHOTS LIVE
+In the repository checkout, under data/bronze, committed back after any run
+that captured something. That is not a preference -- on Render a cron run
+starts from a FRESH CHECKOUT and its filesystem is discarded when the process
+exits, so the checkout is the only state that survives. A snapshot written
+anywhere else is a snapshot that does not exist, and a CLV series with silent
+holes in it is the exact failure capture.py's own docstring says it exists to
+prevent.
+
+The cost is bearable and was measured rather than assumed. A real odds
+snapshot in this repository averages 26 KB; 99 windows a week with every
+league in season is about 5,100 snapshots and 139 MB a year, and realistically
+less because the seasons only partly overlap. Pushes are per RUN THAT
+CAPTURED, not per run: at a fifteen-minute cadence that is roughly 14 a day,
+not 96. deploy/git_utils.py already does fetch-rebase-retry with a stash,
+hardened by a CFB snapshot that was lost to exactly this race on 2026-09-05.
+
+IT CANNOT SPEND UNTIL IT IS TOLD TO
+CAPTURE_ENABLED must be exactly "1". Unset or anything else and the job exits
+before an API client is constructed, so it makes no request of any kind and
+costs nothing -- which is what lets the schedule exist before the subscription
+does. --run is still required on top of that, the same contract
+scripts/backfill.py has.
+
 WHAT IT REFUSES TO DO
 Capture an overdue window. A poll taken after kickoff returns an IN-PLAY
 price, which is a different instrument from a close, and quietly filing one
@@ -74,6 +98,9 @@ def _now() -> str:
 
 
 PLAN_CACHE = ROOT / "data" / "capture_plan.json"
+
+#: The store lives in the checkout because on Render nothing else survives.
+BRONZE_ROOT = ROOT / "data" / "bronze"
 
 
 def _cached_plan(now: str, max_age_minutes: int) -> list[dict] | None:
@@ -147,7 +174,19 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--tolerance-minutes", type=int, default=10)
     ap.add_argument("--plan-cache-minutes", type=int, default=60,
                     help="reuse the last slate plan for this long; 0 disables")
+    ap.add_argument("--persist", action="store_true",
+                    help="commit captured snapshots back to the repository, "
+                         "which on Render is the only state that survives")
     a = ap.parse_args(argv)
+
+    # THE GATE, checked before anything can issue a request. An unset or
+    # non-"1" value exits here, so the job can be scheduled before the
+    # subscription exists without costing a credit.
+    if os.environ.get("CAPTURE_ENABLED") != "1":
+        print("CAPTURE_ENABLED is not '1'. Exiting before any request is "
+              "made, so this run costs nothing. Set it deliberately when the "
+              "subscription is live.")
+        return 0
 
     key = os.environ.get("ODDS_API_KEY")
     if not key:
@@ -190,12 +229,27 @@ def main(argv: list[str] | None = None) -> int:
         print(f"\nplan costs {cost} credits against a budget of {a.budget}; "
               "the run will capture what fits and GAP the rest with a reason.")
 
-    store = BronzeStore(ROOT / "data" / "bronze")
+    store = BronzeStore(BRONZE_ROOT)
     res = run(windows, client, store, now=now,
               tolerance_minutes=a.tolerance_minutes)
     print(f"\n{res.summary()}")
     for key_, reason in res.gapped:
         print(f"  gapped {key_}: {reason}")
+
+    if a.persist and (res.captured or res.gapped):
+        # Only when something changed. Most runs have no window due, and a
+        # push per run would be 96 a day against a branch three other crons
+        # and a human already share.
+        sys.path.insert(0, str(ROOT))
+        from deploy.git_utils import git_commit_and_push
+
+        git_commit_and_push(
+            str(BRONZE_ROOT.relative_to(ROOT)),
+            f"capture {now}: {len(res.captured)} snapshots, "
+            f"{len(res.gapped)} gapped, {res.credits_spent} credits",
+        )
+    elif a.persist:
+        print("nothing captured or gapped; no commit")
     return 0
 
 
