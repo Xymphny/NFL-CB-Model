@@ -243,3 +243,12 @@ artifacts:
     refresh: "whenever a retained frame is added or refetched"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: model/nba_atoms.json
+    produced_by: model/measure_nba_atoms.py
+    consumed_by:
+      - tests/core/test_nba_atoms.py
+    kind: gold
+    refresh: "when the NBA ratings or sigma change"
+    staleness_error_hours: null
+    unconsumed_reason: null

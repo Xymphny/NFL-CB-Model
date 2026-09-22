@@ -157,6 +157,13 @@ class NBAModel:
         total = self._total(f) if self._total else 225.0
         return NormalMarginDistribution(
             mu_margin=mu, sd_margin=sd, mu_total=total, sd_total=18.0,
+            # The margin IS an integer, even though this is modelled
+            # continuously. Without saying so, an integer spread is priced
+            # with a push of zero, and NBA margins land exactly on the modal
+            # spread 3.3% of the time. Integer lines are now refused rather
+            # than answered wrongly; half-point lines are unaffected, which
+            # is most of the board.
+            integral_margin=True,
             # Withheld in the market list and in the object. The 18.0 has
             # never been graded against anything; NBA totals have an
             # unconditional sd of 20.11 over 6,000 games, which bounds

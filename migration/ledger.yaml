@@ -326,14 +326,29 @@ components:
   - id: league-nhl-nba-structure
     old_path: "(no legacy -- new leagues)"
     new_path: "src/coverline/leagues/{nhl,nba}/model.py"
-    disposition: deferred
-    adr: 0005-nhl-and-nba-structure-without-coefficients.md
+    disposition: rewritten
+    adr: 0010-refresh-the-nhl-pull-table-and-check-shape.md
     data_artifacts: []
     data_disposition: null
     parity_status: not_applicable
     parity_tolerance: "nothing fitted to compare"
     old_removed: false
     notes: >-
+      RESOLVED 2026-09-21. This row kept saying STRUCTURE ONLY after the
+      records that superseded it had shipped, which is the exact failure a
+      reverse index exists to prevent -- so it is corrected here rather than
+      left to be believed.
+
+      Both leagues now ship fitted, held-out-graded parameters that travel
+      with their own grade and a loader that refuses one which did not clear:
+      NBA ratings at t = +5.96 graded once on 2023 (ADR 0006), NHL rates at
+      t = +2.44 after a lookahead fix, and an NHL rules layer refreshed and
+      re-graded at t = +34.95 whose goalie-pull component clears separately at
+      +5.82 (ADRs 0008 and 0010). STRUCTURAL_ONLY_LEAGUES is empty.
+
+      The original reasoning is kept below, because it was right and it is why
+      the packages were shaped this way.
+
       STRUCTURE ONLY, NO FITTED COEFFICIENTS. No legacy to port, no committed
       cache, no held-out grading. Shipping constants fitted in an afternoon
       would be indistinguishable six months later from measured ones, which is

@@ -1,0 +1,250 @@
+{
+  "_provenance": {
+    "script": "model/measure_nba_atoms.py",
+    "n": 3540,
+    "seasons": [
+      2021,
+      2022,
+      2023
+    ],
+    "sigma": 14.1666,
+    "descriptive": true,
+    "graded": false,
+    "note": "properties of the residual distribution; nothing is fitted, so no season is spent -- and no NBA season is pristine anyway"
+  },
+  "ties_are_impossible": {
+    "empirical": 0.0,
+    "rounded_normal_would_say": 0.02585,
+    "why": "overtime resolves every NBA game"
+  },
+  "modal_atom": {
+    "largest_empirical": 0.03503,
+    "compare_nfl_key_number_3": 0.08,
+    "why_it_matters": "discrete=False makes margin_pmf return zero, which asserts no push is possible. This is how often one happens."
+  },
+  "one_point_margins_are_depleted": {
+    "plus_one_ratio": 0.7493,
+    "minus_one_ratio": 0.8064,
+    "why": "unlike hockey, where the tie-break awards exactly one goal, an NBA overtime is five minutes and scatters the tie mass instead of piling it onto plus and minus one"
+  },
+  "no_table_is_claimed": "about 90 games per margin value gives a ratio standard error near 0.10, so values between 1.0 and 1.2 are noise. Only the tie and the plus-or-minus-one depletion are outside it. Fitting a key-number table to this would be fitting noise, and no NBA season is pristine to grade one on.",
+  "atoms": {
+    "-15": {
+      "empirical": 0.01328,
+      "rounded_normal": 0.01405,
+      "ratio": 0.9448,
+      "standard_error_of_empirical": 0.00192,
+      "ratio_is_outside_noise": false
+    },
+    "-14": {
+      "empirical": 0.01497,
+      "rounded_normal": 0.01508,
+      "ratio": 0.9928,
+      "standard_error_of_empirical": 0.00204,
+      "ratio_is_outside_noise": false
+    },
+    "-13": {
+      "empirical": 0.01328,
+      "rounded_normal": 0.01611,
+      "ratio": 0.824,
+      "standard_error_of_empirical": 0.00192,
+      "ratio_is_outside_noise": false
+    },
+    "-12": {
+      "empirical": 0.0178,
+      "rounded_normal": 0.01714,
+      "ratio": 1.0381,
+      "standard_error_of_empirical": 0.00222,
+      "ratio_is_outside_noise": false
+    },
+    "-11": {
+      "empirical": 0.01949,
+      "rounded_normal": 0.01816,
+      "ratio": 1.0732,
+      "standard_error_of_empirical": 0.00232,
+      "ratio_is_outside_noise": false
+    },
+    "-10": {
+      "empirical": 0.01977,
+      "rounded_normal": 0.01916,
+      "ratio": 1.0321,
+      "standard_error_of_empirical": 0.00234,
+      "ratio_is_outside_noise": false
+    },
+    "-9": {
+      "empirical": 0.02458,
+      "rounded_normal": 0.02012,
+      "ratio": 1.2212,
+      "standard_error_of_empirical": 0.0026,
+      "ratio_is_outside_noise": false
+    },
+    "-8": {
+      "empirical": 0.02429,
+      "rounded_normal": 0.02105,
+      "ratio": 1.1542,
+      "standard_error_of_empirical": 0.00259,
+      "ratio_is_outside_noise": false
+    },
+    "-7": {
+      "empirical": 0.02232,
+      "rounded_normal": 0.02192,
+      "ratio": 1.018,
+      "standard_error_of_empirical": 0.00248,
+      "ratio_is_outside_noise": false
+    },
+    "-6": {
+      "empirical": 0.02966,
+      "rounded_normal": 0.02273,
+      "ratio": 1.3047,
+      "standard_error_of_empirical": 0.00285,
+      "ratio_is_outside_noise": true
+    },
+    "-5": {
+      "empirical": 0.02486,
+      "rounded_normal": 0.02347,
+      "ratio": 1.059,
+      "standard_error_of_empirical": 0.00262,
+      "ratio_is_outside_noise": false
+    },
+    "-4": {
+      "empirical": 0.03107,
+      "rounded_normal": 0.02414,
+      "ratio": 1.2874,
+      "standard_error_of_empirical": 0.00292,
+      "ratio_is_outside_noise": true
+    },
+    "-3": {
+      "empirical": 0.03192,
+      "rounded_normal": 0.02471,
+      "ratio": 1.2918,
+      "standard_error_of_empirical": 0.00295,
+      "ratio_is_outside_noise": true
+    },
+    "-2": {
+      "empirical": 0.02119,
+      "rounded_normal": 0.02519,
+      "ratio": 0.841,
+      "standard_error_of_empirical": 0.00242,
+      "ratio_is_outside_noise": false
+    },
+    "-1": {
+      "empirical": 0.02062,
+      "rounded_normal": 0.02557,
+      "ratio": 0.8064,
+      "standard_error_of_empirical": 0.00239,
+      "ratio_is_outside_noise": true
+    },
+    "0": {
+      "empirical": 0.0,
+      "rounded_normal": 0.02585,
+      "ratio": 0.0,
+      "standard_error_of_empirical": 0.0,
+      "ratio_is_outside_noise": true
+    },
+    "1": {
+      "empirical": 0.01949,
+      "rounded_normal": 0.02601,
+      "ratio": 0.7493,
+      "standard_error_of_empirical": 0.00232,
+      "ratio_is_outside_noise": true
+    },
+    "2": {
+      "empirical": 0.02684,
+      "rounded_normal": 0.02607,
+      "ratio": 1.0294,
+      "standard_error_of_empirical": 0.00272,
+      "ratio_is_outside_noise": false
+    },
+    "3": {
+      "empirical": 0.02599,
+      "rounded_normal": 0.02601,
+      "ratio": 0.999,
+      "standard_error_of_empirical": 0.00267,
+      "ratio_is_outside_noise": false
+    },
+    "4": {
+      "empirical": 0.02853,
+      "rounded_normal": 0.02585,
+      "ratio": 1.1038,
+      "standard_error_of_empirical": 0.0028,
+      "ratio_is_outside_noise": false
+    },
+    "5": {
+      "empirical": 0.03503,
+      "rounded_normal": 0.02557,
+      "ratio": 1.3698,
+      "standard_error_of_empirical": 0.00309,
+      "ratio_is_outside_noise": true
+    },
+    "6": {
+      "empirical": 0.03136,
+      "rounded_normal": 0.02519,
+      "ratio": 1.2447,
+      "standard_error_of_empirical": 0.00293,
+      "ratio_is_outside_noise": true
+    },
+    "7": {
+      "empirical": 0.02655,
+      "rounded_normal": 0.02471,
+      "ratio": 1.0745,
+      "standard_error_of_empirical": 0.0027,
+      "ratio_is_outside_noise": false
+    },
+    "8": {
+      "empirical": 0.0339,
+      "rounded_normal": 0.02414,
+      "ratio": 1.4044,
+      "standard_error_of_empirical": 0.00304,
+      "ratio_is_outside_noise": true
+    },
+    "9": {
+      "empirical": 0.03107,
+      "rounded_normal": 0.02348,
+      "ratio": 1.3236,
+      "standard_error_of_empirical": 0.00292,
+      "ratio_is_outside_noise": true
+    },
+    "10": {
+      "empirical": 0.0274,
+      "rounded_normal": 0.02273,
+      "ratio": 1.2052,
+      "standard_error_of_empirical": 0.00274,
+      "ratio_is_outside_noise": false
+    },
+    "11": {
+      "empirical": 0.02458,
+      "rounded_normal": 0.02192,
+      "ratio": 1.121,
+      "standard_error_of_empirical": 0.0026,
+      "ratio_is_outside_noise": false
+    },
+    "12": {
+      "empirical": 0.02514,
+      "rounded_normal": 0.02105,
+      "ratio": 1.1943,
+      "standard_error_of_empirical": 0.00263,
+      "ratio_is_outside_noise": false
+    },
+    "13": {
+      "empirical": 0.02203,
+      "rounded_normal": 0.02013,
+      "ratio": 1.0947,
+      "standard_error_of_empirical": 0.00247,
+      "ratio_is_outside_noise": false
+    },
+    "14": {
+      "empirical": 0.02175,
+      "rounded_normal": 0.01916,
+      "ratio": 1.1351,
+      "standard_error_of_empirical": 0.00245,
+      "ratio_is_outside_noise": false
+    },
+    "15": {
+      "empirical": 0.0209,
+      "rounded_normal": 0.01817,
+      "ratio": 1.1508,
+      "standard_error_of_empirical": 0.0024,
+      "ratio_is_outside_noise": false
+    }
+  }
+}

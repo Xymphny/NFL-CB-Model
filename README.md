@@ -48,7 +48,7 @@ wrong for pricing.
 | CFB | implemented, not live | <1e-9 on all 1,731 cached games | no `home_field` term; splits on Elo, not NGS |
 | MLB | implemented, not live | n/a -- thin adapter over walk-forward expected runs | ninth-inning layer graded once on 2024-25; moneyline bias t=3.61 -> t=0.35, market reopened ([ADR 0018](docs/decisions/0018-ship-the-mlb-ninth-inning-layer.md)) |
 | NHL | implemented, not live | n/a | rates t=+2.44 (was +3.02 before a lookahead fix); rules layer refreshed and re-graded t=+34.95, goalie-pull component +5.82, total bias now −0.006 ([ADR 0010](docs/decisions/0010-refresh-the-nhl-pull-table-and-check-shape.md)) |
-| NBA | implemented, not live | n/a | ratings graded t=+5.96 walk-forward; sigma constant, and ADR 0005's 0.60 claim shown to be bucketing noise ([ADR 0012](docs/decisions/0012-the-nba-sigma-claim-was-bucketing-noise.md)) |
+| NBA | implemented, not live | n/a | ratings graded t=+5.96; ADR 0005's 0.60 sigma claim shown to be bucketing noise; INTEGER SPREADS REFUSED -- atom mass is 3.3%, not the zero `discrete=False` asserted ([ADR 0022](docs/decisions/0022-an-integer-nba-line-is-refused.md)) |
 
 `BUILT_LEAGUES` (can price a real board), `IMPLEMENTED_LEAGUES` (passes the
 battery) and `STRUCTURAL_ONLY_LEAGUES` (shape, no numbers — now empty) are
@@ -348,6 +348,32 @@ a record that only ever reports the failures reads as though every pipeline
 here is broken. The audit now covers 35 frames with zero failures, both caches
 carry their scores so impossible ones are detectable, and every frame lacking a
 completion column is annotated as lacking one.
+
+### The NBA was pricing a push of zero on integer spreads
+
+`NormalMarginDistribution` said NBA margins are integers "but atom mass at any
+single value is small" -- an assertion nobody had measured. `discrete=False`
+makes `margin_pmf` return **zero**, which does not mean small, it means
+impossible, and `_can_price_push` waved every continuous distribution straight
+through. So an integer NBA spread was priced with `p_push = 0.0`.
+
+Measured over 3,540 games: an NBA margin lands **exactly on the modal spread
+3.3% of the time**, and a game **never ends level** -- the rounded normal would
+put 2.585% on a tie overtime forbids. Plus and minus one are *depleted* at 0.75
+and 0.81, the opposite of hockey, because an NBA overtime is five minutes and
+scatters the tie mass rather than awarding exactly one goal.
+
+**The fix is a refusal, not a correction** ([ADR 0022](docs/decisions/0022-an-integer-nba-line-is-refused.md)).
+At ~90 games per margin value the ratios carry a standard error near 0.10, so a
+key-number table fitted to them would be fitting noise, and no NBA season is
+pristine to grade one on. Integer lines are now refused for want of a measured
+correction, exactly as CFB's are. Half-point lines are unaffected, which is most
+of the board.
+
+And a **ledger row that contradicted its own ADRs** is corrected:
+`league-nhl-nba-structure` still read "STRUCTURE ONLY, NO FITTED COEFFICIENTS"
+after both leagues had shipped graded parameters. A reverse index exists to keep
+the records honest; this one had stopped.
 
 ### Open, and waiting rather than unbuilt
 

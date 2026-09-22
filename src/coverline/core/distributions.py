@@ -71,10 +71,14 @@ class UnvalidatedTotal(NotImplementedError):
 class NormalMarginDistribution:
     """Near-normal margin and total. Used by NFL, CFB and NBA.
 
-    NBA passes ``discrete=False``: its margin support is wide enough that atom
-    mass at any single value is small, and the modelling convention treats it
-    as continuous. NFL and CFB pass ``discrete=True``, which turns on
-    continuity-corrected integer masses so pushes price correctly.
+    NBA passes ``discrete=False`` by convention, and "atom mass is small" was
+    an assertion nobody measured until 2026-09-22. It is 3.3% at the modal
+    spread over 3,540 walk-forward games -- smaller than the NFL's 8% at a
+    margin of three, which is why that league has a key-number table, and not
+    zero, which is what ``discrete=False`` was asserting. NBA therefore also
+    passes ``integral_margin=True``, so an integer line is refused rather than
+    answered with a push of nothing. NFL and CFB pass ``discrete=True``, which
+    turns on continuity-corrected integer masses so pushes price correctly.
 
     ``margin_sd`` is a constructor argument rather than a class constant on
     purpose, and the reason first written here was WRONG.
@@ -113,6 +117,22 @@ class NormalMarginDistribution:
     #: True so that a caller who HAS validated a total gets the old behaviour
     #: without saying anything; the three leagues that have not say so.
     total_validated: bool = True
+    #: True when the margin really is an integer even though this object is
+    #: being treated as continuous. NBA is the case: its margins are integers
+    #: and its atoms are NOT negligible.
+    #:
+    #: WHY THIS EXISTS. `discrete=False` makes margin_pmf return zero, which
+    #: reads as "no push is possible" and is false. Measured over 3,540
+    #: walk-forward games, an NBA margin lands exactly on the modal spread
+    #: 3.3% of the time, and a game NEVER ends level -- the model's rounded
+    #: normal would put 2.585% on a tie that overtime forbids, while the
+    #: empirical rate is 0.000.
+    #:
+    #: So a continuous distribution over an integral quantity must not answer
+    #: an integer line with a push of zero. That is a confident wrong number
+    #: where a refusal belongs, which is the failure ADR 0011 was written
+    #: about.
+    integral_margin: bool = False
     key_number_weights: Mapping[int, float] | None = field(default=None)
     _support: int = 60
     _norm_cache: Any = field(default=None, repr=False, compare=False)

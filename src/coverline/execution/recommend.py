@@ -142,6 +142,15 @@ def _can_price_push(dist: ScoreDistribution, line: float,
     if not float(line if total else -line).is_integer():
         return True
     if not dist.is_discrete:
+        # A CONTINUOUS DISTRIBUTION OVER AN INTEGER QUANTITY still has pushes;
+        # it simply cannot see them. NBA margins are integers and land exactly
+        # on the modal spread 3.3% of the time, so answering an integer line
+        # with a push of zero is a confident wrong number, not an
+        # approximation. It is refused here for the same reason a total on an
+        # unvalidated model is refused: the market list and the object have to
+        # agree about what is knowable.
+        if getattr(dist, "integral_margin", False):
+            return bool(getattr(dist, "has_key_number_correction", False))
         return True
     # A family whose pmf IS the atom needs no key-number table. Only a
     # rounded continuous distribution does, and conflating the two withheld
