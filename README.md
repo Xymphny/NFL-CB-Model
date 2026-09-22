@@ -375,6 +375,30 @@ And a **ledger row that contradicted its own ADRs** is corrected:
 after both leagues had shipped graded parameters. A reverse index exists to keep
 the records honest; this one had stopped.
 
+### The capture job, built and not scheduled
+
+`scripts/capture.py` plans and runs the close-capture that CLV is measured
+against: ask which games are coming, collapse their kickoffs into the fewest
+polls that cover them, capture each shortly before it starts, and gap anything
+overdue rather than filing an in-play price under a pre-game timestamp.
+
+**The events endpoint is free**, which is what makes the cadence affordable —
+the vendor's guide says it "does not count against the usage quota", and
+`odds_client.py` had claimed for months that `/sports` was *the* free endpoint.
+So a run learns the slate for nothing and spends only on the snapshot itself.
+**1,290 credits a month with all five leagues in season, 1.3% of the quota.**
+Capture is cheap; the 89,760-credit backfill is the thing that eats a month.
+
+Dry by default, same contract as `scripts/backfill.py`. The plan is cached for
+an hour so a fifteen-minute cron does not issue 480 free requests a day at
+somebody else's expense.
+
+**Deliberately not added to `render.yaml`.** Two things have to be decided
+first, and neither is mine to decide: whether to spend credits before the
+subscription, and where the snapshots live — Render's cron filesystem is
+ephemeral, so without the commit-back path the existing jobs use, every
+captured close would vanish at the end of the run.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.

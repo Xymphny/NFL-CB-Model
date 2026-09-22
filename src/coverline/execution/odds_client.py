@@ -253,8 +253,39 @@ class OddsAPIClient:
             cost, f"historical:{sport}@{date}", captured_at,
         )
 
+    def events(self, *, sport: str, captured_at: str) -> OddsResponse:
+        """Upcoming games and their commence times. FREE.
+
+        The vendor's own guide says of this endpoint: "This endpoint does not
+        count against the usage quota." It is the second free one, and the
+        docstring below said for months that /sports was "the one endpoint
+        that costs nothing" -- which was wrong and expensive to believe.
+
+        THIS IS WHAT MAKES A CAPTURE CRON AFFORDABLE. A close-capture job has
+        to know when the games start before it can decide when to poll. Paying
+        for that with an odds request would double the cost of every window;
+        learning it here costs nothing, so credits are spent only on the
+        snapshot that CLV is actually measured against.
+        """
+        q = urllib.parse.urlencode({"apiKey": self._key})
+        url = f"{BASE}/sports/{sport}/events?{q}"
+        status, body, headers = self.transport.get(url)
+        if status != 200:
+            raise RuntimeError(
+                f"events {sport}: HTTP {status} -- "
+                f"{body[:300].decode('utf-8', 'replace')}"
+            )
+        rem = headers.get(H_REMAINING)
+        if rem not in (None, ""):
+            self.ledger.remaining_reported = int(float(rem))
+        return OddsResponse(
+            payload=json.loads(body), cost_predicted=0, cost_actual=0,
+            remaining=self.ledger.remaining_reported,
+            url=url.replace(self._key, "REDACTED"), captured_at=captured_at,
+        )
+
     def sports(self, captured_at: str) -> OddsResponse:
-        """List available sports. Free -- the one endpoint that costs nothing."""
+        """List available sports. Free, and not the only free one -- see events."""
         q = urllib.parse.urlencode({"apiKey": self._key})
         url = f"{BASE}/sports?{q}"
         status, body, headers = self.transport.get(url)
