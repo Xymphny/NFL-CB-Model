@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Put the two scores back into a cache that kept only the margin.
+"""Put the two scores back into caches that kept only the margin.
 
 WHY
 ADR 0020 recorded a structural limit: a margin-only cache cannot be audited
@@ -21,7 +21,14 @@ which is also the evidence that the corruption in ADR 0019 propagated straight
 through rather than arising in the walk-forward step.
 
 The generator is fixed too, so a regenerated cache carries the scores without
-this script. It exists for the cache that already shipped.
+this script. It exists for the caches that already shipped.
+
+THE NFL CACHE GETS THE SAME TREATMENT, AND IT WAS CLEAN. ADR 0021 closed by
+naming it as the remaining gap: 1,945 rows, no second source, never
+cross-checked. Joined against nflverse's games.csv it matches on all 1,945
+rows with ZERO margin disagreements, and the five ties in it are real NFL ties
+that nflverse confirms. Both caches were unchecked; only one was wrong. That
+is worth recording rather than only recording the failure.
 """
 
 from __future__ import annotations
@@ -40,7 +47,42 @@ SCHEDULE = HERE / "cfb_schedule_cache.csv"
 KEY = ["season", "week", "home_team", "away_team"]
 
 
+NFL_CACHE = HERE / "expanded_walk_forward_cache.csv"
+NFL_REF = ROOT / "data" / "raw" / "nfl" / "nflverse_games.parquet"
+
+
+def backfill_nfl() -> None:
+    """The NFL cache, checked and then filled from nflverse."""
+    w = pd.read_csv(NFL_CACHE)
+    if {"home_score", "away_score"} <= set(w.columns):
+        print("nfl cache already carries both scores; nothing to do")
+        return
+    if not NFL_REF.exists():
+        print("no nflverse reference; run model/ingest/nfl_nflverse.py")
+        return
+
+    n = pd.read_parquet(NFL_REF)
+    n = n[n.game_type == "REG"].assign(
+        season=lambda d: d.season.astype(int), week=lambda d: d.week.astype(int))
+    j = w.merge(n[KEY + ["home_score", "away_score", "result"]], on=KEY,
+                how="left", validate="one_to_one")
+    missing = int(j.result.isna().sum())
+    if missing:
+        raise SystemExit(f"{missing} NFL rows have no nflverse match")
+    bad = j[j.result != j.actual_margin]
+    if len(bad):
+        raise SystemExit(
+            f"{len(bad)} NFL rows disagree with nflverse on the margin. That "
+            "is a finding, not something to overwrite."
+        )
+    j["home_score"] = j.home_score.astype(int)
+    j["away_score"] = j.away_score.astype(int)
+    j.drop(columns=["result"]).to_csv(NFL_CACHE, index=False)
+    print(f"nfl cache: {len(j)} rows backfilled, 0 margin disagreements")
+
+
 def main() -> int:
+    backfill_nfl()
     w = pd.read_csv(CACHE)
     if {"home_score", "away_score"} <= set(w.columns):
         print("cache already carries both scores; nothing to do")

@@ -171,3 +171,55 @@ def test_the_audit_exit_code_means_something() -> None:
     bad = pd.DataFrame({"home_score": [7, 3], "away_score": [7, 0]})
     with pytest.raises(ImpossibleOutcome):
         check_no_impossible_ties(bad, "cfb", label="injected")
+
+
+def test_the_nfl_cache_was_checked_and_was_clean(report) -> None:
+    """The gap ADR 0021 named, closed -- and nothing was wrong.
+
+    That record ended by saying the NFL walk-forward cache had no second
+    source and had never been cross-checked. Joined against nflverse's
+    games.csv it matches on all 1,945 rows with ZERO margin disagreements,
+    and the five ties in it are real NFL ties that nflverse confirms.
+
+    Both caches were unchecked; only one was wrong. Asserting the clean result
+    matters as much as asserting the dirty one, because otherwise the record
+    reads as though every pipeline here is broken.
+    """
+    import pandas as pd
+
+    w = pd.read_csv(ROOT / "model" / "expanded_walk_forward_cache.csv")
+    assert {"home_score", "away_score"} <= set(w.columns), (
+        "the NFL cache no longer carries scores, so it cannot be audited for "
+        "impossible ones"
+    )
+    assert (w.home_score - w.away_score).equals(w.actual_margin.astype(int))
+
+    n = pd.read_parquet(ROOT / "data" / "raw" / "nfl" / "nflverse_games.parquet")
+    n = n[n.game_type == "REG"].assign(
+        season=lambda d: d.season.astype(int), week=lambda d: d.week.astype(int))
+    j = w.merge(n[["season", "week", "home_team", "away_team", "result"]],
+                on=["season", "week", "home_team", "away_team"], how="left")
+    assert j.result.notna().all(), "a cache row has no nflverse match"
+    assert (j.result == j.actual_margin).all(), (
+        "the NFL cache now disagrees with nflverse; that is a finding"
+    )
+
+    e = report["frames"]["model/expanded_walk_forward_cache.csv"]
+    assert e["checks"]["ties"]["ok"] is True
+    assert e["checks"]["ties"]["tied"] == 5, (
+        "the NFL tie count moved; five real ties in 1,945 games is 0.26%, "
+        "against the 1% the league's allowance permits"
+    )
+
+
+def test_a_frame_with_a_completion_flag_is_not_annotated_as_lacking_one(report):
+    """The annotation has to be accurate to be worth reading.
+
+    The ESPN frames carry `completed` and the sportsdataverse ones carry
+    `status_type_completed`; the first version of the check only knew the
+    second name and labelled every ESPN frame as having no completion column
+    while simultaneously filtering on it.
+    """
+    for rel, e in report["frames"].items():
+        if "espn_" in rel or "nba_" in rel:
+            assert "no_completion_column" not in e, rel

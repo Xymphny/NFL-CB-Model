@@ -1,7 +1,7 @@
 {
   "_provenance": {
     "script": "model/audit_data_integrity.py",
-    "frames_checked": 29,
+    "frames_checked": 35,
     "failures": 0
   },
   "frames": {
@@ -90,7 +90,14 @@
           "allowed": 0.01
         },
         "impossible_scores": {
-          "skipped": "no score columns"
+          "ok": true,
+          "label": "model/expanded_walk_forward_cache.csv",
+          "league": "nfl",
+          "n": 1945,
+          "banned": [
+            1
+          ],
+          "hits": {}
         },
         "frame_shape": {
           "ok": true,
@@ -608,6 +615,211 @@
           "ok": true,
           "label": "data/raw/mlb/linescores_2025.parquet",
           "n": 2430,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nfl/nflverse_games.parquet": {
+      "league": "nfl",
+      "rows": 6998,
+      "rows_on_disk": 7307,
+      "excluded": {
+        "not_regular_season": 309
+      },
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nfl/nflverse_games.parquet",
+          "league": "nfl",
+          "n": 6998,
+          "tied": 15,
+          "tie_rate": 0.00214,
+          "allowed": 0.01
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nfl/nflverse_games.parquet",
+          "league": "nfl",
+          "n": 6998,
+          "banned": [
+            1
+          ],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nfl/nflverse_games.parquet",
+          "n": 6998,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/cfb/espn_2021.parquet": {
+      "league": "cfb",
+      "rows": 934,
+      "rows_on_disk": 935,
+      "excluded": {
+        "not_completed": 1
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2021.parquet",
+          "league": "cfb",
+          "n": 934,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2021.parquet",
+          "league": "cfb",
+          "n": 934,
+          "banned": [
+            1
+          ],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2021.parquet",
+          "n": 934,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/cfb/espn_2022.parquet": {
+      "league": "cfb",
+      "rows": 927,
+      "rows_on_disk": 929,
+      "excluded": {
+        "not_completed": 2
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2022.parquet",
+          "league": "cfb",
+          "n": 927,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2022.parquet",
+          "league": "cfb",
+          "n": 927,
+          "banned": [
+            1
+          ],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2022.parquet",
+          "n": 927,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/cfb/espn_2023.parquet": {
+      "league": "cfb",
+      "rows": 923,
+      "rows_on_disk": 923,
+      "excluded": {},
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2023.parquet",
+          "league": "cfb",
+          "n": 923,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2023.parquet",
+          "league": "cfb",
+          "n": 923,
+          "banned": [
+            1
+          ],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2023.parquet",
+          "n": 923,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/cfb/espn_2024.parquet": {
+      "league": "cfb",
+      "rows": 917,
+      "rows_on_disk": 917,
+      "excluded": {},
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2024.parquet",
+          "league": "cfb",
+          "n": 917,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2024.parquet",
+          "league": "cfb",
+          "n": 917,
+          "banned": [
+            1
+          ],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2024.parquet",
+          "n": 917,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/cfb/espn_2025.parquet": {
+      "league": "cfb",
+      "rows": 912,
+      "rows_on_disk": 912,
+      "excluded": {},
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2025.parquet",
+          "league": "cfb",
+          "n": 912,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2025.parquet",
+          "league": "cfb",
+          "n": 912,
+          "banned": [
+            1
+          ],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2025.parquet",
+          "n": 912,
           "problems": {}
         }
       }

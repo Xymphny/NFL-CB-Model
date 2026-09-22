@@ -335,6 +335,20 @@ of 52.0 was accurate to seven hundredths of a point while the number labelled
 53.66 — the placeholder is low by 1.66 at t = 6.06. It was never accurate; the
 corruption was hiding the bias.
 
+### And the NFL cache was checked too, and was clean
+
+ADR 0021 closed by naming the remaining gap: the NFL walk-forward cache had no
+second source and had never been cross-checked. Joined against nflverse's
+`games.csv` it matches on **all 1,945 rows with zero margin disagreements**,
+and the five ties in it are real NFL ties nflverse confirms -- 0.26% against
+the 1% allowance, in the one league that genuinely has them.
+
+Both caches were unchecked; only one was wrong. That is worth stating, because
+a record that only ever reports the failures reads as though every pipeline
+here is broken. The audit now covers 35 frames with zero failures, both caches
+carry their scores so impossible ones are detectable, and every frame lacking a
+completion column is annotated as lacking one.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.

@@ -65,6 +65,12 @@ def _discovered() -> list[tuple[str, str, str | None, str | None]]:
     for f in sorted(glob.glob(str(ROOT / "data" / "raw" / "mlb" /
                                   "linescores_*.parquet"))):
         out.append((str(Path(f).relative_to(ROOT)), "mlb", None, "game_pk"))
+    ref = ROOT / "data" / "raw" / "nfl" / "nflverse_games.parquet"
+    if ref.exists():
+        out.append((str(ref.relative_to(ROOT)), "nfl", None, "game_id"))
+    for f in sorted(glob.glob(str(ROOT / "data" / "raw" / "cfb" /
+                                  "espn_*.parquet"))):
+        out.append((str(Path(f).relative_to(ROOT)), "cfb", None, "game_id"))
     for f in sorted(glob.glob(str(ROOT / "data" / "raw" / "sportsdataverse" /
                                   "*.parquet"))):
         league = Path(f).stem.split("_")[0]
@@ -91,21 +97,27 @@ def _load(rel: str) -> tuple[pd.DataFrame, dict]:
     info: dict = {"rows_on_disk": int(len(df)), "excluded": {}}
 
     if "game_type" in df.columns:
-        n = int((df.game_type != "R").sum())
+        regular = "REG" if "REG" in set(df.game_type.dropna()) else "R"
+        n = int((df.game_type != regular).sum())
         if n:
             info["excluded"]["not_regular_season"] = n
-        df = df[df.game_type == "R"]
+        df = df[df.game_type == regular]
     if "type_abbreviation" in df.columns:
         n = int((df.type_abbreviation != "STD").sum())
         if n:
             info["excluded"]["not_standard_game"] = n
         df = df[df.type_abbreviation == "STD"]
+    if "completed" in df.columns:
+        n = int((~df.completed.astype(bool)).sum())
+        if n:
+            info["excluded"]["not_completed"] = n
+        df = df[df.completed.astype(bool)]
     if "status_type_completed" in df.columns:
         n = int((~df.status_type_completed.astype(bool)).sum())
         if n:
             info["excluded"]["not_completed"] = n
         df = df[df.status_type_completed.astype(bool)]
-    else:
+    if not ({"completed", "status_type_completed"} & set(df.columns)):
         info["no_completion_column"] = (
             "this frame cannot distinguish an unplayed game from a 0-0 one"
         )
