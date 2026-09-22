@@ -255,3 +255,51 @@ def test_nba_is_under_confident_on_its_graded_holdout(grades) -> None:
         "should be revisited"
     )
     assert h["coverage"]["95"] > 0.95
+
+
+def test_the_nfl_dispersion_forecast_was_graded_and_failed() -> None:
+    """ADR 0009's open item, closed by a negative result.
+
+    That record kept MARGIN_SD because forecasting next season's dispersion
+    "would need its own grade, and no such forecast exists". It exists now and
+    it loses: last season's realised sd is significantly WORSE than the
+    constant at t = -2.65.
+
+    The expanding mean landing at t = -0.01 is the sanity check -- it and the
+    constant are both the long-run mean, so they must be indistinguishable.
+    """
+    import json
+
+    art = json.loads(
+        (ROOT / "model" / "nfl_dispersion_forecast.json").read_text())
+    g = art["holdout_grades"]
+    assert not any(v["beats_the_constant"] for v in g.values()), (
+        "a dispersion forecast now beats the constant; that is a model change "
+        "and needs its own record before MARGIN_SD moves"
+    )
+    assert g["last_season"]["t"] < -2
+    assert abs(g["expanding"]["t"]) < 0.5, (
+        "the expanding mean has diverged from the constant, which means the "
+        "comparison itself is suspect"
+    )
+
+
+def test_the_dispersion_variation_is_real_but_unautocorrelated() -> None:
+    """Why the forecast fails, separated from the fact that it does.
+
+    Bartlett was right that the variation is real -- the implied signal sd is
+    about 0.78 once sampling is removed. Its own history simply carries no
+    sign of it: lag-1 autocorrelation -0.32 against a standard error of 0.33.
+
+    Recorded as "no evidence", not "proof of none": nine pairs is few.
+    """
+    import json
+
+    art = json.loads(
+        (ROOT / "model" / "nfl_dispersion_forecast.json").read_text())
+    w = art["why_it_was_expected_to_fail"]
+    assert w["implied_real_signal_sd"] > 0.5, (
+        "the between-season variation is now explained by sampling alone, "
+        "which would retire ADR 0009's finding rather than this one"
+    )
+    assert abs(w["lag1_autocorrelation"]) < 2 * w["autocorrelation_standard_error"]

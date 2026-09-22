@@ -136,12 +136,12 @@ date.
 `evidence/attempts.yaml` holds every candidate ever graded held-out,
 **failures included** -- computing the shrinkage weight from winners only is
 the selection effect the mechanism exists to undo.
-13 attempts, 4 non-positive. Pooled weight **0.9327**, robust weight
-**0.9168**. The slate runner defaults to the robust figure.
+14 attempts, 5 non-positive. Pooled weight **0.9301**, robust weight
+**0.9141**. The slate runner defaults to the robust figure.
 
 Two properties of that number worth knowing. It is no longer dominated by a
 single attempt -- it was, until two failed league fits were logged. And
-**26% of E[t^2] comes from rejections**: t is squared, so a candidate
+**29% of E[t^2] comes from rejections**: t is squared, so a candidate
 rejected at -6.96 raises the weight exactly as much as one accepted at +6.96.
 That is the formula behaving correctly, and it still means the weight
 currently describes a programme that fails decisively more than it succeeds.
@@ -386,12 +386,15 @@ the records honest; this one had stopped.
 - No NHL or NBA price has ever been compared to a book. Everything graded so
   far is log-likelihood against a league-average baseline, which is a real
   test of the rates and no test at all of the edge.
-- **NFL's `MARGIN_SD` is a compromise across seasons that genuinely differ.**
-  Residual dispersion runs 11.73 to 15.15 across 2014-2023 and Bartlett
-  rejects equal variance at p = 0.014. Not changed, because forecasting next
-  season's dispersion is a separate model that would need its own grade
-  ([ADR 0009](docs/decisions/0009-grade-every-league-on-calibration.md)).
-  CFB's constant, checked the same way out of sample, holds up.
+- ~~NFL's `MARGIN_SD` needs a dispersion forecast before it can change.~~
+  **CLOSED 2026-09-22.** The forecast was built and graded once on 2020-2023
+  and is decisively worse than the constant: last season's realised sd gives
+  **t = −2.65**, an expanding mean is indistinguishable from the constant
+  (t = −0.01), and shrinking halfway gives −1.64. Variance that *moves* is not
+  variance that is *predictable* — the lag-1 autocorrelation of the season sd
+  is **−0.32 on nine pairs against a standard error of 0.33**
+  ([ADR 0023](docs/decisions/0023-nfl-dispersion-moves-but-cannot-be-forecast.md)).
+  The constant stays, now for a measured reason.
 - **Totals are refused by the object now, not only absent from the market
   list.** NFL, CFB and NBA all withheld totals and all three kept answering
   `total_mean()` with a placeholder. Two of those placeholders understate
@@ -399,7 +402,7 @@ the records honest; this one had stopped.
   the 13.353 RMSE in its own withholding artifact — and neither was corrected,
   because a right sd on an ungraded mean is still an ungraded total
   ([ADR 0011](docs/decisions/0011-a-withheld-market-must-be-refused-by-the-object.md)).
-- The shrinkage weight rests on thirteen observations. It is no longer
+- The shrinkage weight rests on fourteen observations. It is no longer
   dominated by any single one, and 28% of E[t^2] still comes from rejections.
   The log refuses any |t| at or above 12 without a written justification
   ([ADR 0014](docs/decisions/0014-a-ceiling-on-what-counts-as-an-attempt.md)):

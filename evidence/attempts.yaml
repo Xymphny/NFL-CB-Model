@@ -376,6 +376,43 @@ attempts:
       identical across both arms, which isolates the layer but makes this
       grade weaker than the NHL one.
 
+  - id: nfl-season-varying-dispersion
+    date: "2026-09-22"
+    hypothesis: >-
+      A season-varying NFL margin sd -- last season's realised dispersion --
+      beats the fixed MARGIN_SD it would replace.
+    estimand: held_out_paired_gain
+    metric: log_likelihood
+    estimate: -0.013164
+    standard_error: 0.004962
+    t: -2.65
+    decision: rejected
+    recovered: false
+    source: model/nfl_dispersion_forecast.json holdout_grades.last_season
+    note: >-
+      ADR 0009 found NFL residual dispersion varies across seasons -- 11.73 to
+      15.15, Bartlett p = 0.014 -- and declined to change MARGIN_SD until a
+      forecast of next season's dispersion existed and was graded. This is that
+      forecast, and it is DECISIVELY WORSE than the constant.
+      VARIANCE THAT MOVES IS NOT VARIANCE THAT IS PREDICTABLE. The season sds
+      vary with a standard deviation of 1.048 and sampling alone on about 195
+      games a season accounts for 0.695 of it, leaving a real signal near 0.78
+      -- so Bartlett was right. But the lag-1 autocorrelation of the season sd
+      is -0.32 on nine pairs against a standard error of 0.33: negative and
+      indistinguishable from zero. A quantity whose own history carries no sign
+      of itself cannot be forecast from it.
+      Two gentler variants also failed and are recorded in the artifact rather
+      than logged separately, because they are the same question: an expanding
+      mean of prior seasons is indistinguishable from the constant (t = -0.01,
+      which is the sanity check that the comparison is sound, since both are
+      the long-run mean), and shrinking halfway toward it gives t = -1.64.
+      This row is logged because a rejection counts: t is squared, so a
+      decisive no raises the shrinkage weight exactly as much as a decisive
+      yes, and a log that kept only the successes would return a weight that
+      ships noise at full size.
+      THE CONSTANT NOW STAYS FOR A MEASURED REASON rather than an unexamined
+      one, which was the whole point of asking.
+
 # ---------------------------------------------------------------------------
 # NOT ELIGIBLE: recorded so the exclusions are visible rather than invisible.
 # Excluding these is a methodological choice, and a reader must be able to

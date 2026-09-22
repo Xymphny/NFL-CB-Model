@@ -1,0 +1,121 @@
+{
+  "_provenance": {
+    "script": "model/forecast_nfl_dispersion.py",
+    "train_seasons": [
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019
+    ],
+    "holdout_seasons": [
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "graded_once": true,
+    "hyperparameter_trials": 0,
+    "candidates_fixed_a_priori": true,
+    "shrink_lambda": 0.5,
+    "metric": "mean log-likelihood of the realised margin",
+    "incumbent": "MARGIN_SD = 13.2979",
+    "n_holdout": 831
+  },
+  "why_it_was_expected_to_fail": {
+    "sd_of_season_sds": 1.048,
+    "sampling_se_of_one_season": 0.6952,
+    "implied_real_signal_sd": 0.7842,
+    "lag1_autocorrelation": -0.3173,
+    "autocorrelation_standard_error": 0.3333,
+    "reading": "the variation is real -- Bartlett detected it -- and its own history carries no sign of it. A quantity like that cannot be forecast from that history."
+  },
+  "by_season": [
+    {
+      "season": 2020,
+      "realised_sd": 13.9689,
+      "estimates": {
+        "constant": 13.2979,
+        "last_season": 13.6815,
+        "expanding": 13.7761,
+        "shrunk_half": 13.7288
+      },
+      "mean_log_likelihood": {
+        "constant": -4.06581,
+        "last_season": -4.06332,
+        "expanding": -4.06298,
+        "shrunk_half": -4.06314
+      }
+    },
+    {
+      "season": 2021,
+      "realised_sd": 15.1479,
+      "estimates": {
+        "constant": 13.2979,
+        "last_season": 13.9689,
+        "expanding": 13.8037,
+        "shrunk_half": 13.8863
+      },
+      "mean_log_likelihood": {
+        "constant": -4.15244,
+        "last_season": -4.14111,
+        "expanding": -4.14331,
+        "shrunk_half": -4.14216
+      }
+    },
+    {
+      "season": 2022,
+      "realised_sd": 11.7284,
+      "estimates": {
+        "constant": 13.2979,
+        "last_season": 15.1479,
+        "expanding": 13.9717,
+        "shrunk_half": 14.5598
+      },
+      "mean_log_likelihood": {
+        "constant": -3.89477,
+        "last_season": -3.93599,
+        "expanding": -3.90766,
+        "shrunk_half": -3.92105
+      }
+    },
+    {
+      "season": 2023,
+      "realised_sd": 13.6194,
+      "estimates": {
+        "constant": 13.2979,
+        "last_season": 11.7284,
+        "expanding": 13.7224,
+        "shrunk_half": 12.7254
+      },
+      "mean_log_likelihood": {
+        "constant": -4.03529,
+        "last_season": -4.06068,
+        "expanding": -4.03451,
+        "shrunk_half": -4.03993
+      }
+    }
+  ],
+  "holdout_grades": {
+    "last_season": {
+      "paired_gain_vs_constant": -0.013164,
+      "standard_error": 0.004962,
+      "t": -2.65,
+      "beats_the_constant": false
+    },
+    "expanding": {
+      "paired_gain_vs_constant": -2e-05,
+      "standard_error": 0.002044,
+      "t": -0.01,
+      "beats_the_constant": false
+    },
+    "shrunk_half": {
+      "paired_gain_vs_constant": -0.004467,
+      "standard_error": 0.002724,
+      "t": -1.64,
+      "beats_the_constant": false
+    }
+  },
+  "verdict": "no forecast beats the constant; MARGIN_SD stays at 13.2979"
+}
