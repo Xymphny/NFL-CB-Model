@@ -107,6 +107,75 @@ def check_no_impossible_ties(df: pd.DataFrame, league: str, *, label: str,
     return out
 
 
+#: Individual team scores a league's scoring rules cannot produce.
+#:
+#: Football is the only code where this bites: there is no way to score
+#: exactly one point. A safety is two, a field goal three, a touchdown six,
+#: and the one-point play only exists as a conversion AFTER a touchdown. So a
+#: team total of 1 is impossible, not merely rare.
+#:
+#: Basketball, hockey and baseball can produce any non-negative integer, so
+#: their sets are empty and the plausibility bounds above are what catch a
+#: nonsense score there.
+IMPOSSIBLE_SCORES = {
+    "nfl": frozenset({1}),
+    "cfb": frozenset({1}),
+    "nba": frozenset(),
+    "nhl": frozenset(),
+    "mlb": frozenset(),
+}
+
+
+def check_impossible_scores(df: pd.DataFrame, league: str, *, label: str,
+                            home: str = "home_score",
+                            away: str = "away_score") -> dict:
+    """Raise if any team total is a score the league's rules cannot produce."""
+    if league not in IMPOSSIBLE_SCORES:
+        raise ValueError(f"no scoring rules recorded for {league!r}")
+    banned = IMPOSSIBLE_SCORES[league]
+    hits: dict[int, int] = {}
+    if banned:
+        for col in (home, away):
+            if col not in df.columns:
+                continue
+            for v in banned:
+                n = int((df[col] == v).sum())
+                if n:
+                    hits[v] = hits.get(v, 0) + n
+    out = {"label": label, "league": league, "n": int(len(df)),
+           "banned": sorted(banned), "hits": hits}
+    if hits:
+        raise ImpossibleOutcome(
+            f"{label}: scores {hits} appear, and {league} cannot produce them. "
+            "There is no way to score exactly one point in football."
+        )
+    return out
+
+
+def check_frame_shape(df: pd.DataFrame, *, label: str,
+                      home_team: str = "home_team",
+                      away_team: str = "away_team",
+                      key: str | None = None) -> dict:
+    """Faults that are not about a league's rules but about a frame's sanity.
+
+    A team playing itself and a game counted twice are both invisible to every
+    statistical check -- they change a mean slightly and nothing else.
+    """
+    problems: dict[str, int] = {}
+    if home_team in df.columns and away_team in df.columns:
+        n = int((df[home_team] == df[away_team]).sum())
+        if n:
+            problems["self_play"] = n
+    if key is not None and key in df.columns:
+        n = int(df[key].duplicated().sum())
+        if n:
+            problems["duplicate_keys"] = n
+    out = {"label": label, "n": int(len(df)), "problems": problems}
+    if problems:
+        raise ImpossibleOutcome(f"{label}: {problems}")
+    return out
+
+
 def check_scores(df: pd.DataFrame, exp: Expectation, *, label: str,
                  home: str = "home_score", away: str = "away_score") -> dict:
     """Raise if this frame cannot support a fit. Returns the diagnostics."""

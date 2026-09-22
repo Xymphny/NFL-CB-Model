@@ -234,3 +234,12 @@ artifacts:
     refresh: "only on a re-grade, which needs an unspent season"
     staleness_error_hours: null
     unconsumed_reason: null
+
+  - path: model/data_integrity.json
+    produced_by: model/audit_data_integrity.py
+    consumed_by:
+      - tests/core/test_data_integrity.py
+    kind: gold
+    refresh: "whenever a retained frame is added or refetched"
+    staleness_error_hours: null
+    unconsumed_reason: null

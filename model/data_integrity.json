@@ -1,0 +1,933 @@
+{
+  "_provenance": {
+    "script": "model/audit_data_integrity.py",
+    "frames_checked": 29,
+    "failures": 3
+  },
+  "frames": {
+    "model/cfb_schedule_cache.csv": {
+      "league": "cfb",
+      "rows": 3863,
+      "rows_on_disk": 3863,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": false,
+          "error": "model/cfb_schedule_cache.csv: 142 of 3863 rows (3.68%) are tied, and cfb permits at most 0.00%. A tie breaks nothing downstream -- means exist, variances exist, models converge -- so this has to be refused here or it is not refused at all."
+        },
+        "impossible_scores": {
+          "ok": false,
+          "error": "model/cfb_schedule_cache.csv: scores {1: 3} appear, and cfb cannot produce them. There is no way to score exactly one point in football."
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "model/cfb_schedule_cache.csv",
+          "n": 3863,
+          "problems": {}
+        }
+      }
+    },
+    "model/cfb_full_walk_forward_cache.csv": {
+      "league": "cfb",
+      "rows": 1731,
+      "rows_on_disk": 1731,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": false,
+          "error": "model/cfb_full_walk_forward_cache.csv: 76 of 1731 rows (4.39%) are tied, and cfb permits at most 0.00%. A tie breaks nothing downstream -- means exist, variances exist, models converge -- so this has to be refused here or it is not refused at all."
+        },
+        "impossible_scores": {
+          "skipped": "no score columns"
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "model/cfb_full_walk_forward_cache.csv",
+          "n": 1731,
+          "problems": {}
+        }
+      }
+    },
+    "model/expanded_walk_forward_cache.csv": {
+      "league": "nfl",
+      "rows": 1945,
+      "rows_on_disk": 1945,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "model/expanded_walk_forward_cache.csv",
+          "league": "nfl",
+          "n": 1945,
+          "tied": 5,
+          "tie_rate": 0.00257,
+          "allowed": 0.01
+        },
+        "impossible_scores": {
+          "skipped": "no score columns"
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "model/expanded_walk_forward_cache.csv",
+          "n": 1945,
+          "problems": {}
+        }
+      }
+    },
+    "model/mlb_schedule_cache.csv": {
+      "league": "mlb",
+      "rows": 12148,
+      "rows_on_disk": 12148,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "model/mlb_schedule_cache.csv",
+          "league": "mlb",
+          "n": 12148,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "model/mlb_schedule_cache.csv",
+          "league": "mlb",
+          "n": 12148,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "model/mlb_schedule_cache.csv",
+          "n": 12148,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2016.parquet": {
+      "league": "nhl",
+      "rows": 1230,
+      "rows_on_disk": 1230,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2016.parquet",
+          "league": "nhl",
+          "n": 1230,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2016.parquet",
+          "league": "nhl",
+          "n": 1230,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2016.parquet",
+          "n": 1230,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2017.parquet": {
+      "league": "nhl",
+      "rows": 1230,
+      "rows_on_disk": 1230,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2017.parquet",
+          "league": "nhl",
+          "n": 1230,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2017.parquet",
+          "league": "nhl",
+          "n": 1230,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2017.parquet",
+          "n": 1230,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2018.parquet": {
+      "league": "nhl",
+      "rows": 1271,
+      "rows_on_disk": 1271,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2018.parquet",
+          "league": "nhl",
+          "n": 1271,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2018.parquet",
+          "league": "nhl",
+          "n": 1271,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2018.parquet",
+          "n": 1271,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2019.parquet": {
+      "league": "nhl",
+      "rows": 1271,
+      "rows_on_disk": 1271,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2019.parquet",
+          "league": "nhl",
+          "n": 1271,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2019.parquet",
+          "league": "nhl",
+          "n": 1271,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2019.parquet",
+          "n": 1271,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2020.parquet": {
+      "league": "nhl",
+      "rows": 1082,
+      "rows_on_disk": 1082,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2020.parquet",
+          "league": "nhl",
+          "n": 1082,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2020.parquet",
+          "league": "nhl",
+          "n": 1082,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2020.parquet",
+          "n": 1082,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2021.parquet": {
+      "league": "nhl",
+      "rows": 868,
+      "rows_on_disk": 868,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2021.parquet",
+          "league": "nhl",
+          "n": 868,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2021.parquet",
+          "league": "nhl",
+          "n": 868,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2021.parquet",
+          "n": 868,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2022.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1312,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2022.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2022.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2022.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2023.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1312,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2023.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2023.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2023.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2024.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1312,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2024.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2024.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2024.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2025.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1312,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2025.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2025.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2025.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/mlb/linescores_2021.parquet": {
+      "league": "mlb",
+      "rows": 2429,
+      "rows_on_disk": 2429,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2021.parquet",
+          "league": "mlb",
+          "n": 2429,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2021.parquet",
+          "league": "mlb",
+          "n": 2429,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2021.parquet",
+          "n": 2429,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/mlb/linescores_2022.parquet": {
+      "league": "mlb",
+      "rows": 2430,
+      "rows_on_disk": 2430,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2022.parquet",
+          "league": "mlb",
+          "n": 2430,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2022.parquet",
+          "league": "mlb",
+          "n": 2430,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2022.parquet",
+          "n": 2430,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/mlb/linescores_2023.parquet": {
+      "league": "mlb",
+      "rows": 2430,
+      "rows_on_disk": 2430,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2023.parquet",
+          "league": "mlb",
+          "n": 2430,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2023.parquet",
+          "league": "mlb",
+          "n": 2430,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2023.parquet",
+          "n": 2430,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/mlb/linescores_2024.parquet": {
+      "league": "mlb",
+      "rows": 2427,
+      "rows_on_disk": 2427,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2024.parquet",
+          "league": "mlb",
+          "n": 2427,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2024.parquet",
+          "league": "mlb",
+          "n": 2427,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2024.parquet",
+          "n": 2427,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/mlb/linescores_2025.parquet": {
+      "league": "mlb",
+      "rows": 2430,
+      "rows_on_disk": 2430,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2025.parquet",
+          "league": "mlb",
+          "n": 2430,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2025.parquet",
+          "league": "mlb",
+          "n": 2430,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/mlb/linescores_2025.parquet",
+          "n": 2430,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nba_2021.parquet": {
+      "league": "nba",
+      "rows": 1086,
+      "rows_on_disk": 1204,
+      "excluded": {
+        "not_standard_game": 86,
+        "not_completed": 32
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2021.parquet",
+          "league": "nba",
+          "n": 1086,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2021.parquet",
+          "league": "nba",
+          "n": 1086,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2021.parquet",
+          "n": 1086,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nba_2022.parquet": {
+      "league": "nba",
+      "rows": 1236,
+      "rows_on_disk": 1335,
+      "excluded": {
+        "not_standard_game": 88,
+        "not_completed": 11
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2022.parquet",
+          "league": "nba",
+          "n": 1236,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2022.parquet",
+          "league": "nba",
+          "n": 1236,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2022.parquet",
+          "n": 1236,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nba_2023.parquet": {
+      "league": "nba",
+      "rows": 1236,
+      "rows_on_disk": 1322,
+      "excluded": {
+        "not_standard_game": 85,
+        "not_completed": 1
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2023.parquet",
+          "league": "nba",
+          "n": 1236,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2023.parquet",
+          "league": "nba",
+          "n": 1236,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2023.parquet",
+          "n": 1236,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nba_2024.parquet": {
+      "league": "nba",
+      "rows": 1236,
+      "rows_on_disk": 1322,
+      "excluded": {
+        "not_standard_game": 84,
+        "not_completed": 2
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2024.parquet",
+          "league": "nba",
+          "n": 1236,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2024.parquet",
+          "league": "nba",
+          "n": 1236,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2024.parquet",
+          "n": 1236,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nba_2025.parquet": {
+      "league": "nba",
+      "rows": 1236,
+      "rows_on_disk": 1329,
+      "excluded": {
+        "not_standard_game": 88,
+        "not_completed": 5
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2025.parquet",
+          "league": "nba",
+          "n": 1236,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2025.parquet",
+          "league": "nba",
+          "n": 1236,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2025.parquet",
+          "n": 1236,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nhl_2021.parquet": {
+      "league": "nhl",
+      "rows": 868,
+      "rows_on_disk": 952,
+      "excluded": {
+        "not_regular_season": 84
+      },
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2021.parquet",
+          "league": "nhl",
+          "n": 868,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2021.parquet",
+          "league": "nhl",
+          "n": 868,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2021.parquet",
+          "n": 868,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nhl_2022.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1504,
+      "excluded": {
+        "not_regular_season": 192
+      },
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2022.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2022.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2022.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nhl_2023.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1508,
+      "excluded": {
+        "not_regular_season": 196
+      },
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2023.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2023.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2023.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nhl_2024.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1400,
+      "excluded": {
+        "not_regular_season": 88
+      },
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2024.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2024.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2024.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nhl_2025.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1398,
+      "excluded": {
+        "not_regular_season": 86
+      },
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2025.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2025.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nhl_2025.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    }
+  }
+}

@@ -280,6 +280,30 @@ both old values recorded, and `model/fit_data_checks.py` now refuses any frame
 with more ties than its league permits. The NFL's allowance is small and
 non-zero, because it is the one league that genuinely has them.
 
+### Looking on purpose instead of by accident
+
+Three finds of the same class by accident is an argument for a script.
+`model/audit_data_integrity.py` walks all 29 retained frames past every
+impossibility that applies -- ties per league, team scores the rules cannot
+produce, self-play, duplicate keys -- and exits non-zero so it can gate a
+pipeline ([ADR 0020](docs/decisions/0020-audit-every-frame-for-impossible-results.md)).
+
+It found two more corrupt CFB rows: **football cannot score exactly one point**,
+and the schedule cache has FAU 1-0 Georgia Southern and Kansas State 1-1 TCU.
+
+It also taught me a distinction I had wrong. **An absent result is not a false
+one** -- the first version reported all five NBA files as failing, when each
+carries one cancelled game at 0-0 with its completion flag False, correctly
+excluded by the fit. Which is ADR 0019 in one sentence: the CFB cache has no
+completion column, so its 83 unfetched games are indistinguishable from played
+ones. A frame that can say a game was not played is a frame whose zeros are
+safe, and most frames here cannot.
+
+And one limit worth stating: a **margin-only** cache cannot be audited for
+scores. Kansas State 1-1 shows up as margin zero and is caught; FAU 1-0 shows
+up as margin +1 and is invisible. At least one impossible game is still inside
+the frame that produces `MARGIN_SD`.
+
 ### Open, and waiting rather than unbuilt
 
 - NFL -> `BUILT_LEAGUES` needs one cron run carrying `feature_values`.
