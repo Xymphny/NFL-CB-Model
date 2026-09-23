@@ -13,6 +13,11 @@ const SPEC = {
       ['rating_p05', '5th pct', 3], ['rating_p95', '95th pct', 3],
     ],
   },
+  cfb: {
+    title: 'Team ratings, as priced this week',
+    note: 'Opponent-adjusted efficiency from this season\'s play-by-play, rated on games before this week. The live model reads the total alone (DVOA-only vector).',
+    cols: [['team', 'Team'], ['total_rating', 'Rating', 3], ['offense_voa', 'Offence', 3], ['defense_voa', 'Defence', 3]],
+  },
   nba: {
     title: 'Team ratings, as priced',
     note: 'Points of margin against an average team, walked forward game by game and regressed halfway between seasons. Team-level only: no injuries or minutes.',

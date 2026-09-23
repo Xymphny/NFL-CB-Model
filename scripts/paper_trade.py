@@ -16,9 +16,8 @@ returns every upcoming game, and pricing a week of NBA on every capture would
 write hundreds of thousands of rows a season, most of them far from the close.
 
 WHICH SLATE
-Date leagues run once per US-Eastern date among those games. NFL runs by week,
-found from the league schedule. CFB is skipped: its source prices from a
-historical cache and cannot price a current game.
+Date leagues (CFB, MLB, NHL, NBA) run once per US-Eastern date among those
+games. NFL runs by week, found from the league schedule.
 
 ALWAYS --paper. An automated run is never a placed bet.
 """
@@ -80,7 +79,7 @@ def slates(sport: str, captured_at: str, quotes, window_hours: float = WINDOW_HO
     starts = {q.commence_time for q in quotes if q.commence_time
               and t0 <= pd.Timestamp(q.commence_time) < pd.Timestamp(cutoff)}
     dates = {local_date(c) for c in starts}
-    if not dates or league in (None, "cfb"):
+    if not dates or league is None:
         return [], cutoff
     if league == "nfl":
         sw = nfl_week(dates, schedule)

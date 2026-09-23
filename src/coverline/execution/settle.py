@@ -16,8 +16,8 @@ games -- so a signal's game_id is looked up, never re-derived from team names:
   nhl  data/raw/nhl/nhl_*.parquet game_id
   nba  data/raw/sportsdataverse/nba_*.parquet  id, completed games only
   nfl  nflverse games.csv         "{season}-W{week:02d}-{home}-{away}"
-  cfb  none yet: the CFB live source prices from a historical cache and cannot
-       price a current game, so there is nothing to settle
+  cfb  data/raw/cfb/espn_*.parquet  game_id (ESPN's event id), completed
+                                    games only
 
 WHAT IT WILL NOT DO
 Settle a signal with no game_id or no side -- rows from before those fields
@@ -137,6 +137,18 @@ def nba_finals(root: Path = _ROOT) -> dict[str, tuple[int, int]]:
     return out
 
 
+def cfb_finals(root: Path = _ROOT) -> dict[str, tuple[int, int]]:
+    out: dict[str, tuple[int, int]] = {}
+    for p in sorted(glob.glob(str(root / "data" / "raw" / "cfb" / "espn_*.parquet"))):
+        d = pd.read_parquet(p)
+        # A scheduled game carries 0-0 here; the completion flag is what makes
+        # that zero safe (model/ingest/cfb_espn.py).
+        d = d[d.completed.astype(bool)].dropna(subset=["home_score", "away_score"])
+        for g, h, a in zip(d.game_id, d.home_score, d.away_score):
+            out[str(g)] = (int(h), int(a))
+    return out
+
+
 def nfl_finals(url: str = NFLVERSE_URL) -> dict[str, tuple[int, int]]:
     d = pd.read_csv(url)
     d = d[d.game_type == "REG"].dropna(subset=["home_score", "away_score"])
@@ -154,4 +166,5 @@ VENDOR = {
 
 FINALS: dict[str, Callable[[], Finals]] = {
     "mlb": mlb_finals, "nhl": nhl_finals, "nba": nba_finals, "nfl": nfl_finals,
+    "cfb": cfb_finals,
 }

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Refresh the inputs the MLB, NHL and NBA live sources price from.
+"""Refresh the inputs the CFB, MLB, NHL and NBA live sources price from.
 
 WHAT IT RUNS, IN ORDER
   nba   model/ingest/nba_espn.py   --seasons Y-Y --force  (the season in progress)
   nhl   model/ingest/nhl_api.py    --seasons Y-Y --force  (finals + schedule)
         model/ingest/nhl_goals.py  --seasons Y-Y --update (goal rows for new finals)
   mlb   model/ingest/mlb_slate.py  --date <today, US Eastern>
+  cfb   model/ingest/cfb_espn.py   --seasons Y-Y --force  (schedule + finals;
+        the ratings come from the weekly cfb-weekly-job, not from here)
   audit model/audit_data_integrity.py
   settle scripts/settle_ledger.py  (closes + outcomes for paper trades; no regrade)
   export scripts/export_board.py + export_record.py  (the dashboard's data)
@@ -63,6 +65,7 @@ PATHS = (
     "data/raw/sportsdataverse",
     "data/raw/nhl",
     "data/raw/mlb/slates",
+    "data/raw/cfb",
     "model/data_integrity.json",
     "data/ledger",
     "data/site/board_nfl.json", "data/site/board_cfb.json", "data/site/board_mlb.json",
@@ -99,6 +102,14 @@ def steps(today_et: date) -> list[tuple[str, Callable[[], None]]]:
         from model.ingest import mlb_slate
         _call(mlb_slate.main, ["--date", today_et.isoformat()])
 
+    def cfb():
+        # CFB seasons are named for the autumn they start in, unlike the two
+        # winter leagues above: January bowls belong to the previous year.
+        # Same rule as coverline.leagues.cfb.live.season_of.
+        from model.ingest import cfb_espn
+        c = today_et.year if today_et.month >= 7 else today_et.year - 1
+        _call(cfb_espn.main, ["--seasons", f"{c}-{c}", "--force"])
+
     def audit():
         # Run as a script: it writes model/data_integrity.json and its exit
         # code is not a pass/fail signal, the file is. A frame that fails an
@@ -126,7 +137,7 @@ def steps(today_et: date) -> list[tuple[str, Callable[[], None]]]:
         _call(export_board.main, [])
         _call(export_record.main, [])
 
-    return [("nba", nba), ("nhl", nhl), ("mlb", mlb), ("audit", audit),
+    return [("nba", nba), ("nhl", nhl), ("mlb", mlb), ("cfb", cfb), ("audit", audit),
             ("settle", settle), ("export", export)]
 
 

@@ -44,16 +44,16 @@ def _run(*args):
 
 # ------------------------------------------------------------ arguments ----
 
-@pytest.mark.parametrize("league", ["mlb", "nhl", "nba"])
+@pytest.mark.parametrize("league", ["cfb", "mlb", "nhl", "nba"])
 def test_a_date_league_refuses_a_week(league):
     r = _run("--league", league, "--week", "2", "--bankroll", "100")
     assert r.returncode == 2 and "use --date, not --week" in r.stderr
 
 
-def test_a_football_league_refuses_a_date_and_requires_a_week():
+def test_the_nfl_refuses_a_date_and_requires_a_week():
     r = _run("--league", "nfl", "--date", "2026-09-22", "--bankroll", "100")
     assert r.returncode == 2 and "--date does not apply" in r.stderr
-    r = _run("--league", "cfb", "--bankroll", "100")
+    r = _run("--league", "nfl", "--bankroll", "100")
     assert r.returncode == 2 and "--week is required" in r.stderr
 
 
@@ -61,6 +61,7 @@ def test_a_football_league_refuses_a_date_and_requires_a_week():
     ("mlb", "mlb_slate.py --date"),
     ("nhl", "nhl_api.py --seasons 2099-2099"),
     ("nba", "nba_2099.parquet"),
+    ("cfb", "cfb_espn.py --seasons 2098-2098"),
 ])
 def test_missing_inputs_exit_2_with_the_command_that_fixes_them(league, fix):
     # A date whose inputs cannot exist. The first version used 2026-10-22 and

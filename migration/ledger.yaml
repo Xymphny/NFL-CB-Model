@@ -281,6 +281,30 @@ components:
       a systematic lean, recorded and NOT corrected, since subtracting a
       constant from a fitted vector is a model change.
 
+  - id: league-cfb-live
+    old_path: "src/coverline/leagues/cfb/sources.py CachedWalkForwardSource (2021-2023 cache only; no current game)"
+    new_path: "src/coverline/leagues/cfb/{live,teams}.py"
+    disposition: rewritten
+    adr: 0027-paper-trade-cfb-on-the-graded-vector.md
+    data_artifacts:
+      - "data/raw/cfb/espn_2026.parquet"
+    data_disposition: raw
+    parity_status: not_applicable
+    parity_tolerance: >-
+      A new source for games the old one could not price, not a port. The
+      model is the unchanged CFBModel on the DVOA-only vector, so a game's
+      margin is exactly intercept + 39.1897 * rating_diff from the snapshot
+      that prices it (tests/core/test_cfb_live.py).
+    old_removed: false
+    notes: >-
+      CFB paper-trades by US-Eastern date from the weekly ratings snapshot
+      against ESPN's schedule, keyed by ESPN event id, settled from the same
+      file. CachedWalkForwardSource stays: the market grade and the tier
+      derivation read it. Found on the way: the cfb-weekly-job has committed
+      no ratings since week 2 although 2026 play-by-play is published; run
+      locally it succeeds with a ~970 MB peak. The source refuses ratings
+      more than a week behind, so this is visible on the board.
+
   - id: league-mlb
     old_path: "model/mlb_model.py (walk-forward expected runs)"
     new_path: "src/coverline/leagues/mlb/{model,sources}.py"

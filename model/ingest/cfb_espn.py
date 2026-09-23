@@ -18,6 +18,12 @@ cache's game_id, so the join needs no name matching and no fuzzy dates, which
 is the usual way a cross-source check goes wrong.
 
 Writes data/raw/cfb/espn_{season}.parquet.
+
+THE CURRENT SEASON TOO
+The same file, for the season in progress, is the CFB live source's schedule
+and settle.py's final scores: scheduled games carry completed=False and no
+trusted score. deploy/live_inputs_job.py refreshes it daily with
+`--seasons 2026-2026 --force`.
 """
 
 from __future__ import annotations
@@ -89,6 +95,11 @@ def day_rows(day: str) -> list[dict]:
             "season": int(season.get("year")),
             "week": int((e.get("week") or {}).get("number") or 0),
             "game_date": str(e.get("date"))[:10],
+            # The full kickoff, UTC. game_date above is its UTC date, which
+            # puts a 10:30 pm Eastern kickoff on the next day; the live
+            # source (leagues/cfb/live.py) takes the Eastern date from this.
+            "start": str(e.get("date")),
+            "neutral_site": bool(comp.get("neutralSite")),
             "home_team": (home.get("team") or {}).get("location"),
             "away_team": (away.get("team") or {}).get("location"),
             "home_score": _score(home),

@@ -213,10 +213,11 @@ def test_a_board_is_valid_json_with_no_nan(nba_night, tmp_path):
 
 
 def test_a_league_that_cannot_be_priced_still_gets_a_board_that_says_why(tmp_path):
-    rc = X.main(["--league", "cfb", "--out", str(tmp_path)])
-    b = json.loads((tmp_path / "board_cfb.json").read_text())
-    assert rc == 0 and b["games"] == []
-    assert "historical cache" in b["refusals"][0]["reason"]
+    # A CFB season with no schedule pulled: refused, with the command.
+    b = X.build("cfb", BronzeStore(tmp_path / "empty"), X._runner(), day="2098-09-20")
+    assert b["games"] == [] and "cfb_espn.py --seasons 2098-2098" in b["refusals"][0]["reason"]
+    assert X.summarise(b)["state"] == "refused"
+    assert json.dumps(X._clean(b), allow_nan=False)
 
 
 def test_no_odds_yet_still_shows_the_models_view(tmp_path, monkeypatch, nba_night):

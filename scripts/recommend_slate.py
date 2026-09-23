@@ -5,13 +5,16 @@ This is the operator-facing command. Everything else in the new core is a
 component; this is the thing you actually run.
 
     python3 scripts/recommend_slate.py --league nfl --week 2 --bankroll 5000
+    python3 scripts/recommend_slate.py --league cfb --date 2026-09-26 --bankroll 5000
     python3 scripts/recommend_slate.py --league mlb --date 2026-09-22 --bankroll 5000
     python3 scripts/recommend_slate.py --league nhl --bankroll 5000        # today, ET
     python3 scripts/recommend_slate.py --league nba --bankroll 5000 --commit
 
-Football slates are weeks; baseball, hockey and basketball slates are dates
-(US Eastern, the date printed on the schedule). --week and --date are refused
-for the league they do not belong to rather than silently ignored.
+NFL slates are weeks; CFB, baseball, hockey and basketball slates are dates
+(US Eastern, the date printed on the schedule). CFB runs by date because a
+week spans Thursday to Saturday and its games are keyed by ESPN event id, not
+by week. --week and --date are refused for the league they do not belong to
+rather than silently ignored.
 
 DRY BY DEFAULT. Nothing is written to the ledger without --commit, because
 the ledger is append-only and a slate run that turns out to be misconfigured
@@ -85,11 +88,16 @@ def load_nfl(season: int, week: int):
     return NFLModel(src), src
 
 
-def load_cfb(season: int, week: int):
-    from coverline.leagues.cfb.model import CFBModel
-    from coverline.leagues.cfb.sources import CachedWalkForwardSource
-    src = CachedWalkForwardSource.load()
-    return CFBModel(src), src
+def load_cfb(day: str):
+    # The weekly ratings against ESPN's schedule (leagues/cfb/live.py). CFB
+    # runs by date, like the date leagues: a week spans Thursday to Saturday
+    # and a paper run prices the games starting near its capture.
+    from coverline.leagues.cfb import live
+    try:
+        src = live.CFBLiveSource.load(live.season_of(day))
+    except live.MissingSeasonData as e:
+        raise InputsNotReady(str(e)) from None
+    return live.build_model(src), src, src.slate(day)
 
 
 def load_mlb(day: str):
@@ -135,7 +143,8 @@ class League:
 
 LEAGUES: dict[str, League] = {
     "nfl": League("week", "americanfootball_nfl", "spreads", load_nfl),
-    "cfb": League("week", "americanfootball_ncaaf", "spreads", load_cfb),
+    "cfb": League("date", "americanfootball_ncaaf", "spreads", load_cfb,
+                  "coverline.leagues.cfb.teams"),
     "mlb": League("date", "baseball_mlb", "moneyline", load_mlb,
                   "coverline.leagues.mlb.teams"),
     "nhl": League("date", "icehockey_nhl", "moneyline", load_nhl,
@@ -217,9 +226,9 @@ def choose_weight(args, lg: League) -> float:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--league", required=True, choices=sorted(LEAGUES))
-    ap.add_argument("--season", type=int, default=2026, help="football only")
-    ap.add_argument("--week", type=int, help="football only")
-    ap.add_argument("--date", help="mlb/nhl/nba: YYYY-MM-DD, US Eastern (default today)")
+    ap.add_argument("--season", type=int, default=2026, help="nfl only")
+    ap.add_argument("--week", type=int, help="nfl only")
+    ap.add_argument("--date", help="cfb/mlb/nhl/nba: YYYY-MM-DD, US Eastern (default today)")
     ap.add_argument("--snapshot", help="a bronze odds snapshot; default is the newest")
     ap.add_argument("--market", help="default: the league's primary market")
     ap.add_argument("--bankroll", type=float, required=True)

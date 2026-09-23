@@ -61,7 +61,9 @@ LEAGUES = ("nfl", "cfb", "mlb", "nhl", "nba")
 
 SPORT_NOTES = {
     "nfl": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
-    "cfb": "Weekly slate.",
+    "cfb": ("Weekly slate, Thursday to Saturday. Whole-number spreads are not "
+            "priced (no measured key-number correction for CFB), and neutral-site "
+            "games are refused: the model has no home term to remove."),
     "mlb": ("Daily. Lines are quoted on the listed probable starters; a scratch "
             "changes the game being priced."),
     "nhl": ("Daily. Ratings reset every season, so early-season prices carry "
@@ -163,10 +165,25 @@ def _load(league: str, R, day: str | None = None):
     """(model, source, games, slate descriptor, start_of, context_of, freshness)."""
     lg = R.LEAGUES[league]
     if league == "cfb":
-        raise R.InputsNotReady(
-            "The CFB live source prices from a historical cache (2021–2023) "
-            "and cannot price a current game. No CFB board until a live CFB "
-            "source exists.")
+        # A CFB week, like an NFL one: Thursday to Saturday on one board.
+        from coverline.leagues.cfb import live
+        today = day or _today_et()
+        try:
+            src = live.CFBLiveSource.load(live.season_of(today))
+        except live.MissingSeasonData as e:
+            raise R.InputsNotReady(str(e)) from None
+        week, games = src.week_slate(today)
+        s = src.schedule
+        start = lambda gid: s.loc[gid].start.strftime("%Y-%m-%dT%H:%M:%SZ")
+        snap = src.snapshots[-1]
+        fresh = {"ratings_version": snap.path.name,
+                 "ratings_computed_at": snap.computed_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                 "ratings_through_week": snap.week - 1,
+                 "latest_final": src.latest_final()}
+        slate = {"kind": "week", "season": src.season, "week": week,
+                 "dates": sorted({g.date for g in games})}
+        return (live.build_model(src), src, games, slate, start,
+                lambda gid: {"neutral_site": bool(s.loc[gid].neutral_site)}, fresh)
     if league == "nfl":
         from coverline.leagues.nfl.live import load_schedule
         today = day or _today_et()
@@ -378,6 +395,15 @@ def teams(league: str, src) -> list[dict]:
                                      "ra27": round(st.sp_ra27(sp), 3), "park": g.get("park"),
                                      "park_factor": round(st.park_factor(g.get("park")), 3)})
             return rows
+        if league == "cfb":
+            # The newest snapshot, which is what prices the coming week. Elo
+            # is left off: the live source does not read it (cfb/live.py).
+            snap = src.snapshots[-1]
+            keep = ("total_rating", "offense_voa", "defense_voa")
+            return sorted(({"team": r["team"], **{k: (round(r[k], 4) if isinstance(r.get(k), float)
+                                                      else r.get(k)) for k in keep}}
+                           for r in json.loads(snap.path.read_text())["ratings"]),
+                          key=lambda x: -(x["total_rating"] or 0))
         if league == "nfl":
             # The fields the rating-only vector reads (MARGIN_COEFFICIENTS_V1)
             # and the ones the card explains it with.
@@ -441,7 +467,8 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
             matched = {m.game_id: m.event_id for m in ms}
         else:
             table = importlib.import_module(lg.team_table).TABLE
-            day_q = [q for q in quotes if q.commence_time and local_date(q.commence_time) == slate["date"]]
+            days = set(slate.get("dates") or [slate.get("date")])
+            day_q = [q for q in quotes if q.commence_time and local_date(q.commence_time) in days]
             ms, refs = match_by_date(day_q, table, games)
             matched = {m.game_id: m.event_id for m in ms}
             for r in refs:

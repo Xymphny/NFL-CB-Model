@@ -52,15 +52,17 @@ def test_a_window_spanning_midnight_runs_each_eastern_date():
     assert [r[-1] for r in runs] == ["2026-10-20", "2026-10-21"]
 
 
-def test_nfl_runs_by_week_and_cfb_is_skipped():
+def test_nfl_runs_by_week():
     sched = pd.DataFrame({"season": [2026, 2026], "week": [4, 5], "game_type": ["REG", "REG"],
                           "gameday": ["2026-09-27", "2026-10-04"]})
     ev = [_event("a", "americanfootball_nfl", "2026-09-27T17:00:00Z", "H", "A")]
     runs, _ = PT.slates("americanfootball_nfl", "2026-09-27T16:30:00Z", _quotes(ev),
                         schedule=sched)
     assert runs == [["--league", "nfl", "--season", "2026", "--week", "4"]]
+    # CFB runs by date (tests/core/test_cfb_live.py).
     ev = [_event("a", "americanfootball_ncaaf", "2026-09-26T17:00:00Z", "H", "A")]
-    assert PT.slates("americanfootball_ncaaf", "2026-09-26T16:30:00Z", _quotes(ev))[0] == []
+    assert PT.slates("americanfootball_ncaaf", "2026-09-26T16:30:00Z", _quotes(ev))[0] == [
+        ["--league", "cfb", "--date", "2026-09-26"]]
 
 
 def test_an_empty_window_prices_nothing():

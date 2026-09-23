@@ -1,7 +1,7 @@
 {
   "_provenance": {
     "script": "model/audit_data_integrity.py",
-    "frames_checked": 39,
+    "frames_checked": 40,
     "failures": 0
   },
   "frames": {
@@ -878,6 +878,41 @@
           "ok": true,
           "label": "data/raw/cfb/espn_2025.parquet",
           "n": 912,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/cfb/espn_2026.parquet": {
+      "league": "cfb",
+      "rows": 260,
+      "rows_on_disk": 902,
+      "excluded": {
+        "not_completed": 642
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2026.parquet",
+          "league": "cfb",
+          "n": 260,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2026.parquet",
+          "league": "cfb",
+          "n": 260,
+          "banned": [
+            1
+          ],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/cfb/espn_2026.parquet",
+          "n": 260,
           "problems": {}
         }
       }
