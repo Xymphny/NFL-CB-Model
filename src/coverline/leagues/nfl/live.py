@@ -257,6 +257,89 @@ class RatingsSnapshotSource:
             )
 
 
+@dataclass(frozen=True)
+class GameWeekSource:
+    """Prices a game week from the newest ratings computed before each game.
+
+    WHY THIS EXISTS: the weekly job names a snapshot for the LAST week with a
+    completed game (ingest/nfl_schedules.get_current_week) and publishes it to
+    price the UPCOMING one -- its own docstring says so. for_week() reads the
+    number the other way, as the week being priced, so it asked for a week-3
+    file to price week 3: a file that only appears once week 3 is over, when
+    the lookahead guard rightly refuses it. The operator command, paper
+    trading and the board could never price an upcoming NFL week.
+
+    This selects per game instead: of every immutable version in
+    data/ratings/history (and the canonical files) whose week is at or before
+    the game's, the newest computed on or before the game's date and at or
+    before `asof`. A Thursday game gets Tuesday's ratings; if the job refreshes
+    on Friday, Sunday's games get Friday's. Never a later version -- that is
+    the same refusal for_week makes, applied per game.
+    """
+
+    season: int
+    week: int
+    schedule: pd.DataFrame
+    versions: tuple            # ((computed_at datetime, snapshot week, Path), ...)
+
+    @classmethod
+    def for_game_week(cls, season: int, week: int, schedule: pd.DataFrame,
+                      ratings_dir: Path = RATINGS_DIR) -> "GameWeekSource":
+        seen: dict[str, tuple] = {}
+        paths = list(Path(ratings_dir).glob(f"{season}-week-*.json"))
+        paths += list((Path(ratings_dir) / "history").glob(f"{season}-week-*.json"))
+        for p in paths:
+            try:
+                doc = json.loads(p.read_text())
+                ca = _parse_ts(doc["computed_at"])
+            except (ValueError, KeyError, json.JSONDecodeError):
+                continue
+            if doc.get("season") != season or int(doc.get("week", 99)) > week:
+                continue
+            seen.setdefault(ca.isoformat(), (ca, int(doc["week"]), p))
+        if not seen:
+            raise NoRatingsSnapshot(
+                f"no {season} ratings snapshot at or before week {week} in "
+                f"{ratings_dir}")
+        return cls(season=season, week=week,
+                   schedule=schedule[(schedule.season == season) & (schedule.week == week)],
+                   versions=tuple(sorted(seen.values(), key=lambda v: v[0])))
+
+    def version_for(self, gameday: str, asof: str = "now") -> tuple:
+        cut = (datetime.now(timezone.utc) if asof in (None, "now") else _parse_ts(asof))
+        day = datetime.fromisoformat(str(gameday)[:10]).date()
+        ok = [v for v in self.versions if v[0].date() <= day and v[0] <= cut]
+        if not ok:
+            raise NoRatingsSnapshot(
+                f"no {self.season} ratings version was computed on or before "
+                f"{day} and {cut:%Y-%m-%d %H:%M}; refusing to price from a later one")
+        return ok[-1]
+
+    def source_for(self, game_id: str, asof: str = "now") -> RatingsSnapshotSource:
+        home, away = RatingsSnapshotSource.teams(game_id)
+        m = self.schedule[(self.schedule.home_team == home) & (self.schedule.away_team == away)]
+        if m.empty:
+            raise KeyError(f"{home} vs {away} is not on the {self.season} week {self.week} schedule")
+        ca, _, path = self.version_for(m.iloc[0]["gameday"], asof)
+        doc = json.loads(path.read_text())
+        return RatingsSnapshotSource(
+            season=self.season, week=self.week,
+            ratings={r["team"]: r for r in doc["ratings"]},
+            schedule=self.schedule, computed_at=doc.get("computed_at", ""), path=path)
+
+    # -- FeatureSource ----------------------------------------------------
+
+    def features(self, game_id: str, asof: str) -> GameFeatures:
+        # The per-game source still applies its own lookahead guard.
+        return self.source_for(game_id, asof).features(game_id, asof)
+
+    teams = staticmethod(RatingsSnapshotSource.teams)
+
+    def game_ids(self) -> list[str]:
+        return [f"{self.season}-W{self.week:02d}-{r.home_team}-{r.away_team}"
+                for r in self.schedule.itertuples()]
+
+
 def reconstruct_board_margin(features: GameFeatures, debias_offset: float) -> float:
     """The live board's model margin: the linear model plus the slate de-bias.
 

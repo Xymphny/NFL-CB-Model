@@ -279,3 +279,56 @@ def test_the_weekly_job_writes_an_immutable_copy():
         "the history write is no longer write-once"
     )
     assert "git_commit_and_push(\n                history_file," in src
+
+
+# ------------------------------------------------ pricing an upcoming week ----
+
+def _week(w, gamedays):
+    import pandas as pd
+    return pd.DataFrame({"season": 2026, "week": w, "home_team": [f"H{i}" for i in range(len(gamedays))],
+                         "away_team": [f"A{i}" for i in range(len(gamedays))], "gameday": gamedays,
+                         "home_rest": 7, "away_rest": 7, "location": "Home"})
+
+
+def test_an_upcoming_week_is_priced_from_the_last_completed_weeks_snapshot():
+    """The weekly job names a snapshot for the last week with a completed game
+    and publishes it for the NEXT one. for_week(3) asked for a week-3 file --
+    which exists only once week 3 is over -- so no upcoming week could ever
+    be priced. GameWeekSource prices week 3 from the Tuesday week-2 version."""
+    src = L.GameWeekSource.for_game_week(2026, 3, _week(3, ["2026-09-24", "2026-09-27"]))
+    ca, wk, path = src.version_for("2026-09-27", asof="2026-09-23T12:00:00Z")
+    assert wk == 2 and ca.isoformat().startswith("2026-09-22T11:00")
+
+
+def test_each_game_gets_the_newest_version_computed_before_its_day(schedule):
+    """Week 2: Thursday's game predates the Friday refresh, Sunday's does not."""
+    src = L.GameWeekSource.for_game_week(2026, 2, schedule)
+    thu, _, _ = src.version_for("2026-09-17", asof="2026-09-17T23:00:00Z")
+    sun, _, _ = src.version_for("2026-09-20", asof="2026-09-20T16:00:00Z")
+    assert thu.date().isoformat() == "2026-09-15"
+    assert sun.isoformat().startswith("2026-09-18T09:10")
+
+
+def test_a_version_computed_after_the_game_is_never_used(schedule):
+    src = L.GameWeekSource.for_game_week(2026, 2, schedule)
+    # Pricing a week-2 Sunday game today: the Tuesday Sep 22 version has seen
+    # it. The newest version on or before its day is still Friday's.
+    ca, _, _ = src.version_for("2026-09-20", asof="2026-09-30T00:00:00Z")
+    assert ca.date().isoformat() == "2026-09-18"
+
+
+def test_nothing_before_the_game_is_refused_not_substituted():
+    src = L.GameWeekSource.for_game_week(2026, 1, _week(1, ["2026-09-01"]))
+    with pytest.raises(L.NoRatingsSnapshot, match="refusing"):
+        src.version_for("2026-09-01", asof="2026-09-01T00:00:00Z")
+
+
+def test_the_operator_command_prices_week_three():
+    import subprocess
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "recommend_slate.py"),
+                        "--league", "nfl", "--week", "3", "--bankroll", "100"],
+                       capture_output=True, text=True, cwd=ROOT)
+    if "URLError" in r.stderr or "Temporary failure" in r.stderr:
+        pytest.skip("the week-3 schedule comes from nflverse; no network here")
+    assert "no ratings snapshot" not in r.stdout + r.stderr
+    assert "NFL 2026 week 3: NFLModel" in r.stdout

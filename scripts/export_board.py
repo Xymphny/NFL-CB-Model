@@ -191,7 +191,7 @@ def _load(league: str, R, day: str | None = None):
         ctx = {g.game_id: _nfl_context(r) for g, r in zip(games, wk.itertuples())}
         return (model, src, games, {"kind": "week", "season": season, "week": week},
                 lambda gid: starts.get(gid), lambda gid: ctx.get(gid, {}),
-                {"ratings_snapshot": f"{season}-week-{week:02d}"})
+                _nfl_fresh(src, today))
     day = day or _today_et()
     model, src, games = lg.loader(day)
     if league == "nba":
@@ -215,6 +215,15 @@ def _load(league: str, R, day: str | None = None):
         return (model, src, games, {"kind": "date", "date": day}, start,
                 lambda gid: _mlb_context(src, gid), fresh)
     raise ValueError(league)
+
+
+def _nfl_fresh(src, today: str) -> dict:
+    try:
+        ca, wk, path = src.version_for(today)
+        return {"ratings_version": path.name, "ratings_computed_at": ca.isoformat(),
+                "ratings_through_week": wk}
+    except Exception as exc:
+        return {"ratings_version": None, "ratings_note": str(exc)}
 
 
 def _nfl_context(r) -> dict:
@@ -313,9 +322,11 @@ def teams(league: str, src) -> list[dict]:
             # and the ones the card explains it with.
             keep = ("total_rating", "offense_voa", "defense_voa", "special_teams_voa",
                     "rating_p05", "rating_p95")
+            _, _, path = src.version_for(_today_et())
+            ratings = {r["team"]: r for r in json.loads(Path(path).read_text())["ratings"]}
             return sorted(({"team": t, **{k: (round(r[k], 4) if isinstance(r.get(k), float) else r.get(k))
                                           for k in keep}}
-                           for t, r in src.ratings.items()), key=lambda x: -(x["total_rating"] or 0))
+                           for t, r in ratings.items()), key=lambda x: -(x["total_rating"] or 0))
     except Exception:
         return []
     return []

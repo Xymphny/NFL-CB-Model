@@ -74,11 +74,14 @@ class InputsNotReady(Exception):
 # ------------------------------------------------------------ loaders ----
 
 def load_nfl(season: int, week: int):
-    from coverline.leagues.nfl.live import RatingsSnapshotSource, load_schedule
+    from coverline.leagues.nfl.live import GameWeekSource, load_schedule
     from coverline.leagues.nfl.model import NFLModel
     fixture = ROOT / "tests" / "fixtures" / f"nfl_{season}_week{week:02d}_schedule.csv"
     sched = pd.read_csv(fixture) if fixture.exists() else load_schedule([season])
-    src = RatingsSnapshotSource.for_week(season, week, sched)
+    # Per game, the newest ratings computed before it (GameWeekSource). Not
+    # for_week: that reads the snapshot's number as the week it prices, and
+    # the weekly job names it for the last week completed.
+    src = GameWeekSource.for_game_week(season, week, sched)
     return NFLModel(src), src
 
 

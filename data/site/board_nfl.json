@@ -1,19 +1,666 @@
 {
  "league": "nfl",
- "generated_at": "2026-09-23T08:35:14Z",
+ "generated_at": "2026-09-23T08:42:56Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
- "slate": null,
- "games": [],
+ "slate": {
+  "kind": "week",
+  "season": 2026,
+  "week": 3
+ },
+ "games": [
+  {
+   "game_id": "2026-W03-GB-ATL",
+   "home": "GB",
+   "away": "ATL",
+   "home_name": "Green Bay Packers",
+   "away_name": "Atlanta Falcons",
+   "start": "2026-09-25T00:15:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Jordan Love",
+    "away_qb_name": "Michael Penix Jr.",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.64411,
+    "margin_mean": 4.68,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-BUF-LAC",
+   "home": "BUF",
+   "away": "LAC",
+   "home_name": "Buffalo Bills",
+   "away_name": "Los Angeles Chargers",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Josh Allen",
+    "away_qb_name": "Justin Herbert",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.68328,
+    "margin_mean": 6.106,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-CLE-CAR",
+   "home": "CLE",
+   "away": "CAR",
+   "home_name": "Cleveland Browns",
+   "away_name": "Carolina Panthers",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Deshaun Watson",
+    "away_qb_name": "Bryce Young",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.42997,
+    "margin_mean": -2.458,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-DET-NYJ",
+   "home": "DET",
+   "away": "NYJ",
+   "home_name": "Detroit Lions",
+   "away_name": "New York Jets",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Jared Goff",
+    "away_qb_name": "Geno Smith",
+    "roof": "dome",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.54445,
+    "margin_mean": 1.298,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-IND-HOU",
+   "home": "IND",
+   "away": "HOU",
+   "home_name": "Indianapolis Colts",
+   "away_name": "Houston Texans",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Daniel Jones",
+    "away_qb_name": "C.J. Stroud",
+    "div_game": 1
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50722,
+    "margin_mean": 0.079,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-JAX-NE",
+   "home": "JAX",
+   "away": "NE",
+   "home_name": "Jacksonville Jaguars",
+   "away_name": "New England Patriots",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Trevor Lawrence",
+    "away_qb_name": "Drake Maye",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.58268,
+    "margin_mean": 2.567,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-MIA-KC",
+   "home": "MIA",
+   "away": "KC",
+   "home_name": "Miami Dolphins",
+   "away_name": "Kansas City Chiefs",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Malik Willis",
+    "away_qb_name": "Patrick Mahomes",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.51197,
+    "margin_mean": 0.234,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-NYG-TEN",
+   "home": "NYG",
+   "away": "TEN",
+   "home_name": "New York Giants",
+   "away_name": "Tennessee Titans",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Jaxson Dart",
+    "away_qb_name": "Cam Ward",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.52623,
+    "margin_mean": 0.7,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-PIT-CIN",
+   "home": "PIT",
+   "away": "CIN",
+   "home_name": "Pittsburgh Steelers",
+   "away_name": "Cincinnati Bengals",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Aaron Rodgers",
+    "away_qb_name": "Joe Burrow",
+    "roof": "outdoors",
+    "div_game": 1
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.55498,
+    "margin_mean": 1.645,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-WAS-SEA",
+   "home": "WAS",
+   "away": "SEA",
+   "home_name": "Washington Commanders",
+   "away_name": "Seattle Seahawks",
+   "start": "2026-09-27T17:00:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Jayden Daniels",
+    "away_qb_name": "Drew Lock",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50091,
+    "margin_mean": -0.127,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-SF-ARI",
+   "home": "SF",
+   "away": "ARI",
+   "home_name": "San Francisco 49ers",
+   "away_name": "Arizona Cardinals",
+   "start": "2026-09-27T20:05:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Brock Purdy",
+    "away_qb_name": "Jacoby Brissett",
+    "roof": "outdoors",
+    "div_game": 1
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.65963,
+    "margin_mean": 5.236,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-TB-MIN",
+   "home": "TB",
+   "away": "MIN",
+   "home_name": "Tampa Bay Buccaneers",
+   "away_name": "Minnesota Vikings",
+   "start": "2026-09-27T20:05:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Baker Mayfield",
+    "away_qb_name": "Kyler Murray",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.51889,
+    "margin_mean": 0.46,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-DAL-BAL",
+   "home": "DAL",
+   "away": "BAL",
+   "home_name": "Dallas Cowboys",
+   "away_name": "Baltimore Ravens",
+   "start": "2026-09-27T20:25:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Dak Prescott",
+    "away_qb_name": "Lamar Jackson",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.48477,
+    "margin_mean": -0.654,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-NO-LV",
+   "home": "NO",
+   "away": "LV",
+   "home_name": "New Orleans Saints",
+   "away_name": "Las Vegas Raiders",
+   "start": "2026-09-27T20:25:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Tyler Shough",
+    "away_qb_name": "Kirk Cousins",
+    "roof": "dome",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.57398,
+    "margin_mean": 2.276,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-DEN-LA",
+   "home": "DEN",
+   "away": "LA",
+   "home_name": "Denver Broncos",
+   "away_name": "Los Angeles Rams",
+   "start": "2026-09-28T00:20:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Bo Nix",
+    "away_qb_name": "Matthew Stafford",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.5345,
+    "margin_mean": 0.971,
+    "total_mean": null
+   }
+  },
+  {
+   "game_id": "2026-W03-CHI-PHI",
+   "home": "CHI",
+   "away": "PHI",
+   "home_name": "Chicago Bears",
+   "away_name": "Philadelphia Eagles",
+   "start": "2026-09-29T00:15:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Tyson Bagent",
+    "away_qb_name": "Jalen Hurts",
+    "roof": "outdoors",
+    "div_game": 0
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.60954,
+    "margin_mean": 3.476,
+    "total_mean": null
+   }
+  }
+ ],
  "refusals": [
   {
    "scope": "league",
-   "reason": "week 3: no ratings snapshot for 2026 week 3; have weeks [0, 1, 2]. Refusing to substitute another week."
+   "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run."
   }
  ],
  "freshness": {
-  "odds_captured_at": null
+  "odds_captured_at": null,
+  "ratings_version": "2026-week-02.json",
+  "ratings_computed_at": "2026-09-22T11:00:53.405634+00:00",
+  "ratings_through_week": 2
  },
- "teams": [],
+ "teams": [
+  {
+   "team": "SF",
+   "total_rating": 0.1726,
+   "offense_voa": 0.1695,
+   "defense_voa": -0.003,
+   "special_teams_voa": -0.1644,
+   "rating_p05": -0.0403,
+   "rating_p95": 0.7081
+  },
+  {
+   "team": "BUF",
+   "total_rating": 0.1717,
+   "offense_voa": 0.1656,
+   "defense_voa": -0.0061,
+   "special_teams_voa": 0.0877,
+   "rating_p05": -0.0513,
+   "rating_p95": 0.6404
+  },
+  {
+   "team": "JAX",
+   "total_rating": 0.1004,
+   "offense_voa": 0.0869,
+   "defense_voa": -0.0135,
+   "special_teams_voa": 0.0017,
+   "rating_p05": -0.1343,
+   "rating_p95": 0.4519
+  },
+  {
+   "team": "LA",
+   "total_rating": 0.0604,
+   "offense_voa": 0.0617,
+   "defense_voa": 0.0013,
+   "special_teams_voa": 0.1979,
+   "rating_p05": -0.5308,
+   "rating_p95": 0.3864
+  },
+  {
+   "team": "DAL",
+   "total_rating": 0.0505,
+   "offense_voa": 0.0708,
+   "defense_voa": 0.0203,
+   "special_teams_voa": -0.1337,
+   "rating_p05": -0.2355,
+   "rating_p95": 0.3502
+  },
+  {
+   "team": "NE",
+   "total_rating": 0.0489,
+   "offense_voa": 0.045,
+   "defense_voa": -0.0039,
+   "special_teams_voa": -0.1953,
+   "rating_p05": -0.232,
+   "rating_p95": 0.3937
+  },
+  {
+   "team": "SEA",
+   "total_rating": 0.0462,
+   "offense_voa": 0.0164,
+   "defense_voa": -0.0298,
+   "special_teams_voa": -0.0345,
+   "rating_p05": -0.1917,
+   "rating_p95": 0.2928
+  },
+  {
+   "team": "GB",
+   "total_rating": 0.0379,
+   "offense_voa": 0.0353,
+   "defense_voa": -0.0025,
+   "special_teams_voa": -0.073,
+   "rating_p05": -0.2484,
+   "rating_p95": 0.2977
+  },
+  {
+   "team": "HOU",
+   "total_rating": 0.0359,
+   "offense_voa": 0.0474,
+   "defense_voa": 0.0115,
+   "special_teams_voa": -0.075,
+   "rating_p05": -0.2704,
+   "rating_p95": 0.4054
+  },
+  {
+   "team": "DEN",
+   "total_rating": 0.0309,
+   "offense_voa": 0.0276,
+   "defense_voa": -0.0032,
+   "special_teams_voa": 0.02,
+   "rating_p05": -0.1702,
+   "rating_p95": 0.3743
+  },
+  {
+   "team": "BAL",
+   "total_rating": 0.0264,
+   "offense_voa": 0.0222,
+   "defense_voa": -0.0042,
+   "special_teams_voa": -0.2013,
+   "rating_p05": -0.2972,
+   "rating_p95": 0.3272
+  },
+  {
+   "team": "CHI",
+   "total_rating": 0.025,
+   "offense_voa": 0.0274,
+   "defense_voa": 0.0024,
+   "special_teams_voa": 0.2794,
+   "rating_p05": -0.3098,
+   "rating_p95": 0.3302
+  },
+  {
+   "team": "CAR",
+   "total_rating": 0.019,
+   "offense_voa": 0.0297,
+   "defense_voa": 0.0107,
+   "special_teams_voa": 0.1552,
+   "rating_p05": -0.3141,
+   "rating_p95": 0.4156
+  },
+  {
+   "team": "ARI",
+   "total_rating": -0.0034,
+   "offense_voa": -0.0199,
+   "defense_voa": -0.0165,
+   "special_teams_voa": 0.0112,
+   "rating_p05": -0.1987,
+   "rating_p95": 0.3573
+  },
+  {
+   "team": "KC",
+   "total_rating": -0.0044,
+   "offense_voa": -0.011,
+   "defense_voa": -0.0066,
+   "special_teams_voa": 0.0421,
+   "rating_p05": -0.2574,
+   "rating_p95": 0.2898
+  },
+  {
+   "team": "NYJ",
+   "total_rating": -0.0081,
+   "offense_voa": -0.0191,
+   "defense_voa": -0.011,
+   "special_teams_voa": 0.0092,
+   "rating_p05": -0.1875,
+   "rating_p95": 0.2997
+  },
+  {
+   "team": "TEN",
+   "total_rating": -0.0166,
+   "offense_voa": -0.0102,
+   "defense_voa": 0.0063,
+   "special_teams_voa": 0.152,
+   "rating_p05": -0.2389,
+   "rating_p95": 0.3564
+  },
+  {
+   "team": "PIT",
+   "total_rating": -0.0178,
+   "offense_voa": -0.0329,
+   "defense_voa": -0.0151,
+   "special_teams_voa": -0.0619,
+   "rating_p05": -0.4867,
+   "rating_p95": 0.3447
+  },
+  {
+   "team": "CIN",
+   "total_rating": -0.0259,
+   "offense_voa": -0.0317,
+   "defense_voa": -0.0057,
+   "special_teams_voa": -0.2249,
+   "rating_p05": -0.3184,
+   "rating_p95": 0.2264
+  },
+  {
+   "team": "MIN",
+   "total_rating": -0.0263,
+   "offense_voa": -0.0466,
+   "defense_voa": -0.0203,
+   "special_teams_voa": -0.2373,
+   "rating_p05": -0.3224,
+   "rating_p95": 0.3556
+  },
+  {
+   "team": "LAC",
+   "total_rating": -0.027,
+   "offense_voa": -0.0191,
+   "defense_voa": 0.0079,
+   "special_teams_voa": 0.2255,
+   "rating_p05": -0.3447,
+   "rating_p95": 0.2724
+  },
+  {
+   "team": "WAS",
+   "total_rating": -0.0295,
+   "offense_voa": -0.0121,
+   "defense_voa": 0.0173,
+   "special_teams_voa": 0.0275,
+   "rating_p05": -0.3579,
+   "rating_p95": 0.2603
+  },
+  {
+   "team": "IND",
+   "total_rating": -0.03,
+   "offense_voa": -0.0008,
+   "defense_voa": 0.0292,
+   "special_teams_voa": -0.1469,
+   "rating_p05": -0.3865,
+   "rating_p95": 0.1839
+  },
+  {
+   "team": "DET",
+   "total_rating": -0.0337,
+   "offense_voa": -0.0326,
+   "defense_voa": 0.001,
+   "special_teams_voa": 0.0938,
+   "rating_p05": -0.4087,
+   "rating_p95": 0.1795
+  },
+  {
+   "team": "NYG",
+   "total_rating": -0.0473,
+   "offense_voa": -0.0283,
+   "defense_voa": 0.019,
+   "special_teams_voa": 0.1604,
+   "rating_p05": -0.3625,
+   "rating_p95": 0.2411
+  },
+  {
+   "team": "NO",
+   "total_rating": -0.0574,
+   "offense_voa": -0.0561,
+   "defense_voa": 0.0013,
+   "special_teams_voa": 0.0462,
+   "rating_p05": -0.3357,
+   "rating_p95": 0.1725
+  },
+  {
+   "team": "MIA",
+   "total_rating": -0.063,
+   "offense_voa": -0.0333,
+   "defense_voa": 0.0296,
+   "special_teams_voa": -0.2405,
+   "rating_p05": -0.4594,
+   "rating_p95": 0.3308
+  },
+  {
+   "team": "PHI",
+   "total_rating": -0.0692,
+   "offense_voa": -0.0713,
+   "defense_voa": -0.0021,
+   "special_teams_voa": 0.4361,
+   "rating_p05": -0.3981,
+   "rating_p95": 0.1581
+  },
+  {
+   "team": "TB",
+   "total_rating": -0.0741,
+   "offense_voa": -0.0728,
+   "defense_voa": 0.0013,
+   "special_teams_voa": -0.1437,
+   "rating_p05": -0.4847,
+   "rating_p95": 0.148
+  },
+  {
+   "team": "LV",
+   "total_rating": -0.0952,
+   "offense_voa": -0.1004,
+   "defense_voa": -0.0052,
+   "special_teams_voa": 0.2635,
+   "rating_p05": -0.3866,
+   "rating_p95": 0.2906
+  },
+  {
+   "team": "ATL",
+   "total_rating": -0.1124,
+   "offense_voa": -0.1203,
+   "defense_voa": -0.008,
+   "special_teams_voa": 0.0752,
+   "rating_p05": -0.6028,
+   "rating_p95": 0.0916
+  },
+  {
+   "team": "CLE",
+   "total_rating": -0.1667,
+   "offense_voa": -0.164,
+   "defense_voa": 0.0027,
+   "special_teams_voa": -0.2303,
+   "rating_p05": -0.6056,
+   "rating_p95": 0.1461
+  }
+ ],
  "grade": {
   "weight": 0.0,
   "w_hat": 0.038504,

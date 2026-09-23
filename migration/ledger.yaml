@@ -508,6 +508,17 @@ components:
       disagree with the board without saying so. The NGS fetch port is the
       remaining blocker.
 
+      OFF BY ONE WEEK, FIXED 2026-09-23 (with the owner's approval; the
+      dashboard brief otherwise froze model code). deploy/weekly_job.py names a
+      snapshot for the last week with a completed game and publishes it for
+      the next; for_week() read the number as the week being priced, so an
+      upcoming week could never be priced -- the file it wanted appears only
+      after the week, when the lookahead guard refuses it. The operator
+      command, paper trading and the board all failed on it silently until the
+      board export surfaced "no ratings snapshot for 2026 week 3".
+      GameWeekSource now prices each game from the newest immutable version
+      computed on or before its day (history/ plus canonical), never a later
+      one; for_week() and its parity tests are unchanged.
   - id: nfl-key-numbers
     old_path: "(did not exist -- push prices used a plain rounded normal)"
     new_path: "model/nfl_key_numbers.py + data/nfl_key_numbers.json"
