@@ -28,6 +28,16 @@ coverage_scope: "src/coverline/** only; legacy model/ and deploy/ artifacts are
 
 artifacts:
 
+  - path: data/ledger/outcomes.jsonl
+    produced_by: src/coverline/execution/settle.py
+    consumed_by:
+      - model/grade_market_weight.py
+    kind: ledger
+    refresh: "scripts/settle_ledger.py, after games go final; one row per
+      signal, placed or paper, never rewritten"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/ledger/signals.jsonl
     produced_by: src/coverline/execution/ledger.py
     consumed_by:

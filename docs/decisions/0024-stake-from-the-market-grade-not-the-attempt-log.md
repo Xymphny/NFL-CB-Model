@@ -68,6 +68,14 @@ standard −110/−110 line). That is recorded in the artifact as an assumption.
 - **Every league paper-trades.** The runner still prices every game and, with
   `--commit`, records model and market probabilities for every candidate. That
   ledger is how a future positive grade gets earned.
+- **The ledger could not have earned one, and now can.** Building this found
+  that closes attached only to placed bets, outcomes existed for no one, and
+  unplaced rows dropped their book, price and game -- so paper trades could
+  never be graded. Paper rows now keep all three plus their side;
+  `scripts/settle_ledger.py` closes and settles them; and
+  `model/grade_market_weight.py` grades a league from its own ledger once 150
+  games have settled, one row per game. That grade is clean by construction:
+  every probability was written before its game, against a price that existed.
 - `--pooled` is refused with this record's number: it chose between two
   attempt-log weights and there is no longer anything for it to choose.
   `--market-weight` remains the explicit override and says it is a guess.

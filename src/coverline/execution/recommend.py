@@ -246,7 +246,10 @@ def price_candidate(
 def to_signal(c: Candidate, *, league: str, bankroll: float,
               best_available: Quote | None = None,
               books_surveyed: int | None = None,
-              at: str | None = None) -> Signal:
+              at: str | None = None,
+              game_id: str | None = None,
+              commence_time: str | None = None,
+              side: str | None = None) -> Signal:
     """Turn a priced candidate into a ledger row, placed or not.
 
     A candidate the staking engine declined is recorded as `below_threshold`
@@ -266,17 +269,23 @@ def to_signal(c: Candidate, *, league: str, bankroll: float,
         # the price, and a ledger row without it cannot be re-checked for the
         # conditioning error that motivated computing it.
         push_probability=c.push_probability,
+        game_id=game_id, commence_time=commence_time, side=side,
+        # The price and book are kept for UNPLACED signals too. A paper trade
+        # is graded exactly like a real one -- CLV against the close, a result
+        # against the final score -- and neither is possible without knowing
+        # what price at which book it would have taken. Only the stake is
+        # absent, because nothing was staked.
+        book=c.bookmaker, price_decimal=c.price_decimal,
+        best_available_decimal=(best_available.price_decimal
+                                if best_available else None),
+        books_surveyed=books_surveyed,
     )
     if not c.plan.placed:
         return Signal(**common, disposition="not_placed",
                       not_placed_reason="below_threshold", notes=c.plan.reason)
     return Signal(
-        **common, disposition="placed", book=c.bookmaker,
-        price_decimal=c.price_decimal, stake=c.plan.stake,
-        bankroll_at_placement=bankroll,
-        best_available_decimal=(best_available.price_decimal
-                                if best_available else None),
-        books_surveyed=books_surveyed, notes=c.plan.reason,
+        **common, disposition="placed", stake=c.plan.stake,
+        bankroll_at_placement=bankroll, notes=c.plan.reason,
     )
 
 
@@ -291,6 +300,7 @@ def recommend(
     shrinkage: float,
     ledger: BetLedger | None = None,
     primary_markets: Sequence[str] | None = None,
+    game_id: str | None = None,
     **staking,
 ) -> list[Signal]:
     """Price every book and side for one market, and record every candidate.
@@ -330,8 +340,15 @@ def recommend(
                         if x.event_id == event_id and x.market == vendor
                         and x.outcome == q.outcome),
                        key=lambda x: x.price_decimal, default=None)
+            if q.outcome.strip().lower() in ("over", "under"):
+                side = q.outcome.strip().lower()
+            else:
+                home = _is_home_outcome(q)
+                side = None if home is None else ("home" if home else "away")
             out.append(to_signal(c, league=league, bankroll=bankroll,
-                                 best_available=best, books_surveyed=len(books)))
+                                 best_available=best, books_surveyed=len(books),
+                                 game_id=game_id, commence_time=q.commence_time or None,
+                                 side=side))
 
     if ledger is not None:
         for s in out:

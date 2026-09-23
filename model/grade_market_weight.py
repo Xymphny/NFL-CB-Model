@@ -172,8 +172,74 @@ def grade(rows: pd.DataFrame) -> dict:
 
 LEAGUES = {"nfl": nfl, "cfb": cfb}
 
+# ---------------------------------------------------- the paper-trade ledger --
 
-def main() -> int:
+LEDGER_DIR = ROOT / "data" / "ledger"
+
+#: Settled games before a ledger grade replaces a league's historical one, or
+#: stands alone for a league with none. The lower bound already penalises a
+#: small sample; this keeps a first fortnight of noise off the report.
+LEDGER_MIN_GAMES = 150
+
+#: One market per game, in this order. Two markets on one game are two
+#: correlated readings of the same result, and counting both would shrink the
+#: SE and start staking early.
+MARKET_PRIORITY = ("spreads", "h2h", "totals")
+
+
+def ledger_rows(ledger_dir: Path, league: str) -> pd.DataFrame:
+    """One graded row per settled game from the live system's own records.
+
+    Clean in a way the historical grades are not: every probability was
+    written down before its game by the model as it actually ran, against a
+    price that was actually available. p_market is the median devigged price
+    across books at the signal's time -- the price the model saw -- and the
+    home (or over) side stands for the game.
+    """
+    from coverline.execution.ledger import BetLedger
+    led = BetLedger(ledger_dir)
+    outcome = {o.signal_id: o.result for o in led.outcomes()}
+    rows = []
+    for s in led.signals():
+        res = outcome.get(s.signal_id)
+        if s.league != league or res not in ("win", "loss") or s.side not in ("home", "over"):
+            continue
+        rows.append({"event_id": s.event_id, "market": s.market, "at": s.at,
+                     "p_model": s.p_model, "p_market": s.p_market,
+                     "y": int(res == "win"), "season": str(s.at)[:4]})
+    if not rows:
+        return pd.DataFrame(columns=["season", "p_model", "p_market", "y"])
+    d = pd.DataFrame(rows)
+    d["rank"] = d.market.map({m: i for i, m in enumerate(MARKET_PRIORITY)}).fillna(99)
+    d = d[d["rank"] == d.groupby("event_id")["rank"].transform("min")]
+    d = d[d["at"] == d.groupby("event_id")["at"].transform("max")]
+    g = d.groupby("event_id").agg(p_model=("p_model", "first"),
+                                   p_market=("p_market", "median"),
+                                   y=("y", "first"), season=("season", "first"))
+    return g.reset_index(drop=True)
+
+
+def choose(name: str, historical: dict | None, ledger: pd.DataFrame) -> dict | None:
+    """The grade that sizes bets: the ledger once it is big enough, since it
+    is the only grade that is clean by construction; otherwise the historical
+    one; otherwise none."""
+    led = None
+    if len(ledger) >= LEDGER_MIN_GAMES:
+        led = {**grade(ledger), "source": "ledger",
+               "market": "the live system's own paper trades, one per game",
+               "seasons": [ledger.season.min(), ledger.season.max()],
+               "contamination": "CLEAN: every probability recorded before its game"}
+    if led is not None:
+        if historical is not None:
+            led["historical_grade"] = {k: historical[k] for k in ("n", "w_hat", "se")}
+        return led
+    if historical is not None:
+        return {**historical, "source": "historical",
+                "ledger_games_settled": int(len(ledger))}
+    return None
+
+
+def main(ledger_dir: Path = LEDGER_DIR) -> int:
     out = {
         "_provenance": {
             "script": "model/grade_market_weight.py",
@@ -185,13 +251,20 @@ def main() -> int:
         },
         "leagues": {},
     }
-    for name, build in LEAGUES.items():
-        rows, meta = build()
-        out["leagues"][name] = {**meta, **grade(rows)}
-        g = out["leagues"][name]
-        print(f"{name}: n={g['n']} w_hat={g['w_hat']:+.3f} se={g['se']:.3f} "
-              f"-> staking {g['staking_weight']:.3f}  gain t={g['gain_t']:+.2f}  "
-              f"side hit {g['side_agreement_hit_rate']:.4f}")
+    for name in ("nfl", "cfb", "mlb", "nhl", "nba"):
+        historical = None
+        if name in LEAGUES:
+            rows, meta = LEAGUES[name]()
+            historical = {**meta, **grade(rows)}
+        g = choose(name, historical, ledger_rows(ledger_dir, name))
+        if g is None:
+            print(f"{name}: no grade (no historical lines, ledger below "
+                  f"{LEDGER_MIN_GAMES} settled games) -> weight 0")
+            continue
+        out["leagues"][name] = g
+        print(f"{name} [{g['source']}]: n={g['n']} w_hat={g['w_hat']:+.3f} "
+              f"se={g['se']:.3f} -> staking {g['staking_weight']:.3f}  "
+              f"gain t={g['gain_t']:+.2f}  side hit {g['side_agreement_hit_rate']:.4f}")
     OUT.write_text(json.dumps(out, indent=2) + "\n")
     return 0
 

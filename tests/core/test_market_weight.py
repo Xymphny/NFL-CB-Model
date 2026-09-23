@@ -84,10 +84,18 @@ def test_the_committed_weights_reproduce_from_source():
     rebuild cannot be what sizes a bet."""
     from model import grade_market_weight as G
     art = json.loads(MW.WEIGHTS_PATH.read_text())
-    assert set(art["leagues"]) == set(G.LEAGUES)
-    for name, build in G.LEAGUES.items():
-        rows, _ = build()
-        fresh = G.grade(rows)
+    fresh_all = {}
+    for name in ("nfl", "cfb", "mlb", "nhl", "nba"):
+        hist = None
+        if name in G.LEAGUES:
+            rows, meta = G.LEAGUES[name]()
+            hist = {**meta, **G.grade(rows)}
+        g = G.choose(name, hist, G.ledger_rows(G.LEDGER_DIR, name))
+        if g is not None:
+            fresh_all[name] = g
+    assert set(art["leagues"]) == set(fresh_all)
+    for name, fresh in fresh_all.items():
+        assert fresh["source"] == art["leagues"][name]["source"], name
         for k in ("n", "w_hat", "se", "staking_weight"):
             assert fresh[k] == pytest.approx(art["leagues"][name][k], abs=1e-6), (name, k)
 
@@ -100,3 +108,54 @@ def test_football_has_no_measured_edge_over_the_close():
         w, grade = MW.staking_weight(league)
         assert grade is not None and w == 0.0, league
         assert grade["contamination"].startswith("UPPER BOUND")
+
+
+# ------------------------------------------------------ the paper ledger --
+
+def _paper_ledger(tmp_path, n_games, true_w, seed=1):
+    """A ledger as the runner and settler would write it: both sides of a
+    spread at two books per game, settled."""
+    from coverline.execution.ledger import BetLedger, Outcome, Signal
+    rng = np.random.default_rng(seed)
+    led = BetLedger(tmp_path / "ledger")
+    for i in range(n_games):
+        pk = rng.uniform(0.4, 0.6)
+        pm = float(np.clip(pk + rng.normal(0, 0.08), 0.05, 0.95))
+        home_wins = rng.uniform() < true_w * pm + (1 - true_w) * pk
+        for book, jitter in (("pinnacle", 0.0), ("fanduel", 0.01)):
+            for side, p_m, p_k in (("home", pm, pk + jitter), ("away", 1 - pm, 1 - pk - jitter)):
+                sid = f"g{i}|{book}|{side}"
+                led.record(Signal(signal_id=sid, at=f"2026-10-{1 + i % 28:02d}T12:00:00Z",
+                                  league="nba", event_id=f"g{i}", market="spreads",
+                                  selection=side, line=-1.5 if side == "home" else 1.5,
+                                  p_model=p_m, p_market=p_k, p_used=p_k, shrinkage=0.0,
+                                  edge_claimed=0.0, edge_used=0.0,
+                                  disposition="not_placed",
+                                  not_placed_reason="below_threshold",
+                                  game_id=f"g{i}", side=side, book=book,
+                                  price_decimal=1.91))
+                won = home_wins if side == "home" else not home_wins
+                led.record_outcome(Outcome(sid, "t", "win" if won else "loss", 0, 0))
+    return tmp_path / "ledger"
+
+
+def test_the_ledger_counts_one_row_per_game(tmp_path):
+    from model import grade_market_weight as G
+    rows = G.ledger_rows(_paper_ledger(tmp_path, 40, 0.0), "nba")
+    assert len(rows) == 40                 # not 160: two books x two sides
+
+
+def test_a_ledger_that_shows_real_information_earns_a_stake(tmp_path):
+    from model import grade_market_weight as G
+    rows = G.ledger_rows(_paper_ledger(tmp_path, 1500, 1.0), "nba")
+    g = G.choose("nba", None, rows)
+    assert g["source"] == "ledger" and g["staking_weight"] > 0.3
+
+
+def test_a_small_ledger_does_not_replace_or_create_a_grade(tmp_path):
+    from model import grade_market_weight as G
+    rows = G.ledger_rows(_paper_ledger(tmp_path, 100, 1.0), "nba")
+    assert G.choose("nba", None, rows) is None
+    hist = {"n": 900, "w_hat": 0.0, "se": 0.1, "staking_weight": 0.0}
+    assert G.choose("nba", hist, rows)["source"] == "historical"
+

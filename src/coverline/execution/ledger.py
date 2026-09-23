@@ -55,6 +55,8 @@ NOT_PLACED_REASONS = frozenset({
 })
 
 SETTLEMENTS = frozenset({"win", "loss", "push", "void"})
+SIDES = frozenset({"home", "away", "over", "under"})
+OUTCOMES = frozenset({"win", "loss", "push"})
 
 
 def _utc() -> str:
@@ -99,6 +101,16 @@ class Signal:
     push_probability: float | None = None
     not_placed_reason: str | None = None
 
+    # which game and which side -- what settlement needs. Optional so rows
+    # written before they existed still load; a row without them can be
+    # closed but never settled, and settle_outcomes reports it as such.
+    game_id: str | None = None
+    commence_time: str | None = None
+    #: "home", "away", "over" or "under". The selection is a feed name, and
+    #: working out which side a name was after the fact is exactly how the
+    #: away side was once mispriced (ADR 0015).
+    side: str | None = None
+
     # execution, present only when placed
     book: str | None = None
     price_decimal: float | None = None
@@ -140,6 +152,23 @@ class Close:
 
 
 @dataclass(frozen=True)
+class Outcome:
+    """How a signal's bet resolved, placed or not.
+
+    Separate from Settlement on purpose: a settlement is money (it carries a
+    PnL and exists only for placed bets), an outcome is a fact about the game
+    and exists for every signal that can be tied to one. Paper trading is
+    graded on outcomes; the bankroll on settlements.
+    """
+
+    signal_id: str
+    at: str
+    result: str               # win | loss | push
+    home_score: int
+    away_score: int
+
+
+@dataclass(frozen=True)
 class Settlement:
     signal_id: str
     at: str
@@ -152,9 +181,38 @@ class BetLedger:
     """Append-only JSONL, one file per record type."""
 
     root: Path
+    #: signal_id sets per file, keyed by path, each with the file's (size,
+    #: mtime) when it was built. Uniqueness checks used to re-read the whole
+    #: file on every append -- quadratic, and a season of paper trades writes
+    #: tens of thousands of rows. A file changed by anyone else (a different
+    #: process, a git pull) no longer matches its signature and is re-read.
+    _index: dict = field(default_factory=dict, repr=False, compare=False)
 
     def __post_init__(self) -> None:
         self.root = Path(self.root)
+
+    @staticmethod
+    def _sig(path: Path) -> tuple[int, int] | None:
+        try:
+            st = path.stat()
+        except FileNotFoundError:
+            return None
+        return (st.st_size, st.st_mtime_ns)
+
+    def _ids(self, path: Path) -> set[str]:
+        sig = self._sig(path)
+        hit = self._index.get(path)
+        if hit is None or hit[0] != sig:
+            ids = {r["signal_id"] for r in self._read(path)}
+            self._index[path] = (sig, ids)
+            return ids
+        return hit[1]
+
+    def _append_indexed(self, path: Path, row: dict) -> None:
+        ids = self._ids(path)
+        self._append(path, row)
+        ids.add(row["signal_id"])
+        self._index[path] = (self._sig(path), ids)
 
     # -- paths ------------------------------------------------------------
 
@@ -167,6 +225,10 @@ class BetLedger:
         return self.root / "closes.jsonl"
 
     @property
+    def outcomes_path(self) -> Path:
+        return self.root / "outcomes.jsonl"
+
+    @property
     def settlements_path(self) -> Path:
         return self.root / "settlements.jsonl"
 
@@ -174,17 +236,16 @@ class BetLedger:
 
     def record(self, signal: Signal) -> Signal:
         self._validate(signal)
-        if signal.signal_id in {s.signal_id for s in self.signals()}:
+        if signal.signal_id in self._ids(self.signals_path):
             raise ValueError(
                 f"signal {signal.signal_id!r} is already recorded. The ledger "
                 "is append-only: a correction is a new row, not an edit."
             )
-        self._append(self.signals_path, asdict(signal))
+        self._append_indexed(self.signals_path, asdict(signal))
         return signal
 
     def record_close(self, close: Close) -> None:
-        known = {s.signal_id for s in self.signals()}
-        if close.signal_id not in known:
+        if close.signal_id not in self._ids(self.signals_path):
             raise KeyError(f"no signal {close.signal_id!r} to attach a close to")
         if len(close.close_decimals) < 2:
             raise ValueError(
@@ -192,6 +253,17 @@ class BetLedger:
                 "from one side, and CLV against a vigged price is not CLV"
             )
         self._append(self.closes_path, asdict(close))
+
+    def record_outcome(self, o: Outcome) -> None:
+        if o.result not in OUTCOMES:
+            raise ValueError(f"result must be one of {sorted(OUTCOMES)}")
+        if o.signal_id not in self._ids(self.signals_path):
+            raise KeyError(f"no signal {o.signal_id!r} to record an outcome for")
+        if o.signal_id in self._ids(self.outcomes_path):
+            raise ValueError(
+                f"{o.signal_id!r} already has an outcome. A game resolves once; "
+                "a second row would be two versions of one result.")
+        self._append_indexed(self.outcomes_path, asdict(o))
 
     def record_settlement(self, s: Settlement) -> None:
         if s.result not in SETTLEMENTS:
@@ -211,6 +283,9 @@ class BetLedger:
     def closes(self) -> list[Close]:
         return [Close(**r) for r in self._read(self.closes_path)]
 
+    def outcomes(self) -> list[Outcome]:
+        return [Outcome(**r) for r in self._read(self.outcomes_path)]
+
     def settlements(self) -> list[Settlement]:
         return [Settlement(**r) for r in self._read(self.settlements_path)]
 
@@ -218,6 +293,12 @@ class BetLedger:
         """Devigged CLV for one signal, or None if no close is recorded yet."""
         sig = next((s for s in self.signals() if s.signal_id == signal_id), None)
         close = next((c for c in self.closes() if c.signal_id == signal_id), None)
+        return self.clv_of(sig, close)
+
+    @staticmethod
+    def clv_of(sig: "Signal | None", close: "Close | None") -> P.ClosingLineValue | None:
+        """CLV from a signal and its close, for callers holding both -- a
+        summary over thousands of rows must not rescan the files per row."""
         if sig is None or close is None or sig.price_decimal is None:
             return None
         return P.closing_line_value(
@@ -270,6 +351,8 @@ class BetLedger:
                 raise ValueError(f"{name} must lie strictly between 0 and 1")
         if not 0.0 <= s.shrinkage <= 1.0:
             raise ValueError("shrinkage must lie in [0, 1]")
+        if s.side is not None and s.side not in SIDES:
+            raise ValueError(f"side must be one of {sorted(SIDES)}; got {s.side!r}")
 
         if s.disposition == "placed":
             missing = [n for n, v in (("book", s.book),

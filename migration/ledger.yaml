@@ -738,3 +738,12 @@ components:
       homepage -- and get a row once the capture job has a season of settled
       closing prices. data_disposition is raw for the nflverse lines; the
       weights file is derived from it and regenerable.
+
+      THE PAPER LOOP, CLOSED THE SAME DAY. Paper signals now carry book,
+      price, game_id and side; grade() closes them; settle.py writes an
+      Outcome for every signal from the league files the live-inputs job
+      refreshes; the market grade reads the settled ledger (150-game floor,
+      one row per game, median price across books). Two quadratic scans found
+      on the way were fixed: ledger appends re-read the whole file per row,
+      and the NFL distribution built its support with ~485 scalar norm.cdf
+      calls per game (a pass over the cache went from 23s to 1.5s).

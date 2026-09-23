@@ -110,22 +110,32 @@ class GradeReport:
 
 def grade(ledger: BetLedger, store: BronzeStore, *, sport: str,
           commence_times: dict[str, str] | None = None,
-          devig_method: P.Method = "power") -> GradeReport:
-    """Attach a close to every placed signal that does not have one."""
+          devig_method: P.Method = "power",
+          include_paper: bool = True) -> GradeReport:
+    """Attach a close to every priced signal that does not have one.
+
+    Placed bets and paper trades alike. The kickoff comes from
+    `commence_times` when given, else from the signal itself.
+    """
     commence_times = commence_times or {}
     candidates = snapshots_for(store, sport)
     closed = {c.signal_id for c in ledger.closes()}
     report = GradeReport(graded=[], ungraded=[], already_had=[])
 
     for sig in ledger.signals():
-        if not sig.placed:
+        # PAPER TRADES ARE GRADED TOO. Every league paper-trades until a grade
+        # against the market clears (ADR 0024), and that grade is built from
+        # exactly these closes. An unplaced row with no book is an older row
+        # or a non-candidate (e.g. line_moved) and has no market to close.
+        if not sig.placed and (not include_paper or sig.book is None):
             continue
         if sig.signal_id in closed:
             report.already_had.append(sig.signal_id)
             continue
 
         cand = close_for(candidates, event_id=sig.event_id,
-                         commence_time=commence_times.get(sig.event_id))
+                         commence_time=commence_times.get(sig.event_id,
+                                                          sig.commence_time))
         if cand is None:
             report.ungraded.append((sig.signal_id, "no_pregame_snapshot"))
             continue
@@ -154,20 +164,31 @@ def grade(ledger: BetLedger, store: BronzeStore, *, sport: str,
     return report
 
 
-def clv_summary(ledger: BetLedger) -> dict[str, Any]:
+def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
     """CLV across graded bets, with the invalid ones kept separate.
 
     Prop closes are not sharp forecasts, so averaging them in with real ones
     would produce a number that is neither. They are counted, not merged.
+
+    `paper=True` summarises the UNPLACED priced signals instead -- what the
+    model would have earned against the close had it bet. Never merged with
+    the placed figure: one is a record of money, the other a measurement.
     """
     valid, invalid, ungraded = [], 0, 0
     naive_gap: list[float] = []
     points: list[float] = []
+    line_moves: list[float] = []
 
+    closes = {c.signal_id: c for c in ledger.closes()}
     for sig in ledger.signals():
-        if not sig.placed:
+        if sig.placed == paper or sig.price_decimal is None:
             continue
-        clv = ledger.clv(sig.signal_id)
+        # Paper rows record BOTH sides of every market at every book, and
+        # their CLVs cancel to about zero by construction. The paper figure is
+        # the side the model preferred: positive claimed edge.
+        if paper and sig.edge_claimed <= 0:
+            continue
+        clv = ledger.clv_of(sig, closes.get(sig.signal_id))
         if clv is None:
             ungraded += 1
             continue
@@ -176,6 +197,8 @@ def clv_summary(ledger: BetLedger) -> dict[str, Any]:
             continue
         valid.append(clv.ev_pct)
         points.append(clv.prob_points)
+        if clv.line_points is not None:
+            line_moves.append(clv.line_points)
         naive_gap.append(clv.devig_overstatement)
 
     n = len(valid)
@@ -188,6 +211,10 @@ def clv_summary(ledger: BetLedger) -> dict[str, Any]:
                                         if n else None),
         "mean_overstatement_if_naive": (round(sum(naive_gap) / n, 5)
                                         if n else None),
+        # Spread and total CLV mostly arrives as a moved LINE at an unchanged
+        # price, which prob points at the bet's own outcome cannot see.
+        "mean_line_points": (round(sum(line_moves) / len(line_moves), 4)
+                             if line_moves else None),
         "note": ("mean_clv_devigged is EV against the fair close. The naive "
                  "figure -- against the posted close -- is higher by the hold, "
                  "and is what a CLV number means when nobody says which one "

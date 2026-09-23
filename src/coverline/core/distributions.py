@@ -329,13 +329,24 @@ class NormalMarginDistribution:
         for the same reason.
         """
         if self._atom_cache is None:
-            ks = np.arange(-self._support, self._support + 1)
-            raw = np.array([
-                self._raw_pmf(int(k), self.mu_margin, self.sd_margin)
-                * self._weight(int(k)) for k in ks
-            ])
+            ks, raw = self._weighted_raw()
             object.__setattr__(self, "_atom_cache", (ks, raw / raw.sum()))
         return self._atom_cache
+
+    def _weighted_raw(self) -> tuple[np.ndarray, np.ndarray]:
+        """Weighted raw masses over the whole support, in ONE vectorised call.
+
+        This used to be a Python loop of scalar norm.cdf calls -- about 485 a
+        game, 914,000 for one pass over the NFL walk-forward cache, which is
+        where 40 of that pass's 43 seconds went. Element for element it is the
+        same arithmetic; only the order of the final sum can differ, at the
+        level of 1e-16.
+        """
+        ks = np.arange(-self._support, self._support + 1)
+        upper = stats.norm.cdf((ks + 0.5 - self.mu_margin) / self.sd_margin)
+        lower = stats.norm.cdf((ks - 0.5 - self.mu_margin) / self.sd_margin)
+        w = np.array([self._weight(int(k)) for k in ks])
+        return ks, (upper - lower) * w
 
     def _compute_normaliser(self) -> float:
         """Sum of weighted raw masses over the support.
@@ -344,19 +355,10 @@ class NormalMarginDistribution:
         the reweighted masses would not sum to one and every probability the
         distribution reports would be inflated by the average weight.
         """
-        total = 0.0
-        for k in range(-self._support, self._support + 1):
-            total += self._raw_pmf(k, self.mu_margin, self.sd_margin) * self._weight(k)
-        return total
+        return float(self._weighted_raw()[1].sum())
 
     def _compute_weighted_cdf(self) -> np.ndarray:
-        norm = self._normaliser()
-        ks = np.arange(-self._support, self._support + 1)
-        masses = np.array([
-            self._raw_pmf(int(k), self.mu_margin, self.sd_margin) * self._weight(int(k))
-            for k in ks
-        ]) / norm
-        return np.cumsum(masses)
+        return np.cumsum(self._weighted_raw()[1] / self._normaliser())
 
 
 @dataclass(frozen=True)

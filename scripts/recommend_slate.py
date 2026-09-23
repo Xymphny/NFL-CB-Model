@@ -324,6 +324,7 @@ def main(argv: list[str] | None = None) -> int:
                             market=market, league=args.league,
                             bankroll=args.bankroll, shrinkage=weight,
                             ledger=ledger, primary_markets=model.primary_markets,
+                            game_id=m.game_id,
                             kelly_multiple=args.kelly,
                             max_bankroll_fraction=args.max_fraction,
                             min_edge=args.min_edge)
