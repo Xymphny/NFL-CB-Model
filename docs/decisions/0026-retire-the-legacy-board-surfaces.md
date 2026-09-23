@@ -10,7 +10,7 @@ ledger_id: dashboard-board-export
 
 ## Context and Problem Statement
 
-The dashboard revamp (CoinFlip) renders `data/site/board_*.json`,
+The dashboard revamp (Coinflip) renders `data/site/board_*.json`,
 `record.json` and `gates.json` from the core and computes nothing of its own.
 The legacy site priced games in the browser from the legacy odds-watch files
 and carried a dozen surfaces built on that path. Some had successors, some had

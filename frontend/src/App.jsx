@@ -83,7 +83,7 @@ export default function App() {
       <a className="skip" href="#main">Skip to the board</a>
       <header className="top">
         <div className="brand">
-          <span className="wordmark">CoinFlip</span>
+          <span className="wordmark">Coinflip</span>
           <span className="motto">Every number on this screen was earned by evidence.</span>
         </div>
         <nav className="circuits" aria-label="Leagues">
@@ -136,7 +136,7 @@ export default function App() {
       </main>
 
       <footer className="foot">
-        <p>CoinFlip suggests; it never instructs. It shows what the model thinks against what the
+        <p>Coinflip suggests; it never instructs. It shows what the model thinks against what the
           market thinks. Nothing here is sized until a league is graded against closing prices.
           Bet only what you can afford to lose. If gambling is causing harm, call 1-800-GAMBLER.</p>
       </footer>

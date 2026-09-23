@@ -1,5 +1,5 @@
 """
-Coverline sync service -- a deliberately tiny Render web service that
+Coinflip sync service -- a deliberately tiny Render web service that
 stores one JSON state document (settings + bet log) per Discord user.
 
 Auth model: the static site obtains a Discord access token client-side

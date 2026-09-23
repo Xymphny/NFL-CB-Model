@@ -1,6 +1,6 @@
 ---
 name: evidence-gate
-description: Use before shipping ANY model change to Coverline — a new signal, layer, market, or recalibration. Enforces the project's rule that nothing reaches the board without held-out evidence, and that whatever fails its test is withheld in code and said out loud.
+description: Use before shipping ANY model change to Coinflip (formerly Coverline) — a new signal, layer, market, or recalibration. Enforces the project's rule that nothing reaches the board without held-out evidence, and that whatever fails its test is withheld in code and said out loud.
 disable-model-invocation: true
 allowed-tools: Bash Read Write Edit Grep Glob
 arguments: [change]

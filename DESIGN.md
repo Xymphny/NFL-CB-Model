@@ -1,5 +1,5 @@
 ---
-name: CoinFlip
+name: Coinflip
 description: A network operations wall for betting markets; every number on the screen was earned by evidence.
 colors:
   ground: "#0b0f14"
@@ -174,13 +174,13 @@ components:
     padding: "16px"
 ---
 
-# Design System: CoinFlip
+# Design System: Coinflip
 
 ## Overview
 
 **Creative North Star: "The Network Operations Wall"**
 
-CoinFlip is set up like a network operations wall. Each league is a monitored circuit, and you should be able to read its state (up, degraded, refused, idle) and its freshness at a glance. Each game is a link row on a dense, ruled table. The ground is blue-black. On top of it sit a few slightly cooler panel steps, divided by hairline rules. Figures are bone-grey tabular numerals that stay put when the data changes. The mood is an instrument panel that has been on all night: calm, dense, and honest about what it doesn't know.
+Coinflip is set up like a network operations wall. Each league is a monitored circuit, and you should be able to read its state (up, degraded, refused, idle) and its freshness at a glance. Each game is a link row on a dense, ruled table. The ground is blue-black. On top of it sit a few slightly cooler panel steps, divided by hairline rules. Figures are bone-grey tabular numerals that stay put when the data changes. The mood is an instrument panel that has been on all night: calm, dense, and honest about what it doesn't know.
 
 Nothing on the wall shouts. The board has no hero, no gradient cards and no coloured confidence badges. Every row prints all four tiers as an annunciator, with only the game's own tier lit. Missing data is drawn rather than left out. "Unsized" and "No price" have their own cells, a refusal is a stamped line, and a league with no source still gets a tile. Motion shows up only when state changes.
 
@@ -240,7 +240,7 @@ The palette is a near-black blue ground with warm bone ink, one cool blue signal
 
 ### Hierarchy
 - **Display** (600, 24px, -0.02em): the slate title ("2026 · Week 3") and view titles. One per view.
-- **Wordmark** (700, 20px, -0.02em, line-height 1): "CoinFlip" in the top band only.
+- **Wordmark** (700, 20px, -0.02em, line-height 1): "Coinflip" in the top band only.
 - **Headline** (600, 16px, -0.01em): tier group heads, panel sub-heads, block heads and the big evidence figures.
 - **Title** (650, 16px): the pick itself in a link row. It is the heaviest text in the row.
 - **Body** (400, 14px, 1.45): team pairs, table cells and base text.

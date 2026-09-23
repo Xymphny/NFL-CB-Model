@@ -5,7 +5,7 @@ primary_target: "frontend/src/App.jsx"
 related_targets: []
 ---
 
-# Surface: CoinFlip dashboard (frontend/src/App.jsx)
+# Surface: Coinflip dashboard (frontend/src/App.jsx)
 
 Mode: Operate. The owner keeps it open all day on a laptop and reloads as news
 lands; friends open it for the picks. Same site for both, picks-first.
@@ -38,7 +38,7 @@ freshness, refusals); scans link rows grouped Play, Lean, Coin flip, then the
 compact No-edge list; opens a row for the reasoning; checks the change log for
 what moved since the last visit.
 
-FIRST VIEWPORT: Top band: CoinFlip wordmark left, five circuit tiles across (code,
+FIRST VIEWPORT: Top band: Coinflip wordmark left, five circuit tiles across (code,
 state glyph and word, priced/total games, Play count, capture age), account chip
 right. Under it the evidence strip, one ruled row. Then a two-column body: the
 link table (about 70%) with the annunciator column and a model-vs-market bar per

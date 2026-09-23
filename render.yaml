@@ -181,7 +181,7 @@ services:
       - key: GITHUB_TOKEN
         sync: false
 
-  # Coverline sync service — stores per-user settings and bet logs,
+  # Coinflip sync service (named coverline-sync from before the rename) — stores per-user settings and bet logs,
   # keyed by Discord user id (token verified against Discord's API on
   # each request, cached 10 min). The DISK IS REQUIRED: a web service's
   # filesystem is ephemeral and wiped on every deploy, which would

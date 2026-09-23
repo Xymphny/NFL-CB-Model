@@ -1,4 +1,10 @@
-# NFL/CFB Efficiency Model — Build Status
+# Coinflip — Build Status
+
+**Renamed 2026-09-23: the product is Coinflip (formerly Coverline).** Only user-facing
+names changed. The Python package stays `coverline` (`src/coverline/`), and so do
+the Render service names, browser storage keys and data paths: renaming those would
+break imports, create new Render services and wipe saved settings and bet logs.
+Older sections below keep the old name where they record history.
 
 Implements the full spec (`football-efficiency-model-spec-v0.1.md`) as far as it can go without live API keys, a real GitHub remote, or network access this sandbox doesn't have. This README is the ground truth on what's actually been run vs. what's structurally written but unverified — read it before bug-fixing anything.
 
@@ -625,7 +631,7 @@ Wired into the same disruption-weighting mechanism as coaching/QB changes — te
 
 ## The dashboard (`frontend/`)
 
-**Replaced 2026-09-23 by CoinFlip.** The site now renders
+**Replaced 2026-09-23 by Coinflip.** The site now renders
 `data/site/board_{league}.json`, `record.json` and `gates.json`, written by
 `scripts/export_board.py` and `scripts/export_record.py` from the core, and
 computes no probability, tier or stake of its own. Tiers are conviction, not

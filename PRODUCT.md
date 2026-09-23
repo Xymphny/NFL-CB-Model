@@ -17,7 +17,7 @@ web
 
 ## Product Purpose
 
-CoinFlip is an emotionless second opinion on sports betting markets across
+Coinflip is an emotionless second opinion on sports betting markets across
 five leagues (NFL, CFB, MLB, NHL, NBA). For each game it shows what the model
 thinks against what the market thinks, so the owner can stand behind a pick or
 see what else to weigh. It suggests; it never instructs.
@@ -64,12 +64,12 @@ own history, not claimed edge.
 - Every data guard and test in the repository is preserved.
 - Terminology: Play, Lean, Coin flip, No edge (tiers); "Unsized -- not yet
   graded against the market"; market grade; paper trades; CLV; refusal.
-- The product name CoinFlip shares a word with the Coin flip tier; the two
+- The product name Coinflip shares a word with the Coin flip tier; the two
   must stay visually and verbally distinct.
 
 ## Brand Commitments
 
-- Name: **CoinFlip** (replaces Coverline and the football/chalkboard identity).
+- Name: **Coinflip** (replaces Coverline and the football/chalkboard identity).
 - Voice: calm, clinical, trustworthy -- an instrument panel, not a sportsbook.
   No hype, no urgency, no "lock of the day".
 - Each sport has a restrained accent used for identification only.
