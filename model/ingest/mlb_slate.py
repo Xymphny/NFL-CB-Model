@@ -17,10 +17,19 @@ debut, and nothing downstream would notice.
 
 PROOF OF FRESHNESS TRAVELS WITH THE SLATE
 `previous_final_date` is the last date before this one on which any
-regular-season game went final, read from the league's own schedule. The
-live source refuses to price if the results cache does not reach it. An
-All-Star break is therefore not mistaken for a stale cache, and a stale
-cache is not mistaken for an off day.
+regular-season game went final, read from the league's own schedule, and
+`previous_final_keys` are the game keys of every game played to a result on
+it. The live source refuses unless EVERY one of those games is in the
+results cache. An All-Star break is therefore not mistaken for a stale cache,
+and a stale cache is not mistaken for an off day.
+
+A DATE IS NOT ENOUGH, and the first version checked only the date. Run at
+9:40pm with five of fifteen games final, the cron's update wrote those five,
+the cache's last date became today's, and the check passed -- pricing
+tomorrow from ratings missing ten results. `unfinished_keys` closes the other
+half: games still in progress when the slate was pulled mean the slate's own
+record of what went final is incomplete, and the live source refuses it until
+it is re-pulled.
 
 Writes data/raw/mlb/slates/{date}-{stamp}.json. Every pull is kept: the
 probables a line was priced against are evidence for grading it later, and
@@ -102,6 +111,36 @@ def last_final_date(payload: dict, before: str) -> str | None:
     return best
 
 
+def _played(g: dict) -> bool:
+    """Final WITH a result. The API marks a postponement abstractGameState
+    Final too, with no score -- the cron writes those as rows with empty
+    scores, and they are not results."""
+    st = g.get("status") or {}
+    if st.get("abstractGameState") != "Final":
+        return False
+    if any(w in str(st.get("detailedState", "")).lower()
+           for w in ("postpon", "cancel", "suspend")):
+        return False
+    return g["teams"]["home"].get("score") is not None
+
+
+def _key(g: dict, day: str) -> str:
+    return f"{_team(g['teams']['home'])}{day.replace('-', '')}{game_number_of(g)}"
+
+
+def finals_on(payload: dict, day: str) -> list[str]:
+    """Keys of games played to a result on `day`, as the cron will key them."""
+    return sorted(_key(g, day) for d in payload.get("dates", [])
+                  if d.get("date") == day for g in d.get("games", []) if _played(g))
+
+
+def unfinished(payload: dict, before: str) -> list[str]:
+    """Keys of games before `before` that were still in progress."""
+    return sorted(_key(g, d["date"]) for d in payload.get("dates", [])
+                  if d.get("date", "") < before for g in d.get("games", [])
+                  if (g.get("status") or {}).get("abstractGameState") == "Live")
+
+
 def main(argv: list[str] | None = None) -> int:
     import pandas as pd
     import requests
@@ -119,13 +158,20 @@ def main(argv: list[str] | None = None) -> int:
     games = parse_slate(today, day, load_id_bridge(), modal_parks(hist))
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    prev = last_final_date(back, day)
     out = {"date": day, "fetched_at": stamp,
-           "previous_final_date": last_final_date(back, day), "games": games}
+           "previous_final_date": prev,
+           "previous_final_keys": finals_on(back, prev) if prev else [],
+           "unfinished_keys": unfinished(back, day),
+           "games": games}
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     dest = OUT_DIR / f"{day}-{stamp}.json"
     dest.write_text(json.dumps(out, indent=1))
     missing = sum(1 for g in games if not (g["home_sp"] and g["away_sp"]))
     print(f"{day}: {len(games)} games, {missing} without both probables -> {dest}")
+    if out["unfinished_keys"]:
+        print(f"  {len(out['unfinished_keys'])} earlier game(s) still in progress; "
+              "the live source will refuse this slate until it is re-pulled")
     return 0
 
 

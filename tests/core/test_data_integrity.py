@@ -65,6 +65,15 @@ def test_the_nba_files_pass_once_unplayed_games_are_excluded(report) -> None:
     nba = {k: v for k, v in report["frames"].items() if "nba_" in k}
     assert nba, "no NBA frames audited"
     for rel, e in nba.items():
+        if e["rows"] == 0:
+            # A season not yet started: a schedule, every game unplayed. The
+            # tie check has nothing to check, which is only acceptable when
+            # EVERY row on disk was excluded as unplayed or non-standard --
+            # an empty frame for any other reason is still a failure.
+            ex = e["excluded"]
+            assert ex.get("not_completed", 0) >= 1, f"{rel} is empty and not a schedule"
+            assert sum(ex.values()) == e["rows_on_disk"], f"{rel} lost rows unaccounted"
+            continue
         assert e["checks"]["ties"].get("ok"), f"{rel} fails the tie check"
         assert e["excluded"].get("not_completed", 0) >= 1, (
             f"{rel} no longer excludes an unplayed game, so either the data "

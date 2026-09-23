@@ -686,8 +686,21 @@ components:
       score from a mid-season pull as a result; it now requires completion.
       Neither changes a committed season (test_fitted_artifacts_reproduce).
 
-      NOT YET VERIFIED AGAINST THE LIVE ENDPOINTS: the NHL and NBA team-name
-      tables (marked unverified in their modules), and the three ingests,
-      whose parsers are tested on captured shapes only. The first run from a
-      networked machine settles them; `nba_espn.py --verify 2025` is the
-      cross-source check for the NBA ingest before its output is trusted.
+      INGESTS RUN LIVE 2026-09-22. NBA: `nba_espn.py --verify 2025` found 0
+      disagreements across all 1,230 regular-season games against the
+      committed sportsdataverse file; 2025-26 (4 postponed, rest final) and
+      the 2026-27 schedule pulled, and every 2026-27 team code resolves
+      except the NBA Cup's TBD placeholders, which are refused by name. NHL:
+      2025-26 finals and goals pass check_scores and the overtime-margin
+      rule; the 2026-27 schedule is 1,344 games, the 84-game season. MLB: the
+      slate's pitcher keys land on the same keys as each starter's completed
+      starts, including mlbam-keyed pitchers with no Retrosheet id.
+
+      THE MLB FRESHNESS CHECK WAS TOO WEAK AND WAS REPLACED. It compared the
+      cache's last DATE to the previous final date; run mid-evening with 5 of
+      15 results in, it passed. The slate now records the exact game keys
+      played to a result and any still in progress, and the live source
+      refuses unless every one is in the cache.
+
+      STILL UNVERIFIED: the NHL and NBA team-name tables against the Odds
+      API's own spellings. That needs an odds payload, so it is Thursday's.

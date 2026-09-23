@@ -1,7 +1,7 @@
 {
   "_provenance": {
     "script": "model/audit_data_integrity.py",
-    "frames_checked": 35,
+    "frames_checked": 39,
     "failures": 0
   },
   "frames": {
@@ -455,6 +455,64 @@
           "ok": true,
           "label": "data/raw/nhl/nhl_2025.parquet",
           "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2026.parquet": {
+      "league": "nhl",
+      "rows": 1312,
+      "rows_on_disk": 1312,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2026.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2026.parquet",
+          "league": "nhl",
+          "n": 1312,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2026.parquet",
+          "n": 1312,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/nhl/nhl_2027.parquet": {
+      "league": "nhl",
+      "rows": 0,
+      "rows_on_disk": 0,
+      "excluded": {},
+      "no_completion_column": "this frame cannot distinguish an unplayed game from a 0-0 one",
+      "checks": {
+        "ties": {
+          "skipped": "data/raw/nhl/nhl_2027.parquet: no rows at all"
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2027.parquet",
+          "league": "nhl",
+          "n": 0,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/nhl/nhl_2027.parquet",
+          "n": 0,
           "problems": {}
         }
       }
@@ -990,6 +1048,68 @@
           "ok": true,
           "label": "data/raw/sportsdataverse/nba_2025.parquet",
           "n": 1236,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nba_2026.parquet": {
+      "league": "nba",
+      "rows": 1230,
+      "rows_on_disk": 1239,
+      "excluded": {
+        "not_standard_game": 5,
+        "not_completed": 4
+      },
+      "checks": {
+        "ties": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2026.parquet",
+          "league": "nba",
+          "n": 1230,
+          "tied": 0,
+          "tie_rate": 0.0,
+          "allowed": 0.0
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2026.parquet",
+          "league": "nba",
+          "n": 1230,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2026.parquet",
+          "n": 1230,
+          "problems": {}
+        }
+      }
+    },
+    "data/raw/sportsdataverse/nba_2027.parquet": {
+      "league": "nba",
+      "rows": 0,
+      "rows_on_disk": 1206,
+      "excluded": {
+        "not_standard_game": 1,
+        "not_completed": 1205
+      },
+      "checks": {
+        "ties": {
+          "skipped": "data/raw/sportsdataverse/nba_2027.parquet: no rows at all"
+        },
+        "impossible_scores": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2027.parquet",
+          "league": "nba",
+          "n": 0,
+          "banned": [],
+          "hits": {}
+        },
+        "frame_shape": {
+          "ok": true,
+          "label": "data/raw/sportsdataverse/nba_2027.parquet",
+          "n": 0,
           "problems": {}
         }
       }

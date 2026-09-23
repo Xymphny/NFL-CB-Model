@@ -59,11 +59,13 @@ def test_a_football_league_refuses_a_date_and_requires_a_week():
 
 @pytest.mark.parametrize("league,fix", [
     ("mlb", "mlb_slate.py --date"),
-    ("nhl", "nhl_api.py --seasons"),
-    ("nba", "nba_2026.parquet"),
+    ("nhl", "nhl_api.py --seasons 2099-2099"),
+    ("nba", "nba_2099.parquet"),
 ])
 def test_missing_inputs_exit_2_with_the_command_that_fixes_them(league, fix):
-    r = _run("--league", league, "--date", "2026-10-22", "--bankroll", "100")
+    # A date whose inputs cannot exist. The first version used 2026-10-22 and
+    # passed only until that season was pulled.
+    r = _run("--league", league, "--date", "2098-11-02", "--bankroll", "100")
     assert r.returncode == 2, r.stderr
     assert "inputs are not ready" in r.stdout and fix in r.stdout
     assert "Traceback" not in r.stderr
@@ -308,3 +310,25 @@ def test_mlb_slate_knows_the_last_day_games_went_final():
         {"date": "2026-07-14", "games": [{"status": {"abstractGameState": "Preview"}}]},
     ]}
     assert last_final_date(payload, "2026-07-17") == "2026-07-12"   # All-Star break
+
+
+def test_mlb_slate_records_exactly_the_games_played_to_a_result():
+    """Postponements come back abstractGameState Final with no score; they are
+    not results. A game in progress is not either, and is recorded so the live
+    source can refuse the slate."""
+    from model.ingest.mlb_slate import finals_on, unfinished
+    done = lambda g, detail="Final": dict(g, status={"abstractGameState": "Final",
+                                                    "detailedState": detail})
+    def scored(g):
+        g = dict(g); g["teams"] = {k: dict(v, score=3) for k, v in g["teams"].items()}
+        return g
+    ppd = done(_mlb_game(4, "SEA", "HOU"), "Postponed")
+    live = dict(_mlb_game(5, "COL", "ARI"), status={"abstractGameState": "Live"})
+    payload = {"dates": [{"date": "2026-09-22", "games": [
+        scored(done(_mlb_game(1, "ATL", "SF", "Y", 1))),
+        scored(done(_mlb_game(2, "ATL", "SF", "Y", 2))),
+        ppd, live]}]}
+    assert finals_on(payload, "2026-09-22") == ["ATL202609220", "ATL202609221"]
+    assert unfinished(payload, "2026-09-23") == ["COL202609220"]
+    assert unfinished(payload, "2026-09-22") == []
+

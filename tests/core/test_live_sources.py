@@ -72,8 +72,10 @@ def test_nba_games_priced_at_tip_reproduce_the_graded_margins(nba_2023):
 
 
 def test_nba_refuses_a_missing_season_and_names_the_file():
-    with pytest.raises(nba.SeasonGap, match="nba_2026.parquet"):
-        nba.NBALiveSource.load(2027)
+    # A season that cannot be on disk yet, so this does not depend on what
+    # has been pulled -- the first version used 2027 and broke the day it was.
+    with pytest.raises(nba.SeasonGap, match=r"nba_20\d\d\.parquet"):
+        nba.NBALiveSource.load(2099)
 
 
 def test_nba_season_is_named_by_the_year_it_ends():
@@ -272,7 +274,13 @@ def test_mlb_live_replays_across_seasons_like_every_fit_did(caches):
     assert sched.season.min() == 2021 and sched.season.max() == 2026
 
 
-def _slate(tmp_path, day="2026-09-22", prev="2026-09-21", stamp="20260922T150000Z", **over):
+def _keys_on(day):
+    sched, _ = mlb.load_caches()
+    return sorted(sched[(sched.date == day) & sched.home_score.notna()].game_key)
+
+
+def _slate(tmp_path, day="2026-09-22", prev="2026-09-21", stamp="20260922T150000Z",
+           keys=None, unfinished=(), **over):
     game = {"game_pk": 1, "game_key": f"SFN{day.replace('-', '')}0", "game_number": 0,
             "start_utc": f"{day}T22:15:00Z", "state": "Preview",
             "detailed_state": "Scheduled", "home_team": "SFN", "away_team": "MIN",
@@ -280,7 +288,9 @@ def _slate(tmp_path, day="2026-09-22", prev="2026-09-21", stamp="20260922T150000
             "home_sp": "tidwb001", "away_sp": "mattz001", "park": "SFO03"}
     game.update(over)
     (tmp_path / f"{day}-{stamp}.json").write_text(json.dumps(
-        {"date": day, "fetched_at": stamp, "previous_final_date": prev, "games": [game]}))
+        {"date": day, "fetched_at": stamp, "previous_final_date": prev,
+         "previous_final_keys": _keys_on(prev) if keys is None else list(keys),
+         "unfinished_keys": list(unfinished), "games": [game]}))
     return tmp_path
 
 
@@ -304,7 +314,33 @@ def test_mlb_refuses_a_game_with_no_probable(tmp_path):
 def test_mlb_refuses_when_results_have_not_caught_up(tmp_path):
     with pytest.raises(mlb.StaleResults, match="2026-09-25"):
         mlb.MLBLiveSource.load("2026-09-26", slate_dir=_slate(
-            tmp_path, day="2026-09-26", prev="2026-09-25"))
+            tmp_path, day="2026-09-26", prev="2026-09-25", keys=["NYA202609250"]))
+
+
+def test_mlb_refuses_a_cache_that_reaches_the_date_but_not_every_game(tmp_path):
+    """The first check compared dates only. Five of fifteen results reach the
+    same date as all fifteen; this is the case it let through."""
+    keys = _keys_on("2026-09-21")
+    assert keys, "no results on that date in the committed cache"
+    with pytest.raises(mlb.StaleResults, match="1 of"):
+        mlb.MLBLiveSource.load("2026-09-22", slate_dir=_slate(
+            tmp_path, keys=keys + ["TOR202609210"]))
+
+
+def test_mlb_refuses_a_slate_pulled_while_games_were_in_progress(tmp_path):
+    with pytest.raises(mlb.StaleResults, match="Re-pull"):
+        mlb.MLBLiveSource.load("2026-09-22", slate_dir=_slate(
+            tmp_path, unfinished=["SEA202609210"]))
+
+
+def test_mlb_refuses_a_slate_without_game_level_proof(tmp_path):
+    _slate(tmp_path)
+    f = next(tmp_path.glob("*.json"))
+    blob = json.loads(f.read_text())
+    del blob["previous_final_keys"]
+    f.write_text(json.dumps(blob))
+    with pytest.raises(mlb.StaleResults, match="predates"):
+        mlb.MLBLiveSource.load("2026-09-22", slate_dir=tmp_path)
 
 
 def test_mlb_refuses_a_date_with_no_slate(tmp_path):

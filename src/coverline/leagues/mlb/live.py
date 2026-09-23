@@ -29,8 +29,9 @@ first pitch of the day would know anyway.
 REFUSALS
 No probable for either side refuses the game: books quote conditional on the
 listed starters, and a model price without one is a price for a different
-game. A results cache that does not reach the slate's previous_final_date
-refuses everything (see model/ingest/mlb_slate.py).
+game. A results cache missing any game the slate says went final on the
+previous date refuses everything, as does a slate pulled while earlier games
+were still in progress (see model/ingest/mlb_slate.py and check_fresh).
 """
 
 from __future__ import annotations
@@ -110,6 +111,35 @@ def state_before(schedule: pd.DataFrame, pitching: pd.DataFrame,
     return out["state"]
 
 
+def check_fresh(slate: dict, sched: pd.DataFrame) -> None:
+    """Refuse unless every result the slate says exists is in the cache.
+
+    A date comparison was the first version and it was not enough: a cache
+    holding five of a night's fifteen results reaches the same date as one
+    holding all fifteen. See model/ingest/mlb_slate.py.
+    """
+    if slate.get("unfinished_keys"):
+        raise StaleResults(
+            f"this slate was pulled while {len(slate['unfinished_keys'])} earlier "
+            f"game(s) were in progress ({', '.join(slate['unfinished_keys'][:4])}), "
+            "so its record of what went final is incomplete. Re-pull it once "
+            "they finish: `python model/ingest/mlb_slate.py --date "
+            f"{slate['date']}`.")
+    played = sched.dropna(subset=["home_score", "away_score"])
+    prev = slate.get("previous_final_date")
+    keys = slate.get("previous_final_keys")
+    if prev and keys is None:
+        raise StaleResults(
+            "this slate predates game-level freshness checks; re-pull it")
+    missing = sorted(set(keys or ()) - set(played.game_key))
+    if missing:
+        raise StaleResults(
+            f"{len(missing)} of {len(keys)} results from {prev} are not in the "
+            f"results cache ({', '.join(missing[:4])}). Pricing now would use "
+            "ratings that have not seen them; run deploy/mlb_daily_update.py "
+            "first.")
+
+
 @dataclass
 class MLBLiveSource:
     payload: dict
@@ -122,13 +152,7 @@ class MLBLiveSource:
              data_dir: Path = DATA_DIR) -> "MLBLiveSource":
         slate = json.loads(latest_slate(day, slate_dir).read_text())
         sched, pit = load_caches(data_dir)
-        prev = slate.get("previous_final_date")
-        have = str(sched.dropna(subset=["home_score", "away_score"]).date.max())
-        if prev and have < prev:
-            raise StaleResults(
-                f"the results cache ends {have} but games went final on {prev}. "
-                "Pricing now would miss them; run deploy/mlb_daily_update.py "
-                "first.")
+        check_fresh(slate, sched)
         return cls(payload=slate, schedule=sched, pitching=pit)
 
     @property
