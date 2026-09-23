@@ -773,7 +773,7 @@ components:
     old_path: "frontend/src/staking.js (coverProb, PLAY_GAP, LEAN_GAP, ATS_SIGMA) pricing legacy data/divergence files in the browser"
     new_path: "src/coverline/core/tiers.py + src/coverline/execution/board.py + scripts/export_board.py + scripts/export_record.py -> data/site/{board_*,record,gates}.json"
     disposition: rewritten
-    adr: 0025-tiers-are-conviction-not-edge.md
+    adr: 0026-retire-the-legacy-board-surfaces.md
     data_artifacts:
       - "data/tier_thresholds.json"
       - "data/site/board_*.json"
@@ -786,7 +786,7 @@ components:
       p_model is the league model's cover probability at the consensus line
       (test_board_export), and the stake is the staking engine's at the best
       price.
-    old_removed: false
+    old_removed: true
     notes: >-
       BACKEND HALF OF THE DASHBOARD REVAMP. The site will render these files
       and compute nothing. Per game: teams, start (UTC), each primary market at
@@ -799,3 +799,8 @@ components:
       break-even in any league. Gates are generated from the fitted artifacts'
       own grades and docs/decisions. old_removed flips when the frontend no
       longer reads the legacy divergence files.
+
+      FRONTEND DONE 2026-09-23: CoinFlip renders these files and nothing else;
+      frontend/src/staking.js and the legacy App.jsx surfaces are removed.
+      Every legacy surface not carried over is listed with its retained data
+      and a way back in ADR 0026 (tiers themselves are ADR 0025).

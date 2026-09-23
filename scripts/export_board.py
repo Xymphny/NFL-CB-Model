@@ -217,6 +217,47 @@ def _load(league: str, R, day: str | None = None):
     raise ValueError(league)
 
 
+def regime_evidence() -> str:
+    """'wins/n' for early flags that backed a first-year external head coach,
+    at the Lean threshold -- read from the artifact that measured it, never
+    typed. (The board once quoted 0/9, double-counting Play inside Lean.)"""
+    art = json.loads((ROOT / "model" / "coach_regime_results.json").read_text())
+    g = next(g for g in art["grades"]
+             if g["label"] == "model BACKED the regime team" and g["min_edge"] == 2.5)
+    return f"{g['wins']}/{g['n_graded']}"
+
+
+def apply_regime_cap(entry: dict, headline: str, regimes: dict, week: int) -> None:
+    """The legacy board's regime rule, carried into the core's export.
+
+    Early-season flags that BACKED a first-year external head coach's team
+    against the market went 0 for 6 in 2016-2023 (model/coach_regime_
+    experiment.py); flags fading such teams graded at baseline and are left
+    alone. So within the cap window a flag backing a regime team is capped at
+    Lean and its stake halved -- a reduction, never a removal, and still
+    graded. The weeks and the regime map are the legacy job's own, imported.
+    """
+    from deploy.odds_watch_job import REGIME_CAP_WEEKS, REGIME_CHIP_WEEKS
+    if not regimes or week is None:
+        return
+    home_r, away_r = regimes.get(entry["home"]), regimes.get(entry["away"])
+    if week <= REGIME_CHIP_WEEKS and (home_r or away_r):
+        entry["context"]["regime"] = {"home": home_r, "away": away_r}
+    m = entry["markets"].get(headline)
+    if week > REGIME_CAP_WEEKS or not m or m.get("status") != "priced":
+        return
+    picked = entry["home"] if m["side"] == "home" else entry["away"]
+    if picked not in regimes:
+        return
+    q = regime_evidence()
+    if m["tier"] == "play":
+        m["tier"] = "lean"
+    m["stake_fraction"] = round(m["stake_fraction"] * 0.5, 5)
+    m["cap"] = {"rule": "regime", "reason": (
+        f"{picked} first-year staff ({regimes[picked]['coach']}): early flags backing "
+        f"new-regime teams went {q} in backtests (2016-2023). Capped at Lean, still graded.")}
+
+
 def _nfl_fresh(src, today: str) -> dict:
     try:
         ca, wk, path = src.version_for(today)
@@ -277,6 +318,26 @@ def _mlb_context(src, gid) -> dict:
             if was and now and was != now:
                 ctx[f"{side}_probable_changed_from"] = was
     return ctx
+
+
+def next_slate(league: str, src, slate: dict) -> dict | None:
+    """The next date with games, for a league with none today."""
+    try:
+        if league == "nba":
+            s = src.schedule[~src.schedule.completed & ~src.schedule.postponed]
+            starts = s.tip
+        elif league == "nhl":
+            s = src.schedule[~src.schedule.game_state.isin(["OFF", "FINAL", "PPD", "CNCL"])]
+            starts = s.start
+        else:
+            return None
+        dates = sorted(local_date(t.strftime("%Y-%m-%dT%H:%M:%SZ")) for t in starts)
+        later = [d for d in dates if d > slate["date"]]
+        if not later:
+            return None
+        return {"date": later[0], "games": later.count(later[0])}
+    except Exception:
+        return None
 
 
 def teams(league: str, src) -> list[dict]:
@@ -362,10 +423,12 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
     default = R.LEAGUES[league].default_market
     headline = next((m for m in markets if B.M.vendor_key(m) == B.M.vendor_key(default)),
                     markets[0])
-    if snap is None:
+    if snap is None and games:
         board["refusals"].append({"scope": "league", "reason":
             "No odds captured yet for this league. The model's view is shown; "
             "market prices appear once the capture job has run."})
+    if not games:
+        board["next_slate"] = next_slate(league, src, slate)
 
     quotes, matched = [], {}
     if snap is not None:
@@ -386,6 +449,10 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
                                           "reason": r.reason})
     opens = opening_quotes(store, lg.vendor_sport, set(matched.values())) if matched else {}
     names = _names(league)
+    regimes = {}
+    if league == "nfl":
+        from deploy.odds_watch_job import load_regime_map
+        regimes = load_regime_map(slate["season"], str(ROOT / "data"))
 
     for g in games:
         entry = {"game_id": g.game_id, "home": g.home, "away": g.away,
@@ -415,10 +482,53 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
                 v = B.price_market(dist, eq, m, weight=w, bands=bands,
                                    open_quotes=oq, open_at=oat)
                 entry["markets"][m] = v.to_dict()
+        if league == "nfl":
+            apply_regime_cap(entry, headline, regimes, slate.get("week"))
         board["games"].append(_clean(entry))
 
     board["games"].sort(key=lambda e: (e["start"] or "", e["game_id"]))
     return board
+
+
+def summarise(board: dict) -> dict:
+    """The circuit's state and counts, so the site renders them rather than
+    deriving them.
+
+      up        games are priced against the market
+      degraded  games exist but some or all cannot be priced (no odds yet,
+                event refusals, a game-level refusal)
+      refused   the league cannot be priced at all; the refusal says why
+      idle      nothing on the slate today, and nothing wrong
+    """
+    games = board.get("games", [])
+    head = [g["markets"].get(g.get("headline")) for g in games]
+    priced = [m for m in head if m and m.get("status") == "priced"]
+    tiers = {t: sum(1 for m in priced if m.get("tier") == t) for t in T.TIERS}
+    league_ref = [r for r in board.get("refusals", []) if r.get("scope") == "league"]
+    if not games and league_ref:
+        state = "refused"
+    elif not games:
+        state = "idle"
+    elif priced and len(priced) == len(games) and not board.get("refusals"):
+        state = "up"
+    else:
+        state = "degraded"
+    # Game-level refusals grouped by reason, so the evidence strip can say
+    # "4 games refused: ..." in plain words. A reason's line-specific prefix
+    # ("line -4.0: ") is dropped so the same refusal groups as one.
+    import re
+    grouped: dict[str, int] = {}
+    for g in games:
+        m = g["markets"].get(g.get("headline")) or {}
+        r = g.get("refusal") or (m.get("refusal") if m.get("status") == "refused" else None)
+        if r:
+            r = re.sub(r"^line [-+\d.]+: ", "", r)
+            grouped[r] = grouped.get(r, 0) + 1
+    return {"state": state, "games": len(games), "priced": len(priced), "tiers": tiers,
+            "refusals": len(board.get("refusals", [])),
+            "reason": league_ref[0]["reason"] if league_ref else None,
+            "game_refusals": [{"reason": r, "games": n} for r, n in
+                              sorted(grouped.items(), key=lambda kv: -kv[1])]}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -440,6 +550,7 @@ def main(argv: list[str] | None = None) -> int:
             board = {"league": league, "generated_at": _now(), "games": [],
                      "refusals": [{"scope": "league",
                                    "reason": f"export failed: {type(exc).__name__}: {exc}"}]}
+        board["status"] = summarise(board)
         (out / f"board_{league}.json").write_text(json.dumps(_clean(board), indent=1) + "\n")
         priced = sum(1 for g in board["games"] if any(
             v.get("status") == "priced" for v in g.get("markets", {}).values()))

@@ -29,7 +29,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path[:0] = [str(ROOT / "src"), str(ROOT)]
+sys.path[:0] = [str(ROOT / "src"), str(ROOT), str(ROOT / "scripts")]
 
 from coverline.core.market_weight import staking_weight  # noqa: E402
 from coverline.execution.ledger import BetLedger  # noqa: E402
@@ -146,7 +146,8 @@ def _decision(path: Path) -> dict:
 
 
 def gates() -> dict:
-    out = {"generated_at": _now(), "fitted": [], "validation": [], "market": [], "decisions": []}
+    out = {"generated_at": _now(), "fitted": [], "validation": [], "market": [], "rules": [],
+           "decisions": []}
     for league, what, rel in ARTIFACT_GATES:
         art = _json(ROOT / rel)
         g = (art or {}).get("holdout_grade") or {}
@@ -172,6 +173,13 @@ def gates() -> dict:
                               # distinguishable from break-even when built.
                               "tiers_by_band": t.get("by_band"),
                               "break_even_at_minus_110": BREAK_EVEN_110})
+    import export_board
+    q = export_board.regime_evidence()
+    out["rules"] = [{"league": "nfl", "rule": "Regime cap",
+                     "text": (f"Early-season flags backing a first-year external head coach went "
+                              f"{q} ATS in 2016-2023; such flags are capped at Lean with half "
+                              "stake, never removed."),
+                     "file": "model/coach_regime_results.json"}]
     for p in sorted((ROOT / "docs" / "decisions").glob("[0-9][0-9][0-9][0-9]-*.md")):
         if p.name.startswith("0000"):
             continue

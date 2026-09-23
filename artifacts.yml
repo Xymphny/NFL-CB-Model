@@ -345,7 +345,7 @@ artifacts:
   - path: data/site/board_*.json
     produced_by: scripts/export_board.py
     consumed_by:
-      - frontend/src/App.jsx
+      - frontend/src/data.js
     kind: gold
     refresh: "after every capture (close-capture-job) and twice daily
       (live-inputs-job); the site renders it and computes nothing"
@@ -355,7 +355,7 @@ artifacts:
   - path: data/site/record.json
     produced_by: scripts/export_record.py
     consumed_by:
-      - frontend/src/App.jsx
+      - frontend/src/data.js
     kind: gold
     refresh: "with the board"
     staleness_error_hours: 36
@@ -364,7 +364,7 @@ artifacts:
   - path: data/site/gates.json
     produced_by: scripts/export_record.py
     consumed_by:
-      - frontend/src/App.jsx
+      - frontend/src/data.js
     kind: gold
     refresh: "with the board; generated from artifacts and docs/decisions, never
       hand-written"

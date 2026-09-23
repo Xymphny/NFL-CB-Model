@@ -625,6 +625,14 @@ Wired into the same disruption-weighting mechanism as coaching/QB changes — te
 
 ## The dashboard (`frontend/`)
 
+**Replaced 2026-09-23 by CoinFlip.** The site now renders
+`data/site/board_{league}.json`, `record.json` and `gates.json`, written by
+`scripts/export_board.py` and `scripts/export_record.py` from the core, and
+computes no probability, tier or stake of its own. Tiers are conviction, not
+edge (ADR 0025); every legacy surface not carried over is listed with its
+retained data and a way back in ADR 0026. Product record: `PRODUCT.md`. The
+text below describes the retired Coverline site and is kept as history.
+
 A Vite/React static site — scoreboard/tote-board visual theme (deep board-green and near-black, amber LED-style rating numbers, "Big Shoulders Display" for headlines), matching the subject matter rather than a generic dashboard look. Reads whichever ratings/divergence snapshot the build-time manifest says is latest (see below) — not a fixed `ratings.json` path anymore.
 
 - **Built and verified**: compiles cleanly (`npm run build`), served locally and checked against real sample data (32 real teams from an actual pipeline run, 2 sample divergence entries including one flagged game) — both data endpoints returned correct content, the served index page returned HTTP 200 with the expected React root element.

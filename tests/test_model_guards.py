@@ -19,6 +19,19 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+
+def _site_src():
+    """Every source file of the site, concatenated. The 2026-09-23 revamp
+    split the old App.jsx into views and removed staking.js; the guards
+    below read the whole site so they cannot be dodged by moving code."""
+    root = os.path.join(REPO, "frontend", "src")
+    out = []
+    for dp, _, fs in os.walk(root):
+        for f in fs:
+            if f.endswith((".js", ".jsx")):
+                out.append(open(os.path.join(dp, f)).read())
+    return "\n".join(out)
+
 def test_ngs_absent_uses_rating_only_coefficients():
     """NGS missing must switch coefficient vectors, not zero the features.
 
@@ -141,41 +154,40 @@ def test_grader_thresholds_match_the_board():
     assert grade_divergence(capped, 1, results)[0]["tier"] == "lean"
 
 
-def test_staking_refuses_to_guess_without_calibration():
-    """A missing calibration file must not make the site more confident.
+def test_the_site_computes_no_prices():
+    """A missing calibration file must not make the site more confident --
+    and since 2026-09-23 the site cannot be, because it prices nothing.
 
-    coverProb used to fall back to a normal approximation: a 4-point
-    edge read 51.3% -> 61.4% on a fetch failure, and because sizeStake
-    consumes the same probability, full Kelly went ~0.014 -> ~0.19 of
-    bankroll. Parsed from the source because there is no JS runtime in
-    this suite.
+    coverProb used to fall back to a normal approximation: a 4-point edge
+    read 51.3% -> 61.4% on a fetch failure, and sizeStake turned that into
+    ~0.19 of bankroll at full Kelly. The dashboard revamp deleted the whole
+    path (frontend/src/staking.js); every probability, tier and stake now
+    arrives from the core in data/site/board_*.json. This guards that the
+    site never grows a pricing function again.
     """
-    src = open(os.path.join(REPO, "frontend", "src", "staking.js")).read()
-    fn = src[src.index("export function coverProb"):]
-    fn = fn[:fn.index("\n}")]
-    assert "normCdf" not in fn, "coverProb must not fall back to the normal approximation"
-    assert "return null" in fn
-
-    size = src[src.index("export function sizeStake"):]
-    size = size[:size.index("\n}\n")]
-    assert "prob == null" in size and "uncalibrated" in size
-    assert "capped" in size, "a regime-capped play must be capped in dollars too"
-
-
-def test_grader_and_board_share_thresholds():
-    """One set of numbers, two consumers -- they must agree."""
-    from deploy.generate_performance import PLAY_GAP as PY_PLAY, LEAN_GAP as PY_LEAN
-
-    src = open(os.path.join(REPO, "frontend", "src", "staking.js")).read()
-    js = {}
-    for name in ("PLAY_GAP", "LEAN_GAP"):
-        marker = f"export const {name} = "
-        val = src[src.index(marker) + len(marker):].split("\n")[0].strip().rstrip(";")
-        js[name] = float(val)
-    assert js["PLAY_GAP"] == PY_PLAY, f"{js['PLAY_GAP']} vs {PY_PLAY}"
-    assert js["LEAN_GAP"] == PY_LEAN, f"{js['LEAN_GAP']} vs {PY_LEAN}"
-
-
+    assert not os.path.exists(os.path.join(REPO, "frontend", "src", "staking.js"))
+    site = _site_src()
+    for token in ("normCdf", "coverProb", "sizeStake", "fullKelly", "ATS_SIGMA",
+                  "PLAY_GAP", "LEAN_GAP", "Math.exp(", "Math.erf", "edgeCoef"):
+        assert token not in site, f"the site computes a price again: {token}"
+    # The stake shown is the core's, and an unsized pick says so.
+    assert "stake_fraction" in site and "Unsized" in site
+def test_tier_thresholds_live_only_in_the_core():
+    """One set of numbers, one owner. The board's Play/Lean cutoffs used to
+    live in staking.js and in the legacy grader and had to be kept equal by
+    this test. Tiers are now computed by core/tiers.py from
+    data/tier_thresholds.json (ADR 0025) and shipped per game; the site
+    reads `tier` and holds no cutoff of its own."""
+    import json
+    site = _site_src()
+    assert "m.tier" in site or ".tier" in site
+    art = json.load(open(os.path.join(REPO, "data", "tier_thresholds.json")))
+    for league in ("nfl", "cfb", "mlb", "nhl", "nba"):
+        b = art["leagues"][league]
+        assert 0 < b["coin_flip"] < b["lean"] < b["play"] < 1
+        # A cutoff typed into the site would show up as one of these values.
+        for k in ("coin_flip", "lean", "play"):
+            assert f"{b[k]}" not in site, f"{league} {k} cutoff is hard-coded in the site"
 def test_withheld_market_is_absent_from_the_artifact():
     """pass_yds must be unanswerable, not merely unanswered.
 
@@ -276,14 +288,13 @@ def test_unsupported_edge_curve_is_withheld():
     expect = lo > 0 and oos.get("beats_coin_flip", True)
     assert cal["supported"] == bool(expect)
 
-    # The board must gate on `supported`, not merely on the field existing.
-    src = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
-    assert "supported !== false" in src, "App.jsx must withhold an unsupported cover curve"
-    # The historical value may appear in a comment documenting the fix;
-    # what must not survive is it being USED as the coefficient.
-    assert "edgeCoefOverride={0.01828}" not in src, \
-        "CFB's cover coefficient must come from the artifact, not a JSX literal"
-    assert "cfb_edge_calibration.json" in src, "the board must read the committed artifact"
+    # The board used to gate this curve with `supported !== false`. Since
+    # the 2026-09-23 revamp the site quotes no cover curve at all: it reads
+    # no curve file and no coefficient, so an unsupported curve cannot
+    # reach a card however the artifact is set.
+    site = _site_src()
+    for f in ("margin_dist.json", "cfb_edge_calibration.json", "0.01828"):
+        assert f not in site, f"the site reads a cover curve again: {f}"
 
 
 def test_cfb_edge_calibration_artifact():
@@ -428,17 +439,19 @@ def test_half_life_revalidation_recorded_the_failure():
         "the knob moved without the ledger moving with it"
 
 
-def test_mlb_never_renders_a_graded_verdict():
-    """MLB publishes no model opinion. The record tab must not imply one
-    exists -- it rendered 36 'Moved away' CLV verdicts before 2026-09-20."""
-    src = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
-    assert "ObservationOnlyRecord" in src, "MLB needs its own observation-only record view"
-    assert "league === 'MLB'\n        ? <ObservationOnlyRecord" in src.replace("\r", ""), \
-        "the record tab must route MLB away from TrackRecord"
-    # CLV is meaningless without a model opinion; the hook must refuse rows
-    # that carry no spread rather than comparing NaN.
-    assert "earliest.market_spread == null || earliest.spread_gap == null" in src, \
-        "useClvReport must skip rows with no model opinion"
+def test_the_record_only_grades_rows_with_a_model_opinion():
+    """MLB once rendered 36 'Moved away' CLV verdicts for rows that carried
+    no model opinion at all. The record is now data/site/record.json, built
+    by scripts/export_record.py from the paper ledger, and it counts only
+    signals where the model preferred the side (p_model > p_market) -- a
+    row with no opinion cannot be graded. The site renders that file and
+    nothing else."""
+    rec = open(os.path.join(REPO, "scripts", "export_record.py")).read()
+    assert "s.p_model <= s.p_market" in rec, "the record must skip rows with no preferred side"
+    site = _site_src()
+    assert "record.json" in site
+    for legacy in ("performance.json", "mlb_divergence", "cfb_divergence", "/data/divergence"):
+        assert legacy not in site, f"the record reads a legacy source again: {legacy}"
 
 
 
@@ -546,7 +559,7 @@ def test_prop_ledger_reaches_the_site():
     man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
     assert '"prop_grades": list_and_copy_snapshots("prop_grades")' in man, \
         "the manifest must publish the directory grade_props actually writes"
-    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    app = _site_src()
     assert "/data/prop_grades/summary.json" in app, "the site must read the ledger"
     assert "EngineLedger" in app, "the ledger needs a surface, not just a file"
 
@@ -587,38 +600,33 @@ def test_unfinished_week_does_not_false_alarm():
 def test_every_data_file_the_board_fetches_actually_ships():
     """The class of bug, not one instance of it.
 
-    Three times now a surface has fetched a file nothing produces:
-    mlb_performance.json, player_grades/, and -- introduced the same
-    day the hardcoded CFB coefficient was removed --
-    cfb_edge_calibration.json, which left the CFB board showing
-    'EST. COVER -' for the one league whose curve is monotonic. A 404
-    here is silent by construction, because every one of these hooks
-    catches and renders an empty state.
+    Three times a surface fetched a file nothing produced --
+    mlb_performance.json, player_grades/, cfb_edge_calibration.json -- and
+    each 404 was silent, because every hook catches and renders an empty
+    state. Every /data/ path the site fetches must exist on disk and be
+    copied by the build: top-level files by copy_single_file, and the
+    site/ and prop_grades/ families by generate_manifest's family copies.
+    A ${...} in a path is expanded over the five leagues.
     """
     import re
-    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    app = _site_src()
     man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
-
-    # Deliberate 404s, each with a reason. Anything else must ship.
-    ALLOWED = {
-        "none.json": "sentinel for 'nothing to fetch'; the hook catches it",
-        "mlb_performance.json": ("MLB is observation-only and nothing grades it; the "
-                                 "record tab routes to ObservationOnlyRecord instead"),
-    }
-
+    families = {"site": '"site"' in man and 'for fam in ("site"' in man,
+                "prop_grades": '"prop_grades": list_and_copy_snapshots("prop_grades")' in man}
     missing = []
-    for path in sorted(set(re.findall(r"['\"`]/data/([a-z0-9_]+\.json)['\"`]", app))):
-        if path in ALLOWED:
-            continue
-        on_disk = os.path.exists(os.path.join(REPO, "data", path))
-        copied = f'copy_single_file("{path}")' in man
-        if path == "manifest.json":
-            continue                       # written by generate_manifest itself
-        if not (on_disk and copied):
-            missing.append(f"{path} (on disk: {on_disk}, copied: {copied})")
-    assert not missing, (
-        "the board fetches these but nothing ships them, so they 404 silently: "
-        + "; ".join(missing))
+    paths = set(re.findall(r"['\"`]/data/([a-z0-9_/${}]+\.json)['\"`]", app))
+    assert paths, "the site fetches nothing from /data -- the scan is broken"
+    for path in sorted(paths):
+        expanded = ([path.replace(m, lg) for lg in ("nfl", "cfb", "mlb", "nhl", "nba")
+                     for m in re.findall(r"\$\{[^}]+\}", path)] if "${" in path else [path])
+        for p_ in expanded:
+            on_disk = os.path.exists(os.path.join(REPO, "data", p_))
+            fam = p_.split("/")[0] if "/" in p_ else None
+            copied = families.get(fam, False) if fam else f'copy_single_file("{p_}")' in man
+            if not (on_disk and copied):
+                missing.append(f"{p_} (on disk: {on_disk}, copied: {copied})")
+    assert not missing, ("the site fetches these but nothing ships them, so they 404 "
+                         "silently: " + "; ".join(missing))
 
 
 
@@ -701,12 +709,15 @@ def test_totals_are_withheld_until_shown():
     assert v["accuracy"]["model"]["prediction_sd"] < v["accuracy"]["market"]["prediction_sd"]
     assert not any(b["clears_breakeven"] for b in v["by_threshold"])
 
-    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
-    assert "totals_validation.json" in app, "the board must read the verdict"
-    assert "totalsSupported" in app, "totals must be gated, not hardcoded on"
-    # Default-closed: an unreadable artifact must withhold, not flag.
-    assert "totalsSupported = false" in app, \
-        "the default must be withheld when the evidence cannot be read"
+    # Since 2026-09-23 the core withholds the market itself: NFL's model
+    # does not offer totals, so the board export never prices one, and the
+    # gates export states the verdict from this file. The site holds no
+    # switch that could turn totals back on.
+    from coverline.leagues.nfl.model import NFLModel
+    assert "total" not in NFLModel.__dict__["primary_markets"].fget(NFLModel.__new__(NFLModel))
+    rec = open(os.path.join(REPO, "scripts", "export_record.py")).read()
+    assert '"data/totals_validation.json"' in rec, "the gates must state the totals verdict"
+    assert "totalsSupported" not in _site_src(), "no site-side switch for totals"
     man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
     assert 'copy_single_file("totals_validation.json")' in man, \
         "an artifact the board fetches must ship, or it 404s silently"
@@ -743,8 +754,10 @@ def test_spread_thresholds_are_measured_and_disclosed():
     assert not play["clears_breakeven"]
     # The interval containing breakeven is the reason this is a disclosure.
     assert play["ci95"][0] < 0.524 < play["ci95"][1]
-    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
-    assert "breakeven not demonstrated" in app, "the board must say so on the card"
+    # The old Play threshold is gone from the site; its successor, the tier
+    # bands, carries the same disclosure on every board (ADR 0025).
+    assert "No band has been distinguishable from break-even" in _site_src(), \
+        "the board must say tiers have not been shown to beat break-even"
     man = open(os.path.join(REPO, "deploy", "generate_manifest.py")).read()
     assert 'copy_single_file("spread_validation.json")' in man
 
@@ -785,13 +798,20 @@ def test_regime_cap_number_matches_its_artifact():
     wins, n = backed[2.5]
     quoted = f"{wins}/{n}"
 
-    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
+    app = _site_src()
     job = open(os.path.join(REPO, "deploy", "odds_watch_job.py")).read()
     readme = open(os.path.join(REPO, "README.md")).read()
 
-    # The Lean-threshold cell is the one the cap acts on.
-    assert f"{quoted} ATS" in app, f"the gate card must quote {quoted}, the artifact's number"
-    assert f"went {quoted} in backtests" in app, "the live chip must quote the same number"
+    # Since 2026-09-23 the cap is applied by the core's board export and its
+    # text is GENERATED from this artifact, so the site cannot drift from it.
+    sys.path.insert(0, os.path.join(REPO, "scripts"))
+    import export_board, export_record
+    assert export_board.regime_evidence() == quoted
+    rules = export_record.gates()["rules"]
+    assert any(f"{quoted} ATS" in r["text"] for r in rules), "the gate text must quote the artifact"
+    import inspect
+    assert "went {q} in backtests" in inspect.getsource(export_board.apply_regime_cap), \
+        "the capped card's reason must quote the same number"
     assert f"graded {quoted} in 2016-2023" in job, "the odds job's chip must match"
     assert f"went {quoted} ATS" in readme, "the README must match"
 
@@ -823,8 +843,10 @@ def test_spread_validation_grades_what_ships():
     assert "compression_claim_withdrawn" in v
     # The de-bias guard is inert, not a frozen-threshold bug.
     assert v["debias_sweep"]["verdict"] == "inert"
-    app = open(os.path.join(REPO, "frontend", "src", "App.jsx")).read()
-    assert f'Play tier {play["ats"]*100:.1f}%' in app, "the card must quote the shipped figure"
+    # The legacy Play threshold no longer ships on the site (ADR 0025); what
+    # must not happen is its figure being quoted as if it still did.
+    assert f'Play tier {play["ats"]*100:.1f}%' not in _site_src(), \
+        "the site quotes the retired legacy Play-tier figure"
 
 
 def test_cfb_returning_production_finding_holds():

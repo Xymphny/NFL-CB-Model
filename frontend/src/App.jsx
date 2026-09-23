@@ -1,1900 +1,288 @@
-import { useEffect, useState, useMemo } from 'react'
-import { coverProb, sizeStake, confidenceDrivers, confidenceScore, altLineFairPrices, PLAY_GAP, LEAN_GAP, DEFAULT_PRICE } from './staking'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useAccount } from './account'
 import { useBook } from './store'
-import MyBook, { AccountChip } from './MyBook'
+import { LEAGUES, isFixture, useBoards, useGates, useRecord, useSinceLastVisit } from './data'
+import { LEAGUE_CODE, LEAGUE_NAME, STATE_LABEL, age, dateLabel, pts, signed } from './format'
+import { StateGlyph } from './Glyph'
+import Board from './views/Board'
+import Teams from './views/Teams'
+import Players from './views/Players'
+import Record from './views/Record'
+import Gates from './views/Gates'
+import Book, { AccountChip } from './views/Book'
 
-/* ---------------- Data hooks (unchanged snapshot architecture) ---------------- */
-
-function useLatestSnapshot(kind) {
-  const [state, setState] = useState({ data: null, loading: true, error: null })
-
-  useEffect(() => {
-    fetch('/data/manifest.json')
-      .then((res) => { if (!res.ok) throw new Error('no manifest'); return res.json() })
-      .then((manifest) => {
-        const files = manifest[kind] || []
-        if (files.length === 0) {
-          setState({ data: null, loading: false, error: new Error('no snapshots yet') })
-          return
-        }
-        const latest = files[files.length - 1]
-        return fetch(`/data/${kind}/${latest}`)
-          .then((res) => res.json())
-          .then((data) => setState({ data, loading: false, error: null }))
-      })
-      .catch((error) => setState({ data: null, loading: false, error }))
-  }, [kind])
-
-  return state
+/* Views a league actually has. Players only where a player model exists
+ * (NFL's props engine); Teams only where the board says what the model rates.
+ * Tabs that do not apply are hidden, never rendered empty. */
+function viewsFor(league, board) {
+  const v = [{ id: 'board', label: 'Board', key: 'b' }]
+  if (board?.teams?.length) v.push({ id: 'teams', label: 'Teams', key: 't' })
+  if (league === 'nfl') v.push({ id: 'players', label: 'Players', key: 'p' })
+  v.push({ id: 'record', label: 'Record', key: 'r' }, { id: 'gates', label: 'Gates', key: 'g' },
+         { id: 'book', label: 'My book', key: 'm' })
+  return v
 }
 
-function useRatingsHistory(kind = 'ratings') {
-  const [state, setState] = useState({ history: null, loading: true, error: null })
-
-  useEffect(() => {
-    fetch('/data/manifest.json')
-      .then((res) => { if (!res.ok) throw new Error('no manifest'); return res.json() })
-      .then((manifest) => {
-        const files = manifest[kind] || []
-        if (files.length === 0) {
-          setState({ history: null, loading: false, error: new Error('no snapshots yet') })
-          return
-        }
-        return Promise.all(files.map((f) => fetch(`/data/${kind}/${f}`).then((r) => r.json()))).then(
-          (snapshots) => {
-            const latestSeason = Math.max(...snapshots.map((s) => s.season))
-            const history = {}
-            snapshots
-              .filter((snap) => snap.season === latestSeason)
-              .sort((a, b) => a.week - b.week)
-              .forEach((snap) => {
-                snap.ratings.forEach((team) => {
-                  if (!history[team.team]) history[team.team] = []
-                  history[team.team].push({ week: snap.week, total_rating: team.total_rating })
-                })
-              })
-            setState({ history, loading: false, error: null })
-          }
-        )
-      })
-      .catch((error) => setState({ history: null, loading: false, error }))
-  }, [kind])
-
-  return state
+function readPref(key, fallback) {
+  try { return localStorage.getItem(key) || fallback } catch { return fallback }
 }
-
-/* ---------------- Formatting ---------------- */
-
-function formatSigned(value, digits = 1) {
-  if (value === null || value === undefined) return '—'
-  const sign = value > 0 ? '+' : ''
-  return `${sign}${value.toFixed(digits)}`
-}
-
-// Hyphen-minus is a stub at 34px display weight; U+2212 matches the
-// digit width. DISPLAY ONLY -- never applied to stored labels.
-function bigNum(text) {
-  return typeof text === 'string' ? text.replace(/-/g, '\u2212') : text
-}
-
-function formatPercent(value, digits = 1) {
-  if (value === null || value === undefined) return '—'
-  return `${(value * 100).toFixed(digits)}%`
-}
-
-function formatNumber(value, digits = 2) {
-  if (value === null || value === undefined) return '—'
-  return value.toFixed(digits)
-}
-
-/* ---------------- Edge grading ----------------
- * Thresholds and probability math live in staking.js. Verdicts stay
- * deliberately conservative: sub-4-point gaps did not clear the 52.4%
- * ATS breakeven in the walk-forward backtest.
- */
-
-function gradeGame(d, playGap = PLAY_GAP, leanGap = LEAN_GAP, totalsSupported = false) {
-  const g = gradeGameInner(d, playGap, leanGap, totalsSupported)
-  if (g.verdict === 'play' && g.market === 'spread' && d.tier_cap === 'lean') {
-    return { verdict: 'lean', market: 'spread', stake: '0.5u', capped: 'regime' }
-  }
-  return g
-}
-
-function gradeGameInner(d, playGap = PLAY_GAP, leanGap = LEAN_GAP, totalsSupported = false) {
-  const spreadEdge = Math.abs(d.spread_gap)
-  // TOTALS WITHHELD (2026-09-20). Measured over 1,039 walk-forward
-  // games the totals model loses to the market on MAE (10.58 vs
-  // 10.23), its predictions vary by 2.5 points where the market varies
-  // by 4.3, and no betting threshold clears the 52.4% breakeven --
-  // pooled it sits below it at z=-1.82. Same treatment pass yards
-  // gets: withheld in code, with the number that put it there on the
-  // card. data/totals_validation.json.
-  const totalEdge = (totalsSupported && d.total_gap != null) ? Math.abs(d.total_gap) : 0
-
-  if (spreadEdge >= playGap || totalEdge >= playGap + 1) {
-    const isSpread = spreadEdge >= playGap
-    return { verdict: 'play', market: isSpread ? 'spread' : 'total', stake: '1u' }
-  }
-  if (spreadEdge >= leanGap || totalEdge >= leanGap + 1) {
-    const isSpread = spreadEdge >= leanGap
-    return { verdict: 'lean', market: isSpread ? 'spread' : 'total', stake: '0.5u' }
-  }
-  return { verdict: 'pass', market: null, stake: null }
-}
-
-function describePick(d, market) {
-  if (market === 'spread') {
-    const modelLikesHome = d.spread_gap > 0
-    const side = modelLikesHome ? d.home_team : d.away_team
-    const line = modelLikesHome ? -d.market_spread : d.market_spread
-    return `${side} ${formatSigned(line, 1)}`
-  }
-  const over = d.total_gap > 0
-  return `${d.away_team}/${d.home_team} ${over ? 'over' : 'under'} ${d.market_total.toFixed(1)}`
-}
-
-function describeReason(d, market, debias = null) {
-  const parts = []
-  if (market === 'spread') {
-    const modelSpread = d.market_spread + d.spread_gap
-    parts.push(`Model makes it ${formatSigned(modelSpread, 1)} vs the market's ${formatSigned(d.market_spread, 1)}`)
-  } else {
-    const modelTotal = d.market_total + d.total_gap
-    parts.push(`Model projects ${modelTotal.toFixed(1)} vs the market's ${d.market_total.toFixed(1)}`)
-  }
-  if (debias && debias[0]) {
-    parts.push(`after a slate de-bias of ${formatSigned(debias[0], 2)} applied to every spread on ` +
-               `this board (constant-term correction; relative opinions untouched)`)
-  }
-  if (d.moved_toward_model === true) parts.push('line has moved toward the model since open')
-  if (d.moved_toward_model === false) parts.push('line has moved away from the model since open')
-  return parts.join(' — ')
-}
-
-function describePass(d) {
-  const spreadEdge = Math.abs(d.spread_gap)
-  const totalEdge = Math.abs(d.total_gap)
-  const best = Math.max(spreadEdge, totalEdge)
-  if (best < LEAN_GAP) return 'Model and market agree'
-  return 'Edge below play threshold'
-}
-
-/* ---------------- This week: edge board ---------------- */
-
-function ConfidenceMeter({ drivers }) {
-  const score = confidenceScore(drivers)
-  return (
-    <div className="conf">
-      <div className="conf-head">
-        <span className="bet-stat-label">Confidence</span>
-        <span className="conf-label">{score.label} — {score.filled} of {score.total}</span>
-      </div>
-      <div className="conf-bar">
-        {drivers.map((dr, i) => (
-          <div key={i} className={`conf-seg ${dr.ok === true ? 'on' : dr.ok === false ? 'bad' : ''}`} />
-        ))}
-      </div>
-      <div className="conf-chips">
-        {drivers.map((dr) => (
-          <span key={dr.key} className={`conf-chip ${dr.ok === true ? 'on' : dr.ok === false ? 'bad' : ''}`}>
-            {dr.label}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function formatKickoff(iso) {
-  if (!iso) return null
-  const dt = new Date(iso)
-  if (isNaN(dt)) return null
-  return dt.toLocaleString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
-    hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York',
-  }) + ' ET'
-}
-
-function weatherBrief(wx) {
-  if (!wx) return null
-  if (wx.roof === 'dome' || wx.roof === 'closed') return 'Indoors'
-  if (wx.temp_f != null) return Math.round(wx.temp_f) + '\u00B0F \u00B7 ' + Math.round(wx.wind_mph) + ' mph wind'
-  return null
-}
-
-function GameContext({ d, qb1Map }) {
-  const [open, setOpen] = useState(false)
-  const inj = d.injuries
-  const wx = d.weather
-  const nInj = inj ? (inj.home?.length || 0) + (inj.away?.length || 0) : 0
-  const qbHome = qb1Map ? qb1Map[d.home_team] : null
-  const qbAway = qb1Map ? qb1Map[d.away_team] : null
-  if (!inj && !wx && !qbHome && !qbAway) return null
-
-  const wxLine = wx
-    ? wx.roof === 'dome' || wx.roof === 'closed'
-      ? 'Indoors'
-      : wx.temp_f != null
-      ? `${Math.round(wx.temp_f)}°F · wind ${Math.round(wx.wind_mph)} mph${wx.precip_prob != null ? ` · ${wx.precip_prob}% precip` : ''}${wx.wind_mph >= 15 ? ' — wind worth watching on the total' : ''}`
-      : 'Outdoors — forecast pending'
-    : null
-
-  return (
-    <div className="game-context">
-      <button className="alt-lines-toggle" onClick={() => setOpen(!open)}>
-        {open ? 'Hide game context' : `Game context${nInj ? ` — ${nInj} on injury report` : ''}${wxLine && !open ? ` · ${wxLine.split(' — ')[0]}` : ''}`}
-      </button>
-      {open && (
-        <div className="context-body">
-          {(qbHome || qbAway) && (
-            <p className="context-qbs">
-              QBs: {d.away_team} {qbAway || '—'} · {d.home_team} {qbHome || '—'}
-            </p>
-          )}
-          {wxLine && <p className="context-weather">{wxLine}</p>}
-          {inj && (
-            <div className="context-injuries">
-              {[['home', d.home_team], ['away', d.away_team]].map(([side, team]) => (
-                <div key={side}>
-                  <p className="context-team">{team}</p>
-                  {inj[side] == null && <p className="context-none">No report available</p>}
-                  {Array.isArray(inj[side]) && inj[side].length === 0 && <p className="context-none">No one listed</p>}
-                  {(inj[side] || []).map((p) => (
-                    <p className="context-inj-row" key={p.player}>
-                      <span className={`inj-status ${p.status.toLowerCase()}`}>{p.status === 'Questionable' ? 'Q' : p.status === 'Doubtful' ? 'D' : 'OUT'}</span>
-                      {p.player} <span className="context-pos">{p.position}</span>
-                    </p>
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
-          <p className="alt-lines-note">
-            Reports and forecasts are context the market already prices — use them to understand the
-            number, not as extra edge on top of it.
-          </p>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function AltLines({ d, marginDist }) {
-  const [open, setOpen] = useState(false)
-  const pmf = marginDist.residual_distribution?.residual_pmf
-  if (!pmf) return null
-  const modelMargin = d.market_spread + d.spread_gap
-  const rows = open ? altLineFairPrices(modelMargin, d.market_spread, pmf, 1.5) : []
-  return (
-    <div className="alt-lines">
-      <button className="alt-lines-toggle" onClick={() => setOpen(!open)}>
-        {open ? 'Hide alt lines' : 'Alt lines — our fair prices'}
-      </button>
-      {open && (
-        <div className="alt-lines-grid">
-          {rows.map((r) => (
-            <div className="alt-line-cell" key={r.line}>
-              <span className="alt-line-num">{formatSigned(-r.line, 1)}</span>
-              <span className="alt-line-fair">{r.fair > 0 ? `+${r.fair}` : r.fair}</span>
-            </div>
-          ))}
-        </div>
-      )}
-      {open && (
-        <p className="alt-lines-note">
-          Home side at each half point, our fair (no-vig) price from 4,078 games of real margin
-          distribution. Beat these numbers at a book and the rung is +EV by our count.
-        </p>
-      )}
-    </div>
-  )
-}
-
-function MlbBoard({ snap }) {
-  if (!snap) return <p className="section-sub">The MLB board populates once the first odds snapshot lands (push + sync + first cron run).</p>
-  const fmtMl = (x) => (x == null ? '—' : x > 0 ? `+${x}` : `${x}`)
-  return (
-    <section>
-      <p className="preseason-note">{snap.note}</p>
-      {snap.divergences.map((d) => (
-        <div key={`${d.away_team}@${d.home_team}${d.kickoff || ''}`} className="bet-card">
-          <div className="bet-card-top">
-            <div className="matchup-block">
-              <p className="matchup-line">{d.away_name || d.away_team} <span className="matchup-at">@</span> {d.home_name || d.home_team}</p>
-              <p className="kickoff-line">
-                {d.line_status === 'closed' && <span className="closed-chip">Closed</span>}
-                {[formatKickoff(d.kickoff),
-                  (d.away_probable || d.home_probable) ? `${d.away_probable || 'TBD'} vs ${d.home_probable || 'TBD'}` : null,
-                  d.market_total != null ? `O/U ${d.market_total}` : null].filter(Boolean).join(' · ')}
-              </p>
-            </div>
-            <span className="verdict lean">Watch</span>
-          </div>
-          <div className="card-chips">
-            <span className="card-chip">Best: {d.away_team} {fmtMl(d.away_ml)} ({d.away_ml_book}) · {d.home_team} {fmtMl(d.home_ml)} ({d.home_ml_book})</span>
-            <span className="card-chip">Market {Math.round(d.market_home_prob * 100)}% home{d.model_home_prob != null ? ` · Model ${Math.round(d.model_home_prob * 100)}%` : ''}{d.ev_gap != null ? ` · EV gap ${(d.ev_gap * 100).toFixed(1)}%` : ''}</span>
-          </div>
-        </div>
-      ))}
-    </section>
-  )
-}
-
-function EdgeBoard({ divergences, note, season, week, book, ratingsByTeam, perf, marginDist, playGap = PLAY_GAP, leanGap = LEAN_GAP, edgeCoefOverride = null, qb1Map = null, boardLeague = 'NFL', boardCfbLogos = null, boardScores = null, boardOpenLines = null, boardSiteTeams = null, boardDebias = null, edgeCal = null }) {
-  const [showPassed, setShowPassed] = useState(false)
-  const { settings, logBet, betLog } = book
-
-  // Withheld unless the committed artifact says otherwise, and
-  // reactive so a later re-validation actually reaches the board
-  // instead of sitting in a module variable nothing re-renders on.
-  const totalsVal = useJson('/data/totals_validation.json')
-  const totalsSupported = totalsVal.data ? totalsVal.data.supported === true : false
-  const graded = useMemo(
-    () => divergences.map((d) => ({ ...d, grade: gradeGame(d, playGap, leanGap, totalsSupported) })),
-    [divergences, playGap, leanGap, totalsSupported]
-  )
-  const plays = graded.filter((g) => g.grade.verdict === 'play')
-  const leans = graded.filter((g) => g.grade.verdict === 'lean')
-  const passed = graded.filter((g) => g.grade.verdict === 'pass')
-  const actionable = [...plays, ...leans]
-
-  const unitDollars = (settings.bankroll * settings.unitPct) / 100 || 1
-  const weekAgo = Date.now() - 7 * 24 * 3600 * 1000
-  const exposedUnits = betLog
-    .filter((b) => b.ts > weekAgo && b.result == null)
-    .reduce((s, b) => s + (b.stakeUnits || 0), 0)
-
-  return (
-    <div>
-      <div className="board-summary">
-        <span className="board-count">{actionable.length}</span>
-        <span className="board-count-label">
-          {actionable.length === 1 ? 'edge' : 'edges'} this week · {passed.length} games passed
-        </span>
-      </div>
-
-      {note && <p className="section-sub">{note}</p>}
-
-      {exposedUnits >= settings.weeklyCapUnits && (
-        <div className="empty-state cap-warning">
-          <strong>Weekly cap reached</strong>
-          You have {exposedUnits.toFixed(1)} units open against a {settings.weeklyCapUnits}-unit cap.
-          The best bet available is not betting past your limits.
-        </div>
-      )}
-
-      {actionable.length === 0 && (
-        <div className="empty-state">
-          {divergences.length === 0 ? (
-            <>
-              <strong>No games on the board</strong>
-              This is an absence of data, not a finding: no priced games reached this snapshot.
-              Sportsbooks open lines gradually, and a failed odds run looks the same from here —
-              so nothing is being claimed about any game.
-            </>
-          ) : (
-            <>
-              <strong>No plays this week</strong>
-              The model and the market are in agreement across the board. Passing is a position — forcing
-              bets without an edge is how bankrolls die.
-            </>
-          )}
-        </div>
-      )}
-
-      {actionable.map((d) => {
-        const { verdict, market } = d.grade
-        const gap = market === 'spread' ? d.spread_gap : d.total_gap
-        // A curve whose 95% interval contains zero, whose sign flips
-        // between seasons, and which loses to a coin flip out of sample
-        // is not an instrument. supported=false withholds the
-        // probability entirely rather than quoting one the evidence
-        // cannot carry -- the same rule the engine applies to pass yards.
-        const nflCal = marginDist ? marginDist.edge_calibration : null
-        const nflCoef = nflCal && nflCal.supported !== false ? nflCal.edge_coef : null
-        const edgeCoef = edgeCoefOverride ?? nflCoef
-        const calMeta = edgeCal ?? nflCal
-        const prob = coverProb(gap, edgeCoef)
-        const stake = sizeStake({ prob, price: DEFAULT_PRICE, settings,
-                                  capped: d.tier_cap === 'lean' })
-        const drivers = confidenceDrivers(d, market, ratingsByTeam, perf ? perf.tier_stats : null)
-        const pick = describePick(d, market)
-        const capBlocked = exposedUnits + stake.units > settings.weeklyCapUnits
-        const pickLine = market === 'spread'
-          ? (d.spread_gap > 0 ? -d.market_spread : d.market_spread)
-          : d.market_total
-        return (
-          <div className={`bet-card ${verdict}`} key={`${d.away_team}-${d.home_team}`}>
-            <div className="bet-card-top">
-              <div className="matchup-block">
-                <p className="matchup-line">
-                  <TeamMark league={boardLeague} team={d.away_team} cfbLogos={boardCfbLogos} />
-                  {d.away_name || d.away_team} <span className="matchup-at">@</span>{' '}
-                  <TeamMark league={boardLeague} team={d.home_team} cfbLogos={boardCfbLogos} />
-                  {d.home_name || d.home_team}
-                </p>
-                {(() => {
-                  const ls = boardScores && boardScores[`${d.away_team}@${d.home_team}`]
-                  if (!ls || ls.state === 'pre') return null
-                  return (
-                    <p className={`live-score ${ls.state === 'in' ? 'live' : ''}`}>
-                      {ls.state === 'in' ? 'LIVE' : 'FINAL'} — {d.away_team} {ls.as}, {d.home_team} {ls.hs}
-                      {ls.state === 'in' && ls.detail ? ` · ${ls.detail}` : ''}
-                    </p>
-                  )
-                })()}
-                {(formatKickoff(d.kickoff) || weatherBrief(d.weather) || d.line_status === 'closed') && (
-                  <p className="kickoff-line">
-                    {d.line_status === 'closed' && <span className="closed-chip">Closed</span>}
-                    {[formatKickoff(d.kickoff), weatherBrief(d.weather)].filter(Boolean).join(' · ')}
-                    {d.line_status === 'closed' && ' — game started, line frozen at close'}
-                  </p>
-                )}
-              </div>
-              <span className={`verdict ${verdict}`}>{verdict === 'play' ? 'Play' : 'Lean'}</span>
-            </div>
-            <p className="bet-pick">{pick}</p>
-            {(() => {
-              const chips = []
-              // Rest/bye chips (NFL): from the team schedules already on the site.
-              if (boardSiteTeams && boardSiteTeams.teams && week != null) {
-                for (const side of ['away_team', 'home_team']) {
-                  const t = boardSiteTeams.teams[d[side]]
-                  if (!t) continue
-                  const prev = t.schedule.find((g2) => g2.week === week - 1)
-                  if (week > 1 && !prev) chips.push(`${d[side]} off bye`)
-                  else if (d.kickoff && new Date(d.kickoff).getUTCDay() === 5 && prev) chips.push(`${d[side]} short week`)
-                }
-              }
-              // Wind flag on total picks: annotation, never adjustment.
-              const isTotalPick = /over|under/i.test(String(pick))
-              const wx = d.weather
-              if (isTotalPick && wx && wx.roof !== 'dome' && wx.roof !== 'closed' && wx.wind_mph >= 15) {
-                chips.push(`${Math.round(wx.wind_mph)} mph wind — not modeled; unders historically aided`)
-              }
-              // Regime-change context (advisory; cap evidence in tier_cap_reason).
-              if (d.regime) {
-                const pickedHome = d.spread_gap > 0
-                for (const side of ['away', 'home']) {
-                  const r = d.regime[side]
-                  if (!r) continue
-                  const team = side === 'home' ? d.home_team : d.away_team
-                  const backed = (side === 'home') === pickedHome
-                  chips.push(`${team} new regime (${r.coach}${r.tier >= 2 ? ' — HC + staff' : ''})${backed && d.tier_cap ? ': capped at Lean — backed-regime early flags went 0/6 in backtests' : ': early-season prior less reliable'}`)
-                }
-              }
-              // Line movement vs the week's opener (spread picks only).
-              const open_ = boardOpenLines ? boardOpenLines[`${d.away_team}@${d.home_team}`] : null
-              if (!isTotalPick && open_ != null && d.market_spread != null && Math.abs(d.market_spread - open_) >= 0.5) {
-                const pickedHome = d.spread_gap > 0
-                const mv = d.market_spread - open_
-                const withUs = pickedHome ? mv > 0 : mv < 0
-                const f = (x) => (x > 0 ? `home -${Math.abs(x).toFixed(1)}` : `home +${Math.abs(x).toFixed(1)}`)
-                chips.push(`Line: opened ${f(open_)} → now ${f(d.market_spread)} (${withUs ? 'moving our way' : 'moving against us'})`)
-              }
-              if (!chips.length) return null
-              return <div className="card-chips">{chips.map((c) => <span key={c} className={`card-chip ${c.includes('wind') ? 'warn' : ''} ${c.includes('against') ? 'warn' : ''}`}>{c}</span>)}</div>
-            })()}
-
-            <ConfidenceMeter drivers={drivers} />
-
-            <div className="bet-stats">
-              <div>
-                <span className="bet-stat-label">Est. cover</span>
-                <span className="bet-stat-value">
-                  {prob == null ? '\u2014' : formatPercent(prob)}
-                </span>
-                {prob != null && calMeta && calMeta.significant_at_95 === false && (
-                  <span className="stat-caveat">not significant at n={calMeta.n_games}</span>
-                )}
-              </div>
-              <div>
-                <span className="bet-stat-label">Edge</span>
-                <span className="bet-stat-value">{Math.abs(gap).toFixed(1)} pts</span>
-              </div>
-              <div>
-                <span className="bet-stat-label">Stake</span>
-                <span className="bet-stat-value">
-                  {stake.units > 0 ? `$${stake.dollars.toLocaleString()}` : '—'}
-                  {stake.units > 0 && <span className="stake-units"> {stake.units}u</span>}
-                </span>
-              </div>
-            </div>
-
-            <p className="bet-reason">
-              {describeReason(d, market, boardDebias)}
-              {d.fpi_home_prob != null && d.market_win_prob_home_fair != null && (
-                <span className="fpi-ref">
-                  {' '}· FPI {Math.round(d.fpi_home_prob * 100)}% / market {Math.round(d.market_win_prob_home_fair * 100)}% home
-                </span>
-              )}
-            </p>
-            {d.best_prices && (() => {
-              const bp = d.best_prices
-              const pickBest = market === 'spread'
-                ? (d.spread_gap > 0 ? bp.home_spread : bp.away_spread)
-                : (d.total_gap > 0 ? bp.over : bp.under)
-              if (!pickBest || pickBest.price == null) return null
-              const shownPoint = market === 'spread'
-                ? formatSigned(d.spread_gap > 0 ? -pickBest.point : pickBest.point, 1)
-                : `${d.total_gap > 0 ? 'over' : 'under'} ${pickBest.point.toFixed(1)}`
-              return (
-                <p className="best-price-line">
-                  Best price: {shownPoint} at {pickBest.price > 0 ? `+${pickBest.price}` : pickBest.price}
-                  {' '}({pickBest.book}, {bp.n_books} books checked)
-                </p>
-              )
-            })()}
-            {d.sharp_anchor && d.sharp_anchor.stale_books && d.sharp_anchor.stale_books.length > 0 && (
-              <p className="sharp-line">
-                {d.sharp_anchor.book} has {formatSigned(-d.sharp_anchor.spread, 1)} —{' '}
-                {d.sharp_anchor.stale_books
-                  .slice(0, 2)
-                  .map((s) => `${s.book} stale at ${formatSigned(-s.point, 1)} (${s.value_side === 'home' ? d.home_team : d.away_team} value)`)
-                  .join('; ')}
-              </p>
-            )}
-            <GameContext d={d} qb1Map={qb1Map} />
-            {market === 'spread' && marginDist && (
-              <AltLines d={d} marginDist={marginDist} />
-            )}
-            {stake.uncalibrated && (
-              <p className="kelly-line">
-                {nflCal && nflCal.supported === false
-                  ? `Cover probability withheld: across ${nflCal.n_games} graded games the edge→cover ` +
-                    `relationship is not distinguishable from chance (95% CI ${nflCal.ci95?.[0]} to ` +
-                    `${nflCal.ci95?.[1]}), and fitting one season to grade the next loses to a coin ` +
-                    `flip. Stake held flat rather than sized from it.`
-                  : 'Calibration file unavailable — cover probability withheld and stake held flat rather than guessed.'}
-              </p>
-            )}
-            {settings.mode !== 'flat' && stake.units > 0 && !stake.uncalibrated && (
-              <p className="kelly-line">
-                Kelly at −110: full {formatPercent(stake.fullKelly)} → applied {formatPercent(stake.applied)} of bankroll, capped at 2u
-              </p>
-            )}
-
-            <button
-              className="log-bet-btn"
-              disabled={capBlocked}
-              onClick={() =>
-                logBet({
-                  label: pick,
-                  market,
-                  ou: market === 'total' ? (d.total_gap > 0 ? 'over' : 'under') : null,
-                  line: pickLine,
-                  price: DEFAULT_PRICE,
-                  stakeUnits: stake.units || 1,
-                  stakeDollars: stake.dollars || Math.round(unitDollars),
-                  season,
-                  week,
-                })
-              }
-            >
-              {capBlocked
-                ? 'Over weekly cap'
-                : stake.units > 0
-                ? `Log bet · ${stake.units}u at −110`
-                : 'Edge doesn\u2019t clear the vig — log 1u anyway'}
-            </button>
-          </div>
-        )
-      })}
-
-      {passed.length > 0 && (
-        <>
-          <button className="toggle-passed" onClick={() => setShowPassed(!showPassed)}>
-            {showPassed ? 'Hide' : 'Show'} {passed.length} passed games
-          </button>
-          {showPassed && (
-            <div className="passed-list">
-              {passed.map((d) => (
-                <div className="passed-row" key={`${d.away_team}-${d.home_team}`}>
-                  <span className="passed-game">
-                    {d.away_team} at {d.home_team} · gap {Math.max(Math.abs(d.spread_gap), Math.abs(d.total_gap)).toFixed(1)} pts
-                  </span>
-                  <span className="passed-why">{describePass(d)}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  )
-}
-
-/* ---------------- Track record ---------------- */
-
-function useMarginDist() {
-  const [dist, setDist] = useState(null)
-  useEffect(() => {
-    fetch('/data/margin_dist.json')
-      .then((res) => { if (!res.ok) throw new Error('none'); return res.json() })
-      .then(setDist)
-      .catch(() => {})
-  }, [])
-  return dist
-}
-
-function usePerformance(league) {
-  const [state, setState] = useState({ data: null, loading: true })
-
-  useEffect(() => {
-    setState({ data: null, loading: true })
-    const file = league === 'CFB' ? '/data/cfb_performance.json' : league === 'MLB' ? '/data/mlb_performance.json' : '/data/performance.json'
-    fetch(file)
-      .then((res) => { if (!res.ok) throw new Error('none'); return res.json() })
-      .then((data) => setState({ data, loading: false }))
-      .catch(() => setState({ data: null, loading: false }))
-  }, [league])
-
-  return state
-}
-
-function KpiStrip({ perf }) {
-  const atsPct = perf && perf.ats_wins + perf.ats_losses > 0
-    ? perf.ats_wins / (perf.ats_wins + perf.ats_losses)
-    : null
-
-  const kpis = [
-    {
-      label: 'Flagged plays ATS',
-      value: perf ? `${perf.ats_wins}–${perf.ats_losses}` : '—',
-      note: atsPct !== null ? `${formatPercent(atsPct)} · breakeven 52.4%` : 'Tracking starts week 1',
-      tone: atsPct === null ? '' : atsPct >= 0.524 ? 'up' : 'down',
-    },
-    {
-      label: 'Avg CLV per play',
-      value: perf && perf.avg_clv != null ? `${formatSigned(perf.avg_clv, 1)} pts` : '—',
-      note: perf ? `${perf.n_clv_bets ?? 0} plays measured vs close` : 'Needs live line snapshots',
-      tone: perf && perf.avg_clv > 0 ? 'up' : perf && perf.avg_clv < 0 ? 'down' : '',
-    },
-    {
-      label: 'Units (1u Play / 0.5u Lean)',
-      value: perf && perf.units != null ? formatSigned(perf.units, 1) : '—',
-      note: perf && perf.roi != null ? `ROI ${formatSigned(perf.roi * 100, 1)}%` : 'Graded after each week',
-      tone: perf && perf.units > 0 ? 'up' : perf && perf.units < 0 ? 'down' : '',
-    },
-    {
-      label: 'Model vs market error (graded spread plays)',
-      value: perf && perf.model_mae != null ? `${perf.model_mae.toFixed(1)} / ${perf.market_mae.toFixed(1)}` : '—',
-      note: 'Mean abs. error, points',
-      tone: '',
-    },
-    // Signal calibration: slope of actual margins on stated margins.
-    // 1.00 = margins mean what they say; below it they overstate.
-    ...(perf && perf.calibration && perf.calibration.slope_model != null ? [{
-      label: 'Signal calibration',
-      value: `${perf.calibration.slope_model.toFixed(2)}× / ${perf.calibration.slope_market.toFixed(2)}×`,
-      note: `actual-margin slope, model / market · n=${perf.calibration.n_games}`,
-      tone: '',
-    }] : []),
-  ]
-
-  return (
-    <div className="kpi-grid">
-      {kpis.map((k) => (
-        <div className="kpi" key={k.label}>
-          <span className="kpi-label">{k.label}</span>
-          <div className={`kpi-value ${k.tone}`}>{bigNum(k.value)}</div>
-          <span className="kpi-note">{k.note}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function useClvReport(league) {
-  const [state, setState] = useState({ games: null, loading: true, error: null })
-
-  useEffect(() => {
-    setState({ games: null, loading: true, error: null })
-    const key = league === 'CFB' ? 'cfb_divergence' : league === 'MLB' ? 'mlb_divergence' : 'divergence'
-    fetch('/data/manifest.json')
-      .then((res) => { if (!res.ok) throw new Error('no manifest'); return res.json() })
-      .then((manifest) => {
-        const files = manifest[key] || []
-        if (files.length < 2) {
-          setState({ games: null, loading: false, error: new Error('need snapshots') })
-          return
-        }
-        return Promise.all(files.map((f) => fetch(`/data/${league === 'CFB' ? 'cfb_divergence' : league === 'MLB' ? 'mlb_divergence' : 'divergence'}/${f}`).then((r) => r.json()))).then(
-          (snapshots) => {
-            snapshots.sort((a, b) => new Date(a.computed_at) - new Date(b.computed_at))
-            const gameKeys = new Set()
-            snapshots.forEach((snap) => (snap.divergences || []).forEach((d) => gameKeys.add(`${d.away_team}@${d.home_team}`)))
-
-            const games = []
-            gameKeys.forEach((key) => {
-              const [away, home] = key.split('@')
-              const appearances = snapshots
-                .map((snap) => (snap.divergences || []).find((d) => d.away_team === away && d.home_team === home))
-                .filter(Boolean)
-              if (appearances.length < 2) return
-
-              const earliest = appearances[0]
-              const latest = appearances[appearances.length - 1]
-              // CLV measures how the market moved relative to a MODEL OPINION.
-              // MLB rows are observation-only -- no market_spread, no
-              // spread_gap -- and NaN comparisons silently rendered every game
-              // as "Moved away", a verdict against a model that never spoke.
-              // No opinion, no row.
-              if (earliest.market_spread == null || earliest.spread_gap == null) return
-              const modelSpread = earliest.market_spread + earliest.spread_gap
-              const divergenceDirection = modelSpread - earliest.market_spread
-              const marketMovement = latest.market_spread - earliest.market_spread
-              const clvScore = divergenceDirection === 0 ? 0 : marketMovement * (divergenceDirection > 0 ? 1 : -1)
-
-              games.push({
-                away, home,
-                openingMarketSpread: earliest.market_spread,
-                closingMarketSpread: latest.market_spread,
-                validated: clvScore > 0,
-              })
-            })
-            setState({ games, loading: false, error: null })
-          }
-        )
-      })
-      .catch((error) => setState({ games: null, loading: false, error }))
-  }, [league])
-
-  return state
-}
-
-// Each gate carries the number that put it there and the artifact it
-// came from. The subhead promises exactly this, and the section
-// rendered four bare assertions until 2026-09-20.
-const GATES = [
-  {
-    status: 'withheld', tone: 'withheld',
-    title: 'Passing yards: no engine opinion',
-    evidence: 'held-out 2024-25 \u00b7 over-claimed at every line \u00b7 cause identified',
-    source: 'model/pass_yds_stratum_drift_results.json',
-    body: 'The player engine\u2019s biggest market over-claimed on 2024\u201325 held-out data and failed its gate \u2014 twice. The cause is now known: the outcome shapes are stratified by projected volume using cuts frozen from older seasons, and league passing volume has fallen since, so most held-out rows land in the low-volume bucket and inherit its 47% over-rate. One candidate fix was tested and rejected for trading the over-claim for a larger under-claim. Still withheld \u2014 now for a reason rather than a mystery.',
-  },
-  {
-    status: 'shipped', tone: 'shipped',
-    title: 'New-coach flags capped at Lean',
-    evidence: '0/6 ATS \u00b7 2016-23 \u00b7 weeks 1-4 \u00b7 n is small',
-    source: 'model/coach_regime_results.json',
-    body: 'Early-season flags backing first-year external head coaches went 0 for 6 against the spread in 2016\u201323 backtests (0 for 3 at the Play threshold). Six graded games is thin evidence, which is why the rule caps stakes rather than blocking the play \u2014 and live closing-line value audits the cap. The board quoted 0/9 until 2026-09-20; the reproducible artifact says 0/6.',
-  },
-  {
-    status: 'shipped', tone: 'shipped',
-    title: 'No CFB Play badges before week 5',
-    evidence: '48.3% held-out \u00b7 n=60 \u00b7 week 4 only',
-    source: 'model/cfb_backtest_2023_results.json',
-    body: 'College flags graded 48.3% held-out in weeks 1\u20134 \u2014 below the 52.4% breakeven. Ratings are data-starved early, so early college edges show as Leans at most.',
-  },
-  {
-    status: 'withheld', tone: 'withheld',
-    title: 'NFL cover probability: not shown',
-    evidence: '372 games \u00b7 95% CI spans zero \u00b7 loses to a coin flip out of sample',
-    source: 'data/margin_dist.json',
-  },
-  {
-    status: 'watch mode', tone: 'watch',
-    title: 'Player engine: opinions, not verdicts',
-    evidence: 'graded weekly \u00b7 no verdict authority yet',
-    source: 'data/prop_grades/summary.json',
-    body: 'The projection engine\u2019s probabilities appear on prop cards as labeled second opinions only. They earn verdict authority through live graded results, or not at all.',
-  },
-  {
-    status: 'evidence withdrawn', tone: 'watch',
-    title: 'Recency weighting: no longer claimed',
-    evidence: 'worst of 8 on untouched 2024-25 \u00b7 2023 result did not replicate',
-    source: 'model/revalidate_half_life_2024_25_results.json',
-    body: 'The rating\u2019s recency half-life was set to 100 because that scored best on the 2023 test set \u2014 a set that had already been seen. Graded on 2024\u201325, which no calibration here had touched, it came last of eight and the trend reversed. The value stays (it is the \u201cno weighting\u201d choice and moving it mid-season moves every live rating), but the accuracy claim behind it is withdrawn.',
-  },
-  {
-    status: 'withheld', tone: 'withheld',
-    title: 'Totals: no verdicts on the board',
-    evidence: '1,039 walk-forward games \u00b7 49.6% \u00b7 loses to the market on MAE',
-    source: 'data/totals_validation.json',
-    body: 'The totals model was on this board from the start and had never been measured against the market. Over 1,039 walk-forward games it loses on MAE (10.58 to 10.23), its predictions vary by 2.5 points where the market varies by 4.3, and no betting threshold clears the 52.4% breakeven \u2014 pooled it sits below it. No new total is flagged. The ones already published stay graded, wins and losses alike.',
-  },
-  {
-    status: 'disclosed', tone: 'watch',
-    title: 'Flagged spreads: breakeven not demonstrated',
-    evidence: '1,964 walk-forward games \u00b7 Play tier 51.7% \u00b7 needs 52.4%',
-    source: 'data/spread_validation.json',
-    body: 'The 4-point Play threshold has never had a committed backtest behind it. Measured across ten seasons in the configuration that actually ships \u2014 full ensemble where NGS is present, plus the in-season de-bias \u2014 it hits 51.7% against the 52.4% a \u2212110 bet needs, with a confidence interval that contains breakeven. Not proof it loses; no evidence it wins. Season records swing from 44% to 61%, which is what a near coin flip looks like at ~70 games a year. Published rather than quietly assumed.',
-  },
-]
-
-function GatesLedger() {
-  return (
-    <section>
-      <h2 className="section-heading">The gates</h2>
-      <p className="section-sub">
-        Nothing ships to this site without held-out evidence, and what fails its test is withheld or
-        capped — publicly. These are the rules currently in force, each with the number that put it there.
-      </p>
-      <div className="gate-grid">
-        {GATES.map((g) => (
-          <div key={g.title} className={`gate-card ${g.tone}`}>
-            <span className="gate-status">{g.status}</span>
-            <p className="gate-title">{g.title}</p>
-            {g.evidence && <p className="gate-evidence">{g.evidence}</p>}
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-// A league with no model opinion has no record. Saying "\u2014" and
-// "Tracking starts week 1" implies a grader exists and is merely waiting;
-// for MLB none exists. The board's own snapshots say so -- this surfaces
-// that instead of a placeholder.
-function ObservationOnlyRecord({ league }) {
-  return (
-    <div>
-      <section>
-        <h2 className="section-heading">Season scorecard \u2014 {league}</h2>
-        <p className="section-sub">
-          There is no record here, and that is not a loading state. The {league} board is
-          observation-only: it stores market lines and probable starters, and publishes no
-          model opinion at all. Nothing is flagged, so nothing is graded, so there is no
-          win\u2013loss, no units and no closing-line value to show.
-        </p>
-        <p className="section-sub">
-          A record appears here when the archive backtest publishes a threshold table that
-          clears its gate \u2014 and not before. Until then the honest number is no number.
-        </p>
-      </section>
-      <GatesLedger />
-    </div>
-  )
-}
-
-function TrackRecord({ league }) {
-  const perf = usePerformance(league)
-  const clv = useClvReport(league)
-  const p = perf.data
-  const atsPct = p && p.ats_wins + p.ats_losses > 0 ? p.ats_wins / (p.ats_wins + p.ats_losses) : null
-
-  return (
-    <div>
-      <div className="hero-record">
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <span className={`hero-stat-value ${atsPct == null ? '' : atsPct >= 0.524 ? 'up' : 'down'}`}>
-              {p ? `${p.ats_wins}\u2013${p.ats_losses}` : '\u2014'}
-            </span>
-            <span className="hero-stat-label">Flagged plays ATS · breakeven 52.4%</span>
-          </div>
-          <div className="hero-stat">
-            <span className={`hero-stat-value ${p && p.units > 0 ? 'up' : p && p.units < 0 ? 'down' : ''}`}>
-              {p && p.units != null ? bigNum(formatSigned(p.units, 1)) : '\u2014'}
-            </span>
-            <span className="hero-stat-label">Units, flat stakes</span>
-          </div>
-          <div className="hero-stat">
-            <span className={`hero-stat-value ${p && p.avg_clv > 0 ? 'up' : p && p.avg_clv < 0 ? 'down' : ''}`}>
-              {p && p.avg_clv != null ? bigNum(`${formatSigned(p.avg_clv, 1)} pts`) : '\u2014'}
-            </span>
-            <span className="hero-stat-label">Avg closing-line value per play</span>
-          </div>
-        </div>
-      </div>
-
-      <GatesLedger />
-
-      <section>
-        <h2 className="section-heading">Season scorecard — {league}</h2>
-        <p className="section-sub">
-          Every flagged play is graded against the closing line and the final score, wins and losses
-          alike. If the numbers here go red, you'll see it before we do anything about it.
-          {league === 'CFB' && ' CFB and NFL records are tracked separately; the CFB record begins with its first graded week.'}
-        </p>
-        {perf.loading ? <p className="section-sub">Loading…</p> : <KpiStrip perf={perf.data} />}
-        {perf.data && perf.data.plays && perf.data.plays.length > 0 && (
-          <div className="graded-plays">
-            {perf.data.plays.slice(0, 25).map((p, i) => (
-              <div className="log-row" key={i}>
-                <div className="log-main">
-                  <span className="log-pick">{p.label}</span>
-                  <span className="log-detail">
-                    Week {p.week} · {p.tier} · edge {p.edge} pts
-                    {p.clv != null && ` · CLV ${p.clv > 0 ? '+' : ''}${p.clv}`}
-                  </span>
-                </div>
-                <span className={`result-badge ${p.result}`}>
-                  {p.result === 'win' ? 'W' : p.result === 'loss' ? 'L' : 'P'}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section>
-        <h2 className="section-heading">Line movement on our plays</h2>
-        <p className="section-sub">
-          When the market moves toward the model's number after we flag a game, the model saw
-          something real. Movement away means the edge was likely noise.
-        </p>
-        {clv.loading && <p className="section-sub">Loading…</p>}
-        {(clv.error || !clv.games || clv.games.length === 0) && !clv.loading && (
-          <div className="empty-state">
-            <strong>No line movement measured yet</strong>
-            This needs at least two odds checks on the same game — it fills in automatically during
-            game weeks.
-          </div>
-        )}
-        {clv.games && clv.games.map((g) => (
-          <div className="clv-row" key={`${g.away}@${g.home}`}>
-            <span className="clv-matchup">
-              {g.away} <span className="clv-at">at</span> {g.home}
-            </span>
-            <span className="clv-detail">
-              Open {formatSigned(g.openingMarketSpread, 1)} → Close {formatSigned(g.closingMarketSpread, 1)}
-            </span>
-            <span className={`clv-badge ${g.validated ? 'clv-toward' : 'clv-away'}`}>
-              {g.validated ? 'Moved toward model' : 'Moved away'}
-            </span>
-          </div>
-        ))}
-      </section>
-    </div>
-  )
-}
-
-/* ---------------- Ratings + team research ---------------- */
-
-
-function DivisionStandings({ siteTeams, ratingsByTeam, onSelectTeam, allRatings }) {
-  const teams = siteTeams.teams
-  const byDiv = {}
-  Object.values(teams).forEach((t) => { (byDiv[t.division] = byDiv[t.division] || []).push(t) })
-  const order = (a, b) => (b.record.w - b.record.l) - (a.record.w - a.record.l) || (b.record.pf - b.record.pa) - (a.record.pf - a.record.pa)
-  return (
-    <div className="divisions-grid">
-      {NFL_DIVISION_ORDER.map((div) => (
-        <div key={div} className="division-block">
-          <h3 className="division-heading">{div}</h3>
-          <table className="ratings-table division-table">
-            <thead><tr><th>Team</th><th className="numeric">W-L</th><th className="numeric">PF</th><th className="numeric">PA</th><th className="numeric">Rating</th><th className="numeric">Rem SOS</th></tr></thead>
-            <tbody>
-              {(byDiv[div] || []).sort(order).map((t) => {
-                const r = allRatings ? allRatings.find((x) => x.team === t.abbr) : null
-                return (
-                  <tr key={t.abbr} className="clickable-row" onClick={() => r && onSelectTeam(r)}>
-                    <td className="team-cell"><TeamMark league="NFL" team={t.abbr} /> {t.nickname}</td>
-                    <td className="numeric">{t.record.w}-{t.record.l}{t.record.t ? `-${t.record.t}` : ''}</td>
-                    <td className="numeric">{t.record.pf}</td>
-                    <td className="numeric">{t.record.pa}</td>
-                    <td className="numeric">{r ? formatSigned(r.total_rating * 100, 1) : '—'}</td>
-                    <td className="numeric">{t.remaining_sos != null ? formatSigned(t.remaining_sos * 100, 1) : '—'}</td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function ScheduleTab({ siteTeams }) {
-  const [week, setWeek] = useState(null)
-  if (!siteTeams.data) return <p className="section-sub">{siteTeams.loading ? 'Loading…' : 'Schedule publishes with the weekly data refresh.'}</p>
-  const teams = siteTeams.data.teams
-  const weeks = {}
-  Object.values(teams).forEach((t) => t.schedule.forEach((g) => {
-    const key = g.home ? `${g.opp}@${t.abbr}` : `${t.abbr}@${g.opp}`
-    ;(weeks[g.week] = weeks[g.week] || {})[key] = { ...g, away: key.split('@')[0], home_t: key.split('@')[1] }
-  }))
-  const weekNums = Object.keys(weeks).map(Number).sort((a, b) => a - b)
-  const current = week || weekNums.find((w) => Object.values(weeks[w]).some((g) => !g.result)) || weekNums[0]
-  return (
-    <section>
-      <h2 className="section-heading">Season schedule — NFL</h2>
-      <div className="week-chips">
-        {weekNums.map((w) => (
-          <button key={w} className={`week-chip ${w === current ? 'active' : ''}`} onClick={() => setWeek(w)}>W{w}</button>
-        ))}
-      </div>
-      <div className="schedule-list">
-        {Object.entries(weeks[current]).sort((a, b) => (a[1].kickoff || '').localeCompare(b[1].kickoff || '')).map(([key, g]) => (
-          <div key={key} className="schedule-row">
-            <span className="sched-teams">
-              <TeamMark league="NFL" team={g.away} size={18} /> {g.away}
-              <span className="matchup-at"> @ </span>
-              <TeamMark league="NFL" team={g.home_t} size={18} /> {g.home_t}
-            </span>
-            <span className="sched-when">{g.result ? g.result : (g.kickoff ? new Date(g.kickoff).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) : 'TBD')}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function PlayersTab({ playerLeaders, manifest }) {
-  const propsFiles = (manifest && manifest.props) || []
-  const propsState = useJson(propsFiles.length ? `/data/props/${propsFiles[propsFiles.length - 1]}` : '/data/props/none.json', [propsFiles.length])
-  const [openGame, setOpenGame] = useState(null)
-  const MARKET_LABELS = { player_pass_yds: 'Passing yards', player_rush_yds: 'Rushing yards', player_reception_yds: 'Receiving yards', player_anytime_td: 'Anytime TD' }
-  const fmtPrice = (x) => (x == null ? '—' : x > 0 ? `+${x}` : `${x}`)
-  const usageRank = {}
-  if (playerLeaders.data) playerLeaders.data.high_usage.forEach((r, i) => { usageRank[r.player] = i + 1 })
-  return (
-    <section>
-      <h2 className="section-heading">Players</h2>
-      {!playerLeaders.data ? <p className="section-sub">{playerLeaders.loading ? 'Loading…' : 'Leaders publish with the weekly data refresh.'}</p> : (
-        <>
-          <p className="section-sub">League leaders — {playerLeaders.data.label}.</p>
-          <div className="leaders-grid">
-            {Object.entries(playerLeaders.data.categories).map(([cat, rows]) => (
-              <div key={cat} className="leader-block">
-                <h3 className="division-heading">{cat}</h3>
-                <table className="ratings-table leader-table"><tbody>
-                  {rows.slice(0, 10).map((r, i) => (
-                    <tr key={r.player}><td className="rank-cell">{i + 1}</td>
-                      <td className="team-cell"><TeamMark league="NFL" team={r.team} size={16} /> {r.player}</td>
-                      <td className="numeric">{Math.round(r.value)}</td></tr>
-                  ))}
-                </tbody></table>
-              </div>
-            ))}
-            <div className="leader-block">
-              <h3 className="division-heading">High usage (touches)</h3>
-              <table className="ratings-table leader-table"><tbody>
-                {playerLeaders.data.high_usage.map((r, i) => (
-                  <tr key={r.player}><td className="rank-cell">{i + 1}</td>
-                    <td className="team-cell"><TeamMark league="NFL" team={r.team} size={16} /> {r.player}</td>
-                    <td className="numeric">{Math.round(r.value)}</td></tr>
-                ))}
-              </tbody></table>
-            </div>
-          </div>
-        </>
-      )}
-      <h2 className="section-heading" style={{ marginTop: 28 }}>Player props — NFL</h2>
-      {!propsState.data ? (
-        <p className="section-sub">{propsFiles.length ? 'Loading…' : 'Props publish weekly with the first Thursday odds run.'}</p>
-      ) : (
-        <>
-          <p className="props-note">{propsState.data.note}</p>
-          {(() => {
-            const rows = []
-            for (const [gm, gdata] of Object.entries(propsState.data.games)) {
-              for (const [mk, players] of Object.entries(gdata.markets)) {
-                for (const [pl, r] of Object.entries(players)) {
-                  // Client mirror of the backend guards, for weeks baked
-                  // by older builds: no longshot yes-edges, no >20% EV
-                  // artifacts (audit 2026-09-20).
-                  const e = r.edge
-                  if (e && e.ev_pct != null && e.ev_pct <= 20 && (e.side !== 'yes' || (e.fair_prob || 0) >= 0.20)) {
-                    rows.push({ gm, mk, pl, r, kickoff: gdata.kickoff, score: e.ev_pct * (e.fair_prob || 0) })
-                  }
-                }
-              }
-            }
-            // Rank by EV x fair probability (expected profit per bet):
-            // a modest edge on a likely event outranks a noisy edge on
-            // a longshot, so tightly-priced featured players surface
-            // above illiquid-dispersion fringe plays.
-            rows.sort((a, b) => b.score - a.score)
-            const top = rows.filter((x) => x.r.edge.ev_pct >= 1.0).slice(0, 12)
-            const offMarket = []
-            for (const [gm, gdata] of Object.entries(propsState.data.games)) {
-              for (const [mk, players] of Object.entries(gdata.markets)) {
-                for (const [pl, r] of Object.entries(players)) {
-                  for (const om of r.off_market || []) offMarket.push({ gm, mk, pl, ...om })
-                }
-              }
-            }
-            offMarket.sort((a, b) => Math.abs(b.vs_consensus) - Math.abs(a.vs_consensus))
-            return (
-              <>
-                <h3 className="division-heading">Best price edges — vs multi-book consensus (de-vigged for O/U; vig-in for anytime TD)</h3>
-                {top.length === 0 ? <p className="section-sub">No prop currently beats the multi-book consensus by ≥1% EV. That is a finding, not a failure — most weeks most books agree.</p> : (
-                  <div className="props-edge-list">
-                    {top.map(({ gm, mk, pl, r, kickoff }) => (
-                      <div key={gm + mk + pl} className="bet-card props-edge-card">
-                        <div className="bet-card-top">
-                          <div className="matchup-block">
-                            <p className="matchup-line">{pl} <span className="matchup-at">·</span> {MARKET_LABELS[mk] || mk}{r.edge.side !== 'yes' ? ` ${r.edge.side} ${r.line}` : ''}</p>
-                            <p className="kickoff-line">
-                              <TeamMark league="NFL" team={gm.split('@')[0]} size={15} /> {gm.replace('@', ' @ ')} {formatKickoff(kickoff) ? '· ' + formatKickoff(kickoff) : ''}
-                            </p>
-                          </div>
-                          <span className={`verdict ${r.edge.ev_pct >= 3 ? 'play' : 'lean'}`}>+{r.edge.ev_pct}% EV</span>
-                        </div>
-                        <div className="card-chips">
-                          <span className="card-chip">Best: {r.edge.price > 0 ? `+${r.edge.price}` : r.edge.price} ({r.edge.book}) · consensus fair {(r.edge.fair_prob * 100).toFixed(1)}% across {r.edge.n_books} books</span>
-                          <span className="card-chip">{r.edge.basis}</span>
-                          {r.model && (
-                            <span className="card-chip">Engine (watch): {r.model.kind === 'score' ? `${Math.round(r.model.p_score * 100)}% to score` : `${Math.round(r.model.p_over * 100)}% over · median ${r.model.median}`}</span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {offMarket.length > 0 && (
-                  <>
-                    <h3 className="division-heading" style={{ marginTop: 16 }}>Off-market lines</h3>
-                    <div className="card-chips" style={{ marginBottom: 14 }}>
-                      {offMarket.slice(0, 8).map((o) => (
-                        <span key={o.gm + o.mk + o.pl + o.book} className="card-chip warn">{o.pl} {MARKET_LABELS[o.mk] || o.mk}: {o.book} hangs {o.line} ({o.vs_consensus > 0 ? '+' : ''}{o.vs_consensus} vs consensus)</span>
-                      ))}
-                    </div>
-                  </>
-                )}
-                <h3 className="division-heading">Full board</h3>
-              </>
-            )
-          })()}
-          {Object.entries(propsState.data.games).map(([gm, gdata]) => (
-            <div key={gm} className="props-game">
-              <button className="props-game-head" onClick={() => setOpenGame(openGame === gm ? null : gm)}>
-                <TeamMark league="NFL" team={gm.split('@')[0]} size={18} /> {gm.replace('@', ' @ ')} <TeamMark league="NFL" team={gm.split('@')[1]} size={18} />
-                <span className="props-toggle">{openGame === gm ? '−' : '+'}</span>
-              </button>
-              {openGame === gm && Object.entries(gdata.markets).map(([mk, players]) => (
-                <div key={mk} className="props-market">
-                  <h4 className="props-market-title">{MARKET_LABELS[mk] || mk}</h4>
-                  <table className="ratings-table props-table">
-                    <thead><tr><th>Player</th><th className="numeric">Line</th><th className="numeric">Best Over</th><th className="numeric">Best Under / Yes</th><th className="numeric">Engine</th></tr></thead>
-                    <tbody>
-                      {Object.entries(players).sort((a, b) => (b[1].line || 0) - (a[1].line || 0)).map(([pl, row]) => (
-                        <tr key={pl}>
-                          <td className="team-cell">{pl}{usageRank[pl] ? <span className="usage-badge">#{usageRank[pl]} touches</span> : null}</td>
-                          <td className="numeric">{row.line != null ? row.line : '—'}</td>
-                          <td className="numeric">{row.over ? `${fmtPrice(row.over.price)} (${row.over.book})` : '—'}</td>
-                          <td className="numeric">{row.under ? `${fmtPrice(row.under.price)} (${row.under.book})` : row.yes ? `${fmtPrice(row.yes.price)} (${row.yes.book})` : '—'}</td>
-                          <td className="numeric">{row.model ? (row.model.kind === 'score' ? `${Math.round(row.model.p_score * 100)}%` : `${Math.round(row.model.p_over * 100)}% o`) : '—'}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ))}
-            </div>
-          ))}
-        </>
-      )}
-    </section>
-  )
-}
-
-function TeamSiteSections({ site, teamAbbr }) {
-  if (!site) return null
-  const POS_ORDER = ['QB', 'RB', 'WR', 'TE']
-  return (
-    <>
-      <section>
-        <h2 className="section-heading">Depth chart</h2>
-        <div className="depth-grid">
-          {POS_ORDER.filter((p2) => site.depth_chart[p2]).map((pos) => (
-            <div key={pos} className="depth-slot">
-              <span className="depth-pos">{pos}</span>
-              {site.depth_chart[pos].map((pl, i) => (
-                <span key={pl} className={`depth-player ${i === 0 ? 'starter' : ''}`}>{pl}</span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2 className="section-heading">Injury report</h2>
-        {site.injuries.length === 0 ? <p className="section-sub">No players with a disclosed designation.</p> : (
-          <ul className="injury-list">
-            {site.injuries.map((r) => (
-              <li key={r.player}><span className={`inj-status ${String(r.status).toLowerCase()}`}>{r.status}</span> {r.player} <span className="inj-pos">{r.position}</span></li>
-            ))}
-          </ul>
-        )}
-        <p className="section-sub">Team-page injuries refresh weekly; bet cards refresh hourly on game days.</p>
-      </section>
-      <section>
-        <h2 className="section-heading">Schedule & strength</h2>
-        <p className="section-sub">
-          Remaining SOS {site.remaining_sos != null ? formatSigned(site.remaining_sos * 100, 1) : '—'} · Played SOS {site.played_sos != null ? formatSigned(site.played_sos * 100, 1) : '—'} (mean opponent rating; higher = harder)
-        </p>
-        <div className="schedule-list">
-          {site.schedule.map((g) => (
-            <div key={g.week} className="schedule-row">
-              <span className="sched-week">W{g.week}</span>
-              <span className="sched-teams"><TeamMark league="NFL" team={g.opp} size={16} /> {g.home ? 'vs' : '@'} {g.opp}</span>
-              <span className="sched-when">{g.result || (g.kickoff ? new Date(g.kickoff).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'TBD')}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-    </>
-  )
-}
-
-function RatingsTable({ ratings, onSelectTeam, league = 'NFL', cfbLogos = null }) {
-  const [sortKey, setSortKey] = useState('total_rating')
-  const [sortDir, setSortDir] = useState('desc')
-  const hasPlayoffPct = ratings.some((t) => t.playoff_pct != null)
-
-  const sorted = useMemo(() => {
-    const copy = [...ratings]
-    copy.sort((a, b) => {
-      const diff = a[sortKey] - b[sortKey]
-      return sortDir === 'desc' ? -diff : diff
-    })
-    return copy
-  }, [ratings, sortKey, sortDir])
-
-  function handleSort(key) {
-    if (key === sortKey) setSortDir(sortDir === 'desc' ? 'asc' : 'desc')
-    else { setSortKey(key); setSortDir('desc') }
-  }
-
-  function headerProps(key) {
-    return {
-      className: `numeric sortable${sortKey === key ? ' sorted' : ''}`,
-      onClick: () => handleSort(key),
-      'aria-sort': sortKey === key ? (sortDir === 'desc' ? 'descending' : 'ascending') : 'none',
-    }
-  }
-
-  return (
-    <table className="ratings-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Team</th>
-          <th {...headerProps('total_rating')}>Rating</th>
-          <th {...headerProps('offense_voa')}>Offense</th>
-          <th {...headerProps('defense_voa')}>Defense</th>
-          {hasPlayoffPct && <th {...headerProps('playoff_pct')}>Playoff %</th>}
-        </tr>
-      </thead>
-      <tbody>
-        {sorted.map((team, i) => (
-          <tr key={team.team} className="clickable-row" onClick={() => onSelectTeam(team)}>
-            <td className="rank-cell">{i + 1}</td>
-            <td className="team-cell"><TeamMark league={league} team={team.team} cfbLogos={cfbLogos} size={18} /> {team.team}</td>
-            <td className="numeric">
-              <span className={`rating-value ${team.total_rating >= 0 ? 'positive' : 'negative'}`}>
-                {formatSigned(team.total_rating * 100, 1)}
-              </span>
-            </td>
-            <td className="numeric">{formatSigned(team.offense_voa * 100, 1)}</td>
-            <td className="numeric">{formatSigned(team.defense_voa * 100, 1)}</td>
-            {hasPlayoffPct && (
-              <td className="numeric">{team.playoff_pct != null ? `${(team.playoff_pct * 100).toFixed(0)}%` : '—'}</td>
-            )}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  )
-}
-
-function RatingTrendChart({ history, currentTeam }) {
-  const [hover, setHover] = useState(null)
-  if (!history || history.length < 2) {
-    return <p className="section-sub">Not enough weekly snapshots yet to show a trend.</p>
-  }
-
-  const width = 680
-  const height = 180
-  const padTop = 30
-  const padBottom = 26
-  const padX = 26
-  const values = history.map((h) => h.total_rating)
-  const minVal = Math.min(...values, 0)
-  const maxVal = Math.max(...values, 0)
-  const range = maxVal - minVal || 1
-
-  const xStep = (width - padX * 2) / (history.length - 1)
-  const xFor = (i) => padX + i * xStep
-  const yFor = (v) => height - padBottom - ((v - minVal) / range) * (height - padTop - padBottom)
-  const zeroY = yFor(0)
-  const points = history.map((h, i) => `${xFor(i)},${yFor(h.total_rating)}`).join(' ')
-  const last = history.length - 1
-  const shown = hover != null ? hover : last
-
-  function handleMove(e) {
-    const box = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - box.left) / box.width) * width
-    const i = Math.round((x - padX) / xStep)
-    setHover(i >= 0 && i < history.length ? i : null)
-  }
-
-  const hv = history[shown]
-  const hx = xFor(shown)
-  const hy = yFor(hv.total_rating)
-  const flip = hx > width - 120
-
-  return (
-    <svg
-      width="100%"
-      viewBox={`0 0 ${width} ${height}`}
-      role="img"
-      aria-label={`${currentTeam} rating by week: ${history.map((h) => `week ${h.week} ${(h.total_rating * 100).toFixed(1)}`).join(', ')}`}
-      onMouseMove={handleMove}
-      onMouseLeave={() => setHover(null)}
-      style={{ touchAction: 'pan-y' }}
-    >
-      {/* zero baseline: recessive, dashed -- it is a reference, not data */}
-      <line x1={padX} y1={zeroY} x2={width - padX} y2={zeroY}
-            stroke="var(--line-strong)" strokeWidth="1" strokeDasharray="3 4" />
-      <text x={padX} y={zeroY - 5} fontSize="10" fill="var(--chalk-faint)" letterSpacing="0.06em">LEAGUE AVG</text>
-      <polyline points={points} fill="none" stroke="var(--gold-text)" strokeWidth="2"
-                strokeLinejoin="round" strokeLinecap="round" />
-      {history.map((h, i) => (
-        <circle key={h.week} cx={xFor(i)} cy={yFor(h.total_rating)} r="4"
-                fill="var(--gold-text)" stroke="var(--panel)" strokeWidth="2" />
-      ))}
-      {history.map((h, i) => (
-        <text key={`label-${h.week}`} x={xFor(i)} y={height - 7} fontSize="11"
-              fill="var(--chalk-faint)" textAnchor="middle">
-          Wk {h.week}
-        </text>
-      ))}
-      {/* hover layer: crosshair + single readout (selective labels, never one per point) */}
-      <line x1={hx} y1={padTop - 8} x2={hx} y2={height - padBottom}
-            stroke="var(--line-strong)" strokeWidth="1" />
-      <circle cx={hx} cy={hy} r="6" fill="none" stroke="var(--gold-text)" strokeWidth="2" />
-      <text x={flip ? hx - 10 : hx + 10} y={padTop - 12} fontSize="13"
-            fill="var(--chalk)" textAnchor={flip ? 'end' : 'start'} fontWeight="600">
-        Wk {hv.week} · {formatSigned(hv.total_rating * 100, 1)}
-      </text>
-    </svg>
-  )
-}
-
-function TeamProfilePage({ team, onBack, league = 'NFL', siteInfo = null, cfbLogos = null }) {
-  const grade = Math.max(0, Math.min(100, Math.round(50 + team.total_rating * 125)))
-  const gradeClass = grade >= 60 ? 'positive' : grade <= 40 ? 'negative' : ''
-  const ratingsHistory = useRatingsHistory(league === 'CFB' ? 'cfb_ratings' : 'ratings')
-  const teamHistory = ratingsHistory.history ? ratingsHistory.history[team.team] : null
-
-  const site = siteInfo  // teams.json entry (NFL only): schedule, depth, injuries, SOS
-  const tiles = [
-    { label: 'EPA / play', primary: formatSigned(team.epa_per_play_offense, 3), rows: [['Allowed', formatSigned(team.epa_per_play_allowed, 3)]] },
-    { label: 'Success rate', primary: formatPercent(team.success_rate_offense), rows: [['Allowed', formatPercent(team.success_rate_allowed)]] },
-    {
-      label: 'Rating (opponent-adjusted)',
-      primary: formatSigned(team.total_rating != null ? team.total_rating * 100 : null, 1),
-      rows: [
-        ['Offense', formatSigned(team.offense_voa != null ? team.offense_voa * 100 : null, 1)],
-        ['Defense', formatSigned(team.defense_voa != null ? team.defense_voa * 100 : null, 1)],
-        ...(team.rating_p05 != null && team.rating_p95 != null
-          ? [['90% range', `${formatSigned(team.rating_p05 * 100, 1)} to ${formatSigned(team.rating_p95 * 100, 1)}`]] : []),
-        ...(team.total_rating_last_4 != null ? [['Last 4 weeks', formatSigned(team.total_rating_last_4 * 100, 1)]] : []),
-      ],
-    },
-    { label: 'Special teams', primary: formatSigned(team.special_teams_voa != null ? team.special_teams_voa * 100 : null, 1), rows: [] },
-    {
-      label: 'Elo rating',
-      primary: team.elo_rating != null ? Math.round(team.elo_rating).toString() : '—',
-      rows: [['vs 1500 baseline', formatSigned(team.elo_rating != null ? team.elo_rating - 1500 : null, 0)]],
-    },
-    {
-      label: 'Red zone pts / trip',
-      primary: formatNumber(team.red_zone_points_per_trip),
-      rows: [['TD rate', formatPercent(team.red_zone_td_pct)], ['Trips', team.red_zone_trips ?? '—']],
-    },
-    {
-      label: 'Turnover margin',
-      primary: formatSigned(team.turnover_margin, 0),
-      rows: [['Takeaways', team.takeaways ?? '—'], ['Giveaways', team.giveaways ?? '—']],
-    },
-  ]
-
-  return (
-    <div>
-      <button className="back-link" onClick={onBack}>&larr; All teams</button>
-
-      <div className="profile-header">
-        <div>
-          <h1 className="profile-team-name">{team.team}</h1>
-          <p className="profile-meta">Season profile</p>
-        </div>
-        <div className={`grade-badge ${gradeClass}`}>{grade}</div>
-      </div>
-
-      <div className="tile-grid">
-        {tiles.map((tile) => (
-          <div className="stat-tile" key={tile.label}>
-            <span className="tile-label">{tile.label}</span>
-            <span className="tile-primary">{tile.primary}</span>
-            {tile.rows.map(([label, value]) => (
-              <div className="tile-row" key={label}>
-                <span>{label}</span>
-                <span>{value}</span>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      <section>
-        <h2 className="section-heading">Rating trend</h2>
-        {ratingsHistory.loading && <p className="section-sub">Loading…</p>}
-        {teamHistory && <RatingTrendChart history={teamHistory} currentTeam={team.team} />}
-        {!ratingsHistory.loading && !teamHistory && (
-          <p className="section-sub">No trend data yet for {team.team}.</p>
-        )}
-      </section>
-      <TeamSiteSections site={siteInfo} teamAbbr={team.team} />
-    </div>
-  )
-}
-
-// The projection engine's live graded record. Written by
-// deploy/grade_props.py on the Tuesday cadence. Until 2026-09-20 the
-// manifest published only "player_grades" -- a directory nothing has
-// ever created -- so this ledger would have been graded, committed and
-// never shown.
-function useEngineLedger() {
-  const [state, setState] = useState({ data: null, loading: true })
-  useEffect(() => {
-    fetch('/data/prop_grades/summary.json')
-      .then((res) => { if (!res.ok) throw new Error('none'); return res.json() })
-      .then((data) => setState({ data, loading: false }))
-      .catch(() => setState({ data: null, loading: false }))
-  }, [])
-  return state
-}
-
-function EngineLedger() {
-  const { data, loading } = useEngineLedger()
-  if (loading) return <p className="section-sub">Loading\u2026</p>
-  if (!data || !data.n_claims) {
-    return (
-      <div className="empty-state">
-        <strong>No graded claims yet</strong>
-        The engine publishes an opinion on every prop it can price, and none of them
-        count until they are graded here. The first ledger lands the Tuesday after a
-        completed week.
-      </div>
-    )
-  }
-  return (
-    <div>
-      <p className="section-sub">
-        {data.n_claims} claims graded across week{data.weeks_graded.length > 1 ? 's' : ''}{' '}
-        {data.weeks_graded.join(', ')}. Claimed is what the engine said; actual is what
-        happened. A market that claims higher than it hits is over-confident, and that is
-        the number that keeps it in watch mode.
-      </p>
-      {(data.by_market || []).map((m) => {
-        const gap = m.mean_claimed - m.actual_rate
-        return (
-          <div className="log-row" key={`${m.engine}-${m.market}`}>
-            <div className="log-main">
-              <span className="log-pick">{m.market}</span>
-              <span className="log-detail">
-                n={m.n} \u00b7 claimed {(m.mean_claimed * 100).toFixed(1)}% \u00b7 actual{' '}
-                {(m.actual_rate * 100).toFixed(1)}% \u00b7 log-loss {m.log_loss} \u00b7 Brier {m.brier}
-              </span>
-            </div>
-            <span className={`result-badge ${gap > 0.02 ? 'loss' : gap < -0.02 ? 'push' : 'win'}`}>
-              {gap > 0.02 ? 'hot' : gap < -0.02 ? 'cold' : 'on'}
-            </span>
-          </div>
-        )
-      })}
-      {(data.buckets || []).length > 0 && (
-        <>
-          <p className="section-sub" style={{ marginTop: '1rem' }}>
-            By claimed-probability bucket \u2014 the test of whether a stated 60% really means 60%.
-          </p>
-          {data.buckets.map((b) => (
-            <div className="log-row" key={`${b.lo}-${b.hi}`}>
-              <div className="log-main">
-                <span className="log-pick">{(b.lo * 100).toFixed(0)}\u2013{(b.hi * 100).toFixed(0)}%</span>
-                <span className="log-detail">
-                  n={b.n} \u00b7 claimed {(b.claimed * 100).toFixed(1)}% \u00b7 actual {(b.actual * 100).toFixed(1)}%
-                </span>
-              </div>
-            </div>
-          ))}
-        </>
-      )}
-    </div>
-  )
-}
-
-function PlayerGradesSection({ grades }) {
-  const positions = [
-    { key: 'QB', label: 'Quarterbacks' },
-    { key: 'WR_TE', label: 'Wide receivers / tight ends' },
-    { key: 'RB', label: 'Running backs' },
-  ]
-
-  return (
-    <div className="player-grades-grid">
-      {positions.map(({ key, label }) => (
-        <div key={key} className="player-grades-column">
-          <h3 className="player-grades-heading">{label}</h3>
-          {(grades[key] || []).slice(0, 8).map((p, i) => (
-            <div className="player-grade-row" key={p.player}>
-              <span className="player-grade-rank">{i + 1}</span>
-              <span className="player-grade-name">{p.player}</span>
-              <span className={`player-grade-value ${p.grade >= 60 ? 'positive' : p.grade <= 40 ? 'negative' : ''}`}>
-                {p.grade.toFixed(1)}
-              </span>
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-/* ---------------- App shell ---------------- */
-
-const TABS = [
-  { id: 'record', label: 'The record' },
-  { id: 'board', label: 'This week' },
-  { id: 'players', label: 'Players' },
-  { id: 'ratings', label: 'Teams' },
-  { id: 'schedule', label: 'Schedule' },
-  { id: 'book', label: 'My book' },
-]
-
-const NFL_ESPN_ABBR = { WAS: 'wsh', LA: 'lar' }
-const NFL_DIVISION_ORDER = ['AFC East', 'AFC North', 'AFC South', 'AFC West', 'NFC East', 'NFC North', 'NFC South', 'NFC West']
-
-function nflLogo(abbr) {
-  return `https://a.espncdn.com/i/teamlogos/nfl/500/${(NFL_ESPN_ABBR[abbr] || abbr).toLowerCase()}.png`
-}
-
-function TeamMark({ league, team, cfbLogos, size = 20 }) {
-  const src = league === 'CFB' ? (cfbLogos ? cfbLogos[team] : null) : nflLogo(team)
-  if (!src) return null
-  return <img className="team-logo" src={src} width={size} height={size} alt="" loading="lazy" onError={(e) => { e.target.style.display = 'none' }} />
-}
-
-function useJson(url, deps = []) {
-  const [state, setState] = useState({ data: null, loading: true })
-  useEffect(() => {
-    setState({ data: null, loading: true })
-    fetch(url).then((r) => { if (!r.ok) throw new Error('none'); return r.json() })
-      .then((data) => setState({ data, loading: false }))
-      .catch(() => setState({ data: null, loading: false }))
-  }, deps)
-  return state
-}
-
-const ESPN_SB = {
-  NFL: 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard',
-  CFB: 'https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80&limit=120',
-}
-const ESPN_TO_NFLVERSE = { WSH: 'WAS', LAR: 'LA' }
-
-function useOpeningLines(league, manifest, season, week) {
-  // Opening line per game: the FIRST snapshot of the current week.
-  // One extra fetch; powers the per-card line-movement readout.
-  const fam = league === 'CFB' ? 'cfb_divergence' : 'divergence'
-  const files = (manifest && manifest[fam]) || []
-  const prefix = season != null && week != null ? `${season}-week-${String(week).padStart(2, '0')}` : null
-  const first = prefix ? files.find((f) => f.startsWith(prefix)) : null
-  const st = useJson(first ? `/data/${fam}/${first}` : '/data/none.json', [first])
-  const map = {}
-  if (st.data) st.data.divergences.forEach((d) => { map[`${d.away_team}@${d.home_team}`] = d.market_spread })
-  return map
-}
-
-function useLiveScores(league, active, cfbNames) {
-  // Client-side ESPN polling (their API allows browser origins --
-  // verified from this site's own origin). Only runs while the board
-  // tab is visible; 45s cadence; maps back to our team keys.
-  const [scores, setScores] = useState({})
-  useEffect(() => {
-    if (!active) return undefined
-    let stop = false
-    const strip = (n) => n.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim()
-    const deriv = new Set(['tech', 'state', 'am', 'southern', 'christian', 'wesleyan', 'baptist', 'international', 'central'])
-    const cfbCanon = {}
-    if (cfbNames) cfbNames.forEach((n) => { cfbCanon[strip(n)] = n })
-    const resolveCfb = (name) => {
-      const w = strip(name).split(' ')
-      for (const k of [1, 2]) {
-        if (w.length <= k) break
-        if (k === 2 && deriv.has(w[w.length - 2])) continue
-        const cand = cfbCanon[w.slice(0, -k).join(' ')]
-        if (cand) return cand
-      }
-      return null
-    }
-    async function poll() {
-      try {
-        const j = await (await fetch(ESPN_SB[league])).json()
-        const next = {}
-        for (const ev of j.events || []) {
-          const comp = ev.competitions && ev.competitions[0]
-          if (!comp) continue
-          const home = comp.competitors.find((c) => c.homeAway === 'home')
-          const away = comp.competitors.find((c) => c.homeAway === 'away')
-          if (!home || !away) continue
-          let hk, ak
-          if (league === 'CFB') {
-            hk = resolveCfb(home.team.displayName); ak = resolveCfb(away.team.displayName)
-          } else {
-            hk = ESPN_TO_NFLVERSE[home.team.abbreviation] || home.team.abbreviation
-            ak = ESPN_TO_NFLVERSE[away.team.abbreviation] || away.team.abbreviation
-          }
-          if (!hk || !ak) continue
-          const st = comp.status || {}
-          next[`${ak}@${hk}`] = {
-            hs: Number(home.score), as: Number(away.score),
-            state: st.type && st.type.state, detail: st.type && st.type.shortDetail,
-          }
-        }
-        if (!stop) setScores(next)
-      } catch (e) { /* soft-fail: scores are decoration */ }
-    }
-    poll()
-    const t = setInterval(() => { if (document.visibilityState === 'visible') poll() }, 45000)
-    return () => { stop = true; clearInterval(t) }
-  }, [league, active, cfbNames && cfbNames.length])
-  return scores
+function writePref(key, value) {
+  try { localStorage.setItem(key, value) } catch { /* private mode */ }
 }
 
 export default function App() {
-  const [league, setLeague] = useState('NFL')
-  const [tab, setTab] = useState('record')
-  const [selectedTeam, setSelectedTeam] = useState(null)
-  const manifestState = useJson('/data/manifest.json')
-  const siteTeams = useJson('/data/site/teams.json')
-  const playerLeaders = useJson('/data/site/player_leaders.json')
-  const cfbLogosState = useJson('/data/site/cfb_logos.json')
-  const cfbLogos = cfbLogosState.data ? cfbLogosState.data.logos : null
-  const liveScores = useLiveScores(league, tab === 'board', cfbLogos ? Object.keys(cfbLogos) : null)
-
   const account = useAccount()
   const book = useBook(account)
-  const perf = usePerformance()
-  const cfbPerf = usePerformance('CFB')     // the CFB meter was passed null and could not see its own record
-  const marginDist = useMarginDist()
-  // CFB's cover curve used to be the literal 0.01828 in JSX, which no
-  // committed code reproduced. It now comes from a regenerable artifact
-  // (model/cfb_edge_calibration.py) that ships its own CI.
-  const cfbCal = useJson('/data/cfb_edge_calibration.json')
+  const { boards, errors } = useBoards()
+  const record = useRecord()
+  const gates = useGates()
 
-  const ratingsState = useLatestSnapshot('ratings')
-  const cfbRatingsState = useLatestSnapshot('cfb_ratings')
-  const divergenceState = useLatestSnapshot('divergence')
-  const cfbDivergenceState = useLatestSnapshot('cfb_divergence')
-  const mlbDivergenceState = useLatestSnapshot('mlb_divergence')
-  const activeDivData = league === 'CFB' ? (cfbDivergenceState.data || null) : (divergenceState.data || null)
-  const openingLines = useOpeningLines(league, manifestState.data, activeDivData && activeDivData.season, activeDivData && activeDivData.week)
-  const playerGradesState = useLatestSnapshot('player_grades')
+  /* ?league=nhl&view=record opens a specific board: a link a friend can
+   * be sent. Without it, the last league viewed on this browser. */
+  const params = new URLSearchParams(window.location.search)
+  const [league, setLeagueState] = useState(() => {
+    const l = params.get('league') || readPref('coinflip_league', 'nfl')
+    return LEAGUES.includes(l) ? l : 'nfl'
+  })
+  const [view, setView] = useState(() => params.get('view') || 'board')
+  const [showKeys, setShowKeys] = useState(false)
+  const board = boards[league]
+  const views = viewsFor(league, board)
+  const since = useSinceLastVisit(league, board)
 
-  const activeRatingsState = league === 'CFB' ? cfbRatingsState : ratingsState
+  const setLeague = useCallback((l) => {
+    setLeagueState(l)
+    writePref('coinflip_league', l)
+  }, [])
 
-  const ratingsByTeam = useMemo(() => {
-    if (!ratingsState.data) return null
-    const byTeam = {}
-    ratingsState.data.ratings.forEach((t) => { byTeam[t.team] = t })
-    return byTeam
-  }, [ratingsState.data])
+  /* A view the league does not have falls back to the board -- but only once
+   * the board has loaded. Before that, viewsFor() cannot know whether Teams
+   * exists, and resetting then broke every ?view=teams deep link. */
+  useEffect(() => {
+    if (board && !views.some((v) => v.id === view)) setView('board')
+  }, [league, board])
 
-  const cfbRatingsByTeam = useMemo(() => {
-    if (!cfbRatingsState.data) return null
-    const byTeam = {}
-    cfbRatingsState.data.ratings.forEach((t) => { byTeam[t.team] = t })
-    return byTeam
-  }, [cfbRatingsState.data])
-
-  if (selectedTeam) {
-    return (
-      <div className="page">
-        <TeamProfilePage team={selectedTeam} onBack={() => setSelectedTeam(null)} league={league} siteInfo={league === 'NFL' && siteTeams.data ? siteTeams.data.teams[selectedTeam.team] : null} cfbLogos={cfbLogos} />
-      </div>
-    )
-  }
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return
+      const tag = (e.target.tagName || '').toLowerCase()
+      if (['input', 'select', 'textarea'].includes(tag)) return
+      const n = Number(e.key)
+      if (n >= 1 && n <= LEAGUES.length) { setLeague(LEAGUES[n - 1]); return }
+      if (e.key === '?') { setShowKeys((s) => !s); return }
+      if (e.key === 'Escape') { setShowKeys(false); return }
+      const v = views.find((x) => x.key === e.key)
+      if (v) setView(v.id)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [views, setLeague])
 
   return (
-    <div className="page">
-      <header className="masthead">
-        <div className="masthead-row">
-          <div>
-            <h1 className="brand">Cover<em>line</em></h1>
-            <p className="tagline">every flagged play graded in public</p>
-          </div>
-          <div className="masthead-right">
-            <AccountChip account={account} />
-            <div className="league-toggle" role="tablist" aria-label="League">
-              {['NFL', 'CFB', 'MLB'].map((l) => (
-                <button key={l} className={league === l ? 'active' : ''}
-                        aria-pressed={league === l} onClick={() => setLeague(l)}>
-                  {l}
-                </button>
-              ))}
-            </div>
-          </div>
+    <div className="shell">
+      <a className="skip" href="#main">Skip to the board</a>
+      <header className="top">
+        <div className="brand">
+          <span className="wordmark">CoinFlip</span>
+          <span className="motto">Every number on this screen was earned by evidence.</span>
         </div>
-        {activeRatingsState.data && (
-          <p className="stamp">
-            {activeRatingsState.data.season} season · week {activeRatingsState.data.week} · updated{' '}
-            {new Date(activeRatingsState.data.computed_at).toLocaleDateString()}
-          </p>
-        )}
-        <nav className="tabs" aria-label="Sections">
-          {TABS.map((t) => (
-            <button key={t.id} className={tab === t.id ? 'active' : ''}
-                    aria-current={tab === t.id ? 'page' : undefined}
-                    onClick={() => setTab(t.id)}>
-              {t.label}
-            </button>
+        <nav className="circuits" aria-label="Leagues">
+          {LEAGUES.map((l, i) => (
+            <Circuit key={l} league={l} index={i + 1} board={boards[l]} error={errors[l]}
+                     active={l === league} onSelect={() => setLeague(l)} />
           ))}
         </nav>
+        <div className="top-end">
+          <AccountChip account={account} />
+          <button className="keys-btn" onClick={() => setShowKeys((s) => !s)} aria-expanded={showKeys}>
+            Keys <kbd>?</kbd>
+          </button>
+        </div>
       </header>
 
-      {tab === 'board' && league === 'MLB' && (
-        <MlbBoard snap={mlbDivergenceState.data} />
+      {isFixture && (
+        <div className="fixture-banner" role="status">
+          Synthetic prices loaded for design work (<code>?fixture=1</code>). These are not real odds.
+        </div>
       )}
-      {tab === 'board' && league !== 'MLB' && (
-        <section>
-          {league === 'NFL' ? (
-            <>
-              {divergenceState.loading && <p className="section-sub">Loading…</p>}
-              {divergenceState.error && (
-                <div className="empty-state">
-                  <strong>No lines posted yet</strong>
-                  Sportsbooks open lines gradually as kickoff approaches — the board fills in
-                  automatically on game weeks.
-                </div>
-              )}
-              {divergenceState.data && (
-                <EdgeBoard
-                  divergences={divergenceState.data.divergences}
-                  note={divergenceState.data.note}
-                  season={divergenceState.data.season}
-                  week={divergenceState.data.week}
-                  book={book}
-                  ratingsByTeam={ratingsByTeam}
-                  perf={perf.data}
-                  marginDist={marginDist}
-                  qb1Map={divergenceState.data.qb1_map}
-                  boardLeague="NFL"
-                  boardScores={liveScores}
-                  boardOpenLines={openingLines}
-                  boardSiteTeams={siteTeams.data}
-                  boardDebias={divergenceState.data.debias_offsets}
-                />
-              )}
-            </>
-          ) : (
-            <>
-              {cfbDivergenceState.loading && <p className="section-sub">Loading…</p>}
-              {cfbDivergenceState.error && (
-                <div className="empty-state">
-                  <strong>No CFB lines gathered yet</strong>
-                  The CFB odds watch fills this board automatically once it runs against live NCAAF
-                  odds. Team ratings are already live under the Ratings tab.
-                </div>
-              )}
-              {cfbDivergenceState.data && (
-                <EdgeBoard
-                  divergences={cfbDivergenceState.data.divergences}
-                  note={cfbDivergenceState.data.note}
-                  season={cfbDivergenceState.data.season}
-                  week={cfbDivergenceState.data.week}
-                  book={book}
-                  ratingsByTeam={cfbRatingsByTeam}
-                  perf={cfbPerf.data}
-                  marginDist={null}
-                  /* Weeks 1-4 cap at Lean: the held-out backtest graded
-                     early-season flags BELOW breakeven (48.3%) -- ratings
-                     are data-starved before week 5. Evidence-backed
-                     demotion, unlike the QB case where the data said
-                     annotate-only. */
-                  playGap={(cfbDivergenceState.data.week ?? 5) <= 4 ? 999 : 5}
-                  leanGap={3}
-                  /* CFB-specific calibration: logistic fit to the
-                     held-out 2023 bucket table (574 games). A 22-pt
-                     carryover gap is ~60% cover, not the ~94% the NFL
-                     normal approximation was displaying. */
-                  edgeCoefOverride={cfbCal.data ? cfbCal.data.edge_coef : null}
-                  edgeCal={cfbCal.data}
-                  boardLeague="CFB"
-                  boardCfbLogos={cfbLogos}
-                  boardScores={liveScores}
-                  boardOpenLines={openingLines}
-                  boardDebias={cfbDivergenceState.data.debias_offsets}
-                />
-              )}
-            </>
-          )}
-        </section>
-      )}
+      {showKeys && <KeyHelp views={views} onClose={() => setShowKeys(false)} />}
 
-      {tab === 'record' && (league === 'MLB'
-        ? <ObservationOnlyRecord league={league} />
-        : <TrackRecord league={league} />)}
+      <EvidenceStrip league={league} board={board} record={record.data} />
 
-      {tab === 'book' && <MyBook book={book} account={account} />}
+      <nav className="views" aria-label={`${LEAGUE_NAME[league]} views`}>
+        {views.map((v) => (
+          <button key={v.id} className={`view-tab${view === v.id ? ' on' : ''}`}
+                  aria-current={view === v.id ? 'page' : undefined} onClick={() => setView(v.id)}>
+            {v.label}<kbd>{v.key}</kbd>
+          </button>
+        ))}
+      </nav>
 
-      {tab === 'schedule' && league === 'MLB' && (
-        <section><h2 className="section-heading">Season schedule — MLB</h2><p className="section-sub">MLB schedule view arrives with the 2027 board launch.</p></section>
-      )}
-      {tab === 'schedule' && league !== 'MLB' && (league === 'NFL'
-        ? <ScheduleTab siteTeams={siteTeams} />
-        : <section><h2 className="section-heading">Season schedule — CFB</h2><p className="section-sub">The CFB slate lives on the This week board; a full 136-team schedule view is on the roadmap.</p></section>)}
+      <main id="main" className="main">
+        {!board && !errors[league] && <LoadingBoard />}
+        {errors[league] && (
+          <div className="stamp stamp-refused">
+            <StateGlyph state="refused" />
+            <p>The {LEAGUE_NAME[league]} board could not be loaded ({errors[league]}). Nothing
+              below is current; reload when the site has redeployed.</p>
+          </div>
+        )}
+        {board && view === 'board' && <Board league={league} board={board} since={since} book={book} />}
+        {board && view === 'teams' && <Teams league={league} board={board} />}
+        {view === 'players' && league === 'nfl' && <Players />}
+        {view === 'record' && <Record league={league} record={record} />}
+        {view === 'gates' && <Gates league={league} gates={gates} />}
+        {view === 'book' && <Book book={book} account={account} />}
+      </main>
 
-      {tab === 'players' && league === 'MLB' && (
-        <section><h2 className="section-heading">Players — MLB</h2><p className="section-sub">MLB player surfaces arrive with the 2027 board launch.</p></section>
-      )}
-      {tab === 'players' && league !== 'MLB' && (league === 'NFL'
-        ? (
-          <>
-            <PlayersTab playerLeaders={playerLeaders} manifest={manifestState.data} />
-            <section>
-              <h2 className="section-heading">Engine grades \u2014 watch mode</h2>
-              <p className="section-sub">
-                Every opinion the projection engine publishes on the board above is graded here
-                against what the players actually did. It holds no verdict authority and sizes no
-                stake; it earns that here or not at all.
-              </p>
-              <EngineLedger />
-            </section>
-          </>
-        )
-        : <section><h2 className="section-heading">Players — CFB</h2><p className="section-sub">Player surfaces are NFL-only for now (college player data volume is a different animal).</p></section>)}
-
-      {tab === 'ratings' && league === 'MLB' && (
-        <section><h2 className="section-heading">Teams — MLB</h2><p className="section-sub">MLB team ratings publish with the 2027 board launch; the model runs and is graded before anything shows here.</p></section>
-      )}
-      {tab === 'ratings' && league !== 'MLB' && (
-        <>
-          <section>
-            <h2 className="section-heading">Team ratings</h2>
-            <p className="section-sub">
-              Opponent-adjusted efficiency, the engine behind every number on the board. Tap a team
-              for its full profile.
-            </p>
-            {activeRatingsState.loading && <p className="section-sub">Loading…</p>}
-            {activeRatingsState.error && (
-              <div className="empty-state">
-                <strong>No {league} ratings published yet</strong>
-                Ratings publish weekly once the season starts.
-              </div>
-            )}
-            {league === 'NFL' && siteTeams.data && activeRatingsState.data && (
-              <DivisionStandings siteTeams={siteTeams.data} ratingsByTeam={ratingsByTeam}
-                onSelectTeam={setSelectedTeam} allRatings={activeRatingsState.data.ratings} />
-            )}
-            {activeRatingsState.data && (league !== 'NFL' || !siteTeams.data) && (
-              <RatingsTable ratings={activeRatingsState.data.ratings} onSelectTeam={setSelectedTeam}
-                league={league} cfbLogos={cfbLogos} />
-            )}
-          </section>
-
-          {league === 'NFL' && playerGradesState.data && (
-            <section>
-              <h2 className="section-heading">Player grades</h2>
-              <p className="section-sub">
-                From real player-tracking data — accuracy over expectation for QBs, yards after catch
-                over expectation for receivers, rushing yards over expected for backs.
-              </p>
-              <PlayerGradesSection grades={playerGradesState.data.grades} />
-            </section>
-          )}
-        </>
-      )}
-
-      <footer className="footnote">
-        <p>
-          Every number here is a model estimate, not a guarantee, and nothing on this site is betting
-          advice. Estimated cover probabilities are approximations and real results will vary.
-        </p>
-        <p>
-          Bet only what you can afford to lose. If gambling stops being fun, call or text 1-800-GAMBLER.
-          21+ where required.
-        </p>
+      <footer className="foot">
+        <p>CoinFlip suggests; it never instructs. It shows what the model thinks against what the
+          market thinks. Nothing here is sized until a league is graded against closing prices.
+          Bet only what you can afford to lose. If gambling is causing harm, call 1-800-GAMBLER.</p>
       </footer>
     </div>
   )
 }
+
+function Circuit({ league, index, board, error, active, onSelect }) {
+  const st = board?.status
+  const state = error ? 'refused' : st?.state || 'idle'
+  const captured = board?.freshness?.odds_captured_at
+  return (
+    <button className={`circuit c-${league}${active ? ' on' : ''} s-${state}`} onClick={onSelect}
+            aria-pressed={active} aria-label={`${LEAGUE_NAME[league]}: ${STATE_LABEL[state]}`}>
+      <span className="c-head">
+        <span className="c-code">{LEAGUE_CODE[league]}</span>
+        <kbd>{index}</kbd>
+      </span>
+      <span className="c-state">
+        <StateGlyph state={state} />
+        {board ? STATE_LABEL[state] : error ? 'Unavailable' : 'Loading'}
+      </span>
+      <span className="c-figs">
+        {!board ? ' ' : st?.games
+          ? <>{st.priced}/{st.games} priced{st.tiers?.play ? ` · ${st.tiers.play} Play` : ''}</>
+          : board.next_slate ? <>Next {board.next_slate.date.slice(5).replace('-', '/')}</>
+          : state === 'refused' ? 'See refusal' : 'No games'}
+      </span>
+      <span className="c-age">{captured ? `odds ${age(captured)}` : 'no odds yet'}</span>
+    </button>
+  )
+}
+
+function EvidenceStrip({ league, board, record }) {
+  const g = board?.grade
+  const r = record?.leagues?.[league]
+  const floor = record?.floor || 150
+  const settled = r?.settled_games ?? 0
+  const tiers = board?.tiers
+  const leagueRefusals = (board?.refusals || []).filter((x) => x.scope === 'league')
+  const fresh = board?.freshness || {}
+  return (
+    <section className="evidence" aria-label={`${LEAGUE_NAME[league]} evidence`}>
+      <dl className="ev-grid">
+        <div className="ev">
+          <dt>Market grade</dt>
+          <dd>
+            <span className="ev-big">{g ? g.weight.toFixed(2) : '—'}</span>
+            <span className="ev-sub" title={g?.source ? `measured weight ${g.w_hat} ± ${g.se} over ${g.n} games${g.contamination ? `; ${g.contamination}` : ''}` : undefined}>
+              {g?.source
+                ? <>w {signed(g.w_hat, 3)} ± {g.se?.toFixed(3)} · {g.n?.toLocaleString()} games{g.contamination?.startsWith('UPPER') ? ' · upper bound' : ''}</>
+                : 'not yet graded against closing prices'}
+            </span>
+          </dd>
+        </div>
+        <div className="ev">
+          <dt>Paper trades</dt>
+          <dd>
+            <span className="ev-big">{settled}<small>/{floor}</small></span>
+            <span className="meter" role="meter" aria-valuemin={0} aria-valuemax={floor} aria-valuenow={settled}
+                  aria-label={`${settled} of ${floor} settled`}>
+              <span style={{ width: `${Math.min(100, (r?.progress_to_floor || 0) * 100)}%` }} />
+            </span>
+          </dd>
+        </div>
+        <div className="ev">
+          <dt>Mean CLV</dt>
+          <dd>
+            <span className="ev-big">{r?.mean_clv_prob_points != null ? pts(r.mean_clv_prob_points, 2) : '—'}</span>
+            <span className="ev-sub">{r?.clv_graded ? `${r.clv_graded} closes · points of probability` : 'no closes graded yet'}</span>
+          </dd>
+        </div>
+        <div className="ev">
+          <dt>Odds</dt>
+          <dd>
+            <span className="ev-big">{fresh.odds_captured_at ? age(fresh.odds_captured_at) : 'none'}</span>
+            <span className="ev-sub">{fresh.odds_captured_at ? 'last capture' : 'no capture yet'}</span>
+          </dd>
+        </div>
+        <div className="ev">
+          <dt>Inputs</dt>
+          <dd>
+            <span className="ev-big">{board?.generated_at ? age(board.generated_at) : '—'}</span>
+            <span className="ev-sub">
+              {fresh.ratings_version ? `ratings through week ${fresh.ratings_through_week}`
+                : fresh.latest_final ? `results to ${String(fresh.latest_final).slice(0, 10)}`
+                : 'board exported'}
+            </span>
+          </dd>
+        </div>
+        <div className="ev">
+          <dt>Tiers</dt>
+          <dd>
+            <span className="ev-big ev-word">{tiers ? (tiers.provisional ? 'Provisional' : 'Calibrated') : '—'}</span>
+            <span className="ev-sub">
+              {tiers ? (tiers.source?.startsWith('borrowed') ? `borrowed from ${tiers.source.split(':')[1].toUpperCase()}` : `from the ${tiers.source}`) : ''}
+              {tiers ? ` · Play ≥ ${pts(tiers.play)} pts` : ''}
+            </span>
+          </dd>
+        </div>
+      </dl>
+      {leagueRefusals.map((x, i) => (
+        <p className="stamp stamp-inline" key={i}>
+          <StateGlyph state={board?.status?.state === 'refused' ? 'refused' : 'degraded'} />
+          <span>{x.reason}</span>
+        </p>
+      ))}
+      {(board?.status?.game_refusals || []).map((x) => (
+        <p className="stamp stamp-inline" key={x.reason}>
+          <StateGlyph state="refused" />
+          <span>{x.games} game{x.games === 1 ? '' : 's'} refused: {x.reason}.</span>
+        </p>
+      ))}
+      {board?.status?.state === 'idle' && (
+        <p className="stamp stamp-inline stamp-idle">
+          <StateGlyph state="idle" />
+          <span>No {LEAGUE_NAME[league]} games today.
+            {board.next_slate ? ` Next slate ${dateLabel(board.next_slate.date)}, ${board.next_slate.games} game${board.next_slate.games === 1 ? '' : 's'}.` : ''}</span>
+        </p>
+      )}
+    </section>
+  )
+}
+
+function LoadingBoard() {
+  return (
+    <div className="skeleton" aria-busy="true" aria-label="Loading the board">
+      {Array.from({ length: 6 }).map((_, i) => <div key={i} className="sk-row" />)}
+    </div>
+  )
+}
+
+function KeyHelp({ views, onClose }) {
+  return (
+    <aside className="keyhelp" aria-label="Keyboard shortcuts">
+      <div className="kh-grid">
+        <span><kbd>1</kbd>–<kbd>5</kbd></span><span>Switch league</span>
+        {views.map((v) => (
+          <Fragment key={v.id}><span><kbd>{v.key}</kbd></span><span>{v.label}</span></Fragment>
+        ))}
+        <span><kbd>j</kbd> <kbd>k</kbd></span><span>Move between games</span>
+        <span><kbd>Enter</kbd></span><span>Open or close the reasoning</span>
+        <span><kbd>?</kbd></span><span>Show or hide this</span>
+      </div>
+      <button className="link-btn" onClick={onClose}>Close</button>
+    </aside>
+  )
+}
+

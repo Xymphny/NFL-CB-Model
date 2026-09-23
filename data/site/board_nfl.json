@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-09-23T08:42:56Z",
+ "generated_at": "2026-09-23T09:43:44Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -21,7 +21,14 @@
     "home_qb_name": "Jordan Love",
     "away_qb_name": "Michael Penix Jr.",
     "roof": "outdoors",
-    "div_game": 0
+    "div_game": 0,
+    "regime": {
+     "home": null,
+     "away": {
+      "tier": 1,
+      "coach": "Stefanski"
+     }
+    }
    },
    "refusal": null,
    "model": {
@@ -65,7 +72,14 @@
     "home_qb_name": "Deshaun Watson",
     "away_qb_name": "Bryce Young",
     "roof": "outdoors",
-    "div_game": 0
+    "div_game": 0,
+    "regime": {
+     "home": {
+      "tier": 1,
+      "coach": "Monken"
+     },
+     "away": null
+    }
    },
    "refusal": null,
    "model": {
@@ -152,7 +166,14 @@
     "home_qb_name": "Malik Willis",
     "away_qb_name": "Patrick Mahomes",
     "roof": "outdoors",
-    "div_game": 0
+    "div_game": 0,
+    "regime": {
+     "home": {
+      "tier": 1,
+      "coach": "Hafley"
+     },
+     "away": null
+    }
    },
    "refusal": null,
    "model": {
@@ -174,7 +195,17 @@
     "home_qb_name": "Jaxson Dart",
     "away_qb_name": "Cam Ward",
     "roof": "outdoors",
-    "div_game": 0
+    "div_game": 0,
+    "regime": {
+     "home": {
+      "tier": 2,
+      "coach": "J.Harbaugh"
+     },
+     "away": {
+      "tier": 1,
+      "coach": "Saleh"
+     }
+    }
    },
    "refusal": null,
    "model": {
@@ -196,7 +227,14 @@
     "home_qb_name": "Aaron Rodgers",
     "away_qb_name": "Joe Burrow",
     "roof": "outdoors",
-    "div_game": 1
+    "div_game": 1,
+    "regime": {
+     "home": {
+      "tier": 1,
+      "coach": "McCarthy"
+     },
+     "away": null
+    }
    },
    "refusal": null,
    "model": {
@@ -240,7 +278,14 @@
     "home_qb_name": "Brock Purdy",
     "away_qb_name": "Jacoby Brissett",
     "roof": "outdoors",
-    "div_game": 1
+    "div_game": 1,
+    "regime": {
+     "home": null,
+     "away": {
+      "tier": 1,
+      "coach": "LaFleur"
+     }
+    }
    },
    "refusal": null,
    "model": {
@@ -283,7 +328,14 @@
    "context": {
     "home_qb_name": "Dak Prescott",
     "away_qb_name": "Lamar Jackson",
-    "div_game": 0
+    "div_game": 0,
+    "regime": {
+     "home": null,
+     "away": {
+      "tier": 1,
+      "coach": "Minter"
+     }
+    }
    },
    "refusal": null,
    "model": {
@@ -305,7 +357,14 @@
     "home_qb_name": "Tyler Shough",
     "away_qb_name": "Kirk Cousins",
     "roof": "dome",
-    "div_game": 0
+    "div_game": 0,
+    "regime": {
+     "home": null,
+     "away": {
+      "tier": 1,
+      "coach": "Kubiak"
+     }
+    }
    },
    "refusal": null,
    "model": {
@@ -679,5 +738,19 @@
   "play": 0.2271,
   "source": "backtest",
   "provisional": true
+ },
+ "status": {
+  "state": "degraded",
+  "games": 16,
+  "priced": 0,
+  "tiers": {
+   "play": 0,
+   "lean": 0,
+   "coin_flip": 0,
+   "no_edge": 0
+  },
+  "refusals": 1,
+  "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run.",
+  "game_refusals": []
  }
 }

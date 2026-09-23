@@ -255,3 +255,60 @@ def test_the_gates_are_read_from_the_artifacts_not_written_by_hand():
     on_disk = {p.name[:4] for p in (ROOT / "docs" / "decisions").glob("[0-9]*.md")} - {"0000"}
     assert ids == on_disk
     assert {m["league"] for m in g["market"]} == set(X.LEAGUES)
+
+
+# ------------------------------------------------ the regime cap, status ----
+
+def _entry(side="home", tier="play", stake=0.01):
+    return {"home": "ATL", "away": "TB", "context": {}, "markets": {"spread": {
+        "status": "priced", "side": side, "tier": tier, "stake_fraction": stake}}}
+
+
+def test_a_flag_backing_a_first_year_staff_is_capped_not_removed():
+    regimes = {"ATL": {"tier": 1, "coach": "Stefanski"}}
+    e = _entry()
+    X.apply_regime_cap(e, "spread", regimes, week=3)
+    m = e["markets"]["spread"]
+    assert m["tier"] == "lean" and m["stake_fraction"] == 0.005
+    assert f"went {X.regime_evidence()} in backtests" in m["cap"]["reason"]
+    assert e["context"]["regime"]["home"]["coach"] == "Stefanski"
+
+
+def test_fading_a_regime_team_and_late_season_flags_are_untouched():
+    regimes = {"ATL": {"tier": 1, "coach": "Stefanski"}}
+    e = _entry(side="away")
+    X.apply_regime_cap(e, "spread", regimes, week=3)
+    assert e["markets"]["spread"]["tier"] == "play" and "cap" not in e["markets"]["spread"]
+    e = _entry()
+    X.apply_regime_cap(e, "spread", regimes, week=9)
+    assert e["markets"]["spread"]["tier"] == "play" and "regime" not in e["context"]
+
+
+def test_the_regime_number_is_the_artifacts():
+    art = json.loads((ROOT / "model" / "coach_regime_results.json").read_text())
+    g = next(g for g in art["grades"]
+             if g["label"] == "model BACKED the regime team" and g["min_edge"] == 2.5)
+    assert X.regime_evidence() == f"{g['wins']}/{g['n_graded']}"
+
+
+@pytest.mark.parametrize("games,refusals,want", [
+    ([], [{"scope": "league", "reason": "r"}], "refused"),
+    ([], [], "idle"),
+    (["priced"], [], "up"),
+    (["priced", "none"], [], "degraded"),
+    (["none"], [{"scope": "league", "reason": "no odds"}], "degraded"),
+])
+def test_the_circuit_state_comes_from_the_export(games, refusals, want):
+    b = {"games": [{"headline": "spread", "markets": (
+            {"spread": {"status": "priced", "tier": "lean"}} if g == "priced" else {})} for g in games],
+         "refusals": refusals}
+    s = X.summarise(b)
+    assert s["state"] == want
+    assert s["priced"] == games.count("priced")
+
+
+def test_an_idle_league_says_when_it_resumes():
+    for league in ("nba", "nhl"):
+        b = json.loads((ROOT / "data" / "site" / f"board_{league}.json").read_text())
+        if b["status"]["state"] == "idle":
+            assert b.get("next_slate") and b["next_slate"]["games"] > 0

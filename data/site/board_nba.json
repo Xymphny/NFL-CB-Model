@@ -1,18 +1,13 @@
 {
  "league": "nba",
- "generated_at": "2026-09-23T08:42:58Z",
+ "generated_at": "2026-09-23T09:43:45Z",
  "note": "Daily. The model is team-level: it has no injury or minutes layer, so late scratches and rest decisions are not in its price.",
  "slate": {
   "kind": "date",
   "date": "2026-09-23"
  },
  "games": [],
- "refusals": [
-  {
-   "scope": "league",
-   "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run."
-  }
- ],
+ "refusals": [],
  "freshness": {
   "odds_captured_at": null,
   "latest_final": "2026-04-13 00:30:00+00:00"
@@ -179,5 +174,23 @@
   "play": 0.2271,
   "source": "borrowed:nfl",
   "provisional": true
+ },
+ "next_slate": {
+  "date": "2026-10-20",
+  "games": 3
+ },
+ "status": {
+  "state": "idle",
+  "games": 0,
+  "priced": 0,
+  "tiers": {
+   "play": 0,
+   "lean": 0,
+   "coin_flip": 0,
+   "no_edge": 0
+  },
+  "refusals": 0,
+  "reason": null,
+  "game_refusals": []
  }
 }

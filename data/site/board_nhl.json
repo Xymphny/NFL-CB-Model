@@ -1,18 +1,13 @@
 {
  "league": "nhl",
- "generated_at": "2026-09-23T08:42:57Z",
+ "generated_at": "2026-09-23T09:43:45Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
   "date": "2026-09-23"
  },
  "games": [],
- "refusals": [
-  {
-   "scope": "league",
-   "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run."
-  }
- ],
+ "refusals": [],
  "freshness": {
   "odds_captured_at": null,
   "latest_final": null
@@ -28,5 +23,23 @@
   "play": 0.0686,
   "source": "borrowed:mlb",
   "provisional": true
+ },
+ "next_slate": {
+  "date": "2026-09-29",
+  "games": 5
+ },
+ "status": {
+  "state": "idle",
+  "games": 0,
+  "priced": 0,
+  "tiers": {
+   "play": 0,
+   "lean": 0,
+   "coin_flip": 0,
+   "no_edge": 0
+  },
+  "refusals": 0,
+  "reason": null,
+  "game_refusals": []
  }
 }

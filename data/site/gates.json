@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-23T08:35:17Z",
+ "generated_at": "2026-09-23T09:43:45Z",
  "fitted": [
   {
    "league": "nba",
@@ -167,6 +167,14 @@
    "tiers_provisional": true,
    "tiers_by_band": null,
    "break_even_at_minus_110": 0.5238
+  }
+ ],
+ "rules": [
+  {
+   "league": "nfl",
+   "rule": "Regime cap",
+   "text": "Early-season flags backing a first-year external head coach went 0/6 ATS in 2016-2023; such flags are capped at Lean with half stake, never removed.",
+   "file": "model/coach_regime_results.json"
   }
  ],
  "decisions": [
@@ -366,6 +374,14 @@
    "id": "0025",
    "file": "docs/decisions/0025-tiers-are-conviction-not-edge.md",
    "title": "0025. Tiers are conviction, set by each league's own history, not edge",
+   "status": "accepted",
+   "date": "2026-09-23",
+   "superseded_by": null
+  },
+  {
+   "id": "0026",
+   "file": "docs/decisions/0026-retire-the-legacy-board-surfaces.md",
+   "title": "0026. Retire the legacy board surfaces the revamp did not carry over",
    "status": "accepted",
    "date": "2026-09-23",
    "superseded_by": null
