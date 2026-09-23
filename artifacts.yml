@@ -42,8 +42,12 @@ artifacts:
     produced_by: src/coverline/execution/ledger.py
     consumed_by:
       - src/coverline/execution/ledger.py
+      - src/coverline/execution/settle.py
+      - model/grade_market_weight.py
     kind: ledger
-    refresh: "appended per recommendation, placed or not"
+    refresh: "appended per recommendation, placed or not; automated paper
+      trades from every captured window (scripts/paper_trade.py via
+      close-capture-job --paper), committed with the snapshot"
     staleness_error_hours: null
     unconsumed_reason: null
 

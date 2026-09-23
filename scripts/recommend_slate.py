@@ -195,6 +195,10 @@ def choose_weight(args, lg: League) -> float:
     log = E.load_attempts()
     print(f"attempt log (model vs model; does not size bets): {log.summary()}")
 
+    if args.paper:
+        print("  --paper: an automated paper run. The weight is forced to 0 so "
+              "that nothing is ever recorded as placed -- no one placed it.")
+        return 0.0
     if args.market_weight is not None:
         print(f"  --market-weight {args.market_weight:.4f} OVERRIDES the "
               f"measured {weight:.4f}. No market-facing grade supports it; this "
@@ -221,6 +225,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--min-edge", type=float, default=0.0)
     ap.add_argument("--pooled", action="store_true",
                     help="retired: the attempt-log weight no longer sizes bets")
+    ap.add_argument("--paper", action="store_true",
+                    help="automated paper trading: weight 0, never placed")
+    ap.add_argument("--events-before",
+                    help="price only events starting before this UTC time")
+    ap.add_argument("--ledger", default=str(LEDGER_DIR),
+                    help="ledger directory for --commit")
     ap.add_argument("--market-weight", type=float, default=None,
                     help="override the staking weight (0..1); prints a warning")
     ap.add_argument("--commit", action="store_true",
@@ -242,6 +252,8 @@ def main(argv: list[str] | None = None) -> int:
                  "log no longer sizes bets: it is graded model against model. The "
                  "weight now comes from data/market_weights.json "
                  "(docs/decisions/0024). --market-weight overrides it explicitly.")
+    if args.paper and args.market_weight is not None:
+        ap.error("--paper and --market-weight contradict each other")
     if args.market_weight is not None and not 0.0 <= args.market_weight <= 1.0:
         ap.error("--market-weight must be between 0 and 1")
 
@@ -280,6 +292,15 @@ def main(argv: list[str] | None = None) -> int:
 
     payload = store.read_snapshot(snap_path)["payload"]
     quotes = normalize(payload, captured_at=str(snap_path))
+    if args.events_before:
+        # Paper runs price the window a capture was taken for, not every
+        # upcoming game in the feed: the close is the price worth grading
+        # against, and pricing a week of games on every capture would write
+        # hundreds of thousands of rows a season.
+        cutoff = pd.Timestamp(args.events_before)
+        cutoff = cutoff.tz_localize("UTC") if cutoff.tzinfo is None else cutoff
+        quotes = [q for q in quotes
+                  if q.commence_time and pd.Timestamp(q.commence_time) < cutoff]
     events = sorted({q.event_id for q in quotes})
     print(f"snapshot {Path(snap_path).name}: {len(events)} events, "
           f"{len(quotes)} quotes")
@@ -309,7 +330,7 @@ def main(argv: list[str] | None = None) -> int:
     for e in skipped[:12]:
         print(f"    unmatched: {e}")
 
-    ledger = BetLedger(LEDGER_DIR) if args.commit else None
+    ledger = BetLedger(Path(args.ledger)) if args.commit else None
     placed = declined = withheld = 0
 
     for m in matches:
@@ -352,7 +373,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\n{placed} recommended, {declined} declined, "
           f"{withheld} events withheld (no priceable market)")
     if ledger is not None:
-        print(f"written to {LEDGER_DIR}")
+        print(f"written to {args.ledger}")
         print(f"conversion so far: {ledger.conversion()}")
     else:
         print("Dry run -- nothing written. Add --commit to record these.")

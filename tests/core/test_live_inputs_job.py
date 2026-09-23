@@ -67,7 +67,8 @@ def test_every_path_it_commits_is_a_data_path():
     """Staged by name. A job that could stage source code is one bad
     checkout away from pushing it."""
     for p in J.PATHS:
-        assert p.startswith("data/raw/") or p == "model/data_integrity.json", p
+        assert (p.startswith("data/raw/") or p in ("model/data_integrity.json",
+                                                   "data/ledger")), p
 
 
 def test_the_blueprint_schedules_it_after_the_mlb_results_job():
@@ -95,6 +96,7 @@ def test_git_utils_stages_every_path_it_is_given(monkeypatch):
         return R()
     monkeypatch.setattr(G.subprocess, "run", fake_run)
     monkeypatch.setattr(G, "validate_git_push_succeeded", lambda *a: None)
+    monkeypatch.setattr(G.os.path, "exists", lambda p: True)
     G.git_commit_and_push(["data/raw/nhl", "model/data_integrity.json"], "m")
     adds = [c for c in calls if c[:2] == ["git", "add"]]
     assert adds == [["git", "add", "--", "data/raw/nhl", "model/data_integrity.json"]]
@@ -113,3 +115,24 @@ def test_an_off_day_writes_no_slate(monkeypatch, tmp_path):
     monkeypatch.setattr("requests.get", lambda *a, **k: Resp())
     assert mlb_slate.main(["--date", "2026-12-25"]) == 0
     assert list(tmp_path.iterdir()) == []
+
+
+def test_a_missing_path_does_not_unstage_the_rest(monkeypatch, tmp_path):
+    """git add with one unmatched pathspec exits 128 and stages nothing. The
+    capture job commits data/bronze with data/ledger, which does not exist
+    until the first paper trade -- so without this the snapshot was lost."""
+    import deploy.git_utils as G
+    (tmp_path / "data" / "bronze").mkdir(parents=True)
+    calls = []
+
+    class R:
+        returncode, stdout, stderr = 0, "", ""
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(G.subprocess, "run", lambda argv, **kw: calls.append(argv) or R())
+    monkeypatch.setattr(G, "validate_git_push_succeeded", lambda *a: None)
+    G.git_commit_and_push(["data/bronze", "data/ledger"], "m")
+    assert ["git", "add", "--", "data/bronze"] in calls
+    calls.clear()
+    G.git_commit_and_push(["data/ledger"], "m")
+    assert not any(c[:2] == ["git", "add"] for c in calls)
+

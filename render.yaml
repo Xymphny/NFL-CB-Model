@@ -62,7 +62,10 @@ services:
     runtime: python
     schedule: "*/15 * * * *"
     buildCommand: pip install -r requirements.txt
-    startCommand: python3 scripts/capture.py --run --persist
+    # --paper prices each captured window's games as paper trades into
+    # data/ledger (weight 0, never placed; ADR 0024), committed with the
+    # snapshot. No extra request and no credit: it reads what was captured.
+    startCommand: python3 scripts/capture.py --run --paper --persist
     envVars:
       - key: CAPTURE_ENABLED
         value: "0"

@@ -93,7 +93,11 @@ def test_the_committed_weights_reproduce_from_source():
         g = G.choose(name, hist, G.ledger_rows(G.LEDGER_DIR, name))
         if g is not None:
             fresh_all[name] = g
-    assert set(art["leagues"]) == set(fresh_all)
+    assert set(art["leagues"]) == set(fresh_all), (
+        "the leagues with a grade have changed -- most likely a league's paper "
+        "ledger has passed the grading floor. That is the moment ADR 0024 is "
+        "for: run `scripts/settle_ledger.py --grade`, read the result, and "
+        "commit it deliberately.")
     for name, fresh in fresh_all.items():
         assert fresh["source"] == art["leagues"][name]["source"], name
         for k in ("n", "w_hat", "se", "staking_weight"):

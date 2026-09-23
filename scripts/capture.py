@@ -174,6 +174,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--tolerance-minutes", type=int, default=10)
     ap.add_argument("--plan-cache-minutes", type=int, default=60,
                     help="reuse the last slate plan for this long; 0 disables")
+    ap.add_argument("--paper", action="store_true",
+                    help="after each capture, price the games in its window as "
+                         "paper trades (scripts/paper_trade.py)")
     ap.add_argument("--persist", action="store_true",
                     help="commit captured snapshots back to the repository, "
                          "which on Render is the only state that survives")
@@ -236,6 +239,19 @@ def main(argv: list[str] | None = None) -> int:
     for key_, reason in res.gapped:
         print(f"  gapped {key_}: {reason}")
 
+    papered = 0
+    if a.paper and res.captured:
+        # AFTER the capture is safely on disk, and never able to lose it: a
+        # pricing failure is printed and the snapshot is still committed.
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from paper_trade import paper_trade
+        for key_ in res.captured:
+            sport, at = key_.split("|", 1)
+            try:
+                papered += len(paper_trade(store.snapshot_path(sport, at)))
+            except Exception as exc:
+                print(f"[paper] {key_} failed: {type(exc).__name__}: {exc}")
+
     if a.persist and (res.captured or res.gapped):
         # Only when something changed. Most runs have no window due, and a
         # push per run would be 96 a day against a branch three other crons
@@ -244,9 +260,10 @@ def main(argv: list[str] | None = None) -> int:
         from deploy.git_utils import git_commit_and_push
 
         git_commit_and_push(
-            str(BRONZE_ROOT.relative_to(ROOT)),
+            [str(BRONZE_ROOT.relative_to(ROOT)), "data/ledger"],
             f"capture {now}: {len(res.captured)} snapshots, "
-            f"{len(res.gapped)} gapped, {res.credits_spent} credits",
+            f"{len(res.gapped)} gapped, {res.credits_spent} credits"
+            + (f", {papered} paper slate(s)" if papered else ""),
         )
     elif a.persist:
         print("nothing captured or gapped; no commit")

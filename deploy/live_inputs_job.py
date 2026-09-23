@@ -7,6 +7,7 @@ WHAT IT RUNS, IN ORDER
         model/ingest/nhl_goals.py  --seasons Y-Y --update (goal rows for new finals)
   mlb   model/ingest/mlb_slate.py  --date <today, US Eastern>
   audit model/audit_data_integrity.py
+  settle scripts/settle_ledger.py  (closes + outcomes for paper trades; no regrade)
 
 Then one commit of whatever changed, pushed through deploy/git_utils.
 
@@ -62,6 +63,7 @@ PATHS = (
     "data/raw/nhl",
     "data/raw/mlb/slates",
     "model/data_integrity.json",
+    "data/ledger",
 )
 
 
@@ -101,7 +103,18 @@ def steps(today_et: date) -> list[tuple[str, Callable[[], None]]]:
         subprocess.run([sys.executable, str(ROOT / "model" / "audit_data_integrity.py")],
                        cwd=ROOT, check=True)
 
-    return [("nba", nba), ("nhl", nhl), ("mlb", mlb), ("audit", audit)]
+    def settle():
+        # Closes and outcomes for every paper trade, now that the finals above
+        # are current. NOT --grade: a regrade can change what the operator
+        # command stakes, and that is a decision to make on purpose (ADR 0024).
+        # When a league's ledger passes the grading floor, CI's reproduction
+        # test fails and says so.
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import settle_ledger
+        _call(settle_ledger.main, [])
+
+    return [("nba", nba), ("nhl", nhl), ("mlb", mlb), ("audit", audit),
+            ("settle", settle)]
 
 
 def changed(paths=PATHS) -> list[str]:

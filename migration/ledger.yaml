@@ -747,3 +747,13 @@ components:
       on the way were fixed: ledger appends re-read the whole file per row,
       and the NFL distribution built its support with ~485 scalar norm.cdf
       calls per game (a pass over the cache went from 23s to 1.5s).
+
+      AUTOMATED 2026-09-22. close-capture-job --paper prices each captured
+      window's games (those starting within 3h) as paper trades -- weight 0,
+      never placed -- and commits them with the snapshot; live-inputs-job
+      settles them daily. Regrading is deliberately NOT automated: a league
+      passing the 150-game floor fails the reproduction test in CI, which asks
+      for `settle_ledger.py --grade` to be run and committed on purpose. Found
+      on the way: git_commit_and_push with one nonexistent path (data/ledger
+      before the first paper trade) staged NOTHING, which would have dropped
+      the captured snapshot; missing paths are now skipped.

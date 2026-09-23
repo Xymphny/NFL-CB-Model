@@ -76,6 +76,10 @@ standard −110/−110 line). That is recorded in the artifact as an assumption.
   `model/grade_market_weight.py` grades a league from its own ledger once 150
   games have settled, one row per game. That grade is clean by construction:
   every probability was written before its game, against a price that existed.
+- **Paper trading runs itself.** The capture job prices each captured window
+  as paper trades, the live-inputs job settles them daily. Only the regrade is
+  manual: when a league's ledger crosses the floor, CI says so, and turning a
+  measured edge into stakes is done by a person.
 - `--pooled` is refused with this record's number: it chose between two
   attempt-log weights and there is no longer anything for it to choose.
   `--market-weight` remains the explicit override and says it is a guess.

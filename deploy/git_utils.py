@@ -92,6 +92,14 @@ def git_commit_and_push(file_path, commit_message: str) -> None:
     # directory commits them together, so the remote never holds half of a
     # run -- e.g. new data without the audit that covers it.
     paths = [file_path] if isinstance(file_path, (str, os.PathLike)) else list(file_path)
+    # A path that does not exist yet (data/ledger before the first paper
+    # trade) must not take the others down with it: `git add` with ONE
+    # unmatched pathspec exits 128 and stages NOTHING, which would have lost
+    # the very snapshot the commit exists to save.
+    paths = [p for p in paths if os.path.exists(os.path.join(repo_dir, str(p)))]
+    if not paths:
+        print("[git_utils] none of the given paths exist; nothing to commit")
+        return
     add_file_result = subprocess.run(["git", "add", "--", *map(str, paths)],
                                      cwd=repo_dir, capture_output=True, text=True)
     print(f"[git_utils] git add exit code: {add_file_result.returncode}, stderr: {add_file_result.stderr.strip()}")
