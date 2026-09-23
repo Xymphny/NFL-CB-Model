@@ -116,24 +116,27 @@ def test_the_runner_is_dry_by_default():
     assert "DRY BY DEFAULT" in src
 
 
-def test_the_runner_defaults_to_the_robust_weight():
-    """Sizing real money from a weight resting on one experiment is the
-    mistake the shrinkage machinery exists to avoid."""
+def test_the_runner_sizes_from_the_market_grade_not_the_attempt_log():
+    """Superseded 2026-09-22 (ADR 0024). This test used to require the
+    attempt-log robust weight. That weight is graded model against model and
+    was staking football at ~0.91 while the market-relative grade measures no
+    edge over the closing spread. The runner now reads the market grade."""
     src = RUNNER.read_text()
-    assert "robust_weight()" in src
-    assert "log.weight() if args.pooled else log.robust_weight()" in src
+    assert "staking_weight(args.league)" in src
+    assert "robust_weight()" not in src and "log.weight()" not in src
 
 
-def test_using_the_pooled_weight_prints_a_warning():
-    src = RUNNER.read_text()
-    assert "USING POOLED WEIGHT" in src
-    assert "rests on one attempt" in src
+def test_the_pooled_flag_is_refused_with_its_reason():
+    r = _run("--league", "nfl", "--week", "2", "--bankroll", "100000", "--pooled")
+    assert r.returncode == 2
+    assert "no longer sizes bets" in r.stderr and "0024" in r.stderr
 
 
-def test_the_runner_reports_the_attempt_log_before_sizing_anything():
+def test_the_runner_reports_its_evidence_before_sizing_anything():
     r = _run("--league", "nfl", "--week", "2", "--bankroll", "100000")
-    assert "attempt log:" in r.stdout
-    assert "robust weight" in r.stdout
+    assert "market grade:" in r.stdout
+    assert "attempt log (model vs model; does not size bets)" in r.stdout
+    assert r.stdout.index("market grade:") < r.stdout.index("NFL 2026 week 2")
 
 
 def test_the_runner_exits_cleanly_when_there_is_no_odds_snapshot():

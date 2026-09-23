@@ -1,0 +1,121 @@
+{
+  "_provenance": {
+    "script": "model/grade_market_weight.py",
+    "estimator": "src/coverline/core/market_weight.py",
+    "generated": "2026-09-22",
+    "devig": "power",
+    "staking_weight": "one-sided 95% lower bound of w_hat, clipped to [0, 1]",
+    "missing_league_means": "weight 0 -- no market-facing evidence"
+  },
+  "leagues": {
+    "nfl": {
+      "market": "spread (closing, nflverse), home side, pushes dropped",
+      "model": "NFLModel over model/expanded_walk_forward_cache.csv (rating-only vector; no NGS in the cache)",
+      "seasons": [
+        2014,
+        2023
+      ],
+      "contamination": "UPPER BOUND. The rating-only coefficients' fit window is not recorded and no contiguous season range of this cache reproduces them, so no graded season is provably unseen.",
+      "n": 1884,
+      "w_hat": 0.038504,
+      "se": 0.081951,
+      "staking_weight": 0.0,
+      "loglik_gain_per_bet": 5.9e-05,
+      "gain_t": 0.234834,
+      "mean_disagreement": 0.116972,
+      "at_boundary": false,
+      "by_season": {
+        "2014": {
+          "n": 169,
+          "w_hat": -0.155,
+          "se": 0.304
+        },
+        "2015": {
+          "n": 164,
+          "w_hat": 0.149,
+          "se": 0.286
+        },
+        "2016": {
+          "n": 179,
+          "w_hat": 0.083,
+          "se": 0.269
+        },
+        "2017": {
+          "n": 190,
+          "w_hat": -0.337,
+          "se": 0.243
+        },
+        "2018": {
+          "n": 187,
+          "w_hat": 0.242,
+          "se": 0.289
+        },
+        "2019": {
+          "n": 186,
+          "w_hat": -0.025,
+          "se": 0.247
+        },
+        "2020": {
+          "n": 208,
+          "w_hat": 0.307,
+          "se": 0.218
+        },
+        "2021": {
+          "n": 204,
+          "w_hat": -0.2,
+          "se": 0.222
+        },
+        "2022": {
+          "n": 200,
+          "w_hat": 0.469,
+          "se": 0.271
+        },
+        "2023": {
+          "n": 197,
+          "w_hat": -0.067,
+          "se": 0.266
+        }
+      },
+      "side_agreement_hit_rate": 0.5074,
+      "break_even_at_minus_110": 0.5238
+    },
+    "cfb": {
+      "market": "spread (closing, CFBD via model/cfb_lines_cache.csv), home side, pushes dropped",
+      "market_price": "ASSUMED -110/-110 (p_market = 0.5); the lines carry no prices",
+      "model": "CFBModel over model/cfb_full_walk_forward_cache.csv (DVOA-only vector; the cache carries no Elo)",
+      "joined": "1731 of 1731 cache games have a closing spread",
+      "seasons": [
+        2021,
+        2023
+      ],
+      "contamination": "UPPER BOUND. The DVOA-only vector was fitted on this cache's seasons, so the model is graded partly on data it was fitted to.",
+      "n": 1704,
+      "w_hat": 0.072303,
+      "se": 0.064241,
+      "staking_weight": 0.0,
+      "loglik_gain_per_bet": 0.000371,
+      "gain_t": 0.562334,
+      "mean_disagreement": 0.153518,
+      "at_boundary": false,
+      "by_season": {
+        "2021": {
+          "n": 568,
+          "w_hat": -0.118,
+          "se": 0.103
+        },
+        "2022": {
+          "n": 563,
+          "w_hat": 0.19,
+          "se": 0.112
+        },
+        "2023": {
+          "n": 573,
+          "w_hat": 0.197,
+          "se": 0.12
+        }
+      },
+      "side_agreement_hit_rate": 0.51,
+      "break_even_at_minus_110": 0.5238
+    }
+  }
+}

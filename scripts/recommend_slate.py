@@ -17,26 +17,21 @@ DRY BY DEFAULT. Nothing is written to the ledger without --commit, because
 the ledger is append-only and a slate run that turns out to be misconfigured
 cannot be taken back out of it.
 
-WHAT THE STAKING WEIGHT IS, PER LEAGUE -- READ THIS BEFORE STAKING ANYTHING
+WHAT THE STAKING WEIGHT IS -- READ THIS BEFORE STAKING ANYTHING
 The weight blends the model toward the market: p_used = w*p_model +
-(1-w)*p_market. The only weight the repository can compute comes from
-evidence/attempts.yaml, and every attempt there is graded MODEL AGAINST
-MODEL -- does a change beat the version before it. None is graded against a
-book. Measured against the market on 1,885 NFL games, the model's margin adds
-nothing the spread does not already hold (slope -0.064, SE 0.072).
+(1-w)*p_market. It comes from data/market_weights.json, written by
+model/grade_market_weight.py, which asks the only question that matters for
+money: given the closing price, does the model add anything? The weight is the
+one-sided 95% lower bound of that estimate -- zero unless the data rule zero
+out. A league with no graded closing prices gets zero.
 
-So the attempt-log weight is used ONLY for the football leagues, where it is
-what this command has always used, and every run says what it does not
-measure. MLB, NHL and NBA have no market-facing evidence of any kind, and
-default to a weight of 0: the model's price and the market's are both
-computed and recorded, and nothing is staked. That is paper trading, and it
-is the only honest default until a market-relative grade exists. --commit
-still records every row as not placed, which is how that grade gets built.
---market-weight overrides it and prints why that is a guess.
+Measured 2026-09-22: NFL w_hat +0.039 (SE 0.082) over 1,884 games, CFB +0.072
+(SE 0.064) over 1,704, both upper bounds. Every league paper-trades. See
+docs/decisions/0024.
 
-IT USES THE ROBUST SHRINKAGE WEIGHT, NOT THE POOLED ONE (football)
-The robust figure is the one that survives losing any single attempt; both
-are printed on every run. --pooled overrides this and prints a warning.
+It used to come from evidence/attempts.yaml (~0.91), whose every attempt is
+graded model against model. That log is still printed, and no longer sizes a
+bet. --market-weight overrides the measured weight and says it is a guess.
 
 IT DOES NOT PLACE BETS. It prints recommendations and, with --commit, records
 them. Placing is a human action and the fill gets recorded separately.
@@ -132,20 +127,17 @@ class League:
     vendor_sport: str             # the key capture.py stores snapshots under
     default_market: str
     loader: Callable
-    #: Where a staking weight could come from. None means there is NO
-    #: market-facing evidence at all and the default weight is 0.
-    weight_source: str | None
     team_table: str | None = None  # module holding TABLE, for date leagues
 
 
 LEAGUES: dict[str, League] = {
-    "nfl": League("week", "americanfootball_nfl", "spreads", load_nfl, "attempt_log"),
-    "cfb": League("week", "americanfootball_ncaaf", "spreads", load_cfb, "attempt_log"),
-    "mlb": League("date", "baseball_mlb", "moneyline", load_mlb, None,
+    "nfl": League("week", "americanfootball_nfl", "spreads", load_nfl),
+    "cfb": League("week", "americanfootball_ncaaf", "spreads", load_cfb),
+    "mlb": League("date", "baseball_mlb", "moneyline", load_mlb,
                   "coverline.leagues.mlb.teams"),
-    "nhl": League("date", "icehockey_nhl", "moneyline", load_nhl, None,
+    "nhl": League("date", "icehockey_nhl", "moneyline", load_nhl,
                   "coverline.leagues.nhl.teams"),
-    "nba": League("date", "basketball_nba", "spread", load_nba, None,
+    "nba": League("date", "basketball_nba", "spread", load_nba,
                   "coverline.leagues.nba.teams"),
 }
 
@@ -175,30 +167,38 @@ def today_et() -> str:
 # ------------------------------------------------------------- weight ----
 
 def choose_weight(args, lg: League) -> float:
-    if lg.weight_source == "attempt_log":
-        log = E.load_attempts()
-        weight = log.weight() if args.pooled else log.robust_weight()
-        print(f"attempt log: {log.summary()}")
-        if args.pooled:
-            print(f"  USING POOLED WEIGHT {weight:.4f}. It rests on one attempt -- "
-                  f"the robust figure is {log.robust_weight():.4f}.")
-        else:
-            print(f"  using robust weight {weight:.4f} "
-                  f"(pooled would be {log.weight():.4f})")
-        print("  NOTE: this weight is graded model-against-model, never against "
-              "a book. Against the market the NFL margin's slope is -0.064 "
-              "(SE 0.072) -- no measured edge over the spread.")
+    """The staking weight: measured against the market, or zero.
+
+    See docs/decisions/0024. The attempt log is printed for context but no
+    longer sizes a bet: every attempt in it is graded model against model,
+    which cannot say whether the model knows anything the price does not.
+    """
+    from coverline.core.market_weight import staking_weight
+    weight, grade = staking_weight(args.league)
+    if grade is None:
+        print(f"market grade: none for {args.league.upper()} -- no settled bets "
+              "with closing prices have been graded.")
+        print("  PAPER TRADING: weight 0. Model and market prices are computed "
+              "and recorded; nothing is staked.")
     else:
-        weight = 0.0
-        print(f"attempt log: not used for {args.league.upper()} -- no attempt "
-              "there was graded against a market.")
-        print("  PAPER TRADING: robust weight not applicable, weight 0. Model "
-              "and market prices are computed and recorded; nothing is staked.")
+        s0, s1 = grade.get("seasons", ["?", "?"])
+        print(f"market grade: w_hat {grade['w_hat']:+.3f} (SE {grade['se']:.3f}) "
+              f"over {grade['n']} bets, {s0}-{s1}; staking weight "
+              f"{weight:.3f} (one-sided 95% lower bound)")
+        if str(grade.get("contamination", "")).startswith("UPPER BOUND"):
+            print("  w_hat is an UPPER BOUND: the coefficients may have seen "
+                  "the graded seasons.")
+        if weight <= 0.0:
+            print("  PAPER TRADING: the model has no measured edge over the "
+                  "closing price. Both prices are recorded; nothing is staked.")
+
+    log = E.load_attempts()
+    print(f"attempt log (model vs model; does not size bets): {log.summary()}")
 
     if args.market_weight is not None:
         print(f"  --market-weight {args.market_weight:.4f} OVERRIDES the "
-              f"default {weight:.4f}. No market-facing grade supports any "
-              "particular value; this is a guess with money on it.")
+              f"measured {weight:.4f}. No market-facing grade supports it; this "
+              "is a guess with money on it.")
         weight = args.market_weight
     if weight <= 0.0:
         print("\nNothing will be staked at this weight.")
@@ -220,7 +220,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--max-fraction", type=float, default=0.02)
     ap.add_argument("--min-edge", type=float, default=0.0)
     ap.add_argument("--pooled", action="store_true",
-                    help="use the pooled shrinkage weight instead of the robust one")
+                    help="retired: the attempt-log weight no longer sizes bets")
     ap.add_argument("--market-weight", type=float, default=None,
                     help="override the staking weight (0..1); prints a warning")
     ap.add_argument("--commit", action="store_true",
@@ -237,6 +237,11 @@ def main(argv: list[str] | None = None) -> int:
         if args.week is not None:
             ap.error(f"{args.league} slates are dates; use --date, not --week")
         args.date = args.date or today_et()
+    if args.pooled:
+        ap.error("--pooled chose between two attempt-log weights, and the attempt "
+                 "log no longer sizes bets: it is graded model against model. The "
+                 "weight now comes from data/market_weights.json "
+                 "(docs/decisions/0024). --market-weight overrides it explicitly.")
     if args.market_weight is not None and not 0.0 <= args.market_weight <= 1.0:
         ap.error("--market-weight must be between 0 and 1")
 

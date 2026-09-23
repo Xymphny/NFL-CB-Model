@@ -137,7 +137,12 @@ date.
 **failures included** -- computing the shrinkage weight from winners only is
 the selection effect the mechanism exists to undo.
 14 attempts, 5 non-positive. Pooled weight **0.9301**, robust weight
-**0.9141**. The slate runner defaults to the robust figure.
+**0.9141**. That weight no longer sizes bets: every attempt is graded model
+against model, and graded against the closing price the model adds nothing
+measurable -- NFL w = +0.039 (SE 0.082), CFB +0.072 (SE 0.064), both upper
+bounds -- so the slate runner stakes from `data/market_weights.json` and every
+league paper-trades
+([ADR 0024](docs/decisions/0024-stake-from-the-market-grade-not-the-attempt-log.md)).
 
 Two properties of that number worth knowing. It is no longer dominated by a
 single attempt -- it was, until two failed league fits were logged. And

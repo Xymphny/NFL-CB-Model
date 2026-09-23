@@ -75,6 +75,7 @@ def test_missing_inputs_exit_2_with_the_command_that_fixes_them(league, fix):
 
 def test_date_leagues_paper_trade_by_default():
     r = _run("--league", "nba", "--date", "2026-10-22", "--bankroll", "100")
+    assert "market grade: none for NBA" in r.stdout
     assert "PAPER TRADING" in r.stdout and "weight 0" in r.stdout
     assert "Nothing will be staked" in r.stdout
 
@@ -87,10 +88,11 @@ def test_a_weight_override_says_it_is_a_guess():
     assert r.returncode == 2 and "between 0 and 1" in r.stderr
 
 
-def test_football_keeps_its_weight_and_says_what_it_does_not_measure():
+def test_football_is_sized_by_its_market_grade_and_says_it_is_an_upper_bound():
     r = _run("--league", "nfl", "--week", "2", "--bankroll", "100")
-    assert "using robust weight" in r.stdout
-    assert "graded model-against-model" in r.stdout
+    assert "market grade: w_hat" in r.stdout and "staking weight 0.000" in r.stdout
+    assert "UPPER BOUND" in r.stdout
+    assert "Nothing will be staked" in r.stdout
 
 
 def test_every_league_has_a_team_source_and_a_vendor_key():
@@ -98,7 +100,6 @@ def test_every_league_has_a_team_source_and_a_vendor_key():
     assert set(R.LEAGUES) == {"nfl", "cfb", "mlb", "nhl", "nba"}
     for name, lg in R.LEAGUES.items():
         if lg.slate == "date":
-            assert lg.weight_source is None, f"{name} has no market-facing grade"
             assert importlib.import_module(lg.team_table).TABLE.league == name
     from scripts.capture import SPORTS
     assert {lg.vendor_sport for lg in R.LEAGUES.values()} == set(SPORTS)
