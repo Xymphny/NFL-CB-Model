@@ -237,3 +237,30 @@ services:
         sync: false
       - key: GITHUB_TOKEN
         sync: false
+
+  # LIVE INPUTS for the MLB, NHL and NBA live sources -- the files the
+  # operator command (scripts/recommend_slate.py) prices from. See
+  # deploy/live_inputs_job.py. Free endpoints only (ESPN, NHL, MLB Stats
+  # API); no Odds API credit is spent.
+  #
+  # 10:40 UTC runs after mlb-daily-job (09:00) and after every West Coast
+  # game has gone final, so the previous night's results are complete;
+  # 15:40 UTC picks up probable starters posted later in the morning,
+  # before the first afternoon first pitch. :40 keeps clear of the :00
+  # jobs; pushes that race close-capture-job are handled by git_utils'
+  # fetch-rebase-retry. Year-round on purpose: out of season it picks up
+  # each league's schedule as soon as it is published, and an unchanged
+  # day commits nothing.
+  - type: cron
+    name: live-inputs-job
+    runtime: python
+    schedule: "40 10,15 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 deploy/live_inputs_job.py
+    envVars:
+      - key: GIT_REPO_URL
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: ALERT_WEBHOOK_URL
+        sync: false

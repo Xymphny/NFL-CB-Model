@@ -157,6 +157,12 @@ def main(argv: list[str] | None = None) -> int:
     hist = pd.read_csv(ROOT / "model" / "mlb_schedule_cache.csv")
     games = parse_slate(today, day, load_id_bridge(), modal_parks(hist))
 
+    if not games:
+        # Off day or off-season. Nothing to price, and a file per empty day
+        # would bury the pulls that matter.
+        print(f"{day}: no regular-season games; nothing written")
+        return 0
+
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     prev = last_final_date(back, day)
     out = {"date": day, "fetched_at": stamp,

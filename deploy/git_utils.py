@@ -27,7 +27,7 @@ def normalize_repo_url(repo_url: str) -> str:
     return repo_url
 
 
-def git_commit_and_push(file_path: str, commit_message: str) -> None:
+def git_commit_and_push(file_path, commit_message: str) -> None:
     """
     Commit a generated data file and push, triggering Render's static
     site auto-deploy on push.
@@ -88,7 +88,12 @@ def git_commit_and_push(file_path: str, commit_message: str) -> None:
     redacted = remote_check.stdout.replace(token, "***") if token else remote_check.stdout
     print(f"[git_utils] configured remotes:\n{redacted}")
 
-    add_file_result = subprocess.run(["git", "add", file_path], cwd=repo_dir, capture_output=True, text=True)
+    # One path or several. A job that refreshes files in more than one
+    # directory commits them together, so the remote never holds half of a
+    # run -- e.g. new data without the audit that covers it.
+    paths = [file_path] if isinstance(file_path, (str, os.PathLike)) else list(file_path)
+    add_file_result = subprocess.run(["git", "add", "--", *map(str, paths)],
+                                     cwd=repo_dir, capture_output=True, text=True)
     print(f"[git_utils] git add exit code: {add_file_result.returncode}, stderr: {add_file_result.stderr.strip()}")
 
     status_check = subprocess.run(["git", "status", "--short"], cwd=repo_dir, capture_output=True, text=True)

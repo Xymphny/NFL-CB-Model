@@ -704,3 +704,11 @@ components:
 
       STILL UNVERIFIED: the NHL and NBA team-name tables against the Odds
       API's own spellings. That needs an odds payload, so it is Thursday's.
+
+      SCHEDULED 2026-09-22 as live-inputs-job (deploy/live_inputs_job.py,
+      render.yaml): NBA and NHL current-season pulls, NHL goal rows, the MLB
+      slate and the integrity audit, at 10:40 and 15:40 UTC. Free endpoints
+      only; the job has no Odds API key and cannot spend credits. Each league
+      fails alone, what succeeded is committed, and a failure exits non-zero
+      and posts to ALERT_WEBHOOK_URL. Run end to end against the live
+      endpoints before it was scheduled; an unchanged day commits nothing.
