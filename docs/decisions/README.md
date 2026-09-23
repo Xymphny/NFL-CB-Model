@@ -38,6 +38,7 @@ even if this directory is lost.
 | [0022](0022-an-integer-nba-line-is-refused.md) | accepted | An integer NBA line is refused, not answered with a push of zero |
 | [0023](0023-nfl-dispersion-moves-but-cannot-be-forecast.md) | accepted | NFL dispersion moves, and cannot be forecast from its own history |
 | [0024](0024-stake-from-the-market-grade-not-the-attempt-log.md) | accepted | Stake from a grade against the market, not from the attempt log |
+| [0025](0025-tiers-are-conviction-not-edge.md) | accepted | Tiers are conviction, set by each league's own history, not edge |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or

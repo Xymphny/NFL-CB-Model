@@ -1,0 +1,36 @@
+{
+ "league": "nfl",
+ "generated_at": "2026-09-23T08:35:14Z",
+ "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
+ "slate": null,
+ "games": [],
+ "refusals": [
+  {
+   "scope": "league",
+   "reason": "week 3: no ratings snapshot for 2026 week 3; have weeks [0, 1, 2]. Refusing to substitute another week."
+  }
+ ],
+ "freshness": {
+  "odds_captured_at": null
+ },
+ "teams": [],
+ "grade": {
+  "weight": 0.0,
+  "w_hat": 0.038504,
+  "se": 0.081951,
+  "n": 1884,
+  "source": "historical",
+  "seasons": [
+   2014,
+   2023
+  ],
+  "contamination": "UPPER BOUND. The rating-only coefficients' fit window is not recorded and no contiguous season range of this cache reproduces them, so no graded season is provably unseen."
+ },
+ "tiers": {
+  "coin_flip": 0.0857,
+  "lean": 0.1553,
+  "play": 0.2271,
+  "source": "backtest",
+  "provisional": true
+ }
+}

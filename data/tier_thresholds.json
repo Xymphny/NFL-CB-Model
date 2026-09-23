@@ -1,0 +1,115 @@
+{
+  "_provenance": {
+    "script": "model/derive_tier_thresholds.py",
+    "generated": "2026-09-23",
+    "unit": "probability points (0-1) of |p_model - p_market|",
+    "quantiles": {
+      "coin_flip": 0.4,
+      "lean": 0.7,
+      "play": 0.9
+    },
+    "meaning": "conviction relative to the league's own history, NOT edge; stake comes from data/market_weights.json",
+    "status": "PROVISIONAL until a league has 150 settled paper trades"
+  },
+  "leagues": {
+    "nfl": {
+      "source": "backtest",
+      "provisional": true,
+      "n": 1884,
+      "basis": "spread (closing, nflverse), home side, pushes dropped",
+      "coin_flip": 0.0857,
+      "lean": 0.1553,
+      "play": 0.2271,
+      "by_band": {
+        "no_edge": {
+          "n": 754,
+          "preferred_side_hit_rate": 0.508
+        },
+        "coin_flip": {
+          "n": 565,
+          "preferred_side_hit_rate": 0.4938
+        },
+        "lean": {
+          "n": 376,
+          "preferred_side_hit_rate": 0.516
+        },
+        "play": {
+          "n": 189,
+          "preferred_side_hit_rate": 0.5291
+        }
+      }
+    },
+    "cfb": {
+      "source": "backtest",
+      "provisional": true,
+      "n": 1704,
+      "basis": "spread (closing, CFBD via model/cfb_lines_cache.csv), home side, pushes dropped",
+      "coin_flip": 0.103,
+      "lean": 0.2054,
+      "play": 0.3069,
+      "by_band": {
+        "no_edge": {
+          "n": 682,
+          "preferred_side_hit_rate": 0.5073
+        },
+        "coin_flip": {
+          "n": 510,
+          "preferred_side_hit_rate": 0.5157
+        },
+        "lean": {
+          "n": 341,
+          "preferred_side_hit_rate": 0.4985
+        },
+        "play": {
+          "n": 171,
+          "preferred_side_hit_rate": 0.5263
+        }
+      }
+    },
+    "mlb": {
+      "source": "backtest",
+      "provisional": true,
+      "n": 87,
+      "basis": "moneyline, data/mlb_divergence snapshots (latest open line per game) x the walk-forward with actual starters",
+      "coin_flip": 0.0228,
+      "lean": 0.0484,
+      "play": 0.0686,
+      "by_band": {
+        "no_edge": {
+          "n": 35,
+          "preferred_side_hit_rate": 0.3429
+        },
+        "coin_flip": {
+          "n": 26,
+          "preferred_side_hit_rate": 0.4231
+        },
+        "lean": {
+          "n": 17,
+          "preferred_side_hit_rate": 0.4118
+        },
+        "play": {
+          "n": 9,
+          "preferred_side_hit_rate": 0.4444
+        }
+      }
+    },
+    "nhl": {
+      "source": "borrowed:mlb",
+      "provisional": true,
+      "n": 0,
+      "basis": "no market history for NHL; bands borrowed from MLB until its own ledger has 150 games",
+      "coin_flip": 0.0228,
+      "lean": 0.0484,
+      "play": 0.0686
+    },
+    "nba": {
+      "source": "borrowed:nfl",
+      "provisional": true,
+      "n": 0,
+      "basis": "no market history for NBA; bands borrowed from NFL until its own ledger has 150 games",
+      "coin_flip": 0.0857,
+      "lean": 0.1553,
+      "play": 0.2271
+    }
+  }
+}

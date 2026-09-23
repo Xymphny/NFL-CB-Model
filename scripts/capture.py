@@ -252,6 +252,19 @@ def main(argv: list[str] | None = None) -> int:
             except Exception as exc:
                 print(f"[paper] {key_} failed: {type(exc).__name__}: {exc}")
 
+    exported = False
+    if a.paper and res.captured:
+        # The dashboard's board, record and gates, from the prices just
+        # captured. Like the paper step it can never cost the capture.
+        try:
+            import export_board
+            import export_record
+            export_board.main([])
+            export_record.main([])
+            exported = True
+        except Exception as exc:
+            print(f"[export] failed: {type(exc).__name__}: {exc}")
+
     if a.persist and (res.captured or res.gapped):
         # Only when something changed. Most runs have no window due, and a
         # push per run would be 96 a day against a branch three other crons
@@ -260,7 +273,8 @@ def main(argv: list[str] | None = None) -> int:
         from deploy.git_utils import git_commit_and_push
 
         git_commit_and_push(
-            [str(BRONZE_ROOT.relative_to(ROOT)), "data/ledger"],
+            [str(BRONZE_ROOT.relative_to(ROOT)), "data/ledger"]
+            + (["data/site"] if exported else []),
             f"capture {now}: {len(res.captured)} snapshots, "
             f"{len(res.gapped)} gapped, {res.credits_spent} credits"
             + (f", {papered} paper slate(s)" if papered else ""),

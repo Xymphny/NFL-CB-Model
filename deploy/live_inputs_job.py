@@ -8,6 +8,7 @@ WHAT IT RUNS, IN ORDER
   mlb   model/ingest/mlb_slate.py  --date <today, US Eastern>
   audit model/audit_data_integrity.py
   settle scripts/settle_ledger.py  (closes + outcomes for paper trades; no regrade)
+  export scripts/export_board.py + export_record.py  (the dashboard's data)
 
 Then one commit of whatever changed, pushed through deploy/git_utils.
 
@@ -64,6 +65,9 @@ PATHS = (
     "data/raw/mlb/slates",
     "model/data_integrity.json",
     "data/ledger",
+    "data/site/board_nfl.json", "data/site/board_cfb.json", "data/site/board_mlb.json",
+    "data/site/board_nhl.json", "data/site/board_nba.json",
+    "data/site/record.json", "data/site/gates.json",
 )
 
 
@@ -113,8 +117,17 @@ def steps(today_et: date) -> list[tuple[str, Callable[[], None]]]:
         import settle_ledger
         _call(settle_ledger.main, [])
 
+    def export():
+        # The dashboard's board, record and gates, from inputs just refreshed.
+        # Last, so it reflects every step before it.
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import export_board
+        import export_record
+        _call(export_board.main, [])
+        _call(export_record.main, [])
+
     return [("nba", nba), ("nhl", nhl), ("mlb", mlb), ("audit", audit),
-            ("settle", settle)]
+            ("settle", settle), ("export", export)]
 
 
 def changed(paths=PATHS) -> list[str]:

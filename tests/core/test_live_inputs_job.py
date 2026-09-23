@@ -67,8 +67,8 @@ def test_every_path_it_commits_is_a_data_path():
     """Staged by name. A job that could stage source code is one bad
     checkout away from pushing it."""
     for p in J.PATHS:
-        assert (p.startswith("data/raw/") or p in ("model/data_integrity.json",
-                                                   "data/ledger")), p
+        assert (p.startswith("data/raw/") or p.startswith("data/site/")
+                or p in ("model/data_integrity.json", "data/ledger")), p
 
 
 def test_the_blueprint_schedules_it_after_the_mlb_results_job():

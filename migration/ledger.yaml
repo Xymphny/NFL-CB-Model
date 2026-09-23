@@ -757,3 +757,34 @@ components:
       on the way: git_commit_and_push with one nonexistent path (data/ledger
       before the first paper trade) staged NOTHING, which would have dropped
       the captured snapshot; missing paths are now skipped.
+
+  - id: dashboard-board-export
+    old_path: "frontend/src/staking.js (coverProb, PLAY_GAP, LEAN_GAP, ATS_SIGMA) pricing legacy data/divergence files in the browser"
+    new_path: "src/coverline/core/tiers.py + src/coverline/execution/board.py + scripts/export_board.py + scripts/export_record.py -> data/site/{board_*,record,gates}.json"
+    disposition: rewritten
+    adr: 0025-tiers-are-conviction-not-edge.md
+    data_artifacts:
+      - "data/tier_thresholds.json"
+      - "data/site/board_*.json"
+      - "data/site/record.json"
+      - "data/site/gates.json"
+    data_disposition: derived
+    parity_status: not_applicable
+    parity_tolerance: >-
+      The board is held to the core rather than to the old site: every card's
+      p_model is the league model's cover probability at the consensus line
+      (test_board_export), and the stake is the staking engine's at the best
+      price.
+    old_removed: false
+    notes: >-
+      BACKEND HALF OF THE DASHBOARD REVAMP. The site will render these files
+      and compute nothing. Per game: teams, start (UTC), each primary market at
+      the consensus line with best price and book, p_model, median devigged
+      p_market, edge, tier, the core's stake (0 today, with "Unsized -- not yet
+      graded against the market"), the open line, per-sport context and any
+      refusal. A league that cannot be priced still gets a board whose refusal
+      says why. Tiers are quantiles of each league's own disagreement history
+      (ADR 0025) because no band of disagreement has been distinguishable from
+      break-even in any league. Gates are generated from the fitted artifacts'
+      own grades and docs/decisions. old_removed flips when the frontend no
+      longer reads the legacy divergence files.

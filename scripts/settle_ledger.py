@@ -11,7 +11,8 @@ THE LOOP
   this, step 1 (grade)          attaches the last pre-start snapshot as the close
   this, step 2 (settle)         attaches the final score as an outcome
   this, --grade                 re-estimates each league's weight against the
-                                market, from the ledger once it has 150 games
+                                market, and its tier bands (ADR 0025), from the
+                                ledger once it has 150 games
 
 Every league paper-trades until step 3 says otherwise (ADR 0024). This is the
 only path by which that changes, which is why it exists before there is
@@ -72,8 +73,9 @@ def main(argv: list[str] | None = None) -> int:
               f"{c['mean_line_points']} line points")
 
     if a.grade:
-        from model import grade_market_weight
+        from model import derive_tier_thresholds, grade_market_weight
         grade_market_weight.main(ledger_dir=Path(a.ledger))
+        derive_tier_thresholds.main(ledger_dir=Path(a.ledger))
     return 1 if failed else 0
 
 

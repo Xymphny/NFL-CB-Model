@@ -1,0 +1,374 @@
+{
+ "generated_at": "2026-09-23T08:35:17Z",
+ "fitted": [
+  {
+   "league": "nba",
+   "gate": "Team ratings (walk-forward)",
+   "file": "data/nba_fitted.json",
+   "passed": true,
+   "t": 5.96,
+   "paired_gain": 0.05708,
+   "missing": false
+  },
+  {
+   "league": "nhl",
+   "gate": "Goal rates (walk-forward)",
+   "file": "data/nhl_fitted.json",
+   "passed": true,
+   "t": 2.44,
+   "paired_gain": 0.02213,
+   "missing": false
+  },
+  {
+   "league": "nhl",
+   "gate": "Goalie-pull and overtime rules layer (puck line)",
+   "file": "data/nhl_rules.json",
+   "passed": true,
+   "t": 34.95,
+   "paired_gain": 0.20245,
+   "missing": false
+  },
+  {
+   "league": "mlb",
+   "gate": "Ninth-inning rules layer (moneyline)",
+   "file": "data/mlb_rules.json",
+   "passed": true,
+   "t": 32.94,
+   "paired_gain": 0.12643,
+   "missing": false
+  },
+  {
+   "league": "nfl",
+   "gate": "Key-number correction (integer spreads)",
+   "file": "data/nfl_key_numbers.json",
+   "passed": true,
+   "t": 7.0,
+   "paired_gain": 0.11399,
+   "missing": false
+  }
+ ],
+ "validation": [
+  {
+   "league": "nfl",
+   "gate": "Totals",
+   "file": "data/totals_validation.json",
+   "supported": false,
+   "action": "WITHHELD"
+  }
+ ],
+ "market": [
+  {
+   "league": "nfl",
+   "staking_weight": 0.0,
+   "w_hat": 0.038504,
+   "se": 0.081951,
+   "n": 1884,
+   "source": "historical",
+   "tiers_source": "backtest",
+   "tiers_provisional": true,
+   "tiers_by_band": {
+    "no_edge": {
+     "n": 754,
+     "preferred_side_hit_rate": 0.508
+    },
+    "coin_flip": {
+     "n": 565,
+     "preferred_side_hit_rate": 0.4938
+    },
+    "lean": {
+     "n": 376,
+     "preferred_side_hit_rate": 0.516
+    },
+    "play": {
+     "n": 189,
+     "preferred_side_hit_rate": 0.5291
+    }
+   },
+   "break_even_at_minus_110": 0.5238
+  },
+  {
+   "league": "cfb",
+   "staking_weight": 0.0,
+   "w_hat": 0.072303,
+   "se": 0.064241,
+   "n": 1704,
+   "source": "historical",
+   "tiers_source": "backtest",
+   "tiers_provisional": true,
+   "tiers_by_band": {
+    "no_edge": {
+     "n": 682,
+     "preferred_side_hit_rate": 0.5073
+    },
+    "coin_flip": {
+     "n": 510,
+     "preferred_side_hit_rate": 0.5157
+    },
+    "lean": {
+     "n": 341,
+     "preferred_side_hit_rate": 0.4985
+    },
+    "play": {
+     "n": 171,
+     "preferred_side_hit_rate": 0.5263
+    }
+   },
+   "break_even_at_minus_110": 0.5238
+  },
+  {
+   "league": "mlb",
+   "staking_weight": 0.0,
+   "w_hat": null,
+   "se": null,
+   "n": null,
+   "source": null,
+   "tiers_source": "backtest",
+   "tiers_provisional": true,
+   "tiers_by_band": {
+    "no_edge": {
+     "n": 35,
+     "preferred_side_hit_rate": 0.3429
+    },
+    "coin_flip": {
+     "n": 26,
+     "preferred_side_hit_rate": 0.4231
+    },
+    "lean": {
+     "n": 17,
+     "preferred_side_hit_rate": 0.4118
+    },
+    "play": {
+     "n": 9,
+     "preferred_side_hit_rate": 0.4444
+    }
+   },
+   "break_even_at_minus_110": 0.5238
+  },
+  {
+   "league": "nhl",
+   "staking_weight": 0.0,
+   "w_hat": null,
+   "se": null,
+   "n": null,
+   "source": null,
+   "tiers_source": "borrowed:mlb",
+   "tiers_provisional": true,
+   "tiers_by_band": null,
+   "break_even_at_minus_110": 0.5238
+  },
+  {
+   "league": "nba",
+   "staking_weight": 0.0,
+   "w_hat": null,
+   "se": null,
+   "n": null,
+   "source": null,
+   "tiers_source": "borrowed:nfl",
+   "tiers_provisional": true,
+   "tiers_by_band": null,
+   "break_even_at_minus_110": 0.5238
+  }
+ ],
+ "decisions": [
+  {
+   "id": "0001",
+   "file": "docs/decisions/0001-rebuild-around-a-distribution-seam.md",
+   "title": "0001. Rebuild around a single distribution seam",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0002",
+   "file": "docs/decisions/0002-odds-data-vendor-and-tier.md",
+   "title": "0002. Buy The Odds API at the 100K tier, and never split the CLV baseline",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0003",
+   "file": "docs/decisions/0003-attempt-log-and-the-derived-shrinkage-weight.md",
+   "title": "0003. Reconstruct the attempt log, and treat the weight it yields as a ceiling",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0004",
+   "file": "docs/decisions/0004-ngs-team-code-mismatch.md",
+   "title": "0004. Record the NGS team-code mismatch; do not fix it in the same breath",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0005",
+   "file": "docs/decisions/0005-nhl-and-nba-structure-without-coefficients.md",
+   "title": "0005. Ship NHL and NBA as structure, with no fitted coefficients",
+   "status": "superseded",
+   "date": "2026-09-21",
+   "superseded_by": "0006-nhl-and-nba-fitted-walk-forward.md"
+  },
+  {
+   "id": "0006",
+   "file": "docs/decisions/0006-nhl-and-nba-fitted-walk-forward.md",
+   "title": "0006. Fit NHL and NBA within season, and ship the graded parameters",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0007",
+   "file": "docs/decisions/0007-the-nhl-puck-line-is-a-rules-problem.md",
+   "title": "0007. The NHL joint distribution is a rules problem, not a correlation",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0008",
+   "file": "docs/decisions/0008-ship-the-nhl-rules-layer-and-the-puck-line.md",
+   "title": "0008. Ship the NHL rules layer, and release the puck line",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0009",
+   "file": "docs/decisions/0009-grade-every-league-on-calibration.md",
+   "title": "0009. Grade every league on calibration, not only on beating a book",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0010",
+   "file": "docs/decisions/0010-refresh-the-nhl-pull-table-and-check-shape.md",
+   "title": "0010. Refresh the NHL pull table, and check shape rather than only likelihood",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0011",
+   "file": "docs/decisions/0011-a-withheld-market-must-be-refused-by-the-object.md",
+   "title": "0011. A withheld market must be refused by the object, not only by the list",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0012",
+   "file": "docs/decisions/0012-the-nba-sigma-claim-was-bucketing-noise.md",
+   "title": "0012. The NBA sigma claim was bucketing noise",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0013",
+   "file": "docs/decisions/0013-the-missing-grid-reconstructed.md",
+   "title": "0013. Reconstruct the missing grid without selecting anything",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0014",
+   "file": "docs/decisions/0014-a-ceiling-on-what-counts-as-an-attempt.md",
+   "title": "0014. Put a ceiling on what counts as an attempt",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0015",
+   "file": "docs/decisions/0015-the-away-side-and-the-total-were-both-mispriced.md",
+   "title": "0015. The away side and the total were both mispriced",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0016",
+   "file": "docs/decisions/0016-clv-is-averaged-in-probability-not-cents.md",
+   "title": "0016. Average CLV in probability points, never in American cents",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0017",
+   "file": "docs/decisions/0017-mlb-has-the-same-two-rule-problem-as-hockey.md",
+   "title": "0017. MLB has hockey's two-rule problem, and it lands on the other market",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0018",
+   "file": "docs/decisions/0018-ship-the-mlb-ninth-inning-layer.md",
+   "title": "0018. Ship the MLB ninth-inning layer, and reopen the moneyline on the gate that closed it",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0019",
+   "file": "docs/decisions/0019-the-cfb-cache-carries-impossible-results.md",
+   "title": "0019. The CFB cache carries results its league forbids",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0020",
+   "file": "docs/decisions/0020-audit-every-frame-for-impossible-results.md",
+   "title": "0020. Audit every frame for impossible results, on purpose",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0021",
+   "file": "docs/decisions/0021-repair-the-cfb-scores-from-a-second-source.md",
+   "title": "0021. Repair the CFB scores from a second source",
+   "status": "accepted",
+   "date": "2026-09-21",
+   "superseded_by": null
+  },
+  {
+   "id": "0022",
+   "file": "docs/decisions/0022-an-integer-nba-line-is-refused.md",
+   "title": "0022. An integer NBA line is refused, not answered with a push of zero",
+   "status": "accepted",
+   "date": "2026-09-22",
+   "superseded_by": null
+  },
+  {
+   "id": "0023",
+   "file": "docs/decisions/0023-nfl-dispersion-moves-but-cannot-be-forecast.md",
+   "title": "0023. NFL dispersion moves, and cannot be forecast from its own history",
+   "status": "accepted",
+   "date": "2026-09-22",
+   "superseded_by": null
+  },
+  {
+   "id": "0024",
+   "file": "docs/decisions/0024-stake-from-the-market-grade-not-the-attempt-log.md",
+   "title": "0024. Stake from a grade against the market, not from the attempt log",
+   "status": "accepted",
+   "date": "2026-09-22",
+   "superseded_by": null
+  },
+  {
+   "id": "0025",
+   "file": "docs/decisions/0025-tiers-are-conviction-not-edge.md",
+   "title": "0025. Tiers are conviction, set by each league's own history, not edge",
+   "status": "accepted",
+   "date": "2026-09-23",
+   "superseded_by": null
+  }
+ ]
+}

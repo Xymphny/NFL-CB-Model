@@ -1,0 +1,36 @@
+{
+ "league": "cfb",
+ "generated_at": "2026-09-23T08:35:16Z",
+ "note": "Weekly slate.",
+ "slate": null,
+ "games": [],
+ "refusals": [
+  {
+   "scope": "league",
+   "reason": "The CFB live source prices from a historical cache (2021\u20132023) and cannot price a current game. No CFB board until a live CFB source exists."
+  }
+ ],
+ "freshness": {
+  "odds_captured_at": null
+ },
+ "teams": [],
+ "grade": {
+  "weight": 0.0,
+  "w_hat": 0.072303,
+  "se": 0.064241,
+  "n": 1704,
+  "source": "historical",
+  "seasons": [
+   2021,
+   2023
+  ],
+  "contamination": "UPPER BOUND. The DVOA-only vector was fitted on this cache's seasons, so the model is graded partly on data it was fitted to."
+ },
+ "tiers": {
+  "coin_flip": 0.103,
+  "lean": 0.2054,
+  "play": 0.3069,
+  "source": "backtest",
+  "provisional": true
+ }
+}
