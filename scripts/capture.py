@@ -56,6 +56,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -193,6 +194,12 @@ def plan(client: OddsAPIClient, *, horizon_hours: int, now: str,
     return out
 
 
+def _isolated(argv: list[str]) -> int:
+    """Run one step as `python <argv>` from the repo root; its return code.
+    Negative means the child was killed by that signal (an OOM kill is -9)."""
+    return subprocess.run([sys.executable, *argv], cwd=ROOT).returncode
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--run", action="store_true", help="actually spend credits")
@@ -271,30 +278,32 @@ def main(argv: list[str] | None = None) -> int:
     for key_, reason in res.gapped:
         print(f"  gapped {key_}: {reason}")
 
-    papered = 0
+    # PAPER AND EXPORT RUN IN CHILD PROCESSES. The board and record export
+    # alone peaks at ~370 MB against the cron's 512 MB, after paper trading
+    # has loaded every model in the same interpreter. An out-of-memory kill is
+    # not an exception: in-process it killed the job before the commit below,
+    # and on Render's ephemeral disk the snapshot -- the one thing that cannot
+    # be fetched again -- went with it. A child can only take itself down.
+    papered, killed = 0, False
     if a.paper and res.captured:
-        # AFTER the capture is safely on disk, and never able to lose it: a
-        # pricing failure is printed and the snapshot is still committed.
-        sys.path.insert(0, str(ROOT / "scripts"))
-        from paper_trade import paper_trade
         for key_ in res.captured:
-            try:
-                papered += len(paper_trade(Path(res.paths[key_])))
-            except Exception as exc:
-                print(f"[paper] {key_} failed: {type(exc).__name__}: {exc}")
+            rc = _isolated(["scripts/paper_trade.py", "--snapshot", str(res.paths[key_])])
+            if rc < 0:
+                killed = True
+                print(f"[paper] {key_} killed by signal {-rc}; ledger not committed")
+            elif rc == 0:
+                papered += 1
+            else:
+                print(f"[paper] {key_} exited {rc}")
 
     exported = False
     if a.paper and res.captured:
-        # The dashboard's board, record and gates, from the prices just
-        # captured. Like the paper step it can never cost the capture.
-        try:
-            import export_board
-            import export_record
-            export_board.main([])
-            export_record.main([])
-            exported = True
-        except Exception as exc:
-            print(f"[export] failed: {type(exc).__name__}: {exc}")
+        # Only a CLEAN export is published: a child killed mid-write can
+        # leave truncated JSON, and the site would serve it.
+        exported = all(_isolated([f"scripts/{m}.py"]) == 0
+                       for m in ("export_board", "export_record"))
+        if not exported:
+            print("[export] failed; data/site not committed")
 
     if a.persist and (res.captured or res.gapped):
         # Only when something changed. Most runs have no window due, and a
@@ -304,11 +313,12 @@ def main(argv: list[str] | None = None) -> int:
         from deploy.git_utils import git_commit_and_push
 
         git_commit_and_push(
-            [str(BRONZE_ROOT.relative_to(ROOT)), "data/ledger"]
+            [str(BRONZE_ROOT.relative_to(ROOT))]
+            + ([] if killed else ["data/ledger"])
             + (["data/site"] if exported else []),
             f"capture {now}: {len(res.captured)} snapshots, "
             f"{len(res.gapped)} gapped, {res.credits_spent} credits"
-            + (f", {papered} paper slate(s)" if papered else ""),
+            + (f", {papered} paper snapshot(s)" if papered else ""),
         )
     elif a.persist:
         print("nothing captured or gapped; no commit")

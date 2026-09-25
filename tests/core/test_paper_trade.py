@@ -132,7 +132,10 @@ def test_a_capture_becomes_settleable_paper_trades(tmp_path, nba_upcoming):
     assert all(s.side in ("home", "away") and s.book and s.price_decimal for s in sigs)
 
 
-def test_the_capture_job_papers_what_it_captured_and_commits_both(monkeypatch, capsys, tmp_path):
+def _capture_job(monkeypatch, tmp_path, codes):
+    """Run the capture entrypoint with one captured snapshot, each child step
+    answering from `codes` ({script name: return code}). Returns (calls,
+    commits)."""
     import capture as entry
     calls, commits = [], []
     monkeypatch.setenv("CAPTURE_ENABLED", "1")
@@ -151,47 +154,49 @@ def test_the_capture_job_papers_what_it_captured_and_commits_both(monkeypatch, c
     Res.paths = {Res.captured[0]: str(BronzeStore(tmp_path / "bronze").snapshot_path(
         "basketball_nba", "2030-01-15T23:00:00Z"))}
     monkeypatch.setattr(entry, "run", lambda *a, **k: Res())
-    monkeypatch.setattr(PT, "paper_trade", lambda p: calls.append(p) or [(["x"], 0)])
-    monkeypatch.setitem(sys.modules, "paper_trade", PT)
+
+    def child(argv):
+        calls.append(argv)
+        return codes.get(Path(argv[0]).stem, 0)
+    monkeypatch.setattr(entry, "_isolated", child)
     monkeypatch.setitem(sys.modules, "deploy.git_utils", type(sys)("deploy.git_utils"))
     sys.modules["deploy.git_utils"].git_commit_and_push = lambda p, m: commits.append((p, m))
     monkeypatch.setattr(entry, "ROOT", tmp_path)
     (tmp_path / "bronze").mkdir()
     assert entry.main(["--run", "--paper", "--persist"]) == 0
-    assert len(calls) == 1 and calls[0].name.startswith("current-2030-01-15")
-    assert commits and "data/ledger" in commits[0][0] and "1 paper slate" in commits[0][1]
+    return calls, commits
+
+
+def test_the_capture_job_papers_what_it_captured_and_commits_both(monkeypatch, tmp_path):
+    calls, commits = _capture_job(monkeypatch, tmp_path, {})
+    assert [Path(c[0]).stem for c in calls] == ["paper_trade", "export_board", "export_record"]
+    assert Path(calls[0][calls[0].index("--snapshot") + 1]).name.startswith("current-2030-01-15")
+    paths, msg = commits[0]
+    assert {"data/ledger", "data/site"} <= set(paths) and "1 paper snapshot" in msg
 
 
 def test_a_paper_failure_never_loses_the_capture(monkeypatch, tmp_path):
+    _, commits = _capture_job(monkeypatch, tmp_path, {"paper_trade": 1})
+    assert len(commits) == 1 and "bronze" in commits[0][0][0]
+
+
+def test_an_out_of_memory_kill_still_commits_the_snapshot(monkeypatch, tmp_path):
+    """The failure this replaced: in-process, an OOM kill took the whole job
+    down before the commit, and Render's disk took the snapshot with it."""
+    _, commits = _capture_job(monkeypatch, tmp_path, {"paper_trade": -9, "export_board": -9})
+    paths, _ = commits[0]
+    assert paths == ["bronze"], "a killed child's half-written ledger or site was committed"
+
+
+def test_a_failed_export_does_not_publish_the_site(monkeypatch, tmp_path):
+    _, commits = _capture_job(monkeypatch, tmp_path, {"export_record": 1})
+    assert "data/site" not in commits[0][0] and "data/ledger" in commits[0][0]
+
+
+def test_a_child_step_really_runs_in_its_own_process():
     import capture as entry
-    commits = []
-    monkeypatch.setenv("CAPTURE_ENABLED", "1")
-    monkeypatch.setenv("ODDS_API_KEY", "k")
-    monkeypatch.setattr(entry, "OddsAPIClient", lambda **kw: object())
-    monkeypatch.setattr(entry, "plan", lambda *a, **k: [])
-    monkeypatch.setattr(entry, "BRONZE_ROOT", tmp_path / "bronze")
-
-    class Res:
-        captured = ["basketball_nba|2030-01-15T23:00:00Z"]
-        gapped: list = []
-        credits_spent = 1
-
-        def summary(self):
-            return "1 captured"
-    Res.paths = {Res.captured[0]: str(BronzeStore(tmp_path / "bronze").snapshot_path(
-        "basketball_nba", "2030-01-15T23:00:00Z"))}
-    monkeypatch.setattr(entry, "run", lambda *a, **k: Res())
-
-    def boom(p):
-        raise RuntimeError("model exploded")
-    monkeypatch.setattr(PT, "paper_trade", boom)
-    monkeypatch.setitem(sys.modules, "paper_trade", PT)
-    monkeypatch.setitem(sys.modules, "deploy.git_utils", type(sys)("deploy.git_utils"))
-    sys.modules["deploy.git_utils"].git_commit_and_push = lambda p, m: commits.append((p, m))
-    monkeypatch.setattr(entry, "ROOT", tmp_path)
-    (tmp_path / "bronze").mkdir()
-    assert entry.main(["--run", "--paper", "--persist"]) == 0
-    assert len(commits) == 1
+    assert entry._isolated(["-c", "import sys; sys.exit(3)"]) == 3
+    assert entry._isolated(["-c", "import os, signal; os.kill(os.getpid(), signal.SIGKILL)"]) == -9
 
 
 def test_the_blueprint_papers_every_capture():
