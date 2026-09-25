@@ -91,12 +91,38 @@ def test_cluster_width_is_configurable_and_changes_the_bill():
 
 # ------------------------------------------------------------ due / late ----
 
-def test_a_window_is_due_from_its_time_until_the_tolerance_expires():
+def test_a_close_is_due_from_one_cron_interval_early_until_first_pitch():
+    """At 23:00 for a 23:05 start: open from 22:45 (one tick early) and shut
+    at 23:05, the first pitch -- never inside the game."""
     w = [C.CaptureWindow(sport="nba", at="2026-09-21T23:00:00Z")]
-    assert C.due(w, "2026-09-21T22:59:00Z") == []          # not yet
-    assert len(C.due(w, "2026-09-21T23:00:00Z")) == 1      # exactly on time
-    assert len(C.due(w, "2026-09-21T23:09:00Z")) == 1      # inside tolerance
-    assert C.due(w, "2026-09-21T23:11:00Z") == []          # expired
+    assert C.due(w, "2026-09-21T22:44:00Z") == []          # not yet
+    assert len(C.due(w, "2026-09-21T22:45:00Z")) == 1      # one cron interval early
+    assert len(C.due(w, "2026-09-21T23:04:00Z")) == 1
+    assert C.due(w, "2026-09-21T23:05:00Z") == []          # first pitch: shut
+    assert len(C.overdue(w, "2026-09-21T23:05:00Z")) == 1
+
+
+def test_every_close_is_caught_by_the_cron_and_none_after_first_pitch():
+    """The failure of the first live day: a 17:01 window between the 17:00
+    and 17:15 ticks was missed outright. Every kickoff minute of an hour
+    must fall to some tick, and every tick that takes it must be before the
+    kickoff it is the close for."""
+    from datetime import datetime, timedelta, timezone
+    base = datetime(2026, 9, 25, 17, 0, tzinfo=timezone.utc)
+    ticks = [base + timedelta(minutes=15 * i) for i in range(-8, 12)]
+    for minute in range(60):
+        kick = base + timedelta(minutes=minute)
+        [w] = C.windows_for_slate(sport="mlb", commence_times=[kick.strftime("%Y-%m-%dT%H:%M:%SZ")])
+        takers = [t for t in ticks if C.due([w], t.strftime("%Y-%m-%dT%H:%M:%SZ"))]
+        assert takers, f"a {kick:%H:%M} start is never captured"
+        assert all(t < kick for t in takers), f"a {kick:%H:%M} start is captured in play"
+
+
+def test_the_cron_interval_is_the_blueprints():
+    import yaml
+    job = next(s for s in yaml.safe_load((ROOT / "render.yaml").read_text())["services"]
+               if s["name"] == "close-capture-job")
+    assert job["schedule"] == f"*/{C.CRON_MINUTES} * * * *"
 
 
 def test_an_expired_window_is_overdue_not_due():

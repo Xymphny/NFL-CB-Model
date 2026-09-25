@@ -46,6 +46,13 @@ EARLY_UTC_HOUR = 14
 #: An early price at 10:30 is as early as one at 10:00; a close is not. So an
 #: early window stays due for hours, where a close window has ten minutes.
 EARLY_TOLERANCE_MINUTES = 180
+#: The capture job's cadence (render.yaml close-capture-job: */15). A close
+#: opens this long before its time so a tick always lands inside it.
+CRON_MINUTES = 15
+#: How long after its time a close may still be taken. Equal to the default
+#: lead (windows sit 5 minutes before first pitch), so a close is never taken
+#: after the game has started. Raising it past the lead re-opens that hole.
+CLOSE_TOLERANCE_MINUTES = 5
 
 
 def _parse(ts: str) -> datetime:
@@ -83,6 +90,15 @@ class CaptureWindow:
 
     def tolerance(self, close_minutes: int) -> int:
         return EARLY_TOLERANCE_MINUTES if self.reason == "early" else close_minutes
+
+    def opens(self) -> datetime:
+        """When the window may first be taken. A close opens one cron
+        interval EARLY: the job runs every CRON_MINUTES, and a window due
+        only from its own minute is missed whenever no tick lands in its
+        slot -- a third of all closes, the first live day (17:01 for a
+        17:05 first pitch; ticks at 17:00 and 17:15)."""
+        early = 0 if self.reason == "early" else CRON_MINUTES
+        return _parse(self.at) - timedelta(minutes=early)
 
 
 def windows_for_slate(
@@ -123,25 +139,27 @@ def windows_for_slate(
 
 
 def due(windows: Sequence[CaptureWindow], now: str,
-        tolerance_minutes: int = 10) -> list[CaptureWindow]:
+        tolerance_minutes: int = CLOSE_TOLERANCE_MINUTES) -> list[CaptureWindow]:
     """Windows whose moment has arrived and has not yet passed out of reach.
 
-    A window is due from its time until `tolerance_minutes` after. Past that
-    it is LATE, not due: capturing it would store an in-play price under a
-    pre-game timestamp, which is a quieter corruption than missing it. Late
-    windows should be gapped, and `overdue()` finds them.
+    A close is due from one cron interval before its time (opens()) until
+    `tolerance_minutes` after it, EXCLUSIVE. The tolerance must not exceed
+    the lead the window was placed with: at lead 5 and tolerance 10 -- the
+    first version -- a close could be taken five minutes into the game and
+    filed under its pre-game time, an in-play price stored as the close.
+    Past the tolerance a window is LATE, not due, and `overdue()` gaps it.
     """
     t = _parse(now)
     return [w for w in windows
-            if _parse(w.at) <= t <= _parse(w.at) + timedelta(minutes=w.tolerance(tolerance_minutes))]
+            if w.opens() <= t < _parse(w.at) + timedelta(minutes=w.tolerance(tolerance_minutes))]
 
 
 def overdue(windows: Sequence[CaptureWindow], now: str,
-            tolerance_minutes: int = 10) -> list[CaptureWindow]:
+            tolerance_minutes: int = CLOSE_TOLERANCE_MINUTES) -> list[CaptureWindow]:
     """Windows that came and went uncaptured. These are gaps, not retries."""
     t = _parse(now)
     return [w for w in windows
-            if _parse(w.at) + timedelta(minutes=w.tolerance(tolerance_minutes)) < t]
+            if _parse(w.at) + timedelta(minutes=w.tolerance(tolerance_minutes)) <= t]
 
 
 def estimate_monthly(windows_per_week: dict[str, int], *,
@@ -184,7 +202,7 @@ def run(
     store: BronzeStore,
     *,
     now: str,
-    tolerance_minutes: int = 10,
+    tolerance_minutes: int = CLOSE_TOLERANCE_MINUTES,
 ) -> CaptureResult:
     """Capture what is due, gap what is overdue, gap what the budget refuses.
 

@@ -66,7 +66,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from coverline.execution.bronze import BronzeStore  # noqa: E402
 from coverline.execution.capture import (  # noqa: E402
-    EARLY_TOLERANCE_MINUTES, EARLY_UTC_HOUR, CaptureWindow, estimate_monthly, run,
+    CLOSE_TOLERANCE_MINUTES, EARLY_TOLERANCE_MINUTES, EARLY_UTC_HOUR, CaptureWindow,
+    estimate_monthly, run,
     windows_for_slate,
 )
 from coverline.execution.odds_client import (  # noqa: E402
@@ -253,7 +254,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--horizon-hours", type=int, default=6)
     ap.add_argument("--lead-minutes", type=int, default=5)
     ap.add_argument("--cluster-minutes", type=int, default=20)
-    ap.add_argument("--tolerance-minutes", type=int, default=10)
+    ap.add_argument("--tolerance-minutes", type=int, default=CLOSE_TOLERANCE_MINUTES,
+                    help="minutes after a close's time it may still be taken; capped at "
+                         "--lead-minutes so a close is never taken after first pitch")
     ap.add_argument("--plan-cache-minutes", type=int, default=60,
                     help="reuse the last slate plan for this long; 0 disables")
     ap.add_argument("--paper", action="store_true",
@@ -263,6 +266,10 @@ def main(argv: list[str] | None = None) -> int:
                     help="commit captured snapshots back to the repository, "
                          "which on Render is the only state that survives")
     a = ap.parse_args(argv)
+    if a.tolerance_minutes > a.lead_minutes:
+        print(f"--tolerance-minutes {a.tolerance_minutes} exceeds --lead-minutes "
+              f"{a.lead_minutes}: a close could be taken after first pitch. Capped.")
+        a.tolerance_minutes = a.lead_minutes
 
     # THE GATE, checked before anything can issue a request. An unset or
     # non-"1" value exits here, so the job can be scheduled before the
