@@ -70,6 +70,15 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/nfl_neutral_site.json
+    produced_by: model/nfl_neutral_site.py
+    consumed_by:
+      - tests/core/test_nfl.py
+    kind: gold
+    refresh: "a finding; rerun when a held-out season of neutral games with ratings exists"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/cfb_key_numbers.json
     produced_by: model/cfb_key_numbers.py
     consumed_by:

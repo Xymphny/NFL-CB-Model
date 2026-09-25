@@ -21,6 +21,15 @@ between them. Net home edge for two equal teams is 5.5271 - 6.6607 = -1.13
 points, against a market consensus near +2.5. That is a real defect in a
 validated artifact.
 
+NOT A LIVE DEFECT (measured 2026-09-25, data/nfl_neutral_site.json). It is a
+property of the FULL-ENSEMBLE vector, and no live NFL price uses that vector:
+RatingsSnapshotSource sets ngs_present=False on every game, so live prices
+come from MARGIN_COEFFICIENTS_V1_RATING_ONLY, whose equal-team home edge is
++1.65. That vector's own neutral-site handling -- drop its 2.83-point home
+term -- was then checked on the 34 neutral games in the walk-forward cache:
+it sits 1.60 points further below the closing line there than at home sites
+(SE 0.62). A real lean, too few games to fit, left uncorrected and recorded.
+
 It is reproduced here exactly, and ``home_edge_for_equal_teams`` exposes it so
 it cannot be forgotten. Silently correcting it would break the thing that makes
 the coefficients worth having -- they were validated as a vector, and changing

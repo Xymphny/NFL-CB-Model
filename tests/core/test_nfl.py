@@ -188,3 +188,30 @@ def test_the_push_probability_is_not_the_normal_approximation():
     plain = NormalMarginDistribution(d.margin_mean(), nfl.MARGIN_SD,
                                      44.0, nfl.TOTAL_SD_UNVALIDATED)
     assert d.margin_pmf(3) > 2.5 * plain.margin_pmf(3)
+
+
+def test_live_prices_never_use_the_vector_that_carries_the_defect():
+    """The -1.13 equal-team edge is the full ensemble's. Live prices come
+    from the ratings snapshot, which is rating-only on every game; if that
+    ever changes, the defect becomes live and this must be revisited."""
+    import pandas as pd
+    from coverline.leagues.nfl.live import RatingsSnapshotSource
+    sched = pd.DataFrame([{"season": 2026, "week": 3, "game_type": "REG", "home_team": "DAL",
+                           "away_team": "BAL", "gameday": "2026-09-27", "location": "Neutral",
+                           "home_rest": 7, "away_rest": 7}])
+    src = RatingsSnapshotSource(season=2026, week=3, schedule=sched, computed_at="2026-09-22T11:00:00Z",
+                                ratings={"DAL": {"total_rating": 0.1}, "BAL": {"total_rating": 0.1}},
+                                path=Path("x.json"))
+    f = src.features("2026-W03-DAL-BAL", "2026-09-26T00:00:00Z")
+    assert f.ngs_present is False and f.is_neutral_site is True
+    assert nfl.home_edge_for_equal_teams(ngs_present=False) == pytest.approx(1.651, abs=1e-3)
+
+
+def test_the_neutral_site_finding_is_recorded_and_not_applied():
+    art = json.loads((ROOT / "data" / "nfl_neutral_site.json").read_text())
+    k = nfl.MARGIN_COEFFICIENTS_V1_RATING_ONLY
+    assert art["home_term_dropped_at_neutral"] == k["home_field"], "vector changed; re-measure"
+    assert art["by_site"]["neutral"]["n"] >= 30 and art["corrected"] is False
+    n, h = art["by_site"]["neutral"], art["by_site"]["home"]
+    assert art["neutral_extra_gap_to_close"] == pytest.approx(
+        n["model_minus_close"] - h["model_minus_close"], abs=2e-3)

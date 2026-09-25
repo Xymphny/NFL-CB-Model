@@ -1,0 +1,35 @@
+{
+ "_provenance": {
+  "script": "model/nfl_neutral_site.py",
+  "generated": "2026-09-25",
+  "source": "model/expanded_walk_forward_cache.csv x nflverse games.csv location/spread_line",
+  "seasons": [
+   2014,
+   2023
+  ],
+  "vector": "MARGIN_COEFFICIENTS_V1_RATING_ONLY -- the one every live NFL price uses",
+  "a_finding_not_a_fit": true
+ },
+ "home_edge_for_equal_teams_live": 1.651,
+ "home_term_dropped_at_neutral": 2.8321,
+ "by_site": {
+  "home": {
+   "n": 1911,
+   "outcome_residual": 0.198,
+   "outcome_residual_se": 0.315,
+   "model_minus_close": -0.266,
+   "model_minus_close_se": 0.099
+  },
+  "neutral": {
+   "n": 34,
+   "outcome_residual": 1.29,
+   "outcome_residual_se": 2.281,
+   "model_minus_close": -1.864,
+   "model_minus_close_se": 0.613
+  }
+ },
+ "neutral_extra_gap_to_close": -1.598,
+ "neutral_extra_gap_se": 0.621,
+ "corrected": false,
+ "why_not": "34 neutral games and no held-out season; the gap is measured against the market, not graded on results"
+}

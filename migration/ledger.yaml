@@ -414,7 +414,11 @@ components:
     notes: >-
       Carries the documented home_field/intercept collinearity defect forward
       unchanged: net home edge for equal teams is -1.13 against a market near
-      +2.5. Exposed as home_edge_for_equal_teams() and pinned by a test that
+      +2.5. CORRECTED 2026-09-25: that is the FULL-ENSEMBLE vector, which no
+      live price uses (the live source is rating-only, equal-team edge +1.65).
+      The live vector's neutral-site handling was measured instead
+      (data/nfl_neutral_site.json): 1.60 points further below the close at
+      neutral sites than at home (SE 0.62, n 34), recorded, not corrected. Exposed as home_edge_for_equal_teams() and pinned by a test that
       fails if someone corrects it in place. The vector was validated as a
       vector; changing one term invalidates the validation. Fix belongs at the
       next refit.
