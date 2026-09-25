@@ -482,6 +482,9 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
         board["refusals"].append({"scope": "league", "reason":
             "No odds captured yet for this league. The model's view is shown; "
             "market prices appear once the capture job has run."})
+    stale = stale_odds(captured, board["generated_at"]) if games else None
+    if stale:
+        board["refusals"].append({"scope": "league", "reason": stale})
     if not games:
         board["next_slate"] = next_slate(league, src, slate)
 
@@ -546,6 +549,29 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
 
     board["games"].sort(key=lambda e: (e["start"] or "", e["game_id"]))
     return board
+
+
+#: The capture job polls every league in season at least once a day
+#: (scripts/capture.py EARLY_UTC_HOUR). Odds older than a day plus slack mean
+#: it has stopped -- credits, key, or the cron -- and every "market" price on
+#: the board is yesterday's.
+STALE_ODDS_HOURS = 26
+
+
+def stale_odds(captured: str | None, now: str) -> str | None:
+    """A refusal line when the newest snapshot is older than a day, else None."""
+    if not captured:
+        return None
+    t = pd.Timestamp(captured)
+    n = pd.Timestamp(now)
+    t = t.tz_localize("UTC") if t.tzinfo is None else t
+    n = n.tz_localize("UTC") if n.tzinfo is None else n
+    hours = (n - t).total_seconds() / 3600
+    if hours <= STALE_ODDS_HOURS:
+        return None
+    return (f"Odds are {hours:.0f} hours old: the last capture was {captured}, and "
+            "captures run at least daily in season, so the capture job has stopped. "
+            "Market prices and tiers below are from then, not now.")
 
 
 def summarise(board: dict) -> dict:

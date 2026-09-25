@@ -394,3 +394,16 @@ def test_the_football_notes_tell_the_truth_about_key_numbers():
         note = X.SPORT_NOTES[league]
         assert ("measured correction" in note) == has, league
         assert ("not priced" in note) != has or "Whole-number" not in note, league
+
+
+def test_odds_older_than_a_day_are_called_stale_not_shown_as_the_market():
+    """The daily early poll means fresh odds are never a day old. Older means
+    capture stopped, and a board still reading "up" would present yesterday's
+    lines as today's market."""
+    assert X.stale_odds("2026-09-25T14:00:00Z", "2026-09-26T15:40:00Z") is None     # 25.7h
+    msg = X.stale_odds("2026-09-24T14:00:00Z", "2026-09-26T10:40:00Z")
+    assert msg and "45 hours old" in msg and "stopped" in msg
+    assert X.stale_odds(None, "2026-09-26T10:40:00Z") is None       # "no odds yet" says that
+    board = {"games": [{"headline": "spread", "markets": {"spread": {"status": "priced"}}}],
+             "refusals": [{"scope": "league", "reason": msg}]}
+    assert X.summarise(board)["state"] == "degraded"
