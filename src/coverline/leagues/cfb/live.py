@@ -168,7 +168,9 @@ class CFBLiveSource:
         if bool(g.neutral_site):
             raise GameNotPriceable(
                 "neutral site: the CFB vector has no home term to remove, so it "
-                "would give a home edge to a team not at home")
+                "would give a home edge to a team not at home. The market takes "
+                "about 3.8 points out for a neutral site; measured on 21 games, "
+                "not yet graded (data/cfb_neutral_site.json)")
         snap = self.snapshot_for(g.start, t)
         behind = int(g.week) - snap.week
         if behind > MAX_WEEKS_BEHIND:

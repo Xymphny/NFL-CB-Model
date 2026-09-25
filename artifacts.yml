@@ -79,6 +79,24 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/cfb_neutral_site.json
+    produced_by: model/cfb_neutral_site.py
+    consumed_by:
+      - tests/core/test_cfb_live.py
+    kind: gold
+    refresh: "a finding; rerun with a held-out season of neutral games and closing lines"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/raw/cfb/neutral_sites_2021_2023.csv
+    produced_by: model/ingest/cfb_espn.py
+    consumed_by:
+      - model/cfb_neutral_site.py
+    kind: bronze
+    refresh: "static: ESPN neutralSite flags for 2021-2023, pulled 2026-09-25 with day_rows"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/nfl_neutral_site.json
     produced_by: model/nfl_neutral_site.py
     consumed_by:

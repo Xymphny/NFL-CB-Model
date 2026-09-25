@@ -191,3 +191,16 @@ def test_a_cfb_capture_becomes_settleable_paper_trades(tmp_path, monkeypatch, sr
     # Only Ohio State-Michigan: Georgia-Alabama is neutral, Utah Tech is unknown.
     assert {s.game_id for s in sigs} == {"2"} and len(sigs) == 4
     assert not any(s.placed for s in sigs) and all(s.league == "cfb" for s in sigs)
+
+
+def test_the_neutral_site_refusal_stands_and_says_how_big_the_gap_is():
+    """Measured, not applied: 21 games and no held-out season. The artifact
+    reproduces from committed files, and the refusal quotes it."""
+    import json
+    sys.path.insert(0, str(ROOT / "model"))
+    import cfb_neutral_site as N
+    art = json.loads((ROOT / "data" / "cfb_neutral_site.json").read_text())
+    assert N.build(art["_provenance"]["generated"]) == art
+    assert art["applied"] is False and art["by_site"]["neutral"]["n"] >= 20
+    src_text = (ROOT / "src" / "coverline" / "leagues" / "cfb" / "live.py").read_text()
+    assert f"about {art['home_edge_the_market_removes']:.1f} points" in src_text

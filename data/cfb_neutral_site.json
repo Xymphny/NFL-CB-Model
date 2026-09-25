@@ -1,0 +1,30 @@
+{
+ "_provenance": {
+  "script": "model/cfb_neutral_site.py",
+  "generated": "2026-09-25",
+  "source": "model/cfb_full_walk_forward_cache.csv x model/cfb_lines_cache.csv x data/raw/cfb/neutral_sites_2021_2023.csv",
+  "vector": "MARGIN_COEFFICIENTS_DVOA_ONLY -- the one live CFB prices use",
+  "a_finding_not_a_fit": true
+ },
+ "joined": 1731,
+ "by_site": {
+  "home": {
+   "n": 1710,
+   "model_minus_close": -2.647,
+   "model_minus_close_se": 0.226,
+   "outcome_residual": 2.148,
+   "outcome_residual_se": 0.43
+  },
+  "neutral": {
+   "n": 21,
+   "model_minus_close": 1.197,
+   "model_minus_close_se": 1.757,
+   "outcome_residual": -5.578,
+   "outcome_residual_se": 4.052
+  }
+ },
+ "home_edge_the_market_removes": 3.844,
+ "home_edge_se": 1.771,
+ "applied": false,
+ "why_not": "21 neutral games, no held-out season (lines end 2023; no 2024+ weekly ratings)"
+}
