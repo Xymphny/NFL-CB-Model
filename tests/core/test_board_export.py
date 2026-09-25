@@ -290,6 +290,45 @@ def test_fading_a_regime_team_and_late_season_flags_are_untouched():
     assert e["markets"]["spread"]["tier"] == "play" and "regime" not in e["context"]
 
 
+
+def _nhl_entry(gp_home, gp_away, tier="play"):
+    return {"home": "TOR", "away": "MTL",
+            "context": {"home_games_played": gp_home, "away_games_played": gp_away,
+                        "low_information": min(gp_home, gp_away) < X.NHL_EARLY_GAMES},
+            "markets": {"moneyline": {"status": "priced", "tier": tier, "side": "away",
+                                      "stake_fraction": 0.01},
+                        "total": {"status": "priced", "tier": "no_edge", "stake_fraction": 0.0},
+                        "puck_line": {"status": "refused", "tier": None}}}
+
+
+def test_opening_night_nhl_conviction_is_held_at_coin_flip():
+    """Every team restarts at league average, so on opening night the model
+    'disagrees' with every favourite by the market's own opinion. Without
+    the hold that lights Plays on underdogs for a reason that is the reset."""
+    e = _nhl_entry(0, 0)
+    X.apply_early_season_cap(e)
+    ml = e["markets"]["moneyline"]
+    assert ml["tier"] == "coin_flip" and ml["stake_fraction"] == 0.0
+    assert ml["cap"]["rule"] == "early_season"
+    assert "MTL has played 0, TOR 0" in ml["cap"]["reason"]
+    assert e["markets"]["total"] == {"status": "priced", "tier": "no_edge", "stake_fraction": 0.0}
+    assert "cap" not in e["markets"]["puck_line"]
+
+
+def test_the_hold_lifts_once_both_teams_have_ten_games():
+    e = _nhl_entry(10, 12, tier="lean")
+    X.apply_early_season_cap(e)
+    assert e["markets"]["moneyline"]["tier"] == "lean" and "cap" not in e["markets"]["moneyline"]
+    e = _nhl_entry(10, 9, tier="lean")                 # one team short is still early
+    X.apply_early_season_cap(e)
+    assert e["markets"]["moneyline"]["tier"] == "coin_flip"
+
+
+def test_the_hold_is_wired_for_hockey_only():
+    import inspect
+    src = inspect.getsource(X.build)
+    assert 'if league == "nhl":\n            apply_early_season_cap(entry)' in src
+
 def test_the_regime_number_is_the_artifacts():
     art = json.loads((ROOT / "model" / "coach_regime_results.json").read_text())
     g = next(g for g in art["grades"]

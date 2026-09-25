@@ -275,6 +275,35 @@ def apply_regime_cap(entry: dict, headline: str, regimes: dict, week: int) -> No
         f"new-regime teams went {q} in backtests (2016-2023). Capped at Lean, still graded.")}
 
 
+def apply_early_season_cap(entry: dict) -> None:
+    """NHL tiers are held at Coin flip until both teams have NHL_EARLY_GAMES.
+
+    The graded NHL procedure restarts every team at league average each
+    season (ADR 0006, model/fit_nhl_walkforward.py). On opening night the
+    model therefore "disagrees" with every favourite by exactly the market's
+    own opinion of the two teams, and the tiers would light Plays on
+    underdogs for a reason that is the reset, not information. The model's
+    price is still shown and still paper-traded -- the ledger records
+    probabilities, not tiers, so this changes no grade -- but no card claims
+    conviction the ratings have not earned yet. Like the regime cap: a
+    reduction, never a removal.
+    """
+    c = entry.get("context") or {}
+    if not c.get("low_information"):
+        return
+    gp = f"{entry['away']} has played {c.get('away_games_played')}, " \
+         f"{entry['home']} {c.get('home_games_played')}"
+    for m in entry["markets"].values():
+        if m.get("status") != "priced" or m.get("tier") not in ("play", "lean"):
+            continue
+        m["tier"] = "coin_flip"
+        m["stake_fraction"] = 0.0
+        m["cap"] = {"rule": "early_season", "reason": (
+            f"Early season: {gp}. Hockey ratings restart at league average every "
+            f"season, so the gap with the market is mostly the reset. Held at Coin "
+            f"flip until both teams have played {NHL_EARLY_GAMES}; still paper-traded.")}
+
+
 def _nfl_fresh(src, today: str) -> dict:
     try:
         ca, wk, path = src.version_for(today)
@@ -511,6 +540,8 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
                 entry["markets"][m] = v.to_dict()
         if league == "nfl":
             apply_regime_cap(entry, headline, regimes, slate.get("week"))
+        if league == "nhl":
+            apply_early_season_cap(entry)
         board["games"].append(_clean(entry))
 
     board["games"].sort(key=lambda e: (e["start"] or "", e["game_id"]))
