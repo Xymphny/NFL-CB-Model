@@ -1,6 +1,6 @@
 {
  "league": "mlb",
- "generated_at": "2026-09-25T14:13:24Z",
+ "generated_at": "2026-09-25T15:42:07Z",
  "note": "Daily. Lines are quoted on the listed probable starters; a scratch changes the game being priced.",
  "slate": {
   "kind": "date",
@@ -104,8 +104,9 @@
    "headline": "moneyline",
    "context": {
     "home_probable": null,
-    "away_probable": "Brandon Young",
-    "park": "NYC21"
+    "away_probable": "Trevor Rogers",
+    "park": "NYC21",
+    "away_probable_changed_from": "Brandon Young"
    },
    "refusal": "GameNotPriceable: BAL@NYA: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
   },
@@ -128,10 +129,10 @@
      "best_price_american": -116,
      "best_book": "betfair_ex_eu",
      "books": 19,
-     "p_model": 0.56059,
+     "p_model": 0.58351,
      "p_market": 0.55629,
-     "edge": 0.0043,
-     "tier": "no_edge",
+     "edge": 0.02722,
+     "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": null,
@@ -149,10 +150,10 @@
      "best_price_american": 185,
      "best_book": "betanysports",
      "books": 12,
-     "p_model": 0.37926,
+     "p_model": 0.40639,
      "p_market": 0.35535,
-     "edge": 0.02391,
-     "tier": "coin_flip",
+     "edge": 0.05104,
+     "tier": "lean",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": -1.5,
@@ -170,9 +171,9 @@
      "best_price_american": -110,
      "best_book": "williamhill",
      "books": 10,
-     "p_model": 0.68822,
+     "p_model": 0.70787,
      "p_market": 0.52424,
-     "edge": 0.16398,
+     "edge": 0.18363,
      "tier": "play",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -184,14 +185,15 @@
    "headline": "moneyline",
    "context": {
     "home_probable": "Brendan Beck",
-    "away_probable": "Trevor Rogers",
-    "park": "NYC21"
+    "away_probable": "Brandon Young",
+    "park": "NYC21",
+    "away_probable_changed_from": "Trevor Rogers"
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.56059,
-    "margin_mean": 0.343,
-    "total_mean": 8.921
+    "p_home_win": 0.58351,
+    "margin_mean": 0.621,
+    "total_mean": 9.189
    },
    "event_id": "3fe14d478bc1ffac17198c460085ca70"
   },
@@ -201,7 +203,7 @@
    "away": "CHN",
    "home_name": "Boston Red Sox",
    "away_name": "Chicago Cubs",
-   "start": "2026-09-25T22:05:00Z",
+   "start": "2026-09-25T21:35:00Z",
    "markets": {
     "moneyline": {
      "market": "moneyline",
@@ -1128,7 +1130,7 @@
    "remaining": 19985,
    "monthly": 20000
   },
-  "slate_fetched_at": "20260925T112211Z",
+  "slate_fetched_at": "20260925T154136Z",
   "latest_final": "2026-09-24"
  },
  "teams": [
@@ -1161,9 +1163,9 @@
    "park_factor": 1.062
   },
   {
-   "pitcher": "Brandon Young",
+   "pitcher": "Trevor Rogers",
    "team": "BAL",
-   "ra27": 4.68,
+   "ra27": 4.174,
    "park": "NYC21",
    "park_factor": 0.982
   },
@@ -1175,9 +1177,9 @@
    "park_factor": 0.982
   },
   {
-   "pitcher": "Trevor Rogers",
+   "pitcher": "Brandon Young",
    "team": "BAL",
-   "ra27": 4.174,
+   "ra27": 4.68,
    "park": "NYC21",
    "park_factor": 0.982
   },
@@ -1354,8 +1356,8 @@
   "tiers": {
    "play": 5,
    "lean": 1,
-   "coin_flip": 3,
-   "no_edge": 3
+   "coin_flip": 4,
+   "no_edge": 2
   },
   "refusals": 0,
   "reason": null,
