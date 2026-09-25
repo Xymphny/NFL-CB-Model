@@ -136,6 +136,44 @@ def test_an_overdue_window_is_gapped_and_never_fetched(tmp_path):
     assert "in-play price is not a close" in gap["detail"]
 
 
+def test_a_missed_window_is_gapped_once_not_every_run(tmp_path):
+    """The cached plan keeps handing back a missed window until its game drops
+    off the feed. Live on 2026-09-25 the same two MLB windows were gapped on
+    four runs in a row, each one a commit to main."""
+    store = BronzeStore(tmp_path)
+    client, t = _client()
+    w = [C.CaptureWindow(sport="nba", at="2026-09-21T23:00:00Z")]
+    first = C.run(w, client, store, now="2026-09-21T23:45:00Z")
+    again = C.run(w, client, store, now="2026-09-22T00:00:00Z")
+
+    assert len(first.gapped) == 1
+    assert again.gapped == [], "an already-recorded gap was recorded again"
+    assert again.already_gapped == ["nba|2026-09-21T23:00:00Z"]
+    assert len(store.gaps("nba")) == 1
+    assert t.urls == []
+    assert "already on record" in again.summary()
+
+
+def test_a_window_that_failed_while_due_is_not_gapped_twice(tmp_path):
+    """A fetch failure is gapped when it happens; the same window going
+    overdue later is the same hole, not a second one."""
+    store = BronzeStore(tmp_path)
+    client, _ = _client(fail=True)
+    w = [C.CaptureWindow(sport="nba", at="2026-09-21T23:00:00Z")]
+    C.run(w, client, store, now="2026-09-21T23:02:00Z")
+    late = C.run(w, client, store, now="2026-09-21T23:45:00Z")
+    assert late.gapped == [] and len(store.gaps("nba")) == 1
+
+
+def test_coverage_counts_windows_not_duplicate_rows(tmp_path):
+    """Logs written before the fix repeat a window once per run."""
+    store = BronzeStore(tmp_path)
+    for _ in range(4):
+        store.record_gap(sport="nba", intended_at="2026-09-21T23:00:00Z",
+                         reason="window_missed")
+    assert store.coverage("nba") == {"snapshots": 0, "gaps": 1}
+
+
 def test_a_future_window_is_neither_captured_nor_gapped(tmp_path):
     """It has not happened yet. Gapping it would manufacture a hole."""
     store = BronzeStore(tmp_path)

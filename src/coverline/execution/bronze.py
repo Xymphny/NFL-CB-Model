@@ -162,7 +162,10 @@ class BronzeStore:
         A rising gap count with a flat snapshot count is the shape of a
         capture process that has quietly stopped working.
         """
+        # Distinct windows, not rows: logs written before 2026-09-25 recorded
+        # the same missed window once per run, and counting rows would make
+        # one missed game look like four.
         return {
             "snapshots": sum(1 for _ in self.snapshots(sport)),
-            "gaps": len(self.gaps(sport)),
+            "gaps": len({(g["sport"], g["intended_at"]) for g in self.gaps(sport)}),
         }

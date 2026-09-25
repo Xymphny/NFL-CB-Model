@@ -93,6 +93,11 @@ TYPICAL_WEEKLY_WINDOWS = {
 }
 
 
+#: The Odds API plan in force: the $30 tier, bought 2026-09-24 while only the
+#: football leagues and the end of MLB were in season. Change this with the plan.
+MONTHLY_CREDITS = 20_000
+
+
 def _now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -217,7 +222,8 @@ def main(argv: list[str] | None = None) -> int:
         if sport != "TOTAL":
             print(f"  {sport:24} {credits:>7,}")
     print(f"  {'TOTAL':24} {monthly['TOTAL']:>7,}  "
-          f"({monthly['TOTAL'] / 100_000:.0%} of a 100,000-credit month)")
+          f"({monthly['TOTAL'] / MONTHLY_CREDITS:.0%} of the "
+          f"{MONTHLY_CREDITS:,}-credit plan)")
     print("  NOTE: the five leagues do not all overlap -- NFL and CFB stop in "
           "January,\n        MLB starts in March -- so this is the worst case, "
           "not the average.\n        The backfill is 89,760 credits and cannot "

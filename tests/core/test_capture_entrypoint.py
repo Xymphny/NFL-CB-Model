@@ -216,6 +216,36 @@ def test_nothing_captured_means_nothing_committed(monkeypatch, capsys):
     assert "no commit" in capsys.readouterr().out
 
 
+def test_a_run_that_only_meets_known_gaps_does_not_commit(monkeypatch, capsys, tmp_path):
+    """Live 2026-09-25: two missed MLB windows were re-gapped and pushed to
+    main every fifteen minutes. A gap already on record is not news."""
+    import capture as entry
+    from coverline.execution.bronze import BronzeStore
+    from coverline.execution.capture import CaptureWindow
+
+    at = "2020-01-01T00:00:00Z"                       # long overdue
+    BronzeStore(tmp_path).record_gap(sport="basketball_nba", intended_at=at,
+                                     reason="window_missed")
+    monkeypatch.setenv("CAPTURE_ENABLED", "1")
+    monkeypatch.setenv("ODDS_API_KEY", "k")
+    monkeypatch.setattr(entry, "BRONZE_ROOT", tmp_path)
+    monkeypatch.setattr(entry, "OddsAPIClient", lambda **kw: object())
+    monkeypatch.setattr(entry, "plan", lambda *a, **k: [
+        CaptureWindow(sport="basketball_nba", at=at)])
+
+    def _boom(*a, **k):
+        raise AssertionError("committed a gap that was already on record")
+
+    monkeypatch.setitem(sys.modules, "deploy.git_utils",
+                        type(sys)("deploy.git_utils"))
+    sys.modules["deploy.git_utils"].git_commit_and_push = _boom
+
+    assert entry.main(["--run", "--persist"]) == 0
+    out = capsys.readouterr().out
+    assert "already on record" in out and "no commit" in out
+    assert len(BronzeStore(tmp_path).gaps()) == 1
+
+
 def test_the_store_lives_in_the_checkout():
     """On Render nothing else survives a cron run.
 

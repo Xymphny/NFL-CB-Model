@@ -141,12 +141,17 @@ class CaptureResult:
     captured: list[str] = field(default_factory=list)
     gapped: list[tuple[str, str]] = field(default_factory=list)
     already_had: list[str] = field(default_factory=list)
+    #: Overdue windows whose gap was recorded on an earlier run. Not news, so
+    #: they neither re-enter the gap log nor count toward a commit.
+    already_gapped: list[str] = field(default_factory=list)
     credits_spent: int = 0
 
     def summary(self) -> str:
         return (f"{len(self.captured)} captured, {len(self.already_had)} already "
-                f"present, {len(self.gapped)} gapped, "
-                f"{self.credits_spent} credits")
+                f"present, {len(self.gapped)} gapped"
+                + (f" ({len(self.already_gapped)} already on record)"
+                   if self.already_gapped else "")
+                + f", {self.credits_spent} credits")
 
 
 def run(
@@ -164,7 +169,18 @@ def run(
     """
     res = CaptureResult()
 
+    # A window is gapped ONCE. The slate plan is cached for an hour and games
+    # stay on the events feed until they finish, so the same missed window
+    # comes back as overdue on every fifteen-minute run. Recording it again
+    # each time duplicated the gap log and pushed a commit to main for news
+    # that was already written down (2026-09-25: the same two MLB windows,
+    # four runs in a row).
+    known = {(g["sport"], g["intended_at"]) for g in store.gaps()}
+
     for w in overdue(windows, now, tolerance_minutes):
+        if (w.sport, w.at) in known:
+            res.already_gapped.append(w.key)
+            continue
         store.record_gap(sport=w.sport, intended_at=w.at, reason="window_missed",
                          detail=f"still uncaptured {tolerance_minutes}min after its "
                                 f"time at {now}; an in-play price is not a close")
