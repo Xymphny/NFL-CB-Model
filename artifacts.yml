@@ -70,6 +70,17 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/cfb_key_numbers.json
+    produced_by: model/cfb_key_numbers.py
+    consumed_by:
+      - src/coverline/leagues/cfb/model.py
+      - scripts/export_record.py
+      - tests/core/test_cfb.py
+    kind: gold
+    refresh: "refit only when a new holdout window is available; graded once"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/bronze/odds/**/historical-*.json
     produced_by: src/coverline/execution/backfill.py
     consumed_by:

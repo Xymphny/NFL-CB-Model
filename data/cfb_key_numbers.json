@@ -1,0 +1,144 @@
+{
+ "_provenance": {
+  "script": "model/cfb_key_numbers.py",
+  "generated": "2026-09-25",
+  "source": "model/cfb_lines_cache.csv: CFBD closing lines with final scores",
+  "train_seasons": [
+   2021,
+   2022
+  ],
+  "holdout_seasons": [
+   2023,
+   2023
+  ],
+  "graded_once": true,
+  "method": "as model/nfl_key_numbers.py: w(k) = empirical / summed rounded-normal mass, centred per game on the closing spread, applied then renormalised",
+  "min_predicted_mass_to_estimate": 20.0,
+  "sigma_used": 15.364,
+  "n_train": 2262,
+  "n_holdout": 1347,
+  "sign_check_corr_line_margin": 0.7115
+ },
+ "weights": {
+  "-20": 0.7786,
+  "-19": 0.3684,
+  "-18": 0.83,
+  "-17": 1.4536,
+  "-16": 0.4353,
+  "-15": 0.4536,
+  "-14": 1.3752,
+  "-13": 0.6251,
+  "-12": 0.4342,
+  "-11": 0.5796,
+  "-10": 1.2134,
+  "-9": 0.3917,
+  "-8": 0.6435,
+  "-7": 2.2198,
+  "-6": 1.0546,
+  "-5": 0.9222,
+  "-4": 0.7971,
+  "-3": 2.4262,
+  "-2": 1.0782,
+  "-1": 0.9621,
+  "0": 0.0,
+  "1": 0.8429,
+  "2": 0.7876,
+  "3": 3.0124,
+  "4": 1.0501,
+  "5": 0.5857,
+  "6": 1.0754,
+  "7": 2.453,
+  "8": 0.9128,
+  "9": 0.3232,
+  "10": 1.3811,
+  "11": 0.6861,
+  "12": 0.4638,
+  "13": 0.4451,
+  "14": 1.3861,
+  "15": 0.707,
+  "16": 0.3613,
+  "17": 1.622,
+  "18": 0.759,
+  "19": 0.5701,
+  "20": 0.8959,
+  "21": 1.7207,
+  "22": 0.4939,
+  "23": 0.9202,
+  "24": 1.0955,
+  "25": 0.7708,
+  "26": 0.3818,
+  "27": 1.0345,
+  "28": 1.9104,
+  "29": 0.3907,
+  "30": 0.6364,
+  "31": 1.9544
+ },
+ "holdout_grade": {
+  "metric": "mean log-likelihood of the realised margin",
+  "at_fit_sigma": {
+   "n": 1347,
+   "sigma": 15.364,
+   "plain_rounded_normal": -4.13949,
+   "key_number_reweighted": -4.00617,
+   "paired_gain": 0.13332,
+   "standard_error": 0.01451,
+   "t": 9.19,
+   "supported": true
+  },
+  "at_shipped_sigma": {
+   "n": 1347,
+   "sigma": 17.8047,
+   "plain_rounded_normal": -4.16142,
+   "key_number_reweighted": -4.02646,
+   "paired_gain": 0.13496,
+   "standard_error": 0.01452,
+   "t": 9.29,
+   "supported": true
+  },
+  "paired_gain": 0.13496,
+  "t": 9.29,
+  "supported": true
+ },
+ "push_probability_check": {
+  "0": {
+   "plain": 0.0169,
+   "reweighted": 0.0,
+   "empirical_holdout": 0.0
+  },
+  "3": {
+   "plain": 0.0172,
+   "reweighted": 0.0522,
+   "empirical_holdout": 0.0572
+  },
+  "6": {
+   "plain": 0.0172,
+   "reweighted": 0.0186,
+   "empirical_holdout": 0.0163
+  },
+  "7": {
+   "plain": 0.0171,
+   "reweighted": 0.0423,
+   "empirical_holdout": 0.0423
+  },
+  "10": {
+   "plain": 0.0167,
+   "reweighted": 0.0233,
+   "empirical_holdout": 0.0208
+  },
+  "14": {
+   "plain": 0.0158,
+   "reweighted": 0.0221,
+   "empirical_holdout": 0.0341
+  },
+  "17": {
+   "plain": 0.0149,
+   "reweighted": 0.0243,
+   "empirical_holdout": 0.0208
+  },
+  "21": {
+   "plain": 0.0134,
+   "reweighted": 0.0231,
+   "empirical_holdout": 0.0267
+  }
+ }
+}

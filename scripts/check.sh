@@ -17,7 +17,7 @@ cd "$(dirname "$0")/.."
 # code, and saying so plainly keeps this from crying wolf. The desktop
 # VM, for instance, has no scipy.
 missing=$(python3 - <<'PY'
-import importlib
+import importlib.util
 print(" ".join(m for m in ("pandas", "numpy", "scipy", "pytest")
                 if importlib.util.find_spec(m) is None))
 PY

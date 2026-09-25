@@ -145,6 +145,7 @@ ARTIFACT_GATES = (
     ("nhl", "Goalie-pull and overtime rules layer (puck line)", "data/nhl_rules.json"),
     ("mlb", "Ninth-inning rules layer (moneyline)", "data/mlb_rules.json"),
     ("nfl", "Key-number correction (integer spreads)", "data/nfl_key_numbers.json"),
+    ("cfb", "Key-number correction (integer spreads)", "data/cfb_key_numbers.json"),
 )
 #: The old board's spread Play threshold (data/spread_validation.json) gated
 #: PLAY_GAP in the frontend, which no longer exists; its successor is the tier

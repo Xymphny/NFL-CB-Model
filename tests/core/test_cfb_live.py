@@ -66,7 +66,8 @@ def test_a_current_game_is_priced_on_the_dvoa_only_vector(src):
     f = src.features("2", BEFORE)
     assert f.rating_diff == pytest.approx(0.20) and f.elo_present is False
     d = live.build_model(src).predict("2", BEFORE)
-    assert d.margin_mean() == pytest.approx(C["intercept"] + C["rating_diff"] * 0.20)
+    # mu_margin: the predictor. margin_mean() is the key-number-weighted pmf mean.
+    assert d.mu_margin == pytest.approx(C["intercept"] + C["rating_diff"] * 0.20)
 
 
 def test_a_neutral_site_game_is_refused(src):

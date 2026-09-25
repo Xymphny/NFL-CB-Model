@@ -5,6 +5,7 @@ two leagues share a distribution family and nothing else. A coefficient copied
 from the wrong league would still produce football-shaped numbers.
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -132,11 +133,43 @@ def test_the_known_bias_is_recorded_and_not_silently_corrected():
     assert cfb.DVOA_ONLY_MEAN_RESIDUAL == pytest.approx(2.0540, abs=1e-4)
 
 
-def test_key_numbers_are_absent_so_integer_pushes_are_withheld():
+def test_the_key_number_table_is_loaded_because_it_cleared_its_gate():
+    art = json.loads((ROOT / "data" / "cfb_key_numbers.json").read_text())
+    g = art["holdout_grade"]
+    assert g["supported"] and g["at_fit_sigma"]["supported"] and g["at_shipped_sigma"]["supported"]
+    assert g["at_shipped_sigma"]["sigma"] == pytest.approx(cfb.MARGIN_SD, abs=1e-4), (
+        "graded at a width the model no longer prices with")
     m = cfb.CFBModel(CachedWalkForwardSource.load())
-    assert m.has_key_number_correction is False
+    assert m.has_key_number_correction is True
     d = m.predict(m._source.game_ids()[0], ASOF)
-    assert d.has_key_number_correction is False
+    assert d.has_key_number_correction is True
+    assert d.margin_pmf(0) == 0.0, "a CFB game cannot end tied"
+    assert d.margin_pmf(3) > 2 * d.margin_pmf(4)
+
+
+def test_the_key_number_artifact_reproduces_from_its_script():
+    """The committed weights are exactly what the script computes from the
+    committed lines. A table nobody can regenerate is the ledger's oldest
+    failure."""
+    sys.path.insert(0, str(ROOT / "model"))
+    import cfb_key_numbers as K
+    art = json.loads((ROOT / "data" / "cfb_key_numbers.json").read_text())
+    again = K.build(K.load_games(), art["_provenance"]["generated"])
+    assert again == art
+
+
+def test_an_ungraded_table_is_refused(tmp_path, monkeypatch):
+    f = tmp_path / "k.json"
+    f.write_text(json.dumps({"weights": {"3": 3.0}, "holdout_grade": {"supported": False}}))
+    monkeypatch.setattr(cfb, "KEY_NUMBERS_PATH", f)
+    assert cfb._load_key_number_weights() is None
+
+
+def test_a_whole_number_cfb_spread_now_prices():
+    from coverline.execution.recommend import _can_price_push
+    m = cfb.CFBModel(CachedWalkForwardSource.load())
+    d = m.predict(m._source.game_ids()[0], ASOF)
+    assert _can_price_push(d, -7.0) and _can_price_push(d, 3.0)
 
 
 # ---------------------------------------------------------------- model ----
@@ -165,7 +198,12 @@ def test_the_cache_reports_elo_absent_because_it_is(source):
 # --------------------------------------------------------------- parity ----
 
 def test_margins_match_the_legacy_cfb_model_on_every_cached_game(source):
-    """1,731 real games, both implementations, one tolerance."""
+    """1,731 real games, both implementations, one tolerance.
+
+    Compares the linear predictor (mu_margin), not margin_mean(): with the
+    key-number table loaded, margin_mean() is the reweighted pmf's own mean,
+    which the renormalisation pulls toward zero (see NormalMarginDistribution).
+    The legacy model has no such table, so only the predictor is comparable."""
     try:
         from model.cfb_prediction import predict_margin as legacy
     except Exception as exc:  # pragma: no cover
@@ -175,7 +213,7 @@ def test_margins_match_the_legacy_cfb_model_on_every_cached_game(source):
     diffs = []
     for gid in source.game_ids():
         rd = float(source.frame.loc[gid].rating_diff)
-        diffs.append(m.predict(gid, ASOF).margin_mean() - legacy(rd))
+        diffs.append(m.predict(gid, ASOF).mu_margin - legacy(rd))
     diffs = np.asarray(diffs)
     assert len(diffs) == 1731
     worst = float(np.max(np.abs(diffs)))

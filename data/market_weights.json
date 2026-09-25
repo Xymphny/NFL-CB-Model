@@ -2,7 +2,7 @@
   "_provenance": {
     "script": "model/grade_market_weight.py",
     "estimator": "src/coverline/core/market_weight.py",
-    "generated": "2026-09-22",
+    "generated": "2026-09-25",
     "devig": "power",
     "staking_weight": "one-sided 95% lower bound of w_hat, clipped to [0, 1]",
     "missing_league_means": "weight 0 -- no market-facing evidence"
@@ -92,31 +92,31 @@
       ],
       "contamination": "UPPER BOUND. The DVOA-only vector was fitted on this cache's seasons, so the model is graded partly on data it was fitted to.",
       "n": 1704,
-      "w_hat": 0.072303,
-      "se": 0.064241,
+      "w_hat": 0.076574,
+      "se": 0.061617,
       "staking_weight": 0.0,
-      "loglik_gain_per_bet": 0.000371,
-      "gain_t": 0.562334,
-      "mean_disagreement": 0.153518,
+      "loglik_gain_per_bet": 0.000452,
+      "gain_t": 0.620858,
+      "mean_disagreement": 0.163047,
       "at_boundary": false,
       "by_season": {
         "2021": {
           "n": 568,
-          "w_hat": -0.118,
-          "se": 0.103
+          "w_hat": -0.109,
+          "se": 0.099
         },
         "2022": {
           "n": 563,
-          "w_hat": 0.19,
-          "se": 0.112
+          "w_hat": 0.207,
+          "se": 0.107
         },
         "2023": {
           "n": 573,
-          "w_hat": 0.197,
-          "se": 0.12
+          "w_hat": 0.177,
+          "se": 0.115
         }
       },
-      "side_agreement_hit_rate": 0.51,
+      "side_agreement_hit_rate": 0.5164,
       "break_even_at_minus_110": 0.5238,
       "source": "historical",
       "ledger_games_settled": 0

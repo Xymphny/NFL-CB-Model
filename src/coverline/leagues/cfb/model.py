@@ -35,7 +35,9 @@ NFL number, and using NFL's would make every CFB probability too confident.
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Mapping, Protocol, Sequence
 
 from coverline.core.distributions import NormalMarginDistribution
@@ -124,12 +126,26 @@ MARGIN_SD = 17.8047
 #: biases a spread.
 DVOA_ONLY_MEAN_RESIDUAL = 2.0540
 
-#: Absent, and deliberately. CFB key numbers (3 and 7 again, but with a much
-#: wider margin distribution diluting them) have not been measured the way
-#: data/nfl_key_numbers.json measures NFL's. Pricing a push on an integer CFB
-#: line is therefore withheld by the recommender, which checks
-#: has_key_number_correction.
-KEY_NUMBER_WEIGHTS: Mapping[int, float] | None = None
+#: MEASURED 2026-09-25 (data/cfb_key_numbers.json, model/cfb_key_numbers.py).
+#: Fitted on 2021-2022 CFBD closes, graded once on 2023: held-out
+#: log-likelihood +0.135 per game at this model's MARGIN_SD, t = +9.3. The
+#: plain rounded normal puts P(margin = 3) at 1.7% against 5.7% observed, and
+#: P(0) at 1.7% where overtime makes it impossible. Until this table existed,
+#: every whole-number CFB spread was withheld by the recommender (ADR 0027).
+#: Loaded only if the artifact says it cleared its own gate.
+KEY_NUMBERS_PATH = Path(__file__).resolve().parents[4] / "data" / "cfb_key_numbers.json"
+
+
+def _load_key_number_weights() -> dict[int, float] | None:
+    if not KEY_NUMBERS_PATH.exists():
+        return None
+    art = json.loads(KEY_NUMBERS_PATH.read_text())
+    if not art.get("holdout_grade", {}).get("supported"):
+        return None
+    return {int(k): float(v) for k, v in art["weights"].items()}
+
+
+KEY_NUMBER_WEIGHTS: Mapping[int, float] | None = _load_key_number_weights()
 
 #: No validated total model. The NFL totals model already graded
 #: supported=false on 1,039 games; CFB's has never been graded at all, which
