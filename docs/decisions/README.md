@@ -42,6 +42,7 @@ even if this directory is lost.
 | [0026](0026-retire-the-legacy-board-surfaces.md) | accepted | Retire the legacy board surfaces the revamp did not carry over |
 | [0027](0027-paper-trade-cfb-on-the-graded-vector.md) | accepted | Paper-trade CFB from the weekly ratings, on the vector that was graded |
 | [0028](0028-price-whole-number-cfb-spreads-on-measured-key-numbers.md) | accepted | Price whole-number CFB spreads on measured key numbers |
+| [0029](0029-measure-clv-from-a-week-ahead-price-valued-on-the-line.md) | accepted | Measure CLV from a week-ahead price, valued on the line |
 
 Start a new one from [0000-template.md](0000-template.md). The **Recovery** and
 **Revisit Triggers** sections are not optional for anything dropped or
