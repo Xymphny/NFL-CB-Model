@@ -303,8 +303,23 @@ def main(argv: list[str] | None = None) -> int:
         print("  see src/coverline/execution/capture.py, or pass --snapshot")
         return 2
 
-    payload = store.read_snapshot(snap_path)["payload"]
+    rec = store.read_snapshot(snap_path)
+    payload = rec["payload"]
     quotes = normalize(payload, captured_at=str(snap_path))
+    taken = (rec.get("_meta") or {}).get("captured_at")
+    if taken:
+        # IN-PLAY PRICES ARE NOT PREGAME PRICES. The odds feed lists games in
+        # progress, and a game on the slate that had started when the
+        # snapshot was taken was being priced from its live line -- a paper
+        # trade that "beats" a close it was taken after. Whatever the model
+        # slate says, a quote is usable only if its game had not started.
+        t0 = pd.Timestamp(taken)
+        t0 = t0.tz_localize("UTC") if t0.tzinfo is None else t0.tz_convert("UTC")
+        live = {q.event_id for q in quotes
+                if q.commence_time and pd.Timestamp(q.commence_time) <= t0}
+        if live:
+            print(f"left out {len(live)} event(s) already started at {taken}")
+        quotes = [q for q in quotes if q.event_id not in live]
     if args.events_before:
         # Paper runs price the window a capture was taken for, not every
         # upcoming game in the feed: the close is the price worth grading

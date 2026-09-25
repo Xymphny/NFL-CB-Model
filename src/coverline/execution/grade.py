@@ -46,6 +46,11 @@ def _parse(ts: str) -> datetime:
     return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
 
 
+def _utcnow() -> datetime:
+    """The clock grade() closes against; a seam for tests."""
+    return datetime.now(timezone.utc)
+
+
 def has_sharp_close(market: str) -> bool:
     return not any(tag in market.lower() for tag in NO_SHARP_CLOSE)
 
@@ -116,18 +121,31 @@ class GradeReport:
 def grade(ledger: BetLedger, store: BronzeStore, *, sport: str,
           commence_times: dict[str, str] | None = None,
           devig_method: P.Method = "power",
-          include_paper: bool = True) -> GradeReport:
+          include_paper: bool = True, now: str | None = None) -> GradeReport:
     """Attach a close to every priced signal that does not have one.
 
     Placed bets and paper trades alike. The kickoff comes from
     `commence_times` when given, else from the signal itself.
+
+    ONLY ONCE THE GAME HAS STARTED. Every snapshot carries every upcoming
+    game, so before kickoff "the last snapshot before kickoff" is merely the
+    last snapshot SO FAR: Thursday night's CFB close window holds Saturday's
+    games, and a Friday settle run would have fixed it as their close --
+    append-only, so for good. A game not yet started is left for a later run.
+    A signal with no kickoff at all is ungraded rather than closed on the
+    newest snapshot, which could be an in-play price.
     """
     commence_times = commence_times or {}
+    t_now = _parse(now) if now else _utcnow()
+    from coverline.execution.settle import VENDOR
+    mine = {sport} | {lg for lg, v in VENDOR.items() if v == sport}
     candidates = snapshots_for(store, sport)
     closed = {c.signal_id for c in ledger.closes()}
     report = GradeReport(graded=[], ungraded=[], already_had=[])
 
     for sig in ledger.signals():
+        if sig.league not in mine:
+            continue                      # another league's pass closes it
         # PAPER TRADES ARE GRADED TOO. Every league paper-trades until a grade
         # against the market clears (ADR 0024), and that grade is built from
         # exactly these closes. An unplaced row with no book is an older row
@@ -138,9 +156,14 @@ def grade(ledger: BetLedger, store: BronzeStore, *, sport: str,
             report.already_had.append(sig.signal_id)
             continue
 
-        cand = close_for(candidates, event_id=sig.event_id,
-                         commence_time=commence_times.get(sig.event_id,
-                                                          sig.commence_time))
+        kickoff = commence_times.get(sig.event_id, sig.commence_time)
+        if not kickoff:
+            report.ungraded.append((sig.signal_id, "no_kickoff_time"))
+            continue
+        if _parse(kickoff) > t_now:
+            report.ungraded.append((sig.signal_id, "not_started"))
+            continue
+        cand = close_for(candidates, event_id=sig.event_id, commence_time=kickoff)
         if cand is None:
             report.ungraded.append((sig.signal_id, "no_pregame_snapshot"))
             continue

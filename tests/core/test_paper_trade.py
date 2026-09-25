@@ -293,3 +293,19 @@ def test_a_close_never_skips(monkeypatch, tmp_path):
         payload=ev, cost=1, source_url="u").path
     assert len(PT.paper_trade(snap, tmp_path / "ledger")) == 1
     assert "--skip-events" not in argvs[0]
+
+
+def test_a_game_already_in_play_is_never_paper_traded(tmp_path, nba_upcoming):
+    """The odds feed lists games in progress. The runner priced them from
+    their live line whenever the model slate still held them -- a paper
+    trade taken after its own close."""
+    rows = nba_upcoming
+    events = [_event(f"e{i}", "basketball_nba", t, r.home_display_name, r.away_display_name)
+              for i, (t, (_, r)) in enumerate(zip(("2030-01-15T23:30:00Z", "2030-01-16T00:30:00Z"),
+                                                  rows.iterrows()))]
+    snap = BronzeStore(tmp_path / "bronze").write_snapshot(
+        sport="basketball_nba", captured_at="2030-01-16T00:00:00Z", payload=events,
+        cost=1, source_url="u").path                  # the 23:30 game is 30 min in
+    PT.paper_trade(snap, tmp_path / "ledger")
+    sigs = BetLedger(tmp_path / "ledger").signals()
+    assert {s.event_id for s in sigs} == {"e1"}

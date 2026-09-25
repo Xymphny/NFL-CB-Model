@@ -115,7 +115,7 @@ def test_paper_signals_get_a_close_and_a_paper_clv(led, tmp_path):
     store = BronzeStore(tmp_path / "bronze")
     store.write_snapshot(sport="basketball_nba", captured_at="2026-10-21T23:20:00Z",
                          payload=_payload(point=-4.5), cost=1, source_url="u")
-    rep = G.grade(led, store, sport="basketball_nba")
+    rep = G.grade(led, store, sport="basketball_nba", now="2026-10-22T03:00:00Z")
     assert len(rep.graded) == 2               # kickoff taken from the signal
     paper = G.clv_summary(led, paper=True)
     assert paper["graded_valid"] == 1         # only the side the model preferred
@@ -178,6 +178,8 @@ def test_the_settle_command_closes_and_settles_end_to_end(tmp_path, monkeypatch)
     store.write_snapshot(sport="basketball_nba", captured_at="2026-10-21T23:20:00Z",
                          payload=_payload(point=-4.5), cost=1, source_url="u")
     monkeypatch.setitem(S.FINALS, "nba", lambda: {"401": (110, 104)})
+    from datetime import datetime, timezone
+    monkeypatch.setattr(G, "_utcnow", lambda: datetime(2026, 10, 22, 3, tzinfo=timezone.utc))
     spec = importlib.util.spec_from_file_location(
         "settle_ledger", ROOT / "scripts" / "settle_ledger.py")
     cmd = importlib.util.module_from_spec(spec)

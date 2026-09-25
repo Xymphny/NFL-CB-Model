@@ -242,3 +242,33 @@ def test_paper_clv_counts_only_trades_priced_before_the_close(setup):
     s = G.clv_summary(led, paper=True)
     assert s["graded_valid"] == 1, "the close-priced trade was averaged in"
     assert s["mean_clv_probability_points"] > 0     # H shortened: the early price beat the close
+
+
+def test_a_game_not_yet_started_is_not_closed_on_the_snapshots_so_far(setup):
+    """Thursday night's close window holds Saturday's games. A settle run on
+    Friday must not fix it as their close: closes are append-only, so the
+    real one, taken minutes before kickoff, could never replace it."""
+    led, store = setup
+    led.record(_signal())
+    store.write_snapshot(sport="nfl", captured_at="2026-09-19T23:55:00Z",   # two days out
+                         payload=_payload(point=-2.5), cost=3, source_url="u")
+    rep = G.grade(led, store, sport="nfl", commence_times={"e1": KICKOFF},
+                  now="2026-09-20T10:40:00Z")
+    assert rep.graded == [] and rep.reasons() == {"not_started": 1}
+    assert led.closes() == []
+
+    store.write_snapshot(sport="nfl", captured_at="2026-09-21T19:55:00Z",   # the real close
+                         payload=_payload(point=-3.5), cost=3, source_url="u")
+    rep = G.grade(led, store, sport="nfl", commence_times={"e1": KICKOFF},
+                  now="2026-09-21T23:00:00Z")
+    assert rep.graded == ["s1"]
+    assert led.closes()[0].at == "2026-09-21T19:55:00Z"
+
+
+def test_a_signal_without_a_kickoff_is_not_closed_on_whatever_came_last(setup):
+    led, store = setup
+    led.record(_signal())
+    store.write_snapshot(sport="nfl", captured_at="2026-09-21T21:00:00Z",   # in play
+                         payload=_payload(), cost=3, source_url="u")
+    rep = G.grade(led, store, sport="nfl")
+    assert rep.reasons() == {"no_kickoff_time": 1} and led.closes() == []
