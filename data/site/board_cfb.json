@@ -1,7 +1,7 @@
 {
  "league": "cfb",
- "generated_at": "2026-09-25T11:37:15Z",
- "note": "Weekly slate, Thursday to Saturday. Whole-number spreads are not priced (no measured key-number correction for CFB), and neutral-site games are refused: the model has no home term to remove.",
+ "generated_at": "2026-09-25T14:13:23Z",
+ "note": "Weekly slate, Thursday to Saturday. Spreads price key numbers (3, 7) with a measured correction. Neutral-site games are refused: the model has no home term to remove.",
  "slate": {
   "kind": "week",
   "season": 2026,
@@ -19,17 +19,61 @@
    "home_name": "Temple Owls",
    "away_name": "Army Black Knights",
    "start": "2026-09-25T20:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 3.0,
+     "side": "home",
+     "selection": "Temple Owls",
+     "best_price_decimal": 2.02,
+     "best_price_american": 102,
+     "best_book": "matchbook",
+     "books": 11,
+     "p_model": 0.5779,
+     "p_market": 0.48892,
+     "edge": 0.08898,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 3.0,
+     "open_p_market": 0.48892,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Temple Owls",
+     "best_price_decimal": 2.44,
+     "best_price_american": 144,
+     "best_book": "betfair_ex_eu",
+     "books": 16,
+     "p_model": 0.50057,
+     "p_market": 0.40744,
+     "edge": 0.09313,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.40744,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.4877,
-    "margin_mean": -0.537,
+    "p_home_win": 0.50057,
+    "margin_mean": -0.232,
     "total_mean": null
-   }
+   },
+   "event_id": "d9a781a64fc2c4b45290db32b5ec3f20"
   },
   {
    "game_id": "401858468",
@@ -52,17 +96,61 @@
    "home_name": "UAB Blazers",
    "away_name": "Navy Midshipmen",
    "start": "2026-09-25T23:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 6.5,
+     "side": "home",
+     "selection": "UAB Blazers",
+     "best_price_decimal": 1.99,
+     "best_price_american": -101,
+     "best_book": "matchbook",
+     "books": 9,
+     "p_model": 0.5603,
+     "p_market": 0.5,
+     "edge": 0.0603,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 6.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "UAB Blazers",
+     "best_price_decimal": 3.35,
+     "best_price_american": 235,
+     "best_book": "betfair_ex_eu",
+     "books": 16,
+     "p_model": 0.39748,
+     "p_market": 0.29474,
+     "edge": 0.10274,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.29474,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.3786,
-    "margin_mean": -5.385,
+    "p_home_win": 0.39748,
+    "margin_mean": -4.9,
     "total_mean": null
-   }
+   },
+   "event_id": "2e454a12c5301843ab7ec1a1eaf4f237"
   },
   {
    "game_id": "401858461",
@@ -71,17 +159,61 @@
    "home_name": "Indiana Hoosiers",
    "away_name": "Northwestern Wildcats",
    "start": "2026-09-26T00:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 20.5,
+     "side": "away",
+     "selection": "Northwestern Wildcats",
+     "best_price_decimal": 1.97,
+     "best_price_american": -103,
+     "best_book": "matchbook",
+     "books": 4,
+     "p_model": 0.8904,
+     "p_market": 0.5,
+     "edge": 0.3904,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 20.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Northwestern Wildcats",
+     "best_price_decimal": 12.0,
+     "best_price_american": 1100,
+     "best_book": "unibet_nl",
+     "books": 16,
+     "p_model": 0.52147,
+     "p_market": 0.06266,
+     "edge": 0.45881,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.06266,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.46419,
-    "margin_mean": -1.565,
+    "p_home_win": 0.47853,
+    "margin_mean": -1.217,
     "total_mean": null
-   }
+   },
+   "event_id": "775ad63a769838c1e1da423293c9c60d"
   },
   {
    "game_id": "401858234",
@@ -90,17 +222,61 @@
    "home_name": "California Golden Bears",
    "away_name": "Clemson Tigers",
    "start": "2026-09-26T02:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -1.0,
+     "side": "away",
+     "selection": "Clemson Tigers",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "coolbet",
+     "books": 8,
+     "p_model": 0.50209,
+     "p_market": 0.5,
+     "edge": 0.00209,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -1.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "California Golden Bears",
+     "best_price_decimal": 2.08,
+     "best_price_american": 108,
+     "best_book": "betfair_ex_eu",
+     "books": 16,
+     "p_model": 0.48709,
+     "p_market": 0.48436,
+     "edge": 0.00272,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.48436,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.47331,
-    "margin_mean": -1.166,
+    "p_home_win": 0.48709,
+    "margin_mean": -0.834,
     "total_mean": null
-   }
+   },
+   "event_id": "48683523200ecdbeb09a2e6eb0d0a1f7"
   },
   {
    "game_id": "401856704",
@@ -109,17 +285,61 @@
    "home_name": "Tennessee Volunteers",
    "away_name": "Texas Longhorns",
    "start": "2026-09-26T16:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 4.5,
+     "side": "home",
+     "selection": "Tennessee Volunteers",
+     "best_price_decimal": 2.0,
+     "best_price_american": 100,
+     "best_book": "pinnacle",
+     "books": 11,
+     "p_model": 0.65111,
+     "p_market": 0.49124,
+     "edge": 0.15988,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 4.5,
+     "open_p_market": 0.49124,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Tennessee Volunteers",
+     "best_price_decimal": 2.77,
+     "best_price_american": 177,
+     "best_book": "betonlineag",
+     "books": 14,
+     "p_model": 0.53507,
+     "p_market": 0.34918,
+     "edge": 0.18589,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.34918,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.52463,
-    "margin_mean": 1.076,
+    "p_home_win": 0.53507,
+    "margin_mean": 1.309,
     "total_mean": null
-   }
+   },
+   "event_id": "69b1a0ff5fb2c67c6627b5c8cf8368cb"
   },
   {
    "game_id": "401856805",
@@ -133,10 +353,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.52477,
-    "margin_mean": 1.082,
+    "p_home_win": 0.5352,
+    "margin_mean": 1.314,
     "total_mean": null
    }
   },
@@ -152,10 +372,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.63789,
-    "margin_mean": 6.147,
+    "p_home_win": 0.64055,
+    "margin_mean": 6.14,
     "total_mean": null
    }
   },
@@ -180,17 +400,61 @@
    "home_name": "Boston College Eagles",
    "away_name": "Virginia Tech Hokies",
    "start": "2026-09-26T16:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 14.0,
+     "side": "home",
+     "selection": "Boston College Eagles",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "betonlineag",
+     "books": 11,
+     "p_model": 0.71961,
+     "p_market": 0.5,
+     "edge": 0.21961,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 14.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Boston College Eagles",
+     "best_price_decimal": 5.8,
+     "best_price_american": 480,
+     "best_book": "betfair_ex_eu",
+     "books": 16,
+     "p_model": 0.40246,
+     "p_market": 0.15467,
+     "edge": 0.24779,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.15467,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.3838,
-    "margin_mean": -5.147,
+    "p_home_win": 0.40246,
+    "margin_mean": -4.669,
     "total_mean": null
-   }
+   },
+   "event_id": "9d564a10d7bc7b546b2b0cf4ec3c589e"
   },
   {
    "game_id": "401858243",
@@ -199,17 +463,61 @@
    "home_name": "Louisville Cardinals",
    "away_name": "Wake Forest Demon Deacons",
    "start": "2026-09-26T16:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 13.5,
+     "side": "away",
+     "selection": "Wake Forest Demon Deacons",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "onexbet",
+     "books": 13,
+     "p_model": 0.64268,
+     "p_market": 0.49855,
+     "edge": 0.14413,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 13.5,
+     "open_p_market": 0.49855,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Wake Forest Demon Deacons",
+     "best_price_decimal": 5.4,
+     "best_price_american": 440,
+     "best_book": "betfair_ex_eu",
+     "books": 16,
+     "p_model": 0.33336,
+     "p_market": 0.16608,
+     "edge": 0.16728,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.16608,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.66583,
-    "margin_mean": 7.465,
+    "p_home_win": 0.66664,
+    "margin_mean": 7.397,
     "total_mean": null
-   }
+   },
+   "event_id": "f6b6590d0b66bbb4fcbb391289794963"
   },
   {
    "game_id": "401858465",
@@ -218,17 +526,61 @@
    "home_name": "Ohio State Buckeyes",
    "away_name": "Illinois Fighting Illini",
    "start": "2026-09-26T16:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 27.5,
+     "side": "away",
+     "selection": "Illinois Fighting Illini",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "everygame",
+     "books": 8,
+     "p_model": 0.9239,
+     "p_market": 0.50358,
+     "edge": 0.42033,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 27.5,
+     "open_p_market": 0.50358,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Illinois Fighting Illini",
+     "best_price_decimal": 21.0,
+     "best_price_american": 2000,
+     "best_book": "betfair_ex_eu",
+     "books": 12,
+     "p_model": 0.46058,
+     "p_market": 0.02538,
+     "edge": 0.43521,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.02538,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.52929,
-    "margin_mean": 1.279,
+    "p_home_win": 0.53942,
+    "margin_mean": 1.503,
     "total_mean": null
-   }
+   },
+   "event_id": "6de44361bd6b6afc20b9bbefcc219f2a"
   },
   {
    "game_id": "401860893",
@@ -242,10 +594,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.68162,
-    "margin_mean": 8.229,
+    "p_home_win": 0.68142,
+    "margin_mean": 8.127,
     "total_mean": null
    }
   },
@@ -261,10 +613,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.4183,
-    "margin_mean": -3.592,
+    "p_home_win": 0.43526,
+    "margin_mean": -3.165,
     "total_mean": null
    }
   },
@@ -280,10 +632,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.23536,
-    "margin_mean": -12.582,
+    "p_home_win": 0.25727,
+    "margin_mean": -11.957,
     "total_mean": null
    }
   },
@@ -294,17 +646,61 @@
    "home_name": "Kent State Golden Flashes",
    "away_name": "Ball State Cardinals",
    "start": "2026-09-26T16:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 3.0,
+     "side": "away",
+     "selection": "Ball State Cardinals",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "betanysports",
+     "books": 7,
+     "p_model": 0.59665,
+     "p_market": 0.49864,
+     "edge": 0.09801,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 3.0,
+     "open_p_market": 0.49864,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Ball State Cardinals",
+     "best_price_decimal": 2.4,
+     "best_price_american": 140,
+     "best_book": "betfair_ex_eu",
+     "books": 15,
+     "p_model": 0.52102,
+     "p_market": 0.40871,
+     "edge": 0.11231,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.40871,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.46467,
-    "margin_mean": -1.544,
+    "p_home_win": 0.47898,
+    "margin_mean": -1.197,
     "total_mean": null
-   }
+   },
+   "event_id": "a14ae60e9aac7b91d0acbdae745873b4"
   },
   {
    "game_id": "401864576",
@@ -313,17 +709,61 @@
    "home_name": "Kentucky Wildcats",
    "away_name": "South Alabama Jaguars",
    "start": "2026-09-26T16:45:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 20.5,
+     "side": "away",
+     "selection": "South Alabama Jaguars",
+     "best_price_decimal": 1.97,
+     "best_price_american": -103,
+     "best_book": "matchbook",
+     "books": 13,
+     "p_model": 0.87133,
+     "p_market": 0.5,
+     "edge": 0.37133,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 20.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "South Alabama Jaguars",
+     "best_price_decimal": 11.0,
+     "best_price_american": 1000,
+     "best_book": "betfair_ex_eu",
+     "books": 14,
+     "p_model": 0.48449,
+     "p_market": 0.07216,
+     "edge": 0.41233,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.07216,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.50368,
-    "margin_mean": 0.16,
+    "p_home_win": 0.51551,
+    "margin_mean": 0.435,
     "total_mean": null
-   }
+   },
+   "event_id": "11c5e9c2cf899388abd0dae30ea71db9"
   },
   {
    "game_id": "401866427",
@@ -346,17 +786,61 @@
    "home_name": "Maryland Terrapins",
    "away_name": "UCLA Bruins",
    "start": "2026-09-26T17:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -1.5,
+     "side": "away",
+     "selection": "UCLA Bruins",
+     "best_price_decimal": 1.92,
+     "best_price_american": -109,
+     "best_book": "gtbets",
+     "books": 12,
+     "p_model": 0.5746,
+     "p_market": 0.5,
+     "edge": 0.0746,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -1.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "UCLA Bruins",
+     "best_price_decimal": 1.88,
+     "best_price_american": -114,
+     "best_book": "betfair_ex_eu",
+     "books": 15,
+     "p_model": 0.59588,
+     "p_market": 0.52532,
+     "edge": 0.07056,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.52532,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.38554,
-    "margin_mean": -5.068,
+    "p_home_win": 0.40412,
+    "margin_mean": -4.592,
     "total_mean": null
-   }
+   },
+   "event_id": "c48f042c91328d4d0c6351fc82286879"
   },
   {
    "game_id": "401858467",
@@ -370,10 +854,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.39578,
-    "margin_mean": -4.603,
+    "p_home_win": 0.41388,
+    "margin_mean": -4.142,
     "total_mean": null
    }
   },
@@ -384,17 +868,61 @@
    "home_name": "Georgia State Panthers",
    "away_name": "Northern Illinois Huskies",
    "start": "2026-09-26T18:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 10.5,
+     "side": "away",
+     "selection": "Northern Illinois Huskies",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "mybookieag",
+     "books": 8,
+     "p_model": 0.61905,
+     "p_market": 0.5028,
+     "edge": 0.11624,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 10.5,
+     "open_p_market": 0.5028,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Northern Illinois Huskies",
+     "best_price_decimal": 4.7,
+     "best_price_american": 370,
+     "best_book": "leovegas_se",
+     "books": 12,
+     "p_model": 0.34372,
+     "p_market": 0.21131,
+     "edge": 0.1324,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.21131,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.65475,
-    "margin_mean": 6.937,
+    "p_home_win": 0.65628,
+    "margin_mean": 6.894,
     "total_mean": null
-   }
+   },
+   "event_id": "24fb2d1fd0598bde048322b6463e0c78"
   },
   {
    "game_id": "401858237",
@@ -417,17 +945,61 @@
    "home_name": "Wyoming Cowboys",
    "away_name": "Hawaii Rainbow Warriors",
    "start": "2026-09-26T19:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 2.5,
+     "side": "home",
+     "selection": "Wyoming Cowboys",
+     "best_price_decimal": 1.97,
+     "best_price_american": -103,
+     "best_book": "matchbook",
+     "books": 7,
+     "p_model": 0.61618,
+     "p_market": 0.5,
+     "edge": 0.11618,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 2.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Wyoming Cowboys",
+     "best_price_decimal": 2.2,
+     "best_price_american": 120,
+     "best_book": "betfair_ex_eu",
+     "books": 13,
+     "p_model": 0.57158,
+     "p_market": 0.44553,
+     "edge": 0.12604,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.44553,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.56382,
-    "margin_mean": 2.798,
+    "p_home_win": 0.57158,
+    "margin_mean": 2.95,
     "total_mean": null
-   }
+   },
+   "event_id": "fc7c77e060e8ba29a61de994be1497c0"
   },
   {
    "game_id": "401856699",
@@ -436,17 +1008,61 @@
    "home_name": "Florida Gators",
    "away_name": "Ole Miss Rebels",
    "start": "2026-09-26T19:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -3.5,
+     "side": "home",
+     "selection": "Florida Gators",
+     "best_price_decimal": 2.0,
+     "best_price_american": 100,
+     "best_book": "mybookieag",
+     "books": 7,
+     "p_model": 0.51625,
+     "p_market": 0.48445,
+     "edge": 0.0318,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -3.5,
+     "open_p_market": 0.48445,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Florida Gators",
+     "best_price_decimal": 1.64,
+     "best_price_american": -156,
+     "best_book": "betfair_ex_eu",
+     "books": 11,
+     "p_model": 0.61951,
+     "p_market": 0.60796,
+     "edge": 0.01156,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.60796,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.61532,
-    "margin_mean": 5.107,
+    "p_home_win": 0.61951,
+    "margin_mean": 5.15,
     "total_mean": null
-   }
+   },
+   "event_id": "886538e98f0884df3d655d9d2d2ca567"
   },
   {
    "game_id": "401856700",
@@ -455,17 +1071,61 @@
    "home_name": "Georgia Bulldogs",
    "away_name": "Oklahoma Sooners",
    "start": "2026-09-26T19:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 13.5,
+     "side": "away",
+     "selection": "Oklahoma Sooners",
+     "best_price_decimal": 1.93,
+     "best_price_american": -108,
+     "best_book": "betonlineag",
+     "books": 5,
+     "p_model": 0.8756,
+     "p_market": 0.5,
+     "edge": 0.3756,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 13.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Oklahoma Sooners",
+     "best_price_decimal": 5.6,
+     "best_price_american": 460,
+     "best_book": "betfair_ex_eu",
+     "books": 13,
+     "p_model": 0.6316,
+     "p_market": 0.16125,
+     "edge": 0.47034,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.16125,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.34831,
-    "margin_mean": -6.793,
+    "p_home_win": 0.3684,
+    "margin_mean": -6.267,
     "total_mean": null
-   }
+   },
+   "event_id": "3848eaee7484034f3604aed922649c4e"
   },
   {
    "game_id": "401856815",
@@ -474,17 +1134,61 @@
    "home_name": "UCF Knights",
    "away_name": "TCU Horned Frogs",
    "start": "2026-09-26T19:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 3.0,
+     "side": "home",
+     "selection": "UCF Knights",
+     "best_price_decimal": 1.99,
+     "best_price_american": -101,
+     "best_book": "matchbook",
+     "books": 11,
+     "p_model": 0.79614,
+     "p_market": 0.49147,
+     "edge": 0.30467,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 3.0,
+     "open_p_market": 0.49147,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "UCF Knights",
+     "best_price_decimal": 2.42,
+     "best_price_american": 142,
+     "best_book": "betfair_ex_eu",
+     "books": 13,
+     "p_model": 0.72747,
+     "p_market": 0.40639,
+     "edge": 0.32108,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.40639,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.73057,
-    "margin_mean": 10.714,
+    "p_home_win": 0.72747,
+    "margin_mean": 10.502,
     "total_mean": null
-   }
+   },
+   "event_id": "32171e03f5df71b5c9057bcba40030a7"
   },
   {
    "game_id": "401856816",
@@ -498,10 +1202,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.28243,
-    "margin_mean": -10.035,
+    "p_home_win": 0.30417,
+    "margin_mean": -9.443,
     "total_mean": null
    }
   },
@@ -526,17 +1230,61 @@
    "home_name": "Michigan Wolverines",
    "away_name": "Iowa Hawkeyes",
    "start": "2026-09-26T19:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 5.5,
+     "side": "away",
+     "selection": "Iowa Hawkeyes",
+     "best_price_decimal": 1.94,
+     "best_price_american": -106,
+     "best_book": "matchbook",
+     "books": 9,
+     "p_model": 0.68056,
+     "p_market": 0.5,
+     "edge": 0.18056,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 5.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Iowa Hawkeyes",
+     "best_price_decimal": 2.9,
+     "best_price_american": 190,
+     "best_book": "betfair_ex_eu",
+     "books": 12,
+     "p_model": 0.54569,
+     "p_market": 0.33108,
+     "edge": 0.21461,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.33108,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.43846,
-    "margin_mean": -2.697,
+    "p_home_win": 0.45431,
+    "margin_mean": -2.304,
     "total_mean": null
-   }
+   },
+   "event_id": "39a3d3075172036a2b3f7d47913779b8"
   },
   {
    "game_id": "401860897",
@@ -545,17 +1293,61 @@
    "home_name": "Western Michigan Broncos",
    "away_name": "Boise State Broncos",
    "start": "2026-09-26T19:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 7.0,
+     "side": "home",
+     "selection": "Western Michigan Broncos",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "coolbet",
+     "books": 9,
+     "p_model": 0.67349,
+     "p_market": 0.49147,
+     "edge": 0.18202,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 7.0,
+     "open_p_market": 0.49147,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Western Michigan Broncos",
+     "best_price_decimal": 3.45,
+     "best_price_american": 245,
+     "best_book": "betfair_ex_eu",
+     "books": 12,
+     "p_model": 0.47911,
+     "p_market": 0.27883,
+     "edge": 0.20029,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.27883,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.46481,
-    "margin_mean": -1.538,
+    "p_home_win": 0.47911,
+    "margin_mean": -1.191,
     "total_mean": null
-   }
+   },
+   "event_id": "f0985218c2ed146bb0295c4e9c4a0dd7"
   },
   {
    "game_id": "401861970",
@@ -564,17 +1356,61 @@
    "home_name": "Miami (OH) RedHawks",
    "away_name": "UConn Huskies",
    "start": "2026-09-26T19:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -3.5,
+     "side": "home",
+     "selection": "Miami (OH) RedHawks",
+     "best_price_decimal": 1.92,
+     "best_price_american": -109,
+     "best_book": "gtbets",
+     "books": 10,
+     "p_model": 0.53249,
+     "p_market": 0.50204,
+     "edge": 0.03045,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -3.5,
+     "open_p_market": 0.50204,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Miami (OH) RedHawks",
+     "best_price_decimal": 1.6,
+     "best_price_american": -167,
+     "best_book": "marathonbet",
+     "books": 12,
+     "p_model": 0.635,
+     "p_market": 0.6178,
+     "edge": 0.0172,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.6178,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.63193,
-    "margin_mean": 5.87,
+    "p_home_win": 0.635,
+    "margin_mean": 5.877,
     "total_mean": null
-   }
+   },
+   "event_id": "b77eb4a9bc3086105491e736c1458112"
   },
   {
    "game_id": "401864579",
@@ -583,17 +1419,61 @@
    "home_name": "New Mexico State Aggies",
    "away_name": "New Mexico Lobos",
    "start": "2026-09-26T19:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 11.5,
+     "side": "home",
+     "selection": "New Mexico State Aggies",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "mybookieag",
+     "books": 5,
+     "p_model": 0.70546,
+     "p_market": 0.50423,
+     "edge": 0.20122,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 11.5,
+     "open_p_market": 0.50423,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "New Mexico State Aggies",
+     "best_price_decimal": 5.0,
+     "best_price_american": 400,
+     "best_book": "unibet_se",
+     "books": 12,
+     "p_model": 0.43194,
+     "p_market": 0.18988,
+     "edge": 0.24206,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.18988,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.4148,
-    "margin_mean": -3.748,
+    "p_home_win": 0.43194,
+    "margin_mean": -3.316,
     "total_mean": null
-   }
+   },
+   "event_id": "9fe2a7b54748dc10ff57743cdd1b041c"
   },
   {
    "game_id": "401866426",
@@ -644,17 +1524,61 @@
    "home_name": "Georgia Southern Eagles",
    "away_name": "Houston Cougars",
    "start": "2026-09-26T20:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 17.5,
+     "side": "home",
+     "selection": "Georgia Southern Eagles",
+     "best_price_decimal": 1.96,
+     "best_price_american": -104,
+     "best_book": "gtbets",
+     "books": 7,
+     "p_model": 0.75375,
+     "p_market": 0.49571,
+     "edge": 0.25804,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 17.5,
+     "open_p_market": 0.49571,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Georgia Southern Eagles",
+     "best_price_decimal": 8.4,
+     "best_price_american": 740,
+     "best_book": "betfair_ex_eu",
+     "books": 13,
+     "p_model": 0.38229,
+     "p_market": 0.09783,
+     "edge": 0.28446,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.09783,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.36274,
-    "margin_mean": -6.117,
+    "p_home_win": 0.38229,
+    "margin_mean": -5.61,
     "total_mean": null
-   }
+   },
+   "event_id": "b1cdf3ac97be67ee00a53e437e4bfa78"
   },
   {
    "game_id": "401862781",
@@ -682,10 +1606,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.65996,
-    "margin_mean": 7.184,
+    "p_home_win": 0.66115,
+    "margin_mean": 7.13,
     "total_mean": null
    }
   },
@@ -696,17 +1620,61 @@
    "home_name": "Michigan State Spartans",
    "away_name": "Nebraska Cornhuskers",
    "start": "2026-09-26T21:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 5.5,
+     "side": "home",
+     "selection": "Michigan State Spartans",
+     "best_price_decimal": 1.98,
+     "best_price_american": -102,
+     "best_book": "betonlineag",
+     "books": 10,
+     "p_model": 0.55975,
+     "p_market": 0.49571,
+     "edge": 0.06405,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 5.5,
+     "open_p_market": 0.49571,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Michigan State Spartans",
+     "best_price_decimal": 2.96,
+     "best_price_american": 196,
+     "best_book": "betfair_ex_eu",
+     "books": 13,
+     "p_model": 0.4202,
+     "p_market": 0.32985,
+     "edge": 0.09035,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.32985,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.40243,
-    "margin_mean": -4.303,
+    "p_home_win": 0.4202,
+    "margin_mean": -3.852,
     "total_mean": null
-   }
+   },
+   "event_id": "023386f1b92db2259c7d52b2f244182f"
   },
   {
    "game_id": "401858466",
@@ -715,17 +1683,61 @@
    "home_name": "Penn State Nittany Lions",
    "away_name": "Wisconsin Badgers",
    "start": "2026-09-26T21:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 10.0,
+     "side": "away",
+     "selection": "Wisconsin Badgers",
+     "best_price_decimal": 1.97,
+     "best_price_american": -103,
+     "best_book": "betonlineag",
+     "books": 11,
+     "p_model": 0.73225,
+     "p_market": 0.5,
+     "edge": 0.23225,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 10.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Wisconsin Badgers",
+     "best_price_decimal": 4.4,
+     "best_price_american": 340,
+     "best_book": "mybookieag",
+     "books": 13,
+     "p_model": 0.47123,
+     "p_market": 0.22063,
+     "edge": 0.2506,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.22063,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.51787,
-    "margin_mean": 0.78,
+    "p_home_win": 0.52877,
+    "margin_mean": 1.027,
     "total_mean": null
-   }
+   },
+   "event_id": "9c5cf55e5371dd6178da97dcaef2bff5"
   },
   {
    "game_id": "401862785",
@@ -734,17 +1746,61 @@
    "home_name": "Bowling Green Falcons",
    "away_name": "South Florida Bulls",
    "start": "2026-09-26T21:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 17.5,
+     "side": "home",
+     "selection": "Bowling Green Falcons",
+     "best_price_decimal": 1.93,
+     "best_price_american": -108,
+     "best_book": "betonlineag",
+     "books": 8,
+     "p_model": 0.66316,
+     "p_market": 0.49927,
+     "edge": 0.16389,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 17.5,
+     "open_p_market": 0.49927,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Bowling Green Falcons",
+     "best_price_decimal": 8.2,
+     "best_price_american": 720,
+     "best_book": "marathonbet",
+     "books": 12,
+     "p_model": 0.29068,
+     "p_market": 0.09866,
+     "edge": 0.19202,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.09866,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.2688,
-    "margin_mean": -10.748,
+    "p_home_win": 0.29068,
+    "margin_mean": -10.146,
     "total_mean": null
-   }
+   },
+   "event_id": "10078e86207d952986707c1ad7dc9331"
   },
   {
    "game_id": "401858239",
@@ -753,17 +1809,61 @@
    "home_name": "Virginia Cavaliers",
    "away_name": "Delaware Blue Hens",
    "start": "2026-09-26T22:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 19.5,
+     "side": "away",
+     "selection": "Delaware Blue Hens",
+     "best_price_decimal": 1.94,
+     "best_price_american": -106,
+     "best_book": "betonlineag",
+     "books": 8,
+     "p_model": 0.82805,
+     "p_market": 0.49927,
+     "edge": 0.32877,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 19.5,
+     "open_p_market": 0.49927,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Delaware Blue Hens",
+     "best_price_decimal": 11.0,
+     "best_price_american": 1000,
+     "best_book": "betfair_ex_eu",
+     "books": 11,
+     "p_model": 0.43258,
+     "p_market": 0.07492,
+     "edge": 0.35766,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.07492,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.55934,
-    "margin_mean": 2.6,
+    "p_home_win": 0.56742,
+    "margin_mean": 2.762,
     "total_mean": null
-   }
+   },
+   "event_id": "ce4578738432ad6327f4e3a4909ddcb5"
   },
   {
    "game_id": "401860892",
@@ -800,17 +1900,61 @@
    "home_name": "Old Dominion Monarchs",
    "away_name": "James Madison Dukes",
    "start": "2026-09-26T22:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 6.0,
+     "side": "home",
+     "selection": "Old Dominion Monarchs",
+     "best_price_decimal": 1.97,
+     "best_price_american": -103,
+     "best_book": "matchbook",
+     "books": 10,
+     "p_model": 0.54447,
+     "p_market": 0.5,
+     "edge": 0.04447,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 6.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Old Dominion Monarchs",
+     "best_price_decimal": 3.0,
+     "best_price_american": 200,
+     "best_book": "mybookieag",
+     "books": 13,
+     "p_model": 0.39275,
+     "p_market": 0.32543,
+     "edge": 0.06733,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.32543,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.37365,
-    "margin_mean": -5.612,
+    "p_home_win": 0.39275,
+    "margin_mean": -5.12,
     "total_mean": null
-   }
+   },
+   "event_id": "008dd61e19c2456760593773da6a88ef"
   },
   {
    "game_id": "401858238",
@@ -819,17 +1963,61 @@
    "home_name": "Miami Hurricanes",
    "away_name": "Central Michigan Chippewas",
    "start": "2026-09-26T22:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 41.5,
+     "side": "away",
+     "selection": "Central Michigan Chippewas",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "betonlineag",
+     "books": 8,
+     "p_model": 0.94833,
+     "p_market": 0.49216,
+     "edge": 0.45617,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 41.5,
+     "open_p_market": 0.49216,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "refused",
+     "refusal": "no book quotes a complete market",
+     "line": null,
+     "side": null,
+     "selection": null,
+     "best_price_decimal": null,
+     "best_price_american": null,
+     "best_book": null,
+     "books": 0,
+     "p_model": null,
+     "p_market": null,
+     "edge": null,
+     "tier": null,
+     "stake_fraction": 0.0,
+     "unsized_reason": null,
+     "open_line": null,
+     "open_p_market": null,
+     "open_at": null
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.773,
-    "margin_mean": 13.062,
+    "p_home_win": 0.76778,
+    "margin_mean": 12.749,
     "total_mean": null
-   }
+   },
+   "event_id": "1f0c9cd1941cbfe5c5ca28fa42e387d8"
   },
   {
    "game_id": "401862780",
@@ -838,17 +2026,61 @@
    "home_name": "Charlotte 49ers",
    "away_name": "Louisiana Ragin Cajuns",
    "start": "2026-09-26T22:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 10.0,
+     "side": "home",
+     "selection": "Charlotte 49ers",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "everygame",
+     "books": 9,
+     "p_model": 0.56402,
+     "p_market": 0.49571,
+     "edge": 0.06831,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 10.0,
+     "open_p_market": 0.49571,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Charlotte 49ers",
+     "best_price_decimal": 4.4,
+     "best_price_american": 340,
+     "best_book": "leovegas_se",
+     "books": 13,
+     "p_model": 0.31827,
+     "p_market": 0.20832,
+     "edge": 0.10995,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.20832,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.29676,
-    "margin_mean": -9.303,
+    "p_home_win": 0.31827,
+    "margin_mean": -8.724,
     "total_mean": null
-   }
+   },
+   "event_id": "c80f5f34b99b9346f4e40cf5304d941d"
   },
   {
    "game_id": "401856696",
@@ -857,17 +2089,61 @@
    "home_name": "Alabama Crimson Tide",
    "away_name": "South Carolina Gamecocks",
    "start": "2026-09-26T23:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 12.5,
+     "side": "away",
+     "selection": "South Carolina Gamecocks",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "pinnacle",
+     "books": 11,
+     "p_model": 0.60308,
+     "p_market": 0.5,
+     "edge": 0.10308,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 12.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "South Carolina Gamecocks",
+     "best_price_decimal": 5.0,
+     "best_price_american": 400,
+     "best_book": "leovegas_se",
+     "books": 12,
+     "p_model": 0.3062,
+     "p_market": 0.17488,
+     "edge": 0.13132,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.17488,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.69482,
-    "margin_mean": 8.881,
+    "p_home_win": 0.6938,
+    "margin_mean": 8.749,
     "total_mean": null
-   }
+   },
+   "event_id": "c843a3f97a410eedafcfbad440774ad2"
   },
   {
    "game_id": "401856814",
@@ -876,17 +2152,61 @@
    "home_name": "Cincinnati Bearcats",
    "away_name": "Kansas State Wildcats",
    "start": "2026-09-26T23:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 6.5,
+     "side": "home",
+     "selection": "Cincinnati Bearcats",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "everygame",
+     "books": 5,
+     "p_model": 0.57769,
+     "p_market": 0.51122,
+     "edge": 0.06647,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 6.5,
+     "open_p_market": 0.51122,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Cincinnati Bearcats",
+     "best_price_decimal": 3.0,
+     "best_price_american": 200,
+     "best_book": "betfair_ex_eu",
+     "books": 13,
+     "p_model": 0.41441,
+     "p_market": 0.32137,
+     "edge": 0.09304,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.32137,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.39634,
-    "margin_mean": -4.578,
+    "p_home_win": 0.41441,
+    "margin_mean": -4.118,
     "total_mean": null
-   }
+   },
+   "event_id": "058628758b85b178ffc5fa09416f3991"
   },
   {
    "game_id": "401856881",
@@ -895,17 +2215,61 @@
    "home_name": "West Virginia Mountaineers",
    "away_name": "Oklahoma State Cowboys",
    "start": "2026-09-26T23:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -2.0,
+     "side": "home",
+     "selection": "West Virginia Mountaineers",
+     "best_price_decimal": 1.94,
+     "best_price_american": -106,
+     "best_book": "pinnacle",
+     "books": 9,
+     "p_model": 0.55585,
+     "p_market": 0.5,
+     "edge": 0.05585,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -2.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "West Virginia Mountaineers",
+     "best_price_decimal": 1.83,
+     "best_price_american": -120,
+     "best_book": "matchbook",
+     "books": 12,
+     "p_model": 0.58252,
+     "p_market": 0.53551,
+     "edge": 0.04702,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.53551,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.57557,
-    "margin_mean": 3.319,
+    "p_home_win": 0.58252,
+    "margin_mean": 3.447,
     "total_mean": null
-   }
+   },
+   "event_id": "6c95114d806556a04a0d719e62c042d7"
   },
   {
    "game_id": "401862784",
@@ -914,17 +2278,61 @@
    "home_name": "Tulane Green Wave",
    "away_name": "Southern Mississippi Golden Eagles",
    "start": "2026-09-26T23:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -18.0,
+     "side": "home",
+     "selection": "Tulane Green Wave",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "coolbet",
+     "books": 6,
+     "p_model": 0.54742,
+     "p_market": 0.49927,
+     "edge": 0.04814,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -18.0,
+     "open_p_market": 0.49927,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Southern Mississippi Golden Eagles",
+     "best_price_decimal": 9.0,
+     "best_price_american": 800,
+     "best_book": "leovegas_se",
+     "books": 12,
+     "p_model": 0.12739,
+     "p_market": 0.0934,
+     "edge": 0.03399,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.0934,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.8806,
-    "margin_mean": 20.597,
+    "p_home_win": 0.87261,
+    "margin_mean": 19.917,
     "total_mean": null
-   }
+   },
+   "event_id": "3281b4e05dfe8a0a41afe9868a9094fa"
   },
   {
    "game_id": "401869931",
@@ -933,17 +2341,61 @@
    "home_name": "Arkansas State Red Wolves",
    "away_name": "Kennesaw State Owls",
    "start": "2026-09-26T23:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 6.5,
+     "side": "away",
+     "selection": "Kennesaw State Owls",
+     "best_price_decimal": 1.94,
+     "best_price_american": -106,
+     "best_book": "matchbook",
+     "books": 8,
+     "p_model": 0.6283,
+     "p_market": 0.5,
+     "edge": 0.1283,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 6.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Kennesaw State Owls",
+     "best_price_decimal": 3.1,
+     "best_price_american": 210,
+     "best_book": "betanysports",
+     "books": 13,
+     "p_model": 0.46442,
+     "p_market": 0.31132,
+     "edge": 0.1531,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.31132,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.52517,
-    "margin_mean": 1.1,
+    "p_home_win": 0.53558,
+    "margin_mean": 1.331,
     "total_mean": null
-   }
+   },
+   "event_id": "77c3435e651e2d615870c2c25c8dbf71"
   },
   {
    "game_id": "401870745",
@@ -966,17 +2418,61 @@
    "home_name": "Jacksonville State Gamecocks",
    "away_name": "Middle Tennessee Blue Raiders",
    "start": "2026-09-26T23:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 7.0,
+     "side": "away",
+     "selection": "Middle Tennessee Blue Raiders",
+     "best_price_decimal": 1.98,
+     "best_price_american": -102,
+     "best_book": "pinnacle",
+     "books": 8,
+     "p_model": 0.58508,
+     "p_market": 0.5,
+     "edge": 0.08508,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 7.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Middle Tennessee Blue Raiders",
+     "best_price_decimal": 3.41,
+     "best_price_american": 241,
+     "best_book": "pinnacle",
+     "books": 12,
+     "p_model": 0.38852,
+     "p_market": 0.27187,
+     "edge": 0.11665,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.27187,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.60669,
-    "margin_mean": 4.715,
+    "p_home_win": 0.61148,
+    "margin_mean": 4.777,
     "total_mean": null
-   }
+   },
+   "event_id": "fe0fb2e29062d93898ebdd583329194d"
   },
   {
    "game_id": "401856702",
@@ -985,17 +2481,61 @@
    "home_name": "LSU Tigers",
    "away_name": "Texas A&M Aggies",
    "start": "2026-09-26T23:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 9.5,
+     "side": "away",
+     "selection": "Texas A&M Aggies",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "coolbet",
+     "books": 8,
+     "p_model": 0.63445,
+     "p_market": 0.5,
+     "edge": 0.13445,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 9.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Texas A&M Aggies",
+     "best_price_decimal": 4.0,
+     "best_price_american": 300,
+     "best_book": "betanysports",
+     "books": 11,
+     "p_model": 0.3879,
+     "p_market": 0.22725,
+     "edge": 0.16064,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.22725,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.60736,
-    "margin_mean": 4.745,
+    "p_home_win": 0.6121,
+    "margin_mean": 4.805,
     "total_mean": null
-   }
+   },
+   "event_id": "0c71c3230f930f30ac34160b38dbbaf0"
   },
   {
    "game_id": "401856804",
@@ -1004,17 +2544,61 @@
    "home_name": "Washington State Cougars",
    "away_name": "Arizona Wildcats",
    "start": "2026-09-26T23:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 10.5,
+     "side": "home",
+     "selection": "Washington State Cougars",
+     "best_price_decimal": 1.92,
+     "best_price_american": -109,
+     "best_book": "gtbets",
+     "books": 8,
+     "p_model": 0.82388,
+     "p_market": 0.5,
+     "edge": 0.32388,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 10.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Washington State Cougars",
+     "best_price_decimal": 4.46,
+     "best_price_american": 346,
+     "best_book": "pinnacle",
+     "books": 11,
+     "p_model": 0.59442,
+     "p_market": 0.20657,
+     "edge": 0.38785,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.20657,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.58836,
-    "margin_mean": 3.889,
+    "p_home_win": 0.59442,
+    "margin_mean": 3.99,
     "total_mean": null
-   }
+   },
+   "event_id": "b8ee197b0b6ebb070f0f4b4a94a31bae"
   },
   {
    "game_id": "401858469",
@@ -1023,17 +2607,61 @@
    "home_name": "USC Trojans",
    "away_name": "Oregon Ducks",
    "start": "2026-09-26T23:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 3.0,
+     "side": "home",
+     "selection": "USC Trojans",
+     "best_price_decimal": 2.0,
+     "best_price_american": 100,
+     "best_book": "matchbook",
+     "books": 11,
+     "p_model": 0.72599,
+     "p_market": 0.49577,
+     "edge": 0.23023,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 3.0,
+     "open_p_market": 0.49577,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "USC Trojans",
+     "best_price_decimal": 2.44,
+     "best_price_american": 144,
+     "best_book": "matchbook",
+     "books": 12,
+     "p_model": 0.65044,
+     "p_market": 0.40253,
+     "edge": 0.24791,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.40253,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.64849,
-    "margin_mean": 6.642,
+    "p_home_win": 0.65044,
+    "margin_mean": 6.612,
     "total_mean": null
-   }
+   },
+   "event_id": "83516ad7ba3e8ef9f90498cfcaf10eb5"
   },
   {
    "game_id": "401860894",
@@ -1047,10 +2675,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.37902,
-    "margin_mean": -5.366,
+    "p_home_win": 0.39789,
+    "margin_mean": -4.881,
     "total_mean": null
    }
   },
@@ -1080,10 +2708,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.45141,
-    "margin_mean": -2.126,
+    "p_home_win": 0.46651,
+    "margin_mean": -1.755,
     "total_mean": null
    }
   },
@@ -1094,17 +2722,61 @@
    "home_name": "Mississippi State Bulldogs",
    "away_name": "Missouri Tigers",
    "start": "2026-09-26T23:45:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 6.0,
+     "side": "away",
+     "selection": "Missouri Tigers",
+     "best_price_decimal": 1.92,
+     "best_price_american": -109,
+     "best_book": "coolbet",
+     "books": 9,
+     "p_model": 0.54405,
+     "p_market": 0.5,
+     "edge": 0.04405,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 6.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Missouri Tigers",
+     "best_price_decimal": 2.92,
+     "best_price_american": 192,
+     "best_book": "matchbook",
+     "books": 12,
+     "p_model": 0.39046,
+     "p_market": 0.32398,
+     "edge": 0.06648,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.32398,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.6046,
-    "margin_mean": 4.62,
+    "p_home_win": 0.60954,
+    "margin_mean": 4.686,
     "total_mean": null
-   }
+   },
+   "event_id": "f154381c89953d3b0bd409a6bc4e28a6"
   },
   {
    "game_id": "401856697",
@@ -1113,17 +2785,61 @@
    "home_name": "Arkansas Razorbacks",
    "away_name": "Tulsa Golden Hurricane",
    "start": "2026-09-27T00:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 7.0,
+     "side": "away",
+     "selection": "Tulsa Golden Hurricane",
+     "best_price_decimal": 1.96,
+     "best_price_american": -104,
+     "best_book": "pinnacle",
+     "books": 10,
+     "p_model": 0.69074,
+     "p_market": 0.49504,
+     "edge": 0.1957,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 7.0,
+     "open_p_market": 0.49504,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Tulsa Golden Hurricane",
+     "best_price_decimal": 3.35,
+     "best_price_american": 235,
+     "best_book": "leovegas_se",
+     "books": 12,
+     "p_model": 0.49356,
+     "p_market": 0.28515,
+     "edge": 0.20841,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.28515,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.49397,
-    "margin_mean": -0.263,
+    "p_home_win": 0.50644,
+    "margin_mean": 0.03,
     "total_mean": null
-   }
+   },
+   "event_id": "891673ae39457f51a701ca482c2f7280"
   },
   {
    "game_id": "401862782",
@@ -1132,17 +2848,61 @@
    "home_name": "UL Monroe Warhawks",
    "away_name": "Florida Atlantic Owls",
    "start": "2026-09-27T00:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 11.5,
+     "side": "home",
+     "selection": "UL Monroe Warhawks",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "everygame",
+     "books": 5,
+     "p_model": 0.58641,
+     "p_market": 0.50423,
+     "edge": 0.08218,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 11.5,
+     "open_p_market": 0.50423,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "UL Monroe Warhawks",
+     "best_price_decimal": 4.8,
+     "best_price_american": 380,
+     "best_book": "matchbook",
+     "books": 12,
+     "p_model": 0.31574,
+     "p_market": 0.18827,
+     "edge": 0.12747,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.18827,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.29418,
-    "margin_mean": -9.433,
+    "p_home_win": 0.31574,
+    "margin_mean": -8.852,
     "total_mean": null
-   }
+   },
+   "event_id": "8fd491e65439f5d6b6a1edc9da7f036b"
   },
   {
    "game_id": "401858241",
@@ -1151,17 +2911,61 @@
    "home_name": "SMU Mustangs",
    "away_name": "Missouri State Bears",
    "start": "2026-09-27T01:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 34.5,
+     "side": "away",
+     "selection": "Missouri State Bears",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "coolbet",
+     "books": 7,
+     "p_model": 0.96901,
+     "p_market": 0.5,
+     "edge": 0.46901,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 34.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Missouri State Bears",
+     "best_price_decimal": 17.5,
+     "best_price_american": 1650,
+     "best_book": "mybookieag",
+     "books": 2,
+     "p_model": 0.45945,
+     "p_market": 0.01471,
+     "edge": 0.44474,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.01471,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.5305,
-    "margin_mean": 1.333,
+    "p_home_win": 0.54055,
+    "margin_mean": 1.554,
     "total_mean": null
-   }
+   },
+   "event_id": "4d76388c84fc859e6bae8ff267266872"
   },
   {
    "game_id": "401860895",
@@ -1170,17 +2974,61 @@
    "home_name": "UTEP Miners",
    "away_name": "Oregon State Beavers",
    "start": "2026-09-27T01:00:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 10.5,
+     "side": "home",
+     "selection": "UTEP Miners",
+     "best_price_decimal": 2.0,
+     "best_price_american": 100,
+     "best_book": "pinnacle",
+     "books": 7,
+     "p_model": 0.74596,
+     "p_market": 0.5,
+     "edge": 0.24596,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 10.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "UTEP Miners",
+     "best_price_decimal": 4.67,
+     "best_price_american": 367,
+     "best_book": "pinnacle",
+     "books": 12,
+     "p_model": 0.49171,
+     "p_market": 0.19718,
+     "edge": 0.29453,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.19718,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.47824,
-    "margin_mean": -0.95,
+    "p_home_win": 0.49171,
+    "margin_mean": -0.628,
     "total_mean": null
-   }
+   },
+   "event_id": "a48c4a759a03a93bf42e23d2f8bf769e"
   },
   {
    "game_id": "401866429",
@@ -1194,10 +3042,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.19492,
-    "margin_mean": -15.009,
+    "p_home_win": 0.21616,
+    "margin_mean": -14.36,
     "total_mean": null
    }
   },
@@ -1213,10 +3061,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.56746,
-    "margin_mean": 2.959,
+    "p_home_win": 0.57497,
+    "margin_mean": 3.104,
     "total_mean": null
    }
   },
@@ -1232,10 +3080,10 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.50919,
-    "margin_mean": 0.401,
+    "p_home_win": 0.52067,
+    "margin_mean": 0.665,
     "total_mean": null
    }
   },
@@ -1246,17 +3094,61 @@
    "home_name": "Nevada Wolf Pack",
    "away_name": "Air Force Falcons",
    "start": "2026-09-27T02:30:00Z",
-   "markets": {},
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 5.5,
+     "side": "home",
+     "selection": "Nevada Wolf Pack",
+     "best_price_decimal": 1.94,
+     "best_price_american": -106,
+     "best_book": "matchbook",
+     "books": 7,
+     "p_model": 0.70584,
+     "p_market": 0.5,
+     "edge": 0.20584,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 5.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-25T14:03:09Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Nevada Wolf Pack",
+     "best_price_decimal": 2.95,
+     "best_price_american": 195,
+     "best_book": "betanysports",
+     "books": 12,
+     "p_model": 0.57415,
+     "p_market": 0.32137,
+     "edge": 0.25279,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.32137,
+     "open_at": "2026-09-25T14:03:09Z"
+    }
+   },
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.56658,
-    "margin_mean": 2.92,
+    "p_home_win": 0.57415,
+    "margin_mean": 3.067,
     "total_mean": null
-   }
+   },
+   "event_id": "e972bb2c0291b991de32cc0188c9d338"
   },
   {
    "game_id": "401858470",
@@ -1270,22 +3162,143 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
+   "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.44853,
-    "margin_mean": -2.253,
+    "p_home_win": 0.4638,
+    "margin_mean": -1.877,
     "total_mean": null
    }
   }
  ],
  "refusals": [
   {
-   "scope": "league",
-   "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run."
+   "scope": "event",
+   "event_id": "36f0cf10805eed69c78f80697f766cc0",
+   "reason": "cfb: no code for 'Howard Bison'."
+  },
+  {
+   "scope": "event",
+   "event_id": "11ea90adf014a268d12caa9978b05bd8",
+   "reason": "cfb: no code for 'Akron Zips'."
+  },
+  {
+   "scope": "event",
+   "event_id": "90cacdc25f25e1f13b13e031a7fee9b7",
+   "reason": "cfb: no code for 'Colorado Buffaloes'."
+  },
+  {
+   "scope": "event",
+   "event_id": "0224670d32f98caf247dd7d7ffaa6ee6",
+   "reason": "cfb: no code for 'Bucknell Bison'."
+  },
+  {
+   "scope": "event",
+   "event_id": "fb1e2c999364a411be347389aec1d827",
+   "reason": "cfb: no code for 'UTSA Roadrunners'."
+  },
+  {
+   "scope": "event",
+   "event_id": "5c60d6ce348eae3327bc83534dd7522b",
+   "reason": "cfb: no code for 'Texas Tech Red Raiders'."
+  },
+  {
+   "scope": "event",
+   "event_id": "e257aae5483bbfc89e2c570fc9304e1c",
+   "reason": "cfb: no code for 'Toledo Rockets'."
+  },
+  {
+   "scope": "event",
+   "event_id": "145de4ffc7429aeb39cab1b17c223743",
+   "reason": "cfb: no code for 'Lindenwood Lions'."
+  },
+  {
+   "scope": "event",
+   "event_id": "bf2cffa30d89eb2ce1b4d0f91561f66d",
+   "reason": "cfb: no code for 'Purdue Boilermakers'."
+  },
+  {
+   "scope": "event",
+   "event_id": "752cd9cc9331543601fd37f21b8c7430",
+   "reason": "cfb: no code for 'Central Arkansas Bears'."
+  },
+  {
+   "scope": "event",
+   "event_id": "cb572f5b26d6a57bdac171baff0aec1c",
+   "reason": "cfb: no code for 'Robert Morris Colonials'."
+  },
+  {
+   "scope": "event",
+   "event_id": "e7aa82b55e371e67938eb4c52562f155",
+   "reason": "cfb: no code for 'William and Mary Tribe'."
+  },
+  {
+   "scope": "event",
+   "event_id": "0dcea769daace0b6c76434589c639b11",
+   "reason": "cfb: no code for 'Utah Utes'."
+  },
+  {
+   "scope": "event",
+   "event_id": "de2c67844370661f124fd07aef585366",
+   "reason": "cfb: no code for 'Stonehill Skyhawks'."
+  },
+  {
+   "scope": "event",
+   "event_id": "e3228af38572d15da53fab3ec97742a2",
+   "reason": "cfb: no code for 'North Carolina Central Eagles'."
+  },
+  {
+   "scope": "event",
+   "event_id": "edf8d3e3699aa5cb34c50ac7de992d37",
+   "reason": "cfb: no code for 'Vanderbilt Commodores'."
+  },
+  {
+   "scope": "event",
+   "event_id": "520a355fd43b2cfb7aed527eee4345e0",
+   "reason": "cfb: no code for 'LIU Sharks'."
+  },
+  {
+   "scope": "event",
+   "event_id": "ed1c259773ba7494570a1611b44adb30",
+   "reason": "cfb: no code for 'Incarnate Word Cardinals'."
+  },
+  {
+   "scope": "event",
+   "event_id": "d4cee1a13bc1d87828ec7809d56b9496",
+   "reason": "cfb: no code for 'NC State Wolfpack'."
+  },
+  {
+   "scope": "event",
+   "event_id": "dbc89703b51acf3b8818134a1a2a0dc2",
+   "reason": "cfb: no code for 'Utah State Aggies'."
+  },
+  {
+   "scope": "event",
+   "event_id": "dc2fd7526ea0bba9adc09a5627b637bf",
+   "reason": "cfb: no code for 'UMass Minutemen'."
+  },
+  {
+   "scope": "event",
+   "event_id": "271438149d3f0afb2ff01736101b5e20",
+   "reason": "cfb: no code for 'Rice Owls'."
+  },
+  {
+   "scope": "event",
+   "event_id": "0c86537a10b805d25a4ab4f4efdd4c30",
+   "reason": "cfb: no code for 'Georgia Tech Yellow Jackets'."
+  },
+  {
+   "scope": "event",
+   "event_id": "e497e36c59bded468da11878568e7c80",
+   "reason": "cfb: no code for 'Minnesota Golden Gophers'."
   }
  ],
  "freshness": {
-  "odds_captured_at": null,
+  "odds_captured_at": "2026-09-25T14:03:09Z",
+  "credits": {
+   "as_of": "2026-09-25T14:03:09Z",
+   "remaining": 19985,
+   "monthly": 20000
+  },
   "ratings_version": "2026-week-04.json",
   "ratings_computed_at": "2026-09-25T11:36:21Z",
   "ratings_through_week": 3,
@@ -2123,8 +4136,8 @@
  ],
  "grade": {
   "weight": 0.0,
-  "w_hat": 0.072303,
-  "se": 0.064241,
+  "w_hat": 0.076574,
+  "se": 0.061617,
   "n": 1704,
   "source": "historical",
   "seasons": [
@@ -2134,25 +4147,29 @@
   "contamination": "UPPER BOUND. The DVOA-only vector was fitted on this cache's seasons, so the model is graded partly on data it was fitted to."
  },
  "tiers": {
-  "coin_flip": 0.103,
-  "lean": 0.2054,
-  "play": 0.3069,
+  "coin_flip": 0.1155,
+  "lean": 0.2168,
+  "play": 0.3145,
   "source": "backtest",
   "provisional": true
  },
  "status": {
   "state": "degraded",
   "games": 70,
-  "priced": 0,
+  "priced": 43,
   "tiers": {
-   "play": 0,
-   "lean": 0,
-   "coin_flip": 0,
-   "no_edge": 0
+   "play": 8,
+   "lean": 6,
+   "coin_flip": 12,
+   "no_edge": 17
   },
-  "refusals": 1,
-  "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run.",
+  "refusals": 24,
+  "reason": null,
   "game_refusals": [
+   {
+    "reason": "no market price captured for this game",
+    "games": 14
+   },
    {
     "reason": "GameNotPriceable: a team is not rated in 2026-week-04.json (usually an FCS opponent)",
     "games": 13

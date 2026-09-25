@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-25T11:22:47Z",
+ "generated_at": "2026-09-25T14:13:33Z",
  "fitted": [
   {
    "league": "nba",
@@ -45,6 +45,15 @@
    "t": 7.0,
    "paired_gain": 0.11399,
    "missing": false
+  },
+  {
+   "league": "cfb",
+   "gate": "Key-number correction (integer spreads)",
+   "file": "data/cfb_key_numbers.json",
+   "passed": true,
+   "t": 9.29,
+   "paired_gain": 0.13496,
+   "missing": false
   }
  ],
  "validation": [
@@ -89,28 +98,28 @@
   {
    "league": "cfb",
    "staking_weight": 0.0,
-   "w_hat": 0.072303,
-   "se": 0.064241,
+   "w_hat": 0.076574,
+   "se": 0.061617,
    "n": 1704,
    "source": "historical",
    "tiers_source": "backtest",
    "tiers_provisional": true,
    "tiers_by_band": {
     "no_edge": {
-     "n": 682,
-     "preferred_side_hit_rate": 0.5073
+     "n": 681,
+     "preferred_side_hit_rate": 0.5257
     },
     "coin_flip": {
-     "n": 510,
-     "preferred_side_hit_rate": 0.5157
+     "n": 512,
+     "preferred_side_hit_rate": 0.5059
     },
     "lean": {
-     "n": 341,
-     "preferred_side_hit_rate": 0.4985
+     "n": 340,
+     "preferred_side_hit_rate": 0.5059
     },
     "play": {
      "n": 171,
-     "preferred_side_hit_rate": 0.5263
+     "preferred_side_hit_rate": 0.5322
     }
    },
    "break_even_at_minus_110": 0.5238
@@ -392,6 +401,22 @@
    "title": "0027. Paper-trade CFB from the weekly ratings, on the vector that was graded",
    "status": "accepted",
    "date": "2026-09-23",
+   "superseded_by": null
+  },
+  {
+   "id": "0028",
+   "file": "docs/decisions/0028-price-whole-number-cfb-spreads-on-measured-key-numbers.md",
+   "title": "0028. Price whole-number CFB spreads on measured key numbers",
+   "status": "accepted",
+   "date": "2026-09-25",
+   "superseded_by": null
+  },
+  {
+   "id": "0029",
+   "file": "docs/decisions/0029-measure-clv-from-a-week-ahead-price-valued-on-the-line.md",
+   "title": "0029. Measure CLV from a week-ahead price, valued on the line",
+   "status": "accepted",
+   "date": "2026-09-25",
    "superseded_by": null
   }
  ]
