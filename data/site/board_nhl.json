@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-09-25T15:42:11Z",
+ "generated_at": "2026-09-25T19:45:59Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -11,8 +11,8 @@
  "freshness": {
   "odds_captured_at": null,
   "credits": {
-   "as_of": "2026-09-25T14:03:09Z",
-   "remaining": 19985,
+   "as_of": "2026-09-25T19:45:33Z",
+   "remaining": 19974,
    "monthly": 20000
   },
   "latest_final": null
@@ -20,13 +20,21 @@
  "teams": [],
  "grade": {
   "weight": 0.0,
-  "source": null
+  "w_hat": -0.01185,
+  "se": 0.092102,
+  "n": 3908,
+  "source": "historical",
+  "seasons": [
+   2024,
+   2026
+  ],
+  "contamination": "CLEAN OF TUNING: k fixed a priori, zero hyperparameter trials. The rules layer's own constants were fitted before these seasons were graded; see data/nhl_rules.json."
  },
  "tiers": {
-  "coin_flip": 0.0228,
-  "lean": 0.0484,
-  "play": 0.0686,
-  "source": "borrowed:mlb",
+  "coin_flip": 0.0402,
+  "lean": 0.0827,
+  "play": 0.1342,
+  "source": "backtest",
   "provisional": true
  },
  "next_slate": {

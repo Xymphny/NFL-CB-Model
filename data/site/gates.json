@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-25T15:42:12Z",
+ "generated_at": "2026-09-25T19:46:03Z",
  "fitted": [
   {
    "league": "nba",
@@ -78,19 +78,23 @@
    "tiers_by_band": {
     "no_edge": {
      "n": 754,
-     "preferred_side_hit_rate": 0.508
+     "preferred_side_hit_rate": 0.508,
+     "market_said": 0.5002
     },
     "coin_flip": {
      "n": 565,
-     "preferred_side_hit_rate": 0.4938
+     "preferred_side_hit_rate": 0.4938,
+     "market_said": 0.5006
     },
     "lean": {
      "n": 376,
-     "preferred_side_hit_rate": 0.516
+     "preferred_side_hit_rate": 0.516,
+     "market_said": 0.5041
     },
     "play": {
      "n": 189,
-     "preferred_side_hit_rate": 0.5291
+     "preferred_side_hit_rate": 0.5291,
+     "market_said": 0.5037
     }
    },
    "break_even_at_minus_110": 0.5238
@@ -107,19 +111,23 @@
    "tiers_by_band": {
     "no_edge": {
      "n": 681,
-     "preferred_side_hit_rate": 0.5257
+     "preferred_side_hit_rate": 0.5257,
+     "market_said": 0.5
     },
     "coin_flip": {
      "n": 512,
-     "preferred_side_hit_rate": 0.5059
+     "preferred_side_hit_rate": 0.5059,
+     "market_said": 0.5
     },
     "lean": {
      "n": 340,
-     "preferred_side_hit_rate": 0.5059
+     "preferred_side_hit_rate": 0.5059,
+     "market_said": 0.5
     },
     "play": {
      "n": 171,
-     "preferred_side_hit_rate": 0.5322
+     "preferred_side_hit_rate": 0.5322,
+     "market_said": 0.5
     }
    },
    "break_even_at_minus_110": 0.5238
@@ -127,28 +135,32 @@
   {
    "league": "mlb",
    "staking_weight": 0.0,
-   "w_hat": null,
-   "se": null,
-   "n": null,
-   "source": null,
+   "w_hat": 0.148039,
+   "se": 0.090911,
+   "n": 8326,
+   "source": "historical",
    "tiers_source": "backtest",
    "tiers_provisional": true,
    "tiers_by_band": {
     "no_edge": {
-     "n": 35,
-     "preferred_side_hit_rate": 0.3429
+     "n": 3323,
+     "preferred_side_hit_rate": 0.4818,
+     "market_said": 0.4835
     },
     "coin_flip": {
-     "n": 26,
-     "preferred_side_hit_rate": 0.4231
+     "n": 2507,
+     "preferred_side_hit_rate": 0.4799,
+     "market_said": 0.4487
     },
     "lean": {
-     "n": 17,
-     "preferred_side_hit_rate": 0.4118
+     "n": 1661,
+     "preferred_side_hit_rate": 0.4311,
+     "market_said": 0.417
     },
     "play": {
-     "n": 9,
-     "preferred_side_hit_rate": 0.4444
+     "n": 835,
+     "preferred_side_hit_rate": 0.3737,
+     "market_said": 0.37
     }
    },
    "break_even_at_minus_110": 0.5238
@@ -156,25 +168,67 @@
   {
    "league": "nhl",
    "staking_weight": 0.0,
-   "w_hat": null,
-   "se": null,
-   "n": null,
-   "source": null,
-   "tiers_source": "borrowed:mlb",
+   "w_hat": -0.01185,
+   "se": 0.092102,
+   "n": 3908,
+   "source": "historical",
+   "tiers_source": "backtest",
    "tiers_provisional": true,
-   "tiers_by_band": null,
+   "tiers_by_band": {
+    "no_edge": {
+     "n": 1564,
+     "preferred_side_hit_rate": 0.4687,
+     "market_said": 0.4747
+    },
+    "coin_flip": {
+     "n": 1173,
+     "preferred_side_hit_rate": 0.422,
+     "market_said": 0.4243
+    },
+    "lean": {
+     "n": 780,
+     "preferred_side_hit_rate": 0.4103,
+     "market_said": 0.3861
+    },
+    "play": {
+     "n": 391,
+     "preferred_side_hit_rate": 0.3197,
+     "market_said": 0.3369
+    }
+   },
    "break_even_at_minus_110": 0.5238
   },
   {
    "league": "nba",
    "staking_weight": 0.0,
-   "w_hat": null,
-   "se": null,
-   "n": null,
-   "source": null,
-   "tiers_source": "borrowed:nfl",
+   "w_hat": -0.018973,
+   "se": 0.079977,
+   "n": 3669,
+   "source": "historical",
+   "tiers_source": "backtest",
    "tiers_provisional": true,
-   "tiers_by_band": null,
+   "tiers_by_band": {
+    "no_edge": {
+     "n": 1469,
+     "preferred_side_hit_rate": 0.4942,
+     "market_said": 0.5003
+    },
+    "coin_flip": {
+     "n": 1097,
+     "preferred_side_hit_rate": 0.5214,
+     "market_said": 0.499
+    },
+    "lean": {
+     "n": 736,
+     "preferred_side_hit_rate": 0.4891,
+     "market_said": 0.4988
+    },
+    "play": {
+     "n": 367,
+     "preferred_side_hit_rate": 0.485,
+     "market_said": 0.4979
+    }
+   },
    "break_even_at_minus_110": 0.5238
   }
  ],
@@ -415,6 +469,14 @@
    "id": "0029",
    "file": "docs/decisions/0029-measure-clv-from-a-week-ahead-price-valued-on-the-line.md",
    "title": "0029. Measure CLV from a week-ahead price, valued on the line",
+   "status": "accepted",
+   "date": "2026-09-25",
+   "superseded_by": null
+  },
+  {
+   "id": "0030",
+   "file": "docs/decisions/0030-grade-nba-nhl-mlb-against-free-espn-closes.md",
+   "title": "0030. Grade NBA, NHL and MLB against free ESPN closes",
    "status": "accepted",
    "date": "2026-09-25",
    "superseded_by": null
