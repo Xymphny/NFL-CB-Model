@@ -229,18 +229,30 @@ def test_the_store_lives_in_the_checkout():
     assert entry.BRONZE_ROOT.is_relative_to(ROOT)
 
 
-def test_the_blueprint_schedules_it_disabled():
-    """A schedule that starts spending the moment a Blueprint syncs is a
-    decision nobody made."""
+def test_the_blueprint_gate_is_the_decision_that_was_made():
+    """Capture was held OFF until the Odds API subscription existed, because a
+    schedule that starts spending the moment a Blueprint syncs is a decision
+    nobody made. The owner made that decision on 2026-09-24 and turned it on.
+
+    So this pins the gate to "1" now. Turning capture off again -- or back on
+    after that -- is equally a decision, and should fail here until someone
+    edits this test on purpose. Anything other than exactly "0" or "1" is a
+    typo the job would treat as OFF, silently.
+    """
     import yaml
 
     blueprint = yaml.safe_load((ROOT / "render.yaml").read_text())
     job = next(s for s in blueprint["services"]
                if s["name"] == "close-capture-job")
     gate = next(e for e in job["envVars"] if e["key"] == "CAPTURE_ENABLED")
-    assert gate["value"] == "0", (
-        "the capture cron is enabled in the Blueprint; it must default off "
-        "and be turned on deliberately"
+    assert gate["value"] in ("0", "1"), (
+        f"CAPTURE_ENABLED is {gate['value']!r}; the job only honours exactly "
+        "\"1\", so anything else is off without saying so"
+    )
+    assert gate["value"] == "1", (
+        "capture is switched off in the Blueprint. It was turned on "
+        "2026-09-24 with the Odds API subscription; if turning it off is "
+        "deliberate, change this assertion in the same commit"
     )
     assert "--persist" in job["startCommand"], (
         "without --persist every captured close is discarded when the run ends"

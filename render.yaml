@@ -68,7 +68,7 @@ services:
     startCommand: python3 scripts/capture.py --run --paper --persist
     envVars:
       - key: CAPTURE_ENABLED
-        value: "0"
+        value: "1"   # turned on 2026-09-24 with the Odds API subscription
       - key: ODDS_API_KEY
         sync: false
       - key: GIT_REPO_URL

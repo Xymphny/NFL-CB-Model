@@ -243,11 +243,22 @@ def _cli(*args, env=None):
 
 def test_the_cli_is_dry_by_default_and_spends_nothing():
     """A ~90,000-credit job must not be one typo from starting."""
+    # data/bronze exists in the checkout once live capture has persisted
+    # anything (it commits there), so "bronze does not exist" stopped being
+    # the property. The property is that a dry run WRITES nothing.
+    bronze = ROOT / "data" / "bronze"
+
+    def snapshot():
+        if not bronze.exists():
+            return {}
+        return {p: p.stat().st_mtime_ns for p in bronze.rglob("*") if p.is_file()}
+
+    before = snapshot()
     r = _cli("--sports", "nfl")
     assert r.returncode == 0
     assert "Dry run" in r.stdout
     assert "no credits were spent" in r.stdout
-    assert not (ROOT / "data" / "bronze").exists(), "a dry run created bronze"
+    assert snapshot() == before, "a dry run wrote to bronze"
 
 
 def test_the_cli_refuses_to_run_without_a_key():
