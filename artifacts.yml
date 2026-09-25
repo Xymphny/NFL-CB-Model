@@ -70,6 +70,15 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/raw/mlb/season_2026.json
+    produced_by: model/ingest/mlb_slate.py
+    consumed_by:
+      - scripts/capture.py
+    kind: bronze
+    refresh: "live-inputs-job, daily; written only when MLB's calendar changes"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/nfl_neutral_site.json
     produced_by: model/nfl_neutral_site.py
     consumed_by:

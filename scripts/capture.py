@@ -140,6 +140,29 @@ def _cached_plan(now: str, max_age_minutes: int) -> list[dict] | None:
 EARLY_LOOKAHEAD_HOURS = {"americanfootball_nfl": 168, "americanfootball_ncaaf": 168}
 
 
+#: Where a league's modelled season is recorded, when the odds feed carries
+#: games the model never prices. MLB's ingest is regular season only
+#: (gameTypes=R), and the feed lists the postseason: without this the job
+#: bought a month of playoff odds for nothing (model/ingest/mlb_slate.py).
+SEASON_FILES = {"baseball_mlb": "data/raw/mlb/season_{year}.json"}
+
+
+def in_model_season(sport: str, start: datetime) -> bool:
+    """False only when the league's season file says this game is outside
+    the modelled season. No file, or an unreadable one, captures as before:
+    a missing calendar must never stop capture."""
+    tmpl = SEASON_FILES.get(sport)
+    if tmpl is None:
+        return True
+    from coverline.execution.matching import local_date
+    day = local_date(start.strftime("%Y-%m-%dT%H:%M:%SZ"))
+    try:
+        cal = json.loads((ROOT / tmpl.format(year=day[:4])).read_text())
+    except (OSError, ValueError):
+        return True
+    return cal["regular_season_start"] <= day <= cal["regular_season_end"]
+
+
 def early_windows(sport: str, starts: list[datetime], now: datetime,
                   horizon_hours: int, regions) -> list[CaptureWindow]:
     """Today's and tomorrow's 14:00 UTC early poll, where one is in reach and
@@ -183,6 +206,7 @@ def plan(client: OddsAPIClient, *, horizon_hours: int, now: str,
         resp = client.events(sport=sport, captured_at=now)
         every = [datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00"))
                  for e in resp.payload if e.get("commence_time")]
+        every = [d for d in every if in_model_season(sport, d)]
         starts = [d.strftime("%Y-%m-%dT%H:%M:%SZ") for d in every if d <= cutoff]
         if starts:
             out += windows_for_slate(sport=sport, commence_times=starts,

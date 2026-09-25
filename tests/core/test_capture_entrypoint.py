@@ -331,3 +331,33 @@ def test_the_football_leagues_are_polled_early_every_day_of_their_week():
     assert [x.at for x in entry.early_windows("americanfootball_ncaaf", sunday, tue, 6, ("us",))] \
         == ["2026-09-29T14:00:00Z"]
     assert entry.early_windows("baseball_mlb", sunday, tue, 6, ("us",)) == []   # daily: 24h
+
+
+def test_postseason_mlb_games_are_not_captured(tmp_path, monkeypatch):
+    """The MLB ingest is regular season only, and the odds feed lists the
+    playoffs: a month of odds no model would price."""
+    import capture as entry
+    from datetime import datetime, timezone
+    monkeypatch.setattr(entry, "ROOT", tmp_path)
+    d = tmp_path / "data" / "raw" / "mlb"
+    sunday = datetime(2026, 9, 27, 19, 0, tzinfo=timezone.utc)
+    playoff = datetime(2026, 9, 29, 23, 0, tzinfo=timezone.utc)
+    assert entry.in_model_season("baseball_mlb", playoff)            # no calendar: capture
+    d.mkdir(parents=True)
+    (d / "season_2026.json").write_text(json.dumps(
+        {"season": 2026, "regular_season_start": "2026-03-25", "regular_season_end": "2026-09-27"}))
+    assert entry.in_model_season("baseball_mlb", sunday)
+    assert not entry.in_model_season("baseball_mlb", playoff)
+    assert entry.in_model_season("icehockey_nhl", playoff)          # other leagues untouched
+    (d / "season_2026.json").write_text("{not json")
+    assert entry.in_model_season("baseball_mlb", playoff)            # unreadable: capture
+
+
+def test_the_mlb_calendar_is_parsed_from_the_seasons_endpoint(tmp_path):
+    from model.ingest import mlb_slate as M
+    payload = {"seasons": [{"seasonId": "2026", "regularSeasonStartDate": "2026-03-25",
+                            "regularSeasonEndDate": "2026-09-27", "postSeasonStartDate": "2026-09-28"}]}
+    assert M.update_season(2026, get=lambda url: payload, out_dir=tmp_path) is True
+    assert M.update_season(2026, get=lambda url: payload, out_dir=tmp_path) is False   # unchanged
+    assert json.loads((tmp_path / "season_2026.json").read_text())["regular_season_end"] == "2026-09-27"
+    assert M.season_dates({"seasons": []}) is None

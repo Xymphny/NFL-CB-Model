@@ -68,6 +68,7 @@ PATHS = (
     "data/raw/nba",
     "data/raw/nhl",
     "data/raw/mlb/slates",
+    "data/raw/mlb/season_*.json",     # git pathspec glob: the regular-season calendar
     "data/raw/cfb",
     "model/data_integrity.json",
     "data/ledger",

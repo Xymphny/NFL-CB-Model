@@ -56,6 +56,36 @@ from deploy.mlb_daily_update import (  # noqa: E402
 )
 
 OUT_DIR = ROOT / "data" / "raw" / "mlb" / "slates"
+SEASON_URL = "https://statsapi.mlb.com/api/v1/seasons/{y}?sportId=1"
+SEASON_DIR = ROOT / "data" / "raw" / "mlb"
+
+
+def season_dates(payload: dict) -> dict | None:
+    """The regular season's first and last dates from MLB's seasons endpoint.
+    Pure. The capture job reads the result so it stops buying postseason
+    odds that no model prices (this ingest is regular season only)."""
+    for s in payload.get("seasons", []):
+        lo, hi = s.get("regularSeasonStartDate"), s.get("regularSeasonEndDate")
+        if lo and hi:
+            return {"season": int(s.get("seasonId") or lo[:4]),
+                    "regular_season_start": lo, "regular_season_end": hi}
+    return None
+
+
+def update_season(year: int, get=None, out_dir: Path = SEASON_DIR) -> bool:
+    """Write data/raw/mlb/season_{year}.json when its content changes."""
+    import requests
+    get = get or (lambda url: requests.get(url, timeout=30).json())
+    dates = season_dates(get(SEASON_URL.format(y=year)))
+    if dates is None:
+        return False
+    path = out_dir / f"season_{year}.json"
+    text = json.dumps(dates, indent=1) + "\n"
+    if path.exists() and path.read_text() == text:
+        return False
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text)
+    return True
 URL = ("https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate={a}"
        "&endDate={b}&gameTypes=R&hydrate=probablePitcher,team")
 
@@ -151,6 +181,12 @@ def main(argv: list[str] | None = None) -> int:
     day = a.date
     lo = (date.fromisoformat(day) - timedelta(days=10)).isoformat()
     prev_day = (date.fromisoformat(day) - timedelta(days=1)).isoformat()
+
+    try:
+        if update_season(int(day[:4])):
+            print(f"season_{day[:4]}.json updated")
+    except Exception as exc:              # never costs the slate pull
+        print(f"season dates unavailable: {type(exc).__name__}: {exc}")
 
     today = requests.get(URL.format(a=day, b=day), timeout=30).json()
     back = requests.get(URL.format(a=lo, b=prev_day), timeout=30).json()
