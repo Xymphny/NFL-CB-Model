@@ -61,9 +61,9 @@ LEAGUES = ("nfl", "cfb", "mlb", "nhl", "nba")
 
 SPORT_NOTES = {
     "nfl": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
-    "cfb": ("Weekly slate, Thursday to Saturday. Whole-number spreads are not "
-            "priced (no measured key-number correction for CFB), and neutral-site "
-            "games are refused: the model has no home term to remove."),
+    "cfb": ("Weekly slate, Thursday to Saturday. Spreads price key numbers (3, 7) "
+            "with a measured correction. Neutral-site games are refused: the model "
+            "has no home term to remove."),
     "mlb": ("Daily. Lines are quoted on the listed probable starters; a scratch "
             "changes the game being priced."),
     "nhl": ("Daily. Ratings reset every season, so early-season prices carry "

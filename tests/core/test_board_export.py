@@ -382,3 +382,15 @@ def test_an_idle_league_says_when_it_resumes():
         b = json.loads((ROOT / "data" / "site" / f"board_{league}.json").read_text())
         if b["status"]["state"] == "idle":
             assert b.get("next_slate") and b["next_slate"]["games"] > 0
+
+
+def test_the_football_notes_tell_the_truth_about_key_numbers():
+    """The CFB note said whole-number spreads were refused for a day after
+    they started pricing. The note now follows the model's own flag."""
+    from coverline.leagues.cfb import model as cfb
+    from coverline.leagues.nfl import model as nfl
+    for league, has in (("nfl", nfl._load_key_number_weights() is not None),
+                        ("cfb", cfb.KEY_NUMBER_WEIGHTS is not None)):
+        note = X.SPORT_NOTES[league]
+        assert ("measured correction" in note) == has, league
+        assert ("not priced" in note) != has or "Whole-number" not in note, league

@@ -344,7 +344,7 @@ function Detail({ g, league, board, book, changes }) {
             {g.model?.total_mean != null && <><dt>Expected total</dt><dd>{g.model.total_mean.toFixed(1)}</dd></>}
           </dl>
           <Context league={league} g={g} full />
-          {league === 'nfl' && m?.status === 'priced' && m.market === 'spread' && (
+          {(league === 'nfl' || league === 'cfb') && m?.status === 'priced' && m.market === 'spread' && (
             <KeyNumbers home={g.home} line={m.side === 'home' ? m.line : -m.line} margin={g.model?.margin_mean} />
           )}
         </div>
