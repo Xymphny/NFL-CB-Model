@@ -119,6 +119,16 @@ def _names(league: str) -> dict[str, str]:
     return out
 
 
+def credits(store: BronzeStore) -> dict | None:
+    """The Odds API's remaining monthly credits, as the capture job last saw
+    them (scripts/capture.py write_quota)."""
+    f = store.root / "odds" / "_quota.json"
+    try:
+        return json.loads(f.read_text())
+    except (OSError, ValueError):
+        return None
+
+
 def latest_snapshot(store: BronzeStore, sport: str):
     rows = list(store.snapshots(sport))
     return (store.root / rows[-1]["path"], rows[-1]["captured_at"]) if rows else (None, None)
@@ -465,6 +475,7 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
     lg = R.LEAGUES[league]
     snap, captured = latest_snapshot(store, lg.vendor_sport)
     board["freshness"]["odds_captured_at"] = captured
+    board["freshness"]["credits"] = credits(store)
 
     try:
         model, src, games, slate, start_of, context_of, fresh = _load(league, R, day)

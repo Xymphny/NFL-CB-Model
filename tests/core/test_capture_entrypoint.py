@@ -304,3 +304,16 @@ def test_the_plan_adds_one_early_poll_a_day_only_in_season():
     assert entry.early_windows("basketball_nba", [], now, 6, ("eu",)) == []   # off-season
     late = datetime(2026, 10, 21, 18, 0, tzinfo=timezone.utc)                 # past its reach
     assert entry.early_windows("basketball_nba", games, late, 6, ("eu",)) == []
+
+
+def test_the_remaining_credits_reach_the_board(tmp_path):
+    """The month's quota is the one resource that can stop every league's
+    measurement at once; the site shows it before it runs out."""
+    import capture as entry
+    import export_board as X
+    from coverline.execution.bronze import BronzeStore
+    entry.write_quota(tmp_path, "2026-09-25T14:00:00Z", None)          # no header seen
+    assert X.credits(BronzeStore(tmp_path)) is None
+    entry.write_quota(tmp_path, "2026-09-25T14:00:00Z", 18432)
+    assert X.credits(BronzeStore(tmp_path)) == {
+        "as_of": "2026-09-25T14:00:00Z", "remaining": 18432, "monthly": entry.MONTHLY_CREDITS}

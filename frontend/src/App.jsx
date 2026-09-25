@@ -216,7 +216,10 @@ function EvidenceStrip({ league, board, record }) {
           <dt>Odds</dt>
           <dd>
             <span className="ev-big">{fresh.odds_captured_at ? age(fresh.odds_captured_at) : 'none'}</span>
-            <span className="ev-sub">{fresh.odds_captured_at ? 'last capture' : 'no capture yet'}</span>
+            <span className="ev-sub">
+              {fresh.odds_captured_at ? 'last capture' : 'no capture yet'}
+              {fresh.credits ? ` · ${fresh.credits.remaining.toLocaleString('en-US')} credits left` : ''}
+            </span>
           </dd>
         </div>
         <div className="ev">

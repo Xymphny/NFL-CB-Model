@@ -194,6 +194,18 @@ def plan(client: OddsAPIClient, *, horizon_hours: int, now: str,
     return out
 
 
+def write_quota(root: Path, now: str, remaining: int | None) -> None:
+    """The month's remaining credits as the API last reported them, beside
+    the snapshots, so the site can show the headroom before it runs out
+    (export_board reads it). Committed with the snapshots it came with."""
+    if remaining is None:
+        return
+    path = root / "odds" / "_quota.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"as_of": now, "remaining": int(remaining),
+                                "monthly": MONTHLY_CREDITS}) + "\n")
+
+
 def _isolated(argv: list[str]) -> int:
     """Run one step as `python <argv>` from the repo root; its return code.
     Negative means the child was killed by that signal (an OOM kill is -9)."""
@@ -275,6 +287,7 @@ def main(argv: list[str] | None = None) -> int:
     res = run(windows, client, store, now=now,
               tolerance_minutes=a.tolerance_minutes)
     print(f"\n{res.summary()}")
+    write_quota(BRONZE_ROOT, now, ledger.remaining_reported)
     for key_, reason in res.gapped:
         print(f"  gapped {key_}: {reason}")
 
