@@ -246,3 +246,31 @@ def test_two_regions_double_the_capture_bill():
     one = C.estimate_monthly({"nba": 35}, regions=1)["TOTAL"]
     two = C.estimate_monthly({"nba": 35}, regions=2)["TOTAL"]
     assert two == 2 * one
+
+
+# ------------------------------------------------------------ early poll ----
+
+def test_the_early_poll_is_one_snapshot_a_day_filed_when_taken(tmp_path):
+    """Filed under the moment it was taken (never labelled earlier than the
+    price it holds) and under its own kind, and taken once per sport per day
+    however many runs see the window as due."""
+    store = BronzeStore(tmp_path)
+    client, t = _client()
+    w = [C.CaptureWindow(sport="nba", at="2026-10-21T14:00:00Z", reason="early")]
+    res = C.run(w, client, store, now="2026-10-21T15:40:00Z")      # late, still due
+    assert res.captured == ["nba|2026-10-21T14:00:00Z|early"]
+    path = Path(res.paths[res.captured[0]])
+    assert path.name.startswith("early-2026-10-21T15")
+    again = C.run(w, client, store, now="2026-10-21T16:10:00Z")
+    assert again.captured == [] and again.already_had == ["nba|2026-10-21T14:00:00Z|early"]
+    assert len(t.urls) == 1
+
+
+def test_a_missed_early_poll_is_its_own_gap(tmp_path):
+    store = BronzeStore(tmp_path)
+    client, t = _client()
+    w = [C.CaptureWindow(sport="nba", at="2026-10-21T14:00:00Z", reason="early"),
+         C.CaptureWindow(sport="nba", at="2026-10-21T14:00:00Z")]      # a close, same instant
+    res = C.run(w, client, store, now="2026-10-21T18:00:00Z")
+    assert sorted(r for _, r in res.gapped) == ["early_window_missed", "window_missed"]
+    assert t.urls == []

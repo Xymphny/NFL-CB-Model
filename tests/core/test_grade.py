@@ -201,3 +201,44 @@ def test_an_empty_ledger_summarises_honestly(setup):
     led, _ = setup
     s = G.clv_summary(led)
     assert s["graded_valid"] == 0 and s["mean_clv_devigged"] is None
+
+
+# ----------------------------------------------------------- early prices ----
+
+def test_an_early_snapshot_is_never_a_close(setup):
+    """If the closing capture were missed, falling back to the day's early
+    poll would grade an early trade against itself: zero CLV, reported as a
+    measurement."""
+    led, store = setup
+    store.write_snapshot(sport="nfl", captured_at="2026-09-21T14:00:00Z",
+                         payload=_payload(), cost=3, source_url="u", kind="early")
+    assert G.snapshots_for(store, "nfl") == []
+    store.write_snapshot(sport="nfl", captured_at="2026-09-21T19:55:00Z",
+                         payload=_payload(home_price=1.95), cost=3, source_url="u")
+    close = G.close_for(G.snapshots_for(store, "nfl"), event_id="e1", commence_time=KICKOFF)
+    assert close.captured_at == "2026-09-21T19:55:00Z"
+
+
+def _paper(sid, at):
+    return Signal(signal_id=sid, at=at, league="nfl", event_id="e1", market="spreads",
+                  selection="H", line=-3.0, p_model=0.56, p_market=0.52, p_used=0.52,
+                  shrinkage=0.0, edge_claimed=0.07, edge_used=0.0,
+                  disposition="not_placed", not_placed_reason="below_threshold",
+                  book="pinnacle", price_decimal=EVEN_JUICE)
+
+
+def test_paper_clv_counts_only_trades_priced_before_the_close(setup):
+    """A paper trade priced from the closing poll IS the close. Averaging it in
+    pulled every league's mean CLV toward zero by construction."""
+    led, store = setup
+    store.write_snapshot(sport="nfl", captured_at="2026-09-21T19:55:00Z",
+                         payload=_payload(home_price=1.80, away_price=2.05), cost=3, source_url="u")
+    led.record(_paper("early", "2026-09-21T14:00:00Z"))
+    led.record(_paper("close", "2026-09-21T19:55:00Z"))
+    G.grade(led, store, sport="nfl", commence_times={"e1": KICKOFF})
+    closes = {c.signal_id: c for c in led.closes()}
+    assert G.priced_before_close(_paper("early", "2026-09-21T14:00:00Z"), closes["early"])
+    assert not G.priced_before_close(_paper("close", "2026-09-21T19:55:00Z"), closes["close"])
+    s = G.clv_summary(led, paper=True)
+    assert s["graded_valid"] == 1, "the close-priced trade was averaged in"
+    assert s["mean_clv_probability_points"] > 0     # H shortened: the early price beat the close

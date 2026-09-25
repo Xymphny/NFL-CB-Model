@@ -148,6 +148,8 @@ def test_the_capture_job_papers_what_it_captured_and_commits_both(monkeypatch, c
 
         def summary(self):
             return "1 captured"
+    Res.paths = {Res.captured[0]: str(BronzeStore(tmp_path / "bronze").snapshot_path(
+        "basketball_nba", "2030-01-15T23:00:00Z"))}
     monkeypatch.setattr(entry, "run", lambda *a, **k: Res())
     monkeypatch.setattr(PT, "paper_trade", lambda p: calls.append(p) or [(["x"], 0)])
     monkeypatch.setitem(sys.modules, "paper_trade", PT)
@@ -176,6 +178,8 @@ def test_a_paper_failure_never_loses_the_capture(monkeypatch, tmp_path):
 
         def summary(self):
             return "1 captured"
+    Res.paths = {Res.captured[0]: str(BronzeStore(tmp_path / "bronze").snapshot_path(
+        "basketball_nba", "2030-01-15T23:00:00Z"))}
     monkeypatch.setattr(entry, "run", lambda *a, **k: Res())
 
     def boom(p):
@@ -202,3 +206,16 @@ def test_a_paper_run_is_never_placed_even_with_a_weight():
     with pytest.raises(SystemExit):
         R.main(["--league", "nba", "--date", "2030-01-15", "--bankroll", "1",
                 "--paper", "--market-weight", "0.5"])
+
+
+def test_an_early_snapshot_paper_trades_the_next_day(monkeypatch, tmp_path):
+    """From the daily early poll the window is a full day, so every game gets
+    exactly one early trade; from a close it stays WINDOW_HOURS."""
+    seen = []
+    monkeypatch.setattr(PT, "slates", lambda sport, at, q, window_hours: seen.append(window_hours) or ([], "x"))
+    store = BronzeStore(tmp_path / "bronze")
+    for kind in ("early", "current"):
+        snap = store.write_snapshot(sport="basketball_nba", captured_at="2026-10-21T14:00:00Z",
+                                    payload=[], cost=1, source_url="u", kind=kind).path
+        PT.paper_trade(snap, tmp_path / "ledger")
+    assert seen == [PT.EARLY_WINDOW_HOURS, PT.WINDOW_HOURS]

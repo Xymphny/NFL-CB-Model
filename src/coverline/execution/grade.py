@@ -26,7 +26,7 @@ market did, and picking one silently is how a record stops being a record.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -60,6 +60,11 @@ def snapshots_for(store: BronzeStore, sport: str) -> list[CloseCandidate]:
     """Every captured snapshot for a sport, oldest first."""
     out: list[CloseCandidate] = []
     for row in store.snapshots(sport):
+        # The daily EARLY poll is a price to be graded, never a close: if a
+        # close capture were missed, falling back to the early snapshot would
+        # grade an early trade against itself and report zero CLV as a result.
+        if row.get("kind") == "early":
+            continue
         path = store.root / row["path"]
         if not path.exists():
             continue
@@ -164,6 +169,19 @@ def grade(ledger: BetLedger, store: BronzeStore, *, sport: str,
     return report
 
 
+#: A paper trade priced this close to its close IS the close, so its CLV is
+#: zero by construction. The capture job paper-trades from both the daily
+#: early poll and the closing poll; only the first measures anything.
+MIN_LEAD_MINUTES = 30
+
+
+def priced_before_close(sig, close, minutes: int = MIN_LEAD_MINUTES) -> bool:
+    """True when the signal was priced at least `minutes` before its close."""
+    if close is None or not getattr(close, "at", None) or not sig.at:
+        return False
+    return _parse(close.at) - _parse(sig.at) >= timedelta(minutes=minutes)
+
+
 def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
     """CLV across graded bets, with the invalid ones kept separate.
 
@@ -188,6 +206,8 @@ def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
         # the side the model preferred: positive claimed edge.
         if paper and sig.edge_claimed <= 0:
             continue
+        if paper and not priced_before_close(sig, closes.get(sig.signal_id)):
+            continue                      # priced at the close: CLV 0 by construction
         clv = ledger.clv_of(sig, closes.get(sig.signal_id))
         if clv is None:
             ungraded += 1

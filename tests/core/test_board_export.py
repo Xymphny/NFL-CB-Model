@@ -251,6 +251,31 @@ def test_the_record_counts_one_settled_game_per_event(tmp_path):
     assert rec["leagues"]["nfl"]["settled_games"] == 0
 
 
+
+def test_the_record_measures_clv_on_the_early_trade_not_the_close(tmp_path):
+    """The capture job paper-trades each game twice: from the daily early poll
+    and from the closing poll. The close-priced trade IS the close (CLV 0 by
+    construction), so the Record's CLV must come from the early one."""
+    from coverline.execution.ledger import BetLedger, Close, Outcome, Signal
+    led = BetLedger(tmp_path / "ledger")
+    for sid, at, price in (("early", "2026-10-21T14:05:00Z", 2.05),
+                           ("close", "2026-10-21T23:25:00Z", 1.90)):
+        led.record(Signal(signal_id=sid, at=at, league="nba", event_id="e1",
+                          market="spreads", selection="home", line=-1.5, p_model=0.56,
+                          p_market=0.52, p_used=0.52, shrinkage=0.0, edge_claimed=0.04,
+                          edge_used=0.0, disposition="not_placed",
+                          not_placed_reason="below_threshold", game_id="g1",
+                          side="home", book="pinnacle", price_decimal=price))
+        led.record_close(Close(signal_id=sid, at="2026-10-21T23:25:00Z",
+                               close_decimals=[1.90, 1.95], outcome_index=0,
+                               close_line=-1.5, market_has_sharp_close=True,
+                               devig_method="power"))
+        led.record_outcome(Outcome(sid, "t", "win", 110, 100))
+    r = XR.record(tmp_path / "ledger")["leagues"]["nba"]
+    assert r["clv_graded"] == 1, "the close-priced trade was counted"
+    assert r["mean_clv_prob_points"] > 0      # 2.05 early beat a 1.90 close
+    assert r["settled_games"] == 1
+
 def test_the_gates_are_read_from_the_artifacts_not_written_by_hand():
     g = XR.gates()
     for row in g["fitted"]:

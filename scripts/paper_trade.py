@@ -43,6 +43,10 @@ from coverline.execution.settle import VENDOR  # noqa: E402
 
 LEDGER_DIR = ROOT / "data" / "ledger"
 WINDOW_HOURS = 3.0
+#: From the daily EARLY snapshot (14:00 UTC), the next day of games: each game
+#: falls in exactly one day's window, so it gets exactly one early paper trade,
+#: whose CLV against the later close is the measurement (capture.EARLY_UTC_HOUR).
+EARLY_WINDOW_HOURS = 24.0
 #: Nominal. At weight 0 nothing is sized; the figure only has to be valid.
 BANKROLL = os.environ.get("PAPER_BANKROLL", "1000")
 
@@ -89,9 +93,11 @@ def slates(sport: str, captured_at: str, quotes, window_hours: float = WINDOW_HO
 
 
 def paper_trade(snapshot: Path, ledger_dir: Path = LEDGER_DIR,
-                window_hours: float = WINDOW_HOURS) -> list[tuple[list[str], int]]:
+                window_hours: float | None = None) -> list[tuple[list[str], int]]:
     rec = BronzeStore(snapshot.parents[2]).read_snapshot(snapshot)
     meta = rec["_meta"]
+    if window_hours is None:
+        window_hours = EARLY_WINDOW_HOURS if meta.get("kind") == "early" else WINDOW_HOURS
     quotes = normalize(rec["payload"], captured_at=meta["captured_at"])
     runs, cutoff = slates(meta["sport"], meta["captured_at"], quotes, window_hours)
     if not runs:
@@ -117,7 +123,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--snapshot", required=True)
     ap.add_argument("--ledger", default=str(LEDGER_DIR))
-    ap.add_argument("--window-hours", type=float, default=WINDOW_HOURS)
+    ap.add_argument("--window-hours", type=float, default=None,
+                    help=f"default {WINDOW_HOURS}h from a close, {EARLY_WINDOW_HOURS}h from an early poll")
     a = ap.parse_args(argv)
     res = paper_trade(Path(a.snapshot), Path(a.ledger), a.window_hours)
     # Exit 2 means "inputs not ready" (a stale file, a missing slate) and is

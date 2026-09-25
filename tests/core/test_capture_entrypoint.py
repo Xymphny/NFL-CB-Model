@@ -292,3 +292,15 @@ def test_the_blueprint_gate_is_the_decision_that_was_made():
         assert e.get("sync") is False and "value" not in e, (
             f"{secret} must not have a literal value in the Blueprint"
         )
+
+
+def test_the_plan_adds_one_early_poll_a_day_only_in_season():
+    import capture as entry
+    from datetime import datetime, timezone
+    now = datetime(2026, 10, 21, 12, 0, tzinfo=timezone.utc)
+    games = [datetime(2026, 10, 21, 23, 30, tzinfo=timezone.utc)]
+    w = entry.early_windows("basketball_nba", games, now, 6, ("eu",))
+    assert [(x.at, x.reason) for x in w] == [("2026-10-21T14:00:00Z", "early")]
+    assert entry.early_windows("basketball_nba", [], now, 6, ("eu",)) == []   # off-season
+    late = datetime(2026, 10, 21, 18, 0, tzinfo=timezone.utc)                 # past its reach
+    assert entry.early_windows("basketball_nba", games, late, 6, ("eu",)) == []

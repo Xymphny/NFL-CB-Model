@@ -65,7 +65,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from coverline.execution.bronze import BronzeStore  # noqa: E402
 from coverline.execution.capture import (  # noqa: E402
-    CaptureWindow, estimate_monthly, run, windows_for_slate,
+    EARLY_TOLERANCE_MINUTES, EARLY_UTC_HOUR, CaptureWindow, estimate_monthly, run,
+    windows_for_slate,
 )
 from coverline.execution.odds_client import (  # noqa: E402
     CreditLedger, OddsAPIClient,
@@ -130,6 +131,27 @@ def _cached_plan(now: str, max_age_minutes: int) -> list[dict] | None:
     return blob["windows"]
 
 
+def early_windows(sport: str, starts: list[datetime], now: datetime,
+                  horizon_hours: int, regions) -> list[CaptureWindow]:
+    """Today's and tomorrow's 14:00 UTC early poll, where one is in reach and
+    the sport has a game in the 24 hours after it (out of season: nothing).
+
+    In reach means from EARLY_TOLERANCE_MINUTES before now -- a run that
+    starts late in the morning still takes the day's early price -- to the
+    horizon, so the plan cache already holds it."""
+    out = []
+    for days in (0, 1):
+        at = (now + timedelta(days=days)).replace(hour=EARLY_UTC_HOUR, minute=0,
+                                                  second=0, microsecond=0)
+        if not (now - timedelta(minutes=EARLY_TOLERANCE_MINUTES) <= at
+                <= now + timedelta(hours=horizon_hours)):
+            continue
+        if any(at <= s < at + timedelta(hours=24) for s in starts):
+            out.append(CaptureWindow(sport=sport, at=at.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                                     regions=tuple(regions), reason="early"))
+    return out
+
+
 def plan(client: OddsAPIClient, *, horizon_hours: int, now: str,
          lead_minutes: int, cluster_minutes: int,
          cache_minutes: int = 0) -> list[CaptureWindow]:
@@ -139,23 +161,24 @@ def plan(client: OddsAPIClient, *, horizon_hours: int, now: str,
         if cached is not None:
             return [CaptureWindow(sport=w["sport"], at=w["at"],
                                   markets=tuple(w["markets"]),
-                                  regions=tuple(w["regions"]))
+                                  regions=tuple(w["regions"]),
+                                  reason=w.get("reason", "close"))
                     for w in cached]
     cutoff = datetime.fromisoformat(now.replace("Z", "+00:00")) + timedelta(
         hours=horizon_hours)
     out: list[CaptureWindow] = []
+    t_now = datetime.fromisoformat(now.replace("Z", "+00:00"))
     for sport, regions in SPORTS.items():
         resp = client.events(sport=sport, captured_at=now)
-        starts = [e["commence_time"] for e in resp.payload
-                  if e.get("commence_time")
-                  and datetime.fromisoformat(
-                      e["commence_time"].replace("Z", "+00:00")) <= cutoff]
-        if not starts:
-            continue
-        out += windows_for_slate(sport=sport, commence_times=starts,
-                                 lead_minutes=lead_minutes,
-                                 cluster_minutes=cluster_minutes,
-                                 regions=regions)
+        every = [datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00"))
+                 for e in resp.payload if e.get("commence_time")]
+        starts = [d.strftime("%Y-%m-%dT%H:%M:%SZ") for d in every if d <= cutoff]
+        if starts:
+            out += windows_for_slate(sport=sport, commence_times=starts,
+                                     lead_minutes=lead_minutes,
+                                     cluster_minutes=cluster_minutes,
+                                     regions=regions)
+        out += early_windows(sport, every, t_now, horizon_hours, regions)
     out = sorted(out, key=lambda w: w.at)
     if cache_minutes:
         PLAN_CACHE.parent.mkdir(parents=True, exist_ok=True)
@@ -163,7 +186,8 @@ def plan(client: OddsAPIClient, *, horizon_hours: int, now: str,
             "built_at": now,
             "horizon_hours": horizon_hours,
             "windows": [{"sport": w.sport, "at": w.at,
-                         "markets": list(w.markets), "regions": list(w.regions)}
+                         "markets": list(w.markets), "regions": list(w.regions),
+                         "reason": w.reason}
                         for w in out],
         }, indent=2) + "\n")
     return out
@@ -216,7 +240,9 @@ def main(argv: list[str] | None = None) -> int:
     for w in windows:
         print(f"  {w.at}  {w.sport:24} {w.cost:>2} credits")
 
-    monthly = estimate_monthly(TYPICAL_WEEKLY_WINDOWS, markets=3, regions=1)
+    # Plus the daily early poll: seven a week per league in season.
+    monthly = estimate_monthly({k: v + 7 for k, v in TYPICAL_WEEKLY_WINDOWS.items()},
+                               markets=3, regions=1)
     print("\ntypical month at this shape, if every league is in season:")
     for sport, credits in sorted(monthly.items(), key=lambda kv: -kv[1]):
         if sport != "TOTAL":
@@ -252,9 +278,8 @@ def main(argv: list[str] | None = None) -> int:
         sys.path.insert(0, str(ROOT / "scripts"))
         from paper_trade import paper_trade
         for key_ in res.captured:
-            sport, at = key_.split("|", 1)
             try:
-                papered += len(paper_trade(store.snapshot_path(sport, at)))
+                papered += len(paper_trade(Path(res.paths[key_])))
             except Exception as exc:
                 print(f"[paper] {key_} failed: {type(exc).__name__}: {exc}")
 

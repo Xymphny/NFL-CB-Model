@@ -73,15 +73,34 @@ def record(ledger_dir: Path = LEDGER) -> dict:
             cur = per_game.get(s.event_id)
             if cur is None or rank < cur[0] or (rank == cur[0] and s.at > cur[1].at):
                 per_game[s.event_id] = (rank, s)
-        settled, clv_pts, line_pts, recent = [], [], [], []
-        for _, s in per_game.values():
-            o = outcome.get(s.signal_id)
-            c = closes.get(s.signal_id)
-            clv = led.clv_of(s, c)
+        # CLV comes from the game's EARLIEST trade priced well before its
+        # close. The latest trade (kept above for the result) is priced from
+        # the closing poll itself, so its CLV is zero by construction and
+        # averaging it in measured nothing (grade.priced_before_close).
+        from coverline.execution.grade import priced_before_close
+        early: dict = {}
+        for s in rows:
+            if s.edge_claimed is None or s.p_model <= s.p_market or s.game_id is None:
+                continue
+            if not priced_before_close(s, closes.get(s.signal_id)):
+                continue
+            rank = MARKET_ORDER.index(s.market) if s.market in MARKET_ORDER else 9
+            cur = early.get(s.event_id)
+            if cur is None or rank < cur[0] or (rank == cur[0] and s.at < cur[1].at):
+                early[s.event_id] = (rank, s)
+        early_clv = {}
+        clv_pts, line_pts = [], []
+        for ev, (_, s) in early.items():
+            clv = led.clv_of(s, closes.get(s.signal_id))
             if clv is not None and clv.valid:
+                early_clv[ev] = clv
                 clv_pts.append(clv.prob_points)
                 if clv.line_points is not None:
                     line_pts.append(clv.line_points)
+        settled, recent = [], []
+        for _, s in per_game.values():
+            o = outcome.get(s.signal_id)
+            clv = early_clv.get(s.event_id)
             if o is None or o.result == "push":
                 continue
             settled.append(o.result == "win")
