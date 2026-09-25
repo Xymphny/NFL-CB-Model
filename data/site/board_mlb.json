@@ -1,19 +1,561 @@
 {
  "league": "mlb",
- "generated_at": "2026-09-23T09:43:45Z",
+ "generated_at": "2026-09-25T11:13:37Z",
  "note": "Daily. Lines are quoted on the listed probable starters; a scratch changes the game being priced.",
- "slate": null,
- "games": [],
+ "slate": {
+  "kind": "date",
+  "date": "2026-09-25"
+ },
+ "games": [
+  {
+   "game_id": "BOS202609250",
+   "home": "BOS",
+   "away": "CHN",
+   "home_name": "Boston Red Sox",
+   "away_name": "Chicago Cubs",
+   "start": "2026-09-25T17:05:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Alec Gamboa",
+    "away_probable": "Clay Holmes",
+    "park": "BOS07"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.49406,
+    "margin_mean": -0.405,
+    "total_mean": 9.467
+   }
+  },
+  {
+   "game_id": "NYA202609250",
+   "home": "NYA",
+   "away": "BAL",
+   "home_name": "New York Yankees",
+   "away_name": "Baltimore Orioles",
+   "start": "2026-09-25T20:05:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": null,
+    "away_probable": "Brandon Young",
+    "park": "NYC21"
+   },
+   "refusal": "GameNotPriceable: BAL@NYA: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
+  },
+  {
+   "game_id": "NYA202609251",
+   "home": "NYA",
+   "away": "BAL",
+   "home_name": "New York Yankees",
+   "away_name": "Baltimore Orioles",
+   "start": "2026-09-25T20:10:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Brendan Beck",
+    "away_probable": "Trevor Rogers",
+    "park": "NYC21"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.56059,
+    "margin_mean": 0.343,
+    "total_mean": 8.921
+   }
+  },
+  {
+   "game_id": "BOS202609251",
+   "home": "BOS",
+   "away": "CHN",
+   "home_name": "Boston Red Sox",
+   "away_name": "Chicago Cubs",
+   "start": "2026-09-25T22:05:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Brayan Bello",
+    "away_probable": "David Peterson",
+    "park": "BOS07"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50904,
+    "margin_mean": -0.23,
+    "total_mean": 10.02
+   }
+  },
+  {
+   "game_id": "DET202609250",
+   "home": "DET",
+   "away": "PIT",
+   "home_name": "Detroit Tigers",
+   "away_name": "Pittsburgh Pirates",
+   "start": "2026-09-25T22:40:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Jackson Jobe",
+    "away_probable": "Bubba Chandler",
+    "park": "DET05"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.58065,
+    "margin_mean": 0.52,
+    "total_mean": 8.249
+   }
+  },
+  {
+   "game_id": "PHI202609250",
+   "home": "PHI",
+   "away": "TBA",
+   "home_name": "Philadelphia Phillies",
+   "away_name": "Tampa Bay Rays",
+   "start": "2026-09-25T22:40:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Cristopher S\u00e1nchez",
+    "away_probable": "Freddy Peralta",
+    "park": "PHI13"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.52981,
+    "margin_mean": -0.009,
+    "total_mean": 8.532
+   }
+  },
+  {
+   "game_id": "WAS202609250",
+   "home": "WAS",
+   "away": "NYN",
+   "home_name": "Washington Nationals",
+   "away_name": "New York Mets",
+   "start": "2026-09-25T22:45:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Andrew Alvarez",
+    "away_probable": null,
+    "park": "WAS11"
+   },
+   "refusal": "GameNotPriceable: NYN@WAS: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
+  },
+  {
+   "game_id": "TOR202609250",
+   "home": "TOR",
+   "away": "CIN",
+   "home_name": "Toronto Blue Jays",
+   "away_name": "Cincinnati Reds",
+   "start": "2026-09-25T23:07:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": null,
+    "away_probable": "Nick Lodolo",
+    "park": "TOR02"
+   },
+   "refusal": "GameNotPriceable: CIN@TOR: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
+  },
+  {
+   "game_id": "MIA202609250",
+   "home": "MIA",
+   "away": "ATL",
+   "home_name": "Miami Marlins",
+   "away_name": "Atlanta Braves",
+   "start": "2026-09-25T23:10:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Eury P\u00e9rez",
+    "away_probable": null,
+    "park": "MIA02"
+   },
+   "refusal": "GameNotPriceable: ATL@MIA: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
+  },
+  {
+   "game_id": "CHA202609250",
+   "home": "CHA",
+   "away": "COL",
+   "home_name": "Chicago White Sox",
+   "away_name": "Colorado Rockies",
+   "start": "2026-09-25T23:40:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Sean Burke",
+    "away_probable": "Tomoyuki Sugano",
+    "park": "CHI12"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.59193,
+    "margin_mean": 0.69,
+    "total_mean": 8.837
+   }
+  },
+  {
+   "game_id": "KCA202609250",
+   "home": "KCA",
+   "away": "CLE",
+   "home_name": "Kansas City Royals",
+   "away_name": "Cleveland Guardians",
+   "start": "2026-09-25T23:40:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Noah Cameron",
+    "away_probable": "Gavin Williams",
+    "park": "KAN06"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.48132,
+    "margin_mean": -0.516,
+    "total_mean": 8.138
+   }
+  },
+  {
+   "game_id": "MIL202609250",
+   "home": "MIL",
+   "away": "SLN",
+   "home_name": "Milwaukee Brewers",
+   "away_name": "St. Louis Cardinals",
+   "start": "2026-09-25T23:40:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Robert Gasser",
+    "away_probable": "Michael McGreevy",
+    "park": "MIL06"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.5665,
+    "margin_mean": 0.393,
+    "total_mean": 8.646
+   }
+  },
+  {
+   "game_id": "MIN202609250",
+   "home": "MIN",
+   "away": "TEX",
+   "home_name": "Minnesota Twins",
+   "away_name": "Texas Rangers",
+   "start": "2026-09-26T00:10:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Joe Ryan",
+    "away_probable": "Jacob deGrom",
+    "park": "MIN04"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.49028,
+    "margin_mean": -0.429,
+    "total_mean": 8.386
+   }
+  },
+  {
+   "game_id": "ATH202609250",
+   "home": "ATH",
+   "away": "HOU",
+   "home_name": "Athletics",
+   "away_name": "Houston Astros",
+   "start": "2026-09-26T01:40:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Jacob Lopez",
+    "away_probable": "Hunter Brown",
+    "park": "SAC01"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.40618,
+    "margin_mean": -1.523,
+    "total_mean": 10.385
+   }
+  },
+  {
+   "game_id": "SDN202609250",
+   "home": "SDN",
+   "away": "ARI",
+   "home_name": "San Diego Padres",
+   "away_name": "Arizona Diamondbacks",
+   "start": "2026-09-26T01:40:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": null,
+    "away_probable": "Brandon Pfaadt",
+    "park": "SAN02"
+   },
+   "refusal": "GameNotPriceable: ARI@SDN: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
+  },
+  {
+   "game_id": "SEA202609250",
+   "home": "SEA",
+   "away": "ANA",
+   "home_name": "Seattle Mariners",
+   "away_name": "Los Angeles Angels",
+   "start": "2026-09-26T02:10:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Bryce Miller",
+    "away_probable": "Reid Detmers",
+    "park": "SEA03"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.6032,
+    "margin_mean": 0.735,
+    "total_mean": 7.973
+   }
+  },
+  {
+   "game_id": "SFN202609250",
+   "home": "SFN",
+   "away": "LAN",
+   "home_name": "San Francisco Giants",
+   "away_name": "Los Angeles Dodgers",
+   "start": "2026-09-26T02:15:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Yunior Marte",
+    "away_probable": "Tarik Skubal",
+    "park": "SFO03"
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.40556,
+    "margin_mean": -1.345,
+    "total_mean": 8.548
+   }
+  }
+ ],
  "refusals": [
   {
    "scope": "league",
-   "reason": "this slate was pulled while 10 earlier game(s) were in progress (ATH202609220, ATL202609220, BOS202609220, CHN202609220), so its record of what went final is incomplete. Re-pull it once they finish: `python model/ingest/mlb_slate.py --date 2026-09-23`."
+   "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run."
   }
  ],
  "freshness": {
-  "odds_captured_at": null
+  "odds_captured_at": null,
+  "slate_fetched_at": "20260925T111332Z",
+  "latest_final": "2026-09-24"
  },
- "teams": [],
+ "teams": [
+  {
+   "pitcher": "Alec Gamboa",
+   "team": "BOS",
+   "ra27": 4.366,
+   "park": "BOS07",
+   "park_factor": 1.062
+  },
+  {
+   "pitcher": "Clay Holmes",
+   "team": "CHN",
+   "ra27": 4.018,
+   "park": "BOS07",
+   "park_factor": 1.062
+  },
+  {
+   "pitcher": "Brayan Bello",
+   "team": "BOS",
+   "ra27": 4.683,
+   "park": "BOS07",
+   "park_factor": 1.062
+  },
+  {
+   "pitcher": "David Peterson",
+   "team": "CHN",
+   "ra27": 4.666,
+   "park": "BOS07",
+   "park_factor": 1.062
+  },
+  {
+   "pitcher": "Brandon Young",
+   "team": "BAL",
+   "ra27": 4.68,
+   "park": "NYC21",
+   "park_factor": 0.982
+  },
+  {
+   "pitcher": "Brendan Beck",
+   "team": "NYA",
+   "ra27": 4.677,
+   "park": "NYC21",
+   "park_factor": 0.982
+  },
+  {
+   "pitcher": "Trevor Rogers",
+   "team": "BAL",
+   "ra27": 4.174,
+   "park": "NYC21",
+   "park_factor": 0.982
+  },
+  {
+   "pitcher": "Jackson Jobe",
+   "team": "DET",
+   "ra27": 4.399,
+   "park": "DET05",
+   "park_factor": 0.961
+  },
+  {
+   "pitcher": "Bubba Chandler",
+   "team": "PIT",
+   "ra27": 4.738,
+   "park": "DET05",
+   "park_factor": 0.961
+  },
+  {
+   "pitcher": "Cristopher S\u00e1nchez",
+   "team": "PHI",
+   "ra27": 3.51,
+   "park": "PHI13",
+   "park_factor": 1.024
+  },
+  {
+   "pitcher": "Freddy Peralta",
+   "team": "TBA",
+   "ra27": 3.8,
+   "park": "PHI13",
+   "park_factor": 1.024
+  },
+  {
+   "pitcher": "Andrew Alvarez",
+   "team": "WAS",
+   "ra27": 3.802,
+   "park": "WAS11",
+   "park_factor": 1.056
+  },
+  {
+   "pitcher": "Nick Lodolo",
+   "team": "CIN",
+   "ra27": 4.362,
+   "park": "TOR02",
+   "park_factor": 0.989
+  },
+  {
+   "pitcher": "Eury P\u00e9rez",
+   "team": "MIA",
+   "ra27": 4.316,
+   "park": "MIA02",
+   "park_factor": 0.977
+  },
+  {
+   "pitcher": "Noah Cameron",
+   "team": "KCA",
+   "ra27": 3.947,
+   "park": "KAN06",
+   "park_factor": 1.028
+  },
+  {
+   "pitcher": "Gavin Williams",
+   "team": "CLE",
+   "ra27": 3.918,
+   "park": "KAN06",
+   "park_factor": 1.028
+  },
+  {
+   "pitcher": "Sean Burke",
+   "team": "CHA",
+   "ra27": 4.451,
+   "park": "CHI12",
+   "park_factor": 0.983
+  },
+  {
+   "pitcher": "Tomoyuki Sugano",
+   "team": "COL",
+   "ra27": 4.981,
+   "park": "CHI12",
+   "park_factor": 0.983
+  },
+  {
+   "pitcher": "Robert Gasser",
+   "team": "MIL",
+   "ra27": 4.346,
+   "park": "MIL06",
+   "park_factor": 0.972
+  },
+  {
+   "pitcher": "Michael McGreevy",
+   "team": "SLN",
+   "ra27": 4.329,
+   "park": "MIL06",
+   "park_factor": 0.972
+  },
+  {
+   "pitcher": "Joe Ryan",
+   "team": "MIN",
+   "ra27": 4.14,
+   "park": "MIN04",
+   "park_factor": 1.018
+  },
+  {
+   "pitcher": "Jacob deGrom",
+   "team": "TEX",
+   "ra27": 3.251,
+   "park": "MIN04",
+   "park_factor": 1.018
+  },
+  {
+   "pitcher": "Jacob Lopez",
+   "team": "ATH",
+   "ra27": 4.934,
+   "park": "SAC01",
+   "park_factor": 1.128
+  },
+  {
+   "pitcher": "Hunter Brown",
+   "team": "HOU",
+   "ra27": 3.918,
+   "park": "SAC01",
+   "park_factor": 1.128
+  },
+  {
+   "pitcher": "Brandon Pfaadt",
+   "team": "ARI",
+   "ra27": 4.919,
+   "park": "SAN02",
+   "park_factor": 0.922
+  },
+  {
+   "pitcher": "Bryce Miller",
+   "team": "SEA",
+   "ra27": 4.225,
+   "park": "SEA03",
+   "park_factor": 0.903
+  },
+  {
+   "pitcher": "Reid Detmers",
+   "team": "ANA",
+   "ra27": 4.631,
+   "park": "SEA03",
+   "park_factor": 0.903
+  },
+  {
+   "pitcher": "Yunior Marte",
+   "team": "SFN",
+   "ra27": 4.615,
+   "park": "SFO03",
+   "park_factor": 0.952
+  },
+  {
+   "pitcher": "Tarik Skubal",
+   "team": "LAN",
+   "ra27": 3.384,
+   "park": "SFO03",
+   "park_factor": 0.952
+  }
+ ],
  "grade": {
   "weight": 0.0,
   "source": null
@@ -26,8 +568,8 @@
   "provisional": true
  },
  "status": {
-  "state": "refused",
-  "games": 0,
+  "state": "degraded",
+  "games": 17,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -36,7 +578,28 @@
    "no_edge": 0
   },
   "refusals": 1,
-  "reason": "this slate was pulled while 10 earlier game(s) were in progress (ATH202609220, ATL202609220, BOS202609220, CHN202609220), so its record of what went final is incomplete. Re-pull it once they finish: `python model/ingest/mlb_slate.py --date 2026-09-23`.",
-  "game_refusals": []
+  "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run.",
+  "game_refusals": [
+   {
+    "reason": "GameNotPriceable: BAL@NYA: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+    "games": 1
+   },
+   {
+    "reason": "GameNotPriceable: NYN@WAS: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+    "games": 1
+   },
+   {
+    "reason": "GameNotPriceable: CIN@TOR: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+    "games": 1
+   },
+   {
+    "reason": "GameNotPriceable: ATL@MIA: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+    "games": 1
+   },
+   {
+    "reason": "GameNotPriceable: ARI@SDN: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+    "games": 1
+   }
+  ]
  }
 }
