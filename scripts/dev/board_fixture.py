@@ -95,7 +95,7 @@ def main():
         print(league, b["status"])
     for league in ("nfl", "cfb", "mlb"):
         shutil.copy(ROOT / "data" / "site" / f"board_{league}.json", OUT / f"board_{league}.json")
-    for f in ("record.json", "gates.json"):
+    for f in ("record.json", "gates.json", "players_nba.json"):
         shutil.copy(ROOT / "data" / "site" / f, OUT / f)
     shutil.copy(ROOT / "data" / "prop_grades" / "summary.json", OUT / "prop_grades_summary.json")
 

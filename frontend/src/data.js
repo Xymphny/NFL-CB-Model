@@ -21,12 +21,14 @@ const paths = FIXTURE
       record: '/dev-fixtures/record.json',
       gates: '/dev-fixtures/gates.json',
       props: '/dev-fixtures/prop_grades_summary.json',
+      nbaPlayers: '/dev-fixtures/players_nba.json',
     }
   : {
       board: (l) => `/data/site/board_${l}.json`,
       record: '/data/site/record.json',
       gates: '/data/site/gates.json',
       props: '/data/prop_grades/summary.json',
+      nbaPlayers: '/data/site/players_nba.json',
     }
 
 export const isFixture = FIXTURE
@@ -70,6 +72,7 @@ export function useBoards() {
 export const useRecord = () => useJson(paths.record)
 export const useGates = () => useJson(paths.gates)
 export const usePropLedger = () => useJson(paths.props)
+export const useNbaPlayers = () => useJson(paths.nbaPlayers)
 
 /* ------------------------------------------------ since your last look ---- */
 

@@ -421,6 +421,33 @@ kbd {
 .d-id { color: var(--ink-3); font-weight: 600; }
 .d-meta { color: var(--ink-3); font-size: var(--t-sm); white-space: nowrap; }
 
+/* NBA Players: availability and minutes, not a model input. Status is a
+ * word first; the colour only repeats it. */
+.pl-banner { margin-bottom: var(--s4); max-width: 900px; }
+.pl-banner b { color: var(--ink); }
+.pl-asof { font-variant-numeric: tabular-nums; }
+.pl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: var(--s4); }
+.pl-team { border: 1px solid var(--rule); border-radius: 4px; padding: var(--s3) var(--s4); background: var(--panel); }
+.pl-team.on-slate { border-color: rgba(213, 138, 74, 0.5); }
+.pl-team header { display: flex; align-items: baseline; gap: var(--s2); margin-bottom: var(--s2); }
+.pl-team h3 { font-size: var(--t-base); font-weight: 600; }
+.pl-code { font-family: var(--mono); font-size: var(--t-xs); color: var(--ink-3); }
+.pl-flag { margin-left: auto; font-size: var(--t-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--nba); }
+.pl-inj { list-style: none; margin: 0; padding: 0; }
+.pl-inj li { display: grid; grid-template-columns: 96px minmax(0, 1fr) minmax(0, 1fr); gap: var(--s2); padding: 5px 0; border-bottom: 1px solid var(--rule-soft); font-size: var(--t-md); align-items: baseline; }
+.pl-inj li:last-child { border-bottom: 0; }
+.pl-name small, .pl-rot td small { margin-left: 6px; }
+.pl-why { color: var(--ink-3); }
+.pl-why small { display: block; }
+.pl-status { font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.st-out { color: var(--refused); }
+.st-doubtful { color: #e0916a; }
+.st-questionable { color: var(--degraded); }
+.st-probable, .st-dtd { color: var(--idle); }
+.pl-none { color: var(--ink-3); font-size: var(--t-md); }
+.pl-rot { margin-top: var(--s3); width: 100%; min-width: 0; }
+.pl-rot caption { text-align: left; font-size: var(--t-sm); color: var(--ink-3); padding-bottom: 4px; }
+
 .panel-block { margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--rule); }
 .block-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--s3); }
 .block-head h2 { font-size: var(--t-lg); }

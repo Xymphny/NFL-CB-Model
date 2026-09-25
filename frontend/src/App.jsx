@@ -7,17 +7,19 @@ import { StateGlyph } from './Glyph'
 import Board from './views/Board'
 import Teams from './views/Teams'
 import Players from './views/Players'
+import NbaPlayers from './views/NbaPlayers'
 import Record from './views/Record'
 import Gates from './views/Gates'
 import Book, { AccountChip } from './views/Book'
 
-/* Views a league actually has. Players only where a player model exists
- * (NFL's props engine); Teams only where the board says what the model rates.
- * Tabs that do not apply are hidden, never rendered empty. */
+/* Views a league actually has. Players for NFL (the props engine's ledger)
+ * and NBA (availability and minutes -- NOT a model input, labelled as such);
+ * Teams only where the board says what the model rates. Tabs that do not
+ * apply are hidden, never rendered empty. */
 function viewsFor(league, board) {
   const v = [{ id: 'board', label: 'Board', key: 'b' }]
   if (board?.teams?.length) v.push({ id: 'teams', label: 'Teams', key: 't' })
-  if (league === 'nfl') v.push({ id: 'players', label: 'Players', key: 'p' })
+  if (league === 'nfl' || league === 'nba') v.push({ id: 'players', label: 'Players', key: 'p' })
   v.push({ id: 'record', label: 'Record', key: 'r' }, { id: 'gates', label: 'Gates', key: 'g' },
          { id: 'book', label: 'My book', key: 'm' })
   return v
@@ -130,6 +132,7 @@ export default function App() {
         {board && view === 'board' && <Board league={league} board={board} since={since} book={book} />}
         {board && view === 'teams' && <Teams league={league} board={board} />}
         {view === 'players' && league === 'nfl' && <Players />}
+        {view === 'players' && league === 'nba' && <NbaPlayers board={board} />}
         {view === 'record' && <Record league={league} record={record} />}
         {view === 'gates' && <Gates league={league} gates={gates} />}
         {view === 'book' && <Book book={book} account={account} />}

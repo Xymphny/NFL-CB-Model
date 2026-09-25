@@ -361,6 +361,37 @@ artifacts:
     staleness_error_hours: 36
     unconsumed_reason: null
 
+  - path: data/site/players_nba.json
+    produced_by: scripts/export_players.py
+    consumed_by:
+      - frontend/src/data.js
+    kind: gold
+    refresh: "twice daily (live-inputs-job). NOT a model input: availability and
+      minutes shown beside a team-level model; a test pins that no pricing path
+      reads it"
+    staleness_error_hours: 36
+    unconsumed_reason: null
+
+  - path: data/raw/nba/injuries_current.json
+    produced_by: model/ingest/nba_players.py
+    consumed_by:
+      - scripts/export_players.py
+    kind: bronze
+    refresh: "twice daily; rewritten only when the report's content changes, so
+      its history is the git log"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/raw/nba/player_box_*.parquet
+    produced_by: model/ingest/nba_players.py
+    consumed_by:
+      - scripts/export_players.py
+    kind: bronze
+    refresh: "incremental: only finals not yet cached. Retained raw data -- what a
+      future player-minutes layer would be fitted and graded on"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/site/gates.json
     produced_by: scripts/export_record.py
     consumed_by:

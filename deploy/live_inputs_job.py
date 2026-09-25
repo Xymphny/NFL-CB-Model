@@ -3,6 +3,8 @@
 
 WHAT IT RUNS, IN ORDER
   nba   model/ingest/nba_espn.py   --seasons Y-Y --force  (the season in progress)
+  nba_players model/ingest/nba_players.py --season Y  (injury report + new box
+        scores, for the Players tab only -- NOT a model input)
   nhl   model/ingest/nhl_api.py    --seasons Y-Y --force  (finals + schedule)
         model/ingest/nhl_goals.py  --seasons Y-Y --update (goal rows for new finals)
   mlb   model/ingest/mlb_slate.py  --date <today, US Eastern>
@@ -10,7 +12,7 @@ WHAT IT RUNS, IN ORDER
         the ratings come from the weekly cfb-weekly-job, not from here)
   audit model/audit_data_integrity.py
   settle scripts/settle_ledger.py  (closes + outcomes for paper trades; no regrade)
-  export scripts/export_board.py + export_record.py  (the dashboard's data)
+  export scripts/export_board.py + export_record.py + export_players.py
 
 Then one commit of whatever changed, pushed through deploy/git_utils.
 
@@ -63,6 +65,7 @@ JOB = "live-inputs-job"
 #: What this job may commit. Staged by path, never `git add .`.
 PATHS = (
     "data/raw/sportsdataverse",
+    "data/raw/nba",
     "data/raw/nhl",
     "data/raw/mlb/slates",
     "data/raw/cfb",
@@ -71,6 +74,7 @@ PATHS = (
     "data/site/board_nfl.json", "data/site/board_cfb.json", "data/site/board_mlb.json",
     "data/site/board_nhl.json", "data/site/board_nba.json",
     "data/site/record.json", "data/site/gates.json",
+    "data/site/players_nba.json",
 )
 
 
@@ -92,6 +96,13 @@ def steps(today_et: date) -> list[tuple[str, Callable[[], None]]]:
     def nba():
         from model.ingest import nba_espn
         _call(nba_espn.main, ["--seasons", span, "--force"])
+
+    def nba_players():
+        # After nba, so the box scores it fetches are for finals that file
+        # now lists. Its own step so an ESPN injuries outage cannot cost the
+        # NBA schedule refresh the model actually prices from.
+        from model.ingest import nba_players as NP
+        _call(NP.main, ["--season", str(y)])
 
     def nhl():
         from model.ingest import nhl_api, nhl_goals
@@ -133,11 +144,13 @@ def steps(today_et: date) -> list[tuple[str, Callable[[], None]]]:
         # Last, so it reflects every step before it.
         sys.path.insert(0, str(ROOT / "scripts"))
         import export_board
+        import export_players
         import export_record
         _call(export_board.main, [])
         _call(export_record.main, [])
+        _call(export_players.main, [])
 
-    return [("nba", nba), ("nhl", nhl), ("mlb", mlb), ("cfb", cfb), ("audit", audit),
+    return [("nba", nba), ("nba_players", nba_players), ("nhl", nhl), ("mlb", mlb), ("cfb", cfb), ("audit", audit),
             ("settle", settle), ("export", export)]
 
 
