@@ -77,7 +77,7 @@ def record(ledger_dir: Path = LEDGER) -> dict:
         # close. The latest trade (kept above for the result) is priced from
         # the closing poll itself, so its CLV is zero by construction and
         # averaging it in measured nothing (grade.priced_before_close).
-        from coverline.execution.grade import priced_before_close
+        from coverline.execution.grade import line_aware_clv, priced_before_close
         early: dict = {}
         for s in rows:
             if s.edge_claimed is None or s.p_model <= s.p_market or s.game_id is None:
@@ -93,8 +93,10 @@ def record(ledger_dir: Path = LEDGER) -> dict:
         for ev, (_, s) in early.items():
             clv = led.clv_of(s, closes.get(s.signal_id))
             if clv is not None and clv.valid:
-                early_clv[ev] = clv
-                clv_pts.append(clv.prob_points)
+                # Line-aware: a moved spread is valued, not read as the vig.
+                pts, _, _ = line_aware_clv(s, closes[s.signal_id], clv)
+                early_clv[ev] = pts
+                clv_pts.append(pts)
                 if clv.line_points is not None:
                     line_pts.append(clv.line_points)
         settled, recent = [], []
@@ -109,7 +111,7 @@ def record(ledger_dir: Path = LEDGER) -> dict:
                            "price_decimal": s.price_decimal, "book": s.book,
                            "p_model": round(s.p_model, 4), "p_market": round(s.p_market, 4),
                            "result": o.result, "score": f"{o.home_score}-{o.away_score}",
-                           "clv_prob_points": round(clv.prob_points, 4) if clv else None})
+                           "clv_prob_points": round(clv, 4) if clv is not None else None})
         n = len(settled)
         recent.sort(key=lambda r: r["at"], reverse=True)
         out["leagues"][league] = {

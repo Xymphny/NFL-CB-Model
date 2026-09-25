@@ -192,6 +192,23 @@ def grade(ledger: BetLedger, store: BronzeStore, *, sport: str,
     return report
 
 
+def line_aware_clv(sig: Signal, close: Close, clv: P.ClosingLineValue) -> tuple[float, float, bool]:
+    """(prob_points, ev_pct, line_adjusted) for one graded signal.
+
+    When the line moved, the close's fair probability is moved to the bet's
+    line along the league's margin distribution (execution/line_clv.py);
+    otherwise the price-only figures stand, which are right when it did not.
+    """
+    from coverline.execution.line_clv import fair_at_bet_line
+    fair_close = float(P.devig(close.close_decimals, close.devig_method)[close.outcome_index])
+    fair = fair_at_bet_line(league=sig.league, side=sig.side, fair_close=fair_close,
+                            close_line=close.close_line, bet_line=sig.line)
+    if fair is None:
+        return clv.prob_points, clv.ev_pct, False
+    return (fair - float(P.decimal_to_implied(sig.price_decimal)),
+            P.expected_value(fair, sig.price_decimal), True)
+
+
 #: A paper trade priced this close to its close IS the close, so its CLV is
 #: zero by construction. The capture job paper-trades from both the daily
 #: early poll and the closing poll; only the first measures anything.
@@ -215,7 +232,7 @@ def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
     model would have earned against the close had it bet. Never merged with
     the placed figure: one is a record of money, the other a measurement.
     """
-    valid, invalid, ungraded = [], 0, 0
+    valid, invalid, ungraded, adjusted = [], 0, 0, 0
     naive_gap: list[float] = []
     points: list[float] = []
     line_moves: list[float] = []
@@ -238,8 +255,10 @@ def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
         if not clv.valid:
             invalid += 1
             continue
-        valid.append(clv.ev_pct)
-        points.append(clv.prob_points)
+        pts, ev, moved = line_aware_clv(sig, closes[sig.signal_id], clv)
+        adjusted += moved
+        valid.append(ev)
+        points.append(pts)
         if clv.line_points is not None:
             line_moves.append(clv.line_points)
         naive_gap.append(clv.devig_overstatement)
@@ -250,8 +269,12 @@ def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
         "graded_invalid_no_sharp_close": invalid,
         "ungraded": ungraded,
         "mean_clv_devigged": round(sum(valid) / n, 5) if n else None,
+        # LINE-AWARE: a moved line is valued along the league's margin
+        # distribution, so a spread that beat the close by a point is no
+        # longer reported as minus the vig (execution/line_clv.py).
         "mean_clv_probability_points": (round(sum(points) / n, 5)
                                         if n else None),
+        "line_adjusted": adjusted,
         "mean_overstatement_if_naive": (round(sum(naive_gap) / n, 5)
                                         if n else None),
         # Spread and total CLV mostly arrives as a moved LINE at an unchanged

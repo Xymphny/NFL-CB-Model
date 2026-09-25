@@ -20,6 +20,10 @@ export default function Record({ league, record }) {
         <p>Paper trades: every game the core priced, the model's preferred side at the price it
           saw, settled against the final score. Nothing here was staked. A league's weight is
           regraded from these once it has {data.floor} settled games.</p>
+        <p>CLV is the game's earliest trade against its closing line, in probability points,
+          after the vig. When the line moved, the close is valued at the trade's line on the
+          league's own margin distribution, key numbers included, so beating a close by a point
+          counts as the point it was.</p>
       </header>
 
       <table className="data">
