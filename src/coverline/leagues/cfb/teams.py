@@ -178,6 +178,35 @@ CFB_NAMES: dict[str, str] = {
     'Western Michigan Broncos': 'Western Michigan',
     'Wisconsin Badgers': 'Wisconsin',
     'Wyoming Cowboys': 'Wyoming',
+    # ADDED 2026-09-25 from the first live capture's payload, where each was
+    # refused by name. Every target was checked to exist EXACTLY in ESPN's
+    # 2026 school names (data/raw/cfb/espn_2026.parquet) -- no stripping.
+    'Akron Zips': 'Akron',
+    'Bucknell Bison': 'Bucknell',
+    'Central Arkansas Bears': 'Central Arkansas',
+    'Colorado Buffaloes': 'Colorado',
+    'Georgia Tech Yellow Jackets': 'Georgia Tech',
+    'Howard Bison': 'Howard',
+    'Incarnate Word Cardinals': 'Incarnate Word',
+    'LIU Sharks': 'Long Island University',
+    'Lindenwood Lions': 'Lindenwood',
+    'Minnesota Golden Gophers': 'Minnesota',
+    'NC State Wolfpack': 'NC State',
+    'North Carolina Central Eagles': 'North Carolina Central',
+    'Purdue Boilermakers': 'Purdue',
+    'Rice Owls': 'Rice',
+    'Robert Morris Colonials': 'Robert Morris',
+    'Stonehill Skyhawks': 'Stonehill',
+    'Texas Tech Red Raiders': 'Texas Tech',
+    'Toledo Rockets': 'Toledo',
+    'UMass Minutemen': 'Massachusetts',
+    'UTSA Roadrunners': 'UTSA',
+    'Utah State Aggies': 'Utah State',
+    'Utah Utes': 'Utah',
+    'Vanderbilt Commodores': 'Vanderbilt',
+    'William and Mary Tribe': 'William & Mary',
+    'San Diego State Aztecs': 'San Diego State',
+    'Troy Trojans': 'Troy',
 }
 
 TABLE = TeamTable("cfb", CFB_NAMES, verified_against_odds_api=True)
