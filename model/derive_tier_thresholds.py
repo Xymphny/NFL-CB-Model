@@ -83,9 +83,17 @@ def by_band(rows: pd.DataFrame, cut: dict) -> dict:
     return out
 
 
-def mlb_rows() -> pd.DataFrame:
+def mlb_rows(through: str | None = None) -> pd.DataFrame:
     """Moneyline disagreement from the odds-watch snapshots, priced by the
-    walk-forward for the same game with the starters who actually started."""
+    walk-forward for the same game with the starters who actually started.
+
+    `through` (YYYY-MM-DD) keeps only games on or before that date. The
+    inputs grow every day -- the odds watch adds snapshots and the MLB cron
+    adds results -- so without a recorded cut-off the bands could not be
+    reproduced a day after they were derived, and the reproduction test went
+    red on every cron update. The walk-forward is point-in-time, so a game's
+    price does not change when later games are added; the cut-off alone makes
+    the rows reproducible."""
     from coverline.execution.matching import local_date
     from coverline.execution.recommend import cover_probability
     from coverline.leagues.mlb.model import MLBModel, load_rules
@@ -127,21 +135,26 @@ def mlb_rows() -> pd.DataFrame:
             continue
         p_home, _ = cover_probability(MLBModel(_Src(w), rules=rules).predict("g", "x"), 0.0)
         out.append({"p_model": p_home, "p_market": float(r["market_home_prob"]),
-                    "y": int(w.home_score > w.away_score), "season": k[0][:4]})
-    return pd.DataFrame(out)
+                    "y": int(w.home_score > w.away_score), "season": k[0][:4], "date": k[0]})
+    df = pd.DataFrame(out)
+    if through is not None and len(df):
+        df = df[df.date <= through].reset_index(drop=True)
+    return df
 
 
-def history(name: str) -> tuple[pd.DataFrame | None, str]:
+def history(name: str, mlb_through: str | None = None) -> tuple[pd.DataFrame | None, str]:
     if name in G.LEAGUES:
         rows, meta = G.LEAGUES[name]()
         return rows, meta["market"]
     if name == "mlb":
-        return mlb_rows(), ("moneyline, data/mlb_divergence snapshots (latest open "
+        return mlb_rows(mlb_through), ("moneyline, data/mlb_divergence snapshots (latest open "
                             "line per game) x the walk-forward with actual starters")
     return None, ""
 
 
-def derive(ledger_dir: Path = G.LEDGER_DIR) -> dict:
+def derive(ledger_dir: Path = G.LEDGER_DIR, mlb_through: str | None = None) -> dict:
+    """`mlb_through=None` uses every MLB game now available and records the
+    last date used, so the result can be rebuilt exactly later."""
     out = {"_provenance": {
         "script": "model/derive_tier_thresholds.py",
         "generated": date.today().isoformat(),
@@ -160,11 +173,13 @@ def derive(ledger_dir: Path = G.LEDGER_DIR) -> dict:
                          "basis": "the league's own settled paper trades",
                          **cut, "by_band": by_band(led, cut)}
             continue
-        rows, basis = history(name)
+        rows, basis = history(name, mlb_through)
         if rows is not None and len(rows) >= MIN_ROWS:
             cut = bands(rows.p_model - rows.p_market)
             own[name] = {"source": "backtest", "provisional": True, "n": int(len(rows)),
                          "basis": basis, **cut, "by_band": by_band(rows, cut)}
+            if "date" in rows.columns:
+                own[name]["through"] = str(rows.date.max())
     for name in ("nfl", "cfb", "mlb", "nhl", "nba"):
         if name in own:
             out["leagues"][name] = own[name]
@@ -178,8 +193,12 @@ def derive(ledger_dir: Path = G.LEDGER_DIR) -> dict:
     return out
 
 
-def main(ledger_dir: Path = G.LEDGER_DIR) -> int:
-    art = derive(ledger_dir)
+def main(ledger_dir: Path = G.LEDGER_DIR, argv: list[str] | None = None) -> int:
+    import argparse
+    ap = argparse.ArgumentParser(description="Derive the tier bands.")
+    ap.add_argument("--mlb-through", help="YYYY-MM-DD; default: every game available")
+    a = ap.parse_args(argv)
+    art = derive(ledger_dir, a.mlb_through)
     OUT.write_text(json.dumps(art, indent=2) + "\n")
     for name, g in art["leagues"].items():
         print(f"{name}: {g['source']:12} n={g['n']:5}  coin_flip {g['coin_flip']:.3f}  "

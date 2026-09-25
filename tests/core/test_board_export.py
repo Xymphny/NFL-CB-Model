@@ -52,8 +52,13 @@ def test_every_league_has_ordered_bands_and_says_where_they_came_from():
 
 def test_the_bands_reproduce_from_source_and_record_that_they_are_not_edge():
     from model import derive_tier_thresholds as D
-    fresh = D.derive()
     art = json.loads(T.THRESHOLDS_PATH.read_text())
+    # MLB's inputs grow daily (odds watch + in-season cron), so the bands are
+    # rebuilt from the cut-off the artifact recorded, not from today's data --
+    # otherwise this failed on every cron update. Refreshing the bands is a
+    # deliberate `derive_tier_thresholds.py` run, not a side effect of time.
+    assert art["leagues"]["mlb"].get("through"), "the MLB bands record no cut-off"
+    fresh = D.derive(mlb_through=art["leagues"]["mlb"]["through"])
     for league, row in art["leagues"].items():
         for k in ("coin_flip", "lean", "play", "source", "n"):
             assert fresh["leagues"][league][k] == row[k], (league, k)
