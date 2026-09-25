@@ -132,10 +132,19 @@ def _cached_plan(now: str, max_age_minutes: int) -> list[dict] | None:
     return blob["windows"]
 
 
+#: How far ahead a game makes a day's early poll worth taking. The weekly
+#: football leagues are paper-traded a week ahead from it (paper_trade.py
+#: WEEKLY_EARLY), so they are polled every in-season day: with 24 hours, the
+#: NFL had no poll Tuesday or Wednesday and its first early price was taken
+#: on game day, which is the movement the poll exists to measure.
+EARLY_LOOKAHEAD_HOURS = {"americanfootball_nfl": 168, "americanfootball_ncaaf": 168}
+
+
 def early_windows(sport: str, starts: list[datetime], now: datetime,
                   horizon_hours: int, regions) -> list[CaptureWindow]:
     """Today's and tomorrow's 14:00 UTC early poll, where one is in reach and
-    the sport has a game in the 24 hours after it (out of season: nothing).
+    the sport has a game in the lookahead after it -- 24 hours, or a week for
+    the weekly football leagues (out of season: nothing).
 
     In reach means from EARLY_TOLERANCE_MINUTES before now -- a run that
     starts late in the morning still takes the day's early price -- to the
@@ -147,7 +156,8 @@ def early_windows(sport: str, starts: list[datetime], now: datetime,
         if not (now - timedelta(minutes=EARLY_TOLERANCE_MINUTES) <= at
                 <= now + timedelta(hours=horizon_hours)):
             continue
-        if any(at <= s < at + timedelta(hours=24) for s in starts):
+        ahead = timedelta(hours=EARLY_LOOKAHEAD_HOURS.get(sport, 24))
+        if any(at <= s < at + ahead for s in starts):
             out.append(CaptureWindow(sport=sport, at=at.strftime("%Y-%m-%dT%H:%M:%SZ"),
                                      regions=tuple(regions), reason="early"))
     return out

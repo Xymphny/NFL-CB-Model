@@ -317,3 +317,17 @@ def test_the_remaining_credits_reach_the_board(tmp_path):
     entry.write_quota(tmp_path, "2026-09-25T14:00:00Z", 18432)
     assert X.credits(BronzeStore(tmp_path)) == {
         "as_of": "2026-09-25T14:00:00Z", "remaining": 18432, "monthly": entry.MONTHLY_CREDITS}
+
+
+def test_the_football_leagues_are_polled_early_every_day_of_their_week():
+    """Tuesday's poll is the one that prices Sunday a week out. Gated on a
+    game within 24 hours, the NFL was never polled Tuesday or Wednesday."""
+    import capture as entry
+    from datetime import datetime, timezone
+    tue = datetime(2026, 9, 29, 12, 0, tzinfo=timezone.utc)
+    sunday = [datetime(2026, 10, 4, 17, 0, tzinfo=timezone.utc)]
+    assert [x.at for x in entry.early_windows("americanfootball_nfl", sunday, tue, 6, ("us",))] \
+        == ["2026-09-29T14:00:00Z"]
+    assert [x.at for x in entry.early_windows("americanfootball_ncaaf", sunday, tue, 6, ("us",))] \
+        == ["2026-09-29T14:00:00Z"]
+    assert entry.early_windows("baseball_mlb", sunday, tue, 6, ("us",)) == []   # daily: 24h
