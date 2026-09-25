@@ -61,9 +61,41 @@ def _download_and_parse_rds(url):
     return result[None]
 
 
+#: The only raw columns anything downstream reads: _map_to_nfl_schema's, plus
+#: the running scores derive_cfb_schedule takes from each game's last play.
+PBP_COLUMNS = [
+    "year", "week", "season_type", "game_id", "home_team", "away_team",
+    "home_team_division", "away_team_division", "pos_team", "def_pos_team",
+    "down", "distance", "yards_to_goal", "yards_gained", "wp_before", "play_type",
+    "pos_team_score", "def_pos_team_score", "start_date",
+]
+
+
+def _download_parquet(url: str) -> pd.DataFrame:
+    """The release's parquet asset, reading PBP_COLUMNS only.
+
+    WHY NOT THE .rds. pyreadr materialises every one of the file's ~300
+    columns, and the weekly CFB job peaked at 1.1 GB -- over Render's 512 MB
+    cron limit, so from 2026-09-13 it was killed before writing any ratings
+    and the CFB board refused every game as stale. Same file, same rows, same
+    order; a column projection instead of a full load.
+    """
+    import pyarrow.parquet as pq
+    with tempfile.NamedTemporaryFile(suffix=".parquet", delete=False) as f:
+        with requests.get(url, timeout=180, stream=True) as resp:
+            resp.raise_for_status()
+            for chunk in resp.iter_content(1 << 20):
+                f.write(chunk)
+        tmppath = f.name
+    try:
+        return pq.read_table(tmppath, columns=PBP_COLUMNS).to_pandas()
+    finally:
+        os.unlink(tmppath)
+
+
 def load_cfb_season(season):
-    url = CFB_PBP_URL.format(season=season)
-    raw = _download_and_parse_rds(url)
+    url = CFB_PBP_URL.format(season=season).replace(".rds", ".parquet")
+    raw = _download_parquet(url)
     return _map_to_nfl_schema(raw), raw
 
 
