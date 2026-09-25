@@ -217,10 +217,79 @@ def test_an_early_snapshot_paper_trades_the_next_day(monkeypatch, tmp_path):
     """From the daily early poll the window is a full day, so every game gets
     exactly one early trade; from a close it stays WINDOW_HOURS."""
     seen = []
-    monkeypatch.setattr(PT, "slates", lambda sport, at, q, window_hours: seen.append(window_hours) or ([], "x"))
+    monkeypatch.setattr(PT, "slates", lambda sport, at, q, window_hours, cutoff=None: seen.append(window_hours) or ([], "x"))
     store = BronzeStore(tmp_path / "bronze")
     for kind in ("early", "current"):
         snap = store.write_snapshot(sport="basketball_nba", captured_at="2026-10-21T14:00:00Z",
                                     payload=[], cost=1, source_url="u", kind=kind).path
         PT.paper_trade(snap, tmp_path / "ledger")
     assert seen == [PT.EARLY_WINDOW_HOURS, PT.WINDOW_HOURS]
+
+
+def test_a_cfb_early_price_runs_to_the_next_ratings_update():
+    """cfb-weekly-job refreshes the ratings Sunday 10:00 UTC; an early trade
+    must never price past it on the old ones."""
+    c = PT.early_cutoff
+    assert c("cfb", "2026-09-25T14:00:00Z", []) == "2026-09-27T10:00:00Z"     # Fri -> Sun
+    assert c("cfb", "2026-09-27T14:00:00Z", []) == "2026-10-04T10:00:00Z"     # Sun after update
+    assert c("cfb", "2026-09-27T09:00:00Z", []) == "2026-09-27T10:00:00Z"     # Sun before it
+    assert c("mlb", "2026-09-25T14:00:00Z", []) is None                       # daily: 24h
+
+
+def test_an_nfl_early_price_covers_the_week_of_the_next_game_and_no_further():
+    sched = pd.DataFrame({"season": [2026] * 4, "week": [4, 4, 4, 5], "game_type": ["REG"] * 4,
+                          "gameday": ["2026-10-01", "2026-10-04", "2026-10-05", "2026-10-08"]})
+    ev = [_event("thu", "americanfootball_nfl", "2026-10-02T00:15:00Z", "H", "A"),
+          _event("sun", "americanfootball_nfl", "2026-10-04T17:00:00Z", "H", "A"),
+          _event("mon", "americanfootball_nfl", "2026-10-06T00:15:00Z", "H", "A"),   # MNF, ET 5th
+          _event("nxt", "americanfootball_nfl", "2026-10-09T00:15:00Z", "H", "A")]   # week 5
+    q = _quotes(ev)
+    cut = PT.early_cutoff("nfl", "2026-09-29T14:00:00Z", q, schedule=sched)
+    assert cut == "2026-10-06T00:15:01Z"
+    runs, _ = PT.slates("americanfootball_nfl", "2026-09-29T14:00:00Z", q, schedule=sched, cutoff=cut)
+    assert runs == [["--league", "nfl", "--season", "2026", "--week", "4"]]
+
+
+def test_an_early_poll_skips_games_already_priced(monkeypatch, tmp_path):
+    """One early trade per game -- its first. Without the skip, seven daily
+    polls re-trade a CFB week seven times: rows in git, no information."""
+    argvs = []
+
+    class R:
+        @staticmethod
+        def main(argv):
+            argvs.append(argv)
+            return 0
+    monkeypatch.setattr(PT, "_runner", lambda: R)
+    monkeypatch.setattr(PT, "already_priced", lambda d, lg: {"old"})
+    ev = [_event("old", "americanfootball_ncaaf", "2026-09-26T17:00:00Z", "H", "A"),
+          _event("new", "americanfootball_ncaaf", "2026-09-26T20:00:00Z", "H", "A")]
+    store = BronzeStore(tmp_path / "bronze")
+    snap = store.write_snapshot(sport="americanfootball_ncaaf", captured_at="2026-09-25T14:00:00Z",
+                                payload=ev, cost=1, source_url="u", kind="early").path
+    assert PT.paper_trade(snap, tmp_path / "ledger") == [(["--league", "cfb", "--date", "2026-09-26"], 0)]
+    argv = argvs[0]
+    assert argv[argv.index("--skip-events") + 1] == "old"
+    assert argv[argv.index("--events-before") + 1] == "2026-09-27T10:00:00Z"
+
+    monkeypatch.setattr(PT, "already_priced", lambda d, lg: {"old", "new"})
+    assert PT.paper_trade(snap, tmp_path / "ledger") == []          # nothing new: no run
+
+
+def test_a_close_never_skips(monkeypatch, tmp_path):
+    """The close is the trade results are graded on; it always prices."""
+    argvs = []
+
+    class R:
+        @staticmethod
+        def main(argv):
+            argvs.append(argv)
+            return 0
+    monkeypatch.setattr(PT, "_runner", lambda: R)
+    monkeypatch.setattr(PT, "already_priced", lambda d, lg: {"g"})
+    ev = [_event("g", "americanfootball_ncaaf", "2026-09-26T17:00:00Z", "H", "A")]
+    snap = BronzeStore(tmp_path / "bronze").write_snapshot(
+        sport="americanfootball_ncaaf", captured_at="2026-09-26T16:55:00Z",
+        payload=ev, cost=1, source_url="u").path
+    assert len(PT.paper_trade(snap, tmp_path / "ledger")) == 1
+    assert "--skip-events" not in argvs[0]

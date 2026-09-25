@@ -241,6 +241,7 @@ def main(argv: list[str] | None = None) -> int:
                     help="automated paper trading: weight 0, never placed")
     ap.add_argument("--events-before",
                     help="price only events starting before this UTC time")
+    ap.add_argument("--skip-events", help="comma-separated vendor event ids to leave out")
     ap.add_argument("--ledger", default=str(LEDGER_DIR),
                     help="ledger directory for --commit")
     ap.add_argument("--market-weight", type=float, default=None,
@@ -313,6 +314,11 @@ def main(argv: list[str] | None = None) -> int:
         cutoff = cutoff.tz_localize("UTC") if cutoff.tzinfo is None else cutoff
         quotes = [q for q in quotes
                   if q.commence_time and pd.Timestamp(q.commence_time) < cutoff]
+    if args.skip_events:
+        # Games this ledger already holds an early price for (paper_trade):
+        # a second early trade adds rows and no information.
+        skip = set(args.skip_events.split(","))
+        quotes = [q for q in quotes if q.event_id not in skip]
     events = sorted({q.event_id for q in quotes})
     print(f"snapshot {Path(snap_path).name}: {len(events)} events, "
           f"{len(quotes)} quotes")
