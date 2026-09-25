@@ -225,7 +225,20 @@ def run(
     def why(w: CaptureWindow, reason: str) -> str:
         return f"early_{reason}" if w.reason == "early" else reason
 
+    early_days = {(r["sport"], r["captured_at"][:10]) for r in store.snapshots()
+                  if r.get("kind") == "early"}
+
+    def captured(w: CaptureWindow) -> bool:
+        if w.reason == "early":
+            return (w.sport, w.at[:10]) in early_days
+        return store.snapshot_path(w.sport, w.at).exists()
+
     for w in overdue(windows, now, tolerance_minutes):
+        # A window taken on an earlier run is overdue on this one by
+        # construction, and it is not a gap: logging it as "still uncaptured"
+        # recorded every captured close of the first live night as missed.
+        if captured(w):
+            continue
         if (w.sport, w.at, w.reason == "early") in known:
             res.already_gapped.append(w.key)
             continue

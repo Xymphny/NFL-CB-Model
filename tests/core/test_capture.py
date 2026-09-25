@@ -300,3 +300,30 @@ def test_a_missed_early_poll_is_its_own_gap(tmp_path):
     res = C.run(w, client, store, now="2026-10-21T18:00:00Z")
     assert sorted(r for _, r in res.gapped) == ["early_window_missed", "window_missed"]
     assert t.urls == []
+
+
+def test_a_captured_window_is_not_gapped_on_the_next_run(tmp_path):
+    """The first live night: every close captured at one tick was logged as
+    "still uncaptured" at the next, because the overdue check never asked
+    whether the snapshot existed."""
+    store = BronzeStore(tmp_path)
+    client, t = _client()
+    w = [C.CaptureWindow(sport="nba", at="2026-09-21T23:00:00Z")]
+    assert C.run(w, client, store, now="2026-09-21T22:50:00Z").captured
+    res = C.run(w, client, store, now="2026-09-21T23:05:00Z")
+    assert res.gapped == [] and store.gaps("nba") == []
+    assert store.coverage("nba") == {"snapshots": 1, "gaps": 0}
+
+
+def test_coverage_discounts_gaps_logged_for_windows_that_were_taken(tmp_path):
+    """The false gaps already written on 2026-09-25 stay in the log (the log
+    is append-only), and coverage does not count them."""
+    store = BronzeStore(tmp_path)
+    client, _ = _client()
+    w = [C.CaptureWindow(sport="nba", at="2026-09-21T23:00:00Z")]
+    C.run(w, client, store, now="2026-09-21T22:50:00Z")
+    store.record_gap(sport="nba", intended_at="2026-09-21T23:00:00Z", reason="window_missed",
+                     detail="written by the old overdue check")
+    store.record_gap(sport="nba", intended_at="2026-09-21T23:30:00Z", reason="window_missed",
+                     detail="a real miss")
+    assert store.coverage("nba") == {"snapshots": 1, "gaps": 1}

@@ -361,3 +361,26 @@ def test_the_mlb_calendar_is_parsed_from_the_seasons_endpoint(tmp_path):
     assert M.update_season(2026, get=lambda url: payload, out_dir=tmp_path) is False   # unchanged
     assert json.loads((tmp_path / "season_2026.json").read_text())["regular_season_end"] == "2026-09-27"
     assert M.season_dates({"seasons": []}) is None
+
+
+def test_a_game_already_in_progress_makes_no_close_window(monkeypatch, tmp_path):
+    """The feed lists live games, and re-stamps some to the present. Each one
+    made a window already in the past, gapped the moment it was planned."""
+    import capture as entry
+    monkeypatch.setattr(entry, "ROOT", tmp_path)                 # no season files
+    now = "2026-09-25T23:31:12Z"
+
+    class Resp:
+        def __init__(self, payload):
+            self.payload = payload
+
+    class Client:
+        def events(self, sport, captured_at):
+            if sport != "baseball_mlb":
+                return Resp([])
+            return Resp([{"commence_time": "2026-09-25T23:10:00Z"},     # in progress
+                         {"commence_time": now},                        # re-stamped live
+                         {"commence_time": "2026-09-26T01:40:00Z"}])    # upcoming
+    w = entry.plan(Client(), horizon_hours=6, now=now, lead_minutes=5, cluster_minutes=20)
+    closes = [x.at for x in w if x.reason != "early"]
+    assert closes == ["2026-09-26T01:35:00Z"]

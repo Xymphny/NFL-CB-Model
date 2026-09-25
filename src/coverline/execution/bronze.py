@@ -165,7 +165,13 @@ class BronzeStore:
         # Distinct windows, not rows: logs written before 2026-09-25 recorded
         # the same missed window once per run, and counting rows would make
         # one missed game look like four.
-        return {
-            "snapshots": sum(1 for _ in self.snapshots(sport)),
-            "gaps": len({(g["sport"], g["intended_at"]) for g in self.gaps(sport)}),
-        }
+        # And only windows that were in fact never taken: logs written on
+        # 2026-09-25 gapped closes the next run after capturing them.
+        snaps = list(self.snapshots(sport))
+        taken = {(r["sport"], r["captured_at"]) for r in snaps}
+        early = {(r["sport"], r["captured_at"][:10]) for r in snaps if r.get("kind") == "early"}
+        missed = {(g["sport"], g["intended_at"]) for g in self.gaps(sport)
+                  if (g["sport"], g["intended_at"]) not in taken
+                  and not (g["reason"].startswith("early_")
+                           and (g["sport"], g["intended_at"][:10]) in early)}
+        return {"snapshots": len(snaps), "gaps": len(missed)}

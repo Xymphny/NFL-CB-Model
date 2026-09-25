@@ -298,8 +298,8 @@ def test_coverage_makes_a_degrading_capture_visible(tmp_path):
     store.write_snapshot(sport="nfl", captured_at=AT, payload=EVENTS, cost=3,
                          source_url="u")
     for i in range(3):
-        store.record_gap(sport="nfl", intended_at=f"2026-09-2{i}T18:00:00Z",
-                         reason="http_error")
+        store.record_gap(sport="nfl", intended_at=f"2026-09-2{i}T19:00:00Z",
+                         reason="http_error")           # windows never taken
     assert store.coverage("nfl") == {"snapshots": 1, "gaps": 3}
 
 

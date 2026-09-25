@@ -208,7 +208,11 @@ def plan(client: OddsAPIClient, *, horizon_hours: int, now: str,
         every = [datetime.fromisoformat(e["commence_time"].replace("Z", "+00:00"))
                  for e in resp.payload if e.get("commence_time")]
         every = [d for d in every if in_model_season(sport, d)]
-        starts = [d.strftime("%Y-%m-%dT%H:%M:%SZ") for d in every if d <= cutoff]
+        # Only games not yet started. The feed lists games in progress, and
+        # sometimes re-stamps a live game's commence_time to the present; each
+        # made a close window already in the past, gapped on the spot (the
+        # first live night logged windows like 23:26:12).
+        starts = [d.strftime("%Y-%m-%dT%H:%M:%SZ") for d in every if t_now < d <= cutoff]
         if starts:
             out += windows_for_slate(sport=sport, commence_times=starts,
                                      lead_minutes=lead_minutes,
