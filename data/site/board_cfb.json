@@ -1,6 +1,6 @@
 {
  "league": "cfb",
- "generated_at": "2026-09-25T22:45:35Z",
+ "generated_at": "2026-09-25T23:00:57Z",
  "note": "Weekly slate, Thursday to Saturday. Spreads price key numbers (3, 7) with a measured correction. Neutral-site games are refused: the model has no home term to remove.",
  "slate": {
   "kind": "week",
@@ -24,7 +24,7 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": "LookaheadRefused: Army@Temple kicked off at 2026-09-25 20:00:00+00:00; pricing it as of 2026-09-25 22:45:36.238689+00:00 would use a moment after kickoff"
+   "refusal": "LookaheadRefused: Army@Temple kicked off at 2026-09-25 20:00:00+00:00; pricing it as of 2026-09-25 23:00:57.648446+00:00 would use a moment after kickoff"
   },
   {
    "game_id": "401858468",
@@ -38,7 +38,7 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": "GameNotPriceable: a team is not rated in 2026-week-04.json (usually an FCS opponent)"
+   "refusal": "LookaheadRefused: Howard@Rutgers kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-25 23:00:57.649071+00:00 would use a moment after kickoff"
   },
   {
    "game_id": "401862778",
@@ -47,61 +47,12 @@
    "home_name": "UAB Blazers",
    "away_name": "Navy Midshipmen",
    "start": "2026-09-25T23:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 6.5,
-     "side": "home",
-     "selection": "UAB Blazers",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "matchbook",
-     "books": 13,
-     "p_model": 0.5603,
-     "p_market": 0.5,
-     "edge": 0.0603,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 6.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "UAB Blazers",
-     "best_price_decimal": 3.2,
-     "best_price_american": 220,
-     "best_book": "betfair_ex_eu",
-     "books": 15,
-     "p_model": 0.39748,
-     "p_market": 0.30167,
-     "edge": 0.09581,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.29474,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "neutral_site": false
    },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.39748,
-    "margin_mean": -4.9,
-    "total_mean": null
-   },
-   "event_id": "2e454a12c5301843ab7ec1a1eaf4f237"
+   "refusal": "LookaheadRefused: Navy@UAB kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-25 23:00:57.649704+00:00 would use a moment after kickoff"
   },
   {
    "game_id": "401858461",
@@ -3741,8 +3692,8 @@
  "freshness": {
   "odds_captured_at": "2026-09-25T22:55:00Z",
   "credits": {
-   "as_of": "2026-09-25T22:45:23Z",
-   "remaining": 19962,
+   "as_of": "2026-09-25T23:00:39Z",
+   "remaining": 19959,
    "monthly": 20000
   },
   "ratings_version": "2026-week-04.json",
@@ -4602,22 +4553,30 @@
  "status": {
   "state": "degraded",
   "games": 70,
-  "priced": 56,
+  "priced": 55,
   "tiers": {
    "play": 12,
    "lean": 8,
    "coin_flip": 14,
-   "no_edge": 22
+   "no_edge": 21
   },
   "refusals": 0,
   "reason": null,
   "game_refusals": [
    {
     "reason": "GameNotPriceable: a team is not rated in 2026-week-04.json (usually an FCS opponent)",
-    "games": 13
+    "games": 12
    },
    {
-    "reason": "LookaheadRefused: Army@Temple kicked off at 2026-09-25 20:00:00+00:00; pricing it as of 2026-09-25 22:45:36.238689+00:00 would use a moment after kickoff",
+    "reason": "LookaheadRefused: Army@Temple kicked off at 2026-09-25 20:00:00+00:00; pricing it as of 2026-09-25 23:00:57.648446+00:00 would use a moment after kickoff",
+    "games": 1
+   },
+   {
+    "reason": "LookaheadRefused: Howard@Rutgers kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-25 23:00:57.649071+00:00 would use a moment after kickoff",
+    "games": 1
+   },
+   {
+    "reason": "LookaheadRefused: Navy@UAB kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-25 23:00:57.649704+00:00 would use a moment after kickoff",
     "games": 1
    }
   ]
