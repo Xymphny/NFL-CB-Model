@@ -1,0 +1,14 @@
+{
+ "market": "spread (closing, ESPN public odds records), home side",
+ "books": {
+  "ESPN BET": 2743,
+  "DraftKings": 930
+ },
+ "model": "NBAModel on NBALiveSource -- the live path, replayed as of one minute before tip",
+ "joined": "3669 graded of 3673 ESPN closes",
+ "seasons": [
+  2024,
+  2026
+ ],
+ "contamination": "CLEAN OF TUNING: hyperparameters chosen on 2021-2022. 2024-2025 were graded once before for a different question (static vs walk-forward accuracy); this asks a new one, against the market."
+}

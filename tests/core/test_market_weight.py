@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import pytest
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -66,7 +67,11 @@ def test_bad_input_is_refused():
 # ----------------------------------------------------------- the artifact --
 
 def test_a_league_with_no_grade_stakes_nothing(tmp_path):
-    assert MW.staking_weight("nba") == (0.0, None)
+    art = json.loads(MW.WEIGHTS_PATH.read_text())
+    art["leagues"].pop("nba")                  # every league has a grade since 2026-09-25
+    p = tmp_path / "w.json"
+    p.write_text(json.dumps(art))
+    assert MW.staking_weight("nba", p) == (0.0, None)
     assert MW.staking_weight("nfl", tmp_path / "absent.json") == (0.0, None)
 
 
@@ -87,8 +92,9 @@ def test_the_committed_weights_reproduce_from_source():
     fresh_all = {}
     for name in ("nfl", "cfb", "mlb", "nhl", "nba"):
         hist = None
-        if name in G.LEAGUES:
-            rows, meta = G.LEAGUES[name]()
+        got = G.historical_rows(name)             # kept rows for the ESPN leagues
+        if got is not None and len(got[0]) >= 100:
+            rows, meta = got
             hist = {**meta, **G.grade(rows)}
         g = G.choose(name, hist, G.ledger_rows(G.LEDGER_DIR, name))
         if g is not None:
@@ -163,3 +169,34 @@ def test_a_small_ledger_does_not_replace_or_create_a_grade(tmp_path):
     hist = {"n": 900, "w_hat": 0.0, "se": 0.1, "staking_weight": 0.0}
     assert G.choose("nba", hist, rows)["source"] == "historical"
 
+
+
+def test_the_kept_espn_rows_are_what_the_live_models_say():
+    """The NHL, NBA and MLB grades are computed from kept per-game rows (a
+    full replay takes minutes). Re-price a sample of them through the same
+    loaders' live paths: a row that no longer reproduces means the model or
+    its inputs changed and the grade must be rebuilt."""
+    import numpy as np
+    from model import grade_market_weight as G
+    for name in G.ESPN_LEAGUES:
+        f = G.ROWS_DIR / f"{name}_rows.parquet"
+        if not f.exists():
+            continue
+        kept = pd.read_parquet(f)
+        sample = kept.sample(n=min(8, len(kept)), random_state=0)
+        closes = G.espn_closes(name)
+        closes = closes[closes.espn_id.isin(sample.espn_id)]
+        seasons = sorted(closes.season.unique())
+        saved = G.ESPN_SEASONS[name]
+        try:
+            G.ESPN_SEASONS[name] = (min(seasons), max(seasons))
+            orig = G.espn_closes
+            G.espn_closes = lambda lg, _c=closes: _c
+            fresh, _ = G.LEAGUES[name]()
+        finally:
+            G.espn_closes = orig
+            G.ESPN_SEASONS[name] = saved
+        both = sample.merge(fresh, on="espn_id", suffixes=("", "_fresh"))
+        assert len(both) == len(sample), f"{name}: kept rows no longer price"
+        assert np.allclose(both.p_model, both.p_model_fresh, atol=1e-9), name
+        assert np.allclose(both.p_market, both.p_market_fresh, atol=1e-12), name

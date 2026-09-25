@@ -33,7 +33,8 @@ export default function Gates({ league, gates }) {
               <td className="bands">
                 {m.tiers_by_band
                   ? Object.entries(m.tiers_by_band).map(([t, b]) => (
-                      <span key={t}>{TIER_LABEL[t]} {pct(b.preferred_side_hit_rate)} <small>n {b.n}</small></span>
+                      <span key={t}>{TIER_LABEL[t]} {pct(b.preferred_side_hit_rate)}
+                        {b.market_said != null && <small> vs {pct(b.market_said)} priced</small>} <small>n {b.n}</small></span>
                     ))
                   : '—'}
               </td>
@@ -41,7 +42,9 @@ export default function Gates({ league, gates }) {
           ))}
         </tbody>
       </table>
-      <p className="panel-foot">Break-even at −110 is {pct(data.market[0]?.break_even_at_minus_110)}. The staking weight is the
+      <p className="panel-foot">Each band compares how often the model's side won with how often the closing price said it
+        would; on a moneyline that side is usually an underdog, so a hit rate well under 50% can still match the market.
+        Break-even at −110 is {pct(data.market[0]?.break_even_at_minus_110)}. The staking weight is the
         one-sided 95% lower bound of the measured weight: zero unless the data rule zero out (ADR 0024).</p>
 
       <h2 className="panel-sub">Fitted components</h2>

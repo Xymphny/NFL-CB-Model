@@ -1,0 +1,15 @@
+{
+ "market": "moneyline (closing, ESPN public odds records), home side",
+ "books": {
+  "ESPN BET": 6160,
+  "DraftKings": 2381,
+  "Bet365": 1
+ },
+ "model": "MLBModel over model.mlb_model.run_walk_forward with actual starters",
+ "joined": "8326 graded of 8542 ESPN closes",
+ "seasons": [
+  2023,
+  2026
+ ],
+ "contamination": "UPPER BOUND. The rules layer was tuned on 2021-2023 and its run-rate constants measured on all five cached seasons, so 2023-2025 are not pristine; 2026 is. An upper bound near zero is a firm zero."
+}

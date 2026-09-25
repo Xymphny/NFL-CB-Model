@@ -356,6 +356,52 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/raw/nba/espn_closes_*.parquet
+    produced_by: model/ingest/espn_closes.py
+    consumed_by:
+      - model/grade_market_weight.py
+    kind: bronze
+    refresh: "one-shot pull of past seasons' closing lines; a new season once it ends"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/raw/nhl/espn_closes_*.parquet
+    produced_by: model/ingest/espn_closes.py
+    consumed_by:
+      - model/grade_market_weight.py
+    kind: bronze
+    refresh: "one-shot pull of past seasons' closing lines; a new season once it ends"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/raw/mlb/espn_closes_*.parquet
+    produced_by: model/ingest/espn_closes.py
+    consumed_by:
+      - model/grade_market_weight.py
+    kind: bronze
+    refresh: "one-shot pull of past seasons' closing lines; a new season once it ends"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/market_grade/*_rows.parquet
+    produced_by: model/grade_market_weight.py
+    consumed_by:
+      - tests/core/test_market_weight.py
+      - model/derive_tier_thresholds.py
+    kind: silver
+    refresh: "rebuilt by every grade_market_weight.py run; the test re-grades and re-prices a sample"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/market_grade/*_meta.json
+    produced_by: model/grade_market_weight.py
+    consumed_by:
+      - tests/core/test_market_weight.py
+    kind: silver
+    refresh: "written with the rows it describes"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/market_weights.json
     produced_by: model/grade_market_weight.py
     consumed_by:

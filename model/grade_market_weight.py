@@ -23,13 +23,13 @@ missing row as weight 0.
 
   nfl  walk-forward cache 2014-2023 x nflverse closing spreads and prices
   cfb  walk-forward cache x CFBD closing spreads (no prices; see cfb())
-  mlb  none: the free Sportsbook Reviews archive the MLB backtest was written
-       against now redirects every season to its homepage
-  nhl  none: no free historical line source
-  nba  none: no free historical line source
-Those three are not skipped for lack of trying: the capture job records
-closing lines from Thursday on, and this grade runs on them once a season of
-settled bets exists.
+  nba  ESPN public closing records 2023-24 on (model/ingest/espn_closes.py)
+       x the live walk-forward replayed before each tip; spread
+  nhl  the same records x NHLLiveSource and the rules layer; moneyline
+  mlb  the same records x the walk-forward with actual starters; moneyline
+The free Sportsbook Reviews archive the MLB backtest was written against now
+redirects every season to its homepage; ESPN's records replaced it
+(2026-09-25). One retail book's close per game, named in each grade.
 
 IN-SAMPLE CONTAMINATION CAN ONLY FLATTER THE MODEL
 Where the model's coefficients may have been fitted on the graded seasons,
@@ -170,7 +170,219 @@ def grade(rows: pd.DataFrame) -> dict:
             "break_even_at_minus_110": 0.5238}
 
 
-LEAGUES = {"nfl": nfl, "cfb": cfb}
+# ------------------------------------ ESPN closes: nba, nhl, mlb (free) ----
+
+#: Seasons with ESPN closing records (model/ingest/espn_closes.py). Each is
+#: graded only where the league's model can price it walk-forward.
+ESPN_SEASONS = {"nba": (2024, 2026), "nhl": (2024, 2026), "mlb": (2023, 2026)}
+
+
+def espn_closes(league: str) -> pd.DataFrame:
+    lo, hi = ESPN_SEASONS[league]
+    parts = []
+    for y in range(lo, hi + 1):
+        f = ROOT / "data" / "raw" / league / f"espn_closes_{y}.parquet"
+        if f.exists():
+            parts.append(pd.read_parquet(f).assign(season=y))
+    if not parts:
+        return pd.DataFrame()
+    d = pd.concat(parts, ignore_index=True)
+    return d[~d.neutral_site.astype(bool)]
+
+
+def _espn_meta(league: str, closes: pd.DataFrame, rows: pd.DataFrame, market: str,
+               model: str, contamination: str) -> dict:
+    return {"market": f"{market} (closing, ESPN public odds records), home side",
+            "books": {k: int(v) for k, v in closes.provider.value_counts().items()},
+            "model": model,
+            "joined": f"{len(rows)} graded of {len(closes)} ESPN closes",
+            "seasons": [int(rows.season.min()), int(rows.season.max())],
+            "contamination": contamination}
+
+
+def nba() -> tuple[pd.DataFrame, dict] | None:
+    """Spread. ESPN event ids ARE the NBA schedule's ids, so games join by id.
+    Integer lines are left out: the live system refuses them (ADR 0022), so a
+    grade that priced them would grade a market the system never trades."""
+    from coverline.leagues.nba import live
+    closes = espn_closes("nba").dropna(subset=["home_spread", "home_spread_price",
+                                               "away_spread_price"])
+    if closes.empty:
+        return None
+    out = []
+    for season, part in closes.groupby("season"):
+        src = live.NBALiveSource.load(int(season))
+        model = live.build_model(src)
+        sched = src.schedule
+        margins = {(t, h, a): m for t, h, a, m in zip(src.history.tip, src.history.home,
+                                                     src.history.away, src.history.margin)}
+        for r in part.itertuples():
+            if r.espn_id not in sched.index or float(r.home_spread).is_integer():
+                continue
+            g = sched.loc[r.espn_id]
+            m = margins.get((g.tip, g.home, g.away))
+            if not bool(g.completed) or m is None:
+                continue
+            margin = float(m)
+            line = float(r.home_spread)
+            if margin + line == 0:
+                continue
+            asof = (g.tip - pd.Timedelta(minutes=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            try:
+                dist = model.predict(r.espn_id, asof)
+            except Exception:                  # refused live: not graded either
+                continue
+            p_model, _ = cover_probability(dist, line)
+            out.append({"season": int(season), "espn_id": r.espn_id, "asof": asof,
+                        "provider": r.provider, "p_model": p_model,
+                        "p_market": _devig_home(r.home_spread_price, r.away_spread_price),
+                        "y": int(margin + line > 0), "line": line})
+    rows = pd.DataFrame(out)
+    return rows, _espn_meta(
+        "nba", closes, rows, "spread",
+        "NBAModel on NBALiveSource -- the live path, replayed as of one minute before tip",
+        "CLEAN OF TUNING: hyperparameters chosen on 2021-2022. 2024-2025 were "
+        "graded once before for a different question (static vs walk-forward "
+        "accuracy); this asks a new one, against the market.")
+
+
+def _moneyline_rows(closes: pd.DataFrame, price) -> pd.DataFrame:
+    out = []
+    for r in closes.itertuples():
+        got = price(r)
+        if got is None:
+            continue
+        p_model, y = got
+        out.append({"season": int(r.season), "espn_id": r.espn_id, "provider": r.provider,
+                    "p_model": p_model, "p_market": _devig_home(r.home_ml, r.away_ml),
+                    "y": y, "line": 0.0})
+    return pd.DataFrame(out)
+
+
+#: Franchises in the graded seasons that the live team table no longer
+#: carries, because they no longer exist under that name.
+NHL_GONE = {"Arizona Coyotes": "ARI"}
+
+
+def nhl() -> tuple[pd.DataFrame, dict] | None:
+    """Moneyline, through NHLLiveSource and the rules layer, matched to the
+    NHL schedule by Eastern date and team."""
+    from coverline.execution.matching import local_date
+    from coverline.leagues.nhl import live
+    from coverline.leagues.nhl.teams import TABLE
+    closes = espn_closes("nhl").dropna(subset=["home_ml", "away_ml"])
+    if closes.empty:
+        return None
+    parts = []
+    for season, part in closes.groupby("season"):
+        src = live.NHLLiveSource.load(int(season))
+        model = live.build_model(src)
+        sched = src.schedule
+        key = {(local_date(t.strftime("%Y-%m-%dT%H:%M:%SZ")), h, a): gid
+               for gid, t, h, a in zip(sched.index, sched.start, sched.home_team_abbr,
+                                       sched.away_team_abbr)}
+        finals = pd.read_parquet(live.RAW / f"nhl_{int(season)}.parquet")
+        score = {str(g): (h, a) for g, h, a in zip(finals.game_id, finals.home_score,
+                                                    finals.away_score)}
+
+        def price(r):
+            try:
+                k = (local_date(r.date if r.date.endswith("Z") else r.date + "Z"),
+                     NHL_GONE.get(r.home) or TABLE.to_code(r.home),
+                     NHL_GONE.get(r.away) or TABLE.to_code(r.away))
+            except Exception:
+                return None
+            gid = key.get(k)
+            if gid is None or gid not in score:
+                return None
+            h, a = score[gid]
+            asof = (sched.loc[gid].start - pd.Timedelta(minutes=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            try:
+                p, _ = cover_probability(model.predict(gid, asof), 0.0)
+            except Exception:
+                return None
+            return p, int(h > a)
+        parts.append(_moneyline_rows(part, price))
+    rows = pd.concat(parts, ignore_index=True)
+    return rows, _espn_meta(
+        "nhl", closes, rows, "moneyline",
+        "NHLModel on NHLLiveSource with the goalie-pull and overtime layers -- the live path",
+        "CLEAN OF TUNING: k fixed a priori, zero hyperparameter trials. The rules "
+        "layer's own constants were fitted before these seasons were graded; "
+        "see data/nhl_rules.json.")
+
+
+def mlb() -> tuple[pd.DataFrame, dict] | None:
+    """Moneyline, on the walk-forward with ACTUAL starters (the live model is
+    quoted on probable starters; a scratch is the one difference)."""
+    from coverline.execution.matching import local_date
+    from coverline.leagues.mlb.model import GameFeatures, MLBModel, load_rules
+    from coverline.leagues.mlb.teams import TABLE
+    from deploy.mlb_daily_update import load_mlb_caches
+    from model.mlb_model import run_walk_forward
+    closes = espn_closes("mlb").dropna(subset=["home_ml", "away_ml"])
+    if closes.empty:
+        return None
+    sched, pit = load_mlb_caches(str(ROOT / "model"))
+    walk = run_walk_forward(sched, pit)
+    walk["key"] = list(zip(walk.date.astype(str), walk.home_team, walk.away_team))
+    counts = walk.key.value_counts()
+    walk = walk[walk.key.map(counts) == 1]                    # doubleheaders out
+    by_key = {k: r for k, r in zip(walk.key, walk.itertuples())}
+    rules = load_rules()
+    alias = {"Oakland Athletics": "OAK"}
+
+    class _Src:
+        def __init__(self, row):
+            self.row = row
+
+        def features(self, gid, asof):
+            return GameFeatures(exp_home=float(self.row.exp_home),
+                                exp_away=float(self.row.exp_away))
+
+    def price(r):
+        try:
+            h = alias.get(r.home) or TABLE.to_code(r.home)
+            a = alias.get(r.away) or TABLE.to_code(r.away)
+        except Exception:
+            return None
+        w = by_key.get((local_date(r.date if r.date.endswith("Z") else r.date + "Z"), h, a))
+        if w is None or w.home_score == w.away_score:
+            return None
+        p, _ = cover_probability(MLBModel(_Src(w), rules=rules).predict("g", "x"), 0.0)
+        return p, int(w.home_score > w.away_score)
+    rows = _moneyline_rows(closes, price)
+    return rows, _espn_meta(
+        "mlb", closes, rows, "moneyline",
+        "MLBModel over model.mlb_model.run_walk_forward with actual starters",
+        "UPPER BOUND. The rules layer was tuned on 2021-2023 and its run-rate "
+        "constants measured on all five cached seasons, so 2023-2025 are not "
+        "pristine; 2026 is. An upper bound near zero is a firm zero.")
+
+
+LEAGUES = {"nfl": nfl, "cfb": cfb, "nba": nba, "nhl": nhl, "mlb": mlb}
+
+#: The ESPN-graded leagues replay whole seasons through the live models --
+#: minutes, not seconds -- so their graded rows are kept beside the weights.
+#: This script rebuilds them; the reproduction test re-grades the kept rows
+#: and re-prices a sample of them through the live path, so the rows cannot
+#: drift from the code that made them.
+ROWS_DIR = ROOT / "data" / "market_grade"
+ESPN_LEAGUES = ("nba", "nhl", "mlb")
+
+
+def historical_rows(name: str, rebuild: bool = False) -> tuple[pd.DataFrame, dict] | None:
+    if name not in LEAGUES:
+        return None
+    f, mf = ROWS_DIR / f"{name}_rows.parquet", ROWS_DIR / f"{name}_meta.json"
+    if name in ESPN_LEAGUES and not rebuild and f.exists() and mf.exists():
+        return pd.read_parquet(f), json.loads(mf.read_text())
+    got = LEAGUES[name]()
+    if got is not None and name in ESPN_LEAGUES and len(got[0]):
+        ROWS_DIR.mkdir(parents=True, exist_ok=True)
+        got[0].to_parquet(f, index=False)
+        mf.write_text(json.dumps(got[1], indent=1) + "\n")
+    return got
 
 # ---------------------------------------------------- the paper-trade ledger --
 
@@ -254,8 +466,10 @@ def main(ledger_dir: Path = LEDGER_DIR) -> int:
     for name in ("nfl", "cfb", "mlb", "nhl", "nba"):
         historical = None
         if name in LEAGUES:
-            rows, meta = LEAGUES[name]()
-            historical = {**meta, **grade(rows)}
+            got = historical_rows(name, rebuild=True)
+            if got is not None and len(got[0]) >= 100:
+                rows, meta = got
+                historical = {**meta, **grade(rows)}
         g = choose(name, historical, ledger_rows(ledger_dir, name))
         if g is None:
             print(f"{name}: no grade (no historical lines, ledger below "

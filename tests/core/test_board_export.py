@@ -57,8 +57,9 @@ def test_the_bands_reproduce_from_source_and_record_that_they_are_not_edge():
     # rebuilt from the cut-off the artifact recorded, not from today's data --
     # otherwise this failed on every cron update. Refreshing the bands is a
     # deliberate `derive_tier_thresholds.py` run, not a side effect of time.
-    assert art["leagues"]["mlb"].get("through"), "the MLB bands record no cut-off"
-    fresh = D.derive(mlb_through=art["leagues"]["mlb"]["through"])
+    # Since 2026-09-25 MLB's history is the kept ESPN rows, which are fixed
+    # until rebuilt; the cut-off applies only on the snapshot fallback.
+    fresh = D.derive(mlb_through=art["leagues"]["mlb"].get("through"))
     for league, row in art["leagues"].items():
         for k in ("coin_flip", "lean", "play", "source", "n"):
             assert fresh["leagues"][league][k] == row[k], (league, k)
@@ -70,6 +71,21 @@ def test_the_bands_reproduce_from_source_and_record_that_they_are_not_edge():
             p, n = band["preferred_side_hit_rate"], band["n"]
             z = (p - 0.5238) / np.sqrt(p * (1 - p) / n)
             assert z < 2.0, (league, band)
+    # And against what the market PRICED that side at, which is the fair
+    # yardstick on a moneyline (the model's leans there are mostly underdogs).
+    # No league's Play band beats its closing price by two SE. Exactly one
+    # band of twenty does -- MLB coin_flip, z = +3.13 -- and it is pinned, not
+    # waved through: non-monotone (MLB's lean and play bands are +1.16 and
+    # +0.22), one of twenty comparisons, measured against a DEVIGGED price,
+    # on partly contaminated seasons (ADR 0030). If the set changes, revisit.
+    above = set()
+    for league, row in art["leagues"].items():
+        for name, band in (row.get("by_band") or {}).items():
+            p, n, m = band["preferred_side_hit_rate"], band["n"], band["market_said"]
+            if (p - m) / np.sqrt(p * (1 - p) / n) >= 2.0:
+                above.add((league, name))
+    assert not {b for b in above if b[1] == "play"}, above
+    assert above == {("mlb", "coin_flip")}, above
 
 
 # ---------------------------------------------------------- one market ----

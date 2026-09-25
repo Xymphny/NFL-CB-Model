@@ -120,6 +120,141 @@
       "break_even_at_minus_110": 0.5238,
       "source": "historical",
       "ledger_games_settled": 0
+    },
+    "mlb": {
+      "market": "moneyline (closing, ESPN public odds records), home side",
+      "books": {
+        "ESPN BET": 6160,
+        "DraftKings": 2381,
+        "Bet365": 1
+      },
+      "model": "MLBModel over model.mlb_model.run_walk_forward with actual starters",
+      "joined": "8326 graded of 8542 ESPN closes",
+      "seasons": [
+        2023,
+        2026
+      ],
+      "contamination": "UPPER BOUND. The rules layer was tuned on 2021-2023 and its run-rate constants measured on all five cached seasons, so 2023-2025 are not pristine; 2026 is. An upper bound near zero is a firm zero.",
+      "n": 8326,
+      "w_hat": 0.148039,
+      "se": 0.090911,
+      "staking_weight": 0.0,
+      "loglik_gain_per_bet": 0.000162,
+      "gain_t": 0.816835,
+      "mean_disagreement": 0.046523,
+      "at_boundary": false,
+      "by_season": {
+        "2023": {
+          "n": 1279,
+          "w_hat": -0.04,
+          "se": 0.186
+        },
+        "2024": {
+          "n": 2343,
+          "w_hat": -0.013,
+          "se": 0.164
+        },
+        "2025": {
+          "n": 2370,
+          "w_hat": 0.39,
+          "se": 0.174
+        },
+        "2026": {
+          "n": 2334,
+          "w_hat": 0.242,
+          "se": 0.193
+        }
+      },
+      "side_agreement_hit_rate": 0.4602,
+      "break_even_at_minus_110": 0.5238,
+      "source": "historical",
+      "ledger_games_settled": 0
+    },
+    "nhl": {
+      "market": "moneyline (closing, ESPN public odds records), home side",
+      "books": {
+        "ESPN BET": 2989,
+        "DraftKings": 923
+      },
+      "model": "NHLModel on NHLLiveSource with the goalie-pull and overtime layers -- the live path",
+      "joined": "3908 graded of 3912 ESPN closes",
+      "seasons": [
+        2024,
+        2026
+      ],
+      "contamination": "CLEAN OF TUNING: k fixed a priori, zero hyperparameter trials. The rules layer's own constants were fitted before these seasons were graded; see data/nhl_rules.json.",
+      "n": 3908,
+      "w_hat": -0.01185,
+      "se": 0.092102,
+      "staking_weight": 0.0,
+      "loglik_gain_per_bet": 2e-06,
+      "gain_t": 0.064291,
+      "mean_disagreement": 0.064244,
+      "at_boundary": false,
+      "by_season": {
+        "2024": {
+          "n": 1294,
+          "w_hat": -0.249,
+          "se": 0.161
+        },
+        "2025": {
+          "n": 1306,
+          "w_hat": -0.047,
+          "se": 0.145
+        },
+        "2026": {
+          "n": 1308,
+          "w_hat": 0.278,
+          "se": 0.172
+        }
+      },
+      "side_agreement_hit_rate": 0.4281,
+      "break_even_at_minus_110": 0.5238,
+      "source": "historical",
+      "ledger_games_settled": 0
+    },
+    "nba": {
+      "market": "spread (closing, ESPN public odds records), home side",
+      "books": {
+        "ESPN BET": 2743,
+        "DraftKings": 930
+      },
+      "model": "NBAModel on NBALiveSource -- the live path, replayed as of one minute before tip",
+      "joined": "3669 graded of 3673 ESPN closes",
+      "seasons": [
+        2024,
+        2026
+      ],
+      "contamination": "CLEAN OF TUNING: hyperparameters chosen on 2021-2022. 2024-2025 were graded once before for a different question (static vs walk-forward accuracy); this asks a new one, against the market.",
+      "n": 3669,
+      "w_hat": -0.018973,
+      "se": 0.079977,
+      "staking_weight": 0.0,
+      "loglik_gain_per_bet": 8e-06,
+      "gain_t": 0.118598,
+      "mean_disagreement": 0.081847,
+      "at_boundary": false,
+      "by_season": {
+        "2024": {
+          "n": 1221,
+          "w_hat": -0.072,
+          "se": 0.143
+        },
+        "2025": {
+          "n": 1224,
+          "w_hat": 0.029,
+          "se": 0.134
+        },
+        "2026": {
+          "n": 1224,
+          "w_hat": -0.02,
+          "se": 0.138
+        }
+      },
+      "side_agreement_hit_rate": 0.5004,
+      "break_even_at_minus_110": 0.5238,
+      "source": "historical",
+      "ledger_games_settled": 0
     }
   }
 }

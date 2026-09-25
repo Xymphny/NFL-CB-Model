@@ -140,8 +140,12 @@ def test_the_runner_reports_its_evidence_before_sizing_anything():
 
 
 def test_the_runner_exits_cleanly_when_there_is_no_odds_snapshot():
-    """Thursday's state. It must say what to do, not traceback."""
-    r = _run("--league", "nfl", "--week", "2", "--bankroll", "100000")
+    """Thursday's state. It must say what to do, not traceback.
+
+    Pointed at a snapshot that does not exist: the repository has held real
+    captures since 2026-09-25, so "no snapshot" can no longer be the default."""
+    r = _run("--league", "nfl", "--week", "2", "--bankroll", "100000",
+             "--snapshot", str(ROOT / "data" / "bronze" / "odds" / "absent.json"))
     assert r.returncode == 2
     assert "No odds snapshot" in r.stdout
     assert "Traceback" not in r.stderr

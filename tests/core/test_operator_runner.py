@@ -76,7 +76,8 @@ def test_missing_inputs_exit_2_with_the_command_that_fixes_them(league, fix):
 
 def test_date_leagues_paper_trade_by_default():
     r = _run("--league", "nba", "--date", "2026-10-22", "--bankroll", "100")
-    assert "market grade: none for NBA" in r.stdout
+    # Graded against ESPN closes since 2026-09-25, and still weight 0.
+    assert "market grade: w_hat" in r.stdout and "staking weight 0.000" in r.stdout
     assert "PAPER TRADING" in r.stdout and "weight 0" in r.stdout
     assert "Nothing will be staked" in r.stdout
 

@@ -28,9 +28,12 @@ half of one league a Play and almost none of another.
 WHERE EACH LEAGUE'S HISTORY COMES FROM
   nfl  walk-forward cache x nflverse closing spreads     (1,884 games)
   cfb  walk-forward cache x CFBD closing spreads         (1,704 games)
-  mlb  data/mlb_divergence snapshots x the walk-forward  (moneyline, ~87 games: rough)
-  nhl  none -> BORROWED from mlb (moneyline, low-scoring counts)
-  nba  none -> BORROWED from nfl (spread, near-normal margin)
+  mlb  ESPN closing moneylines x the walk-forward (grade_market_weight.mlb);
+       data/mlb_divergence snapshots (~87 games, rough) only if those are absent
+  nhl  ESPN closing moneylines x the live model (grade_market_weight.nhl);
+       BORROWED from mlb only if those rows are absent
+  nba  ESPN closing spreads x the live model (grade_market_weight.nba);
+       BORROWED from nfl only if those rows are absent
 Every league's bands are replaced by the same quantiles over its own settled
 paper trades once it has 150 of them (source "ledger").
 
@@ -74,12 +77,18 @@ def by_band(rows: pd.DataFrame, cut: dict) -> dict:
     e = rows.p_model - rows.p_market
     a = e.abs()
     hit = np.where(e > 0, rows.y == 1, rows.y == 0)
+    # What the MARKET said that side's chance was. On a spread it is about
+    # 0.5, so the hit rate reads against break-even; on a moneyline the
+    # model's strongest disagreements are mostly underdogs the market prices
+    # well under 0.5, and a 37% hit rate is only bad if the market said more.
+    mkt = np.where(e > 0, rows.p_market, 1 - rows.p_market)
     edges_ = [0.0, cut["coin_flip"], cut["lean"], cut["play"], 1.0]
     out = {}
     for name, lo, hi in zip(("no_edge", "coin_flip", "lean", "play"), edges_[:-1], edges_[1:]):
         m = (a >= lo) & (a < hi) if name != "play" else (a >= lo)
         out[name] = {"n": int(m.sum()),
-                     "preferred_side_hit_rate": round(float(hit[m].mean()), 4) if m.any() else None}
+                     "preferred_side_hit_rate": round(float(hit[m].mean()), 4) if m.any() else None,
+                     "market_said": round(float(mkt[m].mean()), 4) if m.any() else None}
     return out
 
 
@@ -143,8 +152,9 @@ def mlb_rows(through: str | None = None) -> pd.DataFrame:
 
 
 def history(name: str, mlb_through: str | None = None) -> tuple[pd.DataFrame | None, str]:
-    if name in G.LEAGUES:
-        rows, meta = G.LEAGUES[name]()
+    got = G.historical_rows(name)             # kept rows for the ESPN leagues
+    if got is not None and len(got[0]):
+        rows, meta = got
         return rows, meta["market"]
     if name == "mlb":
         return mlb_rows(mlb_through), ("moneyline, data/mlb_divergence snapshots (latest open "

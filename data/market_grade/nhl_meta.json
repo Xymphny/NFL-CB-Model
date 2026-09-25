@@ -1,0 +1,14 @@
+{
+ "market": "moneyline (closing, ESPN public odds records), home side",
+ "books": {
+  "ESPN BET": 2989,
+  "DraftKings": 923
+ },
+ "model": "NHLModel on NHLLiveSource with the goalie-pull and overtime layers -- the live path",
+ "joined": "3908 graded of 3912 ESPN closes",
+ "seasons": [
+  2024,
+  2026
+ ],
+ "contamination": "CLEAN OF TUNING: k fixed a priori, zero hyperparameter trials. The rules layer's own constants were fitted before these seasons were graded; see data/nhl_rules.json."
+}
