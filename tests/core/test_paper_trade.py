@@ -18,6 +18,19 @@ from coverline.execution.bronze import BronzeStore  # noqa: E402
 from coverline.execution.ledger import BetLedger  # noqa: E402
 from coverline.execution.normalize import normalize  # noqa: E402
 
+
+@pytest.fixture(autouse=True)
+def _site_exports_go_to_tmp(monkeypatch, tmp_path):
+    """The capture job re-exports the board and record after paper trading
+    (scripts/capture.py), and both exporters write to data/site by default.
+    Without this, every run of these tests rewrote the real, cron-published
+    site files in the working tree -- changes nobody made, one `git commit
+    -am` away from overwriting what the jobs publish."""
+    import export_board
+    import export_record
+    monkeypatch.setattr(export_board, "SITE", tmp_path / "site")
+    monkeypatch.setattr(export_record, "SITE", tmp_path / "site")
+
 SDV = ROOT / "data" / "raw" / "sportsdataverse"
 
 
