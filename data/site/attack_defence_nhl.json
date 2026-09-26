@@ -1,0 +1,744 @@
+{
+ "league": "nhl",
+ "season": 2026,
+ "banner": "NOT USED BY THE MODEL. NHL ratings reset every season; these are last season's rates, shown until every team has 10 games this season.",
+ "rates_note": "No-pull goals per game: the rates the model is built on, with empty-net goals removed.",
+ "teams": [
+  {
+   "team": "ANA",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.78,
+    "rank": 14,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 3.11,
+    "rank": 29,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 28,
+   "pulled_goalie_against": 27,
+   "points": {
+    "value": 92,
+    "rank": 15,
+    "better": "higher"
+   },
+   "past_regulation": 23,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ana.png"
+  },
+  {
+   "team": "BOS",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.939,
+    "rank": 10,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.707,
+    "rank": 16,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 19,
+   "pulled_goalie_against": 18,
+   "points": {
+    "value": 100,
+    "rank": 8,
+    "better": "higher"
+   },
+   "past_regulation": 22,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/bos.png"
+  },
+  {
+   "team": "BUF",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.037,
+    "rank": 5,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.476,
+    "rank": 3,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 31,
+   "pulled_goalie_against": 29,
+   "points": {
+    "value": 109,
+    "rank": 4,
+    "better": "higher"
+   },
+   "past_regulation": 17,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/buf.png"
+  },
+  {
+   "team": "CAR",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.11,
+    "rank": 3,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.585,
+    "rank": 7,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 27,
+   "pulled_goalie_against": 21,
+   "points": {
+    "value": 113,
+    "rank": 2,
+    "better": "higher"
+   },
+   "past_regulation": 21,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/car.png"
+  },
+  {
+   "team": "CBJ",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.707,
+    "rank": 16,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.634,
+    "rank": 12,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 19,
+   "pulled_goalie_against": 25,
+   "points": {
+    "value": 92,
+    "rank": 15,
+    "better": "higher"
+   },
+   "past_regulation": 24,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cbj.png"
+  },
+  {
+   "team": "CGY",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.305,
+    "rank": 31,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.756,
+    "rank": 20,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 16,
+   "pulled_goalie_against": 24,
+   "points": {
+    "value": 77,
+    "rank": 29,
+    "better": "higher"
+   },
+   "past_regulation": 16,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cgy.png"
+  },
+  {
+   "team": "CHI",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.39,
+    "rank": 26,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.915,
+    "rank": 26,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 10,
+   "pulled_goalie_against": 22,
+   "points": {
+    "value": 72,
+    "rank": 31,
+    "better": "higher"
+   },
+   "past_regulation": 21,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/chi.png"
+  },
+  {
+   "team": "COL",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.232,
+    "rank": 1,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.159,
+    "rank": 1,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 30,
+   "pulled_goalie_against": 15,
+   "points": {
+    "value": 121,
+    "rank": 1,
+    "better": "higher"
+   },
+   "past_regulation": 18,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/col.png"
+  },
+  {
+   "team": "DAL",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.0,
+    "rank": 8,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.366,
+    "rank": 2,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 21,
+   "pulled_goalie_against": 20,
+   "points": {
+    "value": 112,
+    "rank": 3,
+    "better": "higher"
+   },
+   "past_regulation": 24,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/dal.png"
+  },
+  {
+   "team": "DET",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.476,
+    "rank": 25,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.732,
+    "rank": 19,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 27,
+   "pulled_goalie_against": 24,
+   "points": {
+    "value": 92,
+    "rank": 15,
+    "better": "higher"
+   },
+   "past_regulation": 21,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/det.png"
+  },
+  {
+   "team": "EDM",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.024,
+    "rank": 6,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.976,
+    "rank": 28,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 25,
+   "pulled_goalie_against": 14,
+   "points": {
+    "value": 93,
+    "rank": 14,
+    "better": "higher"
+   },
+   "past_regulation": 20,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/edm.png"
+  },
+  {
+   "team": "FLA",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.683,
+    "rank": 19,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.951,
+    "rank": 27,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 23,
+   "pulled_goalie_against": 30,
+   "points": {
+    "value": 84,
+    "rank": 25,
+    "better": "higher"
+   },
+   "past_regulation": 12,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/fla.png"
+  },
+  {
+   "team": "LAK",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.378,
+    "rank": 29,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.5,
+    "rank": 5,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 17,
+   "pulled_goalie_against": 22,
+   "points": {
+    "value": 90,
+    "rank": 20,
+    "better": "higher"
+   },
+   "past_regulation": 33,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png"
+  },
+  {
+   "team": "MIN",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.854,
+    "rank": 13,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.524,
+    "rank": 6,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 23,
+   "pulled_goalie_against": 21,
+   "points": {
+    "value": 104,
+    "rank": 7,
+    "better": "higher"
+   },
+   "past_regulation": 27,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/min.png"
+  },
+  {
+   "team": "MTL",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.988,
+    "rank": 9,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.671,
+    "rank": 15,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 24,
+   "pulled_goalie_against": 27,
+   "points": {
+    "value": 106,
+    "rank": 5,
+    "better": "higher"
+   },
+   "past_regulation": 24,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/mtl.png"
+  },
+  {
+   "team": "NJD",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.305,
+    "rank": 31,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.805,
+    "rank": 24,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 28,
+   "pulled_goalie_against": 21,
+   "points": {
+    "value": 87,
+    "rank": 21,
+    "better": "higher"
+   },
+   "past_regulation": 16,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nj.png"
+  },
+  {
+   "team": "NSH",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.622,
+    "rank": 20,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.805,
+    "rank": 24,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 22,
+   "pulled_goalie_against": 29,
+   "points": {
+    "value": 86,
+    "rank": 22,
+    "better": "higher"
+   },
+   "past_regulation": 20,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nsh.png"
+  },
+  {
+   "team": "NYI",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.39,
+    "rank": 26,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.61,
+    "rank": 9,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 23,
+   "pulled_goalie_against": 22,
+   "points": {
+    "value": 91,
+    "rank": 19,
+    "better": "higher"
+   },
+   "past_regulation": 19,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyi.png"
+  },
+  {
+   "team": "NYR",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.561,
+    "rank": 21,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.61,
+    "rank": 9,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 19,
+   "pulled_goalie_against": 27,
+   "points": {
+    "value": 77,
+    "rank": 29,
+    "better": "higher"
+   },
+   "past_regulation": 18,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyr.png"
+  },
+  {
+   "team": "OTT",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.012,
+    "rank": 7,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.707,
+    "rank": 16,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 25,
+   "pulled_goalie_against": 13,
+   "points": {
+    "value": 99,
+    "rank": 9,
+    "better": "higher"
+   },
+   "past_regulation": 17,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ott.png"
+  },
+  {
+   "team": "PHI",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.512,
+    "rank": 23,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.61,
+    "rank": 9,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 28,
+   "pulled_goalie_against": 17,
+   "points": {
+    "value": 98,
+    "rank": 10,
+    "better": "higher"
+   },
+   "past_regulation": 28,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/phi.png"
+  },
+  {
+   "team": "PIT",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.171,
+    "rank": 2,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.768,
+    "rank": 21,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 26,
+   "pulled_goalie_against": 25,
+   "points": {
+    "value": 98,
+    "rank": 10,
+    "better": "higher"
+   },
+   "past_regulation": 23,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/pit.png"
+  },
+  {
+   "team": "SEA",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.39,
+    "rank": 26,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.768,
+    "rank": 21,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 22,
+   "pulled_goalie_against": 25,
+   "points": {
+    "value": 79,
+    "rank": 27,
+    "better": "higher"
+   },
+   "past_regulation": 19,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sea.png"
+  },
+  {
+   "team": "SJS",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.695,
+    "rank": 17,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 3.134,
+    "rank": 30,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 18,
+   "pulled_goalie_against": 27,
+   "points": {
+    "value": 86,
+    "rank": 22,
+    "better": "higher"
+   },
+   "past_regulation": 20,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sj.png"
+  },
+  {
+   "team": "STL",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.537,
+    "rank": 22,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.793,
+    "rank": 23,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 19,
+   "pulled_goalie_against": 17,
+   "points": {
+    "value": 86,
+    "rank": 22,
+    "better": "higher"
+   },
+   "past_regulation": 16,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/stl.png"
+  },
+  {
+   "team": "TBL",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 3.061,
+    "rank": 4,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.488,
+    "rank": 4,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 29,
+   "pulled_goalie_against": 21,
+   "points": {
+    "value": 106,
+    "rank": 5,
+    "better": "higher"
+   },
+   "past_regulation": 16,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tb.png"
+  },
+  {
+   "team": "TOR",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.695,
+    "rank": 17,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 3.134,
+    "rank": 30,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 23,
+   "pulled_goalie_against": 28,
+   "points": {
+    "value": 78,
+    "rank": 28,
+    "better": "higher"
+   },
+   "past_regulation": 23,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tor.png"
+  },
+  {
+   "team": "UTA",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.902,
+    "rank": 11,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.634,
+    "rank": 12,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 20,
+   "pulled_goalie_against": 18,
+   "points": {
+    "value": 92,
+    "rank": 15,
+    "better": "higher"
+   },
+   "past_regulation": 16,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/utah.png"
+  },
+  {
+   "team": "VAN",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.329,
+    "rank": 30,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 3.378,
+    "rank": 32,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 15,
+   "pulled_goalie_against": 31,
+   "points": {
+    "value": 58,
+    "rank": 32,
+    "better": "higher"
+   },
+   "past_regulation": 18,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/van.png"
+  },
+  {
+   "team": "VGK",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.89,
+    "rank": 12,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.634,
+    "rank": 12,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 19,
+   "pulled_goalie_against": 17,
+   "points": {
+    "value": 95,
+    "rank": 12,
+    "better": "higher"
+   },
+   "past_regulation": 26,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png"
+  },
+  {
+   "team": "WPG",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.5,
+    "rank": 24,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.72,
+    "rank": 18,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 19,
+   "pulled_goalie_against": 25,
+   "points": {
+    "value": 82,
+    "rank": 26,
+    "better": "higher"
+   },
+   "past_regulation": 19,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wpg.png"
+  },
+  {
+   "team": "WSH",
+   "gp": 82,
+   "nopull_gf": {
+    "value": 2.768,
+    "rank": 15,
+    "better": "higher"
+   },
+   "nopull_ga": {
+    "value": 2.585,
+    "rank": 7,
+    "better": "lower"
+   },
+   "pulled_goalie_for": 30,
+   "pulled_goalie_against": 23,
+   "points": {
+    "value": 95,
+    "rank": 12,
+    "better": "higher"
+   },
+   "past_regulation": 15,
+   "logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wsh.png"
+  }
+ ]
+}

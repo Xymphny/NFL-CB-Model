@@ -1,6 +1,6 @@
 {
  "league": "mlb",
- "generated_at": "2026-09-26T14:04:54Z",
+ "generated_at": "2026-09-26T15:42:15Z",
  "note": "Daily. Lines are quoted on the listed probable starters; a scratch changes the game being priced.",
  "slate": {
   "kind": "date",
@@ -86,13 +86,17 @@
     "park": "WAS11",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Nationals Park",
      "park": "WAS11",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Overcast",
+     "temp_f": "66",
+     "wind": "17 mph, In From CF",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -215,7 +219,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.52759
+   "fair_p": 0.52759,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/wsh.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/nym.png"
   },
   {
    "game_id": "DET202609260",
@@ -296,13 +302,17 @@
     "park": "DET05",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Comerica Park",
      "park": "DET05",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Sunny",
+     "temp_f": "66",
+     "wind": "8 mph, Out To RF",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -324,14 +334,14 @@
         "status": "60-Day IL"
        },
        {
-        "player": "Justin Verlander",
-        "position": "SP",
+        "player": "Matt Vierling",
+        "position": "CF",
         "status": "60-Day IL"
        }
       ],
-      "more": 11,
+      "more": 10,
       "counts": {
-       "60-Day IL": 9,
+       "60-Day IL": 8,
        "10-Day IL": 2,
        "15-Day IL": 3
       }
@@ -434,7 +444,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.59505
+   "fair_p": 0.59505,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/det.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/pit.png"
   },
   {
    "game_id": "TOR202609260",
@@ -515,13 +527,17 @@
     "park": "TOR02",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Rogers Centre",
      "park": "TOR02",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Roof Closed",
+     "temp_f": "72",
+     "wind": "0 mph, None",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -717,7 +733,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.61014
+   "fair_p": 0.61014,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tor.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/cin.png"
   },
   {
    "game_id": "SFN202609260",
@@ -798,7 +816,7 @@
     "park": "SFO03",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Oracle Park",
      "park": "SFO03",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -1029,7 +1047,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.40425
+   "fair_p": 0.40425,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sf.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/lad.png"
   },
   {
    "game_id": "MIA202609260",
@@ -1110,7 +1130,7 @@
     "park": "MIA02",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "loanDepot park",
      "park": "MIA02",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -1250,7 +1270,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.5393
+   "fair_p": 0.5393,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/mia.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/atl.png"
   },
   {
    "game_id": "MIN202609260",
@@ -1331,7 +1353,7 @@
     "park": "MIN04",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Target Field",
      "park": "MIN04",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -1438,7 +1460,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.51168
+   "fair_p": 0.51168,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/min.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tex.png"
   },
   {
    "game_id": "CHA202609260",
@@ -1519,7 +1543,7 @@
     "park": "CHI12",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Rate Field",
      "park": "CHI12",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -1747,7 +1771,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.44021
+   "fair_p": 0.44021,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/chw.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/col.png"
   },
   {
    "game_id": "KCA202609260",
@@ -1828,7 +1854,7 @@
     "park": "KAN06",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Kauffman Stadium",
      "park": "KAN06",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -2041,7 +2067,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.49778
+   "fair_p": 0.49778,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/kc.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/cle.png"
   },
   {
    "game_id": "MIL202609260",
@@ -2122,7 +2150,7 @@
     "park": "MIL06",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "American Family Field",
      "park": "MIL06",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -2150,11 +2178,12 @@
      "away": {
       "status": "reported",
       "shown": [],
-      "more": 5,
+      "more": 6,
       "counts": {
        "60-Day IL": 1,
        "10-Day IL": 3,
-       "15-Day IL": 1
+       "15-Day IL": 1,
+       "Day-To-Day": 1
       }
      },
      "counts_only": true
@@ -2309,7 +2338,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.45216
+   "fair_p": 0.45216,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/mil.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/stl.png"
   },
   {
    "game_id": "PHI202609260",
@@ -2326,7 +2357,7 @@
     "park": "PHI13",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Citizens Bank Park",
      "park": "PHI13",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -2403,7 +2434,9 @@
     },
     "travel": null
    },
-   "refusal": "GameNotPriceable: TBA@PHI: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
+   "refusal": "GameNotPriceable: TBA@PHI: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/phi.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tb.png"
   },
   {
    "game_id": "SDN202609260",
@@ -2420,7 +2453,7 @@
     "park": "SAN02",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Petco Park",
      "park": "SAN02",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -2495,7 +2528,9 @@
     },
     "travel": null
    },
-   "refusal": "GameNotPriceable: ARI@SDN: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
+   "refusal": "GameNotPriceable: ARI@SDN: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sd.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ari.png"
   },
   {
    "game_id": "ATH202609260",
@@ -2576,7 +2611,7 @@
     "park": "SAC01",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "Sutter Health Park",
      "park": "SAC01",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -2715,7 +2750,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.42325
+   "fair_p": 0.42325,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ath.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/hou.png"
   },
   {
    "game_id": "SEA202609260",
@@ -2796,7 +2833,7 @@
     "park": "SEA03",
     "key_player": [],
     "venue": {
-     "name": null,
+     "name": "T-Mobile Park",
      "park": "SEA03",
      "in_price": true,
      "note": "The park factor is one of the model's inputs."
@@ -3015,7 +3052,9 @@
     "frozen": false,
     "missed_windows": []
    },
-   "fair_p": 0.40471
+   "fair_p": 0.40471,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sea.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/laa.png"
   }
  ],
  "refusals": [],
@@ -3026,7 +3065,7 @@
    "remaining": 19911,
    "monthly": 20000
   },
-  "slate_fetched_at": "20260926T104146Z",
+  "slate_fetched_at": "20260926T154135Z",
   "latest_final": "2026-09-25"
  },
  "teams": [
