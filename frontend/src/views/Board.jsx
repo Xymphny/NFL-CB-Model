@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChangeGlyph, Chevron, StateGlyph } from '../Glyph'
+import { ContextLines, InjuryReport, KeyPlayerStrip, LineSpark, OpenMatchup } from './GameContext'
 import {
   MARKET_LABEL, TIERS, TIER_LABEL, american, book as bookName, line as fmtLine, money, pct, pts,
   signed, startDay, startTime,
@@ -15,7 +16,7 @@ const GROUPS = [
   { tier: 'coin_flip', label: 'Coin flip', note: 'near agreement; it names the side it slightly prefers' },
 ]
 
-export default function Board({ league, board, since, book }) {
+export default function Board({ league, board, since, book, onOpenMatchup, onPlayers }) {
   const [open, setOpen] = useState(() => new Set())
   const rows = useRef([])
 
@@ -60,7 +61,7 @@ export default function Board({ league, board, since, book }) {
   const games = board.games || []
   const idx = (g) => order.indexOf(g)
   const rowProps = (g) => ({
-    g, league, board, book,
+    g, league, board, book, onOpenMatchup, onPlayers,
     isOpen: open.has(g.game_id), onToggle: () => toggle(g.game_id),
     changes: changed.get(g.game_id) || [],
     rowRef: (el) => { rows.current[idx(g)] = el },
@@ -283,7 +284,7 @@ function Context({ league, g, full }) {
   )
 }
 
-function GameRow({ g, league, board, book, isOpen, onToggle, changes, rowRef, compact }) {
+function GameRow({ g, league, board, book, isOpen, onToggle, changes, rowRef, compact, onOpenMatchup, onPlayers }) {
   const m = g.markets?.[g.headline]
   const pick = pickText(g, m)
   const bankroll = book.settings.bankroll
@@ -330,12 +331,13 @@ function GameRow({ g, league, board, book, isOpen, onToggle, changes, rowRef, co
         <span className="num"><StakeCell m={m} bankroll={bankroll} /></span>
         <Chevron open={isOpen} />
       </button>
-      {isOpen && <Detail g={g} league={league} board={board} book={book} changes={changes} />}
+      <KeyPlayerStrip items={g.context?.key_player} onPlayers={league === 'nba' ? onPlayers : undefined} />
+      {isOpen && <Detail g={g} league={league} board={board} book={book} changes={changes} onOpenMatchup={onOpenMatchup} />}
     </div>
   )
 }
 
-function Detail({ g, league, board, book, changes }) {
+function Detail({ g, league, board, book, changes, onOpenMatchup }) {
   const markets = Object.values(g.markets || {})
   const m = g.markets?.[g.headline]
   return (
@@ -404,6 +406,18 @@ function Detail({ g, league, board, book, changes }) {
           </table>
         )}
       </div>
+
+      <div className="d-v2">
+        <div className="d-v2-col">
+          <h3>Line since open</h3>
+          <LineSpark g={g} market={m} />
+          <ContextLines g={g} />
+        </div>
+        <div className="d-v2-col">
+          <InjuryReport g={g} />
+        </div>
+      </div>
+      <p className="d-open"><OpenMatchup league={league} g={g} onOpen={onOpenMatchup} /></p>
 
       {m?.status === 'priced' ? (
         <div className="d-foot">

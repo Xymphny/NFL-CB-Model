@@ -22,6 +22,7 @@ const paths = FIXTURE
       gates: '/dev-fixtures/gates.json',
       props: '/dev-fixtures/prop_grades_summary.json',
       nbaPlayers: '/dev-fixtures/players_nba.json',
+      page: (f) => `/dev-fixtures/${f}`,
     }
   : {
       board: (l) => `/data/site/board_${l}.json`,
@@ -29,6 +30,7 @@ const paths = FIXTURE
       gates: '/data/site/gates.json',
       props: '/data/prop_grades/summary.json',
       nbaPlayers: '/data/site/players_nba.json',
+      page: (f) => `/data/site/${f}`,
     }
 
 export const isFixture = FIXTURE
@@ -73,6 +75,15 @@ export const useRecord = () => useJson(paths.record)
 export const useGates = () => useJson(paths.gates)
 export const usePropLedger = () => useJson(paths.props)
 export const useNbaPlayers = () => useJson(paths.nbaPlayers)
+
+/* Team and league pages (scripts/export_teams.py, scripts/export_outlook.py).
+ * Every rank arrives computed; the views lay them out. */
+export const TEAM_PAGES = {
+  nfl: 'teams_nfl.json', nba: 'teams_nba.json',
+  mlb: 'pitchers_parks_mlb.json', nhl: 'attack_defence_nhl.json',
+}
+export const useTeamPage = (league) => useJson(paths.page(TEAM_PAGES[league] || 'none.json'))
+export const useOutlook = () => useJson(paths.page('outlook_nfl.json'))
 
 /* ------------------------------------------------ since your last look ---- */
 

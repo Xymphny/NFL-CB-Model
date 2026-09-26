@@ -211,6 +211,13 @@ services:
     runtime: static
     buildCommand: python3 deploy/generate_manifest.py && cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
+    # Matchup deep links (/<league>/game/<id>, dashboard v2) load the app.
+    # Render applies no rule where a file exists, so data/site/*.json and the
+    # assets are served as before; only unknown paths fall through to it.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
 
   - type: cron
     name: mlb-odds-watch-job

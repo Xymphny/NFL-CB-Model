@@ -11,6 +11,9 @@ import NbaPlayers from './views/NbaPlayers'
 import Record from './views/Record'
 import Gates from './views/Gates'
 import Book, { AccountChip } from './views/Book'
+import Matchup from './views/Matchup'
+import { MlbPitchersParks, NbaTeams, NflTeams, NhlAttackDefence } from './views/TeamPages'
+import { matchupPath } from './views/GameContext'
 
 /* Views a league actually has. Players for NFL (the props engine's ledger)
  * and NBA (availability and minutes -- NOT a model input, labelled as such);
@@ -18,11 +21,20 @@ import Book, { AccountChip } from './views/Book'
  * apply are hidden, never rendered empty. */
 function viewsFor(league, board) {
   const v = [{ id: 'board', label: 'Board', key: 'b' }]
-  if (board?.teams?.length) v.push({ id: 'teams', label: 'Teams', key: 't' })
+  // NFL and NBA have exported team pages (every team clickable); the other
+  // leagues keep the board's list of what the model rates.
+  if (league === 'nfl' || league === 'nba' || board?.teams?.length) v.push({ id: 'teams', label: 'Teams', key: 't' })
+  if (league === 'mlb') v.push({ id: 'parks', label: 'Pitchers & parks', key: 'k' })
+  if (league === 'nhl') v.push({ id: 'attack', label: 'Attack & defence', key: 'a' })
   if (league === 'nfl' || league === 'nba') v.push({ id: 'players', label: 'Players', key: 'p' })
   v.push({ id: 'record', label: 'Record', key: 'r' }, { id: 'gates', label: 'Gates', key: 'g' },
          { id: 'book', label: 'My book', key: 'm' })
   return v
+}
+
+function parseRoute(path) {
+  const m = /^\/(nfl|cfb|mlb|nhl|nba)\/game\/(.+)$/.exec(path || '')
+  return m ? { league: m[1], game: decodeURIComponent(m[2]) } : null
 }
 
 function readPref(key, fallback) {
@@ -42,10 +54,13 @@ export default function App() {
   /* ?league=nhl&view=record opens a specific board: a link a friend can
    * be sent. Without it, the last league viewed on this browser. */
   const params = new URLSearchParams(window.location.search)
+  /* /<league>/game/<game_id> opens a matchup (brief item 9). */
+  const route = parseRoute(window.location.pathname)
   const [league, setLeagueState] = useState(() => {
-    const l = params.get('league') || readPref('coinflip_league', 'nfl')
+    const l = route?.league || params.get('league') || readPref('coinflip_league', 'nfl')
     return LEAGUES.includes(l) ? l : 'nfl'
   })
+  const [matchup, setMatchup] = useState(route?.game || null)
   const [view, setView] = useState(() => params.get('view') || 'board')
   const [showKeys, setShowKeys] = useState(false)
   const board = boards[league]
@@ -55,6 +70,27 @@ export default function App() {
   const setLeague = useCallback((l) => {
     setLeagueState(l)
     writePref('coinflip_league', l)
+    setMatchup(null)
+    if (window.location.pathname !== '/') window.history.pushState({}, '', `/?league=${l}`)
+  }, [])
+
+  const openMatchup = useCallback((gid) => {
+    window.history.pushState({}, '', matchupPath(league, gid))
+    setMatchup(gid)
+    window.scrollTo(0, 0)
+  }, [league])
+  const closeMatchup = useCallback(() => {
+    window.history.pushState({}, '', `/?league=${league}`)
+    setMatchup(null)
+  }, [league])
+  useEffect(() => {
+    const onPop = () => {
+      const r = parseRoute(window.location.pathname)
+      setMatchup(r?.game || null)
+      if (r?.league) setLeagueState(r.league)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
   }, [])
 
   /* A view the league does not have falls back to the board -- but only once
@@ -74,7 +110,7 @@ export default function App() {
       if (e.key === '?') { setShowKeys((s) => !s); return }
       if (e.key === 'Escape') { setShowKeys(false); return }
       const v = views.find((x) => x.key === e.key)
-      if (v) setView(v.id)
+      if (v) { setView(v.id); setMatchup(null) }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -114,7 +150,7 @@ export default function App() {
       <nav className="views" aria-label={`${LEAGUE_NAME[league]} views`}>
         {views.map((v) => (
           <button key={v.id} className={`view-tab${view === v.id ? ' on' : ''}`}
-                  aria-current={view === v.id ? 'page' : undefined} onClick={() => setView(v.id)}>
+                  aria-current={view === v.id ? 'page' : undefined} onClick={() => { setView(v.id); if (matchup) closeMatchup() }}>
             {v.label}<kbd>{v.key}</kbd>
           </button>
         ))}
@@ -129,13 +165,19 @@ export default function App() {
               below is current; reload when the site has redeployed.</p>
           </div>
         )}
-        {board && view === 'board' && <Board league={league} board={board} since={since} book={book} />}
-        {board && view === 'teams' && <Teams league={league} board={board} />}
-        {view === 'players' && league === 'nfl' && <Players />}
-        {view === 'players' && league === 'nba' && <NbaPlayers board={board} />}
-        {view === 'record' && <Record league={league} record={record} />}
-        {view === 'gates' && <Gates league={league} gates={gates} />}
-        {view === 'book' && <Book book={book} account={account} />}
+        {matchup && <Matchup league={league} board={board} gameId={matchup} onBack={closeMatchup} />}
+        {!matchup && board && view === 'board' && <Board league={league} board={board} since={since} book={book}
+          onOpenMatchup={openMatchup} onPlayers={() => setView('players')} />}
+        {!matchup && view === 'teams' && league === 'nfl' && <NflTeams record={record} />}
+        {!matchup && view === 'teams' && league === 'nba' && <NbaTeams record={record} />}
+        {!matchup && board && view === 'teams' && !['nfl', 'nba'].includes(league) && <Teams league={league} board={board} />}
+        {!matchup && view === 'parks' && league === 'mlb' && <MlbPitchersParks record={record} />}
+        {!matchup && view === 'attack' && league === 'nhl' && <NhlAttackDefence />}
+        {!matchup && view === 'players' && league === 'nfl' && <Players />}
+        {!matchup && view === 'players' && league === 'nba' && <NbaPlayers board={board} />}
+        {!matchup && view === 'record' && <Record league={league} record={record} />}
+        {!matchup && view === 'gates' && <Gates league={league} gates={gates} />}
+        {!matchup && view === 'book' && <Book book={book} account={account} />}
       </main>
 
       <footer className="foot">
