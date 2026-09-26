@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-09-26T00:01:15Z",
+ "generated_at": "2026-09-26T00:15:46Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -23,21 +23,10 @@
     "roof": "outdoors",
     "temp": 61.0,
     "wind": 5.0,
-    "div_game": 0,
-    "regime": {
-     "home": null,
-     "away": {
-      "tier": 1,
-      "coach": "Stefanski"
-     }
-    }
+    "div_game": 0
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.64411,
-    "margin_mean": 4.68,
-    "total_mean": null
-   }
+   "refusal": null,
+   "started": true
   },
   {
    "game_id": "2026-W03-BUF-LAC",
@@ -1104,8 +1093,8 @@
  "freshness": {
   "odds_captured_at": "2026-09-25T14:03:09Z",
   "credits": {
-   "as_of": "2026-09-26T00:00:54Z",
-   "remaining": 19947,
+   "as_of": "2026-09-26T00:15:32Z",
+   "remaining": 19944,
    "monthly": 20000
   },
   "ratings_version": "2026-week-02.json",
@@ -1422,8 +1411,8 @@
   "provisional": true
  },
  "status": {
-  "state": "degraded",
-  "games": 16,
+  "state": "up",
+  "games": 15,
   "priced": 15,
   "tiers": {
    "play": 2,
@@ -1431,13 +1420,9 @@
    "coin_flip": 2,
    "no_edge": 8
   },
+  "started": 1,
   "refusals": 0,
   "reason": null,
-  "game_refusals": [
-   {
-    "reason": "no market price captured for this game",
-    "games": 1
-   }
-  ]
+  "game_refusals": []
  }
 }

@@ -1,6 +1,6 @@
 {
  "league": "cfb",
- "generated_at": "2026-09-26T00:01:17Z",
+ "generated_at": "2026-09-26T00:15:47Z",
  "note": "Weekly slate, Thursday to Saturday. Spreads price key numbers (3, 7) with a measured correction. Neutral-site games are refused: the model has no home term to remove.",
  "slate": {
   "kind": "week",
@@ -24,7 +24,8 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": "LookaheadRefused: Army@Temple kicked off at 2026-09-25 20:00:00+00:00; pricing it as of 2026-09-26 00:01:18.052241+00:00 would use a moment after kickoff"
+   "refusal": null,
+   "started": true
   },
   {
    "game_id": "401858468",
@@ -38,7 +39,8 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": "LookaheadRefused: Howard@Rutgers kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-26 00:01:18.052928+00:00 would use a moment after kickoff"
+   "refusal": null,
+   "started": true
   },
   {
    "game_id": "401862778",
@@ -52,7 +54,8 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": "LookaheadRefused: Navy@UAB kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-26 00:01:18.053508+00:00 would use a moment after kickoff"
+   "refusal": null,
+   "started": true
   },
   {
    "game_id": "401858461",
@@ -66,7 +69,8 @@
    "context": {
     "neutral_site": false
    },
-   "refusal": "LookaheadRefused: Northwestern@Indiana kicked off at 2026-09-26 00:00:00+00:00; pricing it as of 2026-09-26 00:01:18.054063+00:00 would use a moment after kickoff"
+   "refusal": null,
+   "started": true
   },
   {
    "game_id": "401858234",
@@ -3643,8 +3647,8 @@
  "freshness": {
   "odds_captured_at": "2026-09-26T00:03:00Z",
   "credits": {
-   "as_of": "2026-09-26T00:00:54Z",
-   "remaining": 19947,
+   "as_of": "2026-09-26T00:15:32Z",
+   "remaining": 19944,
    "monthly": 20000
   },
   "ratings_version": "2026-week-04.json",
@@ -4503,7 +4507,7 @@
  },
  "status": {
   "state": "degraded",
-  "games": 70,
+  "games": 66,
   "priced": 54,
   "tiers": {
    "play": 11,
@@ -4511,28 +4515,13 @@
    "coin_flip": 14,
    "no_edge": 21
   },
+  "started": 4,
   "refusals": 0,
   "reason": null,
   "game_refusals": [
    {
     "reason": "GameNotPriceable: a team is not rated in 2026-week-04.json (usually an FCS opponent)",
     "games": 12
-   },
-   {
-    "reason": "LookaheadRefused: Army@Temple kicked off at 2026-09-25 20:00:00+00:00; pricing it as of 2026-09-26 00:01:18.052241+00:00 would use a moment after kickoff",
-    "games": 1
-   },
-   {
-    "reason": "LookaheadRefused: Howard@Rutgers kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-26 00:01:18.052928+00:00 would use a moment after kickoff",
-    "games": 1
-   },
-   {
-    "reason": "LookaheadRefused: Navy@UAB kicked off at 2026-09-25 23:00:00+00:00; pricing it as of 2026-09-26 00:01:18.053508+00:00 would use a moment after kickoff",
-    "games": 1
-   },
-   {
-    "reason": "LookaheadRefused: Northwestern@Indiana kicked off at 2026-09-26 00:00:00+00:00; pricing it as of 2026-09-26 00:01:18.054063+00:00 would use a moment after kickoff",
-    "games": 1
    }
   ]
  }
