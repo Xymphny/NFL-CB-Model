@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChangeGlyph, Chevron, StateGlyph } from '../Glyph'
-import { CheckFlag, ContextLines, InjuryReport, KeyPlayerStrip, LineSpark, OpenMatchup } from './GameContext'
+import { CheckFlag, ContextLines, InjuryReport, KeyPlayerStrip, LineSpark, OpenMatchup, TeamLogo } from './GameContext'
 import { ByWindow, CfbRail, EarlySeasonBanner } from './CfbBoard'
 import {
   MARKET_LABEL, TIERS, TIER_LABEL, american, book as bookName, line as fmtLine, money, pct, pts,
@@ -303,7 +303,7 @@ function GameRow({ g, league, board, book, isOpen, onToggle, changes, rowRef, co
         <span className="tick" aria-hidden="true">{changes.length ? <ChangeGlyph kind={changes[0].kind} /> : null}</span>
         <span className="start"><span>{startTime(g.start)}</span><small>{startDay(g.start)}</small></span>
         <span className="game">
-          <span className="teams"><span>{g.away}</span><i>@</i><span>{g.home}</span></span>
+          <span className="teams"><TeamLogo src={g.away_logo} /><span>{g.away}</span><i>@</i><TeamLogo src={g.home_logo} /><span>{g.home}</span></span>
           <Context league={league} g={g} />
         </span>
         <span className="pick">

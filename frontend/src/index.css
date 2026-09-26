@@ -669,3 +669,10 @@ kbd {
 .np-row p { grid-column: 1 / -1; margin: 2px 0 0; }
 .data-pill { font-size: var(--t-sm); padding: 2px var(--s2); border: 1px solid rgba(88, 184, 140, 0.45); border-radius: 999px; color: var(--up); white-space: nowrap; }
 .data-pill.sample { border-color: rgba(217, 166, 70, 0.45); color: var(--degraded); }
+
+/* team logos (decorative; the code beside each carries the meaning) */
+.team-logo { display: inline-block; vertical-align: middle; object-fit: contain; margin-right: 6px; flex: none; }
+.teams .team-logo { margin-right: 4px; }
+.mu-title { display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--s2); }
+.mu-title .team-logo { margin-right: 0; }
+.tp-name { display: inline-flex; align-items: center; min-width: 0; }

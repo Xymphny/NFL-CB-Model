@@ -679,6 +679,11 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
 
     attach_line_history(board, store, lg.vendor_sport, headline, fair)
     attach_check_flags(board, headline)
+    logo = board_context.logos(league)
+    for g in board["games"]:
+        for side in ("home", "away"):
+            if g.get(side) in logo:
+                g[f"{side}_logo"] = logo[g[side]]
     if league == "cfb":
         for g in board["games"]:
             g["window"] = cfb_window(g.get("start"))

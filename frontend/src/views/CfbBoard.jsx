@@ -1,4 +1,5 @@
 import { TIER_LABEL, line as fmtLine, pct, startTime } from '../format'
+import { TeamLogo } from './GameContext'
 
 /* The college board's own parts (dashboard v2 item 8), around the shared
  * board: the early-season banner, the slate by kickoff window, and the
@@ -46,7 +47,7 @@ export function ByWindow({ board }) {
                 return (
                   <tr key={g.game_id}>
                     <td>{startTime(g.start)}</td>
-                    <td>{g.away} @ {g.home}{g.check_flag && <small className="flag-word"> · check</small>}</td>
+                    <td><TeamLogo src={g.away_logo} size={16} />{g.away} @ <TeamLogo src={g.home_logo} size={16} />{g.home}{g.check_flag && <small className="flag-word"> · check</small>}</td>
                     <td>{who} {fmtLine(m.line)}</td>
                     <td className="num">{g.fair_line != null ? `${who} ${fmtLine(g.fair_line)}` : '—'}</td>
                     <td className="num">{pct(m.p_model)} <small>vs {pct(m.p_market)}</small></td>

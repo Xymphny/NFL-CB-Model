@@ -198,3 +198,12 @@ export function CheckFlag({ g }) {
     </p>
   )
 }
+
+/* A team's logo from the export (data/logos.json via the exporters).
+ * Decorative: the code beside it carries the meaning, so alt is empty and a
+ * logo that fails to load simply disappears. */
+export function TeamLogo({ src, size = 18 }) {
+  if (!src) return null
+  return <img className="team-logo" src={src} alt="" width={size} height={size} loading="lazy"
+              decoding="async" onError={(e) => { e.currentTarget.style.display = 'none' }} />
+}

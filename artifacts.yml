@@ -97,6 +97,17 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/logos.json
+    produced_by: model/ingest/logos.py
+    consumed_by:
+      - scripts/board_context.py
+      - scripts/export_teams.py
+      - scripts/export_players.py
+    kind: bronze
+    refresh: "when a team rebrands; ESPN logos keyed by each model's codes through the trusted tables"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/venues.json
     produced_by: model/ingest/venues.py
     consumed_by:

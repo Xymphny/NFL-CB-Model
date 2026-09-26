@@ -102,10 +102,15 @@ def build(today: date | None = None, raw: Path = RAW) -> dict:
         columns=["team", "game_id", "date", "athlete_id", "player", "position",
                  "starter", "minutes", "did_not_play"])
 
+    try:
+        logo = {k: v["dark"] for k, v in
+                json.loads((ROOT / "data" / "logos.json").read_text()).get("nba", {}).items()}
+    except (OSError, ValueError, KeyError):
+        logo = {}
     teams = []
     for code in sorted(names):
         rot, n = rotation(box, code)
-        teams.append({"team": code, "name": names[code],
+        teams.append({"team": code, "name": names[code], "logo": logo.get(code),
                       "injuries": injuries.get(code, []),
                       "rotation": rot, "games_in_window": n})
 

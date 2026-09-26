@@ -62,6 +62,18 @@ INJURY_NOTE = {
 INJURY_NOTE_DEFAULT = "Not in the price."
 
 
+LOGOS = ROOT / "data" / "logos.json"
+
+
+def logos(league: str) -> dict:
+    """{team code: dark-background logo URL} for `league` (model/ingest/
+    logos.py). Soft-fails to none: a card without a logo shows its code."""
+    try:
+        return {k: v["dark"] for k, v in json.loads(LOGOS.read_text()).get(league, {}).items()}
+    except (OSError, ValueError, KeyError, TypeError):
+        return {}
+
+
 def offline() -> bool:
     return os.environ.get("COINFLIP_CONTEXT_OFFLINE") == "1"
 

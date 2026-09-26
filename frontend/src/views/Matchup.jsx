@@ -4,7 +4,7 @@ import {
   startDay, startTime,
 } from '../format'
 import { StateGlyph } from '../Glyph'
-import { ContextLines, InjuryReport, KeyPlayerStrip, LineSpark } from './GameContext'
+import { ContextLines, InjuryReport, KeyPlayerStrip, LineSpark, TeamLogo } from './GameContext'
 
 /* Every number the board has on one game (/<league>/game/<game_id>).
  * The distribution is the export's model.margin_pmf -- bars drawn from its
@@ -150,7 +150,7 @@ export default function Matchup({ league, board, gameId, onBack }) {
     <section className="panel matchup">
       <p><button className="linkish" onClick={onBack}>← {LEAGUE_NAME[league]} board</button></p>
       <header className="panel-head">
-        <h1>{g.away_name || g.away} @ {g.home_name || g.home}</h1>
+        <h1 className="mu-title"><TeamLogo src={g.away_logo} size={32} />{g.away_name || g.away} @ <TeamLogo src={g.home_logo} size={32} />{g.home_name || g.home}</h1>
         <p>{startDay(g.start)} {startTime(g.start)}{g.context?.venue?.name ? ` · ${g.context.venue.name}` : ''}</p>
       </header>
       <KeyPlayerStrip items={g.context?.key_player} />

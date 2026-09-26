@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useOutlook, useTeamPage } from '../data'
 import { dateLabel, pct, startDay, startTime } from '../format'
+import { TeamLogo } from './GameContext'
 
 /* Team pages from scripts/export_teams.py and export_outlook.py. Every rank
  * is exported; a null stat shows "--" with no rank. The site orders nothing
@@ -46,7 +47,7 @@ function TeamList({ items, sel, onSel, label, sub }) {
         <li key={t.key}>
           <button className={`tp-row${sel === t.key ? ' on' : ''}`} onClick={() => onSel(t.key)} aria-pressed={sel === t.key}>
             <span className="tp-rank">{t.rank ?? '—'}</span>
-            <span className="tp-name">{t.name}</span>
+            <span className="tp-name"><TeamLogo src={t.logo} />{t.name}</span>
             <span className="tp-sub">{sub(t)}</span>
           </button>
         </li>
@@ -72,11 +73,11 @@ export function NflTeams({ record }) {
         <p>Ratings snapshot {page.data.ratings_version} · ranked of 32 · click a team.</p></header>
       <div className="tp-grid">
         <TeamList label="NFL teams by model rating" sel={t.abbr} onSel={setSel}
-                  items={sorted.map((x) => ({ key: x.abbr, rank: x.rating.rank, name: x.name || x.abbr }))}
+                  items={sorted.map((x) => ({ key: x.abbr, rank: x.rating.rank, name: x.name || x.abbr, logo: x.logo }))}
                   sub={(x) => { const r = teams.find((y) => y.abbr === x.key).record; return r ? `${r.w}-${r.l}${r.t ? `-${r.t}` : ''}` : '' }} />
         <article className="tp-panel" aria-label={`${t.name} detail`}>
           <header>
-            <h2>{t.name}</h2>
+            <h2><TeamLogo src={t.logo} size={28} />{t.name}</h2>
             <p>{t.division} · {t.division_place ? `${t.division_place} in the division` : ''} · QB1 {t.qb1 || 'unknown'}</p>
             <p className="tp-rating">Model rating <b>{t.rating.value == null ? '—' : f3(t.rating.value)}</b>
               {t.rating.rank && <small>#{t.rating.rank} of {t.rating.of}</small>}
@@ -131,10 +132,10 @@ export function NbaTeams({ record }) {
         <p>{page.data.season - 1}-{String(page.data.season).slice(2)} season, the file the model reads · ranked of {page.data.of}.</p></header>
       <div className="tp-grid">
         <TeamList label="NBA teams by final model rating" sel={t.team} onSel={setSel}
-                  items={sorted.map((x) => ({ key: x.team, rank: x.rating.rank, name: x.team }))}
+                  items={sorted.map((x) => ({ key: x.team, rank: x.rating.rank, name: x.team, logo: x.logo }))}
                   sub={(x) => { const r = teams.find((y) => y.team === x.key).record; return `${r.w}-${r.l}` }} />
         <article className="tp-panel" aria-label={`${t.team} detail`}>
-          <header><h2>{t.team}</h2>
+          <header><h2><TeamLogo src={t.logo} size={28} />{t.team}</h2>
             <p>{t.conference} · {t.conference_place} in the conference · {t.record.w}-{t.record.l} (#{t.record.rank})</p></header>
           <section className="tp-block"><h3>Season</h3><dl className="tp-stats">
             <Stat label="Net per game" s={t.net} fmt={(v) => (v > 0 ? '+' : '') + f1(v)} />
@@ -170,10 +171,10 @@ export function MlbPitchersParks({ record }) {
         <p>The walk-forward the model prices with, replayed to {dateLabel(page.data.as_of)} · league {page.data.league_rpg} runs per team-game.</p></header>
       <div className="tp-grid">
         <TeamList label="MLB teams by offence" sel={t.team} onSel={setSel}
-                  items={sorted.map((x) => ({ key: x.team, rank: x.offense.rank, name: x.team }))}
+                  items={sorted.map((x) => ({ key: x.team, rank: x.offense.rank, name: x.team, logo: x.logo }))}
                   sub={(x) => `${teams.find((y) => y.team === x.key).offense.value} R/G`} />
         <article className="tp-panel">
-          <header><h2>{t.team}</h2><p>Home park {t.park}</p></header>
+          <header><h2><TeamLogo src={t.logo} size={28} />{t.team}</h2><p>Home park {t.park}</p></header>
           <dl className="tp-stats">
             <Stat label="Offence, runs per game" s={t.offense} fmt={(v) => v.toFixed(2)} />
             <Stat label="Bullpen RA/27 (lower is better)" s={t.pen_ra27} fmt={(v) => v.toFixed(2)} />
@@ -193,7 +194,7 @@ export function MlbPitchersParks({ record }) {
             {page.data.probables.map((p) => (
               <tr key={`${p.game_key}-${p.team}`} className={p.status === 'refused' ? 'refused' : undefined}>
                 <td>{startDay(p.start_utc)} {startTime(p.start_utc)}</td>
-                <td>{p.team_name || p.team}</td>
+                <td><TeamLogo src={p.logo} size={16} />{p.team_name || p.team}</td>
                 <td>{p.status === 'refused' ? <>TBD · refused</> : p.pitcher}</td>
                 <td className="num">{p.ra27 ?? '—'}</td>
                 <td className="num">{p.own_record_share == null ? '—' : pct(p.own_record_share, 0)}</td>
@@ -220,10 +221,10 @@ export function NhlAttackDefence() {
       <p className="stamp stamp-cap" role="note"><b>{page.data.banner}</b></p>
       <div className="tp-grid">
         <TeamList label="NHL teams by points" sel={t.team} onSel={setSel}
-                  items={sorted.map((x) => ({ key: x.team, rank: x.points.rank, name: x.team }))}
+                  items={sorted.map((x) => ({ key: x.team, rank: x.points.rank, name: x.team, logo: x.logo }))}
                   sub={(x) => `${teams.find((y) => y.team === x.key).points.value} pts`} />
         <article className="tp-panel">
-          <header><h2>{t.team}</h2><p>{t.gp} games, {page.data.season - 1}-{String(page.data.season).slice(2)}</p></header>
+          <header><h2><TeamLogo src={t.logo} size={28} />{t.team}</h2><p>{t.gp} games, {page.data.season - 1}-{String(page.data.season).slice(2)}</p></header>
           <dl className="tp-stats">
             <Stat label="No-pull goals for per game" s={t.nopull_gf} fmt={(v) => v.toFixed(2)} />
             <Stat label="No-pull goals against (lower is better)" s={t.nopull_ga} fmt={(v) => v.toFixed(2)} />

@@ -327,6 +327,23 @@ def build_nhl(root: Path = ROOT) -> dict:
                           "empty-net goals removed.", "teams": out}
 
 
+def with_logos(league: str, art: dict) -> dict:
+    """Each team's logo URL from data/logos.json, where one is known."""
+    try:
+        logo = {k: v["dark"] for k, v in
+                json.loads((ROOT / "data" / "logos.json").read_text()).get(league, {}).items()}
+    except (OSError, ValueError, KeyError):
+        logo = {}
+    for t in art.get("teams", []):
+        code = t.get("abbr") or t.get("team")
+        if code in logo:
+            t["logo"] = logo[code]
+    for p in art.get("probables", []):
+        if p.get("team") in logo:
+            p["logo"] = logo[p["team"]]
+    return art
+
+
 BUILDERS = {"nfl": ("teams_nfl.json", build_nfl), "nba": ("teams_nba.json", build_nba),
             "mlb": ("pitchers_parks_mlb.json", build_mlb),
             "nhl": ("attack_defence_nhl.json", build_nhl)}
@@ -343,7 +360,7 @@ def main(argv: list[str] | None = None) -> int:
     for league in a.league or LEAGUES:
         name, fn = BUILDERS[league]
         try:
-            art = fn()
+            art = with_logos(league, fn())
         except Exception as exc:                  # a page never blocks the others
             print(f"[export_teams] {league} failed: {type(exc).__name__}: {exc}")
             failed.append(league)

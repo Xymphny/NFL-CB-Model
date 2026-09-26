@@ -1,5 +1,6 @@
 import { useNbaPlayers } from '../data'
 import { age, dateLabel } from '../format'
+import { TeamLogo } from './GameContext'
 
 /* NBA availability and minutes, from data/site/players_nba.json
  * (scripts/export_players.py). NOT a model input: the NBA model rates teams,
@@ -78,7 +79,7 @@ function TeamBlock({ team, window: n, onSlate }) {
   return (
     <article className={`pl-team${onSlate ? ' on-slate' : ''}`}>
       <header>
-        <h3>{team.name}</h3>
+        <h3><TeamLogo src={team.logo} size={22} />{team.name}</h3>
         <span className="pl-code">{team.team}</span>
         {onSlate && <span className="pl-flag">On the slate</span>}
       </header>
