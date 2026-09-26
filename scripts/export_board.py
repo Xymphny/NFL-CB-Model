@@ -283,6 +283,50 @@ def attach_line_history(board: dict, store: BronzeStore, sport: str, headline: s
         print(f"[export_board] line history soft-fail: {type(exc).__name__}: {exc}")
 
 
+#: CFB weeks bannered EARLY SEASON (dashboard v2 item 8).
+CFB_EARLY_WEEKS = 4
+
+
+def cfb_window(start: str | None) -> str | None:
+    """The CFB board's kickoff window, Eastern time (brief item 8)."""
+    if not start:
+        return None
+    t = pd.Timestamp(start).tz_convert("America/New_York")
+    day, h = t.strftime("%A"), t.hour
+    if day == "Friday":
+        return "Friday night"
+    if day == "Saturday":
+        return ("Saturday noon" if h < 15 else "Saturday afternoon" if h < 19
+                else "Saturday prime time" if h < 22 else "Saturday late")
+    if day == "Sunday" and h < 6:
+        return "Saturday late"
+    return f"{day}"
+
+
+def attach_check_flags(board: dict, headline: str) -> None:
+    """"Check before you trust it" (brief item 8): the model's and the
+    market's home margins further apart than the league's outlier_points --
+    the 99th percentile of |gap| in its backtest. Display only: the tier
+    still follows the rule."""
+    thr = (board.get("tiers") or {}).get("outlier_points")
+    if thr is None:
+        return
+    for g in board["games"]:
+        m = g["markets"].get(headline) or {}
+        mu = (g.get("model") or {}).get("margin_mean")
+        if m.get("status") != "priced" or m.get("line") is None or mu is None:
+            continue
+        market = -(m["line"] if m["side"] == "home" else -m["line"])
+        gap = abs(mu - market)
+        if gap > thr:
+            g["check_flag"] = {
+                "gap_points": round(gap, 1), "threshold": thr,
+                "model_margin": round(mu, 1), "market_margin": round(market, 1),
+                "text": ("A gap this size is more often a rating that hasn't caught up than "
+                         "an edge. It's shown because the tier rule says so, and it's "
+                         "paper-traded like everything else.")}
+
+
 def _context_bundle(make) -> dict:
     """A league's display context (scripts/board_context.py), soft-failing to
     none: context never blocks a board, and never reaches a price."""
@@ -520,6 +564,8 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
         bands = None
     board["tiers"] = (None if bands is None else
                       {k: bands[k] for k in ("coin_flip", "lean", "play", "source", "provisional")})
+    if bands is not None and bands.get("outlier_points") is not None:
+        board["tiers"]["outlier_points"] = bands["outlier_points"]
 
     lg = R.LEAGUES[league]
     snap, captured = latest_snapshot(store, lg.vendor_sport)
@@ -632,6 +678,12 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
         board["games"].append(_clean(entry))
 
     attach_line_history(board, store, lg.vendor_sport, headline, fair)
+    attach_check_flags(board, headline)
+    if league == "cfb":
+        for g in board["games"]:
+            g["window"] = cfb_window(g.get("start"))
+        wk = (board.get("slate") or {}).get("week")
+        board["early_season"] = bool(wk is not None and wk <= CFB_EARLY_WEEKS)
     board["games"].sort(key=lambda e: (e["start"] or "", e["game_id"]))
     return board
 
@@ -657,6 +709,49 @@ def stale_odds(captured: str | None, now: str) -> str | None:
     return (f"Odds are {hours:.0f} hours old: the last capture was {captured}, and "
             "captures run at least daily in season, so the capture job has stopped. "
             "Market prices and tiers below are from then, not now.")
+
+
+#: Why a game has no price, in the words of the CFB side panel (brief
+#: item 8). Matched on the refusal the core wrote; anything else is "other".
+NOT_PRICED = (
+    ("no_line", "No line captured yet",
+     "The model's number is ready; the tier appears once a line is captured."),
+    ("unrated", "FCS opponent, no rating", "The model won't price a team it doesn't rate."),
+    ("whole_number", "Whole-number spread",
+     "Priced since the measured key-number table (ADR 0028); refused only where a league has none."),
+    ("started", "Already kicked off", "Never priced after kickoff."),
+    ("neutral", "Neutral site", "The model has no home term to remove, so these are refused."),
+    ("other", "Other refusal", "The reason is on the game."),
+)
+
+
+def _why_unpriced(g: dict) -> str | None:
+    if g.get("started"):
+        return "started"
+    m = (g.get("markets") or {}).get(g.get("headline")) or {}
+    if m.get("status") == "priced":
+        return None
+    r = (g.get("refusal") or m.get("refusal") or "").lower()
+    if not r or "no market price captured" in r:
+        return "no_line"
+    if "not rated" in r or "no rating" in r:
+        return "unrated"
+    if "integer line" in r or "whole-number" in r:
+        return "whole_number"
+    if "neutral site" in r:
+        return "neutral"
+    return "other"
+
+
+def not_priced(board: dict) -> list[dict]:
+    """[{key, label, note, games, examples}] -- every category, zero included."""
+    by: dict = {}
+    for g in board.get("games", []):
+        k = _why_unpriced(g)
+        if k:
+            by.setdefault(k, []).append(f"{g.get('away', '?')} @ {g.get('home', '?')}")
+    return [{"key": k, "label": lab, "note": note, "games": len(by.get(k, [])),
+             "examples": by.get(k, [])[:3]} for k, lab, note in NOT_PRICED]
 
 
 def summarise(board: dict) -> dict:
@@ -698,6 +793,7 @@ def summarise(board: dict) -> dict:
             grouped[r] = grouped.get(r, 0) + 1
     return {"state": state, "games": len(games), "priced": len(priced), "tiers": tiers,
             "started": len(started),
+            "not_priced": not_priced(board),
             "refusals": len(board.get("refusals", [])),
             "reason": league_ref[0]["reason"] if league_ref else None,
             "game_refusals": [{"reason": r, "games": n} for r, n in

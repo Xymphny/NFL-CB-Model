@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChangeGlyph, Chevron, StateGlyph } from '../Glyph'
-import { ContextLines, InjuryReport, KeyPlayerStrip, LineSpark, OpenMatchup } from './GameContext'
+import { CheckFlag, ContextLines, InjuryReport, KeyPlayerStrip, LineSpark, OpenMatchup } from './GameContext'
+import { ByWindow, CfbRail, EarlySeasonBanner } from './CfbBoard'
 import {
   MARKET_LABEL, TIERS, TIER_LABEL, american, book as bookName, line as fmtLine, money, pct, pts,
   signed, startDay, startTime,
@@ -74,6 +75,7 @@ export default function Board({ league, board, since, book, onOpenMatchup, onPla
         {board.synthetic && <p className="stamp stamp-inline"><StateGlyph state="degraded" />{board.synthetic}</p>}
 
         {games.length === 0 && <EmptySlate board={board} />}
+        {league === 'cfb' && <EarlySeasonBanner board={board} />}
 
         {GROUPS.map(({ tier, label, note }) => grouped[tier].length > 0 && (
           <section className="group" key={tier} aria-label={`${label} tier`}>
@@ -120,6 +122,8 @@ export default function Board({ league, board, since, book, onOpenMatchup, onPla
           </section>
         )}
 
+        {league === 'cfb' && <ByWindow board={board} />}
+
         <p className="board-note">
           A tier is conviction, not edge: how far the model sits from the market on this game,
           against the league's own history. No band has been distinguishable from break-even
@@ -127,7 +131,10 @@ export default function Board({ league, board, since, book, onOpenMatchup, onPla
             ? `${board.grade.weight.toFixed(2)} for this league.` : 'zero for this league, so every pick is unsized.'}
         </p>
       </div>
-      <ChangeLog since={since} board={board} />
+      <div className="rail-stack">
+        <ChangeLog since={since} board={board} />
+        {league === 'cfb' && <CfbRail board={board} />}
+      </div>
     </div>
   )
 }
@@ -332,6 +339,7 @@ function GameRow({ g, league, board, book, isOpen, onToggle, changes, rowRef, co
         <Chevron open={isOpen} />
       </button>
       <KeyPlayerStrip items={g.context?.key_player} onPlayers={league === 'nba' ? onPlayers : undefined} />
+      <CheckFlag g={g} />
       {isOpen && <Detail g={g} league={league} board={board} book={book} changes={changes} onOpenMatchup={onOpenMatchup} />}
     </div>
   )

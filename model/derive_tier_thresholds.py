@@ -151,6 +151,22 @@ def mlb_rows(through: str | None = None) -> pd.DataFrame:
     return df
 
 
+#: The board's "check before you trust it" flag (dashboard v2 item 8): a
+#: game whose model and market margins sit further apart than this share of
+#: the league's backtest did. The brief's rule, applied as written; whether
+#: 99% is the right cut is recorded as an open question for the owner.
+OUTLIER_QUANTILE = 0.99
+
+
+def outlier_points(rows: pd.DataFrame) -> float | None:
+    """The OUTLIER_QUANTILE of |model margin - market margin| in points, for
+    leagues whose history carries both margins (spread leagues); else None."""
+    if not {"model_margin", "market_margin"} <= set(rows.columns):
+        return None
+    gap = (rows.model_margin - rows.market_margin).abs().dropna()
+    return round(float(gap.quantile(OUTLIER_QUANTILE)), 2) if len(gap) else None
+
+
 def history(name: str, mlb_through: str | None = None) -> tuple[pd.DataFrame | None, str]:
     got = G.historical_rows(name)             # kept rows for the ESPN leagues
     if got is not None and len(got[0]):
@@ -188,6 +204,9 @@ def derive(ledger_dir: Path = G.LEDGER_DIR, mlb_through: str | None = None) -> d
             cut = bands(rows.p_model - rows.p_market)
             own[name] = {"source": "backtest", "provisional": True, "n": int(len(rows)),
                          "basis": basis, **cut, "by_band": by_band(rows, cut)}
+            op = outlier_points(rows)
+            if op is not None:
+                own[name]["outlier_points"] = op
             if "date" in rows.columns:
                 own[name]["through"] = str(rows.date.max())
     for name in ("nfl", "cfb", "mlb", "nhl", "nba"):

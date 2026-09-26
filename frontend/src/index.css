@@ -648,3 +648,24 @@ kbd {
 .tp-stat dd { margin: 0; }
 .tp-stat small { margin-left: var(--s2); color: var(--ink-3); }
 .tp-games { list-style: none; margin: 0; padding: 0; columns: 2; font-size: var(--t-md); }
+
+/* CFB board and the check flag */
+.early { display: grid; gap: var(--s1); margin: 0 0 var(--s4); }
+.early b { letter-spacing: 0.08em; font-size: var(--t-sm); color: var(--degraded); }
+.early p { margin: 0; color: var(--ink-2); }
+.check-flag { margin: 0 var(--s4) var(--s2) calc(var(--s4) + 28px); display: grid; gap: 2px;
+  padding: var(--s2) var(--s3); border: 1px solid rgba(224, 113, 106, 0.45); border-left-width: 3px;
+  border-radius: 4px; background: rgba(224, 113, 106, 0.06); font-size: var(--t-md); }
+.check-flag b { font-size: var(--t-xs); letter-spacing: 0.06em; color: var(--refused); }
+.check-flag small { color: var(--ink-3); }
+.flag-word { color: var(--refused); }
+.by-window .win-head th { text-align: left; color: var(--ink-2); padding-top: var(--s3); font-size: var(--t-sm); letter-spacing: 0.04em; }
+.rail-stack { display: grid; gap: var(--s4); align-self: start; }
+.rail-extra { position: static; }
+.np-list { margin: 0; display: grid; gap: var(--s3); }
+.np-row { display: grid; grid-template-columns: 1fr auto; gap: 0 var(--s2); }
+.np-row dt { color: var(--ink); }
+.np-row dd { margin: 0; }
+.np-row p { grid-column: 1 / -1; margin: 2px 0 0; }
+.data-pill { font-size: var(--t-sm); padding: 2px var(--s2); border: 1px solid rgba(88, 184, 140, 0.45); border-radius: 999px; color: var(--up); white-space: nowrap; }
+.data-pill.sample { border-color: rgba(217, 166, 70, 0.45); color: var(--degraded); }

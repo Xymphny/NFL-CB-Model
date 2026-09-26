@@ -183,3 +183,18 @@ export function OpenMatchup({ league, g, onOpen }) {
        onClick={(e) => { e.preventDefault(); onOpen?.(g.game_id) }}>Open matchup</a>
   )
 }
+
+/* "Check before you trust it" (brief item 8): display only; the tier
+ * follows the rule. Every number is the export's. */
+export function CheckFlag({ g }) {
+  const f = g.check_flag
+  if (!f) return null
+  const side = (v) => (v === 0 ? 'even' : v > 0 ? `${g.home} by ${Math.abs(v)}` : `${g.away} by ${Math.abs(v)}`)
+  return (
+    <p className="check-flag" role="note">
+      <b>CHECK BEFORE YOU TRUST IT · {f.gap_points} POINTS FROM THE MARKET</b>
+      <span>The model has {side(f.model_margin)}; the market has {side(f.market_margin)}. {f.text}</span>
+      <small>Flagged beyond {f.threshold} points, the 99th percentile of this league's backtest gaps.</small>
+    </p>
+  )
+}

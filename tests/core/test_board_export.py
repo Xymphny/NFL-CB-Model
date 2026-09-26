@@ -61,8 +61,8 @@ def test_the_bands_reproduce_from_source_and_record_that_they_are_not_edge():
     # until rebuilt; the cut-off applies only on the snapshot fallback.
     fresh = D.derive(mlb_through=art["leagues"]["mlb"].get("through"))
     for league, row in art["leagues"].items():
-        for k in ("coin_flip", "lean", "play", "source", "n"):
-            assert fresh["leagues"][league][k] == row[k], (league, k)
+        for k in ("coin_flip", "lean", "play", "source", "n", "outlier_points"):
+            assert fresh["leagues"][league].get(k) == row.get(k), (league, k)
     # The finding ADR 0025 rests on: no band is distinguishable from
     # break-even. (An earlier draft said none CLEARED it; the NFL and CFB top
     # bands sit 0.15 and 0.07 SE above it, and this test is what caught that.)

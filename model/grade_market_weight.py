@@ -77,9 +77,12 @@ def _rows(model, games: pd.DataFrame, gid, home_line, p_market, asof) -> pd.Data
             continue                                   # push
         dist = model.predict(gid(g), asof(g))     # priced as of its own game day
         p_model, _ = cover_probability(dist, line)
+        # The two margins, home side, kept for the board's outlier threshold
+        # (derive_tier_thresholds.outlier_points). Not used by the grade.
         out.append({"season": int(g.season), "p_model": p_model,
                     "p_market": p_market(g), "y": int(margin + line > 0),
-                    "line": line})
+                    "line": line, "model_margin": float(dist.margin_mean()),
+                    "market_margin": -line})
     return pd.DataFrame(out)
 
 
@@ -235,6 +238,7 @@ def nba() -> tuple[pd.DataFrame, dict] | None:
             p_model, _ = cover_probability(dist, line)
             out.append({"season": int(season), "espn_id": r.espn_id, "asof": asof,
                         "provider": r.provider, "p_model": p_model,
+                        "model_margin": float(dist.margin_mean()), "market_margin": -line,
                         "p_market": _devig_home(r.home_spread_price, r.away_spread_price),
                         "y": int(margin + line > 0), "line": line})
     rows = pd.DataFrame(out)

@@ -1,7 +1,7 @@
 {
   "_provenance": {
     "script": "model/derive_tier_thresholds.py",
-    "generated": "2026-09-25",
+    "generated": "2026-09-26",
     "unit": "probability points (0-1) of |p_model - p_market|",
     "quantiles": {
       "coin_flip": 0.4,
@@ -41,7 +41,8 @@
           "preferred_side_hit_rate": 0.5291,
           "market_said": 0.5037
         }
-      }
+      },
+      "outlier_points": 11.11
     },
     "cfb": {
       "source": "backtest",
@@ -72,7 +73,8 @@
           "preferred_side_hit_rate": 0.5322,
           "market_said": 0.5
         }
-      }
+      },
+      "outlier_points": 28.24
     },
     "mlb": {
       "source": "backtest",
@@ -165,7 +167,8 @@
           "preferred_side_hit_rate": 0.485,
           "market_said": 0.4979
         }
-      }
+      },
+      "outlier_points": 11.13
     }
   }
 }

@@ -32,6 +32,18 @@ function viewsFor(league, board) {
   return v
 }
 
+/* Live or sample, as of the newest export among the loaded boards -- the
+ * data's own time, never the browser's clock. */
+function DataPill({ boards }) {
+  const stamps = Object.values(boards).map((b) => b?.generated_at).filter(Boolean).sort()
+  const asOf = stamps[stamps.length - 1]
+  return (
+    <span className={`data-pill${isFixture ? ' sample' : ''}`} title={asOf ? `Newest board export ${asOf}` : 'No board loaded yet'}>
+      {isFixture ? 'Sample' : 'Live'}{asOf ? ` · as of ${new Date(asOf).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' })}` : ''}
+    </span>
+  )
+}
+
 function parseRoute(path) {
   const m = /^\/(nfl|cfb|mlb|nhl|nba)\/game\/(.+)$/.exec(path || '')
   return m ? { league: m[1], game: decodeURIComponent(m[2]) } : null
@@ -131,6 +143,7 @@ export default function App() {
           ))}
         </nav>
         <div className="top-end">
+          <DataPill boards={boards} />
           <AccountChip account={account} />
           <button className="keys-btn" onClick={() => setShowKeys((s) => !s)} aria-expanded={showKeys}>
             Keys <kbd>?</kbd>
