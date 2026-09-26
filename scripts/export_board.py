@@ -533,6 +533,15 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
             entry["context"] = _clean(context_of(g.game_id))
         except Exception:
             pass
+        if entry["start"] and pd.Timestamp(entry["start"]) <= pd.Timestamp(board["generated_at"]):
+            # STARTED, not refused. The core rightly will not price a game
+            # after kickoff, but that is the game's state, not a failure: as
+            # a refusal each started game became its own red banner (the
+            # message names the game and the time, so none grouped), which
+            # on a Saturday is fifty of them.
+            entry["started"] = True
+            board["games"].append(_clean(entry))
+            continue
         try:
             dist = model.predict(g.game_id, "now")
         except Exception as exc:
@@ -595,7 +604,10 @@ def summarise(board: dict) -> dict:
       refused   the league cannot be priced at all; the refusal says why
       idle      nothing on the slate today, and nothing wrong
     """
-    games = board.get("games", [])
+    started = [g for g in board.get("games", []) if g.get("started")]
+    # The state is about the games still to be played: a slate half over is
+    # not "degraded" because its first games have kicked off.
+    games = [g for g in board.get("games", []) if not g.get("started")]
     head = [g["markets"].get(g.get("headline")) for g in games]
     priced = [m for m in head if m and m.get("status") == "priced"]
     tiers = {t: sum(1 for m in priced if m.get("tier") == t) for t in T.TIERS}
@@ -620,6 +632,7 @@ def summarise(board: dict) -> dict:
             r = re.sub(r"^line [-+\d.]+: ", "", r)
             grouped[r] = grouped.get(r, 0) + 1
     return {"state": state, "games": len(games), "priced": len(priced), "tiers": tiers,
+            "started": len(started),
             "refusals": len(board.get("refusals", [])),
             "reason": league_ref[0]["reason"] if league_ref else None,
             "game_refusals": [{"reason": r, "games": n} for r, n in

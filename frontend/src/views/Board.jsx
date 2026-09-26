@@ -27,16 +27,18 @@ export default function Board({ league, board, since, book }) {
 
   const head = (g) => g.markets?.[g.headline]
   const grouped = useMemo(() => {
-    const by = { play: [], lean: [], coin_flip: [], no_edge: [], unpriced: [] }
+    const by = { play: [], lean: [], coin_flip: [], no_edge: [], unpriced: [], started: [] }
     ;(board.games || []).forEach((g) => {
       const m = head(g)
-      if (m?.status === 'priced' && m.tier) by[m.tier].push(g)
+      if (g.started) by.started.push(g)
+      else if (m?.status === 'priced' && m.tier) by[m.tier].push(g)
       else by.unpriced.push(g)
     })
     return by
   }, [board])
 
-  const order = [...grouped.play, ...grouped.lean, ...grouped.coin_flip, ...grouped.no_edge, ...grouped.unpriced]
+  const order = [...grouped.play, ...grouped.lean, ...grouped.coin_flip, ...grouped.no_edge,
+    ...grouped.unpriced, ...grouped.started]
   const toggle = (id) => setOpen((s) => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n })
 
   useEffect(() => {
@@ -106,6 +108,17 @@ export default function Board({ league, board, since, book }) {
           </section>
         )}
 
+        {grouped.started.length > 0 && (
+          <section className="group group-quiet" aria-label="Started">
+            <header className="group-head">
+              <h2>Started</h2>
+              <span className="group-count">{grouped.started.length}</span>
+              <span className="group-note">kicked off; nothing is priced after the start, and each settles against its close and final score</span>
+            </header>
+            {grouped.started.map((g) => <GameRow key={g.game_id} {...rowProps(g)} compact />)}
+          </section>
+        )}
+
         <p className="board-note">
           A tier is conviction, not edge: how far the model sits from the market on this game,
           against the league's own history. No band has been distinguishable from break-even
@@ -164,7 +177,7 @@ function ColumnHeads() {
       <span>Pick</span>
       <span>Tier</span>
       <span>Model vs market</span>
-      <span className="num">Edge</span>
+      <span className="num" title="Model probability minus the market's, in points. Not edge: the stake comes from the league's grade against the close.">Gap</span>
       <span className="num">Stake</span>
       <span />
     </div>
@@ -354,7 +367,7 @@ function Detail({ g, league, board, book, changes }) {
             <caption>Every market the feed quotes, priced by the core</caption>
             <thead>
               <tr><th>Market</th><th>Side</th><th className="num" title="Line at the first capture; market probability for a moneyline">Open</th><th className="num">Now</th>
-                <th>Best</th><th className="num">Model</th><th className="num">Market</th><th className="num">Edge</th><th>Tier</th></tr>
+                <th>Best</th><th className="num">Model</th><th className="num">Market</th><th className="num" title="Model probability minus the market's, in points. Not edge.">Gap</th><th>Tier</th></tr>
             </thead>
             <tbody>
               {markets.map((v) => {
@@ -382,7 +395,7 @@ function Detail({ g, league, board, book, changes }) {
                     <td data-label="Best" title={`best of ${v.books} books quoting this line`}>{american(v.best_price_american)} <small>{bookName(v.best_book)}</small></td>
                     <td className="num" data-label="Model">{pct(v.p_model)}</td>
                     <td className="num" data-label="Market">{pct(v.p_market)}</td>
-                    <td className="num" data-label="Edge">{pts(v.edge)}</td>
+                    <td className="num" data-label="Gap">{pts(v.edge)}</td>
                     <td data-label="Tier">{TIER_LABEL[v.tier]}{v.cap ? ' (capped)' : ''}</td>
                   </tr>
                 )

@@ -423,3 +423,17 @@ def test_odds_older_than_a_day_are_called_stale_not_shown_as_the_market():
     board = {"games": [{"headline": "spread", "markets": {"spread": {"status": "priced"}}}],
              "refusals": [{"scope": "league", "reason": msg}]}
     assert X.summarise(board)["state"] == "degraded"
+
+
+def test_a_started_game_is_its_state_not_a_refusal():
+    """On the first live night every kicked-off CFB game was a red refusal
+    banner of its own (the message names the game and time, so none
+    grouped), and a half-played slate read as degraded."""
+    board = {"games": [
+        {"headline": "spread", "markets": {"spread": {"status": "priced", "tier": "lean"}}},
+        {"headline": "spread", "markets": {}, "started": True, "refusal": None},
+        {"headline": "spread", "markets": {}, "started": True, "refusal": None}],
+        "refusals": []}
+    st = X.summarise(board)
+    assert st["state"] == "up" and st["games"] == 1 and st["started"] == 2
+    assert st["game_refusals"] == []
