@@ -1,6 +1,6 @@
 {
  "league": "cfb",
- "generated_at": "2026-09-26T16:45:51Z",
+ "generated_at": "2026-09-26T17:00:40Z",
  "note": "Weekly slate, Thursday to Saturday. Spreads price key numbers (3, 7) with a measured correction. Neutral-site games are refused: the model has no home term to remove.",
  "slate": {
   "kind": "week",
@@ -486,7 +486,8 @@
     "rest": null,
     "travel": null
    },
-   "refusal": "GameNotPriceable: a team is not rated in 2026-week-04.json (usually an FCS opponent)",
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/2199.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/2815.png",
    "window": "Saturday noon"
@@ -12554,8 +12555,8 @@
  "freshness": {
   "odds_captured_at": "2026-09-26T16:55:00Z",
   "credits": {
-   "as_of": "2026-09-26T16:45:30Z",
-   "remaining": 19896,
+   "as_of": "2026-09-26T17:00:20Z",
+   "remaining": 19893,
    "monthly": 20000
   },
   "ratings_version": "2026-week-04.json",
@@ -13416,7 +13417,7 @@
  "early_season": true,
  "status": {
   "state": "degraded",
-  "games": 53,
+  "games": 52,
   "priced": 42,
   "tiers": {
    "play": 7,
@@ -13424,7 +13425,7 @@
    "coin_flip": 10,
    "no_edge": 18
   },
-  "started": 12,
+  "started": 13,
   "not_priced": [
    {
     "key": "no_line",
@@ -13437,11 +13438,11 @@
     "key": "unrated",
     "label": "FCS opponent, no rating",
     "note": "The model won't price a team it doesn't rate.",
-    "games": 11,
+    "games": 10,
     "examples": [
-     "Lindenwood @ Eastern Michigan",
      "Central Arkansas @ Florida State",
-     "William & Mary @ Duke"
+     "William & Mary @ Duke",
+     "Robert Morris @ Buffalo"
     ]
    },
    {
@@ -13455,7 +13456,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 12,
+    "games": 13,
     "examples": [
      "Texas @ Tennessee",
      "Sam Houston @ Texas Tech",
@@ -13482,7 +13483,7 @@
   "game_refusals": [
    {
     "reason": "GameNotPriceable: a team is not rated in 2026-week-04.json (usually an FCS opponent)",
-    "games": 11
+    "games": 10
    }
   ]
  }
