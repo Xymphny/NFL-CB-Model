@@ -89,14 +89,16 @@ def record(ledger_dir: Path = LEDGER) -> dict:
             if cur is None or rank < cur[0] or (rank == cur[0] and s.at < cur[1].at):
                 early[s.event_id] = (rank, s)
         early_clv = {}
-        clv_pts, line_pts = [], []
+        clv_pts, line_pts, moves = [], [], []
         for ev, (_, s) in early.items():
             clv = led.clv_of(s, closes.get(s.signal_id))
             if clv is not None and clv.valid:
                 # Line-aware: a moved spread is valued, not read as the vig.
-                pts, _, _ = line_aware_clv(s, closes[s.signal_id], clv)
+                pts, _, _, move = line_aware_clv(s, closes[s.signal_id], clv)
                 early_clv[ev] = pts
                 clv_pts.append(pts)
+                if move == move:
+                    moves.append(move)
                 if clv.line_points is not None:
                     line_pts.append(clv.line_points)
         settled, recent = [], []
@@ -125,6 +127,9 @@ def record(ledger_dir: Path = LEDGER) -> dict:
             "break_even_at_minus_110": BREAK_EVEN_110,
             "mean_clv_prob_points": round(sum(clv_pts) / len(clv_pts), 5) if clv_pts else None,
             "mean_clv_line_points": round(sum(line_pts) / len(line_pts), 4) if line_pts else None,
+            # Vig-free: the same book's devigged close minus its devigged
+            # price at the trade. What CLV after the vig cannot show.
+            "mean_market_move_points": round(sum(moves) / len(moves), 5) if moves else None,
             "clv_graded": len(clv_pts),
             "recent": recent[:50],
         }

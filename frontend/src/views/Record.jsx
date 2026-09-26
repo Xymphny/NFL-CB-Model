@@ -20,17 +20,19 @@ export default function Record({ league, record }) {
         <p>Paper trades: every game the core priced, the model's preferred side at the price it
           saw, settled against the final score. Nothing here was staked. A league's weight is
           regraded from these once it has {data.floor} settled games.</p>
-        <p>CLV is the game's earliest trade against its closing line, in probability points,
-          after the vig. When the line moved, the close is valued at the trade's line on the
-          league's own margin distribution, key numbers included, so beating a close by a point
-          counts as the point it was.</p>
+        <p>Market move is how far the closing line came toward the model's pick after its earliest
+          trade, with the vig taken out of both prices: zero means the close agreed with the price
+          the trade was made at, and it is the number that says whether the model reads the market
+          early. CLV after vig is the same trade against the close with the hold left in, so a pick
+          whose market never moved scores about −2.4. When a line moved, the close is valued at the
+          trade's line on the league's own margin distribution, key numbers included.</p>
       </header>
 
       <table className="data">
         <thead>
           <tr><th>League</th><th className="num">Settled</th><th>Toward the floor</th>
             <th className="num">Preferred side won</th><th className="num">Break-even</th>
-            <th className="num">Mean CLV</th><th className="num">Market grade</th></tr>
+            <th className="num">Market move</th><th className="num">CLV after vig</th><th className="num">Market grade</th></tr>
         </thead>
         <tbody>
           {LEAGUES.map((l) => {
@@ -48,6 +50,7 @@ export default function Record({ league, record }) {
                 </td>
                 <td className="num">{x.preferred_side_hit_rate != null ? `${pct(x.preferred_side_hit_rate)} (${x.preferred_side_wins}/${x.settled_games})` : '—'}</td>
                 <td className="num">{pct(x.break_even_at_minus_110)}</td>
+                <td className="num">{x.mean_market_move_points != null ? `${pts(x.mean_market_move_points, 2)} pts` : '—'}</td>
                 <td className="num">{x.mean_clv_prob_points != null ? `${pts(x.mean_clv_prob_points, 2)} pts` : '—'}</td>
                 <td className="num">{x.grade.weight.toFixed(2)}{x.grade.source ? ` (${x.grade.source})` : ''}</td>
               </tr>

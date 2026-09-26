@@ -192,21 +192,32 @@ def grade(ledger: BetLedger, store: BronzeStore, *, sport: str,
     return report
 
 
-def line_aware_clv(sig: Signal, close: Close, clv: P.ClosingLineValue) -> tuple[float, float, bool]:
-    """(prob_points, ev_pct, line_adjusted) for one graded signal.
+def line_aware_clv(sig: Signal, close: Close,
+                   clv: P.ClosingLineValue) -> tuple[float, float, bool, float]:
+    """(prob_points, ev_pct, line_adjusted, market_move) for one signal.
 
     When the line moved, the close's fair probability is moved to the bet's
     line along the league's margin distribution (execution/line_clv.py);
     otherwise the price-only figures stand, which are right when it did not.
+
+    prob_points is AFTER THE VIG: fair close minus the bet's implied price, so
+    a pick whose market never moved scores minus the hold (about -2.4 at
+    -110). market_move is the part that measures the model: the same book's
+    devigged close, at the bet's line, minus its devigged price when the
+    trade was made (Signal.p_market). Zero for no movement, positive when the
+    market came to the pick.
     """
     from coverline.execution.line_clv import fair_at_bet_line
     fair_close = float(P.devig(close.close_decimals, close.devig_method)[close.outcome_index])
     fair = fair_at_bet_line(league=sig.league, side=sig.side, fair_close=fair_close,
                             close_line=close.close_line, bet_line=sig.line)
     if fair is None:
-        return clv.prob_points, clv.ev_pct, False
+        same_line = close.close_line is None or sig.line is None or \
+            float(close.close_line) == float(sig.line)
+        move = (fair_close - sig.p_market) if same_line else float("nan")
+        return clv.prob_points, clv.ev_pct, False, move
     return (fair - float(P.decimal_to_implied(sig.price_decimal)),
-            P.expected_value(fair, sig.price_decimal), True)
+            P.expected_value(fair, sig.price_decimal), True, fair - sig.p_market)
 
 
 #: A paper trade priced this close to its close IS the close, so its CLV is
@@ -233,6 +244,7 @@ def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
     the placed figure: one is a record of money, the other a measurement.
     """
     valid, invalid, ungraded, adjusted = [], 0, 0, 0
+    moves: list[float] = []
     naive_gap: list[float] = []
     points: list[float] = []
     line_moves: list[float] = []
@@ -255,8 +267,10 @@ def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
         if not clv.valid:
             invalid += 1
             continue
-        pts, ev, moved = line_aware_clv(sig, closes[sig.signal_id], clv)
+        pts, ev, moved, move = line_aware_clv(sig, closes[sig.signal_id], clv)
         adjusted += moved
+        if move == move:                          # NaN: a moved line with no family
+            moves.append(move)
         valid.append(ev)
         points.append(pts)
         if clv.line_points is not None:
@@ -275,6 +289,9 @@ def clv_summary(ledger: BetLedger, paper: bool = False) -> dict[str, Any]:
         "mean_clv_probability_points": (round(sum(points) / n, 5)
                                         if n else None),
         "line_adjusted": adjusted,
+        # The vig-free part: did the market move to the pick? Zero means the
+        # close agreed with the price the trade was made at.
+        "mean_market_move_points": (round(sum(moves) / len(moves), 5) if moves else None),
         "mean_overstatement_if_naive": (round(sum(naive_gap) / n, 5)
                                         if n else None),
         # Spread and total CLV mostly arrives as a moved LINE at an unchanged

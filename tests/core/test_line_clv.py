@@ -68,3 +68,31 @@ def test_the_ledger_summary_no_longer_reports_a_beaten_line_as_the_vig(tmp_path)
     summ = G.clv_summary(led, paper=True)
     assert summ["line_adjusted"] == 1
     assert summ["mean_clv_probability_points"] > 0 > plain
+
+
+def test_an_unmoved_market_is_minus_the_vig_after_it_and_zero_before_it(tmp_path):
+    """The first real CLV read -2.9 and -1.7 points, which looks like losing
+    and is mostly the hold. The vig-free market move separates the two."""
+    led = BetLedger(tmp_path / "ledger")
+    price = P.american_to_decimal(-110)
+    common = dict(league="nfl", market="spreads", p_model=0.56, p_used=0.56, shrinkage=0.0,
+                  edge_claimed=0.07, edge_used=0.07, disposition="not_placed",
+                  not_placed_reason="below_threshold", book="pinnacle", price_decimal=price,
+                  side="away", commence_time="2026-09-27T17:00:00Z")
+    led.record(Signal(signal_id="flat", at="2026-09-22T14:00:00Z", event_id="e1",
+                      selection="A", line=3.5, p_market=0.5, **common))
+    led.record(Signal(signal_id="moved", at="2026-09-22T14:00:00Z", event_id="e2",
+                      selection="A", line=3.5, p_market=0.5, **common))
+    for sid, line in (("flat", 3.5), ("moved", 3.0)):
+        led.record_close(Close(signal_id=sid, at="2026-09-27T16:55:00Z",
+                               close_decimals=[price, price], outcome_index=1,
+                               close_line=line, market_has_sharp_close=True,
+                               devig_method="power"))
+    closes = {c.signal_id: c for c in led.closes()}
+    sigs = {s.signal_id: s for s in led.signals()}
+    pts, _, _, move = G.line_aware_clv(sigs["flat"], closes["flat"], led.clv_of(sigs["flat"], closes["flat"]))
+    assert move == pytest.approx(0.0) and pts == pytest.approx(0.5 - 1 / price)
+    _, _, adjusted, move = G.line_aware_clv(sigs["moved"], closes["moved"],
+                                            led.clv_of(sigs["moved"], closes["moved"]))
+    assert adjusted and move > 0.035                  # the hook off 3, vig-free
+    assert G.clv_summary(led, paper=True)["mean_market_move_points"] > 0

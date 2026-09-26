@@ -206,10 +206,12 @@ function EvidenceStrip({ league, board, record }) {
           </dd>
         </div>
         <div className="ev">
-          <dt>Mean CLV</dt>
+          <dt>Market move</dt>
           <dd>
-            <span className="ev-big">{r?.mean_clv_prob_points != null ? pts(r.mean_clv_prob_points, 2) : '—'}</span>
-            <span className="ev-sub">{r?.clv_graded ? `${r.clv_graded} closes · points of probability` : 'no closes graded yet'}</span>
+            <span className="ev-big">{r?.mean_market_move_points != null ? pts(r.mean_market_move_points, 2) : '—'}</span>
+            <span className="ev-sub">{r?.clv_graded
+              ? `toward the pick, ${r.clv_graded} closes · CLV after vig ${pts(r.mean_clv_prob_points, 2)}`
+              : 'no closes graded yet'}</span>
           </dd>
         </div>
         <div className="ev">
