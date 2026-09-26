@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NBA board — daily slate</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1800px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nba" stamp="4:03 PM" hint-size="1440px,216px"></dc-import>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NBA sections" style="display: flex; gap: 4px;">
+<a href="NBA.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Board</a>
+<a href="NBATeams.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Teams</a>
+<a href="NBAPlayers.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Players</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Wed Nov 11</span>
+<span style="font-size: 13px; color: #A6ADBA;">9 games · spreads · ratings carry across seasons</span>
+</div>
+</div>
+
+<div style="margin: 24px 40px 0; display: flex; gap: 16px; align-items: flex-start; background: #17141C; border: 1px solid #3A3150; border-radius: 12px; padding: 14px 20px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #B89AE0; border: 1px solid #B89AE0; border-radius: 6px; padding: 3px 8px; white-space: nowrap;">TEAM-LEVEL MODEL</span>
+<span style="font-size: 13px; color: #C9CED6; line-height: 1.55;">This model rates teams, not players. Injuries, rest decisions and late scratches move NBA lines hours before tip, and the model can't see them. Check the status column before you stand behind a pick.</span>
+</div>
+
+<div style="display: flex; gap: 32px; padding: 24px 40px 40px;">
+<main style="width: 968px; display: flex; flex-direction: column; gap: 24px;">
+<section style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{ cards }}" as="g" hint-placeholder-count="3">
+<article style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: {{ g.tc }}; border: 1px solid {{ g.tc }}; border-radius: 6px; padding: 3px 8px;">{{ g.tier }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 400; color: #A6ADBA;"><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.aAb }}</span><span>{{ g.aN }}</span><span style="color: #5C6370;">@</span><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.hAb }}</span><span>{{ g.hN }}</span></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<div style="display: flex; align-items: center; gap: 10px;"><span aria-hidden="true" style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: #C9CED6;">{{ g.pAb }}</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600;">{{ g.pick }}</span></div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.price }}</span>
+</div>
+<div style="position: relative; height: 16px;">
+<div style="position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: #262B36;"></div>
+<div style="position: absolute; left: 50%; top: 1px; width: 1px; height: 14px; background: #3A4150;"></div>
+<div style="position: absolute; top: 6px; height: 4px; border-radius: 2px; left: {{ g.segL }}%; width: {{ g.segW }}%; background: {{ g.tc }}; opacity: 0.45;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mkL }}%; width: 12px; height: 12px; margin-left: -6px; box-sizing: border-box; border-radius: 50%; border: 2px solid #A6ADBA; background: #151820;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mdL }}%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: {{ g.tc }};"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+<span style="color: #A6ADBA;">Mkt {{ g.pm }}%</span>
+<span style="color: {{ g.tc }}; font-weight: 600;">Model {{ g.pmod }}% · {{ g.edge }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Line since open</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A6ADBA;">{{ g.lineTxt }}</span>
+</div>
+<svg viewBox="0 0 200 40" preserveAspectRatio="none" role="img" aria-label="{{ g.lineAria }}" style="width: 100%; height: 40px; display: block;">
+<line x1="0" x2="200" y1="{{ g.my }}" y2="{{ g.my }}" stroke="{{ g.tc }}" stroke-width="1" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"></line>
+<polyline points="{{ g.pts }}" fill="none" stroke="#C9CED6" stroke-width="1.5" vector-effect="non-scaling-stroke"></polyline>
+</svg>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">
+<span>{{ g.l0 }}</span><span style="color: {{ g.tc }};">model {{ g.lm }}</span><span style="color: #E6E8EC;">now {{ g.l1 }}</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{ g.chips }}" as="c" hint-placeholder-count="2">
+<span style="font-size: 12px; color: {{ c.fg }}; background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">{{ c.t }}</span>
+</sc-for>
+</div>
+<sc-if value="{{ g.hasFlag }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 4px; background: #1A1512; border: 1px solid #4A3226; border-radius: 10px; padding: 10px 12px;">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #F0A78C;">NOT IN THE PRICE · {{ g.flagWho }}</span>
+<span style="font-size: 12px; color: #E6E8EC; line-height: 1.45;">{{ g.flag }}</span>
+<a href="NBAPlayers.dc.html" style="font-size: 12px; min-height: 24px; display: flex; align-items: center;">See availability on Players</a>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #232833; padding-top: 10px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Injury report</span>
+<span style="font-size: 11px; color: #6F7684;">{{ g.injAt }}</span>
+<span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A6ADBA; border: 1px solid #3A4150; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">Not in the price</span>
+</div>
+<sc-for list="{{ g.inj }}" as="t" hint-placeholder-count="2">
+<div style="display: flex; gap: 8px; align-items: flex-start;">
+<span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 12px; line-height: 20px;">
+<sc-for list="{{ t.p }}" as="p" hint-placeholder-count="3">
+<span style="white-space: nowrap;"><span style="color: #E6E8EC;">{{ p.n }}</span> <span style="color: #8A91A0;">{{ p.pos }}</span> <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: {{ p.c }};">{{ p.s }}</span></span>
+</sc-for>
+<sc-if value="{{ t.hasMore }}" hint-placeholder-val="{{ false }}">
+<span style="color: #8A91A0;">+{{ t.more }} more</span>
+</sc-if>
+<sc-if value="{{ t.none }}" hint-placeholder-val="{{ false }}">
+<span style="color: #6F7684;">No one listed</span>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6; border-top: 1px solid #232833; padding-top: 10px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>{{ g.venue }}</span><span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6F7684;">Indoors</span></div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><span>{{ g.rest }}</span><span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: {{ g.restTagC }}; border: 1px solid {{ g.restTagC }}; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">{{ g.restTag }}</span></div>
+</article>
+</sc-for>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Full slate</h2>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 76px minmax(0, 1fr) 150px 100px 110px 130px 104px; gap: 14px; padding: 10px 18px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;">
+<span>Tip</span><span>Matchup</span><span>Rest · status</span><span style="text-align: right;">Market</span><span style="text-align: right;">Model margin</span><span style="text-align: right;">Cover · model</span><span style="text-align: right;">Read</span>
+</div>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="9">
+<div style="display: grid; grid-template-columns: 76px minmax(0, 1fr) 150px 100px 110px 130px 104px; gap: 14px; align-items: center; padding: 12px 18px; border-bottom: 1px solid #1A1E26; background: {{ r.rowBg }};">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A6ADBA;">{{ r.time }}</span>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 400; color: #E6E8EC;"><span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ r.aAb }}</span><span>{{ r.aN }}</span><span style="color: #5C6370;">@</span><span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ r.hAb }}</span><span>{{ r.hN }}</span></div>
+<span style="font-size: 12px; color: {{ r.restColor }};">{{ r.rest }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; text-align: right;">{{ r.mkt }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; text-align: right; color: #C9CED6;">{{ r.model }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: right; color: {{ r.cmpColor }};">{{ r.cmp }}</span>
+<span style="justify-self: end; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: {{ r.tc }}; border: 1px solid {{ r.tcBorder }}; border-radius: 6px; padding: 3px 8px; white-space: nowrap;">{{ r.tier }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</main>
+
+<aside style="width: 360px; display: flex; flex-direction: column; gap: 20px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Refused, with the reason</h3>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 13px; font-weight: 600;">Hawks @ Knicks · NYK −5</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">A whole-number spread can push, and NBA push odds aren't measured yet. The model won't guess a price that could flatter itself. A −4.5 or −5.5 elsewhere would be priced.</span>
+</div>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Ratings movers · last 7 days</h3>
+<span style="font-size: 12px; color: #8A91A0;">points of margin</span>
+</div>
+<sc-for list="{{ movers }}" as="m" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 48px minmax(0, 1fr) 64px; gap: 10px; align-items: center; font-size: 13px;">
+<span style="font-weight: 600;">{{ m.team }}</span>
+<div style="height: 6px; border-radius: 3px; background: #262B36; position: relative;">
+<div style="position: absolute; top: 0; bottom: 0; left: {{ m.left }}%; width: {{ m.w }}%; background: {{ m.c }}; border-radius: 3px;"></div>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: {{ m.c }};">{{ m.d }}</span>
+</div>
+</sc-for>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Since your last refresh</h3>
+<sc-for list="{{ changes }}" as="c" hint-placeholder-count="3">
+<div style="display: flex; gap: 10px; align-items: flex-start;">
+<span style="margin-top: 6px; width: 6px; height: 6px; border-radius: 50%; background: {{ c.dot }}; flex-shrink: 0;"></span>
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 13px;">{{ c.t }}</span>
+<span style="font-size: 12px; color: #8A91A0;">{{ c.sub }}</span>
+</div>
+</div>
+</sc-for>
+</section>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+  get AB() {
+    return {"76ers": "PHI", "hornets": "CHA", "thunder": "OKC", "pistons": "DET", "hawks": "ATL", "knicks": "NYK", "celtics": "BOS", "spurs": "SAS", "heat": "MIA", "bucks": "MIL", "magic": "ORL", "mavericks": "DAL", "grizzlies": "MEM", "jazz": "UTA", "nuggets": "DEN", "warriors": "GSW", "rockets": "HOU", "clippers": "LAC"};
+  }
+
+  tm(o) {
+    const A = this.AB;
+    const key = (s) => (s || '').toLowerCase();
+    const parts = (o.matchup || '').split(' @ ');
+    const an = parts[0], hn = parts[1] || '';
+    const aAb = A[key(an)] || '', hAb = A[key(hn)] || '';
+    const first = (o.pick || '').split(' ')[0];
+    let pAb = o.pAb || '';
+    if (!pAb && o.pick) {
+      if (first === aAb || first === hAb) pAb = first;
+      else if (o.pick.indexOf(an) === 0) pAb = aAb;
+      else if (o.pick.indexOf(hn) === 0) pAb = hAb;
+    }
+    return Object.assign({}, o, { aN: an, hN: hn, aAb, hAb, pAb });
+  }
+  ij(ab, list, max) {
+    const S = { 'Out': ['OUT', '#E88B6E'], 'Doubtful': ['DOUBTFUL', '#E0B04A'], 'Questionable': ['QUESTIONABLE', '#A6ADBA'], 'Probable': ['PROBABLE', '#7FD1AE'], 'IL': ['IL', '#E88B6E'], 'IR': ['IR', '#E88B6E'], 'DTD': ['DAY-TO-DAY', '#A6ADBA'] };
+    const shown = list.slice(0, max).map((x) => ({ n: x[0], pos: x[1], s: (S[x[2]] || [x[2], '#A6ADBA'])[0], c: (S[x[2]] || [x[2], '#A6ADBA'])[1] }));
+    const more = Math.max(0, list.length - max);
+    return { ab, p: shown, more, hasMore: more > 0, none: list.length === 0 };
+  }
+  spark(g) {
+    const h = g.hist, m = g.fair;
+    const lo = Math.min.apply(null, h.concat([m])), hi = Math.max.apply(null, h.concat([m]));
+    const span = (hi - lo) || 1;
+    const y = (v) => (4 + (hi - v) / span * 32).toFixed(1);
+    const pts = h.map((v, i) => (i / (h.length - 1) * 200).toFixed(1) + ',' + y(v)).join(' ');
+    const f = g.fmt || ((v) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v));
+    return { pts, my: y(m), l0: 'open ' + f(h[0]), l1: f(h[h.length - 1]), lm: f(m),
+      lineTxt: g.lineNote || (f(h[0]) + ' → ' + f(h[h.length - 1])),
+      lineAria: 'Line moved from ' + f(h[0]) + ' to ' + f(h[h.length - 1]) + '; model fair line ' + f(m) };
+  }
+  meter(g) {
+    const c = (v) => Math.max(0, Math.min(100, (v - 30) / 40 * 100));
+    const a = c(g.pm), b = c(g.pmod);
+    return Object.assign({}, g, {
+      mkL: a.toFixed(1), mdL: b.toFixed(1),
+      segL: Math.min(a, b).toFixed(1), segW: Math.abs(a - b).toFixed(1),
+      edge: '+' + (g.pmod - g.pm).toFixed(1),
+      hasFlag: !!g.flag
+    }, g.hist ? this.spark(g) : {});
+  }
+  renderVals() {
+    const PLAY = '#45C79A', LEAN = '#E0B04A', FLIP = '#A897F2', NONE = '#A6ADBA', REF = '#E88B6E', plain = '#C9CED6', warn = '#E88B6E';
+    const cards = [
+      { tier: 'PLAY', tc: PLAY, time: '7:30 PM', matchup: 'Thunder @ Pistons', pick: 'Pistons +6.5', price: '−108 · Pinnacle', pm: 50.8, pmod: 55.9, chips: [{ t: 'OKC 2nd night of a back-to-back', fg: plain }, { t: 'All starters listed', fg: plain }], inj: [this.ij('OKC', [['[PLAYER]', 'G', 'Out'], ['[PLAYER]', 'F', 'Questionable']], 3), this.ij('DET', [['[PLAYER]', 'C', 'Out']], 3)], injAt: 'NBA report · 1:30 PM', hist: [6, 6, 6, 6.5, 6.5], fair: 4.1, rest: 'OKC 2nd night of a back-to-back · ~870 mi', restTag: 'Not in the price', restTagC: '#A6ADBA', venue: 'Little Caesars Arena · Detroit' },
+      { tier: 'LEAN', tc: LEAN, time: '8:00 PM', matchup: 'Celtics @ Spurs', pick: 'Spurs −2.5', price: '−110 · FanDuel', pm: 51.1, pmod: 54.0, chips: [{ t: 'Line moved −1.5 → −2.5', fg: plain }], flagWho: 'SAS STARTER', flag: 'Spurs starter upgraded to probable. The team rating can’t see who plays; the market already moved on it.', inj: [this.ij('BOS', [['[PLAYER]', 'G', 'Out'], ['[PLAYER]', 'F', 'Doubtful']], 3), this.ij('SAS', [['[PLAYER]', 'F', 'Probable'], ['[PLAYER]', 'G', 'Out']], 3)], injAt: 'NBA report · 1:30 PM', hist: [-1.5, -1.5, -2, -2.5, -2.5], fair: -3.8, rest: 'BOS 1 day · SAS 2 days · BOS ~1,760 mi', restTag: 'Not in the price', restTagC: '#A6ADBA', venue: 'Frost Bank Center · San Antonio' },
+      { tier: 'LEAN', tc: LEAN, time: '10:00 PM', matchup: 'Nuggets @ Warriors', pick: 'Nuggets +3.5', price: '−105 · Circa', pm: 51.6, pmod: 54.3, chips: [{ t: 'Line moved +2.5 → +3.5', fg: plain }], inj: [this.ij('DEN', [], 3), this.ij('GSW', [['[PLAYER]', 'G', 'Questionable'], ['[PLAYER]', 'F', 'Out'], ['[PLAYER]', 'C', 'Out'], ['[PLAYER]', 'G', 'Questionable']], 3)], injAt: 'NBA report · 1:30 PM', hist: [2.5, 2.5, 3, 3.5, 3.5], fair: 1.2, rest: 'DEN 2 days · GSW 1 day · DEN ~950 mi', restTag: 'Not in the price', restTagC: '#A6ADBA', venue: 'Chase Center · San Francisco' }
+    ].map((g) => this.meter(g));
+    const row = (o) => Object.assign({ rowBg: 'transparent', restColor: '#A6ADBA', cmpColor: '#C9CED6', tcBorder: o.tc }, o);
+    const rows = [
+      row({ time: '7:00 PM', matchup: '76ers @ Hornets', rest: '1 day · 1 day', mkt: 'PHI −3.5', model: 'PHI 3.7', cmp: '50.3 vs 50.1', tier: 'NO EDGE', tc: NONE, tcBorder: '#3A4150' }),
+      row({ time: '7:30 PM', matchup: 'Thunder @ Pistons', rest: 'OKC back-to-back', restColor: warn, mkt: 'DET +6.5', model: 'OKC 4.1', cmp: '55.9 vs 50.8', tier: 'PLAY', tc: PLAY, rowBg: '#141A1A' }),
+      row({ time: '7:30 PM', matchup: 'Hawks @ Knicks', rest: '2 days · 1 day', mkt: 'NYK −5', model: 'NYK 5.7', cmp: 'Integer line', cmpColor: REF, tier: 'REFUSED', tc: REF, rowBg: '#1A1415' }),
+      row({ time: '8:00 PM', matchup: 'Celtics @ Spurs', rest: 'SAS starter probable', restColor: warn, mkt: 'SAS −2.5', model: 'SAS 3.8', cmp: '54.0 vs 51.1', tier: 'LEAN', tc: LEAN }),
+      row({ time: '8:00 PM', matchup: 'Heat @ Bucks', rest: '1 day · 3 days', mkt: 'MIL −4.5', model: 'MIL 5.2', cmp: '52.0 vs 50.9', tier: 'COIN FLIP', tc: FLIP }),
+      row({ time: '8:30 PM', matchup: 'Magic @ Mavericks', rest: '1 day · 1 day', mkt: 'DAL −1.5', model: 'DAL 1.4', cmp: '50.0 vs 50.1', tier: 'NO EDGE', tc: NONE, tcBorder: '#3A4150' }),
+      row({ time: '9:00 PM', matchup: 'Grizzlies @ Jazz', rest: 'MEM back-to-back', restColor: warn, mkt: 'UTA −1.5', model: 'MEM 0.3', cmp: '51.8 vs 50.7', tier: 'COIN FLIP', tc: FLIP }),
+      row({ time: '10:00 PM', matchup: 'Nuggets @ Warriors', rest: '2 days · 1 day', mkt: 'DEN +3.5', model: 'GSW 1.2', cmp: '54.3 vs 51.6', tier: 'LEAN', tc: LEAN }),
+      row({ time: '10:30 PM', matchup: 'Rockets @ Clippers', rest: '1 day · 2 days', mkt: 'LAC −2.5', model: 'LAC 2.6', cmp: '50.2 vs 50.1', tier: 'NO EDGE', tc: NONE, tcBorder: '#3A4150' })
+    ];
+    const mv = (team, d) => {
+      const w = Math.min(50, Math.abs(d) * 12);
+      return { team, d: (d > 0 ? '+' : '−') + Math.abs(d).toFixed(1), c: d > 0 ? '#45C79A' : '#E88B6E', left: d > 0 ? 50 : 50 - w, w };
+    };
+    const movers = [mv('DET', 2.4), mv('SAS', 1.9), mv('CHA', 1.1), mv('GSW', -1.6), mv('MIL', -2.2)];
+    const changes = [
+      { dot: '#E0B04A', t: 'SAS starter upgraded to probable', sub: 'The model doesn’t see this; the market moved SAS −1.5 → −2.5' },
+      { dot: '#45C79A', t: 'Pistons +6 → +6.5', sub: 'Away from the model’s side, so the edge grew' },
+      { dot: '#8A91A0', t: 'Knicks still at an integer line', sub: 'Refused until a half-point line appears' }
+    ];
+    const t = (x) => this.tm(x);
+    return { cards: cards.map(t), rows: rows.map(t), movers, changes };
+  }
+}
+</script>
+</body>
+</html>

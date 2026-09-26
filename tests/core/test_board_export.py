@@ -167,9 +167,14 @@ def test_the_open_line_is_carried_for_movement():
 # ------------------------------------------------------------- a board ----
 
 @pytest.fixture()
-def nba_night(tmp_path, monkeypatch):
+def nba_night(tmp_path):
+    return make_nba_night(tmp_path)
+
+
+def make_nba_night(tmp_path):
     """Committed 2021-2022, 2023 with its last two games moved to a future
     night, a bronze store with an open and a later snapshot of them."""
+    tmp_path.mkdir(parents=True, exist_ok=True)
     from coverline.leagues.nba import live
     for y in (2021, 2022):
         shutil.copy(SDV / f"nba_{y}.parquet", tmp_path / f"nba_{y}.parquet")

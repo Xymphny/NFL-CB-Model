@@ -54,6 +54,9 @@ from coverline.execution import recommend as Rc  # noqa: E402
 from coverline.execution.bronze import BronzeStore  # noqa: E402
 from coverline.execution.matching import local_date, match_by_date  # noqa: E402
 from coverline.execution.normalize import normalize  # noqa: E402
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+import board_context  # noqa: E402
 
 SITE = ROOT / "data" / "site"
 BRONZE = ROOT / "data" / "bronze"
@@ -192,8 +195,10 @@ def _load(league: str, R, day: str | None = None):
                  "latest_final": src.latest_final()}
         slate = {"kind": "week", "season": src.season, "week": week,
                  "dates": sorted({g.date for g in games})}
+        extra = _context_bundle(lambda: board_context.cfb(src, [g.game_id for g in games]))
         return (live.build_model(src), src, games, slate, start,
-                lambda gid: {"neutral_site": bool(s.loc[gid].neutral_site)}, fresh)
+                lambda gid: {"neutral_site": bool(s.loc[gid].neutral_site),
+                             **extra.get(gid, {})}, fresh)
     if league == "nfl":
         from coverline.leagues.nfl.live import load_schedule
         today = day or _today_et()
@@ -215,7 +220,10 @@ def _load(league: str, R, day: str | None = None):
         starts = {g.game_id: pd.Timestamp(f"{d} {t}", tz="America/New_York")
                   .tz_convert("UTC").strftime("%Y-%m-%dT%H:%M:%SZ")
                   for g, d, t in zip(games, wk.gameday.astype(str), wk.gametime.astype(str))}
-        ctx = {g.game_id: _nfl_context(r) for g, r in zip(games, wk.itertuples())}
+        extra = _context_bundle(lambda: board_context.nfl(
+            wk, [g.game_id for g in games], season, week, starts))
+        ctx = {g.game_id: {**_nfl_context(r), **extra.get(g.game_id, {})}
+               for g, r in zip(games, wk.itertuples())}
         return (model, src, games, {"kind": "week", "season": season, "week": week},
                 lambda gid: starts.get(gid), lambda gid: ctx.get(gid, {}),
                 _nfl_fresh(src, today))
@@ -226,22 +234,35 @@ def _load(league: str, R, day: str | None = None):
         start = lambda gid: s.loc[gid].tip.strftime("%Y-%m-%dT%H:%M:%SZ")
         done = src.history
         fresh = {"latest_final": str(done.tip.max()) if len(done) else None}
+        extra = _context_bundle(lambda: board_context.nba(src, [g.game_id for g in games]))
         return (model, src, games, {"kind": "date", "date": day}, start,
-                lambda gid: _nba_context(src, gid), fresh)
+                lambda gid: {**_nba_context(src, gid), **extra.get(gid, {})}, fresh)
     if league == "nhl":
         s = src.schedule
         start = lambda gid: s.loc[gid].start.strftime("%Y-%m-%dT%H:%M:%SZ")
         fresh = {"latest_final": str(src.games.start.max()) if len(src.games) else None}
+        extra = _context_bundle(lambda: board_context.nhl(src, [g.game_id for g in games]))
         return (model, src, games, {"kind": "date", "date": day}, start,
-                lambda gid: _nhl_context(src, gid), fresh)
+                lambda gid: {**_nhl_context(src, gid), **extra.get(gid, {})}, fresh)
     if league == "mlb":
         start = lambda gid: src._game(gid).get("start_utc")
         played = src.schedule.dropna(subset=["home_score", "away_score"])
         fresh = {"slate_fetched_at": src.payload.get("fetched_at"),
                  "latest_final": str(played.date.max())}
+        extra = _context_bundle(lambda: board_context.mlb(src, [g.game_id for g in games]))
         return (model, src, games, {"kind": "date", "date": day}, start,
-                lambda gid: _mlb_context(src, gid), fresh)
+                lambda gid: {**_mlb_context(src, gid), **extra.get(gid, {})}, fresh)
     raise ValueError(league)
+
+
+def _context_bundle(make) -> dict:
+    """A league's display context (scripts/board_context.py), soft-failing to
+    none: context never blocks a board, and never reaches a price."""
+    try:
+        return make() or {}
+    except Exception as exc:
+        print(f"[export_board] context soft-fail: {type(exc).__name__}: {exc}")
+        return {}
 
 
 def regime_evidence() -> str:
@@ -534,6 +555,7 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
         except Exception:
             pass
         if entry["start"] and pd.Timestamp(entry["start"]) <= pd.Timestamp(board["generated_at"]):
+            board_context.finish_injuries(entry["context"], None)
             # STARTED, not refused. The core rightly will not price a game
             # after kickoff, but that is the game's state, not a failure: as
             # a refusal each started game became its own red banner (the
@@ -546,7 +568,8 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
             dist = model.predict(g.game_id, "now")
         except Exception as exc:
             entry["refusal"] = f"{type(exc).__name__}: {str(exc).strip(chr(39))[:220]}"
-            board["games"].append(entry)
+            board_context.finish_injuries(entry["context"], None)
+            board["games"].append(_clean(entry))
             continue
         entry["model"] = model_view(dist)
         ev = matched.get(g.game_id)
@@ -565,6 +588,13 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
             apply_regime_cap(entry, headline, regimes, slate.get("week"))
         if league == "nhl":
             apply_early_season_cap(entry)
+        # The card's injury list is cut to its tier's rule only now, once the
+        # tier is known. Nothing in pricing reads context; a test builds the
+        # board with and without it and compares every model field
+        # (tests/core/test_board_context.py).
+        m = entry["markets"].get(headline) or {}
+        board_context.finish_injuries(entry["context"],
+                                      m.get("tier") if m.get("status") == "priced" else None)
         board["games"].append(_clean(entry))
 
     board["games"].sort(key=lambda e: (e["start"] or "", e["game_id"]))

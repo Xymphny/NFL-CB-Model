@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NFL board — week 3</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 2680px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nfl" stamp="6:17 AM" hint-size="1440px,216px"></dc-import>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NFL sections" style="display: flex; gap: 4px;">
+<a href="Main.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Board</a>
+<a href="NFLTeams.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Teams</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Players</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Schedule</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Week 3</span>
+<span style="font-size: 13px; color: #A6ADBA;">Thu Sep 24 – Mon Sep 28 · 16 games · spreads · ratings frozen Tue 7:00 AM</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 32px; padding: 28px 40px 40px;">
+<main style="width: 968px; display: flex; flex-direction: column; gap: 32px;">
+
+<section style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: baseline; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #45C79A;">Play</h2>
+<span style="font-size: 13px; color: #A6ADBA;">2 games · the model's strongest disagreement with the market</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start;">
+<sc-for list="{{ plays }}" as="g" hint-placeholder-count="2">
+<article style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: {{ g.tc }}; border: 1px solid {{ g.tc }}; border-radius: 6px; padding: 3px 8px;">{{ g.tier }}</span>
+<span style="font-size: 12px; color: #8A91A0;">Model's suggestion</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 400; color: #A6ADBA;"><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.aAb }}</span><span>{{ g.aN }}</span><span style="color: #5C6370;">@</span><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.hAb }}</span><span>{{ g.hN }}</span></div>
+<div style="display: flex; align-items: center; gap: 10px;"><span aria-hidden="true" style="width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: #C9CED6;">{{ g.pAb }}</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600; letter-spacing: -0.01em;">{{ g.pick }}</span></div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A6ADBA;">{{ g.price }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<div style="position: relative; height: 16px;">
+<div style="position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: #262B36;"></div>
+<div style="position: absolute; left: 50%; top: 1px; width: 1px; height: 14px; background: #3A4150;"></div>
+<div style="position: absolute; top: 6px; height: 4px; border-radius: 2px; left: {{ g.segL }}%; width: {{ g.segW }}%; background: {{ g.tc }}; opacity: 0.45;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mkL }}%; width: 12px; height: 12px; margin-left: -6px; box-sizing: border-box; border-radius: 50%; border: 2px solid #A6ADBA; background: #151820;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mdL }}%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: {{ g.tc }};"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+<span style="color: #A6ADBA;">Market {{ g.pm }}%</span>
+<span style="color: {{ g.tc }}; font-weight: 600;">Model {{ g.pmod }}% · {{ g.edge }} pts</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Line since open</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A6ADBA;">{{ g.lineTxt }}</span>
+</div>
+<svg viewBox="0 0 200 40" preserveAspectRatio="none" role="img" aria-label="{{ g.lineAria }}" style="width: 100%; height: 40px; display: block;">
+<line x1="0" x2="200" y1="{{ g.my }}" y2="{{ g.my }}" stroke="{{ g.tc }}" stroke-width="1" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"></line>
+<polyline points="{{ g.pts }}" fill="none" stroke="#C9CED6" stroke-width="1.5" vector-effect="non-scaling-stroke"></polyline>
+</svg>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">
+<span>{{ g.l0 }}</span><span style="color: {{ g.tc }};">model {{ g.lm }}</span><span style="color: #E6E8EC;">now {{ g.l1 }}</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{ g.chips }}" as="c" hint-placeholder-count="3">
+<span style="font-size: 12px; color: {{ c.fg }}; background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">{{ c.t }}</span>
+</sc-for>
+</div>
+<sc-if value="{{ g.hasFlag }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 4px; background: #1A1512; border: 1px solid #4A3226; border-radius: 10px; padding: 12px 14px;">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #F0A78C;">NOT IN THE PRICE · {{ g.flagWho }}</span>
+<span style="font-size: 13px; color: #E6E8EC; line-height: 1.45;">{{ g.flag }}</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">{{ g.flagSub }}</span>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #232833; padding-top: 10px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Injury report</span>
+<span style="font-size: 11px; color: #6F7684;">{{ g.injAt }}</span>
+<span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A6ADBA; border: 1px solid #3A4150; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">Not in the price</span>
+</div>
+<sc-for list="{{ g.inj }}" as="t" hint-placeholder-count="2">
+<div style="display: flex; gap: 8px; align-items: flex-start;">
+<span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 12px; line-height: 20px;">
+<sc-for list="{{ t.p }}" as="p" hint-placeholder-count="3">
+<span style="white-space: nowrap;"><span style="color: #E6E8EC;">{{ p.n }}</span> <span style="color: #8A91A0;">{{ p.pos }}</span> <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: {{ p.c }};">{{ p.s }}</span></span>
+</sc-for>
+<sc-if value="{{ t.hasMore }}" hint-placeholder-val="{{ false }}">
+<span style="color: #8A91A0;">+{{ t.more }} more</span>
+</sc-if>
+<sc-if value="{{ t.none }}" hint-placeholder-val="{{ false }}">
+<span style="color: #6F7684;">No one listed</span>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #232833; padding-top: 10px;">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>{{ g.venue }}</span></div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M3 8h11a3 3 0 1 0-3-3"></path><path d="M3 12h15a3 3 0 1 1-3 3"></path><path d="M3 16h8"></path></svg><span>{{ g.wx }}</span><span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: {{ g.wxTagC }}; border: 1px solid {{ g.wxTagC }}; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">{{ g.wxTag }}</span></div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><span>{{ g.rest }}</span><span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: {{ g.restTagC }}; border: 1px solid {{ g.restTagC }}; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">{{ g.restTag }}</span></div>
+</div>
+<sc-if value="{{ g.open }}" hint-placeholder-val="{{ false }}">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Why the model sees it</span>
+<sc-for list="{{ g.why }}" as="w" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; gap: 16px; font-size: 13px;">
+<span style="color: #A6ADBA;">{{ w.k }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; color: #E6E8EC; text-align: right;">{{ w.v }}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #232833; padding-top: 12px;">
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 12px; color: #8A91A0;">Unsized · NFL not yet graded against the market</span><a href="Matchup.dc.html" style="font-size: 13px; font-weight: 600; min-height: 24px; display: flex; align-items: center;">Open matchup</a></div>
+<button type="button" style="min-height: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #2A2F39; background: transparent; color: #C9CED6; font: 600 13px 'IBM Plex Sans', sans-serif;">{{ g.whyLabel }}</button>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: baseline; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #E0B04A;">Lean</h2>
+<span style="font-size: 13px; color: #A6ADBA;">3 games · a real but smaller disagreement</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{ leans }}" as="g" hint-placeholder-count="3">
+<article style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: {{ g.tc }}; border: 1px solid {{ g.tc }}; border-radius: 6px; padding: 3px 8px;">{{ g.tier }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 400; color: #A6ADBA;"><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.aAb }}</span><span>{{ g.aN }}</span><span style="color: #5C6370;">@</span><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.hAb }}</span><span>{{ g.hN }}</span></div>
+<div style="display: flex; align-items: center; gap: 10px;"><span aria-hidden="true" style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: #C9CED6;">{{ g.pAb }}</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600;">{{ g.pick }}</span></div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.price }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<div style="position: relative; height: 16px;">
+<div style="position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: #262B36;"></div>
+<div style="position: absolute; left: 50%; top: 1px; width: 1px; height: 14px; background: #3A4150;"></div>
+<div style="position: absolute; top: 6px; height: 4px; border-radius: 2px; left: {{ g.segL }}%; width: {{ g.segW }}%; background: {{ g.tc }}; opacity: 0.45;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mkL }}%; width: 12px; height: 12px; margin-left: -6px; box-sizing: border-box; border-radius: 50%; border: 2px solid #A6ADBA; background: #151820;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mdL }}%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: {{ g.tc }};"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+<span style="color: #A6ADBA;">Mkt {{ g.pm }}%</span>
+<span style="color: {{ g.tc }}; font-weight: 600;">Model {{ g.pmod }}% · {{ g.edge }}</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Line since open</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A6ADBA;">{{ g.lineTxt }}</span>
+</div>
+<svg viewBox="0 0 200 40" preserveAspectRatio="none" role="img" aria-label="{{ g.lineAria }}" style="width: 100%; height: 40px; display: block;">
+<line x1="0" x2="200" y1="{{ g.my }}" y2="{{ g.my }}" stroke="{{ g.tc }}" stroke-width="1" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"></line>
+<polyline points="{{ g.pts }}" fill="none" stroke="#C9CED6" stroke-width="1.5" vector-effect="non-scaling-stroke"></polyline>
+</svg>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">
+<span>{{ g.l0 }}</span><span style="color: {{ g.tc }};">model {{ g.lm }}</span><span style="color: #E6E8EC;">now {{ g.l1 }}</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{ g.chips }}" as="c" hint-placeholder-count="2">
+<span style="font-size: 12px; color: {{ c.fg }}; background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">{{ c.t }}</span>
+</sc-for>
+</div>
+<sc-if value="{{ g.hasFlag }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 4px; background: #1A1512; border: 1px solid #4A3226; border-radius: 10px; padding: 10px 12px;">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #F0A78C;">NOT IN THE PRICE · {{ g.flagWho }}</span>
+<span style="font-size: 12px; color: #E6E8EC; line-height: 1.45;">{{ g.flag }}</span>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #232833; padding-top: 10px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Injury report</span>
+<span style="font-size: 11px; color: #6F7684;">{{ g.injAt }}</span>
+<span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A6ADBA; border: 1px solid #3A4150; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">Not in the price</span>
+</div>
+<sc-for list="{{ g.inj }}" as="t" hint-placeholder-count="2">
+<div style="display: flex; gap: 8px; align-items: flex-start;">
+<span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 12px; line-height: 20px;">
+<sc-for list="{{ t.p }}" as="p" hint-placeholder-count="3">
+<span style="white-space: nowrap;"><span style="color: #E6E8EC;">{{ p.n }}</span> <span style="color: #8A91A0;">{{ p.pos }}</span> <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: {{ p.c }};">{{ p.s }}</span></span>
+</sc-for>
+<sc-if value="{{ t.hasMore }}" hint-placeholder-val="{{ false }}">
+<span style="color: #8A91A0;">+{{ t.more }} more</span>
+</sc-if>
+<sc-if value="{{ t.none }}" hint-placeholder-val="{{ false }}">
+<span style="color: #6F7684;">No one listed</span>
+</sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #232833; padding-top: 10px;">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>{{ g.venue }}</span></div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M3 8h11a3 3 0 1 0-3-3"></path><path d="M3 12h15a3 3 0 1 1-3 3"></path><path d="M3 16h8"></path></svg><span>{{ g.wx }}</span><span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: {{ g.wxTagC }}; border: 1px solid {{ g.wxTagC }}; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">{{ g.wxTag }}</span></div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #C9CED6;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><span>{{ g.rest }}</span><span style="margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: {{ g.restTagC }}; border: 1px solid {{ g.restTagC }}; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">{{ g.restTag }}</span></div>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #232833; padding-top: 10px;"><span style="font-size: 12px; color: #8A91A0;">Unsized · not yet graded</span><a href="Matchup.dc.html" style="font-size: 13px; font-weight: 600; min-height: 44px; display: flex; align-items: center;">Open matchup</a></div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: baseline; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #A897F2;">Coin flip</h2>
+<span style="font-size: 13px; color: #A6ADBA;">3 games · near 50/50, with the side the model slightly prefers</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{ flips }}" as="g" hint-placeholder-count="3">
+<article style="background: #13161C; border: 1px dashed #3A3553; border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #A897F2;">COIN FLIP</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 400; color: #A6ADBA;"><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.aAb }}</span><span>{{ g.aN }}</span><span style="color: #5C6370;">@</span><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.hAb }}</span><span>{{ g.hN }}</span></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<span style="font-size: 16px; font-weight: 600;">Leans {{ g.pick }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A897F2;">{{ g.pmod }}% vs {{ g.pm }}%</span>
+</div>
+<span style="font-size: 12px; color: #A6ADBA;"><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: #8A91A0;">INJURIES</span> · {{ g.injSum }}</span>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #A6ADBA; border-top: 1px dashed #2C2940; padding-top: 8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>{{ g.venue }} · {{ g.wx }}</span></div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: baseline; gap: 12px;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #A6ADBA;">No edge</h2>
+<span style="font-size: 13px; color: #8A91A0;">8 games · the model agrees with the market, shown so you can see where it stands</span>
+</div>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 120px minmax(0, 1fr) 120px 120px 150px; gap: 16px; padding: 10px 18px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;">
+<span>Kickoff</span><span>Matchup</span><span style="text-align: right;">Market line</span><span style="text-align: right;">Model line</span><span style="text-align: right;">Model vs market</span>
+</div>
+<sc-for list="{{ none }}" as="r" hint-placeholder-count="8">
+<div style="display: grid; grid-template-columns: 120px minmax(0, 1fr) 120px 120px 150px; gap: 16px; align-items: start; padding: 12px 18px; font-size: 13px; border-bottom: 1px solid #1A1E26; background: {{ r.rowBg }};">
+<span style="font-family: 'IBM Plex Mono', monospace; color: #A6ADBA;">{{ r.time }}</span>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 400; color: #E6E8EC;"><span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ r.aAb }}</span><span>{{ r.aN }}</span><span style="color: #5C6370;">@</span><span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ r.hAb }}</span><span>{{ r.hN }}</span></div>
+<sc-if value="{{ r.hasFlag }}" hint-placeholder-val="{{ false }}">
+<span style="font-size: 12px; color: #F0A78C; line-height: 1.4;"><span style="font-weight: 700; letter-spacing: 0.08em; font-size: 11px;">NOT IN THE PRICE · {{ r.flagWho }}</span> · {{ r.flag }}</span>
+</sc-if>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right;">{{ r.mkt }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #C9CED6;">{{ r.model }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #8A91A0;">{{ r.cmp }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</main>
+
+<aside style="width: 360px; display: flex; flex-direction: column; gap: 20px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Since your last refresh</h3>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8A91A0;">6:02 → 6:17 AM</span>
+</div>
+<sc-for list="{{ changes }}" as="c" hint-placeholder-count="5">
+<div style="display: flex; gap: 10px; align-items: flex-start;">
+<span style="margin-top: 6px; width: 6px; height: 6px; border-radius: 50%; background: {{ c.dot }}; flex-shrink: 0;"></span>
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 13px;">{{ c.t }}</span>
+<span style="font-size: 12px; color: #8A91A0;">{{ c.sub }}</span>
+</div>
+</div>
+</sc-for>
+</section>
+
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">My book</h3>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 11px; color: #8A91A0; text-transform: uppercase; letter-spacing: 0.08em;">Bankroll</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;">$[BANKROLL]</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 11px; color: #8A91A0; text-transform: uppercase; letter-spacing: 0.08em;">Unit</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;">$[UNIT]</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 11px; color: #8A91A0; text-transform: uppercase; letter-spacing: 0.08em;">Your CLV · 30 bets</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 16px; color: #45C79A;">+0.8 pts</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 11px; color: #8A91A0; text-transform: uppercase; letter-spacing: 0.08em;">Logged this week</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;">2 bets</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #A6ADBA;"><span>Open exposure</span><span style="font-family: 'IBM Plex Mono', monospace;">2.0u of 5.0u weekly cap</span></div>
+<div style="height: 6px; border-radius: 3px; background: #262B36; position: relative; overflow: hidden;"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 40%; background: #6FA8DC;"></div></div>
+</div>
+<span style="font-size: 12px; color: #8A91A0; line-height: 1.5;">Kelly sizing appears here automatically once a league earns a market weight above zero. Bets you place are logged as yours, beside the model's paper record.</span>
+<button type="button" style="min-height: 44px; border-radius: 8px; border: 1px solid #3A4150; background: #1B1F28; color: #E6E8EC; font: 600 14px 'IBM Plex Sans', sans-serif;">Log a bet</button>
+</section>
+
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Reading the tiers</h3>
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #E0B04A;">PROVISIONAL</span>
+</div>
+<sc-for list="{{ legend }}" as="t" hint-placeholder-count="4">
+<div style="display: flex; gap: 10px; align-items: baseline;">
+<span style="width: 84px; flex-shrink: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: {{ t.c }};">{{ t.name }}</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">{{ t.rule }}</span>
+</div>
+</sc-for>
+<span style="font-size: 12px; color: #8A91A0; line-height: 1.5;">Cut-offs are the core's, derived from backtests, and re-set once the league has 150 settled paper trades.</span>
+</section>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2680}}'>
+class Component extends DCLogic {
+  get AB() {
+    return {"chiefs": "KC", "ravens": "BAL", "bengals": "CIN", "steelers": "PIT", "lions": "DET", "packers": "GB", "seahawks": "SEA", "49ers": "SF", "jets": "NYJ", "dolphins": "MIA", "bills": "BUF", "patriots": "NE", "browns": "CLE", "titans": "TEN", "cardinals": "ARI", "rams": "LAR", "giants": "NYG", "cowboys": "DAL", "vikings": "MIN", "bears": "CHI", "saints": "NO", "falcons": "ATL", "buccaneers": "TB", "panthers": "CAR", "texans": "HOU", "jaguars": "JAX", "raiders": "LV", "chargers": "LAC", "broncos": "DEN", "colts": "IND", "eagles": "PHI", "commanders": "WAS"};
+  }
+
+  tm(o) {
+    const A = this.AB;
+    const key = (s) => (s || '').toLowerCase();
+    const parts = (o.matchup || '').split(' @ ');
+    const an = parts[0], hn = parts[1] || '';
+    const aAb = A[key(an)] || '', hAb = A[key(hn)] || '';
+    const first = (o.pick || '').split(' ')[0];
+    let pAb = o.pAb || '';
+    if (!pAb && o.pick) {
+      if (first === aAb || first === hAb) pAb = first;
+      else if (o.pick.indexOf(an) === 0) pAb = aAb;
+      else if (o.pick.indexOf(hn) === 0) pAb = hAb;
+    }
+    return Object.assign({}, o, { aN: an, hN: hn, aAb, hAb, pAb });
+  }
+  ij(ab, list, max) {
+    const S = { 'Out': ['OUT', '#E88B6E'], 'Doubtful': ['DOUBTFUL', '#E0B04A'], 'Questionable': ['QUESTIONABLE', '#A6ADBA'], 'Probable': ['PROBABLE', '#7FD1AE'], 'IL': ['IL', '#E88B6E'], 'IR': ['IR', '#E88B6E'], 'DTD': ['DAY-TO-DAY', '#A6ADBA'] };
+    const shown = list.slice(0, max).map((x) => ({ n: x[0], pos: x[1], s: (S[x[2]] || [x[2], '#A6ADBA'])[0], c: (S[x[2]] || [x[2], '#A6ADBA'])[1] }));
+    const more = Math.max(0, list.length - max);
+    return { ab, p: shown, more, hasMore: more > 0, none: list.length === 0 };
+  }
+  spark(g) {
+    const h = g.hist, m = g.fair;
+    const lo = Math.min.apply(null, h.concat([m])), hi = Math.max.apply(null, h.concat([m]));
+    const span = (hi - lo) || 1;
+    const y = (v) => (4 + (hi - v) / span * 32).toFixed(1);
+    const pts = h.map((v, i) => (i / (h.length - 1) * 200).toFixed(1) + ',' + y(v)).join(' ');
+    const f = g.fmt || ((v) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v));
+    return { pts, my: y(m), l0: 'open ' + f(h[0]), l1: f(h[h.length - 1]), lm: f(m),
+      lineTxt: g.lineNote || (f(h[0]) + ' → ' + f(h[h.length - 1])),
+      lineAria: 'Line moved from ' + f(h[0]) + ' to ' + f(h[h.length - 1]) + '; model fair line ' + f(m) };
+  }
+  meter(g) {
+    const c = (v) => Math.max(0, Math.min(100, (v - 30) / 40 * 100));
+    const a = c(g.pm), b = c(g.pmod);
+    return Object.assign({}, g, {
+      mkL: a.toFixed(1), mdL: b.toFixed(1),
+      segL: Math.min(a, b).toFixed(1), segW: Math.abs(a - b).toFixed(1),
+      edge: '+' + (g.pmod - g.pm).toFixed(1),
+      hasFlag: !!g.flag
+    }, g.hist ? this.spark(g) : {});
+  }
+  renderVals() {
+    const PLAY = '#45C79A', LEAN = '#E0B04A';
+    const plain = '#C9CED6', warn = '#E88B6E', good = '#7FD1AE';
+    const plays = [
+      { tier: 'PLAY', tc: PLAY, time: 'Sun 8:20 PM', matchup: 'Chiefs @ Ravens', pick: 'Ravens −2.5', price: '−105 · Pinnacle · best of 6 books', pm: 51.0, pmod: 56.9, open: true, whyLabel: 'Hide why',
+        chips: [{ t: 'Opened −3 · crossed the key number 3', fg: good }, { t: 'Both QBs confirmed', fg: plain }],
+        inj: [this.ij('KC', [['J. Holiday', 'WR', 'Out'], ['O. Norman-Lott', 'DT', 'Out'], ['C. McDonald', 'LB', 'Out']], 4), this.ij('BAL', [['Z. Flowers', 'WR', 'Out'], ['J. Lane', 'WR', 'Out'], ['N. Madubuike', 'DT', 'Out'], ['T. Buchanan', 'LB', 'Out'], ['T.J. Tampa', 'CB', 'Out'], ['R. Stanley', 'OT', 'Questionable']], 4)], injAt: 'ESPN · 6:15 AM', hist: [-3, -3, -3, -3, -2.5, -2.5], fair: -3.8, rest: 'Both on 7 days · KC travels ~960 mi (travel isn’t)', restTag: 'Rest in the price', restTagC: '#7FD1AE', venue: 'M&T Bank Stadium · Baltimore · grass', wx: '68° · wind 6 mph · 10% rain', wxTag: 'Not in the spread', wxTagC: '#A6ADBA',
+        why: [
+          { k: 'Model margin', v: 'BAL by 3.8 · σ 13.3' },
+          { k: 'Market margin', v: 'BAL by 2.5' },
+          { k: 'Cover at −2.5', v: '56.9% · push 0.0%' },
+          { k: 'Market, devigged (power)', v: '51.0% at Pinnacle' },
+          { k: 'Key-number mass at 3', v: '8.7% of outcomes' },
+          { k: 'Weather', v: 'Shown, not in the spread' },
+          { k: 'Ratings snapshot', v: 'Week 3 · frozen Tue 7:00 AM' }
+        ] },
+      { tier: 'PLAY', tc: PLAY, time: 'Sun 1:00 PM', matchup: 'Bengals @ Steelers', pick: 'Bengals +3.5', price: '−115 · FanDuel · best of 6 books', pm: 52.3, pmod: 57.8, open: false, whyLabel: 'Why',
+        chips: [{ t: '+3.5 holds the key number 3', fg: good }],
+        inj: [this.ij('CIN', [['B. Parker II', 'OT', 'Out'], ['B.J. Hill', 'DT', 'Out'], ['J. Taylor', 'CB', 'Out']], 4), this.ij('PIT', [['M. Pittman Jr.', 'WR', 'Out'], ['J. Porter Jr.', 'CB', 'Out'], ['R. Dowdle', 'RB', 'Questionable']], 4)], injAt: 'ESPN · 6:15 AM', hist: [3, 3, 3.5, 3.5, 3.5], fair: 0.6, rest: 'Both on 7 days · CIN travels ~260 mi (travel isn’t)', restTag: 'Rest in the price', restTagC: '#7FD1AE', venue: 'Acrisure Stadium · Pittsburgh · grass', wx: '71° · wind 9 mph · 0% rain', wxTag: 'Not in the spread', wxTagC: '#A6ADBA',
+        why: [] }
+    ].map((g) => this.meter(g));
+    const leans = [
+      { tier: 'LEAN', tc: LEAN, time: 'Sun 4:25 PM', matchup: 'Lions @ Packers', pick: 'Lions +1.5', price: '−110 · DraftKings', pm: 51.2, pmod: 54.1, chips: [], inj: [this.ij('DET', [['B. Miller', 'OT', 'Out'], ['C. Mahogany', 'G', 'Out'], ['A. Maddox', 'CB', 'Out']], 3), this.ij('GB', [['J. Hargrave', 'DT', 'Out'], ['W. Brinson', 'DT', 'Out'], ['J. Reed', 'WR', 'Questionable'], ['Z. Bako-Bewele', 'OT', 'Questionable'], ['D. Jennings', 'G', 'Questionable'], ['A. Campbell', 'DT', 'Questionable'], ['E. Cooper', 'LB', 'Questionable'], ['B. Cisse', 'CB', 'Questionable']], 3)], injAt: 'ESPN · 6:15 AM', hist: [1, 1.5, 1.5, 1.5, 1.5], fair: -0.2, rest: 'DET 7 days · GB 10 days, off a Thursday game', restTag: 'Rest in the price', restTagC: '#7FD1AE', venue: 'Lambeau Field · Green Bay · grass', wx: '58° · wind 12 mph · 60% rain', wxTag: 'Not in the spread', wxTagC: '#A6ADBA' },
+      { tier: 'LEAN', tc: LEAN, time: 'Sun 4:05 PM', matchup: 'Seahawks @ 49ers', pick: '49ers −6.5', price: '−108 · Circa', pm: 50.9, pmod: 53.6, chips: [{ t: 'New since refresh: was Coin flip', fg: '#9CC3EC' }], flagWho: 'SEA QB', flag: 'Seattle’s starting QB is ruled out. Their rating was built with him playing; the market has priced his absence and the model hasn’t, so part of this gap may be that news.', inj: [this.ij('SEA', [['S. Darnold', 'QB', 'Out'], ['Z. Charbonnet', 'RB', 'Out'], ['A. Bradford', 'G', 'Out'], ['T. Okada', 'S', 'Out'], ['J. Price', 'RB', 'Questionable'], ['B. Pili', 'DT', 'Questionable']], 3), this.ij('SF', [['D. Robinson', 'WR', 'Out'], ['B. Aiyuk', 'WR', 'Out'], ['D. Stribling', 'WR', 'Out'], ['J. Tonges', 'TE', 'Out'], ['J. Thompson Jr.', 'DT', 'Doubtful'], ['M. Evans', 'WR', 'Questionable'], ['R. Height', 'DE', 'Questionable'], ['J. Jones', 'CB', 'Questionable']], 3)], injAt: 'ESPN · 6:15 AM', hist: [-7, -7, -7, -6.5, -6.5], fair: -8.4, rest: 'Both on 7 days · SEA travels ~680 mi (travel isn’t)', restTag: 'Rest in the price', restTagC: '#7FD1AE', venue: 'Levi’s Stadium · Santa Clara · grass', wx: '79° · wind 8 mph · 0% rain', wxTag: 'Not in the spread', wxTagC: '#A6ADBA' },
+      { tier: 'LEAN', tc: LEAN, time: 'Mon 8:15 PM', matchup: 'Jets @ Dolphins', pick: 'Dolphins −1', price: '−110 · Pinnacle', pm: 51.3, pmod: 53.9, chips: [{ t: 'Line 1 · push priced', fg: plain }], inj: [this.ij('NYJ', [['O. Cooper Jr.', 'WR', 'Out'], ['K. Nwangwu', 'RB', 'Out'], ['J. Ossai', 'DE', 'Out'], ['M. Fitzpatrick', 'S', 'Out'], ['M. Taylor', 'TE', 'Questionable'], ['D. Onyemata', 'DT', 'Questionable'], ['K. Mauigoa', 'LB', 'Questionable'], ['M. McCrary-Ball', 'LB', 'Questionable']], 3), this.ij('MIA', [['C. Robinson', 'LB', 'Out'], ['R. Harrison Jr.', 'LB', 'Out'], ['K. Louis', 'LB', 'Out'], ['C. Douglas', 'WR', 'Questionable'], ['J. Wright', 'RB', 'Questionable'], ['R. Beal Jr.', 'DE', 'Questionable']], 3)], injAt: 'ESPN · 6:15 AM', hist: [-1.5, -1.5, -1, -1, -1], fair: -2.0, rest: 'Both on 8 days · NYJ travels ~1,090 mi (travel isn’t)', restTag: 'Rest in the price', restTagC: '#7FD1AE', venue: 'Hard Rock Stadium · Miami Gardens · grass', wx: '86° · wind 7 mph · 30% rain', wxTag: 'Not in the spread', wxTagC: '#A6ADBA' }
+    ].map((g) => this.meter(g));
+    const flips = [
+      { time: 'Sun 1:00 PM', matchup: 'Bills @ Patriots', pick: 'Patriots +6.5', pmod: 50.9, pm: 50.2, injSum: 'BUF 3 out, 1 questionable · NE 3 out, 4 questionable', venue: 'Gillette Stadium', wx: '64° · wind 11 mph' },
+      { time: 'Sun 1:00 PM', matchup: 'Browns @ Titans', pick: 'Titans −1.5', pmod: 51.3, pm: 50.6, injSum: 'CLE 4 out, 0 questionable · TEN 2 out, 1 questionable', venue: 'Nissan Stadium', wx: '80° · wind 5 mph' },
+      { time: 'Sun 4:25 PM', matchup: 'Cardinals @ Rams', pick: 'Cardinals +4.5', pmod: 51.0, pm: 50.3, injSum: 'ARI 3 out, 2 questionable · LA 7 out, 1 questionable', venue: 'SoFi Stadium', wx: 'covered, no weather' }
+    ];
+    const none = [
+      { time: 'Thu 8:15 PM', matchup: 'Giants @ Cowboys', mkt: 'DAL −4.5', model: 'DAL −4.3', cmp: '50.2 vs 50.1%' },
+      { time: 'Sun 1:00 PM', matchup: 'Vikings @ Bears', mkt: 'MIN −1.5', model: 'MIN −1.6', cmp: '50.1 vs 50.1%' },
+      { time: 'Sun 1:00 PM', matchup: 'Saints @ Falcons', mkt: 'ATL −3', model: 'ATL −3.1', cmp: '50.3 vs 50.2%', flagWho: 'ATL QB', flag: 'starter returns; the rating was built on backup starts', rowBg: '#15120F' },
+      { time: 'Sun 1:00 PM', matchup: 'Buccaneers @ Panthers', mkt: 'TB −3.5', model: 'TB −3.4', cmp: '49.9 vs 50.0%' },
+      { time: 'Sun 1:00 PM', matchup: 'Texans @ Jaguars', mkt: 'HOU −2.5', model: 'HOU −2.7', cmp: '50.4 vs 50.2%' },
+      { time: 'Sun 4:05 PM', matchup: 'Raiders @ Chargers', mkt: 'LAC −5.5', model: 'LAC −5.4', cmp: '50.1 vs 50.1%' },
+      { time: 'Sun 4:25 PM', matchup: 'Broncos @ Colts', mkt: 'DEN −1', model: 'DEN −1.2', cmp: '50.3 vs 50.1%' },
+      { time: 'Sun 8:20 PM', matchup: 'Eagles @ Commanders', mkt: 'PHI −2.5', model: 'PHI −2.4', cmp: '50.0 vs 50.1%' }
+    ];
+    const changes = [
+      { dot: '#45C79A', t: 'Ravens −3 → −2.5 at Pinnacle', sub: 'Moved away from the model · gap +5.3 → +5.9' },
+      { dot: '#E0B04A', t: '49ers −6.5: Coin flip → Lean', sub: 'Market drifted to −6.5 from −7' },
+      { dot: '#A897F2', t: 'Bills @ Patriots: Lean → Coin flip', sub: 'Line moved against the model, +7 → +6.5' },
+      { dot: '#E88B6E', t: 'Seahawks QB ruled out', sub: 'Flagged on the 49ers card · not in the model’s number' },
+      { dot: '#8A91A0', t: 'No new refusals', sub: 'All 16 games priced' }
+    ];
+    const legend = [
+      { name: 'PLAY', c: PLAY, rule: 'Model ≥ 4.0 pts above the devigged market' },
+      { name: 'LEAN', c: LEAN, rule: '2.0 – 4.0 pts above the market' },
+      { name: 'COIN FLIP', c: '#A897F2', rule: '0.5 – 2.0 pts: near 50/50, names the side it slightly prefers' },
+      { name: 'NO EDGE', c: '#A6ADBA', rule: 'Within 0.5 pts: the model agrees with the market' }
+    ];
+    const t = (x) => this.tm(x);
+    const nf = (r) => Object.assign({ rowBg: 'transparent' }, r, { hasFlag: !!r.flag });
+    return { plays: plays.map(t), leans: leans.map(t), flips: flips.map(t), none: none.map(nf).map(t), changes, legend };
+  }
+}
+</script>
+</body>
+</html>

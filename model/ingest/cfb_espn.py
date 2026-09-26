@@ -100,6 +100,12 @@ def day_rows(day: str) -> list[dict]:
             # source (leagues/cfb/live.py) takes the Eastern date from this.
             "start": str(e.get("date")),
             "neutral_site": bool(comp.get("neutralSite")),
+            # Display context only (the board's venue line); never read by
+            # the model, which has no venue term.
+            "venue": (comp.get("venue") or {}).get("fullName"),
+            "venue_city": ((comp.get("venue") or {}).get("address") or {}).get("city"),
+            "venue_state": ((comp.get("venue") or {}).get("address") or {}).get("state"),
+            "indoor": (comp.get("venue") or {}).get("indoor"),
             "home_team": (home.get("team") or {}).get("location"),
             "away_team": (away.get("team") or {}).get("location"),
             "home_score": _score(home),

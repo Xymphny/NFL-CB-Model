@@ -1,0 +1,169 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Header.dc.html": {
+      "h": 216,
+      "title": "Shared header and evidence strip",
+      "w": 1440,
+      "x": 3040,
+      "y": 3100
+    },
+    "MLB.dc.html": {
+      "h": 1900,
+      "is_interactive": true,
+      "title": "MLB board · daily, starters first",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 2680,
+      "is_interactive": true,
+      "title": "NFL board · weekly",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "NBA.dc.html": {
+      "h": 1800,
+      "is_interactive": true,
+      "title": "NBA board · spreads and rest",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "NBAPlayers.dc.html": {
+      "h": 1400,
+      "is_interactive": true,
+      "title": "NBA · Players tab",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "NBATeams.dc.html": {
+      "h": 2120,
+      "is_interactive": true,
+      "title": "NBA · Teams tab (live ratings)",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "NFLTeams.dc.html": {
+      "h": 1680,
+      "is_interactive": true,
+      "title": "NFL · Teams tab (click a team)",
+      "w": 1440,
+      "x": 7600,
+      "y": 0
+    },
+    "NHL.dc.html": {
+      "h": 1800,
+      "is_interactive": true,
+      "title": "NHL board · opening night, low information",
+      "w": 1440,
+      "x": 0,
+      "y": 3100
+    },
+    "Record.dc.html": {
+      "h": 1720,
+      "is_interactive": true,
+      "title": "The record · graded against the close",
+      "w": 1440,
+      "x": 1520,
+      "y": 3100
+    },
+    "CFB.dc.html": {
+      "x": 0,
+      "y": 5320,
+      "w": 1440,
+      "h": 2080,
+      "title": "CFB board · week 4 (live data)",
+      "is_interactive": true
+    },
+    "Matchup.dc.html": {
+      "x": 1520,
+      "y": 5320,
+      "w": 1440,
+      "h": 1640,
+      "title": "Matchup page · open from any card",
+      "is_interactive": true
+    },
+    "MLBTeams.dc.html": {
+      "x": 3040,
+      "y": 5320,
+      "w": 1440,
+      "h": 2020,
+      "title": "MLB · Pitchers & parks (live data)",
+      "is_interactive": true
+    },
+    "NHLTeams.dc.html": {
+      "x": 4560,
+      "y": 5320,
+      "w": 1440,
+      "h": 1480,
+      "title": "NHL · Attack & defence (last season)",
+      "is_interactive": true
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-09-23T10:10:26.912Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "pushQueue": {
+      "fill": "orange",
+      "maxH": 1700,
+      "size": 24,
+      "text": "Queued for one push (mocked here, built together)\n\n1. Key-player flag: \"Not in the price\" strip on any card where a key player is out, doubtful, returning or unconfirmed. NFL + CFB: QB. NHL: starting goalie. NBA: starters, linked to Players. Display only; never moves a number.\n2. Behind it: carry the QB alert the old pipeline already computes into board context, and extend qb_overrides.json to goalies and NBA players so you can set a flag by hand.\n3. NBA Players tab (in progress locally).\n4. MLB needs no flag: the probable starter is already in the price, and scratches already show.\n5. Venue and weather on every game card. NFL + CFB: stadium, roof and surface from the nflverse schedule; forecast at kickoff from Open-Meteo (the odds watcher already fetches it). MLB: ballpark (its park factor IS in the price) plus weather, which needs a source added. NBA + NHL: arena only; NHL outdoor games show weather. Each weather line says it is not in the spread or moneyline.\n6. Injury report on every game card, under the key-player flag. NFL: the ESPN report the site already pulls, Out first and QB first. MLB: injured list (probable starters are already in the price). NBA: the official report, including Probable. NHL: IR and day-to-day. Top 3-4 per team with '+N more'; Coin flip cards show counts. Always labelled 'Not in the price'.\n7. Teams tabs: every team is clickable and opens its stats with its rank in the league. NFL (new tab): model rating and its range, offense/defense/special teams, EPA and success rate for and against, turnover margin, red zone, schedule strength, QB1, injuries, results and next games, all from the weekly ratings file and teams.json. NBA: 2025-26 record, net, scored, allowed with ranks, conference place, home/road, last 10, close games, from the season file the model already reads.\n8. CFB board (new): Play / Coin flip / No edge, a full slate grouped by kickoff window, and every unpriced game counted by reason (no line yet, FCS opponent, whole-number line, kicked off, neutral site). A 'check before you trust it' flag on any gap far bigger than the market's.\n9. Matchup page: 'Open matchup' on every card opens the game: the model's full margin distribution, every market (totals marked not priced), both teams side by side with ranks, line history, rest/travel/weather/surface, both injury reports.\n10. Line since open on every card: open to now, with the model's fair line dashed. Needs the capture history the odds job now stores.\n11. Rest and travel on every card. NFL rest IS in the price (it's in the rating vector); NFL travel, and all NBA/NHL/MLB rest and travel, are labelled not in the price.\n12. Season outlook on Teams: NFL playoff odds from model/season_simulation.py (2,000 seasons, week's ratings). NBA says 'not simulated yet' until a checked NBA version exists.\n13. The model on this team: paper-trade record per team, hidden until 10 settle.\n14. MLB 'Pitchers & parks' and NHL 'Attack & defence' pages: clickable team list. MLB: offense, bullpen and park with ranks, 3-day bullpen workload (not in the price), today's probables with RA/27 and how much is the pitcher's own record. NHL: last season's rates for reference, labelled not used, since ratings reset.",
+      "w": 520,
+      "x": 4560,
+      "y": 3100
+    },
+    "row1": {
+      "kind": "title1",
+      "maxW": 8000,
+      "text": "The boards: each sport laid out for how it's bet (sample data)",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "row2": {
+      "kind": "title1",
+      "maxW": 4480,
+      "text": "Early season, the record, and shared parts",
+      "w": 240,
+      "x": 0,
+      "y": 2780
+    },
+    "row3": {
+      "kind": "title1",
+      "maxW": 5920,
+      "text": "College board and drill-downs",
+      "w": 240,
+      "x": 0,
+      "y": 5000
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "MLB.dc.html",
+    "NBA.dc.html",
+    "NHL.dc.html",
+    "Record.dc.html",
+    "Header.dc.html",
+    "NBATeams.dc.html",
+    "NBAPlayers.dc.html",
+    "NFLTeams.dc.html",
+    "CFB.dc.html",
+    "Matchup.dc.html",
+    "MLBTeams.dc.html",
+    "NHLTeams.dc.html"
+  ],
+  "pages": [],
+  "title": "Coinflip Dashboard Revamp"
+}

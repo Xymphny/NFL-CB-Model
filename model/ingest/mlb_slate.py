@@ -87,7 +87,7 @@ def update_season(year: int, get=None, out_dir: Path = SEASON_DIR) -> bool:
     path.write_text(text)
     return True
 URL = ("https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate={a}"
-       "&endDate={b}&gameTypes=R&hydrate=probablePitcher,team")
+       "&endDate={b}&gameTypes=R&hydrate=probablePitcher,team,venue,weather")
 
 
 def _team(side: dict) -> str:
@@ -125,6 +125,12 @@ def parse_slate(payload: dict, day: str, bridge: dict, parks: dict) -> list[dict
                 "home_sp": hsp, "away_sp": asp,
                 "home_sp_name": hname, "away_sp_name": aname,
                 "park": parks.get(home, "UNK"),
+                # Display context (the board's venue and weather lines). The
+                # park the model prices with is `park`, above; these are not
+                # read by any pricing path. Weather is published only near
+                # first pitch, so an empty one is "no report", not calm.
+                "venue_name": (g.get("venue") or {}).get("name"),
+                "weather": g.get("weather") or None,
             })
     return out
 

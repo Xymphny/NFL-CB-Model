@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Coinflip header and evidence strip</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1440px; height: 216px; box-sizing: border-box; padding: 0 40px; background: #0E1014; border-bottom: 1px solid #262B36; display: flex; flex-direction: column; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #E6E8EC;">
+<div style="height: 76px; display: flex; align-items: center; gap: 40px;">
+<div style="display: flex; flex-direction: column; gap: 2px; width: 330px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.01em;">Coinflip</span>
+<span style="font-size: 12px; color: #A6ADBA;">Every number on this screen was earned by evidence.</span>
+</div>
+<nav aria-label="League" style="display: flex; gap: 6px; flex-grow: 1;">
+<sc-for list="{{ leagues }}" as="l" hint-placeholder-count="5">
+<a href="{{ l.href }}" aria-current="{{ l.current }}" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; box-sizing: border-box; border-radius: 8px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: {{ l.fg }}; background: {{ l.bg }}; border: 1px solid {{ l.border }};">
+<span style="width: 8px; height: 8px; border-radius: 50%; background: {{ l.dot }};"></span>
+<span>{{ l.name }}</span>
+</a>
+</sc-for>
+</nav>
+<div style="display: flex; align-items: center; gap: 14px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: {{ pillFg }}; border: 1px solid {{ pillBorder }}; border-radius: 999px; padding: 4px 10px;">{{ pill }}</span>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #E6E8EC;">Updated {{ stamp }}</span>
+<span style="font-size: 11px; color: #8A91A0;">Checks for new data every 2 min</span>
+</div>
+<button type="button" style="min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid #333A47; background: #1B1F28; color: #E6E8EC; font: 600 13px 'IBM Plex Sans', sans-serif;">Refresh</button>
+<button type="button" aria-label="Account: Pedro, signed in with Discord" style="min-height: 44px; min-width: 44px; padding: 0 12px; border-radius: 8px; border: 1px solid #333A47; background: #1B1F28; color: #E6E8EC; font: 600 13px 'IBM Plex Sans', sans-serif;">Pedro</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding-bottom: 18px;">
+<sc-for list="{{ leagues }}" as="l" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 10px; background: {{ l.cellBg }}; border: 1px solid {{ l.cellBorder }};">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #E6E8EC;">{{ l.name }}</span>
+<span style="font-size: 12px; color: {{ l.statusColor }};">{{ l.status }}</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+<span style="color: #A6ADBA;">{{ l.settled }} / 150 settled</span>
+<span style="color: #A6ADBA;">CLV {{ l.clv }}</span>
+</div>
+<div style="height: 4px; border-radius: 2px; background: #262B36; position: relative; overflow: hidden;">
+<div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ l.pct }}%; background: #6FA8DC;"></div>
+</div>
+<span style="font-size: 11px; color: {{ l.freshColor }};">{{ l.fresh }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"league":{"editor":"enum","options":["nfl","cfb","mlb","nhl","nba","record"],"default":"nfl"},"stamp":{"editor":"text","default":"6:17 AM"},"live":{"editor":"boolean","default":false},"asof":{"editor":"text","default":"Sep 23"},"$preview":{"width":1440,"height":216}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const active = this.props.league ?? 'nfl';
+    const L = [
+      { id: 'nfl', name: 'NFL', href: 'Main.dc.html', dot: '#6FA8DC', status: 'Paper · weight 0.00', settled: 38, clv: '+0.4 pts', fresh: 'Odds 6:12 AM · ratings Tue', warn: false },
+      { id: 'cfb', name: 'CFB', href: 'CFB.dc.html', dot: '#C9A15A', status: 'Paper · weight 0.00', settled: 112, clv: '−0.2 pts', fresh: 'Odds 6:12 AM · ratings Sun', warn: false },
+      { id: 'mlb', name: 'MLB', href: 'MLB.dc.html', dot: '#D98A6C', status: 'Paper · no grade yet', settled: 20, clv: '+0.1 pts', fresh: 'Slate 6:41 AM · results complete', warn: false },
+      { id: 'nhl', name: 'NHL', href: 'NHL.dc.html', dot: '#7FC4D6', status: 'Opens Sep 29', settled: 0, clv: '—', fresh: 'Schedule loaded · 1,344 games', warn: false },
+      { id: 'nba', name: 'NBA', href: 'NBA.dc.html', dot: '#B89AE0', status: 'Opens Oct 20', settled: 0, clv: '—', fresh: 'Schedule loaded · 2025-26 complete', warn: false }
+    ];
+    const leagues = L.map((l) => {
+      const on = l.id === active;
+      return Object.assign({}, l, {
+        current: on ? 'page' : 'false',
+        fg: on ? '#FFFFFF' : '#A6ADBA',
+        bg: on ? '#1B1F28' : 'transparent',
+        border: on ? '#3A4150' : 'transparent',
+        cellBg: on ? '#171B23' : '#12151B',
+        cellBorder: on ? '#3A4150' : '#1F242D',
+        statusColor: l.id === 'nhl' || l.id === 'nba' ? '#8A91A0' : '#C9CED6',
+        freshColor: l.warn ? '#E88B6E' : '#8A91A0',
+        pct: Math.round(l.settled / 150 * 100)
+      });
+    });
+    const live = this.props.live === true;
+    return {
+      leagues, stamp: this.props.stamp ?? '6:17 AM',
+      pill: live ? 'Live data · ' + (this.props.asof ?? 'Sep 23') : 'Sample data',
+      pillFg: live ? '#45C79A' : '#E0B04A',
+      pillBorder: live ? '#1F4A3A' : '#5A4A22'
+    };
+  }
+}
+</script>
+</body>
+</html>

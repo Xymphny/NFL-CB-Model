@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MLB pitchers and parks</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 2020px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="mlb" stamp="6:47 AM" live="{{ yes }}" asof="Sep 23" hint-size="1440px,216px"></dc-import>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="MLB sections" style="display: flex; gap: 4px;">
+<a href="MLB.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Board</a>
+<a href="MLBTeams.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Pitchers &amp; parks</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Pitchers &amp; parks</span>
+<span style="font-size: 13px; color: #A6ADBA;">What the model prices each game from, team by team</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 32px; padding: 28px 40px 0; align-items: flex-start;">
+<div style="width: 420px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Teams</h2><span style="font-size: 11px; color: #8A91A0;">W–L · offense rank</span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px;">
+<sc-for list="{{ list }}" as="t" hint-placeholder-count="30">
+<button type="button" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="min-height: 44px; display: grid; grid-template-columns: 34px minmax(0, 1fr) 54px; gap: 8px; align-items: center; padding: 0 10px; border-radius: 8px; border: 1px solid {{ t.bd }}; background: {{ t.bg }}; color: #E6E8EC; font: 400 13px 'IBM Plex Sans', sans-serif; text-align: left; cursor: pointer;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span>
+<span style="font-weight: {{ t.fw }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ t.short }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A6ADBA; text-align: right;">{{ t.wl }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<section aria-live="polite" style="flex-grow: 1; background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<span aria-hidden="true" style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #C9CED6;">{{ d.ab }}</span>
+<div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1;"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">{{ d.name }}</h2><span style="font-size: 13px; color: #A6ADBA;">{{ d.sub }}</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">In the price · ranks among 30</h3>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.tiles }}" as="k" hint-placeholder-count="4">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">{{ k.label }}</span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #E6E8EC;">{{ k.v }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: {{ k.c }};">{{ k.rk }}</span>
+</div>
+<div style="position: relative; height: 6px; border-radius: 3px; background: #1F242D;">
+<div style="position: absolute; top: -2px; left: {{ k.pos }}%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: {{ k.c }};"></div>
+</div>
+<span style="font-size: 11px; color: #6F7684;">{{ k.hint }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<div style="background: #1A1512; border: 1px solid #4A3226; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #F0A78C;">NOT IN THE PRICE · BULLPEN WORKLOAD</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #F0A78C;">{{ d.workRk }}</span></div>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600;">{{ d.work }}</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">Relief innings over the last three days. The model rates a bullpen on its season, not on who pitched last night, so a tired pen is yours to weigh.</span>
+</div>
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">How a game is priced</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.55;">Expected runs = this team's offense × the other side's starter (58% of outs) and bullpen (42%) × the park. Each piece is shrunk toward league average (4.46 runs) until it has enough games behind it.</span>
+</div>
+</div>
+</section>
+</div>
+
+<section style="margin: 28px 40px 40px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between;"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Probable starters · Wed Sep 23</h2><span style="font-size: 12px; color: #8A91A0;">Runs allowed per 27 outs, shrunk toward league average · "own" is how much is the pitcher's own record</span></div>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 84px 110px minmax(0, 1fr) 150px minmax(0, 1fr) 150px 80px 160px; gap: 12px; padding: 10px 18px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;"><span>First pitch</span><span>Game</span><span>Away starter</span><span>RA/27 · own</span><span>Home starter</span><span>RA/27 · own</span><span style="text-align: right;">Park</span><span style="text-align: right;">Status</span></div>
+<sc-for list="{{ games }}" as="g" hint-placeholder-count="16">
+<div style="display: grid; grid-template-columns: 84px 110px minmax(0, 1fr) 150px minmax(0, 1fr) 150px 80px 160px; gap: 12px; align-items: center; padding: 9px 18px; border-bottom: 1px solid #1A1E26; font-size: 13px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{ g.a }} @ {{ g.h }}</span>
+<span>{{ g.an }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #C9CED6;">{{ g.ara }} <span style="color: #8A91A0;">{{ g.ac }}</span></span>
+<span>{{ g.hn }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #C9CED6;">{{ g.hra }} <span style="color: #8A91A0;">{{ g.hc }}</span></span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: right;">{{ g.pf }}</span>
+<span style="justify-self: end; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: {{ g.stc }};">{{ g.st }}</span>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #8A91A0; line-height: 1.5;">Real numbers from the walk-forward the model prices with, replayed to the morning of Sep 23, and that morning's first slate pull. Starters still TBD at the pull are refused until one is listed.</span>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2020}}'>
+class Component extends DCLogic {
+  get DATA() {
+    return {"teams": [{"ab": "ARI", "name": "Arizona Diamondbacks", "off": 4.55, "pen": 4.98, "penCred": 0.92, "park": 1.057, "pcode": "PHO01", "work": 25, "w": 85, "l": 74, "offR": 12, "penR": 27, "parkR": 4, "workR": 19}, {"ab": "ATH", "name": "Athletics", "off": 4.31, "pen": 5.19, "penCred": 0.81, "park": 1.127, "pcode": "SAC01", "work": 27, "w": 63, "l": 96, "offR": 20, "penR": 28, "parkR": 2, "workR": 13}, {"ab": "ATL", "name": "Atlanta Braves", "off": 4.78, "pen": 4.07, "penCred": 0.92, "park": 1.003, "pcode": "ATL03", "work": 26, "w": 93, "l": 67, "offR": 2, "penR": 5, "parkR": 14, "workR": 17}, {"ab": "BAL", "name": "Baltimore Orioles", "off": 4.38, "pen": 4.75, "penCred": 0.92, "park": 1.015, "pcode": "BAL12", "work": 28, "w": 78, "l": 81, "offR": 19, "penR": 22, "parkR": 10, "workR": 12}, {"ab": "BOS", "name": "Boston Red Sox", "off": 4.54, "pen": 4.58, "penCred": 0.92, "park": 1.064, "pcode": "BOS07", "work": 13, "w": 85, "l": 74, "offR": 13, "penR": 16, "parkR": 3, "workR": 29}, {"ab": "CHN", "name": "Chicago Cubs", "off": 4.67, "pen": 4.42, "penCred": 0.92, "park": 1.006, "pcode": "CHI11", "work": 30, "w": 88, "l": 71, "offR": 6, "penR": 14, "parkR": 11, "workR": 8}, {"ab": "CHA", "name": "Chicago White Sox", "off": 4.2, "pen": 4.72, "penCred": 0.93, "park": 0.983, "pcode": "CHI12", "work": 29, "w": 82, "l": 77, "offR": 25, "penR": 21, "parkR": 18, "workR": 11}, {"ab": "CIN", "name": "Cincinnati Reds", "off": 4.28, "pen": 4.85, "penCred": 0.92, "park": 1.051, "pcode": "CIN09", "work": 27, "w": 74, "l": 85, "offR": 23, "penR": 24, "parkR": 6, "workR": 14}, {"ab": "CLE", "name": "Cleveland Guardians", "off": 4.31, "pen": 3.86, "penCred": 0.92, "park": 0.943, "pcode": "CLE08", "work": 18, "w": 83, "l": 76, "offR": 21, "penR": 1, "parkR": 28, "workR": 27}, {"ab": "COL", "name": "Colorado Rockies", "off": 4.02, "pen": 5.47, "penCred": 0.92, "park": 1.21, "pcode": "DEN02", "work": 30, "w": 57, "l": 102, "offR": 30, "penR": 30, "parkR": 1, "workR": 9}, {"ab": "DET", "name": "Detroit Tigers", "off": 4.28, "pen": 4.41, "penCred": 0.93, "park": 0.961, "pcode": "DET05", "work": 40, "w": 74, "l": 85, "offR": 24, "penR": 12, "parkR": 25, "workR": 3}, {"ab": "HOU", "name": "Houston Astros", "off": 4.73, "pen": 4.14, "penCred": 0.92, "park": 0.979, "pcode": "HOU03", "work": 33, "w": 79, "l": 80, "offR": 5, "penR": 7, "parkR": 20, "workR": 7}, {"ab": "KCA", "name": "Kansas City Royals", "off": 4.15, "pen": 4.87, "penCred": 0.92, "park": 1.027, "pcode": "KAN06", "work": 22, "w": 68, "l": 91, "offR": 26, "penR": 25, "parkR": 7, "workR": 21}, {"ab": "ANA", "name": "Los Angeles Angels", "off": 4.14, "pen": 4.97, "penCred": 0.92, "park": 1.004, "pcode": "ANA01", "work": 21, "w": 61, "l": 98, "offR": 27, "penR": 26, "parkR": 12, "workR": 23}, {"ab": "LAN", "name": "Los Angeles Dodgers", "off": 5.18, "pen": 4.02, "penCred": 0.92, "park": 1.001, "pcode": "LOS03", "work": 48, "w": 97, "l": 62, "offR": 1, "penR": 2, "parkR": 15, "workR": 1}, {"ab": "MIA", "name": "Miami Marlins", "off": 4.14, "pen": 4.62, "penCred": 0.92, "park": 0.976, "pcode": "MIA02", "work": 27, "w": 78, "l": 81, "offR": 28, "penR": 18, "parkR": 21, "workR": 15}, {"ab": "MIL", "name": "Milwaukee Brewers", "off": 4.76, "pen": 4.04, "penCred": 0.92, "park": 0.972, "pcode": "MIL06", "work": 36, "w": 100, "l": 59, "offR": 4, "penR": 3, "parkR": 23, "workR": 5}, {"ab": "MIN", "name": "Minnesota Twins", "off": 4.47, "pen": 4.71, "penCred": 0.92, "park": 1.018, "pcode": "MIN04", "work": 27, "w": 75, "l": 84, "offR": 15, "penR": 20, "parkR": 9, "workR": 16}, {"ab": "NYN", "name": "New York Mets", "off": 4.63, "pen": 4.4, "penCred": 0.92, "park": 0.952, "pcode": "NYC20", "work": 22, "w": 73, "l": 86, "offR": 8, "penR": 11, "parkR": 26, "workR": 22}, {"ab": "NYA", "name": "New York Yankees", "off": 4.78, "pen": 4.08, "penCred": 0.92, "park": 0.981, "pcode": "NYC21", "work": 21, "w": 92, "l": 67, "offR": 3, "penR": 6, "parkR": 19, "workR": 24}, {"ab": "PHI", "name": "Philadelphia Phillies", "off": 4.67, "pen": 4.66, "penCred": 0.92, "park": 1.025, "pcode": "PHI13", "work": 18, "w": 87, "l": 72, "offR": 7, "penR": 19, "parkR": 8, "workR": 28}, {"ab": "PIT", "name": "Pittsburgh Pirates", "off": 4.03, "pen": 4.79, "penCred": 0.93, "park": 1.004, "pcode": "PIT08", "work": 30, "w": 81, "l": 78, "offR": 29, "penR": 23, "parkR": 13, "workR": 10}, {"ab": "SDN", "name": "San Diego Padres", "off": 4.59, "pen": 4.04, "penCred": 0.92, "park": 0.922, "pcode": "SAN02", "work": 19, "w": 89, "l": 70, "offR": 11, "penR": 4, "parkR": 29, "workR": 26}, {"ab": "SFN", "name": "San Francisco Giants", "off": 4.45, "pen": 4.3, "penCred": 0.93, "park": 0.952, "pcode": "SFO03", "work": 35, "w": 66, "l": 94, "offR": 17, "penR": 10, "parkR": 27, "workR": 6}, {"ab": "SEA", "name": "Seattle Mariners", "off": 4.51, "pen": 4.28, "penCred": 0.92, "park": 0.902, "pcode": "SEA03", "work": 21, "w": 74, "l": 85, "offR": 14, "penR": 9, "parkR": 30, "workR": 25}, {"ab": "SLN", "name": "St. Louis Cardinals", "off": 4.46, "pen": 4.41, "penCred": 0.92, "park": 0.966, "pcode": "STL10", "work": 12, "w": 77, "l": 82, "offR": 16, "penR": 13, "parkR": 24, "workR": 30}, {"ab": "TBA", "name": "Tampa Bay Rays", "off": 4.63, "pen": 4.14, "penCred": 0.93, "park": 0.984, "pcode": "TAM02", "work": 25, "w": 96, "l": 63, "offR": 9, "penR": 8, "parkR": 17, "workR": 20}, {"ab": "TEX", "name": "Texas Rangers", "off": 4.39, "pen": 4.61, "penCred": 0.92, "park": 0.976, "pcode": "ARL03", "work": 26, "w": 79, "l": 80, "offR": 18, "penR": 17, "parkR": 22, "workR": 18}, {"ab": "TOR", "name": "Toronto Blue Jays", "off": 4.61, "pen": 4.46, "penCred": 0.92, "park": 0.989, "pcode": "TOR02", "work": 45, "w": 77, "l": 82, "offR": 10, "penR": 15, "parkR": 16, "workR": 2}, {"ab": "WAS", "name": "Washington Nationals", "off": 4.29, "pen": 5.2, "penCred": 0.92, "park": 1.056, "pcode": "WAS11", "work": 39, "w": 75, "l": 84, "offR": 22, "penR": 29, "parkR": 5, "workR": 4}], "games": [{"time": "1:10 PM", "a": "WAS", "h": "DET", "an": "TBD", "ara": "—", "ac": "", "hn": "Framber Valdez", "hra": "3.75", "hc": "89% own", "pf": "0.961", "st": "REFUSED · no probable", "stc": "#E88B6E"}, {"time": "1:35 PM", "a": "TOR", "h": "BAL", "an": "Max Scherzer", "ara": "3.78", "ac": "84% own", "hn": "TBD", "hra": "—", "hc": "", "pf": "1.015", "st": "REFUSED · no probable", "stc": "#E88B6E"}, {"time": "6:35 PM", "a": "TOR", "h": "BAL", "an": "TBD", "ara": "—", "ac": "", "hn": "TBD", "hra": "—", "hc": "", "pf": "1.015", "st": "REFUSED · no probable", "stc": "#E88B6E"}, {"time": "3:45 PM", "a": "MIN", "h": "SFN", "an": "Connor Prielipp", "ara": "5.10", "ac": "47% own", "hn": "Cesar Perdomo", "hra": "4.42", "hc": "11% own", "pf": "0.952", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "6:40 PM", "a": "SLN", "h": "PIT", "an": "Matthew Liberatore", "ara": "5.25", "ac": "76% own", "hn": "TBD", "hra": "—", "hc": "", "pf": "1.004", "st": "REFUSED · no probable", "stc": "#E88B6E"}, {"time": "6:40 PM", "a": "MIL", "h": "PHI", "an": "Logan Henderson", "ara": "3.48", "ac": "48% own", "hn": "Aaron Nola", "hra": "4.41", "hc": "89% own", "pf": "1.025", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "7:05 PM", "a": "TBA", "h": "NYA", "an": "Ian Seymour", "ara": "4.68", "ac": "44% own", "hn": "Gerrit Cole", "hra": "3.51", "hc": "86% own", "pf": "0.981", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "7:10 PM", "a": "CLE", "h": "BOS", "an": "Foster Griffin", "ara": "4.23", "ac": "57% own", "hn": "Sonny Gray", "hra": "3.82", "hc": "88% own", "pf": "1.064", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "7:15 PM", "a": "CIN", "h": "ATL", "an": "Andrew Abbott", "ara": "4.10", "ac": "82% own", "hn": "Chris Sale", "hra": "3.25", "hc": "83% own", "pf": "1.003", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "7:40 PM", "a": "CHA", "h": "KCA", "an": "Erick Fedde", "ara": "4.86", "ac": "83% own", "hn": "Seth Lugo", "hra": "4.23", "hc": "84% own", "pf": "1.027", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "7:40 PM", "a": "MIA", "h": "CHN", "an": "Ryan Gusto", "ara": "4.98", "ac": "55% own", "hn": "Kevin Gausman", "hra": "3.91", "hc": "90% own", "pf": "1.006", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "8:05 PM", "a": "NYN", "h": "TEX", "an": "Nolan McLean", "ara": "3.85", "ac": "64% own", "hn": "TBD", "hra": "—", "hc": "", "pf": "0.976", "st": "REFUSED · no probable", "stc": "#E88B6E"}, {"time": "8:40 PM", "a": "ARI", "h": "COL", "an": "Merrill Kelly", "ara": "4.16", "ac": "88% own", "hn": "Mason Adams", "hra": "4.56", "hc": "15% own", "pf": "1.210", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "9:40 PM", "a": "ANA", "h": "ATH", "an": "Walbert Ureña", "ara": "3.60", "ac": "53% own", "hn": "Jeffrey Springs", "hra": "4.55", "hc": "79% own", "pf": "1.127", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "10:10 PM", "a": "SDN", "h": "LAN", "an": "Robbie Ray", "ara": "3.88", "ac": "86% own", "hn": "Yoshinobu Yamamoto", "hra": "3.14", "hc": "78% own", "pf": "1.001", "st": "PRICED", "stc": "#7FD1AE"}, {"time": "10:10 PM", "a": "HOU", "h": "SEA", "an": "TBD", "ara": "—", "ac": "", "hn": "George Kirby", "hra": "4.03", "hc": "86% own", "pf": "0.902", "st": "REFUSED · no probable", "stc": "#E88B6E"}], "lg": 4.46};
+  }
+  renderVals() {
+    const D = this.DATA, N = 30;
+    const sel = (this.state && this.state.sel) || 'PHI';
+    const col = (r) => (r <= 8 ? '#45C79A' : r >= 23 ? '#E88B6E' : '#A6ADBA');
+    const list = D.teams.map((t) => {
+      const on = t.ab === sel;
+      return { ab: t.ab, short: t.name.split(' ').slice(-1)[0], wl: t.w + '–' + t.l, on: on ? 'true' : 'false',
+        bg: on ? '#1B2230' : 'transparent', bd: on ? '#3A4A66' : 'transparent', fw: on ? 600 : 400, pick: () => this.setState({ sel: t.ab }) };
+    });
+    const t = D.teams.filter((x) => x.ab === sel)[0];
+    const tile = (label, v, r, hint) => ({ label, v, rk: '#' + r + ' of ' + N, c: col(r), pos: ((r - 1) / (N - 1) * 100).toFixed(1), hint });
+    const d = {
+      ab: t.ab, name: t.name, sub: t.w + '–' + t.l + ' · home park factor ' + t.park.toFixed(3),
+      tiles: [
+        tile('Offense', t.off.toFixed(2) + ' r/g', t.offR, 'Park-adjusted runs per game'),
+        tile('Bullpen', t.pen.toFixed(2) + ' RA/27', t.penR, 'Lower is better · ' + Math.round(t.penCred * 100) + '% own record'),
+        tile('Home park', t.park.toFixed(3), t.parkR, '#1 = most runs · 1.000 is neutral')
+      ],
+      work: (t.work / 3).toFixed(1) + ' relief innings', workRk: '#' + t.workR + ' most used'
+    };
+    return { yes: true, list, d, games: D.games };
+  }
+}
+</script>
+</body>
+</html>

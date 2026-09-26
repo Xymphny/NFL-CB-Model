@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NBA players — availability and minutes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1400px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nba" stamp="4:03 PM" hint-size="1440px,216px"></dc-import>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NBA sections" style="display: flex; gap: 4px;">
+<a href="NBA.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Board</a>
+<a href="NBATeams.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Teams</a>
+<a href="NBAPlayers.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Players</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Wed Nov 11</span>
+<span style="font-size: 13px; color: #A6ADBA;">Injury report 3:30 PM · next update 5:30 PM</span>
+</div>
+</div>
+
+<div style="margin: 24px 40px 0; display: flex; gap: 16px; align-items: flex-start; background: #17141C; border: 1px solid #3A3150; border-radius: 12px; padding: 14px 20px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #B89AE0; border: 1px solid #B89AE0; border-radius: 6px; padding: 3px 8px; white-space: nowrap;">NOT A MODEL INPUT</span>
+<span style="font-size: 13px; color: #C9CED6; line-height: 1.55;">The NBA model rates teams only. This tab shows what it can't see (who's playing and for how long) so you can decide whether a suggestion still holds. When the market moves on news and the model doesn't, that gap is the news, not an edge.</span>
+</div>
+
+<div style="display: flex; gap: 32px; padding: 24px 40px 40px;">
+<main style="width: 968px; display: flex; flex-direction: column; gap: 28px;">
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Availability on tonight's suggestions</h2>
+<span style="font-size: 12px; color: #8A91A0;">Games with a Play or Lean first</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{ games }}" as="g" hint-placeholder-count="4">
+<article style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;">
+<span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.a }}</span>
+<span>{{ g.an }}</span><span style="color: #5C6370;">@</span>
+<span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ g.h }}</span>
+<span>{{ g.hn }}</span>
+</div>
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: {{ g.tc }}; border: 1px solid {{ g.tc }}; border-radius: 6px; padding: 2px 7px;">{{ g.tier }}</span>
+</div>
+<sc-for list="{{ g.players }}" as="p" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 34px minmax(0, 1fr) 96px 72px; gap: 10px; align-items: center; font-size: 13px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">{{ p.team }}</span>
+<span>{{ p.name }}</span>
+<span style="justify-self: start; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: {{ p.sc }}; border: 1px solid {{ p.sc }}; border-radius: 6px; padding: 2px 7px;">{{ p.status }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: right; color: #A6ADBA;">{{ p.min }} min</span>
+</div>
+</sc-for>
+<div style="display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #232833; padding-top: 10px; font-size: 12px;">
+<span style="color: {{ g.mktC }};">{{ g.market }}</span>
+<span style="color: #8A91A0; text-align: right;">{{ g.model }}</span>
+</div>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Minutes &amp; usage</h2>
+<span style="font-size: 12px; color: #8A91A0;">Last 10 games · who carries each team</span>
+</div>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 64px 90px 90px 110px 120px; gap: 14px; padding: 10px 18px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;">
+<span>Player</span><span>Pos</span><span style="text-align: right;">Min / g</span><span style="text-align: right;">Usage</span><span style="text-align: right;">Missed (10)</span><span style="text-align: right;">Tonight</span>
+</div>
+<sc-for list="{{ usage }}" as="u" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 64px 90px 90px 110px 120px; gap: 14px; align-items: center; padding: 11px 18px; font-size: 13px; border-bottom: 1px solid #1A1E26;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ u.team }}</span>
+<span>{{ u.name }}</span>
+</div>
+<span style="color: #A6ADBA;">{{ u.pos }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right;">{{ u.min }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right;">{{ u.usg }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #A6ADBA;">{{ u.missed }}</span>
+<span style="justify-self: end; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: {{ u.sc }};">{{ u.status }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</main>
+
+<aside style="width: 360px; display: flex; flex-direction: column; gap: 20px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Status changes today</h3>
+<sc-for list="{{ changes }}" as="c" hint-placeholder-count="4">
+<div style="display: flex; gap: 10px; align-items: flex-start;">
+<span style="margin-top: 6px; width: 6px; height: 6px; border-radius: 50%; background: {{ c.dot }}; flex-shrink: 0;"></span>
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 13px;">{{ c.t }}</span>
+<span style="font-size: 12px; color: #8A91A0;">{{ c.sub }}</span>
+</div>
+</div>
+</sc-for>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Reading the statuses</h3>
+<sc-for list="{{ legend }}" as="l" hint-placeholder-count="4">
+<div style="display: flex; gap: 10px; align-items: baseline;">
+<span style="width: 92px; flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: {{ l.c }};">{{ l.s }}</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">{{ l.d }}</span>
+</div>
+</sc-for>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Why this lives on its own tab</h3>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.55;">The NBA models that beat the market are built from players and projected minutes, not team ratings. This model doesn't do that yet, so this tab is where you do that part yourself. A player layer would have to pass its own graded test before it could move a price.</span>
+</section>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const S = { OUT: '#E88B6E', DOUBTFUL: '#E8A06E', QUESTIONABLE: '#E0B04A', PROBABLE: '#A6ADBA', AVAILABLE: '#45C79A' };
+    const p = (team, name, status, min) => ({ team, name, status, min, sc: S[status] });
+    const games = [
+      { a: 'OKC', an: 'Thunder', h: 'DET', hn: 'Pistons', tier: 'PLAY', tc: '#45C79A',
+        players: [p('OKC', '[Starter · G]', 'QUESTIONABLE', '34.1'), p('OKC', '[Rotation · F]', 'OUT', '22.6'), p('DET', '[Starter · C]', 'PROBABLE', '30.8')],
+        market: 'Line unmoved since the report: DET +6.5', mktC: '#A6ADBA', model: 'Model: OKC by 4.1' },
+      { a: 'BOS', an: 'Celtics', h: 'SAS', hn: 'Spurs', tier: 'LEAN', tc: '#E0B04A',
+        players: [p('SAS', '[Starter · C]', 'PROBABLE', '33.5'), p('BOS', '[Starter · F]', 'QUESTIONABLE', '35.9'), p('BOS', '[Bench · G]', 'OUT', '14.2')],
+        market: 'Market moved SAS −1.5 → −2.5 on the upgrade', mktC: '#E0B04A', model: 'Model unchanged: SAS by 3.8' },
+      { a: 'DEN', an: 'Nuggets', h: 'GSW', hn: 'Warriors', tier: 'LEAN', tc: '#E0B04A',
+        players: [p('GSW', '[Starter · G]', 'DOUBTFUL', '32.7'), p('DEN', '[Starter · C]', 'AVAILABLE', '36.0')],
+        market: 'Market moved DEN +2.5 → +3.5', mktC: '#E0B04A', model: 'Model unchanged: GSW by 1.2' },
+      { a: 'MIA', an: 'Heat', h: 'MIL', hn: 'Bucks', tier: 'COIN FLIP', tc: '#A897F2',
+        players: [p('MIL', '[Starter · F]', 'OUT', '35.2'), p('MIA', '[Starter · G]', 'PROBABLE', '33.0')],
+        market: 'Market moved MIL −6 → −4.5', mktC: '#E0B04A', model: 'Model unchanged: MIL by 5.2' }
+    ];
+    const u = (team, name, pos, min, usg, missed, status) => ({ team, name, pos, min, usg, missed, status, sc: S[status] });
+    const usage = [
+      u('OKC', '[PLAYER]', 'G', '34.1', '33.8%', '0', 'QUESTIONABLE'),
+      u('SAS', '[PLAYER]', 'C', '33.5', '31.2%', '1', 'PROBABLE'),
+      u('BOS', '[PLAYER]', 'F', '35.9', '30.5%', '0', 'QUESTIONABLE'),
+      u('MIL', '[PLAYER]', 'F', '35.2', '32.9%', '3', 'OUT'),
+      u('GSW', '[PLAYER]', 'G', '32.7', '31.6%', '2', 'DOUBTFUL'),
+      u('DEN', '[PLAYER]', 'C', '36.0', '29.8%', '0', 'AVAILABLE')
+    ];
+    const changes = [
+      { dot: '#E0B04A', t: 'SAS starter upgraded to Probable', sub: '2:10 PM · the market moved a point, the model didn’t' },
+      { dot: '#E88B6E', t: 'MIL starter ruled Out', sub: '1:45 PM · MIL −6 → −4.5, now a Coin flip' },
+      { dot: '#E8A06E', t: 'GSW starter listed Doubtful', sub: '12:30 PM · DEN +2.5 → +3.5' },
+      { dot: '#8A91A0', t: 'Next league report 5:30 PM', sub: 'This tab updates when it lands' }
+    ];
+    const legend = [
+      { s: 'OUT', c: S.OUT, d: 'Will not play' },
+      { s: 'DOUBTFUL', c: S.DOUBTFUL, d: 'Unlikely to play' },
+      { s: 'QUESTIONABLE', c: S.QUESTIONABLE, d: 'Genuinely uncertain: check before tip' },
+      { s: 'PROBABLE', c: S.PROBABLE, d: 'Expected to play' }
+    ];
+    return { games, usage, changes, legend };
+  }
+}
+</script>
+</body>
+</html>

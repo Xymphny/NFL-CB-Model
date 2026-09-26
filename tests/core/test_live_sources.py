@@ -312,9 +312,17 @@ def test_mlb_refuses_a_game_with_no_probable(tmp_path):
 
 
 def test_mlb_refuses_when_results_have_not_caught_up(tmp_path):
-    with pytest.raises(mlb.StaleResults, match="2026-09-25"):
-        mlb.MLBLiveSource.load("2026-09-26", slate_dir=_slate(
-            tmp_path, day="2026-09-26", prev="2026-09-25", keys=["NYA202609250"]))
+    """A slate whose previous final date is past the newest result in the
+    cache. Derived from the cache, not written as a date: the in-season
+    cron advances the cache daily, and a fixed date stopped being "ahead"
+    the morning its results landed."""
+    import datetime as dt
+    sched, _ = mlb.load_caches()
+    newest = dt.date.fromisoformat(str(sched.dropna(subset=["home_score"]).date.max()))
+    prev, day = (newest + dt.timedelta(days=1)).isoformat(), (newest + dt.timedelta(days=2)).isoformat()
+    with pytest.raises(mlb.StaleResults, match=prev):
+        mlb.MLBLiveSource.load(day, slate_dir=_slate(
+            tmp_path, day=day, prev=prev, keys=[f"NYA{prev.replace('-', '')}0"]))
 
 
 def test_mlb_refuses_a_cache_that_reaches_the_date_but_not_every_game(tmp_path):

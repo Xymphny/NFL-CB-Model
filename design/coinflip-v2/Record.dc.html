@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The record — graded against the close</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1720px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="record" stamp="6:17 AM" hint-size="1440px,216px"></dc-import>
+
+<div style="padding: 28px 40px 0; display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 600; letter-spacing: -0.01em;">The record</h1>
+<span style="font-size: 14px; color: #A6ADBA; max-width: 860px; line-height: 1.55;">Every suggestion is recorded as a paper trade, settled against the final score and graded against the closing line. A league earns a stake only when that grade says the model knows something the close doesn't.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 32px; padding: 28px 40px 40px;">
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Market grade by league</h2>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 90px 300px 140px 200px minmax(0, 1fr); gap: 20px; padding: 10px 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;">
+<span>League</span><span>Settled paper trades</span><span style="text-align: right;">Mean CLV</span><span style="text-align: right;">Market weight</span><span>What it means</span>
+</div>
+<sc-for list="{{ grades }}" as="g" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 90px 300px 140px 200px minmax(0, 1fr); gap: 20px; align-items: center; padding: 16px 20px; border-bottom: 1px solid #1A1E26;">
+<span style="display: flex; align-items: center; gap: 8px; font-weight: 600;"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{ g.dot }};"></span>{{ g.name }}</span>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="height: 8px; border-radius: 4px; background: #262B36; position: relative; overflow: hidden;"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ g.pct }}%; background: #6FA8DC;"></div></div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.n }} of 150 for a ledger grade</span>
+</div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; text-align: right; color: {{ g.clvColor }};">{{ g.clv }}</span>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">{{ g.w }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">{{ g.est }}</span>
+</div>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.5;">{{ g.meaning }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between;">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Do the tiers mean anything? · all leagues, settled</h2>
+<span style="font-size: 12px; color: #8A91A0;">If Play doesn't beat Lean, the cut-offs move</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{ tiers }}" as="t" hint-placeholder-count="4">
+<div style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: {{ t.c }};">{{ t.name }}</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600;">{{ t.hit }}</span>
+<span style="font-size: 12px; color: #8A91A0;">covered · n {{ t.n }}</span>
+</div>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">
+<span>CLV {{ t.clv }}</span><span>{{ t.beat }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #8A91A0;">Break-even at −110 is 52.4%. With samples this small, a cover rate says little; closing-line value (CLV) says more.</span>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between;">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">The gates · generated from the decision records</h2>
+<span style="font-size: 12px; color: #8A91A0;">Each part of the model, whether it earned its place, and the number that decided it</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{ gates }}" as="g" hint-placeholder-count="8">
+<div style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: {{ g.c }}; border: 1px solid {{ g.c }}; border-radius: 6px; padding: 2px 7px;">{{ g.status }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">{{ g.adr }}</span>
+</div>
+<span style="font-size: 14px; font-weight: 600; line-height: 1.35;">{{ g.title }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #E6E8EC;">{{ g.number }}</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">{{ g.body }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Recently settled paper trades</h2>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 70px 110px minmax(0, 1fr) 150px 120px 120px 90px; gap: 16px; padding: 10px 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;">
+<span>League</span><span>Tier</span><span>Suggestion</span><span style="text-align: right;">Taken at</span><span style="text-align: right;">Closed at</span><span style="text-align: right;">CLV</span><span style="text-align: right;">Result</span>
+</div>
+<sc-for list="{{ trades }}" as="r" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: 70px 110px minmax(0, 1fr) 150px 120px 120px 90px; gap: 16px; align-items: center; padding: 11px 20px; font-size: 13px; border-bottom: 1px solid #1A1E26;">
+<span style="font-weight: 600;">{{ r.lg }}</span>
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: {{ r.tc }};">{{ r.tier }}</span>
+<div style="display: flex; align-items: center; gap: 8px;"><span aria-hidden="true" style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ r.pAb }}</span><span>{{ r.pick }}</span></div>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #A6ADBA;">{{ r.at }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #A6ADBA;">{{ r.close }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: {{ r.clvC }};">{{ r.clv }}</span>
+<span style="text-align: right; font-weight: 600; color: {{ r.resC }};">{{ r.res }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const G = '#45C79A', R = '#E88B6E', N = '#A6ADBA', Y = '#E0B04A', P = '#A897F2';
+    const grades = [
+      { name: 'NFL', dot: '#6FA8DC', n: 38, clv: '+0.4 pts', clvColor: G, w: '0.00', est: 'ŵ +0.04 ± 0.08 · 1,884 games', meaning: 'Historical grade against closing spreads found nothing the close doesn’t already hold. An upper bound, so if anything optimistic.' },
+      { name: 'CFB', dot: '#C9A15A', n: 112, clv: '−0.2 pts', clvColor: R, w: '0.00', est: 'ŵ +0.07 ± 0.06 · 1,704 games', meaning: 'Same verdict. 38 more settled paper trades and it gets graded on its own clean record.' },
+      { name: 'MLB', dot: '#D98A6C', n: 20, clv: '+0.1 pts', clvColor: N, w: '0.00', est: 'no grade yet', meaning: 'No free closing-line history exists, so the paper record is the only route. The season ends Sunday; this resumes in March.' },
+      { name: 'NHL', dot: '#7FC4D6', n: 0, clv: '—', clvColor: N, w: '0.00', est: 'no grade yet', meaning: 'Starts Sep 29. Tiers are held for the first 10 games while ratings rebuild.' },
+      { name: 'NBA', dot: '#B89AE0', n: 0, clv: '—', clvColor: N, w: '0.00', est: 'no grade yet', meaning: 'Starts Oct 20. With about 9 games a night, 150 settles in roughly three weeks.' }
+    ].map((g) => Object.assign({}, g, { pct: Math.round(g.n / 150 * 100) }));
+    const tiers = [
+      { name: 'PLAY', c: G, hit: '55.0%', n: 20, clv: '+1.1 pts', beat: 'beat close 60%' },
+      { name: 'LEAN', c: Y, hit: '52.6%', n: 38, clv: '+0.3 pts', beat: 'beat close 53%' },
+      { name: 'COIN FLIP', c: P, hit: '49.1%', n: 57, clv: '−0.1 pts', beat: 'beat close 49%' },
+      { name: 'NO EDGE', c: N, hit: '—', n: 55, clv: '±0.0 pts', beat: 'reference only' }
+    ];
+    const gates = [
+      { status: 'SHIPPED', c: G, adr: 'ADR 0024', title: 'Stake from the market grade, not the attempt log', number: 'NFL ŵ +0.04 ± 0.08 → weight 0', body: 'Every league paper-trades until a grade against the close says otherwise.' },
+      { status: 'SHIPPED', c: G, adr: 'ADR 0018', title: 'MLB ninth-inning layer returns the moneyline', number: 'Home-win bias t 3.61 → 0.35', body: 'Walk-offs and extra innings are rules, not randomness. Modelled, the bias is gone.' },
+      { status: 'SHIPPED', c: G, adr: 'ADR 0010', title: 'NHL rules layer and the puck line', number: 't = 34.95 on 2024–25', body: 'Overtime and empty nets reshape the margin. The layer earns the puck line.' },
+      { status: 'SHIPPED', c: G, adr: 'ADR 0006', title: 'NBA ratings, walked forward', number: 't = +5.96 vs league average', body: 'Beats a naive baseline. Not yet graded against a book, which is a higher bar.' },
+      { status: 'REFUSED', c: R, adr: 'ADR 0022', title: 'NBA whole-number spreads', number: 'Push mass 3.3% at the modal line', body: 'Unmeasured push odds would flatter the edge, so those lines aren’t priced.' },
+      { status: 'WITHHELD', c: Y, adr: 'Totals guard', title: 'Football totals', number: 'Failed its calibration grade', body: 'No football total is suggested until a totals model passes.' },
+      { status: 'WITHHELD', c: Y, adr: 'Player engine', title: 'Pass-yards props', number: 'Over-claimed on 2024–25, twice', body: 'Volume strata frozen from older seasons. The cause is known and not yet fixed.' },
+      { status: 'FIXED', c: '#6FA8DC', adr: 'ADR 0015', title: 'Away sides and totals were mispriced', number: 'One side read 53.1% where the truth was 82.1%', body: 'Every away side in every league had been priced from the home line. Now corrected.' }
+    ];
+    const trades = [
+      { lg: 'NFL', tier: 'PLAY', tc: G, pAb: 'BAL', pick: 'Ravens −2.5 vs Chiefs', at: '−2.5 −105', close: '−3 −110', clv: '+1.6 pts', clvC: G, res: 'Win', resC: G },
+      { lg: 'CFB', tier: 'LEAN', tc: Y, pAb: 'ISU', pick: 'Iowa State +7 at Kansas State', at: '+7 −110', close: '+6.5 −110', clv: '+1.3 pts', clvC: G, res: 'Loss', resC: R },
+      { lg: 'MLB', tier: 'LEAN', tc: Y, pAb: 'DET', pick: 'DET ML vs Twins', at: '−185', close: '−198', clv: '+1.4 pts', clvC: G, res: 'Win', resC: G },
+      { lg: 'MLB', tier: 'COIN FLIP', tc: P, pAb: 'TOR', pick: 'TOR ML vs Yankees', at: '+105', close: '+112', clv: '−1.6 pts', clvC: R, res: 'Loss', resC: R },
+      { lg: 'CFB', tier: 'PLAY', tc: G, pAb: 'TUL', pick: 'Tulane −3.5 vs Memphis', at: '−3.5 −108', close: '−4 −110', clv: '+1.0 pts', clvC: G, res: 'Push', resC: N },
+      { lg: 'NFL', tier: 'LEAN', tc: Y, pAb: 'DET', pick: 'Lions +1.5 at Packers', at: '+1.5 −110', close: '+1 −110', clv: '+1.1 pts', clvC: G, res: 'Win', resC: G }
+    ];
+    return { grades, tiers, gates, trades };
+  }
+}
+</script>
+</body>
+</html>

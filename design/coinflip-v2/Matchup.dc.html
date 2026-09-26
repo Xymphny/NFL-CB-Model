@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Matchup — Chiefs at Ravens</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1640px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nfl" stamp="6:17 AM" hint-size="1440px,216px"></dc-import>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NFL sections" style="display: flex; gap: 4px;">
+<a href="Main.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Board</a>
+<a href="NFLTeams.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Teams</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Players</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Schedule</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Week 3 · matchup</span>
+<span style="font-size: 13px; color: #A6ADBA;">Every number the board has on one game</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px; padding: 24px 40px 40px;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<a href="Main.dc.html" style="min-height: 44px; display: flex; align-items: center; font-size: 14px;">← Week 3 board</a>
+<div style="display: flex; align-items: center; gap: 10px;"><span aria-hidden="true" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #C9CED6;">KC</span><h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 600;">Chiefs @ Ravens</h1><span aria-hidden="true" style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #C9CED6;">BAL</span></div>
+</div>
+<span style="font-size: 14px; color: #A6ADBA;">Sun 8:20 PM · M&amp;T Bank Stadium, Baltimore · grass</span>
+</div>
+
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 24px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600;">What the model sees: final margin, Ravens' side</h2>
+<span style="font-size: 12px; color: #8A91A0;">Mean BAL by 3.8 · σ 13.3 · key numbers 3 and 7 weighted</span>
+</div>
+<div role="img" aria-label="Distribution of the Ravens' final margin. Wins by 3 or more, which cover −2.5, carry 56.9 percent of outcomes." style="display: flex; align-items: flex-end; gap: 3px; height: 180px; border-bottom: 1px solid #2A2F39; padding: 0 2px;">
+<sc-for list="{{ bars }}" as="b" hint-placeholder-count="42">
+<div title="{{ b.k }}: {{ b.pct }}" style="flex-grow: 1; flex-basis: 0; height: {{ b.h }}px; background: {{ b.fill }}; border: 1px solid {{ b.edge }}; border-bottom: 0; border-radius: 3px 3px 0 0; box-sizing: border-box;"></div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 3px; padding: 0 2px; margin-top: -8px;">
+<sc-for list="{{ bars }}" as="b" hint-placeholder-count="42">
+<span style="flex-grow: 1; flex-basis: 0; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A6ADBA;">{{ b.lab }}</span>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; color: #A6ADBA;">
+<span style="background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">Green = Ravens by 3 or more, which covers −2.5: 56.9%</span>
+<span style="background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">Ravens win: 61.8%</span>
+<span style="background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">Exactly 3: 8.7% · exactly 7: 5.3%</span>
+</div>
+</section>
+
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #45C79A; border: 1px solid #45C79A; border-radius: 6px; padding: 3px 8px;">PLAY</span>
+<span style="font-size: 12px; color: #8A91A0;">Model's suggestion · unsized, paper-traded</span>
+</div>
+<div style="display: flex; align-items: center; gap: 10px;"><span aria-hidden="true" style="width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: #C9CED6;">BAL</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 30px; font-weight: 600;">Ravens −2.5</span></div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A6ADBA;">−105 · Pinnacle · best of 6 books</span>
+<div style="display: flex; flex-direction: column;">
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 70px 70px; gap: 8px; padding: 6px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #232833;"><span>Market</span><span>Line</span><span style="text-align: right;">Mkt</span><span style="text-align: right;">Model</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 70px 70px; gap: 8px; padding: 10px 0; font-size: 13px; border-bottom: 1px solid #1D212A;"><span style="color: #A6ADBA;">Spread</span><span style="font-family: 'IBM Plex Mono', monospace;">BAL −2.5 −105</span><span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #A6ADBA;">51.0%</span><span style="font-family: 'IBM Plex Mono', monospace; text-align: right; font-weight: 600; color: #45C79A;">56.9%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 70px 70px; gap: 8px; padding: 10px 0; font-size: 13px; border-bottom: 1px solid #1D212A;"><span style="color: #A6ADBA;">Moneyline</span><span style="font-family: 'IBM Plex Mono', monospace;">BAL −140</span><span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #A6ADBA;">56.4%</span><span style="font-family: 'IBM Plex Mono', monospace; text-align: right; font-weight: 600; color: #A897F2;">61.8%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 140px; gap: 8px; padding: 10px 0; font-size: 13px;"><span style="color: #A6ADBA;">Total</span><span style="font-family: 'IBM Plex Mono', monospace;">44.5</span><span style="font-size: 12px; text-align: right; color: #8A91A0;">Not priced: the totals model failed its grade</span></div>
+</div>
+<span style="font-size: 12px; color: #8A91A0; line-height: 1.5;">Gap +5.9 on the spread, Play by the NFL's backtest bands. NFL isn't yet graded against the market, so nothing here is sized.</span>
+</section>
+</div>
+
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<h2 style="margin: 0; font-size: 16px; font-weight: 600;">Side by side · ranks among 32</h2>
+<span style="font-size: 12px; color: #8A91A0;">Real week-2 numbers · the better side is in bold · only the model rating moves the price</span>
+</div>
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 70px 200px 70px minmax(0, 1fr); gap: 12px; padding: 4px 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #232833;">
+<span style="text-align: right;">Chiefs</span><span style="text-align: right;">Rank</span><span style="text-align: center;">Stat</span><span>Rank</span><span>Ravens</span>
+</div>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="11">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) 70px 200px 70px minmax(0, 1fr); gap: 12px; align-items: center; padding: 7px 0; border-bottom: 1px solid #1A1E26; font-size: 13px;">
+<span style="text-align: right; font-family: 'IBM Plex Mono', monospace; font-weight: {{ r.aw }};">{{ r.av }}</span>
+<span style="text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{ r.ac }};">{{ r.ar }}</span>
+<span style="text-align: center; color: #A6ADBA;">{{ r.label }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{ r.hc }};">{{ r.hr }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-weight: {{ r.hw }};">{{ r.hv }}</span>
+</div>
+</sc-for>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><h3 style="margin: 0; font-size: 14px; font-weight: 600;">Line since open</h3><span style="font-size: 12px; color: #8A91A0;">BAL spread · 6 captures</span></div>
+<svg viewBox="0 0 300 120" role="img" aria-label="Spread moved from Ravens minus 3 to minus 2.5, away from the model's fair line of minus 3.8" style="width: 100%; height: 150px; display: block;">
+<line x1="0" x2="300" y1="98" y2="98" stroke="#45C79A" stroke-width="1" stroke-dasharray="4 3"></line>
+<text x="296" y="92" text-anchor="end" fill="#45C79A" font-size="10" font-family="IBM Plex Mono, monospace">model −3.8</text>
+<line x1="0" x2="300" y1="20" y2="20" stroke="#262B36" stroke-width="1"></line>
+<text x="4" y="14" fill="#8A91A0" font-size="10" font-family="IBM Plex Mono, monospace">−2.5</text>
+<line x1="0" x2="300" y1="46" y2="46" stroke="#262B36" stroke-width="1"></line>
+<text x="4" y="40" fill="#8A91A0" font-size="10" font-family="IBM Plex Mono, monospace">−3</text>
+<polyline points="10,46 66,46 122,46 178,46 234,20 290,20" fill="none" stroke="#C9CED6" stroke-width="2"></polyline>
+<circle cx="290" cy="20" r="4" fill="#E6E8EC"></circle>
+</svg>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;"><span>Tue open</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun 6 AM</span></div>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">The line moved from −3 to −2.5, away from the model's −3.8, so the gap grew. If it closes back toward −3.8, the suggestion beat the close; that's what the record grades.</span>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Context</h3>
+<div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px;"><span style="color: #A6ADBA;">Rest</span><span style="text-align: right;">Both on 7 days</span></div>
+<div style="display: flex; justify-content: flex-end;"><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #7FD1AE; border: 1px solid #7FD1AE; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">Rest in the price</span></div>
+<div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px;"><span style="color: #A6ADBA;">Travel</span><span style="text-align: right;">KC ~960 mi, no time-zone change for BAL</span></div>
+<div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px;"><span style="color: #A6ADBA;">Weather</span><span style="text-align: right;">68° · wind 6 mph · 10% rain</span></div>
+<div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px;"><span style="color: #A6ADBA;">Surface</span><span style="text-align: right;">Grass · open air</span></div>
+<div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px;"><span style="color: #A6ADBA;">Quarterbacks</span><span style="text-align: right;">Mahomes · Jackson, both listed to start</span></div>
+<span style="font-size: 12px; color: #8A91A0; line-height: 1.5;">Travel, weather and surface are shown, not in the spread.</span>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; justify-content: space-between; align-items: center;"><h3 style="margin: 0; font-size: 14px; font-weight: 600;">Injury report</h3><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A6ADBA; border: 1px solid #A6ADBA; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">Not in the price</span></div>
+<div style="display: flex; align-items: center; gap: 8px;"><span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">KC</span><span style="font-size: 12px; color: #8A91A0;">Chiefs</span></div>
+<sc-for list="{{ kinj }}" as="p" hint-placeholder-count="3">
+<div style="display: flex; justify-content: space-between; font-size: 12px;"><span>{{ p.n }} <span style="color: #8A91A0;">{{ p.pos }}</span></span><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: {{ p.c }};">{{ p.s }}</span></div>
+</sc-for>
+<div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;"><span aria-hidden="true" style="width: 20px; height: 20px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">BAL</span><span style="font-size: 12px; color: #8A91A0;">Ravens</span></div>
+<sc-for list="{{ binj }}" as="p" hint-placeholder-count="6">
+<div style="display: flex; justify-content: space-between; font-size: 12px;"><span>{{ p.n }} <span style="color: #8A91A0;">{{ p.pos }}</span></span><span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: {{ p.c }};">{{ p.s }}</span></div>
+</sc-for>
+<span style="font-size: 11px; color: #6F7684;">ESPN · 6:15 AM</span>
+</section>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1640}}'>
+class Component extends DCLogic {
+  get DATA() {
+    return {"bars": [{"k": -17, "h": 16.9, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "1.0%"}, {"k": -16, "h": 14.5, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "0.9%"}, {"k": -15, "h": 10.7, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "0.6%"}, {"k": -14, "h": 29.4, "fill": "#262B36", "edge": "#2F3542", "lab": "−14", "key": false, "pct": "1.8%"}, {"k": -13, "h": 18.9, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "1.1%"}, {"k": -12, "h": 10.6, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "0.6%"}, {"k": -11, "h": 14.2, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "0.9%"}, {"k": -10, "h": 28.6, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "1.7%"}, {"k": -9, "h": 8.9, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "0.5%"}, {"k": -8, "h": 26.8, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "1.6%"}, {"k": -7, "h": 69.8, "fill": "#262B36", "edge": "#2F3542", "lab": "−7", "key": true, "pct": "4.2%"}, {"k": -6, "h": 49.0, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "2.9%"}, {"k": -5, "h": 28.5, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "1.7%"}, {"k": -4, "h": 42.6, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "2.6%"}, {"k": -3, "h": 113.9, "fill": "#262B36", "edge": "#2F3542", "lab": "−3", "key": true, "pct": "6.8%"}, {"k": -2, "h": 37.8, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "2.3%"}, {"k": -1, "h": 32.6, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "2.0%"}, {"k": 0, "h": 5.8, "fill": "#262B36", "edge": "#2F3542", "lab": "0", "key": false, "pct": "0.3%"}, {"k": 1, "h": 40.6, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "2.4%"}, {"k": 2, "h": 36.9, "fill": "#262B36", "edge": "#2F3542", "lab": "", "key": false, "pct": "2.2%"}, {"k": 3, "h": 145.0, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "3", "key": true, "pct": "8.7%"}, {"k": 4, "h": 44.3, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "2.7%"}, {"k": 5, "h": 36.8, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "2.2%"}, {"k": 6, "h": 65.5, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "3.9%"}, {"k": 7, "h": 87.7, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "7", "key": true, "pct": "5.3%"}, {"k": 8, "h": 45.1, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "2.7%"}, {"k": 9, "h": 17.6, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.1%"}, {"k": 10, "h": 68.2, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "4.1%"}, {"k": 11, "h": 26.6, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.6%"}, {"k": 12, "h": 19.0, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.1%"}, {"k": 13, "h": 17.8, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.1%"}, {"k": 14, "h": 58.5, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "+14", "key": false, "pct": "3.5%"}, {"k": 15, "h": 18.4, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.1%"}, {"k": 16, "h": 27.9, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.7%"}, {"k": 17, "h": 29.7, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.8%"}, {"k": 18, "h": 28.4, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.7%"}, {"k": 19, "h": 10.7, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "0.6%"}, {"k": 20, "h": 25.0, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.5%"}, {"k": 21, "h": 29.2, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "+21", "key": false, "pct": "1.8%"}, {"k": 22, "h": 11.7, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "0.7%"}, {"k": 23, "h": 10.4, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "0.6%"}, {"k": 24, "h": 23.0, "fill": "rgba(69,199,154,0.55)", "edge": "#45C79A", "lab": "", "key": false, "pct": "1.4%"}], "rows": [{"label": "Model rating", "av": "−0.4%", "ar": "#15", "ac": "#A6ADBA", "aw": 400, "hv": "+2.6%", "hr": "#11", "hc": "#A6ADBA", "hw": 600}, {"label": "Offense", "av": "−1.1%", "ar": "#16", "ac": "#A6ADBA", "aw": 400, "hv": "+2.2%", "hr": "#12", "hc": "#A6ADBA", "hw": 600}, {"label": "Defense", "av": "−0.7%", "ar": "#8", "ac": "#45C79A", "aw": 600, "hv": "−0.4%", "hr": "#12", "hc": "#A6ADBA", "hw": 400}, {"label": "Special teams", "av": "+4.2%", "ar": "#13", "ac": "#A6ADBA", "aw": 600, "hv": "−20.1%", "hr": "#28", "hc": "#E88B6E", "hw": 400}, {"label": "EPA per play", "av": "+0.19", "ar": "#6", "ac": "#45C79A", "aw": 400, "hv": "+0.26", "hr": "#3", "hc": "#45C79A", "hw": 600}, {"label": "EPA allowed", "av": "+0.00", "ar": "#16", "ac": "#A6ADBA", "aw": 400, "hv": "−0.04", "hr": "#12", "hc": "#A6ADBA", "hw": 600}, {"label": "Success rate", "av": "51.6%", "ar": "#6", "ac": "#45C79A", "aw": 400, "hv": "60.0%", "hr": "#2", "hc": "#45C79A", "hw": 600}, {"label": "Success allowed", "av": "43.0%", "ar": "#12", "ac": "#A6ADBA", "aw": 400, "hv": "41.0%", "hr": "#9", "hc": "#A6ADBA", "hw": 600}, {"label": "Turnover margin", "av": "+2", "ar": "#8", "ac": "#45C79A", "aw": 600, "hv": "+1", "hr": "#11", "hc": "#A6ADBA", "hw": 400}, {"label": "Red zone pts/trip", "av": "5.5", "ar": "#12", "ac": "#A6ADBA", "aw": 600, "hv": "4.8", "hr": "#22", "hc": "#A6ADBA", "hw": 400}, {"label": "Playoff odds", "av": "63%", "ar": "#6", "ac": "#45C79A", "aw": 600, "hv": "59%", "hr": "#7", "hc": "#45C79A", "hw": 400}], "kinj": [{"n": "Jimmy Holiday", "pos": "WR", "s": "OUT", "c": "#E88B6E"}, {"n": "Omarr Norman-Lott", "pos": "DT", "s": "OUT", "c": "#E88B6E"}, {"n": "Cooper McDonald", "pos": "LB", "s": "OUT", "c": "#E88B6E"}], "binj": [{"n": "Zay Flowers", "pos": "WR", "s": "OUT", "c": "#E88B6E"}, {"n": "Ja'Kobi Lane", "pos": "WR", "s": "OUT", "c": "#E88B6E"}, {"n": "Nnamdi Madubuike", "pos": "DT", "s": "OUT", "c": "#E88B6E"}, {"n": "Teddye Buchanan", "pos": "LB", "s": "OUT", "c": "#E88B6E"}, {"n": "T.J. Tampa", "pos": "CB", "s": "OUT", "c": "#E88B6E"}, {"n": "Ronnie Stanley", "pos": "OT", "s": "QUESTIONABLE", "c": "#A6ADBA"}]};
+  }
+  renderVals() {
+    return this.DATA;
+  }
+}
+</script>
+</body>
+</html>

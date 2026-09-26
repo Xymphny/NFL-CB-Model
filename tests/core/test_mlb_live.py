@@ -52,8 +52,11 @@ def test_a_game_outside_the_cache_is_refused(source):
 
 def test_staleness_is_reported_rather_than_hidden(source):
     """The number a caller needs to decide whether to trust tonight's price."""
+    import datetime as dt
     assert source.staleness_days(source.as_of_date) == 0
-    assert source.staleness_days("2026-09-25") > 0
+    # A day past the source, not a fixed date: the cron advances the cache.
+    later = (dt.date.fromisoformat(str(source.as_of_date)) + dt.timedelta(days=3)).isoformat()
+    assert source.staleness_days(later) > 0
 
 
 def test_the_distribution_conforms(source):

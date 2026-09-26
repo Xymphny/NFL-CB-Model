@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NHL attack and defence</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1480px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nhl" stamp="5:12 PM" live="{{ yes }}" asof="Sep 25" hint-size="1440px,216px"></dc-import>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NHL sections" style="display: flex; gap: 4px;">
+<a href="NHL.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Board</a>
+<a href="NHLTeams.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Attack &amp; defence</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Attack &amp; defence</span>
+<span style="font-size: 13px; color: #A6ADBA;">Last season, for reference · this season starts at zero</span>
+</div>
+</div>
+
+<div style="margin: 24px 40px 0; display: flex; gap: 16px; align-items: flex-start; background: #12181C; border: 1px solid #2A4048; border-radius: 12px; padding: 14px 20px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #7FC4D6; border: 1px solid #7FC4D6; border-radius: 6px; padding: 3px 8px; white-space: nowrap;">NOT USED BY THE MODEL</span>
+<span style="font-size: 13px; color: #C9CED6; line-height: 1.55;">Hockey ratings restart every season, as graded, so every team opens 2026-27 at league average. These are 2025-26 numbers, so you can see who the market is pricing on reputation while the model waits for games.</span>
+</div>
+<div style="display: flex; gap: 32px; padding: 24px 40px 40px; align-items: flex-start;">
+<div style="width: 420px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px;">
+<sc-for list="{{ list }}" as="t" hint-placeholder-count="32">
+<button type="button" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="min-height: 44px; display: grid; grid-template-columns: 38px minmax(0, 1fr) 40px; gap: 8px; align-items: center; padding: 0 10px; border-radius: 8px; border: 1px solid {{ t.bd }}; background: {{ t.bg }}; color: #E6E8EC; font: 400 13px 'IBM Plex Sans', sans-serif; text-align: left; cursor: pointer;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span>
+<span style="font-weight: {{ t.fw }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ t.name }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A6ADBA; text-align: right;">{{ t.pts }}</span>
+</button>
+</sc-for>
+</div>
+<section aria-live="polite" style="flex-grow: 1; background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<span aria-hidden="true" style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #C9CED6;">{{ d.ab }}</span>
+<div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1;"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">{{ d.name }}</h2><span style="font-size: 13px; color: #A6ADBA;">{{ d.sub }}</span></div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;"><span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">2026-27 rating</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; color: #7FC4D6;">League average</span><span style="font-size: 12px; color: #8A91A0;">0 games played</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">2025-26 · ranks among 32</h3>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.tiles }}" as="k" hint-placeholder-count="4">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">{{ k.label }}</span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #E6E8EC;">{{ k.v }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: {{ k.c }};">{{ k.rk }}</span>
+</div>
+<div style="position: relative; height: 6px; border-radius: 3px; background: #1F242D;">
+<div style="position: absolute; top: -2px; left: {{ k.pos }}%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: {{ k.c }};"></div>
+</div>
+<span style="font-size: 11px; color: #6F7684;">{{ k.hint }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.splits }}" as="k" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 4px; background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 10px 14px;"><span style="font-size: 12px; color: #A6ADBA;">{{ k.label }}</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px;">{{ k.v }}</span></div>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #8A91A0; line-height: 1.55;">"Both goalies in net" counts only goals scored with neither goalie pulled: the rates the model is built on. Goals with a goalie pulled are what the empty-net layer prices separately.</span>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1480}}'>
+class Component extends DCLogic {
+  get DATA() {
+    return [{"ab": "COL", "name": "Avalanche", "gp": 82, "w": 55, "l": 16, "otl": 11, "gf": 3.68, "ga": 2.48, "npf": 3.23, "npa": 2.16, "enf": 30, "ena": 15, "otw": 7, "otg": 18, "pts": 121, "npfR": 1, "npaR": 1, "ptsR": 1, "enfR": 2, "enaR": 3}, {"ab": "CHI", "name": "Blackhawks", "gp": 82, "w": 29, "l": 39, "otl": 14, "gf": 2.6, "ga": 3.35, "npf": 2.39, "npa": 2.91, "enf": 10, "ena": 22, "otw": 7, "otg": 21, "pts": 72, "npfR": 26, "npaR": 26, "ptsR": 31, "enfR": 32, "enaR": 14}, {"ab": "CBJ", "name": "Blue Jackets", "gp": 82, "w": 40, "l": 30, "otl": 12, "gf": 3.09, "ga": 3.09, "npf": 2.71, "npa": 2.63, "enf": 19, "ena": 25, "otw": 12, "otg": 24, "pts": 92, "npfR": 16, "npaR": 12, "ptsR": 16, "enfR": 23, "enaR": 20}, {"ab": "STL", "name": "Blues", "gp": 82, "w": 37, "l": 33, "otl": 12, "gf": 2.82, "ga": 3.15, "npf": 2.54, "npa": 2.79, "enf": 19, "ena": 17, "otw": 4, "otg": 16, "pts": 86, "npfR": 22, "npaR": 23, "ptsR": 24, "enfR": 25, "enaR": 5}, {"ab": "BOS", "name": "Bruins", "gp": 82, "w": 45, "l": 27, "otl": 10, "gf": 3.32, "ga": 3.05, "npf": 2.94, "npa": 2.71, "enf": 19, "ena": 18, "otw": 12, "otg": 22, "pts": 100, "npfR": 10, "npaR": 16, "ptsR": 8, "enfR": 22, "enaR": 7}, {"ab": "MTL", "name": "Canadiens", "gp": 82, "w": 48, "l": 24, "otl": 10, "gf": 3.45, "ga": 3.12, "npf": 2.99, "npa": 2.67, "enf": 24, "ena": 27, "otw": 14, "otg": 24, "pts": 106, "npfR": 9, "npaR": 15, "ptsR": 5, "enfR": 13, "enaR": 25}, {"ab": "VAN", "name": "Canucks", "gp": 82, "w": 25, "l": 49, "otl": 8, "gf": 2.63, "ga": 3.85, "npf": 2.33, "npa": 3.38, "enf": 15, "ena": 31, "otw": 10, "otg": 18, "pts": 58, "npfR": 30, "npaR": 32, "ptsR": 32, "enfR": 31, "enaR": 32}, {"ab": "WSH", "name": "Capitals", "gp": 82, "w": 43, "l": 30, "otl": 9, "gf": 3.21, "ga": 2.98, "npf": 2.77, "npa": 2.59, "enf": 30, "ena": 23, "otw": 6, "otg": 15, "pts": 95, "npfR": 15, "npaR": 8, "ptsR": 13, "enfR": 3, "enaR": 17}, {"ab": "NJD", "name": "Devils", "gp": 82, "w": 42, "l": 37, "otl": 3, "gf": 2.8, "ga": 3.1, "npf": 2.3, "npa": 2.8, "enf": 28, "ena": 21, "otw": 13, "otg": 16, "pts": 87, "npfR": 32, "npaR": 24, "ptsR": 21, "enfR": 6, "enaR": 12}, {"ab": "ANA", "name": "Ducks", "gp": 82, "w": 43, "l": 33, "otl": 6, "gf": 3.33, "ga": 3.51, "npf": 2.78, "npa": 3.11, "enf": 28, "ena": 27, "otw": 17, "otg": 23, "pts": 92, "npfR": 14, "npaR": 29, "ptsR": 15, "enfR": 5, "enaR": 24}, {"ab": "CGY", "name": "Flames", "gp": 82, "w": 34, "l": 39, "otl": 9, "gf": 2.59, "ga": 3.16, "npf": 2.3, "npa": 2.76, "enf": 16, "ena": 24, "otw": 7, "otg": 16, "pts": 77, "npfR": 31, "npaR": 20, "ptsR": 29, "enfR": 30, "enaR": 18}, {"ab": "PHI", "name": "Flyers", "gp": 82, "w": 43, "l": 27, "otl": 12, "gf": 3.05, "ga": 2.96, "npf": 2.51, "npa": 2.61, "enf": 28, "ena": 17, "otw": 16, "otg": 28, "pts": 98, "npfR": 23, "npaR": 11, "ptsR": 10, "enfR": 7, "enaR": 4}, {"ab": "VGK", "name": "Golden Knights", "gp": 82, "w": 39, "l": 26, "otl": 17, "gf": 3.23, "ga": 3.05, "npf": 2.89, "npa": 2.63, "enf": 19, "ena": 17, "otw": 9, "otg": 26, "pts": 95, "npfR": 12, "npaR": 14, "ptsR": 12, "enfR": 26, "enaR": 6}, {"ab": "CAR", "name": "Hurricanes", "gp": 82, "w": 53, "l": 22, "otl": 7, "gf": 3.61, "ga": 2.93, "npf": 3.11, "npa": 2.59, "enf": 27, "ena": 21, "otw": 14, "otg": 21, "pts": 113, "npfR": 3, "npaR": 7, "ptsR": 2, "enfR": 8, "enaR": 10}, {"ab": "NYI", "name": "Islanders", "gp": 82, "w": 43, "l": 34, "otl": 5, "gf": 2.84, "ga": 2.94, "npf": 2.39, "npa": 2.61, "enf": 23, "ena": 22, "otw": 14, "otg": 19, "pts": 91, "npfR": 27, "npaR": 9, "ptsR": 19, "enfR": 16, "enaR": 16}, {"ab": "WPG", "name": "Jets", "gp": 82, "w": 35, "l": 35, "otl": 12, "gf": 2.82, "ga": 3.17, "npf": 2.5, "npa": 2.72, "enf": 19, "ena": 25, "otw": 7, "otg": 19, "pts": 82, "npfR": 24, "npaR": 18, "ptsR": 26, "enfR": 27, "enaR": 23}, {"ab": "LAK", "name": "Kings", "gp": 82, "w": 35, "l": 27, "otl": 20, "gf": 2.74, "ga": 3.01, "npf": 2.38, "npa": 2.5, "enf": 17, "ena": 22, "otw": 13, "otg": 33, "pts": 90, "npfR": 29, "npaR": 5, "ptsR": 20, "enfR": 29, "enaR": 15}, {"ab": "SEA", "name": "Kraken", "gp": 82, "w": 34, "l": 37, "otl": 11, "gf": 2.76, "ga": 3.21, "npf": 2.39, "npa": 2.77, "enf": 22, "ena": 25, "otw": 8, "otg": 19, "pts": 79, "npfR": 28, "npaR": 22, "ptsR": 27, "enfR": 19, "enaR": 22}, {"ab": "TBL", "name": "Lightning", "gp": 82, "w": 50, "l": 26, "otl": 6, "gf": 3.54, "ga": 2.82, "npf": 3.06, "npa": 2.49, "enf": 29, "ena": 21, "otw": 10, "otg": 16, "pts": 106, "npfR": 4, "npaR": 4, "ptsR": 6, "enfR": 4, "enaR": 13}, {"ab": "UTA", "name": "Mammoth", "gp": 82, "w": 43, "l": 33, "otl": 6, "gf": 3.27, "ga": 2.93, "npf": 2.9, "npa": 2.63, "enf": 20, "ena": 18, "otw": 10, "otg": 16, "pts": 92, "npfR": 11, "npaR": 13, "ptsR": 18, "enfR": 21, "enaR": 8}, {"ab": "TOR", "name": "Maple Leafs", "gp": 82, "w": 32, "l": 36, "otl": 14, "gf": 3.09, "ga": 3.65, "npf": 2.7, "npa": 3.13, "enf": 23, "ena": 28, "otw": 9, "otg": 23, "pts": 78, "npfR": 18, "npaR": 31, "ptsR": 28, "enfR": 17, "enaR": 28}, {"ab": "EDM", "name": "Oilers", "gp": 82, "w": 41, "l": 30, "otl": 11, "gf": 3.44, "ga": 3.28, "npf": 3.02, "npa": 2.98, "enf": 25, "ena": 14, "otw": 9, "otg": 20, "pts": 93, "npfR": 6, "npaR": 28, "ptsR": 14, "enfR": 11, "enaR": 2}, {"ab": "FLA", "name": "Panthers", "gp": 82, "w": 40, "l": 38, "otl": 4, "gf": 3.06, "ga": 3.37, "npf": 2.68, "npa": 2.95, "enf": 23, "ena": 30, "otw": 8, "otg": 12, "pts": 84, "npfR": 19, "npaR": 27, "ptsR": 25, "enfR": 14, "enaR": 31}, {"ab": "PIT", "name": "Penguins", "gp": 82, "w": 41, "l": 25, "otl": 16, "gf": 3.57, "ga": 3.27, "npf": 3.17, "npa": 2.77, "enf": 26, "ena": 25, "otw": 7, "otg": 23, "pts": 98, "npfR": 2, "npaR": 21, "ptsR": 11, "enfR": 10, "enaR": 21}, {"ab": "NSH", "name": "Predators", "gp": 82, "w": 38, "l": 34, "otl": 10, "gf": 3.01, "ga": 3.28, "npf": 2.62, "npa": 2.8, "enf": 22, "ena": 29, "otw": 10, "otg": 20, "pts": 86, "npfR": 20, "npaR": 25, "ptsR": 22, "enfR": 18, "enaR": 30}, {"ab": "NYR", "name": "Rangers", "gp": 82, "w": 34, "l": 39, "otl": 9, "gf": 2.9, "ga": 3.05, "npf": 2.56, "npa": 2.61, "enf": 19, "ena": 27, "otw": 9, "otg": 18, "pts": 77, "npfR": 21, "npaR": 10, "ptsR": 30, "enfR": 24, "enaR": 26}, {"ab": "DET", "name": "Red Wings", "gp": 82, "w": 41, "l": 31, "otl": 10, "gf": 2.94, "ga": 3.15, "npf": 2.48, "npa": 2.73, "enf": 27, "ena": 24, "otw": 11, "otg": 21, "pts": 92, "npfR": 25, "npaR": 19, "ptsR": 17, "enfR": 9, "enaR": 19}, {"ab": "BUF", "name": "Sabres", "gp": 82, "w": 50, "l": 23, "otl": 9, "gf": 3.51, "ga": 2.94, "npf": 3.04, "npa": 2.48, "enf": 31, "ena": 29, "otw": 8, "otg": 17, "pts": 109, "npfR": 5, "npaR": 3, "ptsR": 4, "enfR": 1, "enaR": 29}, {"ab": "OTT", "name": "Senators", "gp": 82, "w": 44, "l": 27, "otl": 11, "gf": 3.39, "ga": 3.0, "npf": 3.01, "npa": 2.71, "enf": 25, "ena": 13, "otw": 6, "otg": 17, "pts": 99, "npfR": 7, "npaR": 17, "ptsR": 9, "enfR": 12, "enaR": 1}, {"ab": "SJS", "name": "Sharks", "gp": 82, "w": 39, "l": 35, "otl": 8, "gf": 3.06, "ga": 3.56, "npf": 2.7, "npa": 3.13, "enf": 18, "ena": 27, "otw": 12, "otg": 20, "pts": 86, "npfR": 17, "npaR": 30, "ptsR": 23, "enfR": 28, "enaR": 27}, {"ab": "DAL", "name": "Stars", "gp": 82, "w": 50, "l": 20, "otl": 12, "gf": 3.4, "ga": 2.76, "npf": 3.0, "npa": 2.37, "enf": 21, "ena": 20, "otw": 12, "otg": 24, "pts": 112, "npfR": 8, "npaR": 2, "ptsR": 3, "enfR": 20, "enaR": 9}, {"ab": "MIN", "name": "Wild", "gp": 82, "w": 46, "l": 24, "otl": 12, "gf": 3.32, "ga": 2.93, "npf": 2.85, "npa": 2.52, "enf": 23, "ena": 21, "otw": 15, "otg": 27, "pts": 104, "npfR": 13, "npaR": 6, "ptsR": 7, "enfR": 15, "enaR": 11}];
+  }
+  renderVals() {
+    const D = this.DATA, N = 32;
+    const sel = (this.state && this.state.sel) || 'CAR';
+    const col = (r) => (r <= 8 ? '#45C79A' : r >= 25 ? '#E88B6E' : '#A6ADBA');
+    const list = D.map((t) => {
+      const on = t.ab === sel;
+      return { ab: t.ab, name: t.name, pts: t.pts, on: on ? 'true' : 'false', bg: on ? '#1B2230' : 'transparent', bd: on ? '#3A4A66' : 'transparent', fw: on ? 600 : 400,
+        pick: () => this.setState({ sel: t.ab }) };
+    });
+    const t = D.filter((x) => x.ab === sel)[0];
+    const tile = (label, v, r, hint) => ({ label, v, rk: '#' + r + ' of ' + N, c: col(r), pos: ((r - 1) / (N - 1) * 100).toFixed(1), hint });
+    const d = {
+      ab: t.ab, name: t.name, sub: '2025-26: ' + t.w + '–' + t.l + '–' + t.otl + ' · ' + t.pts + ' points · #' + t.ptsR + ' in the league',
+      tiles: [
+        tile('Attack', t.npf.toFixed(2) + ' per game', t.npfR, 'Goals for, both goalies in net'),
+        tile('Defence', t.npa.toFixed(2) + ' per game', t.npaR, 'Goals against, both goalies in net · lower is better'),
+        tile('Points', String(t.pts), t.ptsR, 'Standings points')
+      ],
+      splits: [
+        { label: 'All goals for / against', v: t.gf.toFixed(2) + ' / ' + t.ga.toFixed(2) },
+        { label: 'Pulled-goalie goals for', v: String(t.enf) },
+        { label: 'Pulled-goalie goals against', v: String(t.ena) },
+        { label: 'Past regulation (W–games)', v: t.otw + '–' + t.otg }
+      ]
+    };
+    return { yes: true, list, d };
+  }
+}
+</script>
+</body>
+</html>

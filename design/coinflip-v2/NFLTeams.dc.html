@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NFL teams — stats and ranks</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1680px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nfl" stamp="6:20 AM" live="{{ yes }}" hint-size="1440px,216px"></dc-import>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NFL sections" style="display: flex; gap: 4px;">
+<a href="Main.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Board</a>
+<a href="NFLTeams.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Teams</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Players</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Schedule</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Teams · through week 2</span>
+<span style="font-size: 13px; color: #A6ADBA;">Pick a team for its stats and where it ranks among 32</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 32px; padding: 28px 40px 40px; align-items: flex-start;">
+<div style="width: 620px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+<sc-for list="{{ confs }}" as="cf" hint-placeholder-count="2">
+<section style="display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">{{ cf.name }}</h2>
+<span style="font-size: 11px; color: #8A91A0;">W–L · rating</span>
+</div>
+<sc-for list="{{ cf.divs }}" as="dv" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0; padding: 0 4px 2px;">{{ dv.name }}</span>
+<sc-for list="{{ dv.teams }}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="width: 100%; min-height: 44px; display: grid; grid-template-columns: 24px minmax(0, 1fr) 44px 60px; gap: 10px; align-items: center; padding: 0 12px; border-radius: 8px; border: 1px solid {{ t.bd }}; background: {{ t.bg }}; color: #E6E8EC; font: 400 13px 'IBM Plex Sans', sans-serif; text-align: left; cursor: pointer;"><span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span><span style="font-weight: {{ t.fw }};">{{ t.nick }}</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA; text-align: right;">{{ t.wl }}</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{ t.rc }}; text-align: right;">{{ t.rs }}</span></button>
+</sc-for>
+</div>
+</sc-for>
+</section>
+</sc-for>
+</div>
+
+<section aria-live="polite" style="width: 708px; background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 22px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<span aria-hidden="true" style="width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 14px; font-weight: 600; color: #C9CED6;">{{ d.ab }}</span>
+<div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">{{ d.name }}</h2>
+<span style="font-size: 13px; color: #A6ADBA;">{{ d.sub }}</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Model rating</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600; color: {{ d.rc }};">{{ d.rank }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ d.rating }} · 90% range {{ d.range }}</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Season outlook</h3>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Playoff odds</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: {{ d.poC }};">{{ d.poRk }}</span></div>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600;">{{ d.po }}</span>
+<div style="height: 6px; border-radius: 3px; background: #1F242D; position: relative; overflow: hidden;"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ d.poW }}%; background: #6FA8DC;"></div></div>
+<span style="font-size: 11px; color: #6F7684; line-height: 1.45;">2,000 simulated seasons from the week-2 ratings, seeded with the tiebreaker rules checked against 2023. QB changes aren't in it.</span>
+</div>
+<div style="background: #11141A; border: 1px dashed #2F3542; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">The model on this team</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #A6ADBA;">{{ d.recHead }}</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">{{ d.recSub }}</span>
+<span style="font-size: 11px; color: #6F7684; line-height: 1.45;">Hidden until 10 settled paper trades on this team, so a hot start can't pass for proof.</span>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">What the model rates</h3>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.model }}" as="k" hint-placeholder-count="4">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">{{ k.label }}</span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #E6E8EC;">{{ k.v }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: {{ k.c }};">{{ k.rk }}</span>
+</div>
+<div style="position: relative; height: 6px; border-radius: 3px; background: #1F242D;">
+<div style="position: absolute; top: -2px; left: {{ k.pos }}%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: {{ k.c }};"></div>
+</div>
+<span style="font-size: 11px; color: #6F7684;">{{ k.hint }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Efficiency, season to date</h3>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.eff }}" as="k" hint-placeholder-count="4">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">{{ k.label }}</span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #E6E8EC;">{{ k.v }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: {{ k.c }};">{{ k.rk }}</span>
+</div>
+<div style="position: relative; height: 6px; border-radius: 3px; background: #1F242D;">
+<div style="position: absolute; top: -2px; left: {{ k.pos }}%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: {{ k.c }};"></div>
+</div>
+<span style="font-size: 11px; color: #6F7684;">{{ k.hint }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Ball, red zone and schedule</h3>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.more }}" as="k" hint-placeholder-count="4">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">{{ k.label }}</span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #E6E8EC;">{{ k.v }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: {{ k.c }};">{{ k.rk }}</span>
+</div>
+<div style="position: relative; height: 6px; border-radius: 3px; background: #1F242D;">
+<div style="position: absolute; top: -2px; left: {{ k.pos }}%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: {{ k.c }};"></div>
+</div>
+<span style="font-size: 11px; color: #6F7684;">{{ k.hint }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; border-top: 1px solid #232833; padding-top: 18px;">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">QB1 · injuries</span>
+<span style="font-size: 14px;">{{ d.qb }}</span>
+<span style="font-size: 12px; color: #A6ADBA;">{{ d.inj }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Results</span>
+<sc-for list="{{ d.res }}" as="r" hint-placeholder-count="2">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{ r }}</span>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Next up</span>
+<sc-for list="{{ d.nxt }}" as="r" hint-placeholder-count="3">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{ r }}</span>
+</sc-for>
+</div>
+</div>
+<span style="font-size: 12px; color: #8A91A0; line-height: 1.55;">The rating is the model's week-2 snapshot, still blended with the preseason prior. Efficiency stats are two games only, so a team can rank high on rating and low on efficiency this early; that gap closes as the season fills in. Only the rating moves the model's number.</span>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1680}}'>
+class Component extends DCLogic {
+  get TEAMS() {
+    return [{"ab": "ARI", "name": "Arizona Cardinals", "nick": "Cardinals", "div": "NFC West", "w": 1, "l": 1, "tie": 0, "pf": 33, "pa": 45, "place": 4, "s": {"total_rating": [-0.0034, 14], "offense_voa": [-0.0199, 20], "defense_voa": [-0.0165, 3], "special_teams_voa": [0.0112, 16], "epa_per_play_offense": [0.0141, 18], "epa_per_play_allowed": [-0.0362, 13], "success_rate_offense": [0.4434, 18], "success_rate_allowed": [0.4375, 17], "turnover_margin": [2.0, 4], "red_zone_points_per_trip": [5.0, 19], "elo_rating": [1407.2215, 30]}, "sosP": [0.01, 9], "sosR": [0.02, 2], "p05": -0.199, "p95": 0.357, "qb": "Jacoby Brissett", "injO": 3, "injQ": 2, "res": ["W1 @ LAC · W 26-14", "W2 vs SEA · L 7-31"], "nxt": ["W3 @ SF", "W4 @ NYG", "W5 vs DET"]}, {"ab": "ATL", "name": "Atlanta Falcons", "nick": "Falcons", "div": "NFC South", "w": 0, "l": 2, "tie": 0, "pf": 16, "pa": 54, "place": 4, "s": {"total_rating": [-0.1124, 31], "offense_voa": [-0.1203, 31], "defense_voa": [-0.008, 7], "special_teams_voa": [0.0752, 11], "epa_per_play_offense": [-0.3461, 32], "epa_per_play_allowed": [-0.0454, 10], "success_rate_offense": [0.3626, 29], "success_rate_allowed": [0.3725, 3], "turnover_margin": [-3.0, 28], "red_zone_points_per_trip": [null, null], "elo_rating": [1410.1964, 28]}, "sosP": [0.0, 14], "sosR": [-0.02, 26], "p05": -0.603, "p95": 0.092, "qb": "Michael Penix Jr.", "injO": 3, "injQ": 5, "res": ["W1 @ PIT · L 13-20", "W2 vs CAR · L 3-34"], "nxt": ["W3 @ GB", "W4 @ NO", "W5 vs BAL"]}, {"ab": "BAL", "name": "Baltimore Ravens", "nick": "Ravens", "div": "AFC North", "w": 1, "l": 1, "tie": 0, "pf": 58, "pa": 47, "place": 2, "s": {"total_rating": [0.0264, 11], "offense_voa": [0.0222, 12], "defense_voa": [-0.0042, 12], "special_teams_voa": [-0.2013, 28], "epa_per_play_offense": [0.2627, 3], "epa_per_play_allowed": [-0.0368, 12], "success_rate_offense": [0.6, 2], "success_rate_allowed": [0.41, 9], "turnover_margin": [1.0, 11], "red_zone_points_per_trip": [4.8, 22], "elo_rating": [1549.7427, 11]}, "sosP": [-0.04, 25], "sosR": [-0.02, 27], "p05": -0.297, "p95": 0.327, "qb": "Lamar Jackson", "injO": 5, "injQ": 1, "res": ["W1 @ IND · W 41-23", "W2 vs NO · L 17-24"], "nxt": ["W3 @ DAL", "W4 vs TEN", "W5 @ ATL"]}, {"ab": "BUF", "name": "Buffalo Bills", "nick": "Bills", "div": "AFC East", "w": 2, "l": 0, "tie": 0, "pf": 77, "pa": 62, "place": 1, "s": {"total_rating": [0.1717, 2], "offense_voa": [0.1656, 2], "defense_voa": [-0.0061, 9], "special_teams_voa": [0.0877, 10], "epa_per_play_offense": [0.3434, 2], "epa_per_play_allowed": [0.0997, 24], "success_rate_offense": [0.5283, 5], "success_rate_allowed": [0.4912, 27], "turnover_margin": [2.0, 5], "red_zone_points_per_trip": [6.0, 5], "elo_rating": [1645.4129, 2]}, "sosP": [0.0, 15], "sosR": [-0.0, 12], "p05": -0.051, "p95": 0.64, "qb": "Josh Allen", "injO": 3, "injQ": 1, "res": ["W1 @ HOU · W 36-31", "W2 vs DET · W 41-31"], "nxt": ["W3 vs LAC", "W4 vs NE", "W5 @ LA"]}, {"ab": "CAR", "name": "Carolina Panthers", "nick": "Panthers", "div": "NFC South", "w": 1, "l": 1, "tie": 0, "pf": 71, "pa": 62, "place": 1, "s": {"total_rating": [0.019, 13], "offense_voa": [0.0297, 9], "defense_voa": [0.0107, 26], "special_teams_voa": [0.1552, 7], "epa_per_play_offense": [0.2011, 4], "epa_per_play_allowed": [0.0709, 22], "success_rate_offense": [0.4773, 10], "success_rate_allowed": [0.4886, 26], "turnover_margin": [1.0, 12], "red_zone_points_per_trip": [6.0, 6], "elo_rating": [1440.1913, 22]}, "sosP": [-0.04, 26], "sosR": [-0.04, 31], "p05": -0.314, "p95": 0.416, "qb": "Bryce Young", "injO": 2, "injQ": 4, "res": ["W1 vs CHI · L 37-59", "W2 @ ATL · W 34-3"], "nxt": ["W3 @ CLE", "W4 vs DET", "W6 @ PHI"]}, {"ab": "CHI", "name": "Chicago Bears", "nick": "Bears", "div": "NFC North", "w": 1, "l": 1, "tie": 0, "pf": 62, "pa": 46, "place": 2, "s": {"total_rating": [0.025, 12], "offense_voa": [0.0274, 11], "defense_voa": [0.0024, 22], "special_teams_voa": [0.2794, 2], "epa_per_play_offense": [0.0877, 9], "epa_per_play_allowed": [-0.0002, 15], "success_rate_offense": [0.4472, 16], "success_rate_allowed": [0.4375, 18], "turnover_margin": [-1.0, 19], "red_zone_points_per_trip": [3.5, 29], "elo_rating": [1527.8888, 16]}, "sosP": [-0.0, 16], "sosR": [-0.0, 13], "p05": -0.31, "p95": 0.33, "qb": "Caleb Williams", "injO": 1, "injQ": 2, "res": ["W1 @ CAR · W 59-37", "W2 vs MIN · L 3-9"], "nxt": ["W3 vs PHI", "W4 vs NYJ", "W5 @ GB"]}, {"ab": "CIN", "name": "Cincinnati Bengals", "nick": "Bengals", "div": "AFC North", "w": 2, "l": 0, "tie": 0, "pf": 53, "pa": 33, "place": 1, "s": {"total_rating": [-0.0259, 19], "offense_voa": [-0.0317, 22], "defense_voa": [-0.0057, 10], "special_teams_voa": [-0.2249, 29], "epa_per_play_offense": [0.0257, 17], "epa_per_play_allowed": [-0.198, 2], "success_rate_offense": [0.449, 14], "success_rate_allowed": [0.4423, 19], "turnover_margin": [3.0, 1], "red_zone_points_per_trip": [6.0, 7], "elo_rating": [1529.0197, 15]}, "sosP": [-0.02, 21], "sosR": [-0.03, 29], "p05": -0.318, "p95": 0.226, "qb": "Joe Burrow", "injO": 3, "injQ": 0, "res": ["W1 vs TB · W 33-27", "W2 @ HOU · W 20-6"], "nxt": ["W3 @ PIT", "W4 vs JAX", "W5 @ MIA"]}, {"ab": "CLE", "name": "Cleveland Browns", "nick": "Browns", "div": "AFC North", "w": 1, "l": 1, "tie": 0, "pf": 33, "pa": 53, "place": 4, "s": {"total_rating": [-0.1667, 32], "offense_voa": [-0.164, 32], "defense_voa": [0.0027, 23], "special_teams_voa": [-0.2303, 30], "epa_per_play_offense": [-0.2104, 30], "epa_per_play_allowed": [0.0391, 20], "success_rate_offense": [0.3636, 28], "success_rate_allowed": [0.4783, 24], "turnover_margin": [-1.0, 20], "red_zone_points_per_trip": [4.3333, 25], "elo_rating": [1424.6487, 24]}, "sosP": [0.01, 10], "sosR": [-0.02, 28], "p05": -0.606, "p95": 0.146, "qb": "Deshaun Watson", "injO": 4, "injQ": 0, "res": ["W1 @ JAX · L 10-34", "W2 @ TB · W 23-19"], "nxt": ["W3 vs CAR", "W4 vs PIT", "W5 @ NYJ"]}, {"ab": "DAL", "name": "Dallas Cowboys", "nick": "Cowboys", "div": "NFC East", "w": 1, "l": 1, "tie": 0, "pf": 57, "pa": 48, "place": 2, "s": {"total_rating": [0.0505, 5], "offense_voa": [0.0708, 4], "defense_voa": [0.0203, 30], "special_teams_voa": [-0.1337, 23], "epa_per_play_offense": [0.2002, 5], "epa_per_play_allowed": [0.2161, 29], "success_rate_offense": [0.5542, 3], "success_rate_allowed": [0.5636, 31], "turnover_margin": [1.0, 13], "red_zone_points_per_trip": [6.4286, 1], "elo_rating": [1461.4117, 19]}, "sosP": [-0.04, 27], "sosR": [0.01, 8], "p05": -0.236, "p95": 0.35, "qb": "Dak Prescott", "injO": 2, "injQ": 2, "res": ["W1 @ NYG · L 20-28", "W2 vs WAS · W 37-20"], "nxt": ["W3 vs BAL", "W4 @ HOU", "W5 vs TB"]}, {"ab": "DEN", "name": "Denver Broncos", "nick": "Broncos", "div": "AFC West", "w": 1, "l": 1, "tie": 0, "pf": 30, "pa": 44, "place": 3, "s": {"total_rating": [0.0309, 10], "offense_voa": [0.0276, 10], "defense_voa": [-0.0032, 14], "special_teams_voa": [0.02, 15], "epa_per_play_offense": [-0.0403, 24], "epa_per_play_allowed": [0.037, 19], "success_rate_offense": [0.4396, 21], "success_rate_allowed": [0.4369, 16], "turnover_margin": [-1.0, 21], "red_zone_points_per_trip": [4.5, 23], "elo_rating": [1595.1947, 5]}, "sosP": [0.05, 5], "sosR": [0.01, 9], "p05": -0.17, "p95": 0.374, "qb": "Bo Nix", "injO": 6, "injQ": 1, "res": ["W1 @ KC · L 10-31", "W2 vs JAX · W 20-13"], "nxt": ["W3 vs LA", "W4 @ SF", "W5 @ LAC"]}, {"ab": "DET", "name": "Detroit Lions", "nick": "Lions", "div": "NFC North", "w": 1, "l": 1, "tie": 0, "pf": 62, "pa": 71, "place": 3, "s": {"total_rating": [-0.0337, 24], "offense_voa": [-0.0326, 23], "defense_voa": [0.001, 18], "special_teams_voa": [0.0938, 9], "epa_per_play_offense": [0.0374, 16], "epa_per_play_allowed": [0.121, 25], "success_rate_offense": [0.4911, 8], "success_rate_allowed": [0.4855, 25], "turnover_margin": [2.0, 6], "red_zone_points_per_trip": [6.3333, 2], "elo_rating": [1555.5416, 10]}, "sosP": [0.06, 2], "sosR": [-0.01, 19], "p05": -0.409, "p95": 0.18, "qb": "Jared Goff", "injO": 3, "injQ": 0, "res": ["W1 vs NO · W 31-30", "W2 @ BUF · L 31-41"], "nxt": ["W3 vs NYJ", "W4 @ CAR", "W5 @ ARI"]}, {"ab": "GB", "name": "Green Bay Packers", "nick": "Packers", "div": "NFC North", "w": 1, "l": 1, "tie": 0, "pf": 42, "pa": 56, "place": 4, "s": {"total_rating": [0.0379, 8], "offense_voa": [0.0353, 8], "defense_voa": [-0.0025, 16], "special_teams_voa": [-0.073, 21], "epa_per_play_offense": [-0.1905, 29], "epa_per_play_allowed": [-0.0802, 9], "success_rate_offense": [0.3585, 30], "success_rate_allowed": [0.384, 6], "turnover_margin": [-2.0, 25], "red_zone_points_per_trip": [4.5, 24], "elo_rating": [1534.7222, 14]}, "sosP": [-0.02, 22], "sosR": [0.0, 14], "p05": -0.248, "p95": 0.298, "qb": "Jordan Love", "injO": 2, "injQ": 6, "res": ["W1 @ MIN · L 22-39", "W2 @ NYJ · W 20-17"], "nxt": ["W3 vs ATL", "W4 @ TB", "W5 vs CHI"]}, {"ab": "HOU", "name": "Houston Texans", "nick": "Texans", "div": "AFC South", "w": 0, "l": 2, "tie": 0, "pf": 37, "pa": 56, "place": 3, "s": {"total_rating": [0.0359, 9], "offense_voa": [0.0474, 6], "defense_voa": [0.0115, 27], "special_teams_voa": [-0.075, 22], "epa_per_play_offense": [-0.0386, 23], "epa_per_play_allowed": [0.1432, 28], "success_rate_offense": [0.4409, 19], "success_rate_allowed": [0.4082, 8], "turnover_margin": [-2.0, 26], "red_zone_points_per_trip": [3.875, 26], "elo_rating": [1540.336, 13]}, "sosP": [0.07, 1], "sosR": [-0.01, 20], "p05": -0.27, "p95": 0.405, "qb": "C.J. Stroud", "injO": 6, "injQ": 0, "res": ["W1 vs BUF · L 31-36", "W2 vs CIN · L 6-20"], "nxt": ["W3 @ IND", "W4 vs DAL", "W5 @ TEN"]}, {"ab": "IND", "name": "Indianapolis Colts", "nick": "Colts", "div": "AFC South", "w": 0, "l": 2, "tie": 0, "pf": 53, "pa": 74, "place": 4, "s": {"total_rating": [-0.03, 23], "offense_voa": [-0.0008, 14], "defense_voa": [0.0292, 31], "special_teams_voa": [-0.1469, 25], "epa_per_play_offense": [-0.0353, 22], "epa_per_play_allowed": [0.3087, 31], "success_rate_offense": [0.44, 20], "success_rate_allowed": [0.5593, 30], "turnover_margin": [-3.0, 29], "red_zone_points_per_trip": [6.2, 4], "elo_rating": [1427.7303, 23]}, "sosP": [0.01, 11], "sosR": [-0.01, 21], "p05": -0.386, "p95": 0.184, "qb": "Daniel Jones", "injO": 4, "injQ": 4, "res": ["W1 vs BAL · L 23-41", "W2 @ KC · L 30-33"], "nxt": ["W3 vs HOU", "W4 @ WAS", "W5 @ PIT"]}, {"ab": "JAX", "name": "Jacksonville Jaguars", "nick": "Jaguars", "div": "AFC South", "w": 1, "l": 1, "tie": 0, "pf": 47, "pa": 30, "place": 1, "s": {"total_rating": [0.1004, 3], "offense_voa": [0.0869, 3], "defense_voa": [-0.0135, 5], "special_teams_voa": [0.0017, 18], "epa_per_play_offense": [0.1181, 7], "epa_per_play_allowed": [-0.1253, 8], "success_rate_offense": [0.5059, 7], "success_rate_allowed": [0.4328, 15], "turnover_margin": [2.0, 7], "red_zone_points_per_trip": [5.6667, 9], "elo_rating": [1562.4437, 9]}, "sosP": [-0.07, 31], "sosR": [-0.0, 15], "p05": -0.134, "p95": 0.452, "qb": "Trevor Lawrence", "injO": 1, "injQ": 1, "res": ["W1 vs CLE · W 34-10", "W2 @ DEN · L 13-20"], "nxt": ["W3 vs NE", "W4 @ CIN", "W5 vs PHI"]}, {"ab": "KC", "name": "Kansas City Chiefs", "nick": "Chiefs", "div": "AFC West", "w": 2, "l": 0, "tie": 0, "pf": 64, "pa": 40, "place": 2, "s": {"total_rating": [-0.0044, 15], "offense_voa": [-0.011, 16], "defense_voa": [-0.0066, 8], "special_teams_voa": [0.0421, 13], "epa_per_play_offense": [0.1927, 6], "epa_per_play_allowed": [0.0008, 16], "success_rate_offense": [0.5159, 6], "success_rate_allowed": [0.43, 12], "turnover_margin": [2.0, 8], "red_zone_points_per_trip": [5.5, 12], "elo_rating": [1541.3331, 12]}, "sosP": [0.0, 17], "sosR": [0.0, 16], "p05": -0.257, "p95": 0.29, "qb": "Patrick Mahomes", "injO": 3, "injQ": 0, "res": ["W1 vs DEN · W 31-10", "W2 vs IND · W 33-30"], "nxt": ["W3 @ MIA", "W4 @ LV", "W6 vs LAC"]}, {"ab": "LA", "name": "Los Angeles Rams", "nick": "Rams", "div": "NFC West", "w": 1, "l": 1, "tie": 0, "pf": 35, "pa": 33, "place": 3, "s": {"total_rating": [0.0604, 4], "offense_voa": [0.0617, 5], "defense_voa": [0.0013, 19], "special_teams_voa": [0.1979, 5], "epa_per_play_offense": [0.1031, 8], "epa_per_play_allowed": [-0.0451, 11], "success_rate_offense": [0.5286, 4], "success_rate_allowed": [0.4742, 23], "turnover_margin": [-1.0, 22], "red_zone_points_per_trip": [5.25, 16], "elo_rating": [1581.0107, 7]}, "sosP": [0.06, 3], "sosR": [0.02, 3], "p05": -0.531, "p95": 0.386, "qb": "Matthew Stafford", "injO": 7, "injQ": 1, "res": ["W1 vs SF · L 7-27", "W2 vs NYG · W 28-6"], "nxt": ["W3 @ DEN", "W4 @ PHI", "W5 vs BUF"]}, {"ab": "LAC", "name": "Los Angeles Chargers", "nick": "Chargers", "div": "AFC West", "w": 0, "l": 2, "tie": 0, "pf": 28, "pa": 52, "place": 4, "s": {"total_rating": [-0.027, 21], "offense_voa": [-0.0191, 19], "defense_voa": [0.0079, 25], "special_teams_voa": [0.2255, 4], "epa_per_play_offense": [-0.1815, 28], "epa_per_play_allowed": [0.083, 23], "success_rate_offense": [0.466, 12], "success_rate_allowed": [0.4322, 13], "turnover_margin": [-3.0, 30], "red_zone_points_per_trip": [5.6, 11], "elo_rating": [1472.0943, 18]}, "sosP": [-0.05, 30], "sosR": [0.02, 4], "p05": -0.345, "p95": 0.272, "qb": "Justin Herbert", "injO": 6, "injQ": 2, "res": ["W1 vs ARI · L 14-26", "W2 vs LV · L 14-26"], "nxt": ["W3 @ BUF", "W4 @ SEA", "W5 vs DEN"]}, {"ab": "LV", "name": "Las Vegas Raiders", "nick": "Raiders", "div": "AFC West", "w": 2, "l": 0, "tie": 0, "pf": 53, "pa": 27, "place": 1, "s": {"total_rating": [-0.0952, 30], "offense_voa": [-0.1004, 30], "defense_voa": [-0.0052, 11], "special_teams_voa": [0.2635, 3], "epa_per_play_offense": [0.0721, 10], "epa_per_play_allowed": [-0.1566, 6], "success_rate_offense": [0.4712, 11], "success_rate_allowed": [0.4167, 10], "turnover_margin": [1.0, 14], "red_zone_points_per_trip": [5.4286, 13], "elo_rating": [1409.3867, 29]}, "sosP": [-0.04, 28], "sosR": [0.02, 5], "p05": -0.387, "p95": 0.291, "qb": "Kirk Cousins", "injO": 3, "injQ": 2, "res": ["W1 vs MIA · W 27-13", "W2 @ LAC · W 26-14"], "nxt": ["W3 @ NO", "W4 vs KC", "W5 @ NE"]}, {"ab": "MIA", "name": "Miami Dolphins", "nick": "Dolphins", "div": "AFC East", "w": 0, "l": 2, "tie": 0, "pf": 26, "pa": 62, "place": 4, "s": {"total_rating": [-0.063, 27], "offense_voa": [-0.0333, 25], "defense_voa": [0.0296, 32], "special_teams_voa": [-0.2405, 32], "epa_per_play_offense": [-0.0131, 20], "epa_per_play_allowed": [0.3582, 32], "success_rate_offense": [0.3553, 31], "success_rate_allowed": [0.6104, 32], "turnover_margin": [0.0, 17], "red_zone_points_per_trip": [3.25, 31], "elo_rating": [1413.9747, 27]}, "sosP": [0.04, 6], "sosR": [0.02, 6], "p05": -0.459, "p95": 0.331, "qb": "Malik Willis", "injO": 3, "injQ": 3, "res": ["W1 @ LV · L 13-27", "W2 @ SF · L 13-35"], "nxt": ["W3 vs KC", "W4 @ MIN", "W5 vs CIN"]}, {"ab": "MIN", "name": "Minnesota Vikings", "nick": "Vikings", "div": "NFC North", "w": 2, "l": 0, "tie": 0, "pf": 48, "pa": 25, "place": 1, "s": {"total_rating": [-0.0263, 20], "offense_voa": [-0.0466, 26], "defense_voa": [-0.0203, 2], "special_teams_voa": [-0.2373, 31], "epa_per_play_offense": [-0.0617, 26], "epa_per_play_allowed": [-0.1418, 7], "success_rate_offense": [0.381, 27], "success_rate_allowed": [0.36, 1], "turnover_margin": [3.0, 2], "red_zone_points_per_trip": [5.4, 15], "elo_rating": [1601.0094, 4]}, "sosP": [0.03, 7], "sosR": [0.0, 17], "p05": -0.322, "p95": 0.356, "qb": "Kyler Murray", "injO": 2, "injQ": 1, "res": ["W1 vs GB · W 39-22", "W2 @ CHI · W 9-3"], "nxt": ["W3 @ TB", "W4 vs MIA", "W5 @ NO"]}, {"ab": "NE", "name": "New England Patriots", "nick": "Patriots", "div": "AFC East", "w": 1, "l": 1, "tie": 0, "pf": 30, "pa": 16, "place": 2, "s": {"total_rating": [0.0489, 6], "offense_voa": [0.045, 7], "defense_voa": [-0.0039, 13], "special_teams_voa": [-0.1953, 27], "epa_per_play_offense": [-0.058, 25], "epa_per_play_allowed": [-0.1585, 5], "success_rate_offense": [0.4486, 15], "success_rate_allowed": [0.3711, 2], "turnover_margin": [-4.0, 31], "red_zone_points_per_trip": [3.3333, 30], "elo_rating": [1573.8463, 8]}, "sosP": [0.01, 12], "sosR": [0.01, 10], "p05": -0.232, "p95": 0.394, "qb": "Drake Maye", "injO": 3, "injQ": 4, "res": ["W1 @ SEA · L 10-13", "W2 vs PIT · W 20-3"], "nxt": ["W3 @ JAX", "W4 @ BUF", "W5 vs LV"]}, {"ab": "NO", "name": "New Orleans Saints", "nick": "Saints", "div": "NFC South", "w": 1, "l": 1, "tie": 0, "pf": 54, "pa": 48, "place": 2, "s": {"total_rating": [-0.0574, 26], "offense_voa": [-0.0561, 27], "defense_voa": [0.0013, 20], "special_teams_voa": [0.0462, 12], "epa_per_play_offense": [0.0104, 19], "epa_per_play_allowed": [0.0337, 18], "success_rate_offense": [0.4041, 24], "success_rate_allowed": [0.5556, 29], "turnover_margin": [-1.0, 23], "red_zone_points_per_trip": [6.0, 8], "elo_rating": [1455.598, 20]}, "sosP": [-0.0, 18], "sosR": [-0.04, 32], "p05": -0.336, "p95": 0.172, "qb": "Tyler Shough", "injO": 4, "injQ": 1, "res": ["W1 @ DET · L 30-31", "W2 @ BAL · W 24-17"], "nxt": ["W3 vs LV", "W4 vs ATL", "W5 vs MIN"]}, {"ab": "NYG", "name": "New York Giants", "nick": "Giants", "div": "NFC East", "w": 1, "l": 1, "tie": 0, "pf": 34, "pa": 48, "place": 3, "s": {"total_rating": [-0.0473, 25], "offense_voa": [-0.0283, 21], "defense_voa": [0.019, 29], "special_teams_voa": [0.1604, 6], "epa_per_play_offense": [0.0421, 14], "epa_per_play_allowed": [0.229, 30], "success_rate_offense": [0.48, 9], "success_rate_allowed": [0.5513, 28], "turnover_margin": [1.0, 15], "red_zone_points_per_trip": [5.1667, 17], "elo_rating": [1419.592, 26]}, "sosP": [0.06, 4], "sosR": [-0.01, 22], "p05": -0.362, "p95": 0.241, "qb": "Jaxson Dart", "injO": 8, "injQ": 0, "res": ["W1 vs DAL · W 28-20", "W2 @ LA · L 6-28"], "nxt": ["W3 vs TEN", "W4 vs ARI", "W5 @ WAS"]}, {"ab": "NYJ", "name": "New York Jets", "nick": "Jets", "div": "AFC East", "w": 1, "l": 1, "tie": 0, "pf": 40, "pa": 30, "place": 3, "s": {"total_rating": [-0.0081, 16], "offense_voa": [-0.0191, 18], "defense_voa": [-0.011, 6], "special_teams_voa": [0.0092, 17], "epa_per_play_offense": [0.0545, 12], "epa_per_play_allowed": [-0.2195, 1], "success_rate_offense": [0.4454, 17], "success_rate_allowed": [0.3827, 5], "turnover_margin": [1.0, 16], "red_zone_points_per_trip": [5.6667, 10], "elo_rating": [1374.2858, 31]}, "sosP": [0.01, 13], "sosR": [0.0, 18], "p05": -0.188, "p95": 0.3, "qb": "Geno Smith", "injO": 4, "injQ": 4, "res": ["W1 @ TEN · W 23-10", "W2 vs GB · L 17-20"], "nxt": ["W3 @ DET", "W4 @ CHI", "W5 vs CLE"]}, {"ab": "PHI", "name": "Philadelphia Eagles", "nick": "Eagles", "div": "NFC East", "w": 2, "l": 0, "tie": 0, "pf": 48, "pa": 42, "place": 1, "s": {"total_rating": [-0.0692, 28], "offense_voa": [-0.0713, 28], "defense_voa": [-0.0021, 17], "special_teams_voa": [0.4361, 1], "epa_per_play_offense": [0.0523, 13], "epa_per_play_allowed": [0.0664, 21], "success_rate_offense": [0.3821, 26], "success_rate_allowed": [0.3814, 4], "turnover_margin": [-2.0, 27], "red_zone_points_per_trip": [5.4286, 14], "elo_rating": [1589.4092, 6]}, "sosP": [-0.02, 23], "sosR": [0.03, 1], "p05": -0.398, "p95": 0.158, "qb": "Jalen Hurts", "injO": 3, "injQ": 2, "res": ["W1 vs WAS · W 24-22", "W2 @ TEN · W 24-20"], "nxt": ["W3 @ CHI", "W4 vs LA", "W5 @ JAX"]}, {"ab": "PIT", "name": "Pittsburgh Steelers", "nick": "Steelers", "div": "AFC North", "w": 1, "l": 1, "tie": 0, "pf": 23, "pa": 33, "place": 3, "s": {"total_rating": [-0.0178, 18], "offense_voa": [-0.0329, 24], "defense_voa": [-0.0151, 4], "special_teams_voa": [-0.0619, 20], "epa_per_play_offense": [-0.3379, 31], "epa_per_play_allowed": [-0.1769, 3], "success_rate_offense": [0.3303, 32], "success_rate_allowed": [0.4227, 11], "turnover_margin": [2.0, 9], "red_zone_points_per_trip": [5.0, 20], "elo_rating": [1520.9904, 17]}, "sosP": [-0.03, 24], "sosR": [-0.03, 30], "p05": -0.487, "p95": 0.345, "qb": "Aaron Rodgers", "injO": 2, "injQ": 1, "res": ["W1 vs ATL · W 20-13", "W2 @ NE · L 3-20"], "nxt": ["W3 vs CIN", "W4 @ CLE", "W5 vs IND"]}, {"ab": "SEA", "name": "Seattle Seahawks", "nick": "Seahawks", "div": "NFC West", "w": 2, "l": 0, "tie": 0, "pf": 44, "pa": 17, "place": 2, "s": {"total_rating": [0.0462, 7], "offense_voa": [0.0164, 13], "defense_voa": [-0.0298, 1], "special_teams_voa": [-0.0345, 19], "epa_per_play_offense": [0.0663, 11], "epa_per_play_allowed": [-0.1728, 4], "success_rate_offense": [0.4082, 23], "success_rate_allowed": [0.4037, 7], "turnover_margin": [3.0, 3], "red_zone_points_per_trip": [3.8333, 27], "elo_rating": [1662.3065, 1]}, "sosP": [0.02, 8], "sosR": [0.02, 7], "p05": -0.192, "p95": 0.293, "qb": "Sam Darnold", "injO": 4, "injQ": 2, "res": ["W1 vs NE · W 13-10", "W2 @ ARI · W 31-7"], "nxt": ["W3 @ WAS", "W4 vs LAC", "W5 vs SF"]}, {"ab": "SF", "name": "San Francisco 49ers", "nick": "49ers", "div": "NFC West", "w": 2, "l": 0, "tie": 0, "pf": 62, "pa": 20, "place": 1, "s": {"total_rating": [0.1726, 1], "offense_voa": [0.1695, 1], "defense_voa": [-0.003, 15], "special_teams_voa": [-0.1644, 26], "epa_per_play_offense": [0.382, 1], "epa_per_play_allowed": [-0.0084, 14], "success_rate_offense": [0.6463, 1], "success_rate_allowed": [0.4324, 14], "turnover_margin": [0.0, 18], "red_zone_points_per_trip": [6.3333, 3], "elo_rating": [1605.3254, 3]}, "sosP": [-0.0, 19], "sosR": [-0.01, 23], "p05": -0.04, "p95": 0.708, "qb": "Brock Purdy", "injO": 4, "injQ": 4, "res": ["W1 @ LA · W 27-7", "W2 vs MIA · W 35-13"], "nxt": ["W3 vs ARI", "W4 vs DEN", "W5 @ SEA"]}, {"ab": "TB", "name": "Tampa Bay Buccaneers", "nick": "Buccaneers", "div": "NFC South", "w": 0, "l": 2, "tie": 0, "pf": 46, "pa": 56, "place": 3, "s": {"total_rating": [-0.0741, 29], "offense_voa": [-0.0728, 29], "defense_voa": [0.0013, 21], "special_teams_voa": [-0.1437, 24], "epa_per_play_offense": [-0.176, 27], "epa_per_play_allowed": [0.0073, 17], "success_rate_offense": [0.4554, 13], "success_rate_allowed": [0.4519, 21], "turnover_margin": [-4.0, 32], "red_zone_points_per_trip": [3.75, 28], "elo_rating": [1450.6178, 21]}, "sosP": [-0.1, 32], "sosR": [-0.01, 24], "p05": -0.485, "p95": 0.148, "qb": "Baker Mayfield", "injO": 4, "injQ": 0, "res": ["W1 @ CIN · L 27-33", "W2 vs CLE · L 19-23"], "nxt": ["W3 vs MIN", "W4 vs GB", "W5 @ DAL"]}, {"ab": "TEN", "name": "Tennessee Titans", "nick": "Titans", "div": "AFC South", "w": 0, "l": 2, "tie": 0, "pf": 30, "pa": 47, "place": 2, "s": {"total_rating": [-0.0166, 17], "offense_voa": [-0.0102, 15], "defense_voa": [0.0063, 24], "special_teams_voa": [0.152, 8], "epa_per_play_offense": [-0.0346, 21], "epa_per_play_allowed": [0.1403, 27], "success_rate_offense": [0.4024, 25], "success_rate_allowed": [0.4583, 22], "turnover_margin": [2.0, 10], "red_zone_points_per_trip": [5.0, 21], "elo_rating": [1304.423, 32]}, "sosP": [-0.04, 29], "sosR": [-0.01, 25], "p05": -0.239, "p95": 0.356, "qb": "Cam Ward", "injO": 2, "injQ": 1, "res": ["W1 vs NYJ · L 10-23", "W2 vs PHI · L 20-24"], "nxt": ["W3 @ NYG", "W4 @ BAL", "W5 vs HOU"]}, {"ab": "WAS", "name": "Washington Commanders", "nick": "Commanders", "div": "NFC East", "w": 0, "l": 2, "tie": 0, "pf": 42, "pa": 61, "place": 4, "s": {"total_rating": [-0.0295, 22], "offense_voa": [-0.0121, 17], "defense_voa": [0.0173, 28], "special_teams_voa": [0.0275, 14], "epa_per_play_offense": [0.0402, 15], "epa_per_play_allowed": [0.1382, 26], "success_rate_offense": [0.4286, 22], "success_rate_allowed": [0.4444, 20], "turnover_margin": [-1.0, 24], "red_zone_points_per_trip": [5.1667, 18], "elo_rating": [1421.1719, 25]}, "sosP": [-0.01, 20], "sosR": [0.01, 11], "p05": -0.358, "p95": 0.26, "qb": "Jayden Daniels", "injO": 2, "injQ": 5, "res": ["W1 @ PHI · L 22-24", "W2 @ DAL · L 20-37"], "nxt": ["W3 vs SEA", "W4 vs IND", "W5 vs NYG"]}];
+  }
+  get PO() {
+    return {"SF": [89.2, 1], "BUF": [88.8, 2], "SEA": [66.3, 3], "JAX": [65.1, 4], "CIN": [65.0, 5], "KC": [62.9, 6], "BAL": [59.4, 7], "CAR": [59.2, 8], "MIN": [58.0, 9], "NE": [55.8, 10], "DAL": [50.7, 11], "CHI": [49.0, 12], "LA": [48.4, 13], "DEN": [47.3, 14], "PIT": [43.5, 15], "NYJ": [43.2, 16], "PHI": [42.2, 17], "NO": [41.1, 18], "LV": [40.5, 19], "DET": [37.4, 20], "NYG": [35.1, 21], "HOU": [34.8, 22], "GB": [33.9, 23], "ARI": [33.5, 24], "TEN": [23.5, 25], "IND": [23.2, 26], "TB": [19.6, 27], "ATL": [18.6, 28], "WAS": [17.6, 29], "CLE": [17.5, 30], "LAC": [16.0, 31], "MIA": [13.6, 32]};
+  }
+  renderVals() {
+    const T = this.TEAMS;
+    const sel = (this.state && this.state.sel) || 'GB';
+    const N = 32;
+    const col = (r) => (r == null ? '#6F7684' : r <= 8 ? '#45C79A' : r >= 25 ? '#E88B6E' : '#A6ADBA');
+    const sg = (v, d) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(d);
+    const pct = (v) => sg(v * 100, 1) + '%';
+    const ord = (n) => n + (n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th');
+    const byDiv = {};
+    T.forEach((t) => { (byDiv[t.div] = byDiv[t.div] || []).push(t); });
+    const row = (t) => {
+      const on = t.ab === sel, r = t.s.total_rating;
+      return { ab: t.ab, nick: t.nick, wl: t.w + '–' + t.l + (t.tie ? '–' + t.tie : ''), rs: pct(r[0]), rc: col(r[1]),
+        on: on ? 'true' : 'false', bg: on ? '#1B2230' : 'transparent', bd: on ? '#3A4A66' : 'transparent', fw: on ? 600 : 400,
+        pick: () => this.setState({ sel: t.ab }) };
+    };
+    const conf = (c) => ({ name: c, divs: ['East', 'North', 'South', 'West'].map((d) => ({ name: c + ' ' + d,
+      teams: byDiv[c + ' ' + d].slice().sort((a, b) => a.place - b.place).map(row) })) });
+    const t = T.filter((x) => x.ab === sel)[0];
+    const tile = (label, pair, fmt, hint) => {
+      const v = pair[0], r = pair[1];
+      return { label, v: v == null ? '—' : fmt(v), rk: r == null ? 'n/a' : '#' + r + ' of ' + N, c: col(r),
+        pos: r == null ? 0 : ((r - 1) / (N - 1) * 100).toFixed(1), hint };
+    };
+    const s = t.s;
+    const d = {
+      ab: t.ab, name: t.name,
+      sub: t.w + '–' + t.l + (t.tie ? '–' + t.tie : '') + ' · ' + ord(t.place) + ' in the ' + t.div + ' · ' + t.pf + ' scored, ' + t.pa + ' allowed',
+      rank: '#' + s.total_rating[1] + ' of ' + N, rc: col(s.total_rating[1]), rating: pct(s.total_rating[0]),
+      range: pct(t.p05) + ' to ' + pct(t.p95),
+      model: [
+        tile('Overall', s.total_rating, pct, 'Offense minus defense'),
+        tile('Offense', s.offense_voa, pct, 'Higher is better'),
+        tile('Defense', s.defense_voa, pct, 'Lower is better'),
+        tile('Special teams', s.special_teams_voa, pct, 'Shown, not in the rating')
+      ],
+      eff: [
+        tile('EPA per play', s.epa_per_play_offense, (v) => sg(v, 2), 'Offense'),
+        tile('EPA allowed', s.epa_per_play_allowed, (v) => sg(v, 2), 'Lower is better'),
+        tile('Success rate', s.success_rate_offense, (v) => (v * 100).toFixed(1) + '%', 'Offense'),
+        tile('Success allowed', s.success_rate_allowed, (v) => (v * 100).toFixed(1) + '%', 'Lower is better')
+      ],
+      more: [
+        tile('Turnover margin', s.turnover_margin, (v) => sg(v, 0), 'Takeaways minus giveaways'),
+        tile('Red zone', s.red_zone_points_per_trip, (v) => v.toFixed(1) + ' pts/trip', 'Points per trip'),
+        tile('Schedule so far', t.sosP, (v) => sg(v, 2), '#1 = hardest'),
+        tile('Schedule left', t.sosR, (v) => sg(v, 2), '#1 = hardest')
+      ],
+      qb: t.qb, inj: t.injO + ' out · ' + t.injQ + ' questionable', res: t.res, nxt: t.nxt,
+      po: this.PO[t.ab][0].toFixed(1) + '%', poRk: '#' + this.PO[t.ab][1] + ' of 32', poC: col(this.PO[t.ab][1]), poW: this.PO[t.ab][0],
+      recHead: '0 of 10 settled', recSub: 'No NFL paper trades have settled yet; odds capture started Sep 24.'
+    };
+    return { yes: true, confs: [conf('AFC'), conf('NFC')], d };
+  }
+}
+</script>
+</body>
+</html>

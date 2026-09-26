@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CFB board — week 4</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 2080px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="cfb" stamp="8:36 PM" live="{{ yes }}" asof="Sep 25" hint-size="1440px,216px"></dc-import>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="CFB sections" style="display: flex; gap: 4px;">
+<a href="CFB.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Board</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Teams</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Week 4</span>
+<span style="font-size: 13px; color: #A6ADBA;">Fri Sep 25 – Sat Sep 26 · 70 games · spreads · ratings through week 3</span>
+</div>
+</div>
+
+<div style="margin: 24px 40px 0; display: flex; gap: 16px; align-items: flex-start; background: #1A1710; border: 1px solid #4A4026; border-radius: 12px; padding: 16px 20px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #C9A15A; border: 1px solid #C9A15A; border-radius: 6px; padding: 3px 8px; white-space: nowrap;">EARLY SEASON</span>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 14px; font-weight: 600;">College ratings have three weeks of games behind them, and 130+ teams to spread them across.</span>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.5;">Spreads run wider and the model disagrees with the market by more than in any other league, so its tier bands are wider too: a Play here needs a 30.7-point gap in cover probability. Every suggestion is paper-traded; nothing is sized.</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 32px; padding: 24px 40px 40px;">
+<main style="width: 968px; display: flex; flex-direction: column; gap: 28px;">
+<section style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: baseline; gap: 12px;"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #45C79A;">Play</h2><span style="font-size: 13px; color: #A6ADBA;">1 game · the model's strongest disagreement</span></div>
+<sc-for list="{{ play }}" as="g" hint-placeholder-count="1">
+<article style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 20px; display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 24px;">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; justify-content: space-between; align-items: center;"><div style="display: flex; align-items: center; gap: 10px;"><span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: {{ g.tc }}; border: 1px solid {{ g.tc }}; border-radius: 6px; padding: 3px 8px;">{{ g.tier }}</span><span style="font-size: 12px; color: #8A91A0;">Model's suggestion</span></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span></div>
+<span style="font-size: 13px; color: #A6ADBA;">{{ g.a }} @ {{ g.h }}</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 600;">{{ g.pick }}</span>
+<div style="position: relative; height: 16px;">
+<div style="position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: #262B36;"></div>
+<div style="position: absolute; left: 50%; top: 1px; width: 1px; height: 14px; background: #3A4150;"></div>
+<div style="position: absolute; top: 6px; height: 4px; border-radius: 2px; left: {{ g.segL }}%; width: {{ g.segW }}%; background: {{ g.tc }}; opacity: 0.45;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mkL }}%; width: 12px; height: 12px; margin-left: -6px; box-sizing: border-box; border-radius: 50%; border: 2px solid #A6ADBA; background: #151820;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mdL }}%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: {{ g.tc }};"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px;"><span style="color: #A6ADBA;">Market {{ g.pm }}% · {{ g.mkt }}</span><span style="color: {{ g.tc }}; font-weight: 600;">Model {{ g.pmod }}% · {{ g.model }}</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; background: #1A1512; border: 1px solid #4A3226; border-radius: 10px; padding: 12px 14px; align-self: start;">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #F0A78C;">CHECK BEFORE YOU TRUST IT · {{ g.pts }} POINTS FROM THE MARKET</span>
+<span style="font-size: 13px; color: #E6E8EC; line-height: 1.45;">The model has SMU by 1.3; the market has SMU by 34.5. A gap this size is more often a rating that hasn't caught up than an edge: Missouri State is in only its second FBS season, so its rating rests on very few comparable games.</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">It's shown because the tier rule says so, and it's paper-traded like everything else.</span>
+</div>
+</article>
+</sc-for>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: baseline; gap: 12px;"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #A897F2;">Coin flip</h2><span style="font-size: 13px; color: #A6ADBA;">6 games · near 50/50, with the side the model slightly prefers</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{ flips }}" as="g" hint-placeholder-count="6">
+<article style="background: #13161C; border: 1px dashed #3A3553; border-radius: 12px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #A897F2;">COIN FLIP</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span></div>
+<span style="font-size: 13px; color: #A6ADBA;">{{ g.a }} @ {{ g.h }}</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 16px; font-weight: 600;">Leans {{ g.pick }}</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A897F2;">gap {{ g.gap }}</span></div>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">Mkt {{ g.mkt }} · model {{ g.model }}</span>
+</article>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; justify-content: space-between;"><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">By kickoff window</h2><span style="font-size: 12px; color: #8A91A0;">Games with a line · Eastern time</span></div>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr) 190px 150px 130px 100px; gap: 12px; padding: 10px 18px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;"><span>Kickoff</span><span>Matchup</span><span>Market</span><span>Model</span><span style="text-align: right;">Cover · model</span><span style="text-align: right;">Read</span></div>
+<sc-for list="{{ groups }}" as="w" hint-placeholder-count="4">
+<div style="padding: 10px 18px 6px; font-size: 12px; font-weight: 600; color: #C9A15A; background: #14161C; border-bottom: 1px solid #1F242D;">{{ w.name }}</div>
+<sc-for list="{{ w.rows }}" as="r" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr) 190px 150px 130px 100px; gap: 12px; align-items: center; padding: 10px 18px; border-bottom: 1px solid #1A1E26; font-size: 13px; background: {{ r.bg }};">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ r.time }}</span>
+<span>{{ r.a }} <span style="color: #5C6370;">@</span> {{ r.h }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{ r.mkt }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #C9CED6;">{{ r.model }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; text-align: right; color: #C9CED6;">{{ r.cmp }}</span>
+<span style="justify-self: end; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: {{ r.tc }}; border: 1px solid {{ r.tb }}; border-radius: 6px; padding: 3px 8px; white-space: nowrap;">{{ r.tier }}</span>
+</div>
+</sc-for>
+</sc-for>
+</div>
+</section>
+</main>
+
+<aside style="width: 360px; display: flex; flex-direction: column; gap: 20px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Not priced, with the reason</h3>
+<div style="display: flex; flex-direction: column; gap: 4px;"><div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;"><span>No line captured yet</span><span style="font-family: 'IBM Plex Mono', monospace;">33</span></div><span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">The model's number is ready; the tier appears once a line is captured.</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px;"><div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;"><span>FCS opponent, no rating</span><span style="font-family: 'IBM Plex Mono', monospace;">12</span></div><span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">Bucknell @ Pittsburgh, Lindenwood @ Eastern Michigan, Central Arkansas @ Florida State and more. The model won't price a team it doesn't rate.</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px;"><div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;"><span>Whole-number spread</span><span style="font-family: 'IBM Plex Mono', monospace;">7</span></div><span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">Clemson @ California, Colorado @ Baylor, Illinois @ Ohio State and more. College push odds aren't measured, so a whole-number line isn't priced.</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px;"><div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;"><span>Already kicked off</span><span style="font-family: 'IBM Plex Mono', monospace;">4</span></div><span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">Friday's games. Never priced after kickoff.</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px;"><div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600;"><span>Neutral site</span><span style="font-family: 'IBM Plex Mono', monospace;">0</span></div><span style="font-size: 12px; color: #A6ADBA; line-height: 1.5;">None this week. The model has no home term to remove, so these are refused.</span></div>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">What the college model does not see</h3>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.55;">Quarterback changes, roster churn from the transfer portal, injuries and weather. A starting QB who is out or returning gets a <span style="color: #F0A78C; font-weight: 600;">Not in the price</span> flag on his game; there are none on this week's priced games. ESPN's injury report covers only some college teams, so a missing report means unknown, not healthy.</span>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Where these numbers come from</h3>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.55;">Model margins from this week's CFB ratings (through week 3); lines from Thursday's odds snapshot. Cover probability uses the college spread of outcomes, σ 17.8 points.</span>
+</section>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2080}}'>
+class Component extends DCLogic {
+  get DATA() {
+    return {"play": [{"tier": "PLAY", "tc": "#45C79A", "time": "Sat 9 PM", "a": "Missouri State", "h": "SMU", "pick": "Missouri State +34.5", "pm": 50.0, "pmod": 96.9, "gap": "+46.9", "mkt": "SMU −34.5", "model": "SMU by 1.3", "pts": "33", "mkL": "50.0", "mdL": "100.0", "segL": "50.0", "segW": "50.0"}], "flips": [{"time": "Sat 9 PM", "a": "Oregon State", "h": "UTEP", "pick": "UTEP +10.5", "pmod": 70.4, "gap": "+20.4", "mkt": "Oregon State −10.5", "model": "Oregon State by 0.9"}, {"time": "Sat 3:30 PM", "a": "Iowa", "h": "Michigan", "pick": "Iowa +5.5", "pmod": 67.7, "gap": "+17.7", "mkt": "Michigan −5.5", "model": "Iowa by 2.7"}, {"time": "Sat 3:30 PM", "a": "New Mexico", "h": "New Mexico State", "pick": "New Mexico State +11.5", "pmod": 66.8, "gap": "+16.8", "mkt": "New Mexico −11.5", "model": "New Mexico by 3.7"}, {"time": "Sat 12 PM", "a": "Wake Forest", "h": "Louisville", "pick": "Wake Forest +13.5", "pmod": 63.3, "gap": "+13.3", "mkt": "Louisville −13.5", "model": "Louisville by 7.5"}, {"time": "Sat 3 PM", "a": "Hawai'i", "h": "Wyoming", "pick": "Wyoming +2.5", "pmod": 61.7, "gap": "+11.7", "mkt": "Hawai'i −2.5", "model": "Wyoming by 2.8"}, {"time": "Sat 7:30 PM", "a": "Texas A&M", "h": "LSU", "pick": "Texas A&M +9.5", "pmod": 60.5, "gap": "+10.5", "mkt": "LSU −9.5", "model": "LSU by 4.7"}], "groups": [{"name": "Friday night", "rows": [{"time": "Fri 10:30 PM", "a": "Clemson", "h": "California", "mkt": "Clemson −1 (whole number)", "model": "Clemson by 1.2", "cmp": "Not priced", "tier": "REFUSED", "tc": "#E88B6E", "tb": "#E88B6E", "bg": "#1A1415"}]}, {"name": "Saturday · noon window", "rows": [{"time": "Sat 12 PM", "a": "Colorado", "h": "Baylor", "mkt": "Baylor −10 (whole number)", "model": "Baylor by 6.1", "cmp": "Not priced", "tier": "REFUSED", "tc": "#E88B6E", "tb": "#E88B6E", "bg": "#1A1415"}, {"time": "Sat 12 PM", "a": "Wake Forest", "h": "Louisville", "mkt": "Louisville −13.5", "model": "Louisville by 7.5", "cmp": "63.3% vs 50.0%", "tier": "COIN FLIP", "tc": "#A897F2", "tb": "#A897F2", "bg": "transparent"}, {"time": "Sat 12 PM", "a": "Illinois", "h": "Ohio State", "mkt": "Ohio State −27 (whole number)", "model": "Ohio State by 1.3", "cmp": "Not priced", "tier": "REFUSED", "tc": "#E88B6E", "tb": "#E88B6E", "bg": "#1A1415"}, {"time": "Sat 12 PM", "a": "UNLV", "h": "Akron", "mkt": "UNLV −13.5", "model": "UNLV by 12.6", "cmp": "52.1% vs 50.0%", "tier": "NO EDGE", "tc": "#A6ADBA", "tb": "#3A4150", "bg": "transparent"}, {"time": "Sat 12 PM", "a": "Ball State", "h": "Kent State", "mkt": "Kent State −3 (whole number)", "model": "Ball State by 1.5", "cmp": "Not priced", "tier": "REFUSED", "tc": "#E88B6E", "tb": "#E88B6E", "bg": "#1A1415"}]}, {"name": "Saturday · afternoon", "rows": [{"time": "Sat 3 PM", "a": "Hawai'i", "h": "Wyoming", "mkt": "Hawai'i −2.5", "model": "Wyoming by 2.8", "cmp": "61.7% vs 50.0%", "tier": "COIN FLIP", "tc": "#A897F2", "tb": "#A897F2", "bg": "transparent"}, {"time": "Sat 3:30 PM", "a": "Ole Miss", "h": "Florida", "mkt": "Florida −3.5", "model": "Florida by 5.1", "cmp": "53.6% vs 50.0%", "tier": "NO EDGE", "tc": "#A6ADBA", "tb": "#3A4150", "bg": "transparent"}, {"time": "Sat 3:30 PM", "a": "Iowa", "h": "Michigan", "mkt": "Michigan −5.5", "model": "Iowa by 2.7", "cmp": "67.7% vs 50.0%", "tier": "COIN FLIP", "tc": "#A897F2", "tb": "#A897F2", "bg": "transparent"}, {"time": "Sat 3:30 PM", "a": "Boise State", "h": "Western Michigan", "mkt": "Boise State −7 (whole number)", "model": "Boise State by 1.5", "cmp": "Not priced", "tier": "REFUSED", "tc": "#E88B6E", "tb": "#E88B6E", "bg": "#1A1415"}, {"time": "Sat 3:30 PM", "a": "New Mexico", "h": "New Mexico State", "mkt": "New Mexico −11.5", "model": "New Mexico by 3.7", "cmp": "66.8% vs 50.0%", "tier": "COIN FLIP", "tc": "#A897F2", "tb": "#A897F2", "bg": "transparent"}, {"time": "Sat 5 PM", "a": "Nebraska", "h": "Michigan State", "mkt": "Nebraska −5.5", "model": "Nebraska by 4.3", "cmp": "52.7% vs 50.0%", "tier": "NO EDGE", "tc": "#A6ADBA", "tb": "#3A4150", "bg": "transparent"}, {"time": "Sat 5 PM", "a": "Wisconsin", "h": "Penn State", "mkt": "Penn State −10 (whole number)", "model": "Penn State by 0.8", "cmp": "Not priced", "tier": "REFUSED", "tc": "#E88B6E", "tb": "#E88B6E", "bg": "#1A1415"}]}, {"name": "Saturday · prime time", "rows": [{"time": "Sat 7 PM", "a": "South Carolina", "h": "Alabama", "mkt": "Alabama −12.5", "model": "Alabama by 8.9", "cmp": "58.1% vs 50.0%", "tier": "NO EDGE", "tc": "#A6ADBA", "tb": "#3A4150", "bg": "transparent"}, {"time": "Sat 7 PM", "a": "Oklahoma State", "h": "West Virginia", "mkt": "West Virginia −1.5", "model": "West Virginia by 3.3", "cmp": "54.1% vs 50.0%", "tier": "NO EDGE", "tc": "#A6ADBA", "tb": "#3A4150", "bg": "transparent"}, {"time": "Sat 7:30 PM", "a": "Texas A&M", "h": "LSU", "mkt": "LSU −9.5", "model": "LSU by 4.7", "cmp": "60.5% vs 50.0%", "tier": "COIN FLIP", "tc": "#A897F2", "tb": "#A897F2", "bg": "transparent"}, {"time": "Sat 7:30 PM", "a": "Oregon", "h": "USC", "mkt": "Oregon −3 (whole number)", "model": "USC by 6.6", "cmp": "Not priced", "tier": "REFUSED", "tc": "#E88B6E", "tb": "#E88B6E", "bg": "#1A1415"}, {"time": "Sat 8 PM", "a": "Florida Atlantic", "h": "UL Monroe", "mkt": "Florida Atlantic −12.5", "model": "Florida Atlantic by 9.4", "cmp": "56.8% vs 50.0%", "tier": "NO EDGE", "tc": "#A6ADBA", "tb": "#3A4150", "bg": "transparent"}, {"time": "Sat 9 PM", "a": "Missouri State", "h": "SMU", "mkt": "SMU −34.5", "model": "SMU by 1.3", "cmp": "96.9% vs 50.0%", "tier": "PLAY", "tc": "#45C79A", "tb": "#45C79A", "bg": "#141A1A"}, {"time": "Sat 9 PM", "a": "Oregon State", "h": "UTEP", "mkt": "Oregon State −10.5", "model": "Oregon State by 0.9", "cmp": "70.4% vs 50.0%", "tier": "COIN FLIP", "tc": "#A897F2", "tb": "#A897F2", "bg": "transparent"}]}, {"name": "Saturday · late", "rows": [{"time": "Sat 10:30 PM", "a": "Georgia Tech", "h": "Stanford", "mkt": "Georgia Tech −3.5", "model": "Stanford by 0.4", "cmp": "58.7% vs 50.0%", "tier": "NO EDGE", "tc": "#A6ADBA", "tb": "#3A4150", "bg": "transparent"}]}]};
+  }
+  renderVals() {
+    return Object.assign({ yes: true }, this.DATA);
+  }
+}
+</script>
+</body>
+</html>

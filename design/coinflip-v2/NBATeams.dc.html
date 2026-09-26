@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NBA teams — model ratings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 2120px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nba" stamp="6:20 AM" live="{{ yes }}" hint-size="1440px,216px"></dc-import>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NBA sections" style="display: flex; gap: 4px;">
+<a href="NBA.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Board</a>
+<a href="NBATeams.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Teams</a>
+<a href="NBAPlayers.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Players</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Opening ratings · 2026-27</span>
+<span style="font-size: 13px; color: #A6ADBA;">Points of margin vs an average team, on a neutral floor</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 28px; padding: 28px 40px 40px;">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px;">
+<sc-for list="{{ confs }}" as="cf" hint-placeholder-count="2">
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">{{ cf.name }}</h2>
+<span style="font-size: 12px; color: #8A91A0;">sorted by opening rating · pick a team for its stats</span>
+</div>
+<div style="background: #12151B; border: 1px solid #1F242D; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: 28px minmax(0, 1fr) 170px 80px 72px 110px; gap: 12px; padding: 10px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0; border-bottom: 1px solid #1F242D;">
+<span>#</span><span>Team</span><span>Opening rating</span><span style="text-align: right;">25-26 final</span><span style="text-align: right;">25-26</span><span style="text-align: right;">Opens</span>
+</div>
+<sc-for list="{{ cf.teams }}" as="t" hint-placeholder-count="15">
+<button type="button" onClick="{{ t.pick }}" aria-pressed="{{ t.on }}" style="width: 100%; min-height: 44px; display: grid; grid-template-columns: 28px minmax(0, 1fr) 170px 80px 72px 110px; gap: 12px; align-items: center; padding: 6px 16px; border: 0; border-bottom: 1px solid #1A1E26; background: {{ t.bg }}; color: #E6E8EC; font: 400 13px 'IBM Plex Sans', sans-serif; text-align: left; cursor: pointer;">
+<span style="font-family: 'IBM Plex Mono', monospace; color: #8A91A0;">{{ t.rank }}</span>
+<span style="display: flex; align-items: center; gap: 10px;">
+<span aria-hidden="true" style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span>
+<span style="font-weight: {{ t.fw }};">{{ t.name }}</span>
+</span>
+<span style="display: flex; align-items: center; gap: 8px;">
+<span style="flex-grow: 1; height: 8px; position: relative; background: #1A1E26; border-radius: 4px;">
+<span style="position: absolute; left: 50%; top: -2px; width: 1px; height: 12px; background: #3A4150;"></span>
+<span style="position: absolute; top: 0; bottom: 0; left: {{ t.barL }}%; width: {{ t.barW }}%; background: {{ t.barC }}; border-radius: 4px;"></span>
+</span>
+<span style="width: 40px; text-align: right; font-family: 'IBM Plex Mono', monospace; color: {{ t.barC }};">{{ t.openS }}</span>
+</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #A6ADBA;">{{ t.finalS }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; text-align: right; color: #A6ADBA;">{{ t.wl }}</span>
+<span style="display: flex; flex-direction: column; align-items: flex-end;">
+<span style="font-size: 12px;">{{ t.opp }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8A91A0;">{{ t.day }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</section>
+</sc-for>
+</div>
+
+<section aria-live="polite" style="background: #151820; border: 1px solid #262B36; border-radius: 14px; padding: 22px 24px; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; align-items: center; gap: 16px;">
+<span aria-hidden="true" style="width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: #C9CED6;">{{ d.ab }}</span>
+<div style="display: flex; flex-direction: column; gap: 4px; flex-grow: 1;">
+<h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600;">{{ d.name }}</h2>
+<span style="font-size: 13px; color: #A6ADBA;">{{ d.sub }}</span>
+</div>
+<div style="display: flex; gap: 28px;">
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Opening rating</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600; color: {{ d.oc }};">{{ d.orank }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ d.open }} pts vs average</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Opens</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 600;">{{ d.opp }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ d.day }}</span>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">2025-26 regular season · ranks among 30</h3>
+<div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.tiles }}" as="k" hint-placeholder-count="5">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">{{ k.label }}</span>
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #E6E8EC;">{{ k.v }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600; color: {{ k.c }};">{{ k.rk }}</span>
+</div>
+<div style="position: relative; height: 6px; border-radius: 3px; background: #1F242D;">
+<div style="position: absolute; top: -2px; left: {{ k.pos }}%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: {{ k.c }};"></div>
+</div>
+<span style="font-size: 11px; color: #6F7684;">{{ k.hint }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{ d.splits }}" as="k" hint-placeholder-count="4">
+<div style="display: flex; justify-content: space-between; align-items: baseline; background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 10px 14px;">
+<span style="font-size: 12px; color: #A6ADBA;">{{ k.label }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">{{ k.v }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+<div style="background: #11141A; border: 1px dashed #2F3542; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">Playoff odds</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #A6ADBA;">Not simulated yet</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">The season simulator is built and checked for the NFL only. An NBA version, with the play-in, would need its own check before its numbers go here.</span>
+</div>
+<div style="background: #11141A; border: 1px dashed #2F3542; border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">The model on this team</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #A6ADBA;">0 of 10 settled</span>
+<span style="font-size: 12px; color: #A6ADBA; line-height: 1.45;">The season opens Oct 20. Shown once 10 paper trades on this team have settled.</span>
+</div>
+</div>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">How a rating becomes a spread</h3>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.6;">home margin = home − away + 2.0</span>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.55;">Thunder @ Spurs on opening night: 5.5 − 5.1 + 2.0 = Spurs by 2.4. The outcome is priced with a standard deviation of 14.2 points around that margin.</span>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">Why every team starts at half</h3>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.55;">Each season opens at half of last season's final rating (Spurs 10.9 → 5.5), and then every game moves both teams by 5% of the model's miss. That's the procedure graded at t = +5.96 on a season it had never seen.</span>
+</section>
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 12px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">What a rating doesn't know</h3>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.55;">Roster moves, injuries and minutes. A team that changed over the summer carries last season's number until results move it. The <a href="NBAPlayers.dc.html">Players tab</a> is where you weigh that part yourself.</span>
+</section>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2120}}'>
+class Component extends DCLogic {
+  get STATS() {
+    return {"ATL": {"gp": 82, "w": 46, "l": 36, "ppg": 118.5, "oppg": 116.0, "net": 2.4, "hw": 24, "hl": 17, "aw": 22, "al": 19, "l10w": 6, "l10l": 4, "cw": 9, "cl": 10, "ppgR": 6, "oppgR": 18, "netR": 12, "wR": 12}, "BKN": {"gp": 82, "w": 20, "l": 62, "ppg": 105.9, "oppg": 115.9, "net": -10.0, "hw": 12, "hl": 29, "aw": 8, "al": 33, "l10w": 3, "l10l": 7, "cw": 2, "cl": 12, "ppgR": 30, "oppgR": 17, "netR": 28, "wR": 28}, "BOS": {"gp": 82, "w": 56, "l": 26, "ppg": 114.9, "oppg": 107.2, "net": 7.7, "hw": 30, "hl": 11, "aw": 26, "al": 15, "l10w": 8, "l10l": 2, "cw": 10, "cl": 10, "ppgR": 19, "oppgR": 1, "netR": 4, "wR": 4}, "CHA": {"gp": 82, "w": 44, "l": 38, "ppg": 116.0, "oppg": 111.2, "net": 4.8, "hw": 21, "hl": 20, "aw": 23, "al": 18, "l10w": 6, "l10l": 4, "cw": 5, "cl": 11, "ppgR": 13, "oppgR": 7, "netR": 8, "wR": 16}, "CHI": {"gp": 82, "w": 31, "l": 51, "ppg": 116.3, "oppg": 121.5, "net": -5.2, "hw": 18, "hl": 23, "aw": 13, "al": 28, "l10w": 2, "l10l": 8, "cw": 13, "cl": 9, "ppgR": 11, "oppgR": 28, "netR": 22, "wR": 22}, "CLE": {"gp": 82, "w": 52, "l": 30, "ppg": 119.5, "oppg": 115.4, "net": 4.1, "hw": 27, "hl": 14, "aw": 25, "al": 16, "l10w": 7, "l10l": 3, "cw": 13, "cl": 7, "ppgR": 4, "oppgR": 15, "netR": 9, "wR": 9}, "DAL": {"gp": 82, "w": 26, "l": 56, "ppg": 114.1, "oppg": 119.6, "net": -5.5, "hw": 16, "hl": 25, "aw": 10, "al": 31, "l10w": 3, "l10l": 7, "cw": 8, "cl": 10, "ppgR": 23, "oppgR": 23, "netR": 23, "wR": 24}, "DEN": {"gp": 82, "w": 54, "l": 28, "ppg": 122.1, "oppg": 116.9, "net": 5.1, "hw": 28, "hl": 13, "aw": 26, "al": 15, "l10w": 10, "l10l": 0, "cw": 15, "cl": 13, "ppgR": 1, "oppgR": 21, "netR": 7, "wR": 5}, "DET": {"gp": 82, "w": 60, "l": 22, "ppg": 117.8, "oppg": 109.6, "net": 8.2, "hw": 32, "hl": 9, "aw": 28, "al": 13, "l10w": 8, "l10l": 2, "cw": 14, "cl": 10, "ppgR": 8, "oppgR": 3, "netR": 3, "wR": 3}, "GS": {"gp": 82, "w": 37, "l": 45, "ppg": 114.6, "oppg": 115.2, "net": -0.6, "hw": 22, "hl": 19, "aw": 15, "al": 26, "l10w": 3, "l10l": 7, "cw": 10, "cl": 13, "ppgR": 21, "oppgR": 14, "netR": 20, "wR": 20}, "HOU": {"gp": 82, "w": 52, "l": 30, "ppg": 115.2, "oppg": 110.0, "net": 5.2, "hw": 30, "hl": 11, "aw": 22, "al": 19, "l10w": 9, "l10l": 1, "cw": 14, "cl": 12, "ppgR": 18, "oppgR": 4, "netR": 6, "wR": 8}, "IND": {"gp": 82, "w": 19, "l": 63, "ppg": 112.4, "oppg": 120.4, "net": -8.0, "hw": 11, "hl": 30, "aw": 8, "al": 33, "l10w": 3, "l10l": 7, "cw": 10, "cl": 12, "ppgR": 27, "oppgR": 25, "netR": 26, "wR": 29}, "LAC": {"gp": 82, "w": 42, "l": 40, "ppg": 113.8, "oppg": 112.6, "net": 1.1, "hw": 23, "hl": 18, "aw": 19, "al": 22, "l10w": 6, "l10l": 4, "cw": 10, "cl": 12, "ppgR": 24, "oppgR": 10, "netR": 16, "wR": 18}, "LAL": {"gp": 82, "w": 53, "l": 29, "ppg": 116.3, "oppg": 114.6, "net": 1.8, "hw": 28, "hl": 13, "aw": 25, "al": 16, "l10w": 7, "l10l": 3, "cw": 11, "cl": 4, "ppgR": 12, "oppgR": 11, "netR": 14, "wR": 7}, "MEM": {"gp": 82, "w": 25, "l": 57, "ppg": 114.7, "oppg": 120.7, "net": -6.0, "hw": 14, "hl": 27, "aw": 11, "al": 30, "l10w": 1, "l10l": 9, "cw": 7, "cl": 9, "ppgR": 20, "oppgR": 26, "netR": 24, "wR": 25}, "MIA": {"gp": 82, "w": 43, "l": 39, "ppg": 120.9, "oppg": 118.5, "net": 2.3, "hw": 26, "hl": 15, "aw": 17, "al": 24, "l10w": 5, "l10l": 5, "cw": 8, "cl": 8, "ppgR": 2, "oppgR": 22, "netR": 13, "wR": 17}, "MIL": {"gp": 82, "w": 32, "l": 50, "ppg": 110.6, "oppg": 116.8, "net": -6.2, "hw": 19, "hl": 22, "aw": 13, "al": 28, "l10w": 3, "l10l": 7, "cw": 9, "cl": 8, "ppgR": 29, "oppgR": 20, "netR": 25, "wR": 21}, "MIN": {"gp": 82, "w": 49, "l": 33, "ppg": 118.0, "oppg": 114.6, "net": 3.4, "hw": 26, "hl": 15, "aw": 23, "al": 18, "l10w": 5, "l10l": 5, "cw": 11, "cl": 12, "ppgR": 7, "oppgR": 12, "netR": 10, "wR": 10}, "NO": {"gp": 82, "w": 26, "l": 56, "ppg": 115.5, "oppg": 120.0, "net": -4.5, "hw": 17, "hl": 24, "aw": 9, "al": 32, "l10w": 1, "l10l": 9, "cw": 6, "cl": 13, "ppgR": 16, "oppgR": 24, "netR": 21, "wR": 23}, "NY": {"gp": 82, "w": 53, "l": 29, "ppg": 116.5, "oppg": 110.1, "net": 6.3, "hw": 30, "hl": 10, "aw": 23, "al": 19, "l10w": 6, "l10l": 4, "cw": 11, "cl": 5, "ppgR": 10, "oppgR": 5, "netR": 5, "wR": 6}, "OKC": {"gp": 82, "w": 64, "l": 18, "ppg": 119.0, "oppg": 107.9, "net": 11.1, "hw": 34, "hl": 8, "aw": 30, "al": 10, "l10w": 7, "l10l": 3, "cw": 9, "cl": 7, "ppgR": 5, "oppgR": 2, "netR": 1, "wR": 1}, "ORL": {"gp": 82, "w": 45, "l": 37, "ppg": 115.7, "oppg": 115.1, "net": 0.6, "hw": 26, "hl": 16, "aw": 19, "al": 21, "l10w": 7, "l10l": 3, "cw": 19, "cl": 12, "ppgR": 15, "oppgR": 13, "netR": 17, "wR": 14}, "PHI": {"gp": 82, "w": 45, "l": 37, "ppg": 115.9, "oppg": 116.1, "net": -0.2, "hw": 23, "hl": 18, "aw": 22, "al": 19, "l10w": 6, "l10l": 4, "cw": 10, "cl": 10, "ppgR": 14, "oppgR": 19, "netR": 18, "wR": 15}, "PHX": {"gp": 82, "w": 45, "l": 37, "ppg": 112.6, "oppg": 111.1, "net": 1.5, "hw": 25, "hl": 16, "aw": 20, "al": 21, "l10w": 5, "l10l": 5, "cw": 12, "cl": 14, "ppgR": 26, "oppgR": 6, "netR": 15, "wR": 13}, "POR": {"gp": 82, "w": 42, "l": 40, "ppg": 115.5, "oppg": 115.8, "net": -0.3, "hw": 24, "hl": 17, "aw": 18, "al": 23, "l10w": 7, "l10l": 3, "cw": 11, "cl": 12, "ppgR": 17, "oppgR": 16, "netR": 19, "wR": 19}, "SA": {"gp": 82, "w": 62, "l": 20, "ppg": 119.8, "oppg": 111.5, "net": 8.3, "hw": 32, "hl": 8, "aw": 30, "al": 12, "l10w": 8, "l10l": 2, "cw": 13, "cl": 10, "ppgR": 3, "oppgR": 8, "netR": 2, "wR": 2}, "SAC": {"gp": 82, "w": 22, "l": 60, "ppg": 111.0, "oppg": 121.0, "net": -10.0, "hw": 15, "hl": 26, "aw": 7, "al": 34, "l10w": 3, "l10l": 7, "cw": 10, "cl": 11, "ppgR": 28, "oppgR": 27, "netR": 29, "wR": 27}, "TOR": {"gp": 82, "w": 46, "l": 36, "ppg": 114.6, "oppg": 111.8, "net": 2.8, "hw": 24, "hl": 17, "aw": 22, "al": 19, "l10w": 6, "l10l": 4, "cw": 7, "cl": 5, "ppgR": 22, "oppgR": 9, "netR": 11, "wR": 11}, "UTAH": {"gp": 82, "w": 22, "l": 60, "ppg": 117.6, "oppg": 126.0, "net": -8.4, "hw": 14, "hl": 27, "aw": 8, "al": 33, "l10w": 1, "l10l": 9, "cw": 9, "cl": 11, "ppgR": 9, "oppgR": 30, "netR": 27, "wR": 26}, "WSH": {"gp": 82, "w": 17, "l": 65, "ppg": 112.9, "oppg": 124.9, "net": -12.0, "hw": 11, "hl": 30, "aw": 6, "al": 35, "l10w": 0, "l10l": 10, "cw": 5, "cl": 9, "ppgR": 25, "oppgR": 29, "netR": 30, "wR": 30}};
+  }
+  renderVals() {
+    const DISPLAY = { NY: 'NYK', GS: 'GSW', SA: 'SAS', UTAH: 'UTA', NO: 'NOP', WSH: 'WAS' };
+    const EAST = ['ATL', 'BOS', 'BKN', 'CHA', 'CHI', 'CLE', 'DET', 'IND', 'MIA', 'MIL', 'NY', 'ORL', 'PHI', 'TOR', 'WSH'];
+    // The model's real opening ratings for 2026-27 (2025-26 final x 0.5 carryover),
+    // real 2025-26 records, and each team's real first game.
+    const R = [
+      ['SA', 'San Antonio Spurs', 5.5, 10.9, 62, 20, 'Tue Oct 20', 'vs OKC'], ['OKC', 'Oklahoma City Thunder', 5.1, 10.2, 64, 18, 'Tue Oct 20', '@ SA'],
+      ['BOS', 'Boston Celtics', 4.9, 9.8, 56, 26, 'Tue Oct 20', '@ DET'], ['DET', 'Detroit Pistons', 4.9, 9.8, 60, 22, 'Tue Oct 20', 'vs BOS'],
+      ['CHA', 'Charlotte Hornets', 4.7, 9.3, 44, 38, 'Wed Oct 21', '@ BKN'], ['DEN', 'Denver Nuggets', 3.8, 7.6, 54, 28, 'Thu Oct 22', '@ OKC'],
+      ['NY', 'New York Knicks', 3.8, 7.5, 53, 29, 'Tue Oct 20', 'vs PHI'], ['ATL', 'Atlanta Hawks', 2.7, 5.5, 46, 36, 'Wed Oct 21', '@ ORL'],
+      ['TOR', 'Toronto Raptors', 2.5, 5.1, 46, 36, 'Wed Oct 21', 'vs CHI'], ['HOU', 'Houston Rockets', 2.5, 5.0, 52, 30, 'Wed Oct 21', 'vs DAL'],
+      ['LAL', 'Los Angeles Lakers', 1.6, 3.3, 53, 29, 'Wed Oct 21', 'vs GS'], ['CLE', 'Cleveland Cavaliers', 1.6, 3.2, 52, 30, 'Thu Oct 22', '@ PHI'],
+      ['POR', 'Portland Trail Blazers', 1.5, 2.9, 42, 40, 'Wed Oct 21', 'vs PHX'], ['MIN', 'Minnesota Timberwolves', 1.3, 2.5, 49, 33, 'Wed Oct 21', '@ MIA'],
+      ['LAC', 'LA Clippers', 1.0, 1.9, 42, 40, 'Wed Oct 21', 'vs SAC'], ['PHX', 'Phoenix Suns', 0.9, 1.7, 45, 37, 'Wed Oct 21', '@ POR'],
+      ['MIA', 'Miami Heat', 0.6, 1.3, 43, 39, 'Wed Oct 21', 'vs MIN'], ['ORL', 'Orlando Magic', 0.5, 0.9, 45, 37, 'Wed Oct 21', 'vs ATL'],
+      ['PHI', 'Philadelphia 76ers', 0.1, 0.1, 45, 37, 'Tue Oct 20', '@ NY'], ['NO', 'New Orleans Pelicans', -1.6, -3.2, 26, 56, 'Wed Oct 21', 'vs IND'],
+      ['GS', 'Golden State Warriors', -2.2, -4.4, 37, 45, 'Wed Oct 21', '@ LAL'], ['IND', 'Indiana Pacers', -3.0, -6.0, 19, 63, 'Wed Oct 21', '@ NO'],
+      ['DAL', 'Dallas Mavericks', -3.3, -6.6, 26, 56, 'Wed Oct 21', '@ HOU'], ['CHI', 'Chicago Bulls', -4.2, -8.3, 31, 51, 'Wed Oct 21', '@ TOR'],
+      ['SAC', 'Sacramento Kings', -4.6, -9.2, 22, 60, 'Wed Oct 21', '@ LAC'], ['UTAH', 'Utah Jazz', -4.8, -9.7, 22, 60, 'Wed Oct 21', '@ MEM'],
+      ['MIL', 'Milwaukee Bucks', -4.9, -9.7, 32, 50, 'Wed Oct 21', '@ WSH'], ['MEM', 'Memphis Grizzlies', -6.6, -13.3, 25, 57, 'Wed Oct 21', 'vs UTAH'],
+      ['BKN', 'Brooklyn Nets', -7.1, -14.1, 20, 62, 'Wed Oct 21', 'vs CHA'], ['WSH', 'Washington Wizards', -7.1, -14.2, 17, 65, 'Wed Oct 21', 'vs MIL']
+    ];
+    const sgn = (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(1);
+    const dab = (a) => DISPLAY[a] || a;
+    const fix = (s) => s.replace(/\b(NY|GS|SA|UTAH|NO|WSH)\b/g, (m) => dab(m));
+    const sel = (this.state && this.state.sel) || 'SA';
+    const rankOf = {};
+    R.forEach((r, i) => { rankOf[r[0]] = i + 1; });
+    const row = (r, i) => {
+      const w = Math.min(50, Math.abs(r[2]) / 8 * 50), on = r[0] === sel;
+      return {
+        rank: i + 1, ab: dab(r[0]), name: r[1], openS: sgn(r[2]), finalS: sgn(r[3]), wl: r[4] + '–' + r[5],
+        day: r[6], opp: fix(r[7]), barL: r[2] >= 0 ? 50 : 50 - w, barW: w, barC: r[2] >= 0 ? '#45C79A' : '#E88B6E',
+        on: on ? 'true' : 'false', bg: on ? '#1B2230' : 'transparent', fw: on ? 600 : 400,
+        pick: () => this.setState({ sel: r[0] })
+      };
+    };
+    const east = R.filter((r) => EAST.indexOf(r[0]) >= 0).map(row);
+    const west = R.filter((r) => EAST.indexOf(r[0]) < 0).map(row);
+    const S = this.STATS, N = 30;
+    const col = (k) => (k <= 8 ? '#45C79A' : k >= 23 ? '#E88B6E' : '#A6ADBA');
+    const ord = (n) => n + (n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th');
+    const r = R.filter((x) => x[0] === sel)[0], st = S[sel];
+    const isEast = EAST.indexOf(sel) >= 0;
+    const conf = R.filter((x) => (EAST.indexOf(x[0]) >= 0) === isEast).map((x) => x[0])
+      .sort((a, b) => (S[b].w / S[b].gp - S[a].w / S[a].gp) || (S[b].net - S[a].net));
+    const finalRank = R.slice().sort((a, b) => b[3] - a[3]).map((x) => x[0]).indexOf(sel) + 1;
+    const tile = (label, v, k, hint) => ({ label, v, rk: '#' + k + ' of ' + N, c: col(k), pos: ((k - 1) / (N - 1) * 100).toFixed(1), hint });
+    const d = {
+      ab: dab(sel), name: r[1],
+      sub: st.w + '–' + st.l + ' in 2025-26 · ' + ord(conf.indexOf(sel) + 1) + ' in the ' + (isEast ? 'East' : 'West') + ' · #' + st.wR + ' in the league',
+      orank: '#' + rankOf[sel] + ' of ' + N, oc: col(rankOf[sel]), open: sgn(r[2]), opp: fix(r[7]), day: r[6],
+      tiles: [
+        tile('Final rating', sgn(r[3]), finalRank, 'Model, end of 2025-26'),
+        tile('Win–loss', st.w + '–' + st.l, st.wR, 'By win percentage'),
+        tile('Net per game', sgn(st.net), st.netR, 'Points scored minus allowed'),
+        tile('Points scored', st.ppg.toFixed(1), st.ppgR, 'Per game'),
+        tile('Points allowed', st.oppg.toFixed(1), st.oppgR, 'Per game · lower is better')
+      ],
+      splits: [
+        { label: 'Home', v: st.hw + '–' + st.hl }, { label: 'Road', v: st.aw + '–' + st.al },
+        { label: 'Last 10', v: st.l10w + '–' + st.l10l }, { label: 'Within 5 pts', v: st.cw + '–' + st.cl }
+      ]
+    };
+    return { yes: true, confs: [{ name: 'Eastern Conference', teams: east }, { name: 'Western Conference', teams: west }], d };
+  }
+}
+</script>
+</body>
+</html>

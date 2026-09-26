@@ -1,0 +1,571 @@
+{
+ "_about": "Home venues for display and travel distance only; never a model input. NBA/NHL arenas from ESPN team records, city-level coordinates. Written by model/ingest/venues.py.",
+ "nba": {
+  "ATL": {
+   "name": "State Farm Arena",
+   "city": "Atlanta",
+   "state": "GA",
+   "lat": 33.749,
+   "lon": -84.388
+  },
+  "BKN": {
+   "name": "Barclays Center",
+   "city": "Brooklyn",
+   "state": "NY",
+   "lat": 40.678,
+   "lon": -73.944
+  },
+  "BOS": {
+   "name": "TD Garden",
+   "city": "Boston",
+   "state": "MA",
+   "lat": 42.36,
+   "lon": -71.059
+  },
+  "CHA": {
+   "name": "Spectrum Center",
+   "city": "Charlotte",
+   "state": "NC",
+   "lat": 35.227,
+   "lon": -80.843
+  },
+  "CHI": {
+   "name": "United Center",
+   "city": "Chicago",
+   "state": "IL",
+   "lat": 41.878,
+   "lon": -87.63
+  },
+  "CLE": {
+   "name": "Rocket Arena",
+   "city": "Cleveland",
+   "state": "OH",
+   "lat": 41.499,
+   "lon": -81.694
+  },
+  "DAL": {
+   "name": "American Airlines Center",
+   "city": "Dallas",
+   "state": "TX",
+   "lat": 32.777,
+   "lon": -96.797
+  },
+  "DEN": {
+   "name": "Ball Arena",
+   "city": "Denver",
+   "state": "CO",
+   "lat": 39.739,
+   "lon": -104.99
+  },
+  "DET": {
+   "name": "Little Caesars Arena",
+   "city": "Detroit",
+   "state": "MI",
+   "lat": 42.331,
+   "lon": -83.046
+  },
+  "GS": {
+   "name": "Chase Center",
+   "city": "San Francisco",
+   "state": "CA",
+   "lat": 37.775,
+   "lon": -122.419
+  },
+  "HOU": {
+   "name": "Toyota Center (Houston)",
+   "city": "Houston",
+   "state": "TX",
+   "lat": 29.76,
+   "lon": -95.37
+  },
+  "IND": {
+   "name": "Gainbridge Fieldhouse",
+   "city": "Indianapolis",
+   "state": "IN",
+   "lat": 39.768,
+   "lon": -86.158
+  },
+  "LAC": {
+   "name": "Intuit Dome",
+   "city": "Inglewood",
+   "state": "CA",
+   "lat": 33.962,
+   "lon": -118.353
+  },
+  "LAL": {
+   "name": "crypto.com Arena",
+   "city": "Los Angeles",
+   "state": "CA",
+   "lat": 34.052,
+   "lon": -118.244
+  },
+  "MEM": {
+   "name": "FedExForum",
+   "city": "Memphis",
+   "state": "TN",
+   "lat": 35.15,
+   "lon": -90.049
+  },
+  "MIA": {
+   "name": "Kaseya Center",
+   "city": "Miami",
+   "state": "FL",
+   "lat": 25.762,
+   "lon": -80.192
+  },
+  "MIL": {
+   "name": "Fiserv Forum",
+   "city": "Milwaukee",
+   "state": "WI",
+   "lat": 43.039,
+   "lon": -87.906
+  },
+  "MIN": {
+   "name": "Target Center",
+   "city": "Minneapolis",
+   "state": "MN",
+   "lat": 44.978,
+   "lon": -93.265
+  },
+  "NO": {
+   "name": "Smoothie King Center",
+   "city": "New Orleans",
+   "state": "LA",
+   "lat": 29.951,
+   "lon": -90.072
+  },
+  "NY": {
+   "name": "Madison Square Garden",
+   "city": "New York",
+   "state": "NY",
+   "lat": 40.713,
+   "lon": -74.006
+  },
+  "OKC": {
+   "name": "Paycom Center",
+   "city": "Oklahoma City",
+   "state": "OK",
+   "lat": 35.468,
+   "lon": -97.516
+  },
+  "ORL": {
+   "name": "Kia Center",
+   "city": "Orlando",
+   "state": "FL",
+   "lat": 28.538,
+   "lon": -81.379
+  },
+  "PHI": {
+   "name": "Xfinity Mobile Arena",
+   "city": "Philadelphia",
+   "state": "PA",
+   "lat": 39.953,
+   "lon": -75.165
+  },
+  "PHX": {
+   "name": "Mortgage Matchup Center",
+   "city": "Phoenix",
+   "state": "AZ",
+   "lat": 33.448,
+   "lon": -112.074
+  },
+  "POR": {
+   "name": "Moda Center",
+   "city": "Portland",
+   "state": "OR",
+   "lat": 45.515,
+   "lon": -122.679
+  },
+  "SA": {
+   "name": "Frost Bank Center",
+   "city": "San Antonio",
+   "state": "TX",
+   "lat": 29.424,
+   "lon": -98.494
+  },
+  "SAC": {
+   "name": "Golden 1 Center",
+   "city": "Sacramento",
+   "state": "CA",
+   "lat": 38.582,
+   "lon": -121.494
+  },
+  "TOR": {
+   "name": "Scotiabank Arena",
+   "city": "Toronto",
+   "state": "ON",
+   "lat": 43.653,
+   "lon": -79.383
+  },
+  "UTAH": {
+   "name": "Delta Center",
+   "city": "Salt Lake City",
+   "state": "UT",
+   "lat": 40.761,
+   "lon": -111.891
+  },
+  "WSH": {
+   "name": "Capital One Arena",
+   "city": "Washington",
+   "state": "DC",
+   "lat": 38.907,
+   "lon": -77.037
+  }
+ },
+ "nhl": {
+  "ANA": {
+   "name": "Honda Center",
+   "city": "Anaheim",
+   "state": "CA",
+   "lat": 33.836,
+   "lon": -117.914
+  },
+  "BOS": {
+   "name": "TD Garden",
+   "city": "Boston",
+   "state": "MA",
+   "lat": 42.36,
+   "lon": -71.059
+  },
+  "BUF": {
+   "name": "KeyBank Center",
+   "city": "Buffalo",
+   "state": "NY",
+   "lat": 42.886,
+   "lon": -78.878
+  },
+  "CAR": {
+   "name": "Lenovo Center",
+   "city": "Raleigh",
+   "state": "NC",
+   "lat": 35.78,
+   "lon": -78.639
+  },
+  "CBJ": {
+   "name": "Nationwide Arena",
+   "city": "Columbus",
+   "state": "OH",
+   "lat": 39.961,
+   "lon": -82.999
+  },
+  "CGY": {
+   "name": "Scotiabank Saddledome",
+   "city": "Calgary",
+   "state": "AB",
+   "lat": 51.045,
+   "lon": -114.057
+  },
+  "CHI": {
+   "name": "United Center",
+   "city": "Chicago",
+   "state": "IL",
+   "lat": 41.878,
+   "lon": -87.63
+  },
+  "COL": {
+   "name": "Ball Arena",
+   "city": "Denver",
+   "state": "CO",
+   "lat": 39.739,
+   "lon": -104.99
+  },
+  "DAL": {
+   "name": "American Airlines Center",
+   "city": "Dallas",
+   "state": "TX",
+   "lat": 32.777,
+   "lon": -96.797
+  },
+  "DET": {
+   "name": "Little Caesars Arena",
+   "city": "Detroit",
+   "state": "MI",
+   "lat": 42.331,
+   "lon": -83.046
+  },
+  "EDM": {
+   "name": "Rogers Place",
+   "city": "Edmonton",
+   "state": "AB",
+   "lat": 53.546,
+   "lon": -113.494
+  },
+  "FLA": {
+   "name": "Amerant Bank Arena",
+   "city": "Sunrise",
+   "state": "FL",
+   "lat": 26.134,
+   "lon": -80.114
+  },
+  "LAK": {
+   "name": "crypto.com Arena",
+   "city": "Los Angeles",
+   "state": "CA",
+   "lat": 34.052,
+   "lon": -118.244
+  },
+  "MIN": {
+   "name": "Grand Casino Arena",
+   "city": "Saint Paul",
+   "state": "MN",
+   "lat": 44.954,
+   "lon": -93.09
+  },
+  "MTL": {
+   "name": "Bell Centre",
+   "city": "Montreal",
+   "state": "QC",
+   "lat": 45.502,
+   "lon": -73.567
+  },
+  "NJD": {
+   "name": "Prudential Center",
+   "city": "Newark",
+   "state": "NJ",
+   "lat": 40.736,
+   "lon": -74.172
+  },
+  "NSH": {
+   "name": "Bridgestone Arena",
+   "city": "Nashville",
+   "state": "TN",
+   "lat": 36.163,
+   "lon": -86.782
+  },
+  "NYI": {
+   "name": "UBS Arena",
+   "city": "Elmont",
+   "state": "NY",
+   "lat": 40.7,
+   "lon": -73.713
+  },
+  "NYR": {
+   "name": "Madison Square Garden",
+   "city": "New York",
+   "state": "NY",
+   "lat": 40.713,
+   "lon": -74.006
+  },
+  "OTT": {
+   "name": "Canadian Tire Centre",
+   "city": "Ottawa",
+   "state": "ON",
+   "lat": 45.297,
+   "lon": -75.927
+  },
+  "PHI": {
+   "name": "Xfinity Mobile Arena",
+   "city": "Philadelphia",
+   "state": "PA",
+   "lat": 39.953,
+   "lon": -75.165
+  },
+  "PIT": {
+   "name": "PPG Paints Arena",
+   "city": "Pittsburgh",
+   "state": "PA",
+   "lat": 40.441,
+   "lon": -79.996
+  },
+  "SEA": {
+   "name": "Climate Pledge Arena",
+   "city": "Seattle",
+   "state": "WA",
+   "lat": 47.606,
+   "lon": -122.332
+  },
+  "SJS": {
+   "name": "SAP Center at San Jose",
+   "city": "San Jose",
+   "state": "CA",
+   "lat": 37.339,
+   "lon": -121.894
+  },
+  "STL": {
+   "name": "Enterprise Center",
+   "city": "St. Louis",
+   "state": "MO",
+   "lat": 38.627,
+   "lon": -90.199
+  },
+  "TBL": {
+   "name": "Benchmark International Arena",
+   "city": "Tampa",
+   "state": "FL",
+   "lat": 27.951,
+   "lon": -82.458
+  },
+  "TOR": {
+   "name": "Scotiabank Arena",
+   "city": "Toronto",
+   "state": "ON",
+   "lat": 43.653,
+   "lon": -79.383
+  },
+  "UTA": {
+   "name": "Delta Center",
+   "city": "Salt Lake City",
+   "state": "UT",
+   "lat": 40.761,
+   "lon": -111.891
+  },
+  "VAN": {
+   "name": "Rogers Arena",
+   "city": "Vancouver",
+   "state": "BC",
+   "lat": 49.283,
+   "lon": -123.121
+  },
+  "VGK": {
+   "name": "T-Mobile Arena",
+   "city": "Las Vegas",
+   "state": "NV",
+   "lat": 36.17,
+   "lon": -115.14
+  },
+  "WPG": {
+   "name": "Canada Life Centre",
+   "city": "Winnipeg",
+   "state": "MB",
+   "lat": 49.895,
+   "lon": -97.138
+  },
+  "WSH": {
+   "name": "Capital One Arena",
+   "city": "Washington",
+   "state": "DC",
+   "lat": 38.907,
+   "lon": -77.037
+  }
+ },
+ "nfl": {
+  "ARI": {
+   "lat": 33.5276,
+   "lon": -112.2626
+  },
+  "ATL": {
+   "lat": 33.7554,
+   "lon": -84.4009
+  },
+  "BAL": {
+   "lat": 39.278,
+   "lon": -76.6227
+  },
+  "BUF": {
+   "lat": 42.7738,
+   "lon": -78.787
+  },
+  "CAR": {
+   "lat": 35.2258,
+   "lon": -80.8528
+  },
+  "CHI": {
+   "lat": 41.8623,
+   "lon": -87.6167
+  },
+  "CIN": {
+   "lat": 39.0955,
+   "lon": -84.5161
+  },
+  "CLE": {
+   "lat": 41.5061,
+   "lon": -81.6995
+  },
+  "DAL": {
+   "lat": 32.7473,
+   "lon": -97.0945
+  },
+  "DEN": {
+   "lat": 39.7439,
+   "lon": -105.0201
+  },
+  "DET": {
+   "lat": 42.34,
+   "lon": -83.0456
+  },
+  "GB": {
+   "lat": 44.5013,
+   "lon": -88.0622
+  },
+  "HOU": {
+   "lat": 29.6847,
+   "lon": -95.4107
+  },
+  "IND": {
+   "lat": 39.7601,
+   "lon": -86.1639
+  },
+  "JAX": {
+   "lat": 30.324,
+   "lon": -81.6373
+  },
+  "KC": {
+   "lat": 39.0489,
+   "lon": -94.4839
+  },
+  "LA": {
+   "lat": 33.9535,
+   "lon": -118.3392
+  },
+  "LAC": {
+   "lat": 33.9535,
+   "lon": -118.3392
+  },
+  "LV": {
+   "lat": 36.0909,
+   "lon": -115.1833
+  },
+  "MIA": {
+   "lat": 25.958,
+   "lon": -80.2389
+  },
+  "MIN": {
+   "lat": 44.9737,
+   "lon": -93.2577
+  },
+  "NE": {
+   "lat": 42.0909,
+   "lon": -71.2643
+  },
+  "NO": {
+   "lat": 29.9511,
+   "lon": -90.0812
+  },
+  "NYG": {
+   "lat": 40.8128,
+   "lon": -74.0742
+  },
+  "NYJ": {
+   "lat": 40.8128,
+   "lon": -74.0742
+  },
+  "PHI": {
+   "lat": 39.9008,
+   "lon": -75.1675
+  },
+  "PIT": {
+   "lat": 40.4468,
+   "lon": -80.0158
+  },
+  "SEA": {
+   "lat": 47.5952,
+   "lon": -122.3316
+  },
+  "SF": {
+   "lat": 37.403,
+   "lon": -121.97
+  },
+  "TB": {
+   "lat": 27.9759,
+   "lon": -82.5033
+  },
+  "TEN": {
+   "lat": 36.1665,
+   "lon": -86.7713
+  },
+  "WAS": {
+   "lat": 38.9077,
+   "lon": -76.8645
+  }
+ }
+}

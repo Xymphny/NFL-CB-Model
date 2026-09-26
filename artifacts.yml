@@ -97,6 +97,15 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/venues.json
+    produced_by: model/ingest/venues.py
+    consumed_by:
+      - scripts/board_context.py
+    kind: bronze
+    refresh: "when an arena changes; NBA/NHL read off real home games, never typed"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/nfl_neutral_site.json
     produced_by: model/nfl_neutral_site.py
     consumed_by:

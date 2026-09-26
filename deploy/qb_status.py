@@ -136,54 +136,58 @@ def get_projected_starters(season, data_dir=None):
     return cached
 
 
-def get_qb_alerts(season, week, games=None, injuries=None):
-    """Returns {team: reason_string} for teams with QB uncertainty.
-    Teams absent from the dict are clear. Empty dict on any data
-    problem -- this feature must never break the odds pipeline."""
+def get_qb_alerts_detailed(season, week, games=None, injuries=None):
+    """{team: {"text": ..., "source": ...}} for teams with QB uncertainty.
+
+    Same signals as get_qb_alerts, with WHERE each came from, because the
+    feeds disagree: nflverse games.csv listed Tua Tagovailoa as ATL's week-2
+    starter while team reports had Cooper Rush starting weeks 1-2, and a
+    "started last game" alert inherits that error. The board shows the
+    source so a reader can weigh it.
+
+    PRECEDENCE: a manual override beats every feed. A team with any override
+    entry -- a corrected starter or a forced alert -- gets no alert from the
+    last-start signal, because the human has already said who starts. Empty
+    dict on any data problem: this must never break a board.
+    """
     try:
         if games is None:
             games = pd.read_csv(GAMES_URL)
-        # Current depth-chart QB1 is the truth for "who starts"; modal
-        # from played games fills any team the chart is missing.
         modal = _modal_starters(games, season, week)
-        modal.update(get_projected_starters(season))
+        chart = get_projected_starters(season)
+        modal.update(chart)
         overrides = load_overrides("nfl")
         for team, ov in overrides.items():
             if ov.get("starter"):
                 modal[team] = ov["starter"]
 
         alerts = {}
+        src_label = "nflverse injury report"
         try:
             if injuries is None:
                 injuries = pd.read_parquet(INJURIES_URL.format(season=season))
             inj_qb = injuries[(injuries["position"] == "QB") & (injuries["week"] == week)]
-            qb_rows = [(row["team"], row["full_name"], row.get("report_status")) for _, row in inj_qb.iterrows()]
+            qb_rows = [(row["team"], row["full_name"], row.get("report_status"), src_label)
+                       for _, row in inj_qb.iterrows()]
         except Exception as inj_err:
             print(f"[qb_status] nflverse injuries unavailable ({inj_err}); trying ESPN fallback")
             qb_rows = []
-        # Merge ESPN QB statuses for teams the official file doesn't
-        # cover yet (same Wednesday-morning gap as game_context: an
-        # official file that EXISTS but is nearly empty must not
-        # silently blank the alerts ESPN can still provide).
         try:
-            covered = {t for t, _, _ in qb_rows}
+            covered = {t for t, _, _, _ in qb_rows}
             if len(covered) < 28:
                 from deploy.game_context import fetch_espn_injuries
-                qb_rows += [(team, r["player"], r["status"])
+                qb_rows += [(team, r["player"], r["status"], "ESPN injury report")
                             for team, rows in fetch_espn_injuries().items()
                             for r in rows if r["position"] == "QB" and team not in covered]
         except Exception as espn_err:
             print(f"[qb_status] ESPN merge skipped: {espn_err}")
-        for team, name, status in qb_rows:
+        for team, name, status, source in qb_rows:
             if status in ALERT_STATUSES and _norm_name(modal.get(team)) == _norm_name(name):
-                alerts[team] = f"{name} listed {status}"
-        # Manual alerts override/augment everything.
+                alerts[team] = {"text": f"{name} listed {status}", "source": source}
         for team, ov in overrides.items():
             if ov.get("alert"):
-                alerts[team] = ov["alert"]
+                alerts[team] = {"text": ov["alert"], "source": "manual override"}
 
-        # Second signal: last completed game started by a non-modal QB
-        # (covers benchings and injuries that never hit a report).
         played = games[(games["season"] == season) & (games["week"] < week) & games["home_score"].notna()]
         if len(played):
             last_start = {}
@@ -191,14 +195,23 @@ def get_qb_alerts(season, week, games=None, injuries=None):
                 last_start[gm["home_team"]] = gm["home_qb_name"]
                 last_start[gm["away_team"]] = gm["away_qb_name"]
             for team, qb_name in last_start.items():
-                if team in alerts or team not in modal:
+                if team in alerts or team not in modal or team in overrides:
                     continue
                 if qb_name and _norm_name(qb_name) != _norm_name(modal[team]):
-                    alerts[team] = f"{qb_name} started last game (current QB1: {modal[team]})"
+                    qb1_src = "depth chart" if team in chart else "season's modal starter"
+                    alerts[team] = {
+                        "text": f"{qb_name} started last game (current QB1: {modal[team]})",
+                        "source": f"nflverse games.csv last start vs {qb1_src}"}
         return alerts
     except Exception as e:
         print(f"[qb_status] soft-fail, no alerts: {e}")
         return {}
+
+
+def get_qb_alerts(season, week, games=None, injuries=None):
+    """Returns {team: reason_string} for teams with QB uncertainty -- the
+    legacy odds-watch's shape. See get_qb_alerts_detailed for sources."""
+    return {t: a["text"] for t, a in get_qb_alerts_detailed(season, week, games, injuries).items()}
 
 
 if __name__ == "__main__":

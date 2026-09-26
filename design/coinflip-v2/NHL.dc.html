@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NHL board — opening night</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1014}
+a{color:#9CC3EC;text-decoration:none}a:hover{color:#C4DBF3}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1800px; box-sizing: border-box; background: #0E1014; color: #E6E8EC; font-family: 'IBM Plex Sans', system-ui, sans-serif; display: flex; flex-direction: column;">
+<dc-import name="Header" league="nhl" stamp="5:12 PM" hint-size="1440px,216px"></dc-import>
+
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; border-bottom: 1px solid #1F242D;">
+<nav aria-label="NHL sections" style="display: flex; gap: 4px;">
+<a href="NHL.dc.html" aria-current="page" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; border-radius: 8px; background: #1B1F28; color: #FFFFFF; font-size: 14px; font-weight: 600;">Board</a>
+<a href="NHLTeams.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Attack &amp; defence</a>
+<a href="Record.dc.html" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">Record</a>
+<a href="#" style="min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: #A6ADBA; font-size: 14px;">My book</a>
+</nav>
+<div style="display: flex; align-items: baseline; gap: 16px;">
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600;">Tue Sep 29 · opening night</span>
+<span style="font-size: 13px; color: #A6ADBA;">5 games · moneyline, puck line, total</span>
+</div>
+</div>
+
+<div style="margin: 24px 40px 0; display: flex; gap: 16px; align-items: flex-start; background: #12181C; border: 1px solid #2A4048; border-radius: 12px; padding: 16px 20px;">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #7FC4D6; border: 1px solid #7FC4D6; border-radius: 6px; padding: 3px 8px; white-space: nowrap;">LOW INFORMATION</span>
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 14px; font-weight: 600;">Hockey ratings restart every season, as graded. After 0 games every team is league average.</span>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.5;">The model's read is shown, but tiers are held back until each team has 10 games. Early gaps with the market are the model not knowing yet, not an edge. Paper trades are still recorded.</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 32px; padding: 24px 40px 40px;">
+<main style="width: 700px; display: flex; flex-direction: column; gap: 12px;">
+<sc-for list="{{ games }}" as="g" hint-placeholder-count="5">
+<article style="background: {{ g.bg }}; border: 1px solid {{ g.border }}; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: grid; grid-template-columns: 180px minmax(0, 1fr) 150px; gap: 20px; align-items: center;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">{{ g.time }}</span>
+<div style="display: flex; flex-direction: column; gap: 6px;"><div style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;"><span aria-hidden="true" style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: #C9CED6;">{{ g.aAb }}</span><span>{{ g.aN }}</span></div><div style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;"><span aria-hidden="true" style="width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #1F242D; border: 1px solid #3A4150; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600; color: #C9CED6;">{{ g.hAb }}</span><span>{{ g.hN }}</span><span style="font-size: 11px; font-weight: 400; color: #8A91A0;">home</span></div></div>
+<span style="font-size: 12px; color: #8A91A0;">{{ g.goalies }}</span>
+<div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #A6ADBA;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8A91A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg><span>{{ g.venue }}</span></div>
+<span style="font-size: 12px; color: #8A91A0;">{{ g.rest }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #A6ADBA;"><span>{{ g.side }} to win</span><span style="font-family: 'IBM Plex Mono', monospace;">{{ g.ml }}</span></div>
+<div style="position: relative; height: 16px;">
+<div style="position: absolute; left: 0; right: 0; top: 7px; height: 2px; background: #262B36;"></div>
+<div style="position: absolute; left: 50%; top: 1px; width: 1px; height: 14px; background: #3A4150;"></div>
+<div style="position: absolute; top: 6px; height: 4px; border-radius: 2px; left: {{ g.segL }}%; width: {{ g.segW }}%; background: #7FC4D6; opacity: 0.35;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mkL }}%; width: 12px; height: 12px; margin-left: -6px; box-sizing: border-box; border-radius: 50%; border: 2px solid #A6ADBA; background: #151820;"></div>
+<div style="position: absolute; top: 2px; left: {{ g.mdL }}%; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #7FC4D6;"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+<span style="color: #A6ADBA;">Market {{ g.pm }}%</span>
+<span style="color: #7FC4D6;">Model {{ g.pmod }}%</span>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #8A91A0; border: 1px dashed #3A4150; border-radius: 6px; padding: 3px 8px;">TIER HELD</span>
+<span style="font-size: 12px; color: #8A91A0; text-align: right;">{{ g.note }}</span>
+</div>
+</div>
+<div style="display: flex; gap: 16px; align-items: flex-start; border-top: 1px solid #232833; padding-top: 10px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0; line-height: 20px; white-space: nowrap;">Injuries</span>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 20px; flex-grow: 1;">
+<sc-for list="{{ g.inj }}" as="t" hint-placeholder-count="2">
+<div style="display: flex; gap: 8px; align-items: center; font-size: 12px; line-height: 20px;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: #C9CED6;">{{ t.ab }}</span>
+<sc-for list="{{ t.p }}" as="p" hint-placeholder-count="2">
+<span style="white-space: nowrap;"><span style="color: #E6E8EC;">{{ p.n }}</span> <span style="color: #8A91A0;">{{ p.pos }}</span> <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: {{ p.c }};">{{ p.s }}</span></span>
+</sc-for>
+<sc-if value="{{ t.hasMore }}" hint-placeholder-val="{{ false }}">
+<span style="color: #8A91A0;">+{{ t.more }} more</span>
+</sc-if>
+<sc-if value="{{ t.none }}" hint-placeholder-val="{{ false }}">
+<span style="color: #6F7684;">none listed</span>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #A6ADBA; border: 1px solid #3A4150; border-radius: 4px; padding: 2px 6px; white-space: nowrap;">Not in the price</span>
+</div>
+<sc-if value="{{ g.hasFlag }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; gap: 12px; align-items: baseline; background: #1A1512; border: 1px solid #4A3226; border-radius: 10px; padding: 10px 14px;">
+<span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #F0A78C; white-space: nowrap;">NOT IN THE PRICE · {{ g.flagWho }}</span>
+<span style="font-size: 12px; color: #E6E8EC; line-height: 1.45;">{{ g.flag }}</span>
+</div>
+</sc-if>
+</article>
+</sc-for>
+</main>
+
+<aside style="width: 636px; display: flex; flex-direction: column; gap: 20px;">
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8A91A0;">Selected game · puck line</span>
+<h3 style="margin: 0; font-size: 18px; font-weight: 600;">Panthers @ Hurricanes · 7:00 PM</h3>
+<span style="font-size: 13px; color: #A6ADBA;">Final goal margin, home perspective: the model's full distribution</span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 10px; height: 200px; padding: 0 4px; border-bottom: 1px solid #2A2F39;">
+<sc-for list="{{ bars }}" as="b" hint-placeholder-count="9">
+<div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%;">
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #A6ADBA;">{{ b.label }}</span>
+<div style="width: 100%; height: {{ b.h }}px; border-radius: 4px 4px 0 0; background: {{ b.fill }}; border: 1px solid {{ b.edge }}; box-sizing: border-box;"></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; gap: 10px; padding: 0 4px; margin-top: -8px;">
+<sc-for list="{{ bars }}" as="b" hint-placeholder-count="9">
+<span style="flex-grow: 1; flex-basis: 0; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{ b.axis }};">{{ b.m }}</span>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; color: #A6ADBA;">
+<span style="background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">No mass at 0: every tie goes to OT or a shootout and ends by exactly 1</span>
+<span style="background: #1B1F28; border: 1px solid #2A2F39; border-radius: 999px; padding: 4px 10px;">3-goal wins outnumber 2-goal wins: the empty-net effect</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+<sc-for list="{{ grid }}" as="m" hint-placeholder-count="3">
+<div style="background: #11141A; border: 1px solid #232833; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #8A91A0;">{{ m.name }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">{{ m.line }}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #A6ADBA;">Mkt {{ m.pm }} · Model {{ m.pmod }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="background: #151820; border: 1px solid #262B36; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 10px;">
+<h3 style="margin: 0; font-size: 14px; font-weight: 600;">What the hockey model does not see</h3>
+<span style="font-size: 13px; color: #A6ADBA; line-height: 1.55;">Starting goalies, injuries, back-to-backs, travel and the rink are not model inputs. Weather appears only for outdoor games. They're listed on each game so you can weigh them, but they never move the model's number. An unconfirmed or backup goalie gets a <span style="color: #F0A78C; font-weight: 600;">Not in the price</span> flag on its game.</span>
+</section>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+  get AB() {
+    return {"panthers": "FLA", "hurricanes": "CAR", "canadiens": "MTL", "maple leafs": "TOR", "rangers": "NYR", "bruins": "BOS", "kings": "LAK", "golden knights": "VGK", "stars": "DAL", "avalanche": "COL"};
+  }
+
+  tm(o) {
+    const A = this.AB;
+    const key = (s) => (s || '').toLowerCase();
+    const parts = (o.matchup || '').split(' @ ');
+    const an = parts[0], hn = parts[1] || '';
+    const aAb = A[key(an)] || '', hAb = A[key(hn)] || '';
+    const first = (o.pick || '').split(' ')[0];
+    let pAb = o.pAb || '';
+    if (!pAb && o.pick) {
+      if (first === aAb || first === hAb) pAb = first;
+      else if (o.pick.indexOf(an) === 0) pAb = aAb;
+      else if (o.pick.indexOf(hn) === 0) pAb = hAb;
+    }
+    return Object.assign({}, o, { aN: an, hN: hn, aAb, hAb, pAb });
+  }
+  ij(ab, list, max) {
+    const S = { 'Out': ['OUT', '#E88B6E'], 'Doubtful': ['DOUBTFUL', '#E0B04A'], 'Questionable': ['QUESTIONABLE', '#A6ADBA'], 'Probable': ['PROBABLE', '#7FD1AE'], 'IL': ['IL', '#E88B6E'], 'IR': ['IR', '#E88B6E'], 'DTD': ['DAY-TO-DAY', '#A6ADBA'] };
+    const shown = list.slice(0, max).map((x) => ({ n: x[0], pos: x[1], s: (S[x[2]] || [x[2], '#A6ADBA'])[0], c: (S[x[2]] || [x[2], '#A6ADBA'])[1] }));
+    const more = Math.max(0, list.length - max);
+    return { ab, p: shown, more, hasMore: more > 0, none: list.length === 0 };
+  }
+  meter(g) {
+    const c = (v) => Math.max(0, Math.min(100, (v - 30) / 40 * 100));
+    const a = c(g.pm), b = c(g.pmod);
+    return Object.assign({ bg: '#151820', border: '#262B36' }, g, {
+      hasFlag: !!g.flag,
+      mkL: a.toFixed(1), mdL: b.toFixed(1),
+      segL: Math.min(a, b).toFixed(1), segW: Math.abs(a - b).toFixed(1)
+    });
+  }
+  renderVals() {
+    const games = [
+      { time: '7:00 PM', matchup: 'Panthers @ Hurricanes', goalies: 'Bobrovsky · Andersen (unconfirmed)', venue: 'Lenovo Center · Raleigh', rest: 'Opener for both · rest not in the price', inj: [this.ij('FLA', [['[PLAYER]', 'F', 'IR'], ['[PLAYER]', 'D', 'DTD']], 2), this.ij('CAR', [['[PLAYER]', 'F', 'DTD']], 2)], side: 'CAR', ml: 'CAR −130', pm: 55.1, pmod: 50.6, note: 'Gap is the reset, not an edge', bg: '#161C22', border: '#2A4048', flagWho: 'CAR GOALIE', flag: 'Carolina’s starter isn’t confirmed. Books move on goalie news; the team rating can’t tell who is in net.' },
+      { time: '7:00 PM', matchup: 'Canadiens @ Maple Leafs', goalies: 'Montembeault · Stolarz', venue: 'Scotiabank Arena · Toronto', rest: 'Opener for both · rest not in the price', inj: [this.ij('MTL', [], 2), this.ij('TOR', [['[PLAYER]', 'D', 'IR']], 2)], side: 'TOR', ml: 'TOR −165', pm: 60.8, pmod: 50.6, note: 'Model at league average' },
+      { time: '7:00 PM', matchup: 'Rangers @ Bruins', goalies: 'Shesterkin · Swayman', venue: 'TD Garden · Boston', rest: 'Opener for both · rest not in the price', inj: [this.ij('NYR', [['[PLAYER]', 'F', 'DTD']], 2), this.ij('BOS', [['[PLAYER]', 'F', 'IR'], ['[PLAYER]', 'D', 'IR'], ['[PLAYER]', 'F', 'DTD']], 2)], side: 'BOS', ml: 'BOS −115', pm: 52.4, pmod: 50.6, note: 'Model at league average' },
+      { time: '10:00 PM', matchup: 'Kings @ Golden Knights', goalies: 'Kuemper · Hill', venue: 'T-Mobile Arena · Las Vegas', rest: 'Opener for both · LAK ~230 mi', inj: [this.ij('LAK', [], 2), this.ij('VGK', [['[PLAYER]', 'D', 'IR']], 2)], side: 'VGK', ml: 'VGK −140', pm: 56.9, pmod: 50.6, note: 'Model at league average' },
+      { time: '10:30 PM', matchup: 'Stars @ Avalanche', goalies: 'Oettinger · Blackwood', venue: 'Ball Arena · Denver', rest: 'Opener for both · DAL ~660 mi', inj: [this.ij('DAL', [['[PLAYER]', 'F', 'DTD']], 2), this.ij('COL', [['[PLAYER]', 'F', 'IR']], 2)], side: 'COL', ml: 'COL −125', pm: 54.3, pmod: 50.6, note: 'Model at league average' }
+    ].map((g) => this.meter(g));
+    const P = [
+      { m: '−4', p: 0.045 }, { m: '−3', p: 0.11 }, { m: '−2', p: 0.094 }, { m: '−1', p: 0.198 },
+      { m: '0', p: 0.0 }, { m: '+1', p: 0.207 }, { m: '+2', p: 0.098 }, { m: '+3', p: 0.117 }, { m: '+4', p: 0.048 }
+    ];
+    const bars = P.map((x) => {
+      const cover = x.m.charAt(0) === '+' && x.m !== '+1';
+      return {
+        m: x.m,
+        label: x.p === 0 ? '0%' : (x.p * 100).toFixed(1) + '%',
+        h: Math.max(2, Math.round(x.p * 760)),
+        fill: cover ? 'rgba(127,196,214,0.55)' : '#232833',
+        edge: cover ? '#7FC4D6' : '#2F3542',
+        axis: cover ? '#7FC4D6' : '#8A91A0'
+      };
+    });
+    const grid = [
+      { name: 'Moneyline', line: 'CAR −130', pm: '55.1%', pmod: '50.6%' },
+      { name: 'Puck line', line: 'CAR −1.5 +185', pm: '33.9%', pmod: '26.3%' },
+      { name: 'Total', line: 'Over 6 −110', pm: '48.2%', pmod: '47.5%' }
+    ];
+    return { games: games.map((x) => this.tm(x)), bars, grid };
+  }
+}
+</script>
+</body>
+</html>
