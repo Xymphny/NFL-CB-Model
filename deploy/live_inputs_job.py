@@ -76,6 +76,8 @@ PATHS = (
     "data/site/board_nhl.json", "data/site/board_nba.json",
     "data/site/record.json", "data/site/gates.json",
     "data/site/players_nba.json",
+    "data/site/teams_nfl.json", "data/site/teams_nba.json",
+    "data/site/pitchers_parks_mlb.json", "data/site/attack_defence_nhl.json",
 )
 
 
@@ -147,9 +149,13 @@ def steps(today_et: date) -> list[tuple[str, Callable[[], None]]]:
         import export_board
         import export_players
         import export_record
+        import export_teams
         _call(export_board.main, [])
         _call(export_record.main, [])
         _call(export_players.main, [])
+        # Team pages soft-fail (dashboard v2 ground rule 4): a page that
+        # cannot build is logged, never a failed step.
+        export_teams.main([])
 
     return [("nba", nba), ("nba_players", nba_players), ("nhl", nhl), ("mlb", mlb), ("cfb", cfb), ("audit", audit),
             ("settle", settle), ("export", export)]

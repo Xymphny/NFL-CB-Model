@@ -609,5 +609,21 @@ def main():
     except Exception as site_err:
         print(f"[weekly_job] site data soft-fail: {site_err}")
 
+    # Season outlook (dashboard v2 item 12): playoff odds from this week's
+    # ratings, n=2000, ~80 seconds -- here, never on page load. Display
+    # only and soft-fail: an outlook that cannot run must not cost the
+    # ratings commit above.
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
+        import export_outlook
+        import export_teams
+        export_outlook.main([])
+        export_teams.main(["--league", "nfl"])
+        if os.environ.get("GIT_REPO_URL"):
+            for path in ("data/site/outlook_nfl.json", "data/site/teams_nfl.json"):
+                git_commit_and_push(path, commit_message=f"Season outlook: {os.path.basename(path)}")
+    except Exception as out_err:
+        print(f"[weekly_job] outlook soft-fail: {out_err}")
+
 if __name__ == "__main__":
     main()

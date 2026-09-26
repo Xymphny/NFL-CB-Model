@@ -494,6 +494,51 @@ artifacts:
     staleness_error_hours: null
     unconsumed_reason: null
 
+  - path: data/site/teams_nfl.json
+    produced_by: scripts/export_teams.py
+    consumed_by:
+      - frontend/src/data.js
+    kind: gold
+    refresh: "twice daily (live-inputs-job) and after each ratings snapshot (weekly-ratings-job); display only, every rank computed in the export"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/site/teams_nba.json
+    produced_by: scripts/export_teams.py
+    consumed_by:
+      - frontend/src/data.js
+    kind: gold
+    refresh: "twice daily (live-inputs-job); the 2025-26 season file the model reads"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/site/pitchers_parks_mlb.json
+    produced_by: scripts/export_teams.py
+    consumed_by:
+      - frontend/src/data.js
+    kind: gold
+    refresh: "twice daily (live-inputs-job); the walk-forward state replayed to today"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/site/attack_defence_nhl.json
+    produced_by: scripts/export_teams.py
+    consumed_by:
+      - frontend/src/data.js
+    kind: gold
+    refresh: "twice daily (live-inputs-job); 2025-26 rates, NOT used by the model"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
+  - path: data/site/outlook_nfl.json
+    produced_by: scripts/export_outlook.py
+    consumed_by:
+      - frontend/src/data.js
+    kind: gold
+    refresh: "after each ratings snapshot (weekly-ratings-job), n=2000; playoff odds only"
+    staleness_error_hours: null
+    unconsumed_reason: null
+
   - path: data/site/gates.json
     produced_by: scripts/export_record.py
     consumed_by:

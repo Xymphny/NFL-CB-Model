@@ -48,6 +48,53 @@ def _now() -> str:
 
 # ------------------------------------------------------------------ record --
 
+#: Settled games before a team's own record is shown (the brief's floor).
+TEAM_FLOOR = 10
+
+
+def team_code(league: str, name: str) -> str:
+    """A selection's display name -> the code the Teams pages use; the name
+    itself when no table knows it."""
+    try:
+        if league == "nfl":
+            from deploy.odds_watch_job import ODDS_TEAM_TO_ABBR
+            return ODDS_TEAM_TO_ABBR[name]
+        if league == "nba":
+            from coverline.leagues.nba.teams import NBA_NAMES
+            return NBA_NAMES[name]
+        mod = {"cfb": "coverline.leagues.cfb.teams", "mlb": "coverline.leagues.mlb.teams",
+               "nhl": "coverline.leagues.nhl.teams"}[league]
+        import importlib
+        return importlib.import_module(mod).TABLE.to_code(name)
+    except Exception:
+        return name
+
+
+def per_team(league: str, rows: list, per_game: dict, outcome: dict, clv: dict) -> dict:
+    """{team: {settled, wins, mean_clv}} over the league's settled games, a
+    game counted for BOTH teams in it. The two teams come from the paper
+    trades themselves, which record both sides of every market."""
+    sides: dict = defaultdict(dict)
+    for s in rows:
+        if s.side in ("home", "away") and s.selection:
+            sides[s.event_id][s.side] = s.selection
+    out: dict = {}
+    for ev, (_, s) in per_game.items():
+        o = outcome.get(s.signal_id)
+        if o is None or o.result not in ("win", "loss"):
+            continue
+        for name in sides.get(ev, {}).values():
+            t = out.setdefault(team_code(league, name), {"settled": 0, "wins": 0, "_clv": []})
+            t["settled"] += 1
+            t["wins"] += o.result == "win"
+            if clv.get(ev) is not None:
+                t["_clv"].append(clv[ev])
+    for t in out.values():
+        c = t.pop("_clv")
+        t["mean_clv"] = round(sum(c) / len(c), 5) if c else None
+    return dict(sorted(out.items()))
+
+
 def record(ledger_dir: Path = LEDGER) -> dict:
     led = BetLedger(ledger_dir)
     sigs = led.signals()
@@ -116,6 +163,7 @@ def record(ledger_dir: Path = LEDGER) -> dict:
                            "clv_prob_points": round(clv, 4) if clv is not None else None})
         n = len(settled)
         recent.sort(key=lambda r: r["at"], reverse=True)
+        teams = per_team(league, rows, per_game, outcome, early_clv)
         out["leagues"][league] = {
             "grade": {"weight": w, **({k: grade.get(k) for k in ("w_hat", "se", "n", "source")}
                                       if grade else {"source": None})},
@@ -131,6 +179,10 @@ def record(ledger_dir: Path = LEDGER) -> dict:
             # price at the trade. What CLV after the vig cannot show.
             "mean_market_move_points": round(sum(moves) / len(moves), 5) if moves else None,
             "clv_graded": len(clv_pts),
+            # Brief item 13. The site shows a team's numbers only once it has
+            # TEAM_FLOOR settled games, and "N of TEAM_FLOOR settled" before.
+            "team_floor": TEAM_FLOOR,
+            "teams": teams,
             "recent": recent[:50],
         }
     return out
