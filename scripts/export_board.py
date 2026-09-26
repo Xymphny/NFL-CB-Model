@@ -57,6 +57,7 @@ from coverline.execution.normalize import normalize  # noqa: E402
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 import board_context  # noqa: E402
+import board_detail  # noqa: E402
 
 SITE = ROOT / "data" / "site"
 BRONZE = ROOT / "data" / "bronze"
@@ -253,6 +254,33 @@ def _load(league: str, R, day: str | None = None):
         return (model, src, games, {"kind": "date", "date": day}, start,
                 lambda gid: {**_mlb_context(src, gid), **extra.get(gid, {})}, fresh)
     raise ValueError(league)
+
+
+def attach_line_history(board: dict, store: BronzeStore, sport: str, headline: str,
+                        dists: dict) -> None:
+    """Brief item 10: every matched game's headline line since open, and the
+    model's fair line, from one pass over the captures. Soft-fails to
+    nothing: history is display, never a reason a board is missing."""
+    try:
+        now = pd.Timestamp(board["generated_at"])
+        key = B.M.vendor_key(headline)
+        want = {g["event_id"]: key for g in board["games"] if g.get("event_id")}
+        hist = board_detail.history(store, sport, want, now)
+        gaps = board_detail.true_gaps(store, sport)
+        for g in board["games"]:
+            m = g["markets"].get(headline) or {}
+            side = m.get("side") or "home"
+            if g.get("event_id"):
+                g["line_history"] = _clean(board_detail.for_side(
+                    hist.get(g["event_id"], []), side, g.get("start"), gaps))
+            if g["game_id"] in dists and m.get("line") is not None:
+                g["fair_line"] = board_detail.fair_line(dists[g["game_id"]], side)
+            elif m.get("status") == "priced":
+                # A moneyline has no line to draw: the sparkline plots the
+                # market's probability, and the model's is its fair mark.
+                g["fair_p"] = m.get("p_model")
+    except Exception as exc:
+        print(f"[export_board] line history soft-fail: {type(exc).__name__}: {exc}")
 
 
 def _context_bundle(make) -> dict:
@@ -545,6 +573,7 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
         from deploy.odds_watch_job import load_regime_map
         regimes = load_regime_map(slate["season"], str(ROOT / "data"))
 
+    fair: dict = {}
     for g in games:
         entry = {"game_id": g.game_id, "home": g.home, "away": g.away,
                  "home_name": names.get(g.home, g.home), "away_name": names.get(g.away, g.away),
@@ -572,6 +601,11 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
             board["games"].append(_clean(entry))
             continue
         entry["model"] = model_view(dist)
+        # Matchup detail (brief items 9-10): the distribution the board just
+        # priced with, as bars the site draws and never computes.
+        entry["model"]["margin_pmf"] = board_detail.margin_pmf(league, dist)
+        entry["model"]["totals"] = board_detail.totals_view(league, dist)
+        fair[g.game_id] = dist
         ev = matched.get(g.game_id)
         if ev is None:
             entry["refusal"] = ("no market price captured for this game" if snap is not None
@@ -597,6 +631,7 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
                                       m.get("tier") if m.get("status") == "priced" else None)
         board["games"].append(_clean(entry))
 
+    attach_line_history(board, store, lg.vendor_sport, headline, fair)
     board["games"].sort(key=lambda e: (e["start"] or "", e["game_id"]))
     return board
 
