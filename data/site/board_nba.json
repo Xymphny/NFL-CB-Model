@@ -1,6 +1,6 @@
 {
  "league": "nba",
- "generated_at": "2026-09-26T10:42:25Z",
+ "generated_at": "2026-09-26T14:04:59Z",
  "note": "Daily. The model is team-level: it has no injury or minutes layer, so late scratches and rest decisions are not in its price.",
  "slate": {
   "kind": "date",
@@ -11,8 +11,8 @@
  "freshness": {
   "odds_captured_at": null,
   "credits": {
-   "as_of": "2026-09-26T02:30:44Z",
-   "remaining": 19926,
+   "as_of": "2026-09-26T14:01:27Z",
+   "remaining": 19911,
    "monthly": 20000
   },
   "latest_final": "2026-04-13 00:30:00+00:00"
@@ -186,7 +186,8 @@
   "lean": 0.1062,
   "play": 0.1646,
   "source": "backtest",
-  "provisional": true
+  "provisional": true,
+  "outlier_points": 11.13
  },
  "next_slate": {
   "date": "2026-10-20",
@@ -203,6 +204,50 @@
    "no_edge": 0
   },
   "started": 0,
+  "not_priced": [
+   {
+    "key": "no_line",
+    "label": "No line captured yet",
+    "note": "The model's number is ready; the tier appears once a line is captured.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "unrated",
+    "label": "FCS opponent, no rating",
+    "note": "The model won't price a team it doesn't rate.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "whole_number",
+    "label": "Whole-number spread",
+    "note": "Priced since the measured key-number table (ADR 0028); refused only where a league has none.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "started",
+    "label": "Already kicked off",
+    "note": "Never priced after kickoff.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "neutral",
+    "label": "Neutral site",
+    "note": "The model has no home term to remove, so these are refused.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "other",
+    "label": "Other refusal",
+    "note": "The reason is on the game.",
+    "games": 0,
+    "examples": []
+   }
+  ],
   "refusals": 0,
   "reason": null,
   "game_refusals": []

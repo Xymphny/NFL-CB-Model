@@ -1,6 +1,6 @@
 {
  "league": "mlb",
- "generated_at": "2026-09-26T10:42:21Z",
+ "generated_at": "2026-09-26T14:04:54Z",
  "note": "Daily. Lines are quoted on the listed probable starters; a scratch changes the game being priced.",
  "slate": {
   "kind": "date",
@@ -22,14 +22,14 @@
      "line": null,
      "side": "home",
      "selection": "Washington Nationals",
-     "best_price_decimal": 2.2,
-     "best_price_american": 120,
-     "best_book": "gtbets",
-     "books": 6,
+     "best_price_decimal": 2.04,
+     "best_price_american": 104,
+     "best_book": "matchbook",
+     "books": 19,
      "p_model": 0.52759,
-     "p_market": 0.44697,
-     "edge": 0.08062,
-     "tier": "lean",
+     "p_market": 0.47979,
+     "edge": 0.0478,
+     "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": null,
@@ -43,13 +43,13 @@
      "line": 1.5,
      "side": "home",
      "selection": "Washington Nationals",
-     "best_price_decimal": 1.69,
-     "best_price_american": -145,
-     "best_book": "gtbets",
-     "books": 6,
+     "best_price_decimal": 1.67,
+     "best_price_american": -149,
+     "best_book": "onexbet",
+     "books": 13,
      "p_model": 0.63712,
-     "p_market": 0.57928,
-     "edge": 0.05784,
+     "p_market": 0.60239,
+     "edge": 0.03473,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -64,13 +64,13 @@
      "line": 8.5,
      "side": "over",
      "selection": "Over",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "sport888",
-     "books": 5,
+     "best_price_decimal": 1.99,
+     "best_price_american": -101,
+     "best_book": "onexbet",
+     "books": 12,
      "p_model": 0.56566,
-     "p_market": 0.48513,
-     "edge": 0.08052,
+     "p_market": 0.49093,
+     "edge": 0.07473,
      "tier": "lean",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -83,15 +83,139 @@
    "context": {
     "home_probable": "Connelly Early",
     "away_probable": "Jonah Tong",
-    "park": "WAS11"
+    "park": "WAS11",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "WAS11",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 7,
+      "counts": {
+       "60-Day IL": 6,
+       "15-Day IL": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 7,
+      "counts": {
+       "60-Day IL": 3,
+       "15-Day IL": 3,
+       "7-Day IL": 1
+      }
+     },
+     "counts_only": true
+    },
+    "rest": {
+     "home_day_after_night": true,
+     "away_day_after_night": true,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": null,
    "model": {
     "p_home_win": 0.52759,
     "margin_mean": -0.009,
-    "total_mean": 9.758
+    "total_mean": 9.758,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00379,
+      0.00551,
+      0.00793,
+      0.0113,
+      0.01587,
+      0.02226,
+      0.03046,
+      0.04111,
+      0.05441,
+      0.07403,
+      0.08864,
+      0.10952,
+      0.0,
+      0.16826,
+      0.08974,
+      0.07373,
+      0.05608,
+      0.04181,
+      0.03067,
+      0.02188,
+      0.01524,
+      0.0104,
+      0.00698,
+      0.00461,
+      0.00301
+     ],
+     "binned": false,
+     "tail_below": 0.00758,
+     "tail_above": 0.00519,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
    },
-   "event_id": "287e49b158c6a0b40e1ca1a98f81cee8"
+   "event_id": "287e49b158c6a0b40e1ca1a98f81cee8",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-26T01:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.125,
+      "p_market": 0.44886,
+      "books": 4
+     },
+     {
+      "captured_at": "2026-09-26T02:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.12,
+      "p_market": 0.44771,
+      "books": 5
+     },
+     {
+      "captured_at": "2026-09-26T02:11:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.14,
+      "p_market": 0.44697,
+      "books": 6
+     },
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 2.0,
+      "p_market": 0.47979,
+      "books": 19
+     }
+    ],
+    "captures": 4,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.52759
   },
   {
    "game_id": "DET202609260",
@@ -100,19 +224,217 @@
    "home_name": "Detroit Tigers",
    "away_name": "Pittsburgh Pirates",
    "start": "2026-09-26T17:10:00Z",
-   "markets": {},
+   "markets": {
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Detroit Tigers",
+     "best_price_decimal": 2.02,
+     "best_price_american": 102,
+     "best_book": "betfair_ex_eu",
+     "books": 22,
+     "p_model": 0.59505,
+     "p_market": 0.5,
+     "edge": 0.09505,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "runline": {
+     "market": "runline",
+     "status": "priced",
+     "refusal": null,
+     "line": -1.5,
+     "side": "home",
+     "selection": "Detroit Tigers",
+     "best_price_decimal": 2.87,
+     "best_price_american": 187,
+     "best_book": "pinnacle",
+     "books": 9,
+     "p_model": 0.39492,
+     "p_market": 0.34253,
+     "edge": 0.05239,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -1.5,
+     "open_p_market": 0.34253,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "total": {
+     "market": "total",
+     "status": "priced",
+     "refusal": null,
+     "line": 9.0,
+     "side": "under",
+     "selection": "Under",
+     "best_price_decimal": 1.88,
+     "best_price_american": -114,
+     "best_book": "mybookieag",
+     "books": 8,
+     "p_model": 0.67346,
+     "p_market": 0.51122,
+     "edge": 0.16224,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 9.0,
+     "open_p_market": 0.51122,
+     "open_at": "2026-09-26T14:01:27Z"
+    }
+   },
    "headline": "moneyline",
    "context": {
     "home_probable": "Justin Verlander",
     "away_probable": "Kirby Yates",
-    "park": "DET05"
+    "park": "DET05",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "DET05",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Bailey Horn",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Burch Smith",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Justin Verlander",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 11,
+      "counts": {
+       "60-Day IL": 9,
+       "10-Day IL": 2,
+       "15-Day IL": 3
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Endy Rodriguez",
+        "position": "C",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Mitch Keller",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Braxton Ashcraft",
+        "position": "SP",
+        "status": "15-Day IL"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "60-Day IL": 2,
+       "15-Day IL": 2,
+       "10-Day IL": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": true,
+     "away_day_after_night": true,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
-   "refusal": "no market price captured for this game",
+   "refusal": null,
    "model": {
     "p_home_win": 0.59505,
     "margin_mean": 0.64,
-    "total_mean": 7.863
-   }
+    "total_mean": 7.863,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00106,
+      0.00176,
+      0.0029,
+      0.00473,
+      0.0076,
+      0.01232,
+      0.01927,
+      0.02956,
+      0.04449,
+      0.0685,
+      0.0901,
+      0.12115,
+      0.0,
+      0.20014,
+      0.10819,
+      0.08682,
+      0.06376,
+      0.04539,
+      0.03165,
+      0.02138,
+      0.01406,
+      0.00904,
+      0.00571,
+      0.00355,
+      0.00217
+     ],
+     "binned": false,
+     "tail_below": 0.0015,
+     "tail_above": 0.0032,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "event_id": "f6f4976b029249f664cf53c32044f64a",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 22
+     }
+    ],
+    "captures": 1,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.59505
   },
   {
    "game_id": "TOR202609260",
@@ -129,13 +451,13 @@
      "line": null,
      "side": "home",
      "selection": "Toronto Blue Jays",
-     "best_price_decimal": 1.65,
-     "best_price_american": -154,
-     "best_book": "onexbet",
-     "books": 19,
+     "best_price_decimal": 1.66,
+     "best_price_american": -152,
+     "best_book": "matchbook",
+     "books": 22,
      "p_model": 0.61014,
-     "p_market": 0.59798,
-     "edge": 0.01217,
+     "p_market": 0.60223,
+     "edge": 0.00791,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -153,10 +475,10 @@
      "best_price_decimal": 2.37,
      "best_price_american": 137,
      "best_book": "onexbet",
-     "books": 14,
+     "books": 15,
      "p_model": 0.43111,
-     "p_market": 0.40838,
-     "edge": 0.02273,
+     "p_market": 0.41668,
+     "edge": 0.01444,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -171,10 +493,10 @@
      "line": 8.0,
      "side": "over",
      "selection": "Over",
-     "best_price_decimal": 1.98,
-     "best_price_american": -102,
-     "best_book": "pinnacle",
-     "books": 7,
+     "best_price_decimal": 2.02,
+     "best_price_american": 102,
+     "best_book": "betonlineag",
+     "books": 9,
      "p_model": 0.54686,
      "p_market": 0.48878,
      "edge": 0.05808,
@@ -190,15 +512,212 @@
    "context": {
     "home_probable": "Trey Yesavage",
     "away_probable": "Rhett Lowder",
-    "park": "TOR02"
+    "park": "TOR02",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "TOR02",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Addison Barger",
+        "position": "RF",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Anthony Santander",
+        "position": "RF",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Bowden Francis",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 12,
+      "counts": {
+       "60-Day IL": 9,
+       "15-Day IL": 3,
+       "10-Day IL": 2,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Blake Dunn",
+        "position": "CF",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Hunter Greene",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Michael Toglia",
+        "position": "1B",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 4,
+      "counts": {
+       "60-Day IL": 4,
+       "15-Day IL": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": true,
+     "away_day_after_night": true,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": null,
    "model": {
     "p_home_win": 0.61014,
     "margin_mean": 0.916,
-    "total_mean": 9.027
+    "total_mean": 9.027,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00159,
+      0.00251,
+      0.00392,
+      0.00605,
+      0.0092,
+      0.01407,
+      0.02089,
+      0.0305,
+      0.04376,
+      0.06452,
+      0.08224,
+      0.10802,
+      0.0,
+      0.17903,
+      0.10117,
+      0.08549,
+      0.06695,
+      0.0511,
+      0.03823,
+      0.02776,
+      0.01967,
+      0.01365,
+      0.0093,
+      0.00624,
+      0.00414
+     ],
+     "binned": false,
+     "tail_below": 0.00258,
+     "tail_above": 0.00741,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
    },
-   "event_id": "0112f4a595862d820eb4e9640d31ea4c"
+   "event_id": "0112f4a595862d820eb4e9640d31ea4c",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-25T22:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.615,
+      "p_market": 0.59322,
+      "books": 6
+     },
+     {
+      "captured_at": "2026-09-25T23:03:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.615,
+      "p_market": 0.59322,
+      "books": 6
+     },
+     {
+      "captured_at": "2026-09-25T23:25:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.615,
+      "p_market": 0.59322,
+      "books": 6
+     },
+     {
+      "captured_at": "2026-09-26T00:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.62,
+      "p_market": 0.59311,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-09-26T00:16:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.63,
+      "p_market": 0.58881,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-09-26T01:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.62,
+      "p_market": 0.59563,
+      "books": 18
+     },
+     {
+      "captured_at": "2026-09-26T02:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.61,
+      "p_market": 0.59602,
+      "books": 18
+     },
+     {
+      "captured_at": "2026-09-26T02:11:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 1.61,
+      "p_market": 0.59798,
+      "books": 19
+     },
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 1.61,
+      "p_market": 0.60223,
+      "books": 22
+     }
+    ],
+    "captures": 9,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.61014
   },
   {
    "game_id": "SFN202609260",
@@ -215,13 +734,13 @@
      "line": null,
      "side": "home",
      "selection": "San Francisco Giants",
-     "best_price_decimal": 3.75,
-     "best_price_american": 275,
-     "best_book": "leovegas_se",
-     "books": 19,
+     "best_price_decimal": 3.55,
+     "best_price_american": 255,
+     "best_book": "matchbook",
+     "books": 22,
      "p_model": 0.40425,
-     "p_market": 0.24952,
-     "edge": 0.15473,
+     "p_market": 0.27388,
+     "edge": 0.13037,
      "tier": "play",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -236,13 +755,13 @@
      "line": 2.5,
      "side": "home",
      "selection": "San Francisco Giants",
-     "best_price_decimal": 1.99,
-     "best_price_american": -101,
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
      "best_book": "onexbet",
      "books": 8,
      "p_model": 0.63782,
-     "p_market": 0.49712,
-     "edge": 0.1407,
+     "p_market": 0.51234,
+     "edge": 0.12548,
      "tier": "play",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -257,13 +776,13 @@
      "line": 7.5,
      "side": "over",
      "selection": "Over",
-     "best_price_decimal": 2.05,
-     "best_price_american": 105,
-     "best_book": "sport888",
-     "books": 11,
+     "best_price_decimal": 2.04,
+     "best_price_american": 104,
+     "best_book": "onexbet",
+     "books": 14,
      "p_model": 0.53681,
-     "p_market": 0.48037,
-     "edge": 0.05644,
+     "p_market": 0.47688,
+     "edge": 0.05994,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -276,15 +795,241 @@
    "context": {
     "home_probable": "Matt Wilkinson",
     "away_probable": "Blake Snell",
-    "park": "SFO03"
+    "park": "SFO03",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "SFO03",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Adrian Houser",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Blade Tidwell",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Carson Whisenhunt",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Casey Schmitt",
+        "position": "LF",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 19,
+      "counts": {
+       "60-Day IL": 14,
+       "Out": 1,
+       "7-Day IL": 1,
+       "15-Day IL": 3,
+       "10-Day IL": 3,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Ben Casparius",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Brusdar Graterol",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Eric Lauer",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Gavin Stone",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 4,
+      "counts": {
+       "60-Day IL": 6,
+       "15-Day IL": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": true,
+     "away_day_after_night": true,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": null,
    "model": {
     "p_home_win": 0.40425,
     "margin_mean": -1.361,
-    "total_mean": 8.562
+    "total_mean": 8.562,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00551,
+      0.00793,
+      0.0113,
+      0.01591,
+      0.02208,
+      0.03048,
+      0.041,
+      0.05428,
+      0.07005,
+      0.09227,
+      0.10706,
+      0.12651,
+      0.0,
+      0.17392,
+      0.07874,
+      0.05669,
+      0.03663,
+      0.02311,
+      0.01445,
+      0.00876,
+      0.00518,
+      0.00299,
+      0.0017,
+      0.00095,
+      0.00052
+     ],
+     "binned": false,
+     "tail_below": 0.01138,
+     "tail_above": 0.00061,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
    },
-   "event_id": "93809969d7d5e6b21cc1e8a6070121e9"
+   "event_id": "93809969d7d5e6b21cc1e8a6070121e9",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-25T20:00:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.56,
+      "p_market": 0.24483,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T21:31:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.56,
+      "p_market": 0.24483,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T22:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.56,
+      "p_market": 0.24483,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T23:03:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.56,
+      "p_market": 0.24483,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T23:25:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.56,
+      "p_market": 0.24483,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-26T00:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.56,
+      "p_market": 0.24483,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-26T00:16:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.52,
+      "p_market": 0.24532,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-09-26T01:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.52,
+      "p_market": 0.24952,
+      "books": 17
+     },
+     {
+      "captured_at": "2026-09-26T02:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.56,
+      "p_market": 0.24899,
+      "books": 18
+     },
+     {
+      "captured_at": "2026-09-26T02:11:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.6,
+      "p_market": 0.24952,
+      "books": 19
+     },
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 3.305,
+      "p_market": 0.27388,
+      "books": 22
+     }
+    ],
+    "captures": 11,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.40425
   },
   {
    "game_id": "MIA202609260",
@@ -293,19 +1038,219 @@
    "home_name": "Miami Marlins",
    "away_name": "Atlanta Braves",
    "start": "2026-09-26T20:10:00Z",
-   "markets": {},
+   "markets": {
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Atlanta Braves",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "betfair_ex_eu",
+     "books": 22,
+     "p_model": 0.5393,
+     "p_market": 0.52297,
+     "edge": 0.01633,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.52297,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "runline": {
+     "market": "runline",
+     "status": "priced",
+     "refusal": null,
+     "line": -1.5,
+     "side": "away",
+     "selection": "Atlanta Braves",
+     "best_price_decimal": 2.44,
+     "best_price_american": 144,
+     "best_book": "matchbook",
+     "books": 15,
+     "p_model": 0.41593,
+     "p_market": 0.40165,
+     "edge": 0.01429,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -1.5,
+     "open_p_market": 0.40165,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "total": {
+     "market": "total",
+     "status": "priced",
+     "refusal": null,
+     "line": 8.5,
+     "side": "under",
+     "selection": "Under",
+     "best_price_decimal": 2.02,
+     "best_price_american": 102,
+     "best_book": "onexbet",
+     "books": 14,
+     "p_model": 0.52529,
+     "p_market": 0.48542,
+     "edge": 0.03987,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 8.5,
+     "open_p_market": 0.48542,
+     "open_at": "2026-09-26T14:01:27Z"
+    }
+   },
    "headline": "moneyline",
    "context": {
     "home_probable": "Jack Ralston",
     "away_probable": "Brent Suter",
-    "park": "MIA02"
+    "park": "MIA02",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "MIA02",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Adam Mazur",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Andrew Nardi",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Robby Snelling",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 8,
+      "counts": {
+       "60-Day IL": 5,
+       "15-Day IL": 4,
+       "10-Day IL": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Hurston Waldrep",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Joe Jimenez",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Joey Wentz",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 7,
+      "counts": {
+       "60-Day IL": 5,
+       "15-Day IL": 3,
+       "10-Day IL": 1,
+       "suspension": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": true,
+     "away_day_after_night": true,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
-   "refusal": "no market price captured for this game",
+   "refusal": null,
    "model": {
     "p_home_win": 0.4607,
     "margin_mean": -0.757,
-    "total_mean": 8.713
-   }
+    "total_mean": 8.713,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00414,
+      0.00608,
+      0.00886,
+      0.01273,
+      0.01805,
+      0.0255,
+      0.03511,
+      0.04758,
+      0.063,
+      0.08534,
+      0.10147,
+      0.12337,
+      0.0,
+      0.17895,
+      0.08681,
+      0.06575,
+      0.04525,
+      0.03041,
+      0.02017,
+      0.01298,
+      0.00814,
+      0.005,
+      0.00301,
+      0.00179,
+      0.00105
+     ],
+     "binned": false,
+     "tail_below": 0.00806,
+     "tail_above": 0.00139,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "event_id": "c067c47b7d8f62f37eeeaba15f35ae55",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 1.825,
+      "p_market": 0.52297,
+      "books": 22
+     }
+    ],
+    "captures": 1,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.5393
   },
   {
    "game_id": "MIN202609260",
@@ -314,19 +1259,186 @@
    "home_name": "Minnesota Twins",
    "away_name": "Texas Rangers",
    "start": "2026-09-26T20:10:00Z",
-   "markets": {},
+   "markets": {
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Minnesota Twins",
+     "best_price_decimal": 2.15,
+     "best_price_american": 115,
+     "best_book": "onexbet",
+     "books": 22,
+     "p_model": 0.51168,
+     "p_market": 0.4646,
+     "edge": 0.04708,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.4646,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "runline": {
+     "market": "runline",
+     "status": "priced",
+     "refusal": null,
+     "line": 1.5,
+     "side": "home",
+     "selection": "Minnesota Twins",
+     "best_price_decimal": 1.73,
+     "best_price_american": -137,
+     "best_book": "onexbet",
+     "books": 15,
+     "p_model": 0.63137,
+     "p_market": 0.59532,
+     "edge": 0.03606,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 1.5,
+     "open_p_market": 0.59532,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "total": {
+     "market": "total",
+     "status": "priced",
+     "refusal": null,
+     "line": 8.0,
+     "side": "over",
+     "selection": "Over",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "coolbet",
+     "books": 7,
+     "p_model": 0.52302,
+     "p_market": 0.5,
+     "edge": 0.02302,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 8.0,
+     "open_p_market": 0.5,
+     "open_at": "2026-09-26T14:01:27Z"
+    }
+   },
    "headline": "moneyline",
    "context": {
     "home_probable": "Bailey Ober",
     "away_probable": "Nathan Eovaldi",
-    "park": "MIN04"
+    "park": "MIN04",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "MIN04",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 9,
+      "counts": {
+       "60-Day IL": 5,
+       "15-Day IL": 1,
+       "10-Day IL": 3
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 10,
+      "counts": {
+       "60-Day IL": 6,
+       "Out": 1,
+       "10-Day IL": 2,
+       "15-Day IL": 1
+      }
+     },
+     "counts_only": true
+    },
+    "rest": {
+     "home_day_after_night": true,
+     "away_day_after_night": true,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
-   "refusal": "no market price captured for this game",
+   "refusal": null,
    "model": {
     "p_home_win": 0.51168,
     "margin_mean": -0.202,
-    "total_mean": 8.791
-   }
+    "total_mean": 8.791,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00305,
+      0.0046,
+      0.00685,
+      0.01008,
+      0.01463,
+      0.0212,
+      0.02992,
+      0.04156,
+      0.05652,
+      0.07875,
+      0.09588,
+      0.11969,
+      0.0,
+      0.18177,
+      0.0931,
+      0.0733,
+      0.05286,
+      0.0372,
+      0.02577,
+      0.01732,
+      0.01135,
+      0.00728,
+      0.00459,
+      0.00285,
+      0.00174
+     ],
+     "binned": false,
+     "tail_below": 0.00559,
+     "tail_above": 0.00257,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "event_id": "f02fbe7c7bb8a6741f285b306e7d8fa8",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 2.04,
+      "p_market": 0.4646,
+      "books": 22
+     }
+    ],
+    "captures": 1,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.51168
   },
   {
    "game_id": "CHA202609260",
@@ -343,13 +1455,13 @@
      "line": null,
      "side": "away",
      "selection": "Colorado Rockies",
-     "best_price_decimal": 2.97,
-     "best_price_american": 197,
-     "best_book": "betonlineag",
-     "books": 17,
+     "best_price_decimal": 3.1,
+     "best_price_american": 210,
+     "best_book": "matchbook",
+     "books": 22,
      "p_model": 0.44021,
-     "p_market": 0.32188,
-     "edge": 0.11833,
+     "p_market": 0.32056,
+     "edge": 0.11965,
      "tier": "play",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -364,13 +1476,13 @@
      "line": 1.5,
      "side": "away",
      "selection": "Colorado Rockies",
-     "best_price_decimal": 1.91,
-     "best_price_american": -110,
-     "best_book": "onexbet",
-     "books": 12,
+     "best_price_decimal": 2.02,
+     "best_price_american": 102,
+     "best_book": "unibet_se",
+     "books": 15,
      "p_model": 0.62669,
-     "p_market": 0.51122,
-     "edge": 0.11546,
+     "p_market": 0.5,
+     "edge": 0.12669,
      "tier": "play",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -382,16 +1494,16 @@
      "market": "total",
      "status": "priced",
      "refusal": null,
-     "line": 8.5,
+     "line": 8.0,
      "side": "under",
      "selection": "Under",
-     "best_price_decimal": 1.87,
-     "best_price_american": -115,
-     "best_book": "onexbet",
-     "books": 5,
-     "p_model": 0.5339,
-     "p_market": 0.5286,
-     "edge": 0.0053,
+     "best_price_decimal": 1.99,
+     "best_price_american": -101,
+     "best_book": "pinnacle",
+     "books": 9,
+     "p_model": 0.4943,
+     "p_market": 0.48878,
+     "edge": 0.00553,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -404,15 +1516,238 @@
    "context": {
     "home_probable": "Davis Martin",
     "away_probable": "Jose Quintana",
-    "park": "CHI12"
+    "park": "CHI12",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "CHI12",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brooks Baldwin",
+        "position": "LF",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Jordan Leasure",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Ky Bush",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Mike Vasil",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "60-Day IL": 6,
+       "10-Day IL": 1,
+       "15-Day IL": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Chase Dollander",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Kris Bryant",
+        "position": "DH",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "McCade Brown",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Pierson Ohl",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 3,
+      "counts": {
+       "60-Day IL": 6,
+       "10-Day IL": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": null,
    "model": {
     "p_home_win": 0.55979,
     "margin_mean": 0.318,
-    "total_mean": 8.607
+    "total_mean": 8.607,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00201,
+      0.00314,
+      0.00485,
+      0.0074,
+      0.01114,
+      0.0168,
+      0.02463,
+      0.03549,
+      0.05014,
+      0.07262,
+      0.09119,
+      0.11748,
+      0.0,
+      0.18648,
+      0.09952,
+      0.08033,
+      0.0596,
+      0.04306,
+      0.03055,
+      0.02103,
+      0.01411,
+      0.00927,
+      0.00598,
+      0.00379,
+      0.00238
+     ],
+     "binned": false,
+     "tail_below": 0.00334,
+     "tail_above": 0.0037,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
    },
-   "event_id": "5e96347a5c09f2be46dc616aa404bf27"
+   "event_id": "5e96347a5c09f2be46dc616aa404bf27",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-25T20:00:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.8,
+      "p_market": 0.32922,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-25T21:31:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.8,
+      "p_market": 0.3253,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-25T22:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.8,
+      "p_market": 0.3253,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-25T23:03:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.84,
+      "p_market": 0.3236,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T23:25:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.84,
+      "p_market": 0.3253,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-26T00:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.78,
+      "p_market": 0.32591,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-09-26T00:16:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.78,
+      "p_market": 0.32591,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-09-26T01:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.84,
+      "p_market": 0.32354,
+      "books": 16
+     },
+     {
+      "captured_at": "2026-09-26T02:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.85,
+      "p_market": 0.32224,
+      "books": 17
+     },
+     {
+      "captured_at": "2026-09-26T02:11:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.85,
+      "p_market": 0.32188,
+      "books": 17
+     },
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 2.85,
+      "p_market": 0.32056,
+      "books": 22
+     }
+    ],
+    "captures": 11,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.44021
   },
   {
    "game_id": "KCA202609260",
@@ -429,14 +1764,14 @@
      "line": null,
      "side": "home",
      "selection": "Kansas City Royals",
-     "best_price_decimal": 2.15,
-     "best_price_american": 115,
-     "best_book": "gtbets",
-     "books": 18,
+     "best_price_decimal": 2.04,
+     "best_price_american": 104,
+     "best_book": "unibet_se",
+     "books": 22,
      "p_model": 0.49778,
-     "p_market": 0.45671,
-     "edge": 0.04107,
-     "tier": "coin_flip",
+     "p_market": 0.4913,
+     "edge": 0.00648,
+     "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": null,
@@ -450,14 +1785,14 @@
      "line": 1.5,
      "side": "home",
      "selection": "Kansas City Royals",
-     "best_price_decimal": 1.7,
-     "best_price_american": -143,
-     "best_book": "onexbet",
-     "books": 13,
+     "best_price_decimal": 1.65,
+     "best_price_american": -154,
+     "best_book": "unibet_se",
+     "books": 15,
      "p_model": 0.62535,
-     "p_market": 0.58332,
-     "edge": 0.04202,
-     "tier": "coin_flip",
+     "p_market": 0.61237,
+     "edge": 0.01298,
+     "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": 1.5,
@@ -471,14 +1806,14 @@
      "line": 8.5,
      "side": "under",
      "selection": "Under",
-     "best_price_decimal": 1.88,
-     "best_price_american": -114,
-     "best_book": "onexbet",
-     "books": 6,
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "williamhill",
+     "books": 12,
      "p_model": 0.57658,
-     "p_market": 0.51868,
-     "edge": 0.05791,
-     "tier": "coin_flip",
+     "p_market": 0.51453,
+     "edge": 0.06205,
+     "tier": "lean",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": 8.0,
@@ -490,15 +1825,223 @@
    "context": {
     "home_probable": "Michael Wacha",
     "away_probable": "Tanner Bibee",
-    "park": "KAN06"
+    "park": "KAN06",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "KAN06",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Alec Marsh",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Carlos Estevez",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Cole Ragans",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 9,
+      "counts": {
+       "60-Day IL": 9,
+       "15-Day IL": 1,
+       "bereavement": 1,
+       "Paternity": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Colin Holderman",
+        "position": "RP",
+        "status": "15-Day IL"
+       },
+       {
+        "player": "Rhys Hoskins",
+        "position": "1B",
+        "status": "10-Day IL"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "15-Day IL": 1,
+       "10-Day IL": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": null,
    "model": {
     "p_home_win": 0.49778,
     "margin_mean": -0.347,
-    "total_mean": 8.16
+    "total_mean": 8.16,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00263,
+      0.00405,
+      0.00618,
+      0.00931,
+      0.01382,
+      0.02052,
+      0.02959,
+      0.04196,
+      0.05816,
+      0.08241,
+      0.10152,
+      0.12757,
+      0.0,
+      0.19139,
+      0.09452,
+      0.07176,
+      0.04944,
+      0.03314,
+      0.02189,
+      0.01401,
+      0.00873,
+      0.00532,
+      0.00319,
+      0.00188,
+      0.00109
+     ],
+     "binned": false,
+     "tail_below": 0.00451,
+     "tail_above": 0.00142,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
    },
-   "event_id": "6b474c64214114311f42d90b1a674c02"
+   "event_id": "6b474c64214114311f42d90b1a674c02",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-25T20:00:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.1,
+      "p_market": 0.45518,
+      "books": 5
+     },
+     {
+      "captured_at": "2026-09-25T21:31:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.06,
+      "p_market": 0.45638,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T22:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.06,
+      "p_market": 0.45671,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T23:03:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.06,
+      "p_market": 0.45671,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T23:25:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.06,
+      "p_market": 0.45671,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-26T00:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.06,
+      "p_market": 0.45671,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-26T00:16:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.06,
+      "p_market": 0.45671,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-26T01:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.05,
+      "p_market": 0.45731,
+      "books": 16
+     },
+     {
+      "captured_at": "2026-09-26T02:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.07,
+      "p_market": 0.45646,
+      "books": 17
+     },
+     {
+      "captured_at": "2026-09-26T02:11:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.07,
+      "p_market": 0.45671,
+      "books": 18
+     },
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 1.96,
+      "p_market": 0.4913,
+      "books": 22
+     }
+    ],
+    "captures": 11,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.49778
   },
   {
    "game_id": "MIL202609260",
@@ -515,14 +2058,14 @@
      "line": null,
      "side": "away",
      "selection": "St. Louis Cardinals",
-     "best_price_decimal": 2.62,
-     "best_price_american": 162,
-     "best_book": "betonlineag",
-     "books": 15,
+     "best_price_decimal": 2.58,
+     "best_price_american": 158,
+     "best_book": "onexbet",
+     "books": 22,
      "p_model": 0.45216,
-     "p_market": 0.36727,
-     "edge": 0.08488,
-     "tier": "lean",
+     "p_market": 0.39507,
+     "edge": 0.05709,
+     "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": null,
@@ -536,14 +2079,14 @@
      "line": 1.5,
      "side": "away",
      "selection": "St. Louis Cardinals",
-     "best_price_decimal": 1.75,
-     "best_price_american": -133,
+     "best_price_decimal": 1.74,
+     "best_price_american": -135,
      "best_book": "onexbet",
-     "books": 10,
+     "books": 15,
      "p_model": 0.63549,
-     "p_market": 0.56357,
-     "edge": 0.07191,
-     "tier": "lean",
+     "p_market": 0.57892,
+     "edge": 0.05657,
+     "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": 1.5,
@@ -557,13 +2100,13 @@
      "line": 7.5,
      "side": "over",
      "selection": "Over",
-     "best_price_decimal": 1.91,
-     "best_price_american": -110,
-     "best_book": "betonlineag",
-     "books": 7,
+     "best_price_decimal": 1.97,
+     "best_price_american": -103,
+     "best_book": "matchbook",
+     "books": 14,
      "p_model": 0.56001,
-     "p_market": 0.51122,
-     "edge": 0.04879,
+     "p_market": 0.50212,
+     "edge": 0.05789,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -576,15 +2119,197 @@
    "context": {
     "home_probable": "Dustin May",
     "away_probable": "Quinn Mathews",
-    "park": "MIL06"
+    "park": "MIL06",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "MIL06",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 8,
+      "counts": {
+       "60-Day IL": 4,
+       "10-Day IL": 1,
+       "15-Day IL": 1,
+       "Day-To-Day": 2
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 5,
+      "counts": {
+       "60-Day IL": 1,
+       "10-Day IL": 3,
+       "15-Day IL": 1
+      }
+     },
+     "counts_only": true
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": null,
    "model": {
     "p_home_win": 0.54784,
     "margin_mean": 0.195,
-    "total_mean": 8.783
+    "total_mean": 8.783,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00236,
+      0.00363,
+      0.00551,
+      0.00828,
+      0.01227,
+      0.0182,
+      0.02625,
+      0.03725,
+      0.05182,
+      0.07391,
+      0.09172,
+      0.11686,
+      0.0,
+      0.18333,
+      0.0972,
+      0.07836,
+      0.05808,
+      0.04198,
+      0.02982,
+      0.02055,
+      0.01381,
+      0.00909,
+      0.00587,
+      0.00374,
+      0.00234
+     ],
+     "binned": false,
+     "tail_below": 0.00409,
+     "tail_above": 0.00367,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
    },
-   "event_id": "bff2944df94a062f85abadcd9aab1086"
+   "event_id": "bff2944df94a062f85abadcd9aab1086",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-25T20:00:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.36379,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T21:31:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36599,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T22:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36599,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T23:03:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36599,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-25T23:25:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36599,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-09-26T00:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36894,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-09-26T00:16:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36894,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-09-26T01:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36894,
+      "books": 13
+     },
+     {
+      "captured_at": "2026-09-26T02:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36811,
+      "books": 14
+     },
+     {
+      "captured_at": "2026-09-26T02:11:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.5,
+      "p_market": 0.36727,
+      "books": 15
+     },
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 2.4,
+      "p_market": 0.39507,
+      "books": 22
+     }
+    ],
+    "captures": 11,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.45216
   },
   {
    "game_id": "PHI202609260",
@@ -598,7 +2323,85 @@
    "context": {
     "home_probable": null,
     "away_probable": "Griffin Jax",
-    "park": "PHI13"
+    "park": "PHI13",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "PHI13",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Adolis Garcia",
+        "position": "RF",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Brad Keller",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Caleb Kilian",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "60-Day IL": 5,
+       "Out": 1,
+       "15-Day IL": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Edwin Uceta",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Gavin Lux",
+        "position": "LF",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Jonathan Heasley",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "60-Day IL": 4,
+       "15-Day IL": 3,
+       "Day-To-Day": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": "GameNotPriceable: TBA@PHI: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
   },
@@ -614,7 +2417,83 @@
    "context": {
     "home_probable": "Walker Buehler",
     "away_probable": null,
-    "park": "SAN02"
+    "park": "SAN02",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "SAN02",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Bryan Hoeing",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Joe Musgrove",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Lucas Giolito",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "60-Day IL": 5,
+       "10-Day IL": 2,
+       "15-Day IL": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "A.J. Puk",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Andrew Saalfrank",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Cristian Mena",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 3,
+      "counts": {
+       "60-Day IL": 5,
+       "15-Day IL": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": "GameNotPriceable: ARI@SDN: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown."
   },
@@ -625,19 +2504,218 @@
    "home_name": "Athletics",
    "away_name": "Houston Astros",
    "start": "2026-09-27T01:40:00Z",
-   "markets": {},
+   "markets": {
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Athletics",
+     "best_price_decimal": 2.46,
+     "best_price_american": 146,
+     "best_book": "betfair_ex_eu",
+     "books": 22,
+     "p_model": 0.42325,
+     "p_market": 0.40639,
+     "edge": 0.01686,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.40639,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "runline": {
+     "market": "runline",
+     "status": "priced",
+     "refusal": null,
+     "line": 1.5,
+     "side": "home",
+     "selection": "Athletics",
+     "best_price_decimal": 1.94,
+     "best_price_american": -106,
+     "best_book": "onexbet",
+     "books": 15,
+     "p_model": 0.52562,
+     "p_market": 0.52473,
+     "edge": 0.00088,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 1.5,
+     "open_p_market": 0.52473,
+     "open_at": "2026-09-26T14:01:27Z"
+    },
+    "total": {
+     "market": "total",
+     "status": "priced",
+     "refusal": null,
+     "line": 9.5,
+     "side": "over",
+     "selection": "Over",
+     "best_price_decimal": 1.99,
+     "best_price_american": -101,
+     "best_book": "onexbet",
+     "books": 14,
+     "p_model": 0.56848,
+     "p_market": 0.49416,
+     "edge": 0.07432,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 9.5,
+     "open_p_market": 0.49416,
+     "open_at": "2026-09-26T14:01:27Z"
+    }
+   },
    "headline": "moneyline",
    "context": {
     "home_probable": "Jack Perkins",
     "away_probable": "Hayden Wesneski",
-    "park": "SAC01"
+    "park": "SAC01",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "SAC01",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brent Rooker",
+        "position": "DH",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Brooks Kriske",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Gunnar Hoglund",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 10,
+      "counts": {
+       "60-Day IL": 10,
+       "15-Day IL": 1,
+       "10-Day IL": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brandon Walter",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Carlos Correa",
+        "position": "SS",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Jake Meyers",
+        "position": "CF",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 6,
+      "counts": {
+       "60-Day IL": 4,
+       "10-Day IL": 2,
+       "15-Day IL": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
-   "refusal": "no market price captured for this game",
+   "refusal": null,
    "model": {
     "p_home_win": 0.42325,
     "margin_mean": -1.363,
-    "total_mean": 11.125
-   }
+    "total_mean": 11.125,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00939,
+      0.01243,
+      0.01631,
+      0.02115,
+      0.0271,
+      0.03451,
+      0.04307,
+      0.05311,
+      0.06415,
+      0.07974,
+      0.08877,
+      0.10236,
+      0.0,
+      0.14499,
+      0.07283,
+      0.05836,
+      0.04329,
+      0.0317,
+      0.02296,
+      0.0162,
+      0.01118,
+      0.00757,
+      0.00505,
+      0.00331,
+      0.00215
+     ],
+     "binned": false,
+     "tail_below": 0.02467,
+     "tail_above": 0.00364,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "event_id": "9b8ec8bc261ab6b47fd213703849325e",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 2.325,
+      "p_market": 0.40639,
+      "books": 22
+     }
+    ],
+    "captures": 1,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.42325
   },
   {
    "game_id": "SEA202609260",
@@ -654,14 +2732,14 @@
      "line": null,
      "side": "away",
      "selection": "Los Angeles Angels",
-     "best_price_decimal": 2.72,
-     "best_price_american": 172,
-     "best_book": "pinnacle",
-     "books": 17,
+     "best_price_decimal": 2.46,
+     "best_price_american": 146,
+     "best_book": "onexbet",
+     "books": 22,
      "p_model": 0.40471,
-     "p_market": 0.35864,
-     "edge": 0.04607,
-     "tier": "coin_flip",
+     "p_market": 0.40202,
+     "edge": 0.00268,
+     "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": null,
@@ -675,14 +2753,14 @@
      "line": 1.5,
      "side": "away",
      "selection": "Los Angeles Angels",
-     "best_price_decimal": 1.8,
-     "best_price_american": -125,
-     "best_book": "onexbet",
-     "books": 13,
+     "best_price_decimal": 1.73,
+     "best_price_american": -137,
+     "best_book": "unibet_nl",
+     "books": 15,
      "p_model": 0.60073,
-     "p_market": 0.55447,
-     "edge": 0.04627,
-     "tier": "coin_flip",
+     "p_market": 0.59361,
+     "edge": 0.00713,
+     "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": 1.5,
@@ -694,15 +2772,15 @@
      "status": "priced",
      "refusal": null,
      "line": 7.5,
-     "side": "under",
-     "selection": "Under",
-     "best_price_decimal": 2.01,
-     "best_price_american": 101,
-     "best_book": "onexbet",
-     "books": 7,
-     "p_model": 0.50546,
-     "p_market": 0.48862,
-     "edge": 0.01683,
+     "side": "over",
+     "selection": "Over",
+     "best_price_decimal": 2.1,
+     "best_price_american": 110,
+     "best_book": "matchbook",
+     "books": 9,
+     "p_model": 0.49454,
+     "p_market": 0.47146,
+     "edge": 0.02308,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -715,23 +2793,237 @@
    "context": {
     "home_probable": "Kade Anderson",
     "away_probable": "Ryan Johnson",
-    "park": "SEA03"
+    "park": "SEA03",
+    "key_player": [],
+    "venue": {
+     "name": null,
+     "park": "SEA03",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brennen Davis",
+        "position": "CF",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Colt Emerson",
+        "position": "SS",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Logan Evans",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 9,
+      "counts": {
+       "60-Day IL": 7,
+       "15-Day IL": 3,
+       "7-Day IL": 1,
+       "10-Day IL": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Anthony Rendon",
+        "position": "3B",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Jack Kochanowicz",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Robert Stephenson",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 7,
+      "counts": {
+       "60-Day IL": 4,
+       "15-Day IL": 3,
+       "10-Day IL": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
    },
    "refusal": null,
    "model": {
     "p_home_win": 0.59529,
     "margin_mean": 0.661,
-    "total_mean": 8.074
+    "total_mean": 8.074,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00117,
+      0.00193,
+      0.00315,
+      0.00507,
+      0.00804,
+      0.01285,
+      0.01985,
+      0.03009,
+      0.04477,
+      0.06819,
+      0.08898,
+      0.11888,
+      0.0,
+      0.19603,
+      0.10668,
+      0.08637,
+      0.06415,
+      0.04623,
+      0.03265,
+      0.02234,
+      0.01489,
+      0.00971,
+      0.00621,
+      0.00391,
+      0.00243
+     ],
+     "binned": false,
+     "tail_below": 0.00172,
+     "tail_above": 0.0037,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
    },
-   "event_id": "eba81e8f90abe50ccdfcee55fe0080b8"
+   "event_id": "eba81e8f90abe50ccdfcee55fe0080b8",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-25T20:00:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.3647,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-09-25T21:31:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.35864,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-25T22:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.35864,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-25T23:03:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.35864,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-25T23:25:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.35864,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-26T00:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.35864,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-26T00:16:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.35864,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-09-26T01:36:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.55,
+      "p_market": 0.35864,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-09-26T02:06:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.585,
+      "p_market": 0.3583,
+      "books": 16
+     },
+     {
+      "captured_at": "2026-09-26T02:11:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 2.6,
+      "p_market": 0.35864,
+      "books": 17
+     },
+     {
+      "captured_at": "2026-09-26T14:01:27Z",
+      "kind": "early",
+      "line": null,
+      "price": 2.335,
+      "p_market": 0.40202,
+      "books": 22
+     }
+    ],
+    "captures": 11,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.40471
   }
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-09-26T02:11:00Z",
+  "odds_captured_at": "2026-09-26T14:01:27Z",
   "credits": {
-   "as_of": "2026-09-26T02:30:44Z",
-   "remaining": 19926,
+   "as_of": "2026-09-26T14:01:27Z",
+   "remaining": 19911,
    "monthly": 20000
   },
   "slate_fetched_at": "20260926T104146Z",
@@ -929,21 +3221,64 @@
  "status": {
   "state": "degraded",
   "games": 13,
-  "priced": 7,
+  "priced": 11,
   "tiers": {
    "play": 2,
-   "lean": 2,
-   "coin_flip": 2,
-   "no_edge": 1
+   "lean": 1,
+   "coin_flip": 3,
+   "no_edge": 5
   },
   "started": 0,
+  "not_priced": [
+   {
+    "key": "no_line",
+    "label": "No line captured yet",
+    "note": "The model's number is ready; the tier appears once a line is captured.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "unrated",
+    "label": "FCS opponent, no rating",
+    "note": "The model won't price a team it doesn't rate.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "whole_number",
+    "label": "Whole-number spread",
+    "note": "Priced since the measured key-number table (ADR 0028); refused only where a league has none.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "started",
+    "label": "Already kicked off",
+    "note": "Never priced after kickoff.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "neutral",
+    "label": "Neutral site",
+    "note": "The model has no home term to remove, so these are refused.",
+    "games": 0,
+    "examples": []
+   },
+   {
+    "key": "other",
+    "label": "Other refusal",
+    "note": "The reason is on the game.",
+    "games": 2,
+    "examples": [
+     "TBA @ PHI",
+     "ARI @ SDN"
+    ]
+   }
+  ],
   "refusals": 0,
   "reason": null,
   "game_refusals": [
-   {
-    "reason": "no market price captured for this game",
-    "games": 4
-   },
    {
     "reason": "GameNotPriceable: TBA@PHI: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
     "games": 1
