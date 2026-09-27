@@ -137,7 +137,8 @@ def get_projected_starters(season, data_dir=None):
 
 
 def get_qb_alerts_detailed(season, week, games=None, injuries=None):
-    """{team: {"text": ..., "source": ...}} for teams with QB uncertainty.
+    """{team: {"text", "source", ["source_conflict", "claims"]}} for teams
+    with QB uncertainty.
 
     Same signals as get_qb_alerts, with WHERE each came from, because the
     feeds disagree: nflverse games.csv listed Tua Tagovailoa as ATL's week-2
@@ -198,10 +199,25 @@ def get_qb_alerts_detailed(season, week, games=None, injuries=None):
                 if team in alerts or team not in modal or team in overrides:
                     continue
                 if qb_name and _norm_name(qb_name) != _norm_name(modal[team]):
-                    qb1_src = "depth chart" if team in chart else "season's modal starter"
+                    if team in chart:
+                        # SOURCE CONFLICT (accuracy plan 1b). Two independent
+                        # feeds name two different starters, and either can
+                        # be the wrong one: for ATL week 2, games.csv said
+                        # Tagovailoa and the depth chart said Penix, and it
+                        # was Rush. Naming either would state a guess as a
+                        # fact, so the alert names neither and carries both
+                        # claims for anyone checking.
+                        alerts[team] = {
+                            "text": "Starter unconfirmed: the feeds disagree on who is starting",
+                            "source": "nflverse games.csv last start vs depth chart",
+                            "source_conflict": True,
+                            "claims": {"games_csv_last_start": qb_name,
+                                       "depth_chart_qb1": modal[team]}}
+                        continue
                     alerts[team] = {
                         "text": f"{qb_name} started last game (current QB1: {modal[team]})",
-                        "source": f"nflverse games.csv last start vs {qb1_src}"}
+                        "source": "nflverse games.csv last start vs season's modal starter",
+                        "source_conflict": False}
         return alerts
     except Exception as e:
         print(f"[qb_status] soft-fail, no alerts: {e}")

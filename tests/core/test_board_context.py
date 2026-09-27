@@ -180,3 +180,50 @@ def test_nfl_context_from_the_schedule_row(monkeypatch, tmp_path):
 def test_miles_are_great_circle():
     assert 2400 < C.miles((40.713, -74.006), (34.052, -118.244)) < 2500
     assert C.miles(None, (1, 1)) is None
+
+
+def _atl_week2(monkeypatch, tmp_path, chart, prior=()):
+    """nflverse games.csv as it was: Tagovailoa listed as ATL's week-2
+    starter. Team reports had Cooper Rush starting weeks 1 and 2."""
+    from deploy import qb_status as Q
+    monkeypatch.setattr(Q, "OVERRIDES_PATH", str(tmp_path / "none.json"))
+    monkeypatch.setattr(Q, "get_projected_starters", lambda season: chart)
+    import deploy.game_context as GC
+    monkeypatch.setattr(GC, "fetch_espn_injuries", lambda: {})      # never the live feed
+    games = pd.DataFrame([
+        {"season": 2026, "week": w, "home_team": "ATL", "away_team": "X", "home_score": 20,
+         "away_score": 10, "home_qb_name": qb, "away_qb_name": "Q"}
+        for w, qb in ((1, "Cooper Rush"), (2, "Tua Tagovailoa"))]
+        + [{"season": 2025, "week": 1, "home_team": "ATL", "away_team": "X", "home_score": 1,
+            "away_score": 0, "home_qb_name": qb, "away_qb_name": "Q"} for qb in prior])
+    empty = pd.DataFrame(columns=["team", "full_name", "position", "week", "report_status"])
+    return Q.get_qb_alerts_detailed(2026, 3, games=games, injuries=empty)
+
+
+def test_atl_week2_feeds_disagree_so_no_name_is_shown(monkeypatch, tmp_path):
+    """Accuracy plan 1b. games.csv said Tagovailoa, the depth chart said
+    Penix, and Rush started. Two sources disagreeing means the board says
+    the starter is unconfirmed and names neither."""
+    a = _atl_week2(monkeypatch, tmp_path, {"ATL": "Michael Penix Jr."})["ATL"]
+    assert a["source_conflict"] is True
+    assert "unconfirmed" in a["text"].lower()
+    for name in ("Tagovailoa", "Penix", "Rush"):
+        assert name not in a["text"], "a disputed starter must not be named"
+    assert a["claims"] == {"games_csv_last_start": "Tua Tagovailoa",
+                           "depth_chart_qb1": "Michael Penix Jr."}
+    card = C.key_players("nfl", "NO", "ATL", {"ATL": a})
+    assert card[0]["source_conflict"] is True and "unconfirmed" in card[0]["text"].lower()
+
+
+def test_no_conflict_when_the_depth_chart_agrees_with_the_last_start(monkeypatch, tmp_path):
+    assert "ATL" not in _atl_week2(monkeypatch, tmp_path, {"ATL": "Tua Tagovailoa"})
+
+
+def test_a_change_inside_one_feed_is_named_not_disputed(monkeypatch, tmp_path):
+    """No depth chart: QB1 falls back to games.csv's own modal starter (last
+    season's, with two 2026 starts), so the last start differing from it is
+    one source reporting a change, not two sources disagreeing. That alert
+    keeps its name and is not marked as a conflict."""
+    a = _atl_week2(monkeypatch, tmp_path, {}, prior=("Kirk Cousins",))["ATL"]
+    assert a["source_conflict"] is False
+    assert a["text"] == "Tua Tagovailoa started last game (current QB1: Kirk Cousins)"

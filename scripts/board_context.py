@@ -271,7 +271,8 @@ def key_players(league: str, home: str, away: str, alerts: dict) -> list[dict]:
              if (ov.get(team) or {}).get("alert") else alerts.get(team))
         if a:
             out.append({"team": team, "role": ROLE.get(league, "key player"),
-                        "text": a["text"], "source": a["source"]})
+                        "text": a["text"], "source": a["source"],
+                        **({"source_conflict": True} if a.get("source_conflict") else {})})
     return out
 
 
