@@ -59,6 +59,8 @@ export default function Record({ league, record }) {
         </tbody>
       </table>
 
+      <ByWeek league={league} byWeek={data.by_week} />
+
       <h2 className="panel-sub">{LEAGUE_NAME[league]}: most recent settled games</h2>
       {!r.recent?.length ? (
         <div className="empty">
@@ -92,3 +94,35 @@ export default function Record({ league, record }) {
   )
 }
 
+
+/* Grades by point in the season (model/grade_by_week.py): the same market
+ * grade, split, from each league's history. Rendered as exported. */
+function ByWeek({ league, byWeek }) {
+  const g = byWeek?.leagues?.[league]
+  if (!g) return null
+  const wk = (s) => (s.weeks_covered ? `${s.weeks_covered[0]}-${s.weeks_covered[1]}` : '—')
+  return (
+    <>
+      <h2 className="panel-sub">{LEAGUE_NAME[league]}: grade by point in the season</h2>
+      <p className="panel-foot">History, {g.seasons[0]}-{g.seasons[1]}. Market grade is the weight the
+        close would give the model (zero means it adds nothing); weeks are {g.week_means}. {g.contamination}</p>
+      <table className="data">
+        <thead>
+          <tr><th>Segment</th><th className="num">Weeks in data</th><th className="num">Games</th>
+            <th className="num">Market grade</th><th className="num">{g.preferred_side_label}</th></tr>
+        </thead>
+        <tbody>
+          {[...g.segments, { label: 'All', ...g.all }].map((s) => (
+            <tr key={s.label}>
+              <th scope="row">{s.label}</th>
+              <td className="num">{wk(s)}</td>
+              <td className="num">{s.n}</td>
+              <td className="num">{s.w_hat != null ? `${s.w_hat.toFixed(2)} ± ${s.se.toFixed(2)}` : '—'}</td>
+              <td className="num">{s.preferred_side != null ? pct(s.preferred_side) : '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )
+}

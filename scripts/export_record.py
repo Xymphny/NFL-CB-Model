@@ -101,7 +101,10 @@ def record(ledger_dir: Path = LEDGER) -> dict:
     outcome = {o.signal_id: o for o in led.outcomes()}
     closes = {c.signal_id: c for c in led.closes()}
 
-    out = {"generated_at": _now(), "floor": FLOOR, "leagues": {}}
+    out = {"generated_at": _now(), "floor": FLOOR, "leagues": {},
+           # Grades by point in the season (accuracy plan 2b), carried as the
+           # artifact wrote them: model/grade_by_week.py computes, this copies.
+           "by_week": _json(ROOT / "data" / "grade_by_week.json")}
     by_league: dict[str, list] = defaultdict(list)
     for s in sigs:
         by_league[s.league].append(s)

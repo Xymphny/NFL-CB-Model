@@ -495,6 +495,19 @@ def apply_tier_hold(entry: dict, rule: str, reason: str) -> None:
         m["cap"] = {"rule": rule, "reason": reason}
 
 
+def apply_cfb_early_hold(entry: dict, week: int | None, on: bool | None = None) -> None:
+    """Accuracy plan 2b, PEDRO'S CALL and off: hold CFB tiers at Coin flip in
+    weeks 1-4. The README ledger validates the rating-divergence signal for
+    weeks 5+ only (54.6% at 5+ points, 574 games). Display only."""
+    if not (HOLD_CFB_TIERS_EARLY if on is None else on) or week is None \
+            or week > CFB_EARLY_WEEKS:
+        return
+    apply_tier_hold(entry, "cfb_early", (
+        f"Week {week}: the only validated CFB signal starts in week "
+        f"{CFB_EARLY_WEEKS + 1}. Held at Coin flip through week {CFB_EARLY_WEEKS}; "
+        "still paper-traded."))
+
+
 def _nfl_fresh(src, today: str) -> dict:
     try:
         ca, wk, path = src.version_for(today)
@@ -781,12 +794,8 @@ def build(league: str, store: BronzeStore, R, day: str | None = None,
                 "Priced by the ratings-only model, which historically took the underdog "
                 "about 80% of the time and went 47% on those picks. Held at Coin flip "
                 "until the full model prices this game; still paper-traded."))
-        if league == "cfb" and HOLD_CFB_TIERS_EARLY and \
-                (slate.get("week") or 99) <= CFB_EARLY_WEEKS:
-            apply_tier_hold(entry, "cfb_early", (
-                f"Week {slate.get('week')}: the only validated CFB signal starts in week "
-                f"{CFB_EARLY_WEEKS + 1}. Held at Coin flip through week {CFB_EARLY_WEEKS}; "
-                "still paper-traded."))
+        if league == "cfb":
+            apply_cfb_early_hold(entry, slate.get("week"))
         # The card's injury list is cut to its tier's rule only now, once the
         # tier is known. Nothing in pricing reads context; a test builds the
         # board with and without it and compares every model field
