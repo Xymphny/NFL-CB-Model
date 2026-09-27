@@ -1,6 +1,6 @@
 {
  "league": "mlb",
- "generated_at": "2026-09-27T14:02:04Z",
+ "generated_at": "2026-09-27T15:43:03Z",
  "note": "Daily. Lines are quoted on the listed probable starters; a scratch changes the game being priced.",
  "slate": {
   "kind": "date",
@@ -92,7 +92,11 @@
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Overcast",
+     "temp_f": "65",
+     "wind": "17 mph, In From LF",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -329,7 +333,11 @@
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Drizzle",
+     "temp_f": "65",
+     "wind": "13 mph, L To R",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -384,9 +392,8 @@
       "more": 5,
       "counts": {
        "60-Day IL": 3,
-       "15-Day IL": 3,
-       "7-Day IL": 1,
-       "Day-To-Day": 1
+       "15-Day IL": 4,
+       "7-Day IL": 1
       }
      },
      "counts_only": false
@@ -522,332 +529,12 @@
    "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/nym.png"
   },
   {
-   "game_id": "ATH202609270",
-   "home": "ATH",
-   "away": "HOU",
-   "home_name": "Athletics",
-   "away_name": "Houston Astros",
-   "start": "2026-09-27T19:05:00Z",
-   "markets": {
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Athletics",
-     "best_price_decimal": 2.72,
-     "best_price_american": 172,
-     "best_book": "betfair_ex_eu",
-     "books": 23,
-     "p_model": 0.43836,
-     "p_market": 0.36727,
-     "edge": 0.07109,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.36727,
-     "open_at": "2026-09-27T14:01:17Z"
-    },
-    "runline": {
-     "market": "runline",
-     "status": "priced",
-     "refusal": null,
-     "line": 1.5,
-     "side": "home",
-     "selection": "Athletics",
-     "best_price_decimal": 2.09,
-     "best_price_american": 109,
-     "best_book": "onexbet",
-     "books": 16,
-     "p_model": 0.54215,
-     "p_market": 0.48096,
-     "edge": 0.0612,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 1.5,
-     "open_p_market": 0.48096,
-     "open_at": "2026-09-27T14:01:17Z"
-    },
-    "total": {
-     "market": "total",
-     "status": "priced",
-     "refusal": null,
-     "line": 10.0,
-     "side": "over",
-     "selection": "Over",
-     "best_price_decimal": 1.97,
-     "best_price_american": -103,
-     "best_book": "pinnacle",
-     "books": 10,
-     "p_model": 0.52142,
-     "p_market": 0.48878,
-     "edge": 0.03264,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 10.0,
-     "open_p_market": 0.48878,
-     "open_at": "2026-09-27T14:01:17Z"
-    }
-   },
-   "headline": "moneyline",
-   "context": {
-    "home_probable": "Seth Johnson",
-    "away_probable": "Peter Lambert",
-    "park": "SAC01",
-    "key_player": [],
-    "venue": {
-     "name": "Sutter Health Park",
-     "park": "SAC01",
-     "in_price": true,
-     "note": "The park factor is one of the model's inputs."
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Brent Rooker",
-        "position": "DH",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Brooks Kriske",
-        "position": "RP",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Gunnar Hoglund",
-        "position": "SP",
-        "status": "60-Day IL"
-       }
-      ],
-      "more": 10,
-      "counts": {
-       "60-Day IL": 10,
-       "15-Day IL": 1,
-       "10-Day IL": 1,
-       "Day-To-Day": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Brandon Walter",
-        "position": "SP",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Carlos Correa",
-        "position": "SS",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Jake Meyers",
-        "position": "CF",
-        "status": "60-Day IL"
-       }
-      ],
-      "more": 6,
-      "counts": {
-       "60-Day IL": 4,
-       "10-Day IL": 2,
-       "15-Day IL": 3
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_day_after_night": true,
-     "away_day_after_night": true,
-     "in_price": false,
-     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
-    },
-    "travel": null
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.43836,
-    "margin_mean": -1.149,
-    "total_mean": 10.916,
-    "margin_pmf": {
-     "from": -12,
-     "to": 12,
-     "mass": [
-      0.00837,
-      0.01122,
-      0.0149,
-      0.01957,
-      0.02538,
-      0.03272,
-      0.04134,
-      0.05159,
-      0.06306,
-      0.07933,
-      0.08918,
-      0.10379,
-      0.0,
-      0.14863,
-      0.07529,
-      0.06056,
-      0.04509,
-      0.03311,
-      0.02404,
-      0.01699,
-      0.01175,
-      0.00797,
-      0.00531,
-      0.00349,
-      0.00227
-     ],
-     "binned": false,
-     "tail_below": 0.02118,
-     "tail_above": 0.00386,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "event_id": "d7e09d96fa17b2224743a3a15f5562c7",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": null,
-      "price": 2.53,
-      "p_market": 0.36727,
-      "books": 23
-     }
-    ],
-    "captures": 1,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_p": 0.43836,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ath.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/hou.png"
-  },
-  {
-   "game_id": "BOS202609270",
-   "home": "BOS",
-   "away": "CHN",
-   "home_name": "Boston Red Sox",
-   "away_name": "Chicago Cubs",
-   "start": "2026-09-27T19:05:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_probable": null,
-    "away_probable": null,
-    "park": "BOS07",
-    "key_player": [],
-    "venue": {
-     "name": "Tropicana Field",
-     "park": "BOS07",
-     "in_price": true,
-     "note": "The park factor is one of the model's inputs."
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Eduardo Rivera",
-        "position": "SP",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Garrett Crochet",
-        "position": "SP",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Johan Oviedo",
-        "position": "SP",
-        "status": "60-Day IL"
-       }
-      ],
-      "more": 11,
-      "counts": {
-       "60-Day IL": 7,
-       "Out": 1,
-       "10-Day IL": 4,
-       "15-Day IL": 1,
-       "Day-To-Day": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Ben Brown",
-        "position": "RP",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Cade Horton",
-        "position": "SP",
-        "status": "60-Day IL"
-       },
-       {
-        "player": "Hunter Harvey",
-        "position": "RP",
-        "status": "60-Day IL"
-       }
-      ],
-      "more": 9,
-      "counts": {
-       "60-Day IL": 9,
-       "15-Day IL": 1,
-       "Day-To-Day": 1,
-       "Bereavement": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_day_after_night": false,
-     "away_day_after_night": false,
-     "in_price": false,
-     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
-    },
-    "travel": null
-   },
-   "refusal": "GameNotPriceable: CHN@BOS: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
-   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/bos.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/chc.png"
-  },
-  {
    "game_id": "PHI202609270",
    "home": "PHI",
    "away": "TBA",
    "home_name": "Philadelphia Phillies",
    "away_name": "Tampa Bay Rays",
-   "start": "2026-09-27T19:05:00Z",
+   "start": "2026-09-27T18:30:00Z",
    "markets": {
     "moneyline": {
      "market": "moneyline",
@@ -1112,6 +799,326 @@
    "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/tb.png"
   },
   {
+   "game_id": "ATH202609270",
+   "home": "ATH",
+   "away": "HOU",
+   "home_name": "Athletics",
+   "away_name": "Houston Astros",
+   "start": "2026-09-27T19:05:00Z",
+   "markets": {
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Athletics",
+     "best_price_decimal": 2.72,
+     "best_price_american": 172,
+     "best_book": "betfair_ex_eu",
+     "books": 23,
+     "p_model": 0.43836,
+     "p_market": 0.36727,
+     "edge": 0.07109,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.36727,
+     "open_at": "2026-09-27T14:01:17Z"
+    },
+    "runline": {
+     "market": "runline",
+     "status": "priced",
+     "refusal": null,
+     "line": 1.5,
+     "side": "home",
+     "selection": "Athletics",
+     "best_price_decimal": 2.09,
+     "best_price_american": 109,
+     "best_book": "onexbet",
+     "books": 16,
+     "p_model": 0.54215,
+     "p_market": 0.48096,
+     "edge": 0.0612,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 1.5,
+     "open_p_market": 0.48096,
+     "open_at": "2026-09-27T14:01:17Z"
+    },
+    "total": {
+     "market": "total",
+     "status": "priced",
+     "refusal": null,
+     "line": 10.0,
+     "side": "over",
+     "selection": "Over",
+     "best_price_decimal": 1.97,
+     "best_price_american": -103,
+     "best_book": "pinnacle",
+     "books": 10,
+     "p_model": 0.52142,
+     "p_market": 0.48878,
+     "edge": 0.03264,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 10.0,
+     "open_p_market": 0.48878,
+     "open_at": "2026-09-27T14:01:17Z"
+    }
+   },
+   "headline": "moneyline",
+   "context": {
+    "home_probable": "Seth Johnson",
+    "away_probable": "Peter Lambert",
+    "park": "SAC01",
+    "key_player": [],
+    "venue": {
+     "name": "Sutter Health Park",
+     "park": "SAC01",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brent Rooker",
+        "position": "DH",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Brooks Kriske",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Gunnar Hoglund",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 10,
+      "counts": {
+       "60-Day IL": 10,
+       "15-Day IL": 1,
+       "10-Day IL": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brandon Walter",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Carlos Correa",
+        "position": "SS",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Jake Meyers",
+        "position": "CF",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 6,
+      "counts": {
+       "60-Day IL": 4,
+       "10-Day IL": 2,
+       "15-Day IL": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": true,
+     "away_day_after_night": true,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.43836,
+    "margin_mean": -1.149,
+    "total_mean": 10.916,
+    "margin_pmf": {
+     "from": -12,
+     "to": 12,
+     "mass": [
+      0.00837,
+      0.01122,
+      0.0149,
+      0.01957,
+      0.02538,
+      0.03272,
+      0.04134,
+      0.05159,
+      0.06306,
+      0.07933,
+      0.08918,
+      0.10379,
+      0.0,
+      0.14863,
+      0.07529,
+      0.06056,
+      0.04509,
+      0.03311,
+      0.02404,
+      0.01699,
+      0.01175,
+      0.00797,
+      0.00531,
+      0.00349,
+      0.00227
+     ],
+     "binned": false,
+     "tail_below": 0.02118,
+     "tail_above": 0.00386,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "event_id": "d7e09d96fa17b2224743a3a15f5562c7",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-09-27T14:01:17Z",
+      "kind": "early",
+      "line": null,
+      "price": 2.53,
+      "p_market": 0.36727,
+      "books": 23
+     }
+    ],
+    "captures": 1,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_p": 0.43836,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ath.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/hou.png"
+  },
+  {
+   "game_id": "BOS202609270",
+   "home": "BOS",
+   "away": "CHN",
+   "home_name": "Boston Red Sox",
+   "away_name": "Chicago Cubs",
+   "start": "2026-09-27T19:05:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_probable": null,
+    "away_probable": "Shota Imanaga",
+    "park": "BOS07",
+    "key_player": [],
+    "venue": {
+     "name": "Tropicana Field",
+     "park": "BOS07",
+     "in_price": true,
+     "note": "The park factor is one of the model's inputs."
+    },
+    "weather": {
+     "status": "no report",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Eduardo Rivera",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Garrett Crochet",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Johan Oviedo",
+        "position": "SP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 11,
+      "counts": {
+       "60-Day IL": 7,
+       "Out": 1,
+       "10-Day IL": 4,
+       "15-Day IL": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Ben Brown",
+        "position": "RP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Cade Horton",
+        "position": "SP",
+        "status": "60-Day IL"
+       },
+       {
+        "player": "Hunter Harvey",
+        "position": "RP",
+        "status": "60-Day IL"
+       }
+      ],
+      "more": 9,
+      "counts": {
+       "60-Day IL": 9,
+       "15-Day IL": 1,
+       "Day-To-Day": 1,
+       "Bereavement": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_day_after_night": false,
+     "away_day_after_night": false,
+     "in_price": false,
+     "note": "Day and night by the Eastern clock, so approximate on the West Coast."
+    },
+    "travel": null
+   },
+   "refusal": "GameNotPriceable: CHN@BOS: no probable starter for home. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+   "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/bos.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/chc.png"
+  },
+  {
    "game_id": "SFN202609270",
    "home": "SFN",
    "away": "LAN",
@@ -1294,7 +1301,11 @@
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Partly Cloudy",
+     "temp_f": "73",
+     "wind": "13 mph, In From CF",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -1546,7 +1557,11 @@
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Partly Cloudy",
+     "temp_f": "66",
+     "wind": "7 mph, L To R",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -1816,7 +1831,11 @@
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Sunny",
+     "temp_f": "74",
+     "wind": "11 mph, Out To RF",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -2096,7 +2115,11 @@
      "note": "The park factor is one of the model's inputs."
     },
     "weather": {
-     "status": "no report",
+     "status": "report",
+     "condition": "Partly Cloudy",
+     "temp_f": "73",
+     "wind": "6 mph, L To R",
+     "source": "MLB Stats API",
      "in_price": false
     },
     "injuries": {
@@ -3412,7 +3435,7 @@
    "remaining": 19726,
    "monthly": 20000
   },
-  "slate_fetched_at": "20260927T104153Z",
+  "slate_fetched_at": "20260927T154148Z",
   "latest_final": "2026-09-26"
  },
  "teams": [
@@ -3445,6 +3468,27 @@
    "park_factor": 0.982
   },
   {
+   "pitcher": "Zack Wheeler",
+   "team": "PHI",
+   "ra27": 3.271,
+   "park": "PHI13",
+   "park_factor": 1.023
+  },
+  {
+   "pitcher": "Nick Martinez",
+   "team": "TBA",
+   "ra27": 3.963,
+   "park": "PHI13",
+   "park_factor": 1.023
+  },
+  {
+   "pitcher": "Shota Imanaga",
+   "team": "CHN",
+   "ra27": 3.856,
+   "park": "BOS07",
+   "park_factor": 1.059
+  },
+  {
    "pitcher": "Seth Johnson",
    "team": "ATH",
    "ra27": 5.006,
@@ -3464,20 +3508,6 @@
    "ra27": 4.748,
    "park": "SFO03",
    "park_factor": 0.95
-  },
-  {
-   "pitcher": "Zack Wheeler",
-   "team": "PHI",
-   "ra27": 3.271,
-   "park": "PHI13",
-   "park_factor": 1.023
-  },
-  {
-   "pitcher": "Nick Martinez",
-   "team": "TBA",
-   "ra27": 3.963,
-   "park": "PHI13",
-   "park_factor": 1.023
   },
   {
    "pitcher": "Max Scherzer",
