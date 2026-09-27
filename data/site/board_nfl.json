@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-09-27T16:45:44Z",
+ "generated_at": "2026-09-27T17:00:46Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -119,50 +119,7 @@
    "home_name": "Buffalo Bills",
    "away_name": "Los Angeles Chargers",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -7.0,
-     "side": "home",
-     "selection": "Buffalo Bills",
-     "best_price_decimal": 1.94,
-     "best_price_american": -106,
-     "best_book": "matchbook",
-     "books": 11,
-     "p_model": 0.54641,
-     "p_market": 0.5,
-     "edge": 0.04641,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -7.0,
-     "open_p_market": 0.50423,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Buffalo Bills",
-     "best_price_decimal": 1.33,
-     "best_price_american": -303,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.7713,
-     "p_market": 0.75976,
-     "edge": 0.01154,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.75844,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Josh Allen",
@@ -178,12 +135,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 68.8,
-     "wind_mph": 12.3,
-     "precip_prob": 1,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -255,145 +207,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.7713,
-    "margin_mean": 9.704,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.198662376184809,
-      "rest_diff": 3.0,
-      "cpoe_diff": 6.175111111111106,
-      "separation_diff": 0.4854697605227689,
-      "yac_oe_diff": 1.535600510142743,
-      "ryoe_diff": 1.9368700093184443,
-      "elo_diff": 173.318583080875,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.0005,
-      0.00062,
-      0.00076,
-      0.00093,
-      0.00113,
-      0.00137,
-      0.00076,
-      0.00261,
-      0.00218,
-      0.0014,
-      0.00319,
-      0.00446,
-      0.00397,
-      0.00302,
-      0.0086,
-      0.00573,
-      0.00333,
-      0.00461,
-      0.00962,
-      0.00311,
-      0.00968,
-      0.02604,
-      0.01894,
-      0.01138,
-      0.01765,
-      0.04884,
-      0.01678,
-      0.015,
-      0.00276,
-      0.01998,
-      0.01881,
-      0.0765,
-      0.02423,
-      0.0208,
-      0.03834,
-      0.05316,
-      0.02827,
-      0.01144,
-      0.04586,
-      0.01852,
-      0.01373,
-      0.01328,
-      0.04518,
-      0.01473,
-      0.02311,
-      0.02549,
-      0.02518,
-      0.0098,
-      0.02376,
-      0.02872,
-      0.01193,
-      0.01097,
-      0.02515,
-      0.01289,
-      0.01529,
-      0.01399,
-      0.01269
-     ],
-     "binned": false,
-     "tail_below": 0.00185,
-     "tail_above": 0.08739,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "b225458a282e140c44c45651255f2f6c",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": -7.0,
-      "price": 1.92,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": -7.25,
-      "price": 1.935,
-      "p_market": 0.49434,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": -7.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": -7.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -9.7,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lac.png"
   },
@@ -404,50 +218,7 @@
    "home_name": "Cleveland Browns",
    "away_name": "Carolina Panthers",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -1.5,
-     "side": "away",
-     "selection": "Carolina Panthers",
-     "best_price_decimal": 1.91,
-     "best_price_american": -110,
-     "best_book": "mybookieag",
-     "books": 9,
-     "p_model": 0.51699,
-     "p_market": 0.50706,
-     "edge": 0.00993,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -2.5,
-     "open_p_market": 0.51185,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Cleveland Browns",
-     "best_price_decimal": 2.16,
-     "best_price_american": 116,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.4601,
-     "p_market": 0.45473,
-     "edge": 0.00537,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.42509,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Deshaun Watson",
@@ -463,12 +234,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 68.2,
-     "wind_mph": 11.9,
-     "precip_prob": 0,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -537,155 +303,10 @@
     "travel": {
      "away_miles": 436,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 1,
-      "coach": "Monken"
-     },
-     "away": null
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.4601,
-    "margin_mean": -1.462,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.18563478096751174,
-      "rest_diff": 0.0,
-      "cpoe_diff": -4.810684931506841,
-      "separation_diff": 1.0070319058275121,
-      "yac_oe_diff": 1.8790605279119712,
-      "ryoe_diff": -2.3300037916318335,
-      "elo_diff": -15.542653727115749,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00417,
-      0.00483,
-      0.00556,
-      0.00637,
-      0.00726,
-      0.00822,
-      0.00428,
-      0.01372,
-      0.01073,
-      0.00645,
-      0.01375,
-      0.01802,
-      0.01498,
-      0.01067,
-      0.02847,
-      0.01775,
-      0.00966,
-      0.01251,
-      0.02441,
-      0.00738,
-      0.02151,
-      0.05418,
-      0.03688,
-      0.02074,
-      0.0301,
-      0.07793,
-      0.02507,
-      0.02097,
-      0.00361,
-      0.02446,
-      0.02155,
-      0.08203,
-      0.02431,
-      0.01953,
-      0.03369,
-      0.04373,
-      0.02176,
-      0.00824,
-      0.03092,
-      0.01169,
-      0.00811,
-      0.00734,
-      0.02337,
-      0.00713,
-      0.01047,
-      0.01081,
-      0.00999,
-      0.00364,
-      0.00826,
-      0.00934,
-      0.00363,
-      0.00312,
-      0.00671,
-      0.00322,
-      0.00357,
-      0.00306,
-      0.00259
-     ],
-     "binned": false,
-     "tail_below": 0.02141,
-     "tail_above": 0.01218,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "613b8cd3a5fab58f7be4e3fd6f76223e",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": -2.5,
-      "price": 1.87,
-      "p_market": 0.51122,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": -2.5,
-      "price": 1.88,
-      "p_market": 0.50592,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": -2.0,
-      "price": 1.89,
-      "p_market": 0.50423,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.88,
-      "p_market": 0.50706,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -1.46,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png"
   },
@@ -696,50 +317,7 @@
    "home_name": "Detroit Lions",
    "away_name": "New York Jets",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 7.0,
-     "side": "away",
-     "selection": "New York Jets",
-     "best_price_decimal": 1.94,
-     "best_price_american": -106,
-     "best_book": "matchbook",
-     "books": 10,
-     "p_model": 0.6239,
-     "p_market": 0.51229,
-     "edge": 0.11161,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 6.5,
-     "open_p_market": 0.49862,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "New York Jets",
-     "best_price_decimal": 3.7,
-     "best_price_american": 270,
-     "best_book": "mybookieag",
-     "books": 21,
-     "p_model": 0.3675,
-     "p_market": 0.25467,
-     "edge": 0.11283,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.26249,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Jared Goff",
@@ -765,23 +343,50 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 2,
+      "shown": [
+       {
+        "player": "Ben Bartch",
+        "position": "G",
+        "status": "Out"
+       },
+       {
+        "player": "Thomas Harper",
+        "position": "S",
+        "status": "Out"
+       }
+      ],
+      "more": 0,
       "counts": {
        "Out": 2
       }
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 6,
+      "shown": [
+       {
+        "player": "Mason Taylor",
+        "position": "TE",
+        "status": "Out"
+       },
+       {
+        "player": "Francisco Mauigoa",
+        "position": "LB",
+        "status": "Out"
+       },
+       {
+        "player": "Minkah Fitzpatrick",
+        "position": "S",
+        "status": "Out"
+       }
+      ],
+      "more": 3,
       "counts": {
        "Out": 3,
        "Doubtful": 1,
        "Questionable": 2
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 10,
@@ -795,145 +400,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.6325,
-    "margin_mean": 4.271,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.025591354182261723,
-      "rest_diff": 3.0,
-      "cpoe_diff": -6.542327672327675,
-      "separation_diff": 0.6913663164586654,
-      "yac_oe_diff": 0.9522027302340976,
-      "ryoe_diff": 0.5635298635501242,
-      "elo_diff": 181.25579903590824,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00151,
-      0.00181,
-      0.00215,
-      0.00255,
-      0.00301,
-      0.00353,
-      0.0019,
-      0.00631,
-      0.00511,
-      0.00318,
-      0.00702,
-      0.00952,
-      0.0082,
-      0.00604,
-      0.01669,
-      0.01078,
-      0.00607,
-      0.00814,
-      0.01644,
-      0.00515,
-      0.01553,
-      0.0405,
-      0.02854,
-      0.01662,
-      0.02497,
-      0.06692,
-      0.02228,
-      0.0193,
-      0.00344,
-      0.02413,
-      0.022,
-      0.08671,
-      0.0266,
-      0.02213,
-      0.03952,
-      0.0531,
-      0.02736,
-      0.01073,
-      0.04166,
-      0.0163,
-      0.01171,
-      0.01097,
-      0.03617,
-      0.01143,
-      0.01736,
-      0.01856,
-      0.01776,
-      0.0067,
-      0.01573,
-      0.01843,
-      0.00742,
-      0.0066,
-      0.01468,
-      0.00729,
-      0.00837,
-      0.00742,
-      0.00652
-     ],
-     "binned": false,
-     "tail_below": 0.00647,
-     "tail_above": 0.03697,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "07f552badfa8a565d1be22123713e4da",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.93,
-      "p_market": 0.4936,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.95,
-      "p_market": 0.48878,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.87,
-      "p_market": 0.51122,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 4.27,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png"
   },
@@ -944,50 +411,7 @@
    "home_name": "Indianapolis Colts",
    "away_name": "Houston Texans",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -1.5,
-     "side": "away",
-     "selection": "Houston Texans",
-     "best_price_decimal": 2.04,
-     "best_price_american": 104,
-     "best_book": "pinnacle",
-     "books": 11,
-     "p_model": 0.61147,
-     "p_market": 0.5,
-     "edge": 0.11147,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -1.5,
-     "open_p_market": 0.51122,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Houston Texans",
-     "best_price_decimal": 1.91,
-     "best_price_american": -110,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.6338,
-     "p_market": 0.53059,
-     "edge": 0.10321,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.5379,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Daniel Jones",
@@ -1002,12 +426,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 70.1,
-     "wind_mph": 6.1,
-     "precip_prob": 0,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1017,8 +436,24 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 3,
+      "shown": [
+       {
+        "player": "Alec Pierce",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Ashton Dulin",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Charvarius Ward",
+        "position": "CB",
+        "status": "Questionable"
+       }
+      ],
+      "more": 0,
       "counts": {
        "Out": 2,
        "Questionable": 1
@@ -1026,14 +461,30 @@
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 6,
+      "shown": [
+       {
+        "player": "Nico Collins",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Ed Ingram",
+        "position": "G",
+        "status": "Out"
+       },
+       {
+        "player": "Jadeveon Clowney",
+        "position": "DE",
+        "status": "Out"
+       }
+      ],
+      "more": 3,
       "counts": {
        "Out": 5,
        "Questionable": 1
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 7,
@@ -1047,145 +498,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.3662,
-    "margin_mean": -4.631,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.06591392536892157,
-      "rest_diff": 0.0,
-      "cpoe_diff": 2.106881720430104,
-      "separation_diff": -0.4147279689099266,
-      "yac_oe_diff": -0.23598469746974232,
-      "ryoe_diff": 0.6789116861730311,
-      "elo_diff": -112.60568872314525,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00671,
-      0.00762,
-      0.00861,
-      0.00968,
-      0.01082,
-      0.01202,
-      0.00613,
-      0.01931,
-      0.01482,
-      0.00873,
-      0.01827,
-      0.0235,
-      0.01917,
-      0.01339,
-      0.03507,
-      0.02146,
-      0.01146,
-      0.01456,
-      0.02786,
-      0.00827,
-      0.02364,
-      0.05842,
-      0.03901,
-      0.02153,
-      0.03066,
-      0.07787,
-      0.02457,
-      0.02017,
-      0.00341,
-      0.02265,
-      0.01958,
-      0.07312,
-      0.02126,
-      0.01676,
-      0.02837,
-      0.03612,
-      0.01764,
-      0.00655,
-      0.02412,
-      0.00895,
-      0.00609,
-      0.00541,
-      0.01689,
-      0.00506,
-      0.00729,
-      0.00738,
-      0.00669,
-      0.00239,
-      0.00532,
-      0.00591,
-      0.00226,
-      0.0019,
-      0.00401,
-      0.00189,
-      0.00205,
-      0.00173,
-      0.00144
-     ],
-     "binned": false,
-     "tail_below": 0.03831,
-     "tail_above": 0.00614,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "17a730b7d399feeab6a78c30767c29d2",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": -2.0,
-      "price": 1.88,
-      "p_market": 0.50423,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": -1.5,
-      "price": 1.88,
-      "p_market": 0.50706,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": -1.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -4.63,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png"
   },
@@ -1196,50 +509,7 @@
    "home_name": "Jacksonville Jaguars",
    "away_name": "New England Patriots",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 3.0,
-     "side": "away",
-     "selection": "New England Patriots",
-     "best_price_decimal": 1.98,
-     "best_price_american": -102,
-     "best_book": "matchbook",
-     "books": 11,
-     "p_model": 0.69215,
-     "p_market": 0.51122,
-     "edge": 0.18093,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 3.0,
-     "open_p_market": 0.51122,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "New England Patriots",
-     "best_price_decimal": 2.48,
-     "best_price_american": 148,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.5929,
-     "p_market": 0.40423,
-     "edge": 0.18867,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.40838,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Trevor Lawrence",
@@ -1255,12 +525,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 84.2,
-     "wind_mph": 8.1,
-     "precip_prob": 0,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1321,145 +586,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.4071,
-    "margin_mean": -3.224,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.0515149346526448,
-      "rest_diff": 0.0,
-      "cpoe_diff": 3.6538881118881044,
-      "separation_diff": -1.2359608289118649,
-      "yac_oe_diff": -1.7665714783394364,
-      "ryoe_diff": -0.13661191797544336,
-      "elo_diff": -11.402573182901506,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00548,
-      0.00628,
-      0.00716,
-      0.00811,
-      0.00914,
-      0.01024,
-      0.00527,
-      0.01673,
-      0.01295,
-      0.00769,
-      0.01623,
-      0.02105,
-      0.01732,
-      0.0122,
-      0.03222,
-      0.01988,
-      0.01071,
-      0.01372,
-      0.02648,
-      0.00792,
-      0.02284,
-      0.05693,
-      0.03834,
-      0.02134,
-      0.03064,
-      0.07848,
-      0.02497,
-      0.02067,
-      0.00352,
-      0.02361,
-      0.02057,
-      0.0775,
-      0.02272,
-      0.01806,
-      0.03083,
-      0.03959,
-      0.0195,
-      0.00731,
-      0.02712,
-      0.01014,
-      0.00696,
-      0.00623,
-      0.01964,
-      0.00593,
-      0.00861,
-      0.0088,
-      0.00805,
-      0.0029,
-      0.00651,
-      0.00729,
-      0.0028,
-      0.00239,
-      0.00507,
-      0.00241,
-      0.00264,
-      0.00224,
-      0.00188
-     ],
-     "binned": false,
-     "tail_below": 0.02982,
-     "tail_above": 0.00836,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "1f3cfd315a24d1a7dd5859a8e6b88e18",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": 3.0,
-      "price": 1.87,
-      "p_market": 0.51122,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": 3.0,
-      "price": 1.87,
-      "p_market": 0.50989,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": 3.0,
-      "price": 1.87,
-      "p_market": 0.51122,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.87,
-      "p_market": 0.50423,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -3.22,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png"
   },
@@ -1470,54 +597,7 @@
    "home_name": "Miami Dolphins",
    "away_name": "Kansas City Chiefs",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 9.5,
-     "side": "home",
-     "selection": "Miami Dolphins",
-     "best_price_decimal": 1.96,
-     "best_price_american": -104,
-     "best_book": "coolbet",
-     "books": 10,
-     "p_model": 0.63938,
-     "p_market": 0.49011,
-     "edge": 0.14927,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 11.0,
-     "open_p_market": 0.50277,
-     "open_at": "2026-09-25T14:03:09Z",
-     "cap": {
-      "rule": "regime",
-      "reason": "MIA first-year staff (Hafley): early flags backing new-regime teams went 0/6 in backtests (2016-2023). Capped at Lean, still graded."
-     }
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Miami Dolphins",
-     "best_price_decimal": 6.25,
-     "best_price_american": 525,
-     "best_book": "unibet_nl",
-     "books": 21,
-     "p_model": 0.334,
-     "p_market": 0.15101,
-     "edge": 0.18299,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.14232,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Malik Willis",
@@ -1533,12 +613,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 83.7,
-     "wind_mph": 4.0,
-     "precip_prob": 1,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1548,8 +623,24 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 5,
+      "shown": [
+       {
+        "player": "Caleb Douglas",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Rob Beal Jr.",
+        "position": "DE",
+        "status": "Out"
+       },
+       {
+        "player": "Jaylen Wright",
+        "position": "RB",
+        "status": "Doubtful"
+       }
+      ],
+      "more": 2,
       "counts": {
        "Out": 2,
        "Doubtful": 1,
@@ -1558,14 +649,25 @@
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 2,
+      "shown": [
+       {
+        "player": "Josh Simmons",
+        "position": "T",
+        "status": "Out"
+       },
+       {
+        "player": "Chamarri Conner",
+        "position": "S",
+        "status": "Doubtful"
+       }
+      ],
+      "more": 0,
       "counts": {
        "Out": 1,
        "Doubtful": 1
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 7,
@@ -1576,155 +678,10 @@
     "travel": {
      "away_miles": 1225,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 1,
-      "coach": "Hafley"
-     },
-     "away": null
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.334,
-    "margin_mean": -5.782,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.058588700518902456,
-      "rest_diff": 0.0,
-      "cpoe_diff": -0.0954864864864855,
-      "separation_diff": 0.2711428510846656,
-      "yac_oe_diff": -2.5273938983320274,
-      "ryoe_diff": -3.1334025247643513,
-      "elo_diff": -127.35844584293113,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00783,
-      0.00884,
-      0.00992,
-      0.01108,
-      0.01229,
-      0.01357,
-      0.00688,
-      0.0215,
-      0.0164,
-      0.00959,
-      0.01994,
-      0.02546,
-      0.02063,
-      0.01432,
-      0.03723,
-      0.02263,
-      0.012,
-      0.01514,
-      0.02879,
-      0.00848,
-      0.02409,
-      0.05914,
-      0.03922,
-      0.0215,
-      0.0304,
-      0.07671,
-      0.02404,
-      0.0196,
-      0.00329,
-      0.02171,
-      0.01864,
-      0.06914,
-      0.01997,
-      0.01563,
-      0.02628,
-      0.03324,
-      0.01612,
-      0.00595,
-      0.02175,
-      0.00801,
-      0.00541,
-      0.00478,
-      0.01482,
-      0.00441,
-      0.00631,
-      0.00634,
-      0.00572,
-      0.00203,
-      0.00449,
-      0.00495,
-      0.00187,
-      0.00157,
-      0.00328,
-      0.00154,
-      0.00166,
-      0.00139,
-      0.00115
-     ],
-     "binned": false,
-     "tail_below": 0.04658,
-     "tail_above": 0.00474,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "0339a0e41bcee12820eb3e64bb5fadb4",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": 11.0,
-      "price": 1.89,
-      "p_market": 0.50296,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": 10.5,
-      "price": 1.89,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": 9.5,
-      "price": 1.89,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": 9.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 5.78,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/mia.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png"
   },
@@ -1735,54 +692,7 @@
    "home_name": "New York Giants",
    "away_name": "Tennessee Titans",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -2.5,
-     "side": "home",
-     "selection": "New York Giants",
-     "best_price_decimal": 1.97,
-     "best_price_american": -103,
-     "best_book": "matchbook",
-     "books": 17,
-     "p_model": 0.51107,
-     "p_market": 0.5,
-     "edge": 0.01107,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -2.5,
-     "open_p_market": 0.50277,
-     "open_at": "2026-09-25T14:03:09Z",
-     "cap": {
-      "rule": "regime",
-      "reason": "NYG first-year staff (J.Harbaugh): early flags backing new-regime teams went 0/6 in backtests (2016-2023). Capped at Lean, still graded."
-     }
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "New York Giants",
-     "best_price_decimal": 1.78,
-     "best_price_american": -128,
-     "best_book": "betfair_ex_eu",
-     "books": 21,
-     "p_model": 0.56029,
-     "p_market": 0.55629,
-     "edge": 0.004,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.56319,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Jameis Winston",
@@ -1806,12 +716,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 61.8,
-     "wind_mph": 14.4,
-     "precip_prob": 42,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1873,158 +778,10 @@
     "travel": {
      "away_miles": 757,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 2,
-      "coach": "J.Harbaugh"
-     },
-     "away": {
-      "tier": 1,
-      "coach": "Saleh"
-     }
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.56029,
-    "margin_mean": 1.821,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.030769464521150303,
-      "rest_diff": -1.0,
-      "cpoe_diff": 2.378119658119654,
-      "separation_diff": -0.6630061416638195,
-      "yac_oe_diff": 0.3146698831258863,
-      "ryoe_diff": -0.8246997248897268,
-      "elo_diff": 115.16894788686977,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00238,
-      0.00281,
-      0.0033,
-      0.00386,
-      0.00448,
-      0.00518,
-      0.00275,
-      0.009,
-      0.00718,
-      0.0044,
-      0.00957,
-      0.0128,
-      0.01085,
-      0.00788,
-      0.02146,
-      0.01365,
-      0.00758,
-      0.01001,
-      0.01993,
-      0.00615,
-      0.01828,
-      0.04696,
-      0.03261,
-      0.01871,
-      0.0277,
-      0.07315,
-      0.024,
-      0.02048,
-      0.0036,
-      0.02486,
-      0.02234,
-      0.08677,
-      0.02623,
-      0.0215,
-      0.03784,
-      0.05009,
-      0.02543,
-      0.00982,
-      0.0376,
-      0.0145,
-      0.01026,
-      0.00947,
-      0.03077,
-      0.00958,
-      0.01434,
-      0.01511,
-      0.01425,
-      0.0053,
-      0.01225,
-      0.01414,
-      0.00561,
-      0.00492,
-      0.01078,
-      0.00527,
-      0.00597,
-      0.00521,
-      0.00452
-     ],
-     "binned": false,
-     "tail_below": 0.011,
-     "tail_above": 0.02355,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "555afd4a27aaa392662881cffa8f2eef",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": -2.5,
-      "price": 1.9,
-      "p_market": 0.50277,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": -2.5,
-      "price": 1.905,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": -2.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": -2.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -1.82,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png"
   },
@@ -2035,54 +792,7 @@
    "home_name": "Pittsburgh Steelers",
    "away_name": "Cincinnati Bengals",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 3.0,
-     "side": "home",
-     "selection": "Pittsburgh Steelers",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "mybookieag",
-     "books": 12,
-     "p_model": 0.54499,
-     "p_market": 0.48662,
-     "edge": 0.05838,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 3.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-09-25T14:03:09Z",
-     "cap": {
-      "rule": "regime",
-      "reason": "PIT first-year staff (McCarthy): early flags backing new-regime teams went 0/6 in backtests (2016-2023). Capped at Lean, still graded."
-     }
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Pittsburgh Steelers",
-     "best_price_decimal": 2.55,
-     "best_price_american": 155,
-     "best_book": "unibet_nl",
-     "books": 21,
-     "p_model": 0.45445,
-     "p_market": 0.38285,
-     "edge": 0.0716,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.36417,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Aaron Rodgers",
@@ -2098,12 +808,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 69.7,
-     "wind_mph": 13.7,
-     "precip_prob": 0,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -2167,155 +872,10 @@
     "travel": {
      "away_miles": 257,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 1,
-      "coach": "McCarthy"
-     },
-     "away": null
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.45445,
-    "margin_mean": -1.648,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.008093837132327128,
-      "rest_diff": 0.0,
-      "cpoe_diff": -1.8396528576908338,
-      "separation_diff": 0.1323440217458245,
-      "yac_oe_diff": -0.9288484727384317,
-      "ryoe_diff": 0.3942471775066366,
-      "elo_diff": -8.029240233611063,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.0043,
-      0.00497,
-      0.00572,
-      0.00654,
-      0.00744,
-      0.00842,
-      0.00438,
-      0.01402,
-      0.01096,
-      0.00657,
-      0.014,
-      0.01833,
-      0.01523,
-      0.01083,
-      0.02887,
-      0.01798,
-      0.00978,
-      0.01265,
-      0.02464,
-      0.00744,
-      0.02166,
-      0.05451,
-      0.03706,
-      0.02082,
-      0.03018,
-      0.07806,
-      0.02508,
-      0.02095,
-      0.00361,
-      0.02439,
-      0.02146,
-      0.08161,
-      0.02416,
-      0.01939,
-      0.03341,
-      0.04331,
-      0.02153,
-      0.00814,
-      0.03052,
-      0.01152,
-      0.00798,
-      0.00722,
-      0.02296,
-      0.007,
-      0.01026,
-      0.01058,
-      0.00977,
-      0.00356,
-      0.00806,
-      0.00911,
-      0.00354,
-      0.00304,
-      0.00652,
-      0.00312,
-      0.00346,
-      0.00296,
-      0.00251
-     ],
-     "binned": false,
-     "tail_below": 0.02219,
-     "tail_above": 0.01171,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "71123be049587b6facce3a20c53e5d09",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.87,
-      "p_market": 0.51122,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": 3.0,
-      "price": 1.95,
-      "p_market": 0.48878,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.95,
-      "p_market": 0.48878,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 1.65,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png"
   },
@@ -2326,50 +886,7 @@
    "home_name": "Washington Commanders",
    "away_name": "Seattle Seahawks",
    "start": "2026-09-27T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -8.0,
-     "side": "away",
-     "selection": "Seattle Seahawks",
-     "best_price_decimal": 1.99,
-     "best_price_american": -101,
-     "best_book": "matchbook",
-     "books": 7,
-     "p_model": 0.64527,
-     "p_market": 0.49813,
-     "edge": 0.14714,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -7.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Seattle Seahawks",
-     "best_price_decimal": 1.29,
-     "best_price_american": -345,
-     "best_book": "pinnacle",
-     "books": 21,
-     "p_model": 0.85881,
-     "p_market": 0.78653,
-     "edge": 0.07228,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.77436,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Jayden Daniels",
@@ -2399,12 +916,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 59.6,
-     "wind_mph": 13.9,
-     "precip_prob": 37,
-     "forecast_hour": "2026-09-27T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -2414,22 +926,54 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 5,
+      "shown": [
+       {
+        "player": "Jayden Daniels",
+        "position": "QB",
+        "status": "Out"
+       },
+       {
+        "player": "Chig Okonkwo",
+        "position": "TE",
+        "status": "Out"
+       },
+       {
+        "player": "Sam Cosmi",
+        "position": "G",
+        "status": "Out"
+       }
+      ],
+      "more": 2,
       "counts": {
        "Out": 5
       }
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 3,
+      "shown": [
+       {
+        "player": "Julian Love",
+        "position": "S",
+        "status": "Out"
+       },
+       {
+        "player": "Ty Okada",
+        "position": "S",
+        "status": "Out"
+       },
+       {
+        "player": "Brandon Pili",
+        "position": "DT",
+        "status": "Questionable"
+       }
+      ],
+      "more": 0,
       "counts": {
        "Out": 2,
        "Questionable": 1
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 7,
@@ -2443,145 +987,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.14119,
-    "margin_mean": -14.564,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.07565724235919885,
-      "rest_diff": 0.0,
-      "cpoe_diff": -10.171468926553665,
-      "separation_diff": -0.09625784684542049,
-      "yac_oe_diff": -1.0724943972202694,
-      "ryoe_diff": -1.1536702719218002,
-      "elo_diff": -241.1346172185913,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01904,
-      0.02045,
-      0.02184,
-      0.0232,
-      0.0245,
-      0.02572,
-      0.01241,
-      0.03691,
-      0.02678,
-      0.01491,
-      0.02949,
-      0.03584,
-      0.02763,
-      0.01825,
-      0.04515,
-      0.02611,
-      0.01318,
-      0.01582,
-      0.02862,
-      0.00802,
-      0.02169,
-      0.05065,
-      0.03197,
-      0.01668,
-      0.02244,
-      0.05387,
-      0.01607,
-      0.01246,
-      0.00199,
-      0.0125,
-      0.01021,
-      0.03604,
-      0.00991,
-      0.00738,
-      0.0118,
-      0.01421,
-      0.00656,
-      0.0023,
-      0.00801,
-      0.00281,
-      0.00181,
-      0.00152,
-      0.00447,
-      0.00127,
-      0.00172,
-      0.00165,
-      0.00141,
-      0.00048,
-      0.00101,
-      0.00105,
-      0.00038,
-      0.0003,
-      0.0006,
-      0.00027,
-      0.00028,
-      0.00022,
-      0.00017
-     ],
-     "binned": false,
-     "tail_below": 0.1574,
-     "tail_above": 0.00058,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "2a529c108305ffa049d8b6cfdbaa4d36",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": -7.5,
-      "price": 1.915,
-      "p_market": 0.49602,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": -7.75,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": -8.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": -8.5,
-      "price": 1.91,
-      "p_market": 0.49577,
-      "books": 17
-     }
-    ],
-    "captures": 4,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -14.56,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/wsh.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png"
   },
@@ -2619,20 +1025,20 @@
      "status": "priced",
      "refusal": null,
      "line": null,
-     "side": "away",
-     "selection": "Arizona Cardinals",
-     "best_price_decimal": 4.5,
-     "best_price_american": 350,
-     "best_book": "unibet_se",
+     "side": "home",
+     "selection": "San Francisco 49ers",
+     "best_price_decimal": 1.28,
+     "best_price_american": -357,
+     "best_book": "matchbook",
      "books": 21,
-     "p_model": 0.2184,
-     "p_market": 0.21765,
-     "edge": 0.00075,
+     "p_model": 0.7816,
+     "p_market": 0.78022,
+     "edge": 0.00138,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": null,
-     "open_p_market": 0.20359,
+     "open_p_market": 0.79641,
      "open_at": "2026-09-25T14:03:09Z"
     }
    },
@@ -2866,9 +1272,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 17
+     },
+     {
+      "captured_at": "2026-09-27T17:00:00Z",
+      "kind": "current",
+      "line": -7.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 17
      }
     ],
-    "captures": 4,
+    "captures": 5,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -2918,8 +1332,8 @@
      "best_book": "betfair_ex_eu",
      "books": 21,
      "p_model": 0.55065,
-     "p_market": 0.47789,
-     "edge": 0.07276,
+     "p_market": 0.47856,
+     "edge": 0.07209,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -3147,9 +1561,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 17
+     },
+     {
+      "captured_at": "2026-09-27T17:00:00Z",
+      "kind": "current",
+      "line": 1.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 17
      }
     ],
-    "captures": 4,
+    "captures": 5,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -3203,8 +1625,8 @@
      "best_book": "matchbook",
      "books": 21,
      "p_model": 0.72977,
-     "p_market": 0.61841,
-     "edge": 0.11136,
+     "p_market": 0.61784,
+     "edge": 0.11193,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -3404,9 +1826,17 @@
       "price": 1.96,
       "p_market": 0.48445,
       "books": 17
+     },
+     {
+      "captured_at": "2026-09-27T17:00:00Z",
+      "kind": "current",
+      "line": -3.5,
+      "price": 1.96,
+      "p_market": 0.48445,
+      "books": 17
      }
     ],
-    "captures": 4,
+    "captures": 5,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -3695,9 +2125,17 @@
       "price": 1.88,
       "p_market": 0.51108,
       "books": 17
+     },
+     {
+      "captured_at": "2026-09-27T17:00:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.88,
+      "p_market": 0.51108,
+      "books": 17
      }
     ],
-    "captures": 4,
+    "captures": 5,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -3747,8 +2185,8 @@
      "best_book": "betfair_ex_eu",
      "books": 21,
      "p_model": 0.5484,
-     "p_market": 0.45646,
-     "edge": 0.09193,
+     "p_market": 0.45695,
+     "edge": 0.09145,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -3975,9 +2413,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 17
+     },
+     {
+      "captured_at": "2026-09-27T17:00:00Z",
+      "kind": "current",
+      "line": 1.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 17
      }
     ],
-    "captures": 4,
+    "captures": 5,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -4022,13 +2468,13 @@
      "line": null,
      "side": "home",
      "selection": "Chicago Bears",
-     "best_price_decimal": 2.84,
-     "best_price_american": 184,
+     "best_price_decimal": 2.86,
+     "best_price_american": 186,
      "best_book": "betfair_ex_eu",
      "books": 21,
      "p_model": 0.52347,
-     "p_market": 0.34887,
-     "edge": 0.17461,
+     "p_market": 0.3478,
+     "edge": 0.17567,
      "tier": "lean",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -4235,9 +2681,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 17
+     },
+     {
+      "captured_at": "2026-09-27T17:00:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 17
      }
     ],
-    "captures": 4,
+    "captures": 5,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -4249,10 +2703,10 @@
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-09-27T16:55:00Z",
+  "odds_captured_at": "2026-09-27T17:00:00Z",
   "credits": {
-   "as_of": "2026-09-27T16:45:32Z",
-   "remaining": 19720,
+   "as_of": "2026-09-27T17:00:31Z",
+   "remaining": 19717,
    "monthly": 20000
   },
   "ratings_version": "2026-week-02.json",
@@ -4576,23 +3030,23 @@
    "elo": true
   },
   "debias_offset": 0.1727793627166092,
-  "debias_how": "measured on 15 open games",
-  "debias_games": 15,
+  "debias_how": "6 open game(s), too few to measure; this week's previous board offset",
+  "debias_games": 6,
   "coefficient_sets": {
-   "full_ensemble": 15
+   "full_ensemble": 6
   }
  },
  "status": {
   "state": "up",
-  "games": 15,
-  "priced": 15,
+  "games": 6,
+  "priced": 6,
   "tiers": {
    "play": 0,
-   "lean": 1,
-   "coin_flip": 6,
-   "no_edge": 8
+   "lean": 0,
+   "coin_flip": 2,
+   "no_edge": 4
   },
-  "started": 1,
+  "started": 10,
   "not_priced": [
    {
     "key": "no_line",
@@ -4619,9 +3073,11 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 1,
+    "games": 10,
     "examples": [
-     "ATL @ GB"
+     "ATL @ GB",
+     "LAC @ BUF",
+     "CAR @ CLE"
     ]
    },
    {
