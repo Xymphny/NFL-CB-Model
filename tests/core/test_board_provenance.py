@@ -57,6 +57,35 @@ def _rows_with_provenance():
     return out
 
 
+def _offset_that_priced(name, board, d):
+    """The de-bias offset a row was actually published with.
+
+    A started game is carried forward frozen at close (split_started_and_carry)
+    -- the whole row, verbatim, from the last board before kickoff. Its margin
+    therefore carries THAT board's offset, not the one this board measured on
+    the games still open. Checked against the current offset, GB/ATL on the
+    2026 week 3 Sunday boards missed by exactly the offset's drift since
+    Thursday (-0.18, then -0.68). So a closed row is traced to the earlier
+    same-week board it was frozen from, and verified there.
+    """
+    if d.get("line_status") != "closed":
+        return board["debias_offsets"][0]
+    key = (d["home_team"], d["away_team"], d["market_spread"], d["spread_gap"])
+    prefix = name.rsplit("-", 1)[0]
+    for p in sorted(_boards(), reverse=True):
+        if not Path(p).name.startswith(prefix) or Path(p).name >= name:
+            continue
+        b = json.loads(Path(p).read_text())
+        for o in b.get("divergences", []):
+            if (o.get("line_status") != "closed"
+                    and (o["home_team"], o["away_team"], o["market_spread"],
+                         o["spread_gap"]) == key):
+                return b["debias_offsets"][0]
+    raise AssertionError(
+        f"{name} {d['home_team']}/{d['away_team']}: carried as closed, but no "
+        "earlier same-week board holds the open row it was frozen from")
+
+
 # ------------------------------------------------- the producing code ----
 
 def test_the_prediction_layer_emits_feature_values():
@@ -131,7 +160,7 @@ def test_recorded_values_reproduce_the_published_margin():
             is_neutral_site=fv["is_neutral_site"], ngs_present=ngs,
         )
         published = d["market_spread"] + d["spread_gap"]
-        offset = board["debias_offsets"][0]
+        offset = _offset_that_priced(name, board, d)
         assert predict_margin(f) + offset == pytest.approx(published, abs=1e-6), (
             f"{name} {d['home_team']}/{d['away_team']}: recorded features do "
             "not reproduce the published margin"
