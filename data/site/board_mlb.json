@@ -1,6 +1,6 @@
 {
  "league": "mlb",
- "generated_at": "2026-09-27T00:32:04Z",
+ "generated_at": "2026-09-27T00:45:51Z",
  "note": "Daily. Lines are quoted on the listed probable starters; a scratch changes the game being priced.",
  "slate": {
   "kind": "date",
@@ -1075,7 +1075,8 @@
     },
     "travel": null
    },
-   "refusal": "GameNotPriceable: ARI@SDN: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/sd.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/mlb/500-dark/ari.png"
   },
@@ -1752,8 +1753,8 @@
  "freshness": {
   "odds_captured_at": "2026-09-27T00:36:00Z",
   "credits": {
-   "as_of": "2026-09-27T00:31:35Z",
-   "remaining": 19762,
+   "as_of": "2026-09-27T00:45:33Z",
+   "remaining": 19759,
    "monthly": 20000
   },
   "slate_fetched_at": "20260926T154135Z",
@@ -1949,8 +1950,8 @@
   "provisional": true
  },
  "status": {
-  "state": "degraded",
-  "games": 3,
+  "state": "up",
+  "games": 2,
   "priced": 2,
   "tiers": {
    "play": 0,
@@ -1958,7 +1959,7 @@
    "coin_flip": 0,
    "no_edge": 2
   },
-  "started": 10,
+  "started": 11,
   "not_priced": [
    {
     "key": "no_line",
@@ -1985,7 +1986,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 10,
+    "games": 11,
     "examples": [
      "NYN @ WAS",
      "PIT @ DET",
@@ -2003,19 +2004,12 @@
     "key": "other",
     "label": "Other refusal",
     "note": "The reason is on the game.",
-    "games": 1,
-    "examples": [
-     "ARI @ SDN"
-    ]
+    "games": 0,
+    "examples": []
    }
   ],
   "refusals": 0,
   "reason": null,
-  "game_refusals": [
-   {
-    "reason": "GameNotPriceable: ARI@SDN: no probable starter for away. Lines are quoted conditional on the listed starters; refusing to price a game whose starters are unknown.",
-    "games": 1
-   }
-  ]
+  "game_refusals": []
  }
 }
