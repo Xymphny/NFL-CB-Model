@@ -1,0 +1,543 @@
+{
+ "computed_at": "2026-09-27T15:42:34Z",
+ "fit_window": {
+  "seasons": [
+   2016,
+   2022
+  ],
+  "weeks": [
+   4,
+   17
+  ]
+ },
+ "held_out": {
+  "seasons": [
+   2023,
+   2024,
+   2025
+  ],
+  "weeks": [
+   4,
+   17
+  ],
+  "n_games": 624
+ },
+ "features": "walk-forward rating_diff, rest_diff, home_field (0 at neutral sites), NGS via the core alias table, Elo pre-game difference without the +65 home advantage (the served definition)",
+ "refit": {
+  "full_ensemble": {
+   "coefficients": {
+    "rating_diff": 4.994142416991793,
+    "home_field": 5.036522290847652,
+    "rest_diff": -0.005873001197762939,
+    "cpoe_diff": 0.34383040420542726,
+    "separation_diff": 2.4875683507166717,
+    "yac_oe_diff": 0.6633964709715342,
+    "ryoe_diff": 0.6093438109768965,
+    "elo_diff": 0.03121813293754239,
+    "intercept": -3.8940639681830564
+   },
+   "se": {
+    "rating_diff": 3.919394418641625,
+    "home_field": 3.244293011678955,
+    "rest_diff": 0.1543661326019398,
+    "cpoe_diff": 0.11674650750214327,
+    "separation_diff": 1.343076444650495,
+    "yac_oe_diff": 0.6599167108173292,
+    "ryoe_diff": 0.7025584535902157,
+    "elo_diff": 0.004105105631575591,
+    "intercept": 3.217296461500163
+   },
+   "n": 1013,
+   "neutral_games": 17,
+   "residual_sd": 13.215005203800951,
+   "condition_number": 1588.4657647631627
+  },
+  "rating_only": {
+   "coefficients": {
+    "rating_diff": 29.73910629124142,
+    "home_field": 3.625981279969792,
+    "rest_diff": 0.01718249425631882,
+    "intercept": -1.9941256842953665
+   },
+   "se": {
+    "rating_diff": 2.2467054283119463,
+    "home_field": 2.8509994959026503,
+    "rest_diff": 0.1330828356752278,
+    "intercept": 2.827487014941924
+   },
+   "n": 1393,
+   "neutral_games": 23,
+   "residual_sd": 13.550136986859929,
+   "condition_number": 30.126993328670977
+  }
+ },
+ "current": {
+  "full_ensemble": {
+   "rating_diff": 0.1078,
+   "home_field": 5.5271,
+   "rest_diff": 0.0229,
+   "cpoe_diff": 0.4622,
+   "separation_diff": 2.7941,
+   "yac_oe_diff": 0.123,
+   "ryoe_diff": 0.3432,
+   "elo_diff": 0.0348,
+   "intercept": -6.6607
+  },
+  "rating_only": {
+   "rating_diff": 22.7091,
+   "home_field": 2.8321,
+   "rest_diff": 0.131,
+   "intercept": -1.1811
+  }
+ },
+ "home_edge_equal_teams": {
+  "current_full": -1.1336000000000004,
+  "refit_full": 1.142458322664596,
+  "current_rating_only": 1.651,
+  "refit_rating_only": 1.6318555956744256
+ },
+ "held_out_grade": {
+  "with_slate_debias": {
+   "current": {
+    "system": {
+     "n": 609,
+     "w_hat": 0.124466,
+     "se": 0.209656
+    },
+    "full_ensemble_games": {
+     "n": 609,
+     "w_hat": 0.124466,
+     "se": 0.209656
+    },
+    "rating_only_games": {
+     "n": 0
+    },
+    "ats_by_gap_band": [
+     {
+      "band": "0-1",
+      "n": 198,
+      "ats": 0.5505,
+      "picks_underdog": 0.5505
+     },
+     {
+      "band": "1-2",
+      "n": 119,
+      "ats": 0.521,
+      "picks_underdog": 0.5714
+     },
+     {
+      "band": "2-3",
+      "n": 103,
+      "ats": 0.5146,
+      "picks_underdog": 0.5146
+     },
+     {
+      "band": "3-5",
+      "n": 114,
+      "ats": 0.4737,
+      "picks_underdog": 0.6842
+     },
+     {
+      "band": "5-+",
+      "n": 75,
+      "ats": 0.5467,
+      "picks_underdog": 0.68
+     }
+    ],
+    "ats_all": {
+     "n": 609,
+     "ats": 0.5238
+    },
+    "slope_on_market": 0.8943
+   },
+   "refit": {
+    "system": {
+     "n": 609,
+     "w_hat": 0.139518,
+     "se": 0.217582
+    },
+    "full_ensemble_games": {
+     "n": 609,
+     "w_hat": 0.139518,
+     "se": 0.217582
+    },
+    "rating_only_games": {
+     "n": 0
+    },
+    "ats_by_gap_band": [
+     {
+      "band": "0-1",
+      "n": 205,
+      "ats": 0.5171,
+      "picks_underdog": 0.5024
+     },
+     {
+      "band": "1-2",
+      "n": 119,
+      "ats": 0.4202,
+      "picks_underdog": 0.5462
+     },
+     {
+      "band": "2-3",
+      "n": 111,
+      "ats": 0.5766,
+      "picks_underdog": 0.6126
+     },
+     {
+      "band": "3-5",
+      "n": 97,
+      "ats": 0.4433,
+      "picks_underdog": 0.6186
+     },
+     {
+      "band": "5-+",
+      "n": 77,
+      "ats": 0.5714,
+      "picks_underdog": 0.6623
+     }
+    ],
+    "ats_all": {
+     "n": 609,
+     "ats": 0.5041
+    },
+    "slope_on_market": 0.9123
+   }
+  },
+  "raw": {
+   "current": {
+    "system": {
+     "n": 609,
+     "w_hat": -0.054487,
+     "se": 0.157885
+    },
+    "full_ensemble_games": {
+     "n": 609,
+     "w_hat": -0.054487,
+     "se": 0.157885
+    },
+    "rating_only_games": {
+     "n": 0
+    },
+    "ats_by_gap_band": [
+     {
+      "band": "0-1",
+      "n": 91,
+      "ats": 0.4725,
+      "picks_underdog": 0.5495
+     },
+     {
+      "band": "1-2",
+      "n": 117,
+      "ats": 0.4872,
+      "picks_underdog": 0.5299
+     },
+     {
+      "band": "2-3",
+      "n": 93,
+      "ats": 0.5484,
+      "picks_underdog": 0.6129
+     },
+     {
+      "band": "3-5",
+      "n": 159,
+      "ats": 0.5031,
+      "picks_underdog": 0.6855
+     },
+     {
+      "band": "5-+",
+      "n": 149,
+      "ats": 0.4698,
+      "picks_underdog": 0.7047
+     }
+    ],
+    "ats_all": {
+     "n": 609,
+     "ats": 0.4943
+    },
+    "slope_on_market": 0.8786
+   },
+   "refit": {
+    "system": {
+     "n": 609,
+     "w_hat": -0.012357,
+     "se": 0.208282
+    },
+    "full_ensemble_games": {
+     "n": 609,
+     "w_hat": -0.012357,
+     "se": 0.208282
+    },
+    "rating_only_games": {
+     "n": 0
+    },
+    "ats_by_gap_band": [
+     {
+      "band": "0-1",
+      "n": 157,
+      "ats": 0.4522,
+      "picks_underdog": 0.5159
+     },
+     {
+      "band": "1-2",
+      "n": 147,
+      "ats": 0.5238,
+      "picks_underdog": 0.619
+     },
+     {
+      "band": "2-3",
+      "n": 117,
+      "ats": 0.4957,
+      "picks_underdog": 0.5983
+     },
+     {
+      "band": "3-5",
+      "n": 115,
+      "ats": 0.487,
+      "picks_underdog": 0.6087
+     },
+     {
+      "band": "5-+",
+      "n": 73,
+      "ats": 0.4932,
+      "picks_underdog": 0.7397
+     }
+    ],
+    "ats_all": {
+     "n": 609,
+     "ats": 0.4893
+    },
+    "slope_on_market": 0.9015
+   }
+  },
+  "rating_only_vector": {
+   "with_slate_debias": {
+    "current": {
+     "system": {
+      "n": 609,
+      "w_hat": -0.009681,
+      "se": 0.149666
+     },
+     "full_ensemble_games": {
+      "n": 0
+     },
+     "rating_only_games": {
+      "n": 609,
+      "w_hat": -0.009681,
+      "se": 0.149666
+     },
+     "ats_by_gap_band": [
+      {
+       "band": "0-1",
+       "n": 138,
+       "ats": 0.4565,
+       "picks_underdog": 0.5217
+      },
+      {
+       "band": "1-2",
+       "n": 98,
+       "ats": 0.4694,
+       "picks_underdog": 0.7857
+      },
+      {
+       "band": "2-3",
+       "n": 89,
+       "ats": 0.5056,
+       "picks_underdog": 0.8427
+      },
+      {
+       "band": "3-5",
+       "n": 155,
+       "ats": 0.4516,
+       "picks_underdog": 0.8581
+      },
+      {
+       "band": "5-+",
+       "n": 129,
+       "ats": 0.5194,
+       "picks_underdog": 0.9767
+      }
+     ],
+     "ats_all": {
+      "n": 609,
+      "ats": 0.4778
+     },
+     "slope_on_market": 0.4987
+    },
+    "refit": {
+     "system": {
+      "n": 609,
+      "w_hat": -0.00059,
+      "se": 0.154587
+     },
+     "full_ensemble_games": {
+      "n": 0
+     },
+     "rating_only_games": {
+      "n": 609,
+      "w_hat": -0.00059,
+      "se": 0.154587
+     },
+     "ats_by_gap_band": [
+      {
+       "band": "0-1",
+       "n": 141,
+       "ats": 0.461,
+       "picks_underdog": 0.5603
+      },
+      {
+       "band": "1-2",
+       "n": 103,
+       "ats": 0.4369,
+       "picks_underdog": 0.6019
+      },
+      {
+       "band": "2-3",
+       "n": 97,
+       "ats": 0.5258,
+       "picks_underdog": 0.6701
+      },
+      {
+       "band": "3-5",
+       "n": 140,
+       "ats": 0.4857,
+       "picks_underdog": 0.7714
+      },
+      {
+       "band": "5-+",
+       "n": 128,
+       "ats": 0.5,
+       "picks_underdog": 0.8828
+      }
+     ],
+     "ats_all": {
+      "n": 609,
+      "ats": 0.4811
+     },
+     "slope_on_market": 0.6356
+    }
+   },
+   "raw": {
+    "current": {
+     "system": {
+      "n": 609,
+      "w_hat": -0.068549,
+      "se": 0.145624
+     },
+     "full_ensemble_games": {
+      "n": 0
+     },
+     "rating_only_games": {
+      "n": 609,
+      "w_hat": -0.068549,
+      "se": 0.145624
+     },
+     "ats_by_gap_band": [
+      {
+       "band": "0-1",
+       "n": 109,
+       "ats": 0.4679,
+       "picks_underdog": 0.6147
+      },
+      {
+       "band": "1-2",
+       "n": 102,
+       "ats": 0.4314,
+       "picks_underdog": 0.6667
+      },
+      {
+       "band": "2-3",
+       "n": 101,
+       "ats": 0.495,
+       "picks_underdog": 0.8218
+      },
+      {
+       "band": "3-5",
+       "n": 162,
+       "ats": 0.463,
+       "picks_underdog": 0.9321
+      },
+      {
+       "band": "5-+",
+       "n": 135,
+       "ats": 0.4889,
+       "picks_underdog": 0.9704
+      }
+     ],
+     "ats_all": {
+      "n": 609,
+      "ats": 0.4696
+     },
+     "slope_on_market": 0.4663
+    },
+    "refit": {
+     "system": {
+      "n": 609,
+      "w_hat": -0.061603,
+      "se": 0.150274
+     },
+     "full_ensemble_games": {
+      "n": 0
+     },
+     "rating_only_games": {
+      "n": 609,
+      "w_hat": -0.061603,
+      "se": 0.150274
+     },
+     "ats_by_gap_band": [
+      {
+       "band": "0-1",
+       "n": 113,
+       "ats": 0.5133,
+       "picks_underdog": 0.531
+      },
+      {
+       "band": "1-2",
+       "n": 112,
+       "ats": 0.4821,
+       "picks_underdog": 0.6161
+      },
+      {
+       "band": "2-3",
+       "n": 101,
+       "ats": 0.4059,
+       "picks_underdog": 0.7426
+      },
+      {
+       "band": "3-5",
+       "n": 135,
+       "ats": 0.4815,
+       "picks_underdog": 0.7852
+      },
+      {
+       "band": "5-+",
+       "n": 148,
+       "ats": 0.5135,
+       "picks_underdog": 0.8784
+      }
+     ],
+     "ats_all": {
+      "n": 609,
+      "ats": 0.4828
+     },
+     "slope_on_market": 0.6075
+    }
+   }
+  }
+ },
+ "primary": {
+  "metric": "held-out w_hat, system, with slate de-bias",
+  "current": 0.124466,
+  "refit": 0.139518,
+  "ship_rule": "refit ships only if refit >= current",
+  "passes_ship_rule": true,
+  "note": "every held-out game had NGS and Elo, so this grades the full-ensemble vector only"
+ },
+ "rating_only_vector": {
+  "metric": "held-out w_hat, every game priced rating-only, with slate de-bias",
+  "current": -0.009681,
+  "refit": -0.00059,
+  "passes_ship_rule": true
+ },
+ "adr": "docs/decisions/0031-nfl-refit-with-a-recorded-window.md",
+ "script": "model/nfl_refit_2016_2022.py"
+}
