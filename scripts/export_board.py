@@ -210,7 +210,8 @@ def _load(league: str, R, day: str | None = None):
             raise R.InputsNotReady(f"no upcoming NFL regular-season games in {season}")
         week = int(up.week.min())
         try:
-            model, src = lg.loader(season, week)
+            model, src = (load_nfl_ensemble(season, week, sched) if nfl_ensemble_enabled()
+                          else lg.loader(season, week))
         except Exception as exc:
             raise R.InputsNotReady(f"week {week}: {exc}") from None
         wk = sched[(sched.game_type == "REG") & (sched.week == week)]
@@ -407,6 +408,93 @@ def apply_early_season_cap(entry: dict) -> None:
             f"flip until both teams have played {NHL_EARLY_GAMES}; still paper-traded.")}
 
 
+#: The parity gate's verdict (model/nfl_ensemble_parity.py). The full
+#: ensemble replaces the rating-only path on the live board only while this
+#: says passed; otherwise the board is what it was, with the banner below.
+NFL_PARITY = ROOT / "data" / "nfl_ensemble_parity.json"
+
+#: Shown on the NFL board whenever it is pricing on the ratings-only model:
+#: the gate has not passed, or the NGS feed is down this run. Wording is the
+#: accuracy plan's (1a), figures from its 2016-2025 walk-forward.
+NFL_RATING_ONLY_BANNER = (
+    "The live NFL board is running the ratings-only model: it takes the underdog "
+    "about 80% of the time, and historically went 47% on those picks. The full "
+    "model returns when its data feed is restored.")
+
+#: Hold NFL tiers at Coin flip on games priced by the ratings-only vector, as
+#: NHL holds its first ten games. PEDRO'S CALL (accuracy plan 1a) -- built,
+#: tested, and OFF. Display only: prices and the paper ledger are untouched.
+HOLD_NFL_TIERS_ON_RATING_ONLY = False
+
+#: Hold CFB tiers at Coin flip in weeks 1-4 (accuracy plan 2b): the only
+#: validated CFB signal starts in week 5. PEDRO'S CALL -- built, tested, OFF.
+HOLD_CFB_TIERS_EARLY = False
+
+
+def nfl_ensemble_enabled(path: Path = NFL_PARITY) -> bool:
+    try:
+        return bool(json.loads(path.read_text()).get("passed"))
+    except (OSError, ValueError):
+        return False
+
+
+def load_nfl_ensemble(season: int, week: int, sched):
+    from coverline.leagues.nfl.ensemble import EnsembleWeekSource
+    from coverline.leagues.nfl.model import NFLModel
+    src = EnsembleWeekSource.load(season, week, sched)
+    return NFLModel(src), src
+
+
+def prior_nfl_offset(out_dir: Path, slate: dict) -> float | None:
+    """This week's offset from the board last written, for a late-week run
+    with too few open games to measure one (legacy load_prior_debias)."""
+    try:
+        prev = json.loads((out_dir / "board_nfl.json").read_text())
+        mp = prev.get("model_path") or {}
+        if (prev.get("slate") or {}).get("week") == slate.get("week") and \
+                (prev.get("slate") or {}).get("season") == slate.get("season"):
+            return mp.get("debias_offset")
+    except (OSError, ValueError):
+        pass
+    return None
+
+
+def apply_nfl_debias(model, src, games, quotes, matched, started, prior) -> dict:
+    """Measure the slate de-bias and set it on the model, before any pricing.
+
+    Ported from the legacy odds-watch (execution/board.slate_debias): the
+    median market-minus-model margin over the week's open, quoted games,
+    added to every model margin. Only on the ensemble path, which is what it
+    corrects -- the rating-only board is left exactly as it was."""
+    from coverline.execution.board import market_home_margin, slate_debias
+    pairs = []
+    for g in games:
+        ev = matched.get(g.game_id)
+        if ev is None or g.game_id in started:
+            continue
+        mk = market_home_margin([q for q in quotes if q.event_id == ev])
+        try:
+            md = model.predict(g.game_id, "now").mu_margin - model.margin_offset
+        except Exception:
+            continue
+        if mk is not None:
+            pairs.append((md, mk))
+    off, how = slate_debias(pairs, prior=prior)
+    model.margin_offset = off
+    return {"debias_offset": off, "debias_how": how, "debias_games": len(pairs)}
+
+
+def apply_tier_hold(entry: dict, rule: str, reason: str) -> None:
+    """Hold every priced market at Coin flip with no stake. A reduction,
+    never a removal: the price is still shown and still paper-traded."""
+    for m in entry["markets"].values():
+        if m.get("status") != "priced" or m.get("tier") not in ("play", "lean"):
+            continue
+        m["tier"] = "coin_flip"
+        m["stake_fraction"] = 0.0
+        m["cap"] = {"rule": rule, "reason": reason}
+
+
 def _nfl_fresh(src, today: str) -> dict:
     try:
         ca, wk, path = src.version_for(today)
@@ -551,7 +639,8 @@ def teams(league: str, src) -> list[dict]:
     return []
 
 
-def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
+def build(league: str, store: BronzeStore, R, day: str | None = None,
+          out_dir: Path = SITE) -> dict:
     board = {"league": league, "generated_at": _now(), "note": SPORT_NOTES[league],
              "slate": None, "games": [], "refusals": [], "freshness": {}, "teams": []}
     w, grade = staking_weight(league)
@@ -619,6 +708,18 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
         from deploy.odds_watch_job import load_regime_map
         regimes = load_regime_map(slate["season"], str(ROOT / "data"))
 
+    ensemble = league == "nfl" and hasattr(src, "provenance")
+    if league == "nfl":
+        board["model_path"] = {"ensemble": ensemble}
+        if ensemble:
+            now = pd.Timestamp(board["generated_at"])
+            started = {g.game_id for g in games
+                       if start_of(g.game_id) and pd.Timestamp(start_of(g.game_id)) <= now}
+            board["model_path"].update(
+                inputs=src.status,
+                **apply_nfl_debias(model, src, games, quotes, matched, started,
+                                   prior_nfl_offset(out_dir, slate)))
+
     fair: dict = {}
     for g in games:
         entry = {"game_id": g.game_id, "home": g.home, "away": g.away,
@@ -647,6 +748,13 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
             board["games"].append(_clean(entry))
             continue
         entry["model"] = model_view(dist)
+        cset = None
+        if ensemble:
+            prov = src.provenance(g.game_id, "now")
+            cset = prov["coefficient_set"]
+            entry["model"]["provenance"] = _clean(prov)
+        elif league == "nfl":
+            cset = "v1_rating_only_no_ngs"
         # Matchup detail (brief items 9-10): the distribution the board just
         # priced with, as bars the site draws and never computes.
         entry["model"]["margin_pmf"] = board_detail.margin_pmf(league, dist)
@@ -668,6 +776,17 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
             apply_regime_cap(entry, headline, regimes, slate.get("week"))
         if league == "nhl":
             apply_early_season_cap(entry)
+        if league == "nfl" and HOLD_NFL_TIERS_ON_RATING_ONLY and cset == "v1_rating_only_no_ngs":
+            apply_tier_hold(entry, "rating_only", (
+                "Priced by the ratings-only model, which historically took the underdog "
+                "about 80% of the time and went 47% on those picks. Held at Coin flip "
+                "until the full model prices this game; still paper-traded."))
+        if league == "cfb" and HOLD_CFB_TIERS_EARLY and \
+                (slate.get("week") or 99) <= CFB_EARLY_WEEKS:
+            apply_tier_hold(entry, "cfb_early", (
+                f"Week {slate.get('week')}: the only validated CFB signal starts in week "
+                f"{CFB_EARLY_WEEKS + 1}. Held at Coin flip through week {CFB_EARLY_WEEKS}; "
+                "still paper-traded."))
         # The card's injury list is cut to its tier's rule only now, once the
         # tier is known. Nothing in pricing reads context; a test builds the
         # board with and without it and compares every model field
@@ -676,6 +795,15 @@ def build(league: str, store: BronzeStore, R, day: str | None = None) -> dict:
         board_context.finish_injuries(entry["context"],
                                       m.get("tier") if m.get("status") == "priced" else None)
         board["games"].append(_clean(entry))
+
+    if league == "nfl":
+        sets = [((g.get("model") or {}).get("provenance") or {}).get("coefficient_set")
+                or ("v1_rating_only_no_ngs" if g.get("model") else None)
+                for g in board["games"] if not g.get("started")]
+        board["model_path"]["coefficient_sets"] = {
+            k: sets.count(k) for k in sorted({x for x in sets if x})}
+        if not ensemble or not (src.status or {}).get("ngs", True):
+            board["model_notice"] = {"rule": "rating_only", "text": NFL_RATING_ONLY_BANNER}
 
     attach_line_history(board, store, lg.vendor_sport, headline, fair)
     attach_check_flags(board, headline)
@@ -817,7 +945,7 @@ def main(argv: list[str] | None = None) -> int:
     failed = []
     for league in a.league or LEAGUES:
         try:
-            board = build(league, store, R)
+            board = build(league, store, R, out_dir=out)
         except Exception as exc:
             traceback.print_exc()
             failed.append(league)

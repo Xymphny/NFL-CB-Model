@@ -27,9 +27,9 @@ itself used for the rating-only games on the 2026 week 2 slate. Claiming NGS
 with zero-valued differences would silently select the full ensemble and
 misprice every game, which is the failure that ran for weeks before the audit.
 
-A full-ensemble live source needs the NGS feature fetch ported and has its own
-ledger row. Until then this source is honest about covering the rating-only
-path and nothing else.
+The full-ensemble live source is nfl/ensemble.py (ledger row
+nfl-live-full-ensemble), which wraps GameWeekSource. This source stays
+honest about covering the rating-only path and nothing else.
 
 DE-BIAS IS NOT APPLIED HERE
 The board adds a slate de-bias offset measured across the week's games. That

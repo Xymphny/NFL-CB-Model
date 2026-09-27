@@ -491,6 +491,41 @@ components:
       Guarded by tests/core/test_team_codes.py, which compares source
       vocabularies directly so the next join mismatch fails loudly.
 
+  - id: nfl-live-full-ensemble
+    old_path: "deploy/odds_watch_job.py (NGS + Elo fetch, inseason_offsets, load_prior_debias)"
+    new_path: "src/coverline/leagues/nfl/ensemble.py + execution/board.slate_debias + scripts/export_board.py"
+    disposition: ported
+    adr: null
+    data_artifacts:
+      - "data/nfl_ensemble_parity.json"
+    data_disposition: derived
+    parity_status: verified
+    parity_tolerance: >-
+      MEASURED 2026-09-27 (model/nfl_ensemble_parity.py), gate 0.05 points.
+      A: all 160 rows on the ten 2026 week-3 boards, recorded feature_values
+      through the recorded vector plus the ported de-bias, max |diff| 3.6e-15;
+      every recorded offset reproduced. B: the two newest boards with NGS and
+      Elo FETCHED by the core, every term identical under the legacy NGS
+      vocabulary. The export built from the core's own capture that morning
+      landed on the same offset (-0.3272) and the same mu on 14 of 15 games.
+    old_removed: false
+    notes: >-
+      Accuracy plan 1a. The core board priced every NFL game on the
+      rating-only vector (live.py said so); the legacy board used the full
+      ensemble on 15 of 16 week-3 games. The board now uses EnsembleWeekSource
+      while the parity artifact says passed, and records per game the vector,
+      why, and the feature values; the slate offset and how it was set are on
+      the board as model_path. An NGS outage degrades to the old rating-only
+      board and puts the plan's banner back.
+      THE RAMS: under the core's NGS vocabulary LA@DEN moves to the full
+      ensemble (+0.32 points that morning); the slate median did not move.
+      This is the change ADR 0004 names as its revisit trigger, announced
+      here rather than gated.
+      NOT CARRIED: legacy's MARGIN_COEFFICIENTS_PRE_ELO (NGS without Elo) --
+      such a game prices rating-only and says why. And the paper ledger
+      (scripts/recommend_slate.load_nfl) still prices rating-only with no
+      de-bias: the plan scoped 1a to the live board.
+
   - id: league-nfl-feature-source
     old_path: "model/ratings.py, model/elo_rating.py, model/layer2_ngs.py"
     new_path: "src/coverline/leagues/nfl/sources.py (cache adapter, not a rewrite)"

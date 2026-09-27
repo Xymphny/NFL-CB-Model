@@ -21,11 +21,14 @@ between them. Net home edge for two equal teams is 5.5271 - 6.6607 = -1.13
 points, against a market consensus near +2.5. That is a real defect in a
 validated artifact.
 
-NOT A LIVE DEFECT (measured 2026-09-25, data/nfl_neutral_site.json). It is a
-property of the FULL-ENSEMBLE vector, and no live NFL price uses that vector:
-RatingsSnapshotSource sets ngs_present=False on every game, so live prices
-come from MARGIN_COEFFICIENTS_V1_RATING_ONLY, whose equal-team home edge is
-+1.65. That vector's own neutral-site handling -- drop its 2.83-point home
+LIVE AGAIN SINCE 2026-09-27, AND OFFSET. It is a property of the FULL-ENSEMBLE
+vector, which the live board uses again (nfl/ensemble.py, accuracy plan 1a).
+There the slate de-bias (execution/board.slate_debias) absorbs it: the
+constant terms are the only thing that moves a slate's median gap, so the
+median residual is this defect plus whatever else is constant. Until then
+(measured 2026-09-25, data/nfl_neutral_site.json) no live price used this
+vector: live prices came from MARGIN_COEFFICIENTS_V1_RATING_ONLY, whose
+equal-team home edge is +1.65 -- and the paper ledger still does. That vector's own neutral-site handling -- drop its 2.83-point home
 term -- was then checked on the 34 neutral games in the walk-forward cache:
 it sits 1.60 points further below the closing line there than at home sites
 (SE 0.62). A real lean, too few games to fit, left uncorrected and recorded.
@@ -206,8 +209,13 @@ class NFLModel:
     """Implements core.interfaces.LeagueModel."""
 
     def __init__(self, source: FeatureSource,
-                 key_number_weights: Mapping[int, float] | None = None) -> None:
+                 key_number_weights: Mapping[int, float] | None = None,
+                 margin_offset: float = 0.0) -> None:
+        """``margin_offset`` is the slate de-bias, and is set by whatever
+        assembles a board (execution/board.slate_debias), never by a feature
+        source: it is measured across a slate, not known per game."""
         self._source = source
+        self.margin_offset = float(margin_offset)
         self._weights = (dict(key_number_weights) if key_number_weights is not None
                          else _load_key_number_weights())
 
@@ -234,7 +242,7 @@ class NFLModel:
     def predict(self, game_id: str, asof: str) -> ScoreDistribution:
         f = self._source.features(game_id, asof)
         return NormalMarginDistribution(
-            mu_margin=predict_margin(f),
+            mu_margin=predict_margin(f) + self.margin_offset,
             sd_margin=MARGIN_SD,
             mu_total=predict_total(f),
             sd_total=TOTAL_SD_UNVALIDATED,

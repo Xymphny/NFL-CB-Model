@@ -76,6 +76,12 @@ export default function Board({ league, board, since, book, onOpenMatchup, onPla
 
         {games.length === 0 && <EmptySlate board={board} />}
         {league === 'cfb' && <EarlySeasonBanner board={board} />}
+        {board.model_notice && (
+          <div className="stamp stamp-cap early" role="note">
+            <b>RATINGS-ONLY MODEL</b>
+            <p>{board.model_notice.text}</p>
+          </div>
+        )}
 
         {GROUPS.map(({ tier, label, note }) => grouped[tier].length > 0 && (
           <section className="group" key={tier} aria-label={`${label} tier`}>

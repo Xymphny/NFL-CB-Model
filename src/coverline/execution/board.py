@@ -22,6 +22,7 @@ card says why rather than showing a figure.
 
 from __future__ import annotations
 
+import math
 import statistics
 from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass, field
@@ -175,3 +176,49 @@ def price_market(dist, quotes: Sequence[Quote], market: str, *, weight: float,
             po = market_probability(o["books"], o["anchor"], o["other"])
             view.open_p_market = po if side == o["anchor"] else 1 - po
     return view
+
+
+# ------------------------------------------------------ slate de-bias ----
+
+#: Fewest priced games a slate needs before its offset is measured; fewer
+#: and the previous board's offset for the same week is used. The legacy
+#: odds-watch's own threshold (inseason_offsets).
+DEBIAS_MIN_GAMES = 8
+
+
+def market_home_margin(quotes: Sequence[Quote]) -> float | None:
+    """The market's home margin as the legacy board measured it: the median,
+    across every book quoting one, of the home side's spread, sign-flipped
+    to home-favoured-positive (odds_watch_job.compute_divergences). Not the
+    consensus line price_market uses -- the de-bias was measured on this
+    median and parity with it is the point."""
+    pts = [q.point for q in quotes
+           if q.market == "spreads" and q.point is not None and Rc._is_home_outcome(q)]
+    return -float(statistics.median(pts)) if pts else None
+
+
+def slate_debias(pairs: Sequence[tuple[float, float]],
+                 prior: float | None = None,
+                 min_games: int = DEBIAS_MIN_GAMES) -> tuple[float, str]:
+    """(offset to ADD to every model margin, how it was set).
+
+    pairs are (model_margin, market_margin) for the slate's open games.
+    Ported from deploy/odds_watch_job.inseason_offsets, which records why:
+    every antisymmetric term of the margin equation is about mean-zero across
+    a slate, so the slate's median model-vs-market gap is the constant terms
+    alone -- the full ensemble's collinear home_field + intercept net -1.13
+    against a market carrying ~+2.8 of home field. Intercept only: the slope
+    stays 1.0 and relative opinions are untouched; median so one large
+    genuine edge survives at full size. Non-finite values are dropped (a NaN
+    median once nulled 15 of 16 games on the legacy board).
+    """
+    res = [mk - md for md, mk in pairs
+           if all(isinstance(v, (int, float)) and math.isfinite(v) for v in (md, mk))]
+    if len(res) >= min_games:
+        off = statistics.median(res)
+        if math.isfinite(off) and off != 0.0:
+            return float(off), f"measured on {len(res)} open games"
+    if prior is not None and math.isfinite(prior) and prior != 0.0:
+        return float(prior), (f"{len(res)} open game(s), too few to measure; "
+                              "this week's previous board offset")
+    return 0.0, f"{len(res)} open game(s), too few to measure and no prior"

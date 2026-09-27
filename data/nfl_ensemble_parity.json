@@ -1,0 +1,1501 @@
+{
+ "computed_at": "2026-09-27T15:26:32Z",
+ "season": 2026,
+ "week": 3,
+ "tolerance_points": 0.05,
+ "passed": true,
+ "gate": "A (recorded values, every week-3 board) and B under the legacy NGS vocabulary (fetched values, two newest boards) both within tolerance, with the same coefficient set on every game",
+ "A_recorded": {
+  "rows": 160,
+  "boards": 10,
+  "max_abs_diff": 3.552713678800501e-15,
+  "passed": true,
+  "offsets": {
+   "2026-week-03-20260924T000356Z.json": {
+    "recorded": -1.1313139099589118,
+    "core": -1.1313139099589111,
+    "how": "measured on 16 open games",
+    "diff": 6.661338147750939e-16
+   },
+   "2026-week-03-20260924T040120Z.json": {
+    "recorded": -1.1313139099589118,
+    "core": -1.1313139099589111,
+    "how": "measured on 16 open games",
+    "diff": 6.661338147750939e-16
+   },
+   "2026-week-03-20260924T080154Z.json": {
+    "recorded": -1.2544821827178643,
+    "core": -1.2544821827178643,
+    "how": "measured on 16 open games",
+    "diff": 0.0
+   },
+   "2026-week-03-20260924T120121Z.json": {
+    "recorded": -1.0044821827178643,
+    "core": -1.0044821827178643,
+    "how": "measured on 16 open games",
+    "diff": 0.0
+   },
+   "2026-week-03-20260924T160205Z.json": {
+    "recorded": -1.2544821827178643,
+    "core": -1.2544821827178643,
+    "how": "measured on 16 open games",
+    "diff": 0.0
+   },
+   "2026-week-03-20260924T200124Z.json": {
+    "recorded": -1.0044821827178643,
+    "core": -1.0044821827178643,
+    "how": "measured on 16 open games",
+    "diff": 0.0
+   },
+   "2026-week-03-20260927T000207Z.json": {
+    "recorded": -0.827220637283391,
+    "core": -0.8272206372833908,
+    "how": "measured on 15 open games",
+    "diff": 2.220446049250313e-16
+   },
+   "2026-week-03-20260927T040120Z.json": {
+    "recorded": -0.327220637283391,
+    "core": -0.3272206372833908,
+    "how": "measured on 15 open games",
+    "diff": 2.220446049250313e-16
+   },
+   "2026-week-03-20260927T080127Z.json": {
+    "recorded": -0.327220637283391,
+    "core": -0.3272206372833908,
+    "how": "measured on 15 open games",
+    "diff": 2.220446049250313e-16
+   },
+   "2026-week-03-20260927T120136Z.json": {
+    "recorded": -0.327220637283391,
+    "core": -0.3272206372833908,
+    "how": "measured on 15 open games",
+    "diff": 2.220446049250313e-16
+   }
+  },
+  "failures": []
+ },
+ "B_fetched": {
+  "legacy_vocabulary": {
+   "boards": {
+    "2026-week-03-20260927T080127Z.json": {
+     "asof": "2026-09-27T08:01:27.110826+00:00",
+     "offset": {
+      "recorded": -0.327220637283391,
+      "core": -0.3272206372833908,
+      "how": "measured on 15 open games"
+     },
+     "max_abs_diff": 1.7763568394002505e-15,
+     "coefficient_set_mismatches": [],
+     "failures": [],
+     "games": [
+      {
+       "game": "LAC@BUF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 9.724982,
+       "core": 9.724982,
+       "diff": 0.0
+      },
+      {
+       "game": "CAR@CLE",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.0,
+       "core": -2.0,
+       "diff": 0.0
+      },
+      {
+       "game": "CIN@PIT",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.198814,
+       "core": -2.198814,
+       "diff": 0.0
+      },
+      {
+       "game": "NYJ@DET",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 4.13123,
+       "core": 4.13123,
+       "diff": 0.0
+      },
+      {
+       "game": "HOU@IND",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -5.367618,
+       "core": -5.367618,
+       "diff": 0.0
+      },
+      {
+       "game": "NE@JAX",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -3.880821,
+       "core": -3.880821,
+       "diff": 0.0
+      },
+      {
+       "game": "KC@MIA",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -6.571997,
+       "core": -6.571997,
+       "diff": -0.0
+      },
+      {
+       "game": "TEN@NYG",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.523171,
+       "core": 1.523171,
+       "diff": -0.0
+      },
+      {
+       "game": "SEA@WAS",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -15.358525,
+       "core": -15.358525,
+       "diff": -0.0
+      },
+      {
+       "game": "ARI@SF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 10.196732,
+       "core": 10.196732,
+       "diff": -0.0
+      },
+      {
+       "game": "MIN@TB",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.181835,
+       "core": 1.181835,
+       "diff": 0.0
+      },
+      {
+       "game": "BAL@DAL",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -9.094257,
+       "core": -9.094257,
+       "diff": -0.0
+      },
+      {
+       "game": "LV@NO",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 2.049685,
+       "core": 2.049685,
+       "diff": -0.0
+      },
+      {
+       "game": "LA@DEN",
+       "coefficient_set": {
+        "legacy": "v1_rating_only_no_ngs",
+        "core": "v1_rating_only_no_ngs"
+       },
+       "core_reason": "no NGS for LA",
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.785076,
+       "core": 0.785076,
+       "diff": 0.0
+      },
+      {
+       "game": "PHI@CHI",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.22447,
+       "core": 0.22447,
+       "diff": 0.0
+      }
+     ]
+    },
+    "2026-week-03-20260927T120136Z.json": {
+     "asof": "2026-09-27T12:01:36.506562+00:00",
+     "offset": {
+      "recorded": -0.327220637283391,
+      "core": -0.3272206372833908,
+      "how": "measured on 15 open games"
+     },
+     "max_abs_diff": 1.7763568394002505e-15,
+     "coefficient_set_mismatches": [],
+     "failures": [],
+     "games": [
+      {
+       "game": "LAC@BUF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 9.724982,
+       "core": 9.724982,
+       "diff": 0.0
+      },
+      {
+       "game": "CAR@CLE",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.0,
+       "core": -2.0,
+       "diff": 0.0
+      },
+      {
+       "game": "CIN@PIT",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.198814,
+       "core": -2.198814,
+       "diff": 0.0
+      },
+      {
+       "game": "NYJ@DET",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 4.13123,
+       "core": 4.13123,
+       "diff": 0.0
+      },
+      {
+       "game": "HOU@IND",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -5.367618,
+       "core": -5.367618,
+       "diff": 0.0
+      },
+      {
+       "game": "NE@JAX",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -3.880821,
+       "core": -3.880821,
+       "diff": 0.0
+      },
+      {
+       "game": "KC@MIA",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -6.571997,
+       "core": -6.571997,
+       "diff": -0.0
+      },
+      {
+       "game": "TEN@NYG",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.523171,
+       "core": 1.523171,
+       "diff": -0.0
+      },
+      {
+       "game": "SEA@WAS",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -15.358525,
+       "core": -15.358525,
+       "diff": -0.0
+      },
+      {
+       "game": "ARI@SF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 10.196732,
+       "core": 10.196732,
+       "diff": -0.0
+      },
+      {
+       "game": "MIN@TB",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.181835,
+       "core": 1.181835,
+       "diff": 0.0
+      },
+      {
+       "game": "BAL@DAL",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -9.094257,
+       "core": -9.094257,
+       "diff": -0.0
+      },
+      {
+       "game": "LV@NO",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 2.049685,
+       "core": 2.049685,
+       "diff": -0.0
+      },
+      {
+       "game": "LA@DEN",
+       "coefficient_set": {
+        "legacy": "v1_rating_only_no_ngs",
+        "core": "v1_rating_only_no_ngs"
+       },
+       "core_reason": "no NGS for LA",
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.785076,
+       "core": 0.785076,
+       "diff": 0.0
+      },
+      {
+       "game": "PHI@CHI",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.22447,
+       "core": 0.22447,
+       "diff": 0.0
+      }
+     ]
+    }
+   },
+   "passed": true
+  },
+  "core_vocabulary": {
+   "boards": {
+    "2026-week-03-20260927T080127Z.json": {
+     "asof": "2026-09-27T08:01:27.110826+00:00",
+     "offset": {
+      "recorded": -0.327220637283391,
+      "core": -0.3272206372833908,
+      "how": "measured on 15 open games"
+     },
+     "max_abs_diff": 0.3170865649835506,
+     "coefficient_set_mismatches": [
+      "LA@DEN"
+     ],
+     "failures": [
+      {
+       "game": "LA@DEN",
+       "coefficient_set": {
+        "legacy": "v1_rating_only_no_ngs",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": -3.888568402,
+        "separation_diff": 1.589181566,
+        "yac_oe_diff": -2.631395148,
+        "ryoe_diff": -0.785878112,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.785076,
+       "core": 1.102162,
+       "diff": 0.317086565
+      }
+     ],
+     "games": [
+      {
+       "game": "LAC@BUF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 9.724982,
+       "core": 9.724982,
+       "diff": 0.0
+      },
+      {
+       "game": "CAR@CLE",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.0,
+       "core": -2.0,
+       "diff": 0.0
+      },
+      {
+       "game": "CIN@PIT",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.198814,
+       "core": -2.198814,
+       "diff": 0.0
+      },
+      {
+       "game": "NYJ@DET",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 4.13123,
+       "core": 4.13123,
+       "diff": 0.0
+      },
+      {
+       "game": "HOU@IND",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -5.367618,
+       "core": -5.367618,
+       "diff": 0.0
+      },
+      {
+       "game": "NE@JAX",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -3.880821,
+       "core": -3.880821,
+       "diff": 0.0
+      },
+      {
+       "game": "KC@MIA",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -6.571997,
+       "core": -6.571997,
+       "diff": -0.0
+      },
+      {
+       "game": "TEN@NYG",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.523171,
+       "core": 1.523171,
+       "diff": -0.0
+      },
+      {
+       "game": "SEA@WAS",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -15.358525,
+       "core": -15.358525,
+       "diff": -0.0
+      },
+      {
+       "game": "ARI@SF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 10.196732,
+       "core": 10.196732,
+       "diff": -0.0
+      },
+      {
+       "game": "MIN@TB",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.181835,
+       "core": 1.181835,
+       "diff": 0.0
+      },
+      {
+       "game": "BAL@DAL",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -9.094257,
+       "core": -9.094257,
+       "diff": -0.0
+      },
+      {
+       "game": "LV@NO",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 2.049685,
+       "core": 2.049685,
+       "diff": -0.0
+      },
+      {
+       "game": "LA@DEN",
+       "coefficient_set": {
+        "legacy": "v1_rating_only_no_ngs",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": -3.888568402,
+        "separation_diff": 1.589181566,
+        "yac_oe_diff": -2.631395148,
+        "ryoe_diff": -0.785878112,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.785076,
+       "core": 1.102162,
+       "diff": 0.317086565
+      },
+      {
+       "game": "PHI@CHI",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.22447,
+       "core": 0.22447,
+       "diff": 0.0
+      }
+     ]
+    },
+    "2026-week-03-20260927T120136Z.json": {
+     "asof": "2026-09-27T12:01:36.506562+00:00",
+     "offset": {
+      "recorded": -0.327220637283391,
+      "core": -0.3272206372833908,
+      "how": "measured on 15 open games"
+     },
+     "max_abs_diff": 0.3170865649835506,
+     "coefficient_set_mismatches": [
+      "LA@DEN"
+     ],
+     "failures": [
+      {
+       "game": "LA@DEN",
+       "coefficient_set": {
+        "legacy": "v1_rating_only_no_ngs",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": -3.888568402,
+        "separation_diff": 1.589181566,
+        "yac_oe_diff": -2.631395148,
+        "ryoe_diff": -0.785878112,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.785076,
+       "core": 1.102162,
+       "diff": 0.317086565
+      }
+     ],
+     "games": [
+      {
+       "game": "LAC@BUF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 9.724982,
+       "core": 9.724982,
+       "diff": 0.0
+      },
+      {
+       "game": "CAR@CLE",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.0,
+       "core": -2.0,
+       "diff": 0.0
+      },
+      {
+       "game": "CIN@PIT",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -2.198814,
+       "core": -2.198814,
+       "diff": 0.0
+      },
+      {
+       "game": "NYJ@DET",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 4.13123,
+       "core": 4.13123,
+       "diff": 0.0
+      },
+      {
+       "game": "HOU@IND",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -5.367618,
+       "core": -5.367618,
+       "diff": 0.0
+      },
+      {
+       "game": "NE@JAX",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -3.880821,
+       "core": -3.880821,
+       "diff": 0.0
+      },
+      {
+       "game": "KC@MIA",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -6.571997,
+       "core": -6.571997,
+       "diff": -0.0
+      },
+      {
+       "game": "TEN@NYG",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.523171,
+       "core": 1.523171,
+       "diff": -0.0
+      },
+      {
+       "game": "SEA@WAS",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -15.358525,
+       "core": -15.358525,
+       "diff": -0.0
+      },
+      {
+       "game": "ARI@SF",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 10.196732,
+       "core": 10.196732,
+       "diff": -0.0
+      },
+      {
+       "game": "MIN@TB",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 1.181835,
+       "core": 1.181835,
+       "diff": 0.0
+      },
+      {
+       "game": "BAL@DAL",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": -9.094257,
+       "core": -9.094257,
+       "diff": -0.0
+      },
+      {
+       "game": "LV@NO",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 2.049685,
+       "core": 2.049685,
+       "diff": -0.0
+      },
+      {
+       "game": "LA@DEN",
+       "coefficient_set": {
+        "legacy": "v1_rating_only_no_ngs",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": -3.888568402,
+        "separation_diff": 1.589181566,
+        "yac_oe_diff": -2.631395148,
+        "ryoe_diff": -0.785878112,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.785076,
+       "core": 1.102162,
+       "diff": 0.317086565
+      },
+      {
+       "game": "PHI@CHI",
+       "coefficient_set": {
+        "legacy": "full_ensemble",
+        "core": "full_ensemble"
+       },
+       "core_reason": null,
+       "term_diffs": {
+        "rating_diff": 0.0,
+        "rest_diff": 0.0,
+        "cpoe_diff": 0.0,
+        "separation_diff": 0.0,
+        "yac_oe_diff": 0.0,
+        "ryoe_diff": 0.0,
+        "elo_diff": 0.0,
+        "is_neutral_site": 0.0
+       },
+       "legacy": 0.22447,
+       "core": 0.22447,
+       "diff": 0.0
+      }
+     ]
+    }
+   },
+   "passed": false
+  }
+ },
+ "adr_0004_rams": {
+  "note": "What the board publishes under the core's NGS vocabulary: the Rams game moves to the full ensemble, and the slate median it feeds moves every other game by the offset shift. Announced, not gated (ADR 0004).",
+  "boards": {
+   "2026-week-03-20260927T080127Z.json": {
+    "games": [
+     {
+      "game": "LA@DEN",
+      "coefficient_set": {
+       "legacy": "v1_rating_only_no_ngs",
+       "core": "full_ensemble"
+      },
+      "core_reason": null,
+      "term_diffs": {
+       "rating_diff": 0.0,
+       "rest_diff": 0.0,
+       "cpoe_diff": -3.888568402,
+       "separation_diff": 1.589181566,
+       "yac_oe_diff": -2.631395148,
+       "ryoe_diff": -0.785878112,
+       "is_neutral_site": 0.0
+      },
+      "legacy": 0.785076,
+      "core": 1.102162,
+      "diff": 0.317086565
+     }
+    ],
+    "offset_shift": 2.220446049250313e-16,
+    "max_abs_diff_other_games": 0.0
+   },
+   "2026-week-03-20260927T120136Z.json": {
+    "games": [
+     {
+      "game": "LA@DEN",
+      "coefficient_set": {
+       "legacy": "v1_rating_only_no_ngs",
+       "core": "full_ensemble"
+      },
+      "core_reason": null,
+      "term_diffs": {
+       "rating_diff": 0.0,
+       "rest_diff": 0.0,
+       "cpoe_diff": -3.888568402,
+       "separation_diff": 1.589181566,
+       "yac_oe_diff": -2.631395148,
+       "ryoe_diff": -0.785878112,
+       "is_neutral_site": 0.0
+      },
+      "legacy": 0.785076,
+      "core": 1.102162,
+      "diff": 0.317086565
+     }
+    ],
+    "offset_shift": 2.220446049250313e-16,
+    "max_abs_diff_other_games": 0.0
+   }
+  }
+ },
+ "script": "model/nfl_ensemble_parity.py"
+}
