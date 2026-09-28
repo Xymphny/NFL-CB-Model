@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-09-28T00:15:33Z",
+ "generated_at": "2026-09-28T10:43:02Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -1204,7 +1204,7 @@
     "venue": {
      "name": "Maracana Stadium",
      "roof": "open",
-     "surface": "matrixturf",
+     "surface": null,
      "neutral": true,
      "in_price": false
     },
@@ -1297,7 +1297,7 @@
     "venue": {
      "name": "Caesars Superdome",
      "roof": "dome",
-     "surface": "sportturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1385,50 +1385,7 @@
    "home_name": "Denver Broncos",
    "away_name": "Los Angeles Rams",
    "start": "2026-09-28T00:20:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 1.0,
-     "side": "home",
-     "selection": "Denver Broncos",
-     "best_price_decimal": 1.92,
-     "best_price_american": -109,
-     "best_book": "gtbets",
-     "books": 8,
-     "p_model": 0.5616,
-     "p_market": 0.50842,
-     "edge": 0.05319,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 2.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Denver Broncos",
-     "best_price_decimal": 2.03,
-     "best_price_american": 103,
-     "best_book": "coolbet",
-     "books": 21,
-     "p_model": 0.5484,
-     "p_market": 0.48878,
-     "edge": 0.05962,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.44294,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Bo Nix",
@@ -1439,17 +1396,12 @@
     "venue": {
      "name": "Empower Field at Mile High",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 81.8,
-     "wind_mph": 12.8,
-     "precip_prob": 1,
-     "forecast_hour": "2026-09-27T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1516,185 +1468,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.5484,
-    "margin_mean": 1.428,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.029490537205613832,
-      "rest_diff": 1.0,
-      "cpoe_diff": -3.888568401937045,
-      "separation_diff": 1.5891815659012059,
-      "yac_oe_diff": -2.6313951478290005,
-      "ryoe_diff": -0.7858781118933309,
-      "elo_diff": 14.183941371086576,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00255,
-      0.00301,
-      0.00353,
-      0.00411,
-      0.00477,
-      0.00549,
-      0.00291,
-      0.00949,
-      0.00756,
-      0.00462,
-      0.01003,
-      0.01338,
-      0.01132,
-      0.0082,
-      0.02228,
-      0.01414,
-      0.00783,
-      0.01032,
-      0.02049,
-      0.0063,
-      0.0187,
-      0.04793,
-      0.0332,
-      0.01901,
-      0.02807,
-      0.07396,
-      0.02421,
-      0.02061,
-      0.00361,
-      0.0249,
-      0.02232,
-      0.08648,
-      0.02608,
-      0.02133,
-      0.03744,
-      0.04945,
-      0.02505,
-      0.00965,
-      0.03686,
-      0.01418,
-      0.01001,
-      0.00922,
-      0.02988,
-      0.00928,
-      0.01386,
-      0.01456,
-      0.0137,
-      0.00508,
-      0.01173,
-      0.0135,
-      0.00534,
-      0.00468,
-      0.01022,
-      0.00499,
-      0.00563,
-      0.00491,
-      0.00424
-     ],
-     "binned": false,
-     "tail_below": 0.01195,
-     "tail_above": 0.02183,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "3bfd8bfb4b8e9a365a0877879b73b16b",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": 2.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T17:00:00Z",
-      "kind": "current",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T20:00:00Z",
-      "kind": "current",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-27T20:25:00Z",
-      "kind": "current",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-28T00:15:00Z",
-      "kind": "current",
-      "line": 1.0,
-      "price": 1.875,
-      "p_market": 0.50779,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-28T00:18:00Z",
-      "kind": "current",
-      "line": 1.0,
-      "price": 1.89,
-      "p_market": 0.50561,
-      "books": 17
-     }
-    ],
-    "captures": 9,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -1.43,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/den.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png"
   },
@@ -1772,9 +1546,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 61.8,
-     "wind_mph": 4.5,
-     "precip_prob": 1,
+     "temp_f": 62.1,
+     "wind_mph": 5.1,
+     "precip_prob": 2,
      "forecast_hour": "2026-09-28T20:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -2360,23 +2134,23 @@
    "elo": true
   },
   "debias_offset": 0.1727793627166092,
-  "debias_how": "2 open game(s), too few to measure; this week's previous board offset",
-  "debias_games": 2,
+  "debias_how": "1 open game(s), too few to measure; this week's previous board offset",
+  "debias_games": 1,
   "coefficient_sets": {
-   "full_ensemble": 2
+   "full_ensemble": 1
   }
  },
  "status": {
   "state": "up",
-  "games": 2,
-  "priced": 2,
+  "games": 1,
+  "priced": 1,
   "tiers": {
    "play": 0,
    "lean": 1,
    "coin_flip": 0,
-   "no_edge": 1
+   "no_edge": 0
   },
-  "started": 14,
+  "started": 15,
   "not_priced": [
    {
     "key": "no_line",
@@ -2403,7 +2177,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 14,
+    "games": 15,
     "examples": [
      "ATL @ GB",
      "LAC @ BUF",

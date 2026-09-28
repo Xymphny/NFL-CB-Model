@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-28T00:15:55Z",
+ "generated_at": "2026-09-28T10:43:15Z",
  "floor": 150,
  "leagues": {
   "nfl": {
@@ -11,18 +11,332 @@
     "source": "historical"
    },
    "signals": 1642,
-   "settled_games": 0,
-   "progress_to_floor": 0.0,
-   "preferred_side_wins": 0,
-   "preferred_side_hit_rate": null,
+   "settled_games": 13,
+   "progress_to_floor": 0.0867,
+   "preferred_side_wins": 7,
+   "preferred_side_hit_rate": 0.5385,
    "break_even_at_minus_110": 0.5238,
-   "mean_clv_prob_points": null,
-   "mean_clv_line_points": null,
-   "mean_market_move_points": null,
-   "clv_graded": 0,
+   "mean_clv_prob_points": -0.01068,
+   "mean_clv_line_points": 0.1786,
+   "mean_market_move_points": 0.01293,
+   "clv_graded": 14,
    "team_floor": 10,
-   "teams": {},
-   "recent": []
+   "teams": {
+    "ARI": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.00484
+    },
+    "BUF": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.01282
+    },
+    "CAR": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": 0.01253
+    },
+    "CIN": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.00533
+    },
+    "CLE": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": 0.01253
+    },
+    "DEN": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.02274
+    },
+    "DET": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.03478
+    },
+    "HOU": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.01282
+    },
+    "IND": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.01282
+    },
+    "JAX": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.02404
+    },
+    "KC": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": 0.02357
+    },
+    "LA": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.02274
+    },
+    "LAC": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.01282
+    },
+    "LV": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.03528
+    },
+    "MIA": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": 0.02357
+    },
+    "MIN": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.01618
+    },
+    "NE": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.02404
+    },
+    "NO": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.03528
+    },
+    "NYG": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.02356
+    },
+    "NYJ": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.03478
+    },
+    "PIT": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.00533
+    },
+    "SEA": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.04098
+    },
+    "SF": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.00484
+    },
+    "TB": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.01618
+    },
+    "TEN": {
+     "settled": 1,
+     "wins": 0,
+     "mean_clv": -0.02356
+    },
+    "WAS": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.04098
+    }
+   },
+   "recent": [
+    {
+     "at": "2026-09-28T00:15:29Z",
+     "game_id": "2026-W03-DEN-LA",
+     "market": "spreads",
+     "selection": "Denver Broncos",
+     "line": 1.0,
+     "price_decimal": 1.87,
+     "book": "betanysports",
+     "p_model": 0.5475,
+     "p_market": 0.5112,
+     "result": "win",
+     "score": "30-26",
+     "clv_prob_points": 0.0227
+    },
+    {
+     "at": "2026-09-27T20:16:35Z",
+     "game_id": "2026-W03-NO-LV",
+     "market": "spreads",
+     "selection": "Las Vegas Raiders",
+     "line": 3.5,
+     "price_decimal": 1.95,
+     "book": "betanysports",
+     "p_model": 0.5622,
+     "p_market": 0.4888,
+     "result": "win",
+     "score": "27-35",
+     "clv_prob_points": -0.0353
+    },
+    {
+     "at": "2026-09-27T19:46:25Z",
+     "game_id": "2026-W03-SF-ARI",
+     "market": "spreads",
+     "selection": "Arizona Cardinals",
+     "line": 7.5,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.6159,
+     "p_market": 0.5,
+     "result": "win",
+     "score": "36-30",
+     "clv_prob_points": 0.0048
+    },
+    {
+     "at": "2026-09-27T19:46:25Z",
+     "game_id": "2026-W03-TB-MIN",
+     "market": "spreads",
+     "selection": "Tampa Bay Buccaneers",
+     "line": 1.0,
+     "price_decimal": 1.87,
+     "book": "betanysports",
+     "p_model": 0.5317,
+     "p_market": 0.5112,
+     "result": "loss",
+     "score": "16-23",
+     "clv_prob_points": -0.0162
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-BUF-LAC",
+     "market": "spreads",
+     "selection": "Los Angeles Chargers",
+     "line": 7.0,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.5668,
+     "p_market": 0.5,
+     "result": "loss",
+     "score": "24-16",
+     "clv_prob_points": -0.0128
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-CLE-CAR",
+     "market": "spreads",
+     "selection": "Carolina Panthers",
+     "line": -2.0,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.5355,
+     "p_market": 0.5,
+     "result": "loss",
+     "score": "21-18",
+     "clv_prob_points": 0.0125
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-DET-NYJ",
+     "market": "spreads",
+     "selection": "New York Jets",
+     "line": 6.5,
+     "price_decimal": 1.95,
+     "book": "betanysports",
+     "p_model": 0.6757,
+     "p_market": 0.4888,
+     "result": "loss",
+     "score": "31-24",
+     "clv_prob_points": -0.0348
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-IND-HOU",
+     "market": "spreads",
+     "selection": "Indianapolis Colts",
+     "line": 1.5,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.5299,
+     "p_market": 0.5,
+     "result": "win",
+     "score": "19-17",
+     "clv_prob_points": -0.0128
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-JAX-NE",
+     "market": "spreads",
+     "selection": "Jacksonville Jaguars",
+     "line": -3.0,
+     "price_decimal": 1.95,
+     "book": "betanysports",
+     "p_model": 0.4891,
+     "p_market": 0.4888,
+     "result": "win",
+     "score": "35-6",
+     "clv_prob_points": -0.024
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-MIA-KC",
+     "market": "spreads",
+     "selection": "Miami Dolphins",
+     "line": 10.0,
+     "price_decimal": 1.83,
+     "book": "betanysports",
+     "p_model": 0.8147,
+     "p_market": 0.5237,
+     "result": "loss",
+     "score": "10-24",
+     "clv_prob_points": 0.0236
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-NYG-TEN",
+     "market": "spreads",
+     "selection": "Tennessee Titans",
+     "line": 2.5,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.5228,
+     "p_market": 0.5,
+     "result": "loss",
+     "score": "12-7",
+     "clv_prob_points": -0.0236
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-PIT-CIN",
+     "market": "spreads",
+     "selection": "Pittsburgh Steelers",
+     "line": 3.0,
+     "price_decimal": 1.95,
+     "book": "betanysports",
+     "p_model": 0.6489,
+     "p_market": 0.4888,
+     "result": "win",
+     "score": "30-27",
+     "clv_prob_points": 0.0053
+    },
+    {
+     "at": "2026-09-27T17:00:41Z",
+     "game_id": "2026-W03-WAS-SEA",
+     "market": "spreads",
+     "selection": "Washington Commanders",
+     "line": 9.0,
+     "price_decimal": 1.87,
+     "book": "betanysports",
+     "p_model": 0.787,
+     "p_market": 0.5112,
+     "result": "win",
+     "score": "33-31",
+     "clv_prob_points": -0.041
+    }
+   ]
   },
   "cfb": {
    "grade": {
@@ -1332,10 +1646,10 @@
    "preferred_side_wins": 11,
    "preferred_side_hit_rate": 0.4783,
    "break_even_at_minus_110": 0.5238,
-   "mean_clv_prob_points": -0.01664,
+   "mean_clv_prob_points": -0.02118,
    "mean_clv_line_points": null,
-   "mean_market_move_points": -0.00013,
-   "clv_graded": 22,
+   "mean_market_move_points": -0.00441,
+   "clv_graded": 33,
    "team_floor": 10,
    "teams": {
     "ANA": {
