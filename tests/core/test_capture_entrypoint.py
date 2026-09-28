@@ -210,6 +210,7 @@ def test_nothing_captured_means_nothing_committed(monkeypatch, capsys):
 
     monkeypatch.setitem(sys.modules, "deploy.git_utils",
                         type(sys)("deploy.git_utils"))
+    sys.modules["deploy.git_utils"].sync_to_origin = lambda *a: None
     sys.modules["deploy.git_utils"].git_commit_and_push = _boom
 
     assert entry.main(["--run", "--persist"]) == 0
@@ -238,6 +239,7 @@ def test_a_run_that_only_meets_known_gaps_does_not_commit(monkeypatch, capsys, t
 
     monkeypatch.setitem(sys.modules, "deploy.git_utils",
                         type(sys)("deploy.git_utils"))
+    sys.modules["deploy.git_utils"].sync_to_origin = lambda *a: None
     sys.modules["deploy.git_utils"].git_commit_and_push = _boom
 
     assert entry.main(["--run", "--persist"]) == 0

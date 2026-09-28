@@ -29,6 +29,8 @@ def current_cfb_week(anchor_str):
 
 
 def main():
+    from deploy.git_utils import sync_to_origin
+    sync_to_origin()
     season = int(os.environ.get("SEASON", 2026))
     week = current_cfb_week(os.environ.get("CFB_WEEK1_SATURDAY", "2026-08-29"))
     print(f"[cfb_weekly_runner] season {season}, computed current week {week}")

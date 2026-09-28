@@ -525,4 +525,6 @@ def main():
 
 
 if os.environ.get("RUN_LIVE_CFB_ODDS_WATCH", "").lower() == "true":
+    from deploy.git_utils import sync_to_origin
+    sync_to_origin()
     main()

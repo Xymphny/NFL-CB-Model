@@ -27,6 +27,91 @@ def normalize_repo_url(repo_url: str) -> str:
     return repo_url
 
 
+def configure_origin(repo_dir: str) -> bool:
+    """Point `origin` at the authenticated repo URL; whether credentials were set.
+
+    Render's checkout has no usable `origin` (see git_commit_and_push), so
+    both the push and the start-of-run sync need this first.
+    """
+    repo_url = os.environ.get("GIT_REPO_URL")
+    token = os.environ.get("GITHUB_TOKEN")
+    if repo_url and token:
+        repo_url = normalize_repo_url(repo_url)
+        authenticated_url = f"https://{token}@{repo_url}"
+
+        add_result = subprocess.run(
+            ["git", "remote", "add", "origin", authenticated_url],
+            cwd=repo_dir, capture_output=True, text=True,
+        )
+        if add_result.returncode != 0:
+            subprocess.run(
+                ["git", "remote", "set-url", "origin", authenticated_url],
+                cwd=repo_dir, check=True,
+            )
+    else:
+        print("[git_utils] warning: GIT_REPO_URL or GITHUB_TOKEN not set — push will likely fail "
+              "against Render's default read-only clone credential")
+
+    remote_check = subprocess.run(["git", "remote", "-v"], cwd=repo_dir, capture_output=True, text=True)
+    # Redact the token before printing — this would otherwise leak the
+    # credential straight into the log output.
+    redacted = remote_check.stdout.replace(token, "***") if token else remote_check.stdout
+    print(f"[git_utils] configured remotes:\n{redacted}")
+    return bool(repo_url and token)
+
+
+def sync_to_origin(repo_dir=None) -> None:
+    """Move the checkout to the tip of origin/<GIT_BRANCH> before a job works.
+
+    Every job calls this first. render.yaml's buildFilter keeps data-only
+    commits from rebuilding the crons (they used to rebuild all eleven
+    services, ~320 builds a day), so a cron now runs from the checkout of the
+    last CODE commit -- possibly days behind main's data. Without this a job
+    would read stale snapshots and then have to rebase its commit over days
+    of other jobs' commits at push time.
+
+    The reset is only ever a fast-forward. It refuses -- raising, never
+    discarding -- when tracked files are modified or HEAD has commits origin
+    does not, so a local run on a working branch cannot lose anything. On
+    Render neither can happen: the checkout is clean and is a commit of main.
+
+    No-op without GIT_REPO_URL: such a run never pushes, and without the
+    token the repo cannot be fetched anyway.
+    """
+    if not os.environ.get("GIT_REPO_URL"):
+        print("[git_utils] GIT_REPO_URL not set; not syncing to origin (this run will not push)")
+        return
+    repo_dir = repo_dir or os.getcwd()
+    target_branch = os.environ.get("GIT_BRANCH", "main")
+    configure_origin(repo_dir)
+
+    fetch = None
+    for _ in range(3):              # a network blip should not cost a close
+        fetch = subprocess.run(["git", "fetch", "origin", target_branch],
+                               cwd=repo_dir, capture_output=True, text=True)
+        if fetch.returncode == 0:
+            break
+    if fetch.returncode != 0:
+        raise ValidationError(f"sync: git fetch origin {target_branch} failed: {fetch.stderr.strip()[:300]}")
+
+    dirty = subprocess.run(["git", "status", "--porcelain", "--untracked-files=no"],
+                           cwd=repo_dir, capture_output=True, text=True)
+    if dirty.stdout.strip():
+        raise ValidationError("sync: tracked files are modified; refusing to reset over them:\n"
+                              + dirty.stdout.strip()[:500])
+    behind = subprocess.run(["git", "merge-base", "--is-ancestor", "HEAD", "FETCH_HEAD"],
+                            cwd=repo_dir, capture_output=True, text=True)
+    if behind.returncode != 0:
+        raise ValidationError(f"sync: HEAD has commits not on origin/{target_branch}; "
+                              "refusing to reset them away")
+
+    reset = subprocess.run(["git", "reset", "--hard", "FETCH_HEAD"],
+                           cwd=repo_dir, capture_output=True, text=True)
+    if reset.returncode != 0:
+        raise ValidationError(f"sync: git reset failed: {reset.stderr.strip()[:300]}")
+    print(f"[git_utils] synced to origin/{target_branch}: {reset.stdout.strip()}")
+
+
 def git_commit_and_push(file_path, commit_message: str) -> None:
     """
     Commit a generated data file and push, triggering Render's static
@@ -63,30 +148,7 @@ def git_commit_and_push(file_path, commit_message: str) -> None:
     subprocess.run(["git", "config", "user.name", "football-model-bot"], cwd=repo_dir, check=True)
     subprocess.run(["git", "config", "user.email", "bot@football-model.local"], cwd=repo_dir, check=True)
 
-    repo_url = os.environ.get("GIT_REPO_URL")
-    token = os.environ.get("GITHUB_TOKEN")
-    if repo_url and token:
-        repo_url = normalize_repo_url(repo_url)
-        authenticated_url = f"https://{token}@{repo_url}"
-
-        add_result = subprocess.run(
-            ["git", "remote", "add", "origin", authenticated_url],
-            cwd=repo_dir, capture_output=True, text=True,
-        )
-        if add_result.returncode != 0:
-            subprocess.run(
-                ["git", "remote", "set-url", "origin", authenticated_url],
-                cwd=repo_dir, check=True,
-            )
-    else:
-        print("[git_utils] warning: GIT_REPO_URL or GITHUB_TOKEN not set — push will likely fail "
-              "against Render's default read-only clone credential")
-
-    remote_check = subprocess.run(["git", "remote", "-v"], cwd=repo_dir, capture_output=True, text=True)
-    # Redact the token before printing — this would otherwise leak the
-    # credential straight into the log output.
-    redacted = remote_check.stdout.replace(token, "***") if token else remote_check.stdout
-    print(f"[git_utils] configured remotes:\n{redacted}")
+    configure_origin(repo_dir)
 
     # One path or several. A job that refreshes files in more than one
     # directory commits them together, so the remote never holds half of a

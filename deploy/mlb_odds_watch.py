@@ -131,6 +131,8 @@ def main():
     if not api_key:
         print("[mlb_odds_watch] ODDS_API_KEY not set; exiting")
         return
+    from deploy.git_utils import sync_to_origin
+    sync_to_origin()
     path = build_snapshot(api_key)
     if os.environ.get("GIT_REPO_URL"):
         from deploy.git_utils import git_commit_and_push

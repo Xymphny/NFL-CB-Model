@@ -290,6 +290,13 @@ def main(argv: list[str] | None = None) -> int:
               "line; export it.")
         return 2
 
+    if a.persist:
+        # Before anything is read or written: this cron's checkout is from
+        # the last code commit, and every capture since then is on main.
+        sys.path.insert(0, str(ROOT))
+        from deploy.git_utils import sync_to_origin
+        sync_to_origin(str(ROOT))
+
     now = _now()
     ledger = CreditLedger(budget=a.budget)
     client = OddsAPIClient(api_key=key, ledger=ledger)

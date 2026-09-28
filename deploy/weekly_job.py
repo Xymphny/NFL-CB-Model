@@ -34,7 +34,7 @@ from model.injury_impact import apply_injury_adjustment
 from model.elo_rating import compute_elo_walk_forward
 from deploy.validate import validate_pbp_data, validate_ratings, ValidationError
 from deploy.notify import report_success, report_failure
-from deploy.git_utils import git_commit_and_push
+from deploy.git_utils import git_commit_and_push, sync_to_origin
 
 REPO_DATA_PATH = os.environ.get("REPO_DATA_PATH", "./data")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
@@ -473,6 +473,7 @@ def _published_prop_opinions(season, week, data_dir=None, with_matches=False):
 
 
 def main():
+    sync_to_origin()
     season = int(os.environ.get("SEASON", datetime.now().year))
     # Auto-detects the current week unless explicitly overridden — the
     # cron job doesn't need a manually-updated env var every week.

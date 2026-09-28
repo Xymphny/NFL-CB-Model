@@ -230,6 +230,8 @@ def load_mlb_caches(data_dir="model"):
 
 
 if __name__ == "__main__":
+    from deploy.git_utils import sync_to_origin
+    sync_to_origin()
     paths = update()
     if os.environ.get("GIT_REPO_URL"):
         from deploy.git_utils import git_commit_and_push

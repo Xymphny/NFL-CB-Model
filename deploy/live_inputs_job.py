@@ -203,4 +203,6 @@ def run(today_et: date | None = None, commit: bool = True) -> int:
 
 
 if __name__ == "__main__":
+    from deploy.git_utils import sync_to_origin
+    sync_to_origin()
     sys.exit(run(commit=bool(os.environ.get("GIT_REPO_URL"))))

@@ -15,12 +15,38 @@
 # existing one is what caused the duplicate-service issue earlier —
 # don't repeat that here.
 
+# BUILD FILTERS (2026-09-28). Every push used to rebuild all eleven services,
+# and the bots push data several hundred times a day -- that exhausted the
+# Render build minutes. Python services now rebuild only on code/requirements
+# changes, the dashboard only on frontend/ and the data files it ships. A cron
+# therefore runs from the checkout of the last CODE commit, so every job calls
+# deploy/git_utils.sync_to_origin() first to fast-forward to origin/main.
+
 services:
   - type: cron
     name: weekly-ratings-job
     runtime: python
     schedule: "0 11 * * 2"  # Tuesday 11:00 UTC — Section 9.1's cadence
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python3 deploy/weekly_job.py
     envVars:
       - key: SEASON
@@ -62,6 +88,25 @@ services:
     runtime: python
     schedule: "*/15 * * * *"
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     # --paper prices each captured window's games as paper trades into
     # data/ledger (weight 0, never placed; ADR 0024), committed with the
     # snapshot. No extra request and no credit: it reads what was captured.
@@ -85,6 +130,25 @@ services:
     # runs regardless of day until that check exists.
     schedule: "0 */4 * * *"
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python3 deploy/odds_watch_job.py
     envVars:
       - key: REPO_DATA_PATH
@@ -119,6 +183,25 @@ services:
     # 00:00 and 12:00 on Thu/Fri/Sat -- six races per week, each one able to
     # lose a snapshot to a rebase abort).
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python3 -c "import os; os.environ['RUN_LIVE_CFB_ODDS_WATCH']='true'; import deploy.cfb_odds_watch"
     envVars:
       - key: SEASON
@@ -147,6 +230,25 @@ services:
     runtime: python
     schedule: "0 0 1 1 *"
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python3 deploy/cfb_backtest_job.py
     envVars:
       - key: CFBD_API_KEY
@@ -168,6 +270,25 @@ services:
     runtime: python
     schedule: "0 10 * * 0"
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python3 deploy/cfb_weekly_runner.py
     envVars:
       - key: SEASON
@@ -194,6 +315,25 @@ services:
     runtime: python
     plan: starter
     buildCommand: pip install -r sync_service/requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: uvicorn app:app --app-dir sync_service --host 0.0.0.0 --port $PORT
     healthCheckPath: /healthz
     disk:
@@ -211,6 +351,30 @@ services:
     runtime: static
     buildCommand: python3 deploy/generate_manifest.py && cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
+    # Rebuild only for what the build reads: frontend/, and the data paths
+    # deploy/generate_manifest.py copies into it (plus the one model/ file).
+    # Bronze snapshots, ledgers and raw inputs no longer rebuild the site.
+    buildFilter:
+      paths:
+        - frontend/**
+        - deploy/generate_manifest.py
+        - render.yaml
+        - data/site/**
+        - data/props/**
+        - data/ratings/**
+        - data/divergence/**
+        - data/prop_grades/**
+        - data/player_grades/**
+        - data/cfb_ratings/**
+        - data/cfb_divergence/**
+        - data/mlb_divergence/**
+        - data/performance.json
+        - data/cfb_performance.json
+        - data/margin_dist.json
+        - data/cfb_edge_calibration.json
+        - data/totals_validation.json
+        - data/spread_validation.json
+        - model/cfb_edge_calibration.json
     # Matchup deep links (/<league>/game/<id>, dashboard v2) load the app.
     # Render applies no rule where a file exists, so data/site/*.json and the
     # assets are served as before; only unknown paths fall through to it.
@@ -227,6 +391,25 @@ services:
     # model probabilities wired in yet), so extra intraday refreshes buy
     # no epistemic value and cost ~120 credits/month against a ~500 cap.
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python deploy/mlb_odds_watch.py
     envVars:
       - key: ODDS_API_KEY
@@ -241,6 +424,25 @@ services:
     env: python
     schedule: "0 9 * 3-10 *"   # daily 09:00 UTC, March-October
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python deploy/mlb_daily_update.py
     envVars:
       - key: GIT_REPO_URL
@@ -266,6 +468,25 @@ services:
     runtime: python
     schedule: "40 10,15 * * *"
     buildCommand: pip install -r requirements.txt
+    buildFilter:   # code only -- see the note at the top of this file
+      paths:
+        - src/**
+        - model/**
+        - deploy/**
+        - scripts/**
+        - ingest/**
+        - sync_service/**
+        - requirements*.txt
+        - render.yaml
+      ignoredPaths:       # bot-written artifacts, not code
+        - data/**
+        - model/data_integrity.json
+        - model/mlb_schedule_current.csv
+        - model/mlb_pitching_current.csv
+        - model/mlb_schedule_cache.csv
+        - model/mlb_pitching_cache.csv
+        - model/cfb_lines_cache.csv
+        - model/cfb_roster_priors.csv
     startCommand: python3 deploy/live_inputs_job.py
     envVars:
       - key: GIT_REPO_URL

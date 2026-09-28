@@ -27,7 +27,7 @@ from model.weather import fetch_forecast
 from model.version import METHODOLOGY_VERSION
 from deploy.validate import ValidationError
 from deploy.notify import report_success, report_failure, send_webhook_alert
-from deploy.git_utils import git_commit_and_push
+from deploy.git_utils import git_commit_and_push, sync_to_origin
 from ingest.nfl_schedules import is_game_day, load_schedules, get_next_upcoming_week
 
 ODDS_API_KEY = os.environ.get("ODDS_API_KEY")
@@ -812,6 +812,7 @@ def _json_sanitize(obj):
 
 
 def main():
+    sync_to_origin()
     season = int(os.environ.get("SEASON", "2026"))
 
     # Real production measurement (6 credits/call) showed the fixed

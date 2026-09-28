@@ -160,6 +160,7 @@ def _capture_job(monkeypatch, tmp_path, codes):
         return codes.get(Path(argv[0]).stem, 0)
     monkeypatch.setattr(entry, "_isolated", child)
     monkeypatch.setitem(sys.modules, "deploy.git_utils", type(sys)("deploy.git_utils"))
+    sys.modules["deploy.git_utils"].sync_to_origin = lambda *a: None
     sys.modules["deploy.git_utils"].git_commit_and_push = lambda p, m: commits.append((p, m))
     monkeypatch.setattr(entry, "ROOT", tmp_path)
     (tmp_path / "bronze").mkdir()

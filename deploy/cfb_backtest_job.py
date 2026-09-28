@@ -72,6 +72,8 @@ def commit_caches():
 
 
 def main():
+    from deploy.git_utils import sync_to_origin
+    sync_to_origin()
     if not os.environ.get("CFBD_API_KEY"):
         print("[cfb_backtest_job] CFBD_API_KEY not set on this job's environment -- add it and re-trigger")
         sys.exit(1)
