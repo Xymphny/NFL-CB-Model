@@ -1,37 +1,38 @@
 {
   "season": 2026,
-  "updated_at": "2026-09-22T11:00:54.051551+00:00",
+  "updated_at": "2026-09-29T11:01:25.966201+00:00",
   "graded_weeks": [
     1,
-    2
+    2,
+    3
   ],
-  "ats_wins": 10,
-  "ats_losses": 17,
+  "ats_wins": 13,
+  "ats_losses": 24,
   "pushes": 0,
-  "units": -3.73,
-  "roi": -0.1961,
-  "avg_clv": 0.19,
-  "n_clv_bets": 27,
-  "model_mae": 13.51,
-  "market_mae": 12.7,
+  "units": -6.86,
+  "roi": -0.2744,
+  "avg_clv": 0.3,
+  "n_clv_bets": 37,
+  "model_mae": 12.87,
+  "market_mae": 11.48,
   "tier_stats": {
-    "n_plays": 11,
-    "ats_pct": 0.5455
+    "n_plays": 13,
+    "ats_pct": 0.4615
   },
   "tier_stats_by_tier": {
     "play": {
-      "n_plays": 11,
-      "ats_pct": 0.5455
+      "n_plays": 13,
+      "ats_pct": 0.4615
     },
     "lean": {
-      "n_plays": 16,
-      "ats_pct": 0.25
+      "n_plays": 24,
+      "ats_pct": 0.2917
     }
   },
   "calibration": {
-    "slope_model": 0.858,
-    "slope_market": 1.393,
-    "n_games": 32
+    "slope_model": 0.317,
+    "slope_market": 0.82,
+    "n_games": 48
   },
   "plays": [
     {
@@ -438,6 +439,156 @@
       "model_margin": 5.929997303060924,
       "actual_margin": -14,
       "market_spread": 2.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "NYJ +6.5",
+      "line": 6.5,
+      "close": 7.0,
+      "result": "loss",
+      "units": -0.5,
+      "clv": -0.5,
+      "edge": 3.17,
+      "model_margin": 3.334006233362756,
+      "actual_margin": 7,
+      "market_spread": 6.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "HOU -2.5",
+      "line": -2.5,
+      "close": -1.5,
+      "result": "loss",
+      "units": -0.5,
+      "clv": -1.0,
+      "edge": 3.67,
+      "model_margin": -6.172824928283488,
+      "actual_margin": 2,
+      "market_spread": -2.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "play",
+      "label": "NE +3",
+      "line": 3.0,
+      "close": 3.0,
+      "result": "loss",
+      "units": -1.0,
+      "clv": 0.0,
+      "edge": 7.53,
+      "model_margin": -4.5305234516214306,
+      "actual_margin": 29,
+      "market_spread": 3.0
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "MIA +11.5",
+      "line": -11.5,
+      "close": -10.0,
+      "result": "loss",
+      "units": -0.5,
+      "clv": 1.5,
+      "edge": 4.12,
+      "model_margin": -7.384377947567041,
+      "actual_margin": -14,
+      "market_spread": -11.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "play",
+      "label": "SEA -7",
+      "line": -7.0,
+      "close": -8.5,
+      "result": "loss",
+      "units": -1.0,
+      "clv": 1.5,
+      "edge": 9.18,
+      "model_margin": -16.18109915016538,
+      "actual_margin": 2,
+      "market_spread": -7.0
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "BAL -3.5",
+      "line": -3.5,
+      "close": -3.0,
+      "result": "loss",
+      "units": -0.5,
+      "clv": -0.5,
+      "edge": 6.41,
+      "model_margin": -9.90856821894244,
+      "actual_margin": -3,
+      "market_spread": -3.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "CHI +4.5",
+      "line": -4.5,
+      "close": -3.5,
+      "result": "win",
+      "units": 0.455,
+      "clv": 1.0,
+      "edge": 3.45,
+      "model_margin": -1.0545776676825045,
+      "actual_margin": 20,
+      "market_spread": -4.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "SF -7.5",
+      "line": 7.5,
+      "close": 7.5,
+      "result": "loss",
+      "units": -0.5,
+      "clv": 0.0,
+      "edge": 2.7,
+      "model_margin": 10.196731817463924,
+      "actual_margin": 6,
+      "market_spread": 7.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "DEN +2.5",
+      "line": -2.5,
+      "close": 1.5,
+      "result": "win",
+      "units": 0.455,
+      "clv": 4.0,
+      "edge": 3.29,
+      "model_margin": 0.7850758042606039,
+      "actual_margin": 4,
+      "market_spread": -2.5
+    },
+    {
+      "week": 3,
+      "market": "spread",
+      "tier": "lean",
+      "label": "LV +3.5",
+      "line": 3.5,
+      "close": 3.5,
+      "result": "win",
+      "units": 0.455,
+      "clv": 0.0,
+      "edge": 3.13,
+      "model_margin": 0.36785051407902003,
+      "actual_margin": -8,
+      "market_spread": 3.5
     }
   ]
 }
