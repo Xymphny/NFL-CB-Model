@@ -1,9 +1,9 @@
 {
  "league": "nfl",
  "season": 2026,
- "ratings_version": "2026-week-02.json",
- "ratings_computed_at": "2026-09-22T11:00:53.405634+00:00",
- "ratings_week": 2,
+ "ratings_version": "2026-week-03.json",
+ "ratings_computed_at": "2026-09-29T11:01:25.597642+00:00",
+ "ratings_week": 3,
  "footnote": "This early in a season the rating and the efficiency numbers can disagree. Only the rating moves the number the board prices with.",
  "teams": [
   {
@@ -14,87 +14,85 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 33,
-    "pa": 45
+    "pf": 63,
+    "pa": 81
    },
    "division_place": 4,
    "rating": {
-    "value": -0.003388789738869257,
-    "rank": 14,
+    "value": 0.007621209176062788,
+    "rank": 11,
     "of": 32,
-    "p05": -0.19866304697882914,
-    "p95": 0.3573035996196715
+    "p05": -0.1781388964984501,
+    "p95": 0.2635282964282908
    },
    "model": {
     "offense_voa": {
-     "value": -0.0199,
-     "rank": 20,
+     "value": 0.0152,
+     "rank": 10,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0165,
-     "rank": 3,
+     "value": 0.0076,
+     "rank": 26,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0112,
-     "rank": 16,
+     "value": -0.0212,
+     "rank": 23,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0141,
-     "rank": 18,
+     "value": 0.0716,
+     "rank": 11,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.0362,
-     "rank": 13,
+     "value": 0.1215,
+     "rank": 29,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4434,
-     "rank": 18,
+     "value": 0.4754,
+     "rank": 10,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4375,
-     "rank": 17,
+     "value": 0.4755,
+     "rank": 22,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
      "value": 2.0,
-     "rank": 4,
+     "rank": 6,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.0,
-     "rank": 19,
+     "value": 5.1818,
+     "rank": 18,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.01,
-     "rank": 9,
+     "value": 0.05,
+     "rank": 4,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.02,
+     "value": 0.03,
      "rank": 2,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Jacoby Brissett",
    "injury_counts": {
-    "Out": 3,
-    "Doubtful": 1,
-    "Questionable": 1
+    "Out": 2
    },
    "results": [
     {
@@ -110,15 +108,16 @@
      "home": true,
      "kickoff": "2026-09-20T16:25",
      "result": "L 7-31"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "SF",
      "home": false,
-     "kickoff": "2026-09-27T16:05"
-    },
+     "kickoff": "2026-09-27T16:05",
+     "result": "L 30-36"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "NYG",
@@ -130,6 +129,12 @@
      "opp": "DET",
      "home": true,
      "kickoff": "2026-10-11T16:25"
+    },
+    {
+     "week": 6,
+     "opp": "LA",
+     "home": false,
+     "kickoff": "2026-10-18T16:05"
     }
    ]
   },
@@ -140,87 +145,86 @@
    "conference": "NFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
    "record": {
-    "w": 0,
+    "w": 1,
     "l": 2,
     "t": 0,
-    "pf": 16,
-    "pa": 54
+    "pf": 51,
+    "pa": 68
    },
-   "division_place": 4,
+   "division_place": 3,
    "rating": {
-    "value": -0.11236359682993396,
-    "rank": 31,
+    "value": -0.07801776918740916,
+    "rank": 27,
     "of": 32,
-    "p05": -0.602790344196662,
-    "p95": 0.09164896606754731
+    "p05": -0.41018209161798674,
+    "p95": 0.17707033553217996
    },
    "model": {
     "offense_voa": {
-     "value": -0.1203,
-     "rank": 31,
+     "value": -0.0856,
+     "rank": 28,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.008,
+     "value": -0.0075,
      "rank": 7,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0752,
-     "rank": 11,
+     "value": 0.0309,
+     "rank": 17,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.3461,
-     "rank": 32,
+     "value": -0.1498,
+     "rank": 28,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.0454,
-     "rank": 10,
+     "value": -0.0552,
+     "rank": 8,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.3626,
-     "rank": 29,
+     "value": 0.4468,
+     "rank": 17,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.3725,
+     "value": 0.3803,
      "rank": 3,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -3.0,
-     "rank": 28,
+     "value": -4.0,
+     "rank": 27,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": null,
-     "rank": null,
+     "value": 7.0,
+     "rank": 1,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.0,
-     "rank": 14,
+     "value": -0.01,
+     "rank": 17,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.02,
-     "rank": 26,
+     "value": 0.0,
+     "rank": 12,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Michael Penix Jr.",
    "injury_counts": {
-    "Out": 3,
-    "Questionable": 5
+    "Out": 1
    },
    "results": [
     {
@@ -236,15 +240,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "L 3-34"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "GB",
      "home": false,
-     "kickoff": "2026-09-24T20:15"
-    },
+     "kickoff": "2026-09-24T20:15",
+     "result": "W 35-14"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "NO",
@@ -256,6 +261,12 @@
      "opp": "BAL",
      "home": true,
      "kickoff": "2026-10-11T20:20"
+    },
+    {
+     "week": 6,
+     "opp": "CHI",
+     "home": true,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -266,87 +277,86 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 58,
-    "pa": 47
+    "pf": 92,
+    "pa": 78
    },
    "division_place": 2,
    "rating": {
-    "value": 0.026369232674677747,
-    "rank": 11,
+    "value": 0.03501477998379241,
+    "rank": 9,
     "of": 32,
-    "p05": -0.29719066366795627,
-    "p95": 0.327221191956769
+    "p05": -0.1978193433650381,
+    "p95": 0.35919136753803105
    },
    "model": {
     "offense_voa": {
-     "value": 0.0222,
-     "rank": 12,
+     "value": 0.0361,
+     "rank": 9,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0042,
-     "rank": 12,
+     "value": 0.0011,
+     "rank": 20,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.2013,
-     "rank": 28,
+     "value": 0.0523,
+     "rank": 13,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.2627,
+     "value": 0.2139,
      "rank": 3,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.0368,
-     "rank": 12,
+     "value": 0.0217,
+     "rank": 16,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.6,
+     "value": 0.5621,
      "rank": 2,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.41,
-     "rank": 9,
+     "value": 0.4269,
+     "rank": 11,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 1.0,
-     "rank": 11,
+     "value": 2.0,
+     "rank": 6,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 4.8,
-     "rank": 22,
+     "value": 5.0,
+     "rank": 19,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.04,
-     "rank": 25,
+     "value": -0.02,
+     "rank": 21,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
      "value": -0.02,
-     "rank": 26,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Lamar Jackson",
    "injury_counts": {
-    "Out": 5,
-    "Questionable": 1
+    "Out": 3
    },
    "results": [
     {
@@ -362,15 +372,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "L 17-24"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "DAL",
      "home": false,
-     "kickoff": "2026-09-27T16:25"
-    },
+     "kickoff": "2026-09-27T16:25",
+     "result": "W 34-31"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "TEN",
@@ -382,6 +393,12 @@
      "opp": "ATL",
      "home": false,
      "kickoff": "2026-10-11T20:20"
+    },
+    {
+     "week": 6,
+     "opp": "CLE",
+     "home": false,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -392,63 +409,63 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png",
    "record": {
-    "w": 2,
+    "w": 3,
     "l": 0,
     "t": 0,
-    "pf": 77,
-    "pa": 62
+    "pf": 101,
+    "pa": 78
    },
    "division_place": 1,
    "rating": {
-    "value": 0.17170573960836058,
-    "rank": 2,
+    "value": 0.06894206615755209,
+    "rank": 6,
     "of": 32,
-    "p05": -0.05132512877416647,
-    "p95": 0.6404426676388922
+    "p05": -0.14769213300245096,
+    "p95": 0.413698322855831
    },
    "model": {
     "offense_voa": {
-     "value": 0.1656,
-     "rank": 2,
+     "value": 0.0612,
+     "rank": 7,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0061,
-     "rank": 9,
+     "value": -0.0077,
+     "rank": 6,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0877,
-     "rank": 10,
+     "value": 0.0587,
+     "rank": 11,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.3434,
+     "value": 0.2143,
      "rank": 2,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.0997,
-     "rank": 24,
+     "value": 0.0248,
+     "rank": 17,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.5283,
-     "rank": 5,
+     "value": 0.5091,
+     "rank": 6,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4912,
-     "rank": 27,
+     "value": 0.4798,
+     "rank": 25,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 2.0,
-     "rank": 4,
+     "value": -2.0,
+     "rank": 25,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
@@ -459,20 +476,20 @@
    },
    "schedule": {
     "played": {
-     "value": 0.0,
-     "rank": 14,
+     "value": -0.03,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.0,
-     "rank": 12,
+     "value": -0.01,
+     "rank": 18,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Josh Allen",
    "injury_counts": {
     "Out": 3,
-    "Questionable": 1
+    "Questionable": 2
    },
    "results": [
     {
@@ -488,15 +505,16 @@
      "home": true,
      "kickoff": "2026-09-17T20:15",
      "result": "W 41-31"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "LAC",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 24-16"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "NE",
@@ -508,6 +526,12 @@
      "opp": "LA",
      "home": false,
      "kickoff": "2026-10-12T20:15"
+    },
+    {
+     "week": 6,
+     "opp": "LV",
+     "home": false,
+     "kickoff": "2026-10-18T16:25"
     }
    ]
   },
@@ -519,67 +543,67 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 71,
-    "pa": 62
+    "pf": 89,
+    "pa": 83
    },
    "division_place": 1,
    "rating": {
-    "value": 0.018982618220140336,
-    "rank": 13,
+    "value": -0.009811980862798731,
+    "rank": 19,
     "of": 32,
-    "p05": -0.31409003092640897,
-    "p95": 0.41557858411940635
+    "p05": -0.27651419861051546,
+    "p95": 0.31019756344140037
    },
    "model": {
     "offense_voa": {
-     "value": 0.0297,
-     "rank": 9,
+     "value": -0.002,
+     "rank": 16,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0107,
-     "rank": 26,
+     "value": 0.0079,
+     "rank": 27,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.1552,
-     "rank": 7,
+     "value": 0.1012,
+     "rank": 6,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.2011,
-     "rank": 4,
+     "value": 0.0513,
+     "rank": 14,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.0709,
+     "value": 0.0614,
      "rank": 22,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4773,
-     "rank": 10,
+     "value": 0.4224,
+     "rank": 22,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4886,
-     "rank": 26,
+     "value": 0.4414,
+     "rank": 14,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 1.0,
-     "rank": 11,
+     "value": 0.0,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 6.0,
-     "rank": 5,
+     "value": 5.8,
+     "rank": 7,
      "better": "higher"
     }
    },
@@ -590,16 +614,15 @@
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.04,
-     "rank": 31,
+     "value": -0.02,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Bryce Young",
    "injury_counts": {
-    "Out": 2,
-    "Doubtful": 1,
-    "Questionable": 3
+    "Out": 6,
+    "Questionable": 2
    },
    "results": [
     {
@@ -615,15 +638,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "W 34-3"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "CLE",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 18-21"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "DET",
@@ -635,6 +659,12 @@
      "opp": "PHI",
      "home": false,
      "kickoff": "2026-10-18T13:00"
+    },
+    {
+     "week": 7,
+     "opp": "TB",
+     "home": true,
+     "kickoff": "2026-10-25T13:00"
     }
    ]
   },
@@ -645,88 +675,86 @@
    "conference": "NFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 62,
-    "pa": 46
+    "pf": 89,
+    "pa": 53
    },
    "division_place": 2,
    "rating": {
-    "value": 0.024994414181940712,
-    "rank": 12,
+    "value": 0.0884721434111275,
+    "rank": 4,
     "of": 32,
-    "p05": -0.3097544303756541,
-    "p95": 0.3302135427074506
+    "p05": -0.17449486077703366,
+    "p95": 0.351765065741866
    },
    "model": {
     "offense_voa": {
-     "value": 0.0274,
-     "rank": 11,
+     "value": 0.0838,
+     "rank": 5,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0024,
-     "rank": 22,
+     "value": -0.0046,
+     "rank": 11,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.2794,
-     "rank": 2,
+     "value": 0.2074,
+     "rank": 3,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0877,
-     "rank": 9,
+     "value": 0.0823,
+     "rank": 10,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.0002,
-     "rank": 15,
+     "value": -0.082,
+     "rank": 6,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4472,
-     "rank": 16,
+     "value": 0.4588,
+     "rank": 15,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4375,
-     "rank": 17,
+     "value": 0.4526,
+     "rank": 18,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -1.0,
-     "rank": 19,
+     "value": 2.0,
+     "rank": 6,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 3.5,
-     "rank": 29,
+     "value": 3.4444,
+     "rank": 31,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.0,
-     "rank": 14,
+     "value": -0.07,
+     "rank": 31,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.0,
-     "rank": 12,
+     "value": -0.01,
+     "rank": 18,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Caleb Williams",
    "injury_counts": {
-    "Out": 1,
-    "Doubtful": 1,
-    "Questionable": 1
+    "Out": 8
    },
    "results": [
     {
@@ -742,15 +770,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "L 3-9"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "PHI",
      "home": true,
-     "kickoff": "2026-09-28T20:15"
-    },
+     "kickoff": "2026-09-28T20:15",
+     "result": "W 27-7"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "NYJ",
@@ -762,6 +791,12 @@
      "opp": "GB",
      "home": false,
      "kickoff": "2026-10-11T16:25"
+    },
+    {
+     "week": 6,
+     "opp": "ATL",
+     "home": false,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -773,54 +808,54 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png",
    "record": {
     "w": 2,
-    "l": 0,
+    "l": 1,
     "t": 0,
-    "pf": 53,
-    "pa": 33
+    "pf": 80,
+    "pa": 63
    },
    "division_place": 1,
    "rating": {
-    "value": -0.025942306850338555,
-    "rank": 19,
+    "value": 0.10396967796328907,
+    "rank": 3,
     "of": 32,
-    "p05": -0.3184161519134333,
-    "p95": 0.2264188639963071
+    "p05": -0.06522153722888484,
+    "p95": 0.4943086490385637
    },
    "model": {
     "offense_voa": {
-     "value": -0.0317,
-     "rank": 22,
+     "value": 0.105,
+     "rank": 3,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0057,
-     "rank": 10,
+     "value": 0.001,
+     "rank": 19,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.2249,
-     "rank": 29,
+     "value": -0.2501,
+     "rank": 30,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0257,
-     "rank": 17,
+     "value": 0.1184,
+     "rank": 7,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.198,
-     "rank": 2,
+     "value": -0.0585,
+     "rank": 7,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.449,
-     "rank": 14,
+     "value": 0.4935,
+     "rank": 8,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4423,
+     "value": 0.4562,
      "rank": 19,
      "better": "lower"
     }
@@ -828,19 +863,19 @@
    "ball_security": {
     "turnover_margin": {
      "value": 3.0,
-     "rank": 1,
+     "rank": 2,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 6.0,
-     "rank": 5,
+     "value": 5.6667,
+     "rank": 9,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.02,
-     "rank": 21,
+     "value": -0.03,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
@@ -851,7 +886,8 @@
    },
    "qb1": "Joe Burrow",
    "injury_counts": {
-    "Out": 3
+    "Out": 3,
+    "Questionable": 1
    },
    "results": [
     {
@@ -867,15 +903,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "W 20-6"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "PIT",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 27-30"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "JAX",
@@ -887,6 +924,12 @@
      "opp": "MIA",
      "home": false,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 7,
+     "opp": "BAL",
+     "home": false,
+     "kickoff": "2026-10-25T13:00"
     }
    ]
   },
@@ -897,86 +940,87 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 33,
-    "pa": 53
+    "pf": 54,
+    "pa": 71
    },
    "division_place": 4,
    "rating": {
-    "value": -0.1666521627473714,
+    "value": -0.14413832226613202,
     "rank": 32,
     "of": 32,
-    "p05": -0.6055922493081733,
-    "p95": 0.1461201038643115
+    "p05": -0.48117268629310006,
+    "p95": 0.08863659536502393
    },
    "model": {
     "offense_voa": {
-     "value": -0.164,
+     "value": -0.1491,
      "rank": 32,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0027,
-     "rank": 23,
+     "value": -0.0049,
+     "rank": 10,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.2303,
-     "rank": 30,
+     "value": -0.1476,
+     "rank": 28,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.2104,
-     "rank": 30,
+     "value": -0.09,
+     "rank": 25,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.0391,
-     "rank": 20,
+     "value": -0.0349,
+     "rank": 11,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.3636,
-     "rank": 28,
+     "value": 0.3659,
+     "rank": 30,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4783,
-     "rank": 24,
+     "value": 0.4242,
+     "rank": 10,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -1.0,
-     "rank": 19,
+     "value": 0.0,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 4.3333,
-     "rank": 25,
+     "value": 5.4,
+     "rank": 12,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.01,
+     "value": 0.02,
      "rank": 9,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.02,
-     "rank": 26,
+     "value": -0.01,
+     "rank": 18,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Deshaun Watson",
    "injury_counts": {
-    "Out": 4
+    "Out": 2,
+    "Questionable": 4
    },
    "results": [
     {
@@ -992,15 +1036,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "W 23-19"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "CAR",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 21-18"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "PIT",
@@ -1012,6 +1057,12 @@
      "opp": "NYJ",
      "home": false,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "BAL",
+     "home": true,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -1023,86 +1074,85 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 57,
-    "pa": 48
+    "pf": 88,
+    "pa": 82
    },
-   "division_place": 2,
+   "division_place": 3,
    "rating": {
-    "value": 0.05049341697194206,
-    "rank": 5,
+    "value": 0.06553725181462314,
+    "rank": 7,
     "of": 32,
-    "p05": -0.2355243462025779,
-    "p95": 0.3502336171937732
+    "p05": -0.11339413064694079,
+    "p95": 0.34024883109916704
    },
    "model": {
     "offense_voa": {
-     "value": 0.0708,
+     "value": 0.0866,
      "rank": 4,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0203,
-     "rank": 30,
+     "value": 0.021,
+     "rank": 31,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.1337,
-     "rank": 23,
+     "value": 0.0971,
+     "rank": 7,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.2002,
+     "value": 0.1554,
      "rank": 5,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.2161,
-     "rank": 29,
+     "value": 0.1877,
+     "rank": 30,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.5542,
-     "rank": 3,
+     "value": 0.5065,
+     "rank": 7,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.5636,
+     "value": 0.5417,
      "rank": 31,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 1.0,
-     "rank": 11,
+     "value": 0.0,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 6.4286,
-     "rank": 1,
+     "value": 5.7692,
+     "rank": 8,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.04,
-     "rank": 25,
+     "value": -0.0,
+     "rank": 13,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.01,
-     "rank": 8,
+     "value": 0.0,
+     "rank": 12,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Dak Prescott",
    "injury_counts": {
-    "Out": 2,
-    "Questionable": 2
+    "Out": 5
    },
    "results": [
     {
@@ -1118,15 +1168,16 @@
      "home": true,
      "kickoff": "2026-09-20T16:25",
      "result": "W 37-20"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "BAL",
      "home": true,
-     "kickoff": "2026-09-27T16:25"
-    },
+     "kickoff": "2026-09-27T16:25",
+     "result": "L 31-34"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "HOU",
@@ -1138,6 +1189,12 @@
      "opp": "TB",
      "home": true,
      "kickoff": "2026-10-08T20:15"
+    },
+    {
+     "week": 6,
+     "opp": "GB",
+     "home": false,
+     "kickoff": "2026-10-18T20:20"
     }
    ]
   },
@@ -1148,87 +1205,86 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/den.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 30,
-    "pa": 44
+    "pf": 60,
+    "pa": 70
    },
    "division_place": 3,
    "rating": {
-    "value": 0.0308654086934493,
-    "rank": 10,
+    "value": 0.00714015781496521,
+    "rank": 12,
     "of": 32,
-    "p05": -0.1701915475826448,
-    "p95": 0.3743339321296882
+    "p05": -0.23965372715110245,
+    "p95": 0.2267642643321535
    },
    "model": {
     "offense_voa": {
-     "value": 0.0276,
-     "rank": 10,
+     "value": -0.0,
+     "rank": 15,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0032,
-     "rank": 14,
+     "value": -0.0071,
+     "rank": 8,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.02,
+     "value": 0.0428,
      "rank": 15,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.0403,
-     "rank": 24,
+     "value": -0.0268,
+     "rank": 19,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.037,
-     "rank": 19,
+     "value": 0.027,
+     "rank": 18,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4396,
-     "rank": 21,
+     "value": 0.4172,
+     "rank": 23,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4369,
-     "rank": 16,
+     "value": 0.4426,
+     "rank": 15,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -1.0,
-     "rank": 19,
+     "value": 0.0,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 4.5,
-     "rank": 23,
+     "value": 5.3333,
+     "rank": 15,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.05,
-     "rank": 5,
+     "value": 0.08,
+     "rank": 2,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.01,
-     "rank": 8,
+     "value": 0.0,
+     "rank": 12,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Bo Nix",
    "injury_counts": {
-    "Out": 6,
-    "Questionable": 1
+    "Out": 2
    },
    "results": [
     {
@@ -1244,15 +1300,16 @@
      "home": true,
      "kickoff": "2026-09-20T16:05",
      "result": "W 20-13"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "LA",
      "home": true,
-     "kickoff": "2026-09-27T20:20"
-    },
+     "kickoff": "2026-09-27T20:20",
+     "result": "W 30-26"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "SF",
@@ -1264,6 +1321,12 @@
      "opp": "LAC",
      "home": false,
      "kickoff": "2026-10-11T16:05"
+    },
+    {
+     "week": 6,
+     "opp": "SEA",
+     "home": true,
+     "kickoff": "2026-10-15T20:15"
     }
    ]
   },
@@ -1274,86 +1337,86 @@
    "conference": "NFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 62,
-    "pa": 71
+    "pf": 93,
+    "pa": 95
    },
    "division_place": 3,
    "rating": {
-    "value": -0.03366488936386077,
-    "rank": 24,
+    "value": 0.0456867480995537,
+    "rank": 8,
     "of": 32,
-    "p05": -0.4087226785062891,
-    "p95": 0.17952018302809214
+    "p05": -0.1889901180142394,
+    "p95": 0.3038864070160244
    },
    "model": {
     "offense_voa": {
-     "value": -0.0326,
-     "rank": 23,
+     "value": 0.0509,
+     "rank": 8,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.001,
-     "rank": 18,
+     "value": 0.0052,
+     "rank": 25,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0938,
-     "rank": 9,
+     "value": 0.0556,
+     "rank": 12,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0374,
-     "rank": 16,
+     "value": 0.0921,
+     "rank": 9,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.121,
-     "rank": 25,
+     "value": 0.1044,
+     "rank": 28,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4911,
-     "rank": 8,
+     "value": 0.546,
+     "rank": 3,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4855,
-     "rank": 25,
+     "value": 0.4924,
+     "rank": 27,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 2.0,
-     "rank": 4,
+     "value": 3.0,
+     "rank": 2,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 6.3333,
-     "rank": 2,
+     "value": 6.2727,
+     "rank": 4,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.06,
-     "rank": 2,
+     "value": 0.01,
+     "rank": 11,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.01,
-     "rank": 19,
+     "value": -0.03,
+     "rank": 29,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Jared Goff",
    "injury_counts": {
-    "Out": 3
+    "Out": 4
    },
    "results": [
     {
@@ -1369,15 +1432,16 @@
      "home": false,
      "kickoff": "2026-09-17T20:15",
      "result": "L 31-41"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "NYJ",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 31-24"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "CAR",
@@ -1389,6 +1453,12 @@
      "opp": "ARI",
      "home": false,
      "kickoff": "2026-10-11T16:25"
+    },
+    {
+     "week": 7,
+     "opp": "GB",
+     "home": true,
+     "kickoff": "2026-10-25T16:25"
     }
    ]
   },
@@ -1400,86 +1470,86 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 42,
-    "pa": 56
+    "pf": 56,
+    "pa": 91
    },
    "division_place": 4,
    "rating": {
-    "value": 0.03787424063809897,
-    "rank": 8,
+    "value": -0.008415275334927181,
+    "rank": 18,
     "of": 32,
-    "p05": -0.24836808883601205,
-    "p95": 0.29772518823232985
+    "p05": -0.23703908676851898,
+    "p95": 0.18904416302061938
    },
    "model": {
     "offense_voa": {
-     "value": 0.0353,
-     "rank": 8,
+     "value": -0.0081,
+     "rank": 17,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0025,
+     "value": 0.0003,
      "rank": 16,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.073,
-     "rank": 21,
+     "value": -0.1057,
+     "rank": 27,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.1905,
-     "rank": 29,
+     "value": -0.1602,
+     "rank": 31,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.0802,
-     "rank": 9,
+     "value": 0.0015,
+     "rank": 15,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.3585,
-     "rank": 30,
+     "value": 0.3699,
+     "rank": 29,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.384,
-     "rank": 6,
+     "value": 0.4457,
+     "rank": 16,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -2.0,
-     "rank": 25,
+     "value": -1.0,
+     "rank": 24,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 4.5,
-     "rank": 23,
+     "value": 4.25,
+     "rank": 26,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.02,
-     "rank": 21,
+     "value": -0.06,
+     "rank": 29,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.0,
-     "rank": 12,
+     "value": 0.01,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Jordan Love",
    "injury_counts": {
-    "Out": 2,
-    "Questionable": 6
+    "Out": 6,
+    "Questionable": 2
    },
    "results": [
     {
@@ -1495,15 +1565,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "W 20-17"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "ATL",
      "home": true,
-     "kickoff": "2026-09-24T20:15"
-    },
+     "kickoff": "2026-09-24T20:15",
+     "result": "L 14-35"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "TB",
@@ -1515,6 +1586,12 @@
      "opp": "CHI",
      "home": true,
      "kickoff": "2026-10-11T16:25"
+    },
+    {
+     "week": 6,
+     "opp": "DAL",
+     "home": true,
+     "kickoff": "2026-10-18T20:20"
     }
    ]
   },
@@ -1526,85 +1603,86 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png",
    "record": {
     "w": 0,
-    "l": 2,
+    "l": 3,
     "t": 0,
-    "pf": 37,
-    "pa": 56
+    "pf": 54,
+    "pa": 75
    },
    "division_place": 3,
    "rating": {
-    "value": 0.03591591665108362,
-    "rank": 9,
+    "value": -0.029954504157352964,
+    "rank": 21,
     "of": 32,
-    "p05": -0.2703773161729755,
-    "p95": 0.4053535854085665
+    "p05": -0.33662511150160895,
+    "p95": 0.2323744184596323
    },
    "model": {
     "offense_voa": {
-     "value": 0.0474,
-     "rank": 6,
+     "value": -0.0293,
+     "rank": 21,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0115,
-     "rank": 27,
+     "value": 0.0007,
+     "rank": 18,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.075,
-     "rank": 22,
+     "value": -0.0496,
+     "rank": 25,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.0386,
-     "rank": 23,
+     "value": -0.054,
+     "rank": 22,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.1432,
-     "rank": 28,
+     "value": 0.0359,
+     "rank": 19,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4409,
-     "rank": 19,
+     "value": 0.427,
+     "rank": 21,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4082,
-     "rank": 8,
+     "value": 0.4201,
+     "rank": 9,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -2.0,
-     "rank": 25,
+     "value": 1.0,
+     "rank": 13,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 3.875,
-     "rank": 26,
+     "value": 4.3636,
+     "rank": 25,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.07,
-     "rank": 1,
+     "value": 0.03,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.01,
-     "rank": 19,
+     "value": -0.02,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "C.J. Stroud",
    "injury_counts": {
-    "Out": 6
+    "Out": 6,
+    "Questionable": 1
    },
    "results": [
     {
@@ -1620,15 +1698,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "L 6-20"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "IND",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 17-19"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "DAL",
@@ -1640,6 +1719,12 @@
      "opp": "TEN",
      "home": false,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "JAX",
+     "home": false,
+     "kickoff": "2026-10-18T09:30"
     }
    ]
   },
@@ -1650,88 +1735,86 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png",
    "record": {
-    "w": 0,
+    "w": 1,
     "l": 2,
     "t": 0,
-    "pf": 53,
-    "pa": 74
+    "pf": 72,
+    "pa": 91
    },
-   "division_place": 4,
+   "division_place": 2,
    "rating": {
-    "value": -0.02999800871783795,
-    "rank": 23,
+    "value": -0.07481723063914753,
+    "rank": 26,
     "of": 32,
-    "p05": -0.38648574539832636,
-    "p95": 0.18387625461080623
+    "p05": -0.3813657047585539,
+    "p95": 0.14046973750702582
    },
    "model": {
     "offense_voa": {
-     "value": -0.0008,
-     "rank": 14,
+     "value": -0.0539,
+     "rank": 25,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0292,
-     "rank": 31,
+     "value": 0.0209,
+     "rank": 30,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.1469,
-     "rank": 25,
+     "value": -0.0114,
+     "rank": 21,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.0353,
-     "rank": 22,
+     "value": -0.0678,
+     "rank": 23,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.3087,
+     "value": 0.1877,
      "rank": 31,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.44,
-     "rank": 20,
+     "value": 0.4386,
+     "rank": 19,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.5593,
-     "rank": 30,
+     "value": 0.5089,
+     "rank": 29,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -3.0,
-     "rank": 28,
+     "value": -6.0,
+     "rank": 32,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 6.2,
-     "rank": 4,
+     "value": 5.5,
+     "rank": 11,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
      "value": 0.01,
-     "rank": 9,
+     "rank": 11,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
      "value": -0.01,
-     "rank": 19,
+     "rank": 18,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Daniel Jones",
    "injury_counts": {
-    "Out": 4,
-    "Doubtful": 1,
-    "Questionable": 3
+    "Out": 3
    },
    "results": [
     {
@@ -1747,15 +1830,16 @@
      "home": false,
      "kickoff": "2026-09-20T20:20",
      "result": "L 30-33"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "HOU",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 19-17"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "WAS",
@@ -1767,6 +1851,12 @@
      "opp": "PIT",
      "home": false,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "TEN",
+     "home": true,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -1777,87 +1867,86 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 47,
-    "pa": 30
+    "pf": 82,
+    "pa": 36
    },
    "division_place": 1,
    "rating": {
-    "value": 0.10039199809880418,
-    "rank": 3,
+    "value": 0.1441250103876948,
+    "rank": 2,
     "of": 32,
-    "p05": -0.13428451736719704,
-    "p95": 0.4519091984396391
+    "p05": -0.013089547632121086,
+    "p95": 0.4801067328083086
    },
    "model": {
     "offense_voa": {
-     "value": 0.0869,
-     "rank": 3,
+     "value": 0.1291,
+     "rank": 2,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0135,
-     "rank": 5,
+     "value": -0.015,
+     "rank": 3,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0017,
-     "rank": 18,
+     "value": -0.0334,
+     "rank": 24,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.1181,
-     "rank": 7,
+     "value": 0.1506,
+     "rank": 6,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.1253,
-     "rank": 8,
+     "value": -0.1512,
+     "rank": 2,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.5059,
-     "rank": 7,
+     "value": 0.5115,
+     "rank": 5,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4328,
-     "rank": 15,
+     "value": 0.4151,
+     "rank": 7,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 2.0,
-     "rank": 4,
+     "value": 3.0,
+     "rank": 2,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.6667,
-     "rank": 9,
+     "value": 6.3333,
+     "rank": 3,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.07,
-     "rank": 31,
+     "value": -0.06,
+     "rank": 29,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.0,
-     "rank": 12,
+     "value": -0.02,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Trevor Lawrence",
    "injury_counts": {
-    "Out": 1,
-    "Questionable": 1
+    "Out": 2
    },
    "results": [
     {
@@ -1873,15 +1962,16 @@
      "home": false,
      "kickoff": "2026-09-20T16:05",
      "result": "L 13-20"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "NE",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 35-6"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "CIN",
@@ -1893,6 +1983,12 @@
      "opp": "PHI",
      "home": true,
      "kickoff": "2026-10-11T09:30"
+    },
+    {
+     "week": 6,
+     "opp": "HOU",
+     "home": true,
+     "kickoff": "2026-10-18T09:30"
     }
    ]
   },
@@ -1903,86 +1999,86 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png",
    "record": {
-    "w": 2,
+    "w": 3,
     "l": 0,
     "t": 0,
-    "pf": 64,
-    "pa": 40
+    "pf": 88,
+    "pa": 50
    },
-   "division_place": 2,
+   "division_place": 1,
    "rating": {
-    "value": -0.0043799566211423354,
-    "rank": 15,
+    "value": 0.017204909585112033,
+    "rank": 10,
     "of": 32,
-    "p05": -0.25739033743412404,
-    "p95": 0.28976303411819543
+    "p05": -0.23923634093560855,
+    "p95": 0.25774303616855276
    },
    "model": {
     "offense_voa": {
-     "value": -0.011,
-     "rank": 16,
+     "value": 0.008,
+     "rank": 12,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0066,
-     "rank": 8,
+     "value": -0.0092,
+     "rank": 5,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0421,
-     "rank": 13,
+     "value": 0.0521,
+     "rank": 14,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.1927,
-     "rank": 6,
+     "value": 0.1882,
+     "rank": 4,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.0008,
-     "rank": 16,
+     "value": -0.0255,
+     "rank": 13,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.5159,
-     "rank": 6,
+     "value": 0.5407,
+     "rank": 4,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.43,
-     "rank": 12,
+     "value": 0.3789,
+     "rank": 2,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
      "value": 2.0,
-     "rank": 4,
+     "rank": 6,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.5,
-     "rank": 12,
+     "value": 5.2308,
+     "rank": 17,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.0,
-     "rank": 14,
+     "value": -0.05,
+     "rank": 27,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.0,
-     "rank": 12,
+     "value": 0.02,
+     "rank": 4,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Patrick Mahomes",
    "injury_counts": {
-    "Out": 3
+    "Out": 2
    },
    "results": [
     {
@@ -1998,15 +2094,16 @@
      "home": true,
      "kickoff": "2026-09-20T20:20",
      "result": "W 33-30"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "MIA",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 24-10"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "LV",
@@ -2018,6 +2115,12 @@
      "opp": "LAC",
      "home": true,
      "kickoff": "2026-10-18T16:25"
+    },
+    {
+     "week": 7,
+     "opp": "SEA",
+     "home": false,
+     "kickoff": "2026-10-25T20:20"
     }
    ]
   },
@@ -2029,85 +2132,86 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 35,
-    "pa": 33
+    "pf": 61,
+    "pa": 63
    },
    "division_place": 3,
    "rating": {
-    "value": 0.06035594589906313,
-    "rank": 4,
+    "value": 0.07634423604439519,
+    "rank": 5,
     "of": 32,
-    "p05": -0.5308030662300324,
-    "p95": 0.386439208540697
+    "p05": -0.17598218809674113,
+    "p95": 0.3434395524926418
    },
    "model": {
     "offense_voa": {
-     "value": 0.0617,
-     "rank": 5,
+     "value": 0.0713,
+     "rank": 6,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0013,
-     "rank": 19,
+     "value": -0.005,
+     "rank": 9,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.1979,
-     "rank": 5,
+     "value": 0.0008,
+     "rank": 20,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.1031,
-     "rank": 8,
+     "value": 0.0556,
+     "rank": 13,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.0451,
-     "rank": 11,
+     "value": -0.0302,
+     "rank": 12,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.5286,
-     "rank": 4,
+     "value": 0.4867,
+     "rank": 9,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4742,
-     "rank": 23,
+     "value": 0.4395,
+     "rank": 13,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -1.0,
-     "rank": 19,
+     "value": -2.0,
+     "rank": 25,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.25,
-     "rank": 16,
+     "value": 4.1111,
+     "rank": 27,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.06,
+     "value": 0.08,
      "rank": 2,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.02,
-     "rank": 2,
+     "value": 0.01,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Matthew Stafford",
    "injury_counts": {
-    "Out": 7,
+    "Out": 4,
+    "Doubtful": 2,
     "Questionable": 1
    },
    "results": [
@@ -2124,15 +2228,16 @@
      "home": true,
      "kickoff": "2026-09-21T20:15",
      "result": "W 28-6"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "DEN",
      "home": false,
-     "kickoff": "2026-09-27T20:20"
-    },
+     "kickoff": "2026-09-27T20:20",
+     "result": "L 26-30"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "PHI",
@@ -2144,6 +2249,12 @@
      "opp": "BUF",
      "home": true,
      "kickoff": "2026-10-12T20:15"
+    },
+    {
+     "week": 6,
+     "opp": "ARI",
+     "home": true,
+     "kickoff": "2026-10-18T16:05"
     }
    ]
   },
@@ -2155,86 +2266,86 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lac.png",
    "record": {
     "w": 0,
-    "l": 2,
+    "l": 3,
     "t": 0,
-    "pf": 28,
-    "pa": 52
+    "pf": 44,
+    "pa": 76
    },
    "division_place": 4,
    "rating": {
-    "value": -0.026956636576448416,
-    "rank": 21,
+    "value": -0.0989684090979003,
+    "rank": 30,
     "of": 32,
-    "p05": -0.3447481302761642,
-    "p95": 0.2723847857214232
+    "p05": -0.43831118485000453,
+    "p95": 0.07448709711093911
    },
    "model": {
     "offense_voa": {
-     "value": -0.0191,
-     "rank": 19,
+     "value": -0.1013,
+     "rank": 30,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0079,
-     "rank": 25,
+     "value": -0.0023,
+     "rank": 13,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.2255,
-     "rank": 4,
+     "value": 0.1332,
+     "rank": 5,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.1815,
-     "rank": 28,
+     "value": -0.1591,
+     "rank": 30,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.083,
-     "rank": 23,
+     "value": 0.0487,
+     "rank": 20,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.466,
-     "rank": 12,
+     "value": 0.463,
+     "rank": 13,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4322,
-     "rank": 13,
+     "value": 0.4463,
+     "rank": 17,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -3.0,
-     "rank": 28,
+     "value": 1.0,
+     "rank": 13,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.6,
-     "rank": 11,
+     "value": 4.8889,
+     "rank": 21,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.05,
-     "rank": 30,
+     "value": 0.03,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
      "value": 0.02,
-     "rank": 2,
+     "rank": 4,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Justin Herbert",
    "injury_counts": {
     "Out": 6,
-    "Questionable": 2
+    "Questionable": 1
    },
    "results": [
     {
@@ -2250,15 +2361,16 @@
      "home": true,
      "kickoff": "2026-09-20T16:05",
      "result": "L 14-26"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "BUF",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 16-24"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "SEA",
@@ -2270,6 +2382,12 @@
      "opp": "DEN",
      "home": true,
      "kickoff": "2026-10-11T16:05"
+    },
+    {
+     "week": 6,
+     "opp": "KC",
+     "home": false,
+     "kickoff": "2026-10-18T16:25"
     }
    ]
   },
@@ -2280,87 +2398,87 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png",
    "record": {
-    "w": 2,
+    "w": 3,
     "l": 0,
     "t": 0,
-    "pf": 53,
-    "pa": 27
+    "pf": 88,
+    "pa": 54
    },
-   "division_place": 1,
+   "division_place": 2,
    "rating": {
-    "value": -0.0952147752238082,
-    "rank": 30,
+    "value": 0.005385963092941468,
+    "rank": 13,
     "of": 32,
-    "p05": -0.3866288789811418,
-    "p95": 0.2905713754429571
+    "p05": -0.15538631869937738,
+    "p95": 0.3472859789856877
    },
    "model": {
     "offense_voa": {
-     "value": -0.1004,
-     "rank": 30,
+     "value": 0.0054,
+     "rank": 13,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0052,
-     "rank": 11,
+     "value": -0.0,
+     "rank": 15,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.2635,
-     "rank": 3,
+     "value": 0.22,
+     "rank": 2,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0721,
-     "rank": 10,
+     "value": 0.1018,
+     "rank": 8,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.1566,
-     "rank": 6,
+     "value": -0.0984,
+     "rank": 4,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4712,
+     "value": 0.472,
      "rank": 11,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4167,
-     "rank": 10,
+     "value": 0.4848,
+     "rank": 26,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 1.0,
-     "rank": 11,
+     "value": 4.0,
+     "rank": 1,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.4286,
-     "rank": 13,
+     "value": 5.3571,
+     "rank": 14,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.04,
-     "rank": 25,
+     "value": -0.07,
+     "rank": 31,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.02,
-     "rank": 2,
+     "value": 0.01,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Kirk Cousins",
    "injury_counts": {
     "Out": 3,
-    "Questionable": 2
+    "Questionable": 1
    },
    "results": [
     {
@@ -2376,15 +2494,16 @@
      "home": false,
      "kickoff": "2026-09-20T16:05",
      "result": "W 26-14"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "NO",
      "home": false,
-     "kickoff": "2026-09-27T16:25"
-    },
+     "kickoff": "2026-09-27T16:25",
+     "result": "W 35-27"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "KC",
@@ -2396,6 +2515,12 @@
      "opp": "NE",
      "home": false,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "BUF",
+     "home": true,
+     "kickoff": "2026-10-18T16:25"
     }
    ]
   },
@@ -2407,54 +2532,54 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/mia.png",
    "record": {
     "w": 0,
-    "l": 2,
+    "l": 3,
     "t": 0,
-    "pf": 26,
-    "pa": 62
+    "pf": 36,
+    "pa": 86
    },
    "division_place": 4,
    "rating": {
-    "value": -0.06296865714004479,
-    "rank": 27,
+    "value": -0.0708404372993155,
+    "rank": 25,
     "of": 32,
-    "p05": -0.4593950786649438,
-    "p95": 0.330769675282284
+    "p05": -0.3890860676721978,
+    "p95": 0.2268412697452518
    },
    "model": {
     "offense_voa": {
-     "value": -0.0333,
-     "rank": 25,
+     "value": -0.0474,
+     "rank": 24,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0296,
+     "value": 0.0234,
      "rank": 32,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.2405,
+     "value": -0.2909,
      "rank": 32,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.0131,
-     "rank": 20,
+     "value": -0.0379,
+     "rank": 21,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.3582,
+     "value": 0.2899,
      "rank": 32,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.3553,
-     "rank": 31,
+     "value": 0.3285,
+     "rank": 32,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.6104,
+     "value": 0.6098,
      "rank": 32,
      "better": "lower"
     }
@@ -2462,31 +2587,30 @@
    "ball_security": {
     "turnover_margin": {
      "value": 0.0,
-     "rank": 17,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 3.25,
-     "rank": 31,
+     "value": 3.8333,
+     "rank": 29,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.04,
-     "rank": 6,
+     "value": 0.09,
+     "rank": 1,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.02,
-     "rank": 2,
+     "value": 0.0,
+     "rank": 12,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Malik Willis",
    "injury_counts": {
-    "Out": 3,
-    "Questionable": 3
+    "Out": 5
    },
    "results": [
     {
@@ -2502,15 +2626,16 @@
      "home": false,
      "kickoff": "2026-09-20T16:25",
      "result": "L 13-35"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "KC",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 10-24"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "MIN",
@@ -2522,6 +2647,12 @@
      "opp": "CIN",
      "home": true,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 7,
+     "opp": "NYJ",
+     "home": false,
+     "kickoff": "2026-10-25T13:00"
     }
    ]
   },
@@ -2532,55 +2663,55 @@
    "conference": "NFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/min.png",
    "record": {
-    "w": 2,
+    "w": 3,
     "l": 0,
     "t": 0,
-    "pf": 48,
-    "pa": 25
+    "pf": 71,
+    "pa": 41
    },
    "division_place": 1,
    "rating": {
-    "value": -0.026260215011308305,
-    "rank": 20,
+    "value": -0.105348076022098,
+    "rank": 31,
     "of": 32,
-    "p05": -0.32240324966398737,
-    "p95": 0.3555903001549751
+    "p05": -0.42080752738222343,
+    "p95": 0.12002733879360702
    },
    "model": {
     "offense_voa": {
-     "value": -0.0466,
-     "rank": 26,
+     "value": -0.1315,
+     "rank": 31,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0203,
-     "rank": 2,
+     "value": -0.0262,
+     "rank": 1,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.2373,
-     "rank": 31,
+     "value": -0.2166,
+     "rank": 29,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.0617,
-     "rank": 26,
-     "better": "higher"
-    },
-    "epa_per_play_allowed": {
-     "value": -0.1418,
-     "rank": 7,
-     "better": "lower"
-    },
-    "success_rate": {
-     "value": 0.381,
+     "value": -0.1313,
      "rank": 27,
      "better": "higher"
     },
+    "epa_per_play_allowed": {
+     "value": -0.1792,
+     "rank": 1,
+     "better": "lower"
+    },
+    "success_rate": {
+     "value": 0.3333,
+     "rank": 31,
+     "better": "higher"
+    },
     "success_rate_allowed": {
-     "value": 0.36,
+     "value": 0.3351,
      "rank": 1,
      "better": "lower"
     }
@@ -2588,30 +2719,30 @@
    "ball_security": {
     "turnover_margin": {
      "value": 3.0,
-     "rank": 1,
+     "rank": 2,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
      "value": 5.4,
-     "rank": 15,
+     "rank": 12,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.03,
-     "rank": 7,
+     "value": 0.0,
+     "rank": 13,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.0,
-     "rank": 12,
+     "value": 0.01,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Kyler Murray",
    "injury_counts": {
-    "Out": 2,
+    "Out": 4,
     "Questionable": 1
    },
    "results": [
@@ -2628,15 +2759,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "W 9-3"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "TB",
      "home": false,
-     "kickoff": "2026-09-27T16:05"
-    },
+     "kickoff": "2026-09-27T16:05",
+     "result": "W 23-16"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "MIA",
@@ -2648,6 +2780,12 @@
      "opp": "NO",
      "home": false,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 7,
+     "opp": "IND",
+     "home": true,
+     "kickoff": "2026-10-25T13:00"
     }
    ]
   },
@@ -2659,86 +2797,86 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 30,
-    "pa": 16
+    "pf": 36,
+    "pa": 51
    },
-   "division_place": 2,
+   "division_place": 3,
    "rating": {
-    "value": 0.048877063446159386,
-    "rank": 6,
+    "value": -0.041730015065799514,
+    "rank": 22,
     "of": 32,
-    "p05": -0.23196836526442455,
-    "p95": 0.3937197478878535
+    "p05": -0.3864702931159946,
+    "p95": 0.2725297509321638
    },
    "model": {
     "offense_voa": {
-     "value": 0.045,
-     "rank": 7,
+     "value": -0.037,
+     "rank": 22,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0039,
-     "rank": 13,
+     "value": 0.0047,
+     "rank": 23,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.1953,
-     "rank": 27,
+     "value": -0.1044,
+     "rank": 26,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.058,
-     "rank": 25,
+     "value": -0.0948,
+     "rank": 26,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.1585,
-     "rank": 5,
+     "value": -0.0397,
+     "rank": 10,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4486,
-     "rank": 15,
+     "value": 0.4315,
+     "rank": 20,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.3711,
-     "rank": 2,
+     "value": 0.4196,
+     "rank": 8,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -4.0,
-     "rank": 31,
+     "value": -5.0,
+     "rank": 30,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 3.3333,
-     "rank": 30,
+     "value": 2.1667,
+     "rank": 32,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.01,
-     "rank": 9,
+     "value": 0.05,
+     "rank": 4,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.01,
-     "rank": 8,
+     "value": -0.0,
+     "rank": 12,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Drake Maye",
    "injury_counts": {
-    "Out": 3,
-    "Questionable": 4
+    "Out": 7,
+    "Questionable": 1
    },
    "results": [
     {
@@ -2754,15 +2892,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "W 20-3"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "JAX",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 6-35"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "BUF",
@@ -2774,6 +2913,12 @@
      "opp": "LV",
      "home": true,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "NYJ",
+     "home": true,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -2785,86 +2930,86 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 54,
-    "pa": 48
+    "pf": 81,
+    "pa": 83
    },
    "division_place": 2,
    "rating": {
-    "value": -0.057401889532414034,
-    "rank": 26,
+    "value": -0.04913596695241756,
+    "rank": 23,
     "of": 32,
-    "p05": -0.3357233499031956,
-    "p95": 0.17245462906293973
+    "p05": -0.2684178737023797,
+    "p95": 0.16043785720625275
    },
    "model": {
     "offense_voa": {
-     "value": -0.0561,
-     "rank": 27,
+     "value": -0.0443,
+     "rank": 23,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0013,
-     "rank": 20,
+     "value": 0.0049,
+     "rank": 24,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0462,
-     "rank": 12,
+     "value": 0.0423,
+     "rank": 16,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0104,
-     "rank": 19,
+     "value": 0.0016,
+     "rank": 16,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.0337,
-     "rank": 18,
+     "value": 0.0721,
+     "rank": 26,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4041,
-     "rank": 24,
+     "value": 0.4605,
+     "rank": 14,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.5556,
-     "rank": 29,
+     "value": 0.5301,
+     "rank": 30,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -1.0,
-     "rank": 19,
+     "value": -4.0,
+     "rank": 27,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 6.0,
-     "rank": 5,
+     "value": 5.8462,
+     "rank": 6,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.0,
-     "rank": 14,
+     "value": 0.03,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.04,
-     "rank": 31,
+     "value": -0.03,
+     "rank": 29,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Tyler Shough",
    "injury_counts": {
-    "Out": 4,
-    "Questionable": 1
+    "Out": 5,
+    "Questionable": 2
    },
    "results": [
     {
@@ -2880,15 +3025,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "W 24-17"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "LV",
      "home": true,
-     "kickoff": "2026-09-27T16:25"
-    },
+     "kickoff": "2026-09-27T16:25",
+     "result": "L 27-35"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "ATL",
@@ -2900,6 +3046,12 @@
      "opp": "MIN",
      "home": true,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "NYG",
+     "home": false,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -2910,86 +3062,86 @@
    "conference": "NFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 34,
-    "pa": 48
+    "pf": 46,
+    "pa": 55
    },
-   "division_place": 3,
+   "division_place": 1,
    "rating": {
-    "value": -0.04734209562788748,
-    "rank": 25,
+    "value": -0.027940127249269094,
+    "rank": 20,
     "of": 32,
-    "p05": -0.3624861448005175,
-    "p95": 0.2411285721867089
+    "p05": -0.279504315702682,
+    "p95": 0.17372831982921844
    },
    "model": {
     "offense_voa": {
-     "value": -0.0283,
-     "rank": 21,
+     "value": -0.0174,
+     "rank": 20,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.019,
-     "rank": 29,
+     "value": 0.0106,
+     "rank": 28,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.1604,
-     "rank": 6,
+     "value": 0.0628,
+     "rank": 9,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0421,
-     "rank": 14,
+     "value": -0.0153,
+     "rank": 18,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.229,
-     "rank": 30,
+     "value": 0.0704,
+     "rank": 25,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.48,
-     "rank": 9,
+     "value": 0.4459,
+     "rank": 18,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.5513,
-     "rank": 28,
+     "value": 0.4741,
+     "rank": 21,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 1.0,
-     "rank": 11,
+     "value": 2.0,
+     "rank": 6,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.1667,
-     "rank": 17,
+     "value": 4.625,
+     "rank": 23,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.06,
-     "rank": 2,
+     "value": 0.02,
+     "rank": 9,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.01,
-     "rank": 19,
+     "value": 0.0,
+     "rank": 12,
      "better": "rank 1 is the hardest"
     }
    },
-   "qb1": "Jaxson Dart",
+   "qb1": "Jameis Winston",
    "injury_counts": {
-    "Out": 8
+    "Out": 4
    },
    "results": [
     {
@@ -3005,15 +3157,16 @@
      "home": false,
      "kickoff": "2026-09-21T20:15",
      "result": "L 6-28"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "TEN",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 12-7"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "ARI",
@@ -3025,6 +3178,12 @@
      "opp": "WAS",
      "home": false,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "NO",
+     "home": true,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -3036,62 +3195,62 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png",
    "record": {
     "w": 1,
-    "l": 1,
+    "l": 2,
     "t": 0,
-    "pf": 40,
-    "pa": 30
+    "pf": 64,
+    "pa": 61
    },
-   "division_place": 3,
+   "division_place": 2,
    "rating": {
-    "value": -0.008073535181599048,
-    "rank": 16,
+    "value": 0.0009363195929920579,
+    "rank": 15,
     "of": 32,
-    "p05": -0.18750893391170304,
-    "p95": 0.29965194320359106
+    "p05": -0.11212906348801924,
+    "p95": 0.27630836109992124
    },
    "model": {
     "offense_voa": {
-     "value": -0.0191,
-     "rank": 18,
+     "value": 0.0034,
+     "rank": 14,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.011,
-     "rank": 6,
+     "value": 0.0024,
+     "rank": 22,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0092,
-     "rank": 17,
+     "value": -0.0182,
+     "rank": 22,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0545,
+     "value": 0.0586,
      "rank": 12,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.2195,
-     "rank": 1,
+     "value": -0.0415,
+     "rank": 9,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4454,
-     "rank": 17,
+     "value": 0.4663,
+     "rank": 12,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.3827,
-     "rank": 5,
+     "value": 0.4965,
+     "rank": 28,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 1.0,
-     "rank": 11,
+     "value": 0.0,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
@@ -3102,20 +3261,19 @@
    },
    "schedule": {
     "played": {
-     "value": 0.01,
-     "rank": 9,
+     "value": -0.02,
+     "rank": 21,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.0,
-     "rank": 12,
+     "value": -0.02,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Geno Smith",
    "injury_counts": {
-    "Out": 4,
-    "Questionable": 4
+    "Out": 8
    },
    "results": [
     {
@@ -3131,15 +3289,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "L 17-20"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "DET",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 24-31"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "CHI",
@@ -3151,6 +3310,12 @@
      "opp": "CLE",
      "home": true,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "NE",
+     "home": false,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -3162,87 +3327,85 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png",
    "record": {
     "w": 2,
-    "l": 0,
+    "l": 1,
     "t": 0,
-    "pf": 48,
-    "pa": 42
+    "pf": 55,
+    "pa": 69
    },
-   "division_place": 1,
+   "division_place": 2,
    "rating": {
-    "value": -0.06917781911570979,
+    "value": -0.08389973803687668,
     "rank": 28,
     "of": 32,
-    "p05": -0.3981213009546785,
-    "p95": 0.15809629537615869
+    "p05": -0.41341388537666796,
+    "p95": 0.1345477865276391
    },
    "model": {
     "offense_voa": {
-     "value": -0.0713,
-     "rank": 28,
+     "value": -0.0818,
+     "rank": 27,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0021,
-     "rank": 17,
+     "value": 0.0021,
+     "rank": 21,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.4361,
+     "value": 0.3527,
      "rank": 1,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0523,
-     "rank": 13,
+     "value": -0.0291,
+     "rank": 20,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.0664,
-     "rank": 21,
+     "value": 0.067,
+     "rank": 24,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.3821,
-     "rank": 26,
+     "value": 0.4085,
+     "rank": 24,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.3814,
-     "rank": 4,
+     "value": 0.4121,
+     "rank": 6,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -2.0,
-     "rank": 25,
+     "value": -5.0,
+     "rank": 30,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.4286,
-     "rank": 13,
+     "value": 5.0,
+     "rank": 19,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.02,
-     "rank": 21,
+     "value": -0.0,
+     "rank": 13,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
      "value": 0.03,
-     "rank": 1,
+     "rank": 2,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Jalen Hurts",
    "injury_counts": {
-    "Out": 3,
-    "Doubtful": 1,
-    "Questionable": 1
+    "Out": 6
    },
    "results": [
     {
@@ -3258,15 +3421,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "W 24-20"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "CHI",
      "home": false,
-     "kickoff": "2026-09-28T20:15"
-    },
+     "kickoff": "2026-09-28T20:15",
+     "result": "L 7-27"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "LA",
@@ -3278,6 +3442,12 @@
      "opp": "JAX",
      "home": false,
      "kickoff": "2026-10-11T09:30"
+    },
+    {
+     "week": 6,
+     "opp": "CAR",
+     "home": true,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -3288,75 +3458,75 @@
    "conference": "AFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png",
    "record": {
-    "w": 1,
+    "w": 2,
     "l": 1,
     "t": 0,
-    "pf": 23,
-    "pa": 33
+    "pf": 53,
+    "pa": 60
    },
    "division_place": 3,
    "rating": {
-    "value": -0.017848469718011427,
-    "rank": 18,
+    "value": -0.007133477430919164,
+    "rank": 16,
     "of": 32,
-    "p05": -0.4867356605090946,
-    "p95": 0.34468478282493864
+    "p05": -0.3660662192608756,
+    "p95": 0.2812185031607341
    },
    "model": {
     "offense_voa": {
-     "value": -0.0329,
-     "rank": 24,
+     "value": -0.0104,
+     "rank": 18,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0151,
-     "rank": 4,
+     "value": -0.0033,
+     "rank": 12,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.0619,
-     "rank": 20,
+     "value": 0.0056,
+     "rank": 19,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.3379,
-     "rank": 31,
+     "value": -0.1551,
+     "rank": 29,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.1769,
-     "rank": 3,
+     "value": -0.0094,
+     "rank": 14,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.3303,
-     "rank": 32,
+     "value": 0.3818,
+     "rank": 28,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4227,
-     "rank": 11,
+     "value": 0.4771,
+     "rank": 24,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
      "value": 2.0,
-     "rank": 4,
+     "rank": 6,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.0,
-     "rank": 19,
+     "value": 4.6,
+     "rank": 24,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.03,
-     "rank": 24,
+     "value": -0.01,
+     "rank": 17,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
@@ -3368,7 +3538,7 @@
    "qb1": "Aaron Rodgers",
    "injury_counts": {
     "Out": 2,
-    "Questionable": 1
+    "Questionable": 2
    },
    "results": [
     {
@@ -3384,15 +3554,16 @@
      "home": false,
      "kickoff": "2026-09-20T13:00",
      "result": "L 3-20"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "CIN",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 30-27"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "CLE",
@@ -3404,6 +3575,12 @@
      "opp": "IND",
      "home": true,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "TB",
+     "home": false,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -3415,86 +3592,85 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png",
    "record": {
     "w": 2,
-    "l": 0,
+    "l": 1,
     "t": 0,
-    "pf": 44,
-    "pa": 17
+    "pf": 75,
+    "pa": 50
    },
    "division_place": 2,
    "rating": {
-    "value": 0.046171020810362846,
-    "rank": 7,
+    "value": 0.002986660421374871,
+    "rank": 14,
     "of": 32,
-    "p05": -0.19165475624760667,
-    "p95": 0.29280515570783083
+    "p05": -0.24451016747016624,
+    "p95": 0.21326054603798114
    },
    "model": {
     "offense_voa": {
-     "value": 0.0164,
-     "rank": 13,
+     "value": -0.0161,
+     "rank": 19,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.0298,
-     "rank": 1,
+     "value": -0.019,
+     "rank": 2,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.0345,
-     "rank": 19,
+     "value": 0.0592,
+     "rank": 10,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0663,
-     "rank": 11,
+     "value": 0.0217,
+     "rank": 15,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.1728,
-     "rank": 4,
+     "value": -0.1388,
+     "rank": 3,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4082,
-     "rank": 23,
+     "value": 0.4506,
+     "rank": 16,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4037,
-     "rank": 7,
+     "value": 0.3837,
+     "rank": 5,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 3.0,
-     "rank": 1,
+     "value": 0.0,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 3.8333,
-     "rank": 27,
+     "value": 4.6364,
+     "rank": 22,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": 0.02,
-     "rank": 8,
+     "value": -0.01,
+     "rank": 17,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": 0.02,
-     "rank": 2,
+     "value": 0.04,
+     "rank": 1,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Sam Darnold",
    "injury_counts": {
-    "Out": 4,
-    "Questionable": 2
+    "Out": 5
    },
    "results": [
     {
@@ -3510,15 +3686,16 @@
      "home": false,
      "kickoff": "2026-09-20T16:25",
      "result": "W 31-7"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "WAS",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 31-33"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "LAC",
@@ -3530,6 +3707,12 @@
      "opp": "SF",
      "home": true,
      "kickoff": "2026-10-11T16:25"
+    },
+    {
+     "week": 6,
+     "opp": "DEN",
+     "home": false,
+     "kickoff": "2026-10-15T20:15"
     }
    ]
   },
@@ -3540,87 +3723,86 @@
    "conference": "NFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sf.png",
    "record": {
-    "w": 2,
+    "w": 3,
     "l": 0,
     "t": 0,
-    "pf": 62,
-    "pa": 20
+    "pf": 98,
+    "pa": 50
    },
    "division_place": 1,
    "rating": {
-    "value": 0.1725649088364602,
+    "value": 0.2520042244398285,
     "rank": 1,
     "of": 32,
-    "p05": -0.04031492084417107,
-    "p95": 0.708112094567502
+    "p05": 0.150102326317989,
+    "p95": 0.6514923016000295
    },
    "model": {
     "offense_voa": {
-     "value": 0.1695,
+     "value": 0.2524,
      "rank": 1,
      "better": "higher"
     },
     "defense_voa": {
-     "value": -0.003,
-     "rank": 15,
+     "value": 0.0004,
+     "rank": 17,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.1644,
-     "rank": 26,
+     "value": 0.0822,
+     "rank": 8,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.382,
+     "value": 0.4044,
      "rank": 1,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": -0.0084,
-     "rank": 14,
+     "value": 0.0727,
+     "rank": 27,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.6463,
+     "value": 0.6124,
      "rank": 1,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4324,
-     "rank": 14,
+     "value": 0.4768,
+     "rank": 23,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
      "value": 0.0,
-     "rank": 17,
+     "rank": 16,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 6.3333,
+     "value": 6.5,
      "rank": 2,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.0,
-     "rank": 14,
+     "value": 0.0,
+     "rank": 13,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.01,
-     "rank": 19,
+     "value": -0.02,
+     "rank": 23,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Brock Purdy",
    "injury_counts": {
-    "Out": 4,
-    "Doubtful": 1,
+    "Out": 5,
     "Questionable": 3
    },
    "results": [
@@ -3637,15 +3819,16 @@
      "home": true,
      "kickoff": "2026-09-20T16:25",
      "result": "W 35-13"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "ARI",
      "home": true,
-     "kickoff": "2026-09-27T16:05"
-    },
+     "kickoff": "2026-09-27T16:05",
+     "result": "W 36-30"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "DEN",
@@ -3657,6 +3840,12 @@
      "opp": "SEA",
      "home": false,
      "kickoff": "2026-10-11T16:25"
+    },
+    {
+     "week": 6,
+     "opp": "WAS",
+     "home": true,
+     "kickoff": "2026-10-19T20:15"
     }
    ]
   },
@@ -3668,79 +3857,79 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/tb.png",
    "record": {
     "w": 0,
-    "l": 2,
+    "l": 3,
     "t": 0,
-    "pf": 46,
-    "pa": 56
+    "pf": 62,
+    "pa": 79
    },
-   "division_place": 3,
+   "division_place": 4,
    "rating": {
-    "value": -0.07414296241670226,
-    "rank": 29,
+    "value": -0.06688231085685598,
+    "rank": 24,
     "of": 32,
-    "p05": -0.48466601830872025,
-    "p95": 0.1479719197455169
+    "p05": -0.42027409502975177,
+    "p95": 0.18167358786705834
    },
    "model": {
     "offense_voa": {
-     "value": -0.0728,
-     "rank": 29,
+     "value": -0.0775,
+     "rank": 26,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0013,
-     "rank": 21,
+     "value": -0.0106,
+     "rank": 4,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": -0.1437,
-     "rank": 24,
+     "value": -0.2646,
+     "rank": 31,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.176,
-     "rank": 27,
+     "value": -0.2042,
+     "rank": 32,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.0073,
-     "rank": 17,
+     "value": -0.0858,
+     "rank": 5,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4554,
-     "rank": 13,
+     "value": 0.3953,
+     "rank": 26,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4519,
-     "rank": 21,
+     "value": 0.3806,
+     "rank": 4,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
      "value": -4.0,
-     "rank": 31,
+     "rank": 27,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 3.75,
-     "rank": 28,
+     "value": 3.6,
+     "rank": 30,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
-     "value": -0.1,
-     "rank": 32,
+     "value": -0.05,
+     "rank": 27,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
      "value": -0.01,
-     "rank": 19,
+     "rank": 18,
      "better": "rank 1 is the hardest"
     }
    },
@@ -3762,15 +3951,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "L 19-23"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "MIN",
      "home": true,
-     "kickoff": "2026-09-27T16:05"
-    },
+     "kickoff": "2026-09-27T16:05",
+     "result": "L 16-23"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "GB",
@@ -3782,6 +3972,12 @@
      "opp": "DAL",
      "home": false,
      "kickoff": "2026-10-08T20:15"
+    },
+    {
+     "week": 6,
+     "opp": "PIT",
+     "home": true,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -3793,67 +3989,67 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png",
    "record": {
     "w": 0,
-    "l": 2,
+    "l": 3,
     "t": 0,
-    "pf": 30,
-    "pa": 47
+    "pf": 37,
+    "pa": 59
    },
-   "division_place": 2,
+   "division_place": 4,
    "rating": {
-    "value": -0.016572631106737176,
-    "rank": 17,
+    "value": -0.08463375699956752,
+    "rank": 29,
     "of": 32,
-    "p05": -0.2389253209510879,
-    "p95": 0.356430932353522
+    "p05": -0.366412458051751,
+    "p95": 0.17229701325032687
    },
    "model": {
     "offense_voa": {
-     "value": -0.0102,
-     "rank": 15,
+     "value": -0.0857,
+     "rank": 29,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0063,
-     "rank": 24,
+     "value": -0.0011,
+     "rank": 14,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.152,
-     "rank": 8,
+     "value": 0.1692,
+     "rank": 4,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": -0.0346,
-     "rank": 21,
+     "value": -0.0806,
+     "rank": 24,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.1403,
-     "rank": 27,
+     "value": 0.0577,
+     "rank": 21,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4024,
-     "rank": 25,
+     "value": 0.3885,
+     "rank": 27,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4583,
-     "rank": 22,
+     "value": 0.435,
+     "rank": 12,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": 2.0,
-     "rank": 4,
+     "value": 1.0,
+     "rank": 13,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.0,
-     "rank": 19,
+     "value": 3.8571,
+     "rank": 28,
      "better": "higher"
     }
    },
@@ -3864,14 +4060,14 @@
      "better": "rank 1 is the hardest"
     },
     "remaining": {
-     "value": -0.01,
-     "rank": 19,
+     "value": 0.01,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Cam Ward",
    "injury_counts": {
-    "Out": 2,
+    "Doubtful": 1,
     "Questionable": 1
    },
    "results": [
@@ -3888,15 +4084,16 @@
      "home": true,
      "kickoff": "2026-09-20T13:00",
      "result": "L 20-24"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "NYG",
      "home": false,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "L 7-12"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "BAL",
@@ -3908,6 +4105,12 @@
      "opp": "HOU",
      "home": true,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "IND",
+     "home": false,
+     "kickoff": "2026-10-18T13:00"
     }
    ]
   },
@@ -3918,88 +4121,86 @@
    "conference": "NFC",
    "logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/wsh.png",
    "record": {
-    "w": 0,
+    "w": 1,
     "l": 2,
     "t": 0,
-    "pf": 42,
-    "pa": 61
+    "pf": 75,
+    "pa": 92
    },
    "division_place": 4,
    "rating": {
-    "value": -0.029486221548836008,
-    "rank": 22,
+    "value": -0.007754749633109792,
+    "rank": 17,
     "of": 32,
-    "p05": -0.3579197203849198,
-    "p95": 0.2602646550084384
+    "p05": -0.274981281950964,
+    "p95": 0.2372844975427685
    },
    "model": {
     "offense_voa": {
-     "value": -0.0121,
-     "rank": 17,
+     "value": 0.0091,
+     "rank": 11,
      "better": "higher"
     },
     "defense_voa": {
-     "value": 0.0173,
-     "rank": 28,
+     "value": 0.0169,
+     "rank": 29,
      "better": "lower"
     },
     "special_teams_voa": {
-     "value": 0.0275,
-     "rank": 14,
+     "value": 0.0164,
+     "rank": 18,
      "better": "higher"
     }
    },
    "efficiency": {
     "epa_per_play": {
-     "value": 0.0402,
-     "rank": 15,
+     "value": -0.0011,
+     "rank": 17,
      "better": "higher"
     },
     "epa_per_play_allowed": {
-     "value": 0.1382,
-     "rank": 26,
+     "value": 0.0615,
+     "rank": 23,
      "better": "lower"
     },
     "success_rate": {
-     "value": 0.4286,
-     "rank": 22,
+     "value": 0.4011,
+     "rank": 25,
      "better": "higher"
     },
     "success_rate_allowed": {
-     "value": 0.4444,
+     "value": 0.474,
      "rank": 20,
      "better": "lower"
     }
    },
    "ball_security": {
     "turnover_margin": {
-     "value": -1.0,
-     "rank": 19,
+     "value": 2.0,
+     "rank": 6,
      "better": "higher"
     },
     "red_zone_points_per_trip": {
-     "value": 5.1667,
-     "rank": 17,
+     "value": 5.3333,
+     "rank": 15,
      "better": "higher"
     }
    },
    "schedule": {
     "played": {
      "value": -0.01,
-     "rank": 20,
+     "rank": 17,
      "better": "rank 1 is the hardest"
     },
     "remaining": {
      "value": 0.01,
-     "rank": 8,
+     "rank": 6,
      "better": "rank 1 is the hardest"
     }
    },
    "qb1": "Jayden Daniels",
    "injury_counts": {
-    "Out": 2,
-    "Doubtful": 1,
-    "Questionable": 4
+    "Out": 6
    },
    "results": [
     {
@@ -4015,15 +4216,16 @@
      "home": false,
      "kickoff": "2026-09-20T16:25",
      "result": "L 20-37"
-    }
-   ],
-   "next": [
+    },
     {
      "week": 3,
      "opp": "SEA",
      "home": true,
-     "kickoff": "2026-09-27T13:00"
-    },
+     "kickoff": "2026-09-27T13:00",
+     "result": "W 33-31"
+    }
+   ],
+   "next": [
     {
      "week": 4,
      "opp": "IND",
@@ -4035,6 +4237,12 @@
      "opp": "NYG",
      "home": true,
      "kickoff": "2026-10-11T13:00"
+    },
+    {
+     "week": 6,
+     "opp": "SF",
+     "home": false,
+     "kickoff": "2026-10-19T20:15"
     }
    ]
   }
