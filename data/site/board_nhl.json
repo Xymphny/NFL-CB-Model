@@ -1,13 +1,636 @@
 {
  "league": "nhl",
- "generated_at": "2026-09-29T00:01:18Z",
+ "generated_at": "2026-09-29T10:43:07Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
-  "date": "2026-09-28"
+  "date": "2026-09-29"
  },
- "games": [],
- "refusals": [],
+ "games": [
+  {
+   "game_id": "2026020001",
+   "home": "CAR",
+   "away": "FLA",
+   "home_name": "Carolina Hurricanes",
+   "away_name": "Florida Panthers",
+   "start": "2026-09-29T21:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 0,
+    "away_games_played": 0,
+    "low_information": true,
+    "key_player": [],
+    "venue": {
+     "name": "Lenovo Center",
+     "city": "Raleigh",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Alexander Nikishin",
+        "position": "D",
+        "status": "Out"
+       },
+       {
+        "player": "Seth Jarvis",
+        "position": "C",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Out": 1,
+       "Injured Reserve": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brad Marchand",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Jonah Gadjovich",
+        "position": "LW",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 672,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50503,
+    "margin_mean": 0.01,
+    "total_mean": 6.715,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00116,
+      0.00339,
+      0.00891,
+      0.0208,
+      0.05851,
+      0.12557,
+      0.092,
+      0.18413,
+      0.0,
+      0.1942,
+      0.092,
+      0.12557,
+      0.05851,
+      0.0208,
+      0.00891,
+      0.00339,
+      0.00116
+     ],
+     "binned": false,
+     "tail_below": 0.0005,
+     "tail_above": 0.0005,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/car.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/fla.png"
+  },
+  {
+   "game_id": "2026020002",
+   "home": "TOR",
+   "away": "MTL",
+   "home_name": "Toronto Maple Leafs",
+   "away_name": "Montr\u00e9al Canadiens",
+   "start": "2026-09-29T23:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 0,
+    "away_games_played": 0,
+    "low_information": true,
+    "key_player": [],
+    "venue": {
+     "name": "Scotiabank Arena",
+     "city": "Toronto",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Dakota Joshua",
+        "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Elvis Merzlikins",
+        "position": "G",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Max Domi",
+        "position": "C",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Injured Reserve": 4,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Kaiden Guhle",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Ivan Demidov",
+        "position": "RW",
+        "status": "Day-To-Day"
+       },
+       {
+        "player": "Oliver Kapanen",
+        "position": "C",
+        "status": "Day-To-Day"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 1,
+       "Day-To-Day": 2
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 313,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50503,
+    "margin_mean": 0.01,
+    "total_mean": 6.715,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00116,
+      0.00339,
+      0.00891,
+      0.0208,
+      0.05851,
+      0.12557,
+      0.092,
+      0.18413,
+      0.0,
+      0.1942,
+      0.092,
+      0.12557,
+      0.05851,
+      0.0208,
+      0.00891,
+      0.00339,
+      0.00116
+     ],
+     "binned": false,
+     "tail_below": 0.0005,
+     "tail_above": 0.0005,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tor.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/mtl.png"
+  },
+  {
+   "game_id": "2026020003",
+   "home": "BOS",
+   "away": "NYR",
+   "home_name": "Boston Bruins",
+   "away_name": "New York Rangers",
+   "start": "2026-09-30T00:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 0,
+    "away_games_played": 0,
+    "low_information": true,
+    "key_player": [],
+    "venue": {
+     "name": "TD Garden",
+     "city": "Boston",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Matthew Poitras",
+        "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Charlie McAvoy",
+        "position": "D",
+        "status": "Suspended"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 1,
+       "Suspended": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Adam Sykora",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Aidan Thompson",
+        "position": "C",
+        "status": "Out"
+       },
+       {
+        "player": "Vincent Iorio",
+        "position": "D",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2,
+       "Out": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 190,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50503,
+    "margin_mean": 0.01,
+    "total_mean": 6.715,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00116,
+      0.00339,
+      0.00891,
+      0.0208,
+      0.05851,
+      0.12557,
+      0.092,
+      0.18413,
+      0.0,
+      0.1942,
+      0.092,
+      0.12557,
+      0.05851,
+      0.0208,
+      0.00891,
+      0.00339,
+      0.00116
+     ],
+     "binned": false,
+     "tail_below": 0.0005,
+     "tail_above": 0.0005,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/bos.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyr.png"
+  },
+  {
+   "game_id": "2026020004",
+   "home": "EDM",
+   "away": "VAN",
+   "home_name": "Edmonton Oilers",
+   "away_name": "Vancouver Canucks",
+   "start": "2026-09-30T02:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 0,
+    "away_games_played": 0,
+    "low_information": true,
+    "key_player": [],
+    "venue": {
+     "name": "Rogers Place",
+     "city": "Edmonton",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Alec Regula",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Frederik Andersen",
+        "position": "G",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Jason Dickinson",
+        "position": "C",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Injured Reserve": 5
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Filip Chytil",
+        "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Mackenzie MacEachern",
+        "position": "LW",
+        "status": "Out"
+       },
+       {
+        "player": "Thatcher Demko",
+        "position": "G",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2,
+       "Out": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 508,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50503,
+    "margin_mean": 0.01,
+    "total_mean": 6.715,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00116,
+      0.00339,
+      0.00891,
+      0.0208,
+      0.05851,
+      0.12557,
+      0.092,
+      0.18413,
+      0.0,
+      0.1942,
+      0.092,
+      0.12557,
+      0.05851,
+      0.0208,
+      0.00891,
+      0.00339,
+      0.00116
+     ],
+     "binned": false,
+     "tail_below": 0.0005,
+     "tail_above": 0.0005,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/edm.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/van.png"
+  },
+  {
+   "game_id": "2026020005",
+   "home": "VGK",
+   "away": "CHI",
+   "home_name": "Vegas Golden Knights",
+   "away_name": "Chicago Blackhawks",
+   "start": "2026-09-30T02:30:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 0,
+    "away_games_played": 0,
+    "low_information": true,
+    "key_player": [],
+    "venue": {
+     "name": "T-Mobile Arena",
+     "city": "Las Vegas",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Lukas Cormier",
+        "position": "D",
+        "status": "Out"
+       },
+       {
+        "player": "Raphael Lavoie",
+        "position": "C",
+        "status": "Day-To-Day"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Out": 1,
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Connor Bedard",
+        "position": "C",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 1521,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.50503,
+    "margin_mean": 0.01,
+    "total_mean": 6.715,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00116,
+      0.00339,
+      0.00891,
+      0.0208,
+      0.05851,
+      0.12557,
+      0.092,
+      0.18413,
+      0.0,
+      0.1942,
+      0.092,
+      0.12557,
+      0.05851,
+      0.0208,
+      0.00891,
+      0.00339,
+      0.00116
+     ],
+     "binned": false,
+     "tail_below": 0.0005,
+     "tail_above": 0.0005,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/chi.png"
+  }
+ ],
+ "refusals": [
+  {
+   "scope": "league",
+   "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run."
+  }
+ ],
  "freshness": {
   "odds_captured_at": null,
   "credits": {
@@ -37,13 +660,9 @@
   "source": "backtest",
   "provisional": true
  },
- "next_slate": {
-  "date": "2026-09-29",
-  "games": 5
- },
  "status": {
-  "state": "idle",
-  "games": 0,
+  "state": "degraded",
+  "games": 5,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -57,8 +676,12 @@
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 0,
-    "examples": []
+    "games": 5,
+    "examples": [
+     "FLA @ CAR",
+     "MTL @ TOR",
+     "NYR @ BOS"
+    ]
    },
    {
     "key": "unrated",
@@ -96,8 +719,8 @@
     "examples": []
    }
   ],
-  "refusals": 0,
-  "reason": null,
+  "refusals": 1,
+  "reason": "No odds captured yet for this league. The model's view is shown; market prices appear once the capture job has run.",
   "game_refusals": []
  }
 }

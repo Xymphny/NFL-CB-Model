@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-29T00:01:31Z",
+ "generated_at": "2026-09-29T10:43:09Z",
  "floor": 150,
  "leagues": {
   "nfl": {
@@ -11,15 +11,15 @@
     "source": "historical"
    },
    "signals": 1674,
-   "settled_games": 13,
-   "progress_to_floor": 0.0867,
-   "preferred_side_wins": 7,
-   "preferred_side_hit_rate": 0.5385,
+   "settled_games": 14,
+   "progress_to_floor": 0.0933,
+   "preferred_side_wins": 8,
+   "preferred_side_hit_rate": 0.5714,
    "break_even_at_minus_110": 0.5238,
-   "mean_clv_prob_points": -0.01068,
-   "mean_clv_line_points": 0.1786,
-   "mean_market_move_points": 0.01293,
-   "clv_graded": 14,
+   "mean_clv_prob_points": -0.00987,
+   "mean_clv_line_points": 0.2333,
+   "mean_market_move_points": 0.01374,
+   "clv_graded": 15,
    "team_floor": 10,
    "teams": {
     "ARI": {
@@ -36,6 +36,11 @@
      "settled": 1,
      "wins": 0,
      "mean_clv": 0.01253
+    },
+    "CHI": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.0015
     },
     "CIN": {
      "settled": 1,
@@ -122,6 +127,11 @@
      "wins": 0,
      "mean_clv": -0.03478
     },
+    "PHI": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.0015
+    },
     "PIT": {
      "settled": 1,
      "wins": 1,
@@ -154,6 +164,20 @@
     }
    },
    "recent": [
+    {
+     "at": "2026-09-29T00:01:00Z",
+     "game_id": "2026-W03-CHI-PHI",
+     "market": "spreads",
+     "selection": "Chicago Bears",
+     "line": 3.5,
+     "price_decimal": 1.93,
+     "book": "betanysports",
+     "p_model": 0.7227,
+     "p_market": 0.4944,
+     "result": "win",
+     "score": "27-7",
+     "clv_prob_points": 0.0015
+    },
     {
      "at": "2026-09-28T00:15:29Z",
      "game_id": "2026-W03-DEN-LA",
@@ -1641,10 +1665,10 @@
     "source": "historical"
    },
    "signals": 6514,
-   "settled_games": 23,
-   "progress_to_floor": 0.1533,
-   "preferred_side_wins": 11,
-   "preferred_side_hit_rate": 0.4783,
+   "settled_games": 35,
+   "progress_to_floor": 0.2333,
+   "preferred_side_wins": 15,
+   "preferred_side_hit_rate": 0.4286,
    "break_even_at_minus_110": 0.5238,
    "mean_clv_prob_points": -0.02118,
    "mean_clv_line_points": null,
@@ -1653,19 +1677,24 @@
    "team_floor": 10,
    "teams": {
     "ANA": {
-     "settled": 2,
-     "wins": 1,
-     "mean_clv": -0.02037
+     "settled": 3,
+     "wins": 2,
+     "mean_clv": -0.01663
     },
-    "ATH": {
-     "settled": 2,
-     "wins": 1,
-     "mean_clv": -0.03837
-    },
-    "ATL": {
+    "ARI": {
      "settled": 1,
      "wins": 1,
-     "mean_clv": -0.02144
+     "mean_clv": -0.0369
+    },
+    "ATH": {
+     "settled": 3,
+     "wins": 1,
+     "mean_clv": -0.03211
+    },
+    "ATL": {
+     "settled": 2,
+     "wins": 1,
+     "mean_clv": -0.0201
     },
     "BAL": {
      "settled": 1,
@@ -1678,9 +1707,9 @@
      "mean_clv": -0.02518
     },
     "CHA": {
-     "settled": 2,
+     "settled": 3,
      "wins": 1,
-     "mean_clv": -0.0348
+     "mean_clv": -0.02408
     },
     "CHN": {
      "settled": 2,
@@ -1688,34 +1717,34 @@
      "mean_clv": -0.02518
     },
     "CIN": {
-     "settled": 1,
-     "wins": 1,
-     "mean_clv": -0.00565
-    },
-    "CLE": {
-     "settled": 2,
-     "wins": 0,
-     "mean_clv": -0.01032
-    },
-    "COL": {
-     "settled": 2,
-     "wins": 1,
-     "mean_clv": -0.0348
-    },
-    "DET": {
      "settled": 2,
      "wins": 2,
-     "mean_clv": 0.01404
+     "mean_clv": -0.00221
+    },
+    "CLE": {
+     "settled": 3,
+     "wins": 0,
+     "mean_clv": -0.02942
+    },
+    "COL": {
+     "settled": 3,
+     "wins": 1,
+     "mean_clv": -0.02408
+    },
+    "DET": {
+     "settled": 3,
+     "wins": 2,
+     "mean_clv": 0.02073
     },
     "HOU": {
-     "settled": 2,
+     "settled": 3,
      "wins": 1,
-     "mean_clv": -0.03837
+     "mean_clv": -0.03211
     },
     "KCA": {
-     "settled": 2,
+     "settled": 3,
      "wins": 0,
-     "mean_clv": -0.01032
+     "mean_clv": -0.02942
     },
     "LAN": {
      "settled": 2,
@@ -1723,19 +1752,19 @@
      "mean_clv": -0.02892
     },
     "MIA": {
-     "settled": 1,
+     "settled": 2,
      "wins": 1,
-     "mean_clv": -0.02144
+     "mean_clv": -0.0201
     },
     "MIL": {
-     "settled": 2,
+     "settled": 3,
      "wins": 0,
-     "mean_clv": -0.02046
+     "mean_clv": -0.01058
     },
     "MIN": {
-     "settled": 2,
-     "wins": 1,
-     "mean_clv": -0.03072
+     "settled": 3,
+     "wins": 2,
+     "mean_clv": -0.01809
     },
     "NYA": {
      "settled": 1,
@@ -1743,24 +1772,29 @@
      "mean_clv": 0.04955
     },
     "NYN": {
-     "settled": 1,
+     "settled": 2,
      "wins": 0,
      "mean_clv": 0.00281
     },
     "PHI": {
-     "settled": 1,
+     "settled": 2,
      "wins": 1,
-     "mean_clv": -0.02642
+     "mean_clv": -0.12807
     },
     "PIT": {
-     "settled": 2,
+     "settled": 3,
      "wins": 2,
-     "mean_clv": 0.01404
+     "mean_clv": 0.02073
+    },
+    "SDN": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.0369
     },
     "SEA": {
-     "settled": 2,
-     "wins": 1,
-     "mean_clv": -0.02037
+     "settled": 3,
+     "wins": 2,
+     "mean_clv": -0.01663
     },
     "SFN": {
      "settled": 2,
@@ -1768,32 +1802,200 @@
      "mean_clv": -0.02892
     },
     "SLN": {
-     "settled": 2,
+     "settled": 3,
      "wins": 0,
-     "mean_clv": -0.02046
+     "mean_clv": -0.01058
     },
     "TBA": {
-     "settled": 1,
-     "wins": 1,
-     "mean_clv": -0.02642
-    },
-    "TEX": {
      "settled": 2,
      "wins": 1,
-     "mean_clv": -0.03072
+     "mean_clv": -0.12807
+    },
+    "TEX": {
+     "settled": 3,
+     "wins": 2,
+     "mean_clv": -0.01809
     },
     "TOR": {
-     "settled": 1,
-     "wins": 1,
-     "mean_clv": -0.00565
+     "settled": 2,
+     "wins": 2,
+     "mean_clv": -0.00221
     },
     "WAS": {
-     "settled": 1,
+     "settled": 2,
      "wins": 0,
      "mean_clv": 0.00281
     }
    },
    "recent": [
+    {
+     "at": "2026-09-27T19:00:46Z",
+     "game_id": "MIA202609270",
+     "market": "h2h",
+     "selection": "Atlanta Braves",
+     "line": null,
+     "price_decimal": 2.08,
+     "book": "mybookieag",
+     "p_model": 0.5327,
+     "p_market": 0.4603,
+     "result": "loss",
+     "score": "5-3",
+     "clv_prob_points": -0.0188
+    },
+    {
+     "at": "2026-09-27T19:00:46Z",
+     "game_id": "DET202609270",
+     "market": "h2h",
+     "selection": "Detroit Tigers",
+     "line": null,
+     "price_decimal": 1.85,
+     "book": "betanysports",
+     "p_model": 0.5812,
+     "p_market": 0.5267,
+     "result": "loss",
+     "score": "2-4",
+     "clv_prob_points": 0.0341
+    },
+    {
+     "at": "2026-09-27T19:00:46Z",
+     "game_id": "SEA202609270",
+     "market": "h2h",
+     "selection": "Seattle Mariners",
+     "line": null,
+     "price_decimal": 1.63,
+     "book": "betanysports",
+     "p_model": 0.6198,
+     "p_market": 0.6006,
+     "result": "win",
+     "score": "7-3",
+     "clv_prob_points": -0.0091
+    },
+    {
+     "at": "2026-09-27T19:00:46Z",
+     "game_id": "MIL202609270",
+     "market": "h2h",
+     "selection": "St. Louis Cardinals",
+     "line": null,
+     "price_decimal": 2.77,
+     "book": "betanysports",
+     "p_model": 0.3756,
+     "p_market": 0.3425,
+     "result": "loss",
+     "score": "6-4",
+     "clv_prob_points": 0.0092
+    },
+    {
+     "at": "2026-09-27T19:00:45Z",
+     "game_id": "TOR202609270",
+     "market": "h2h",
+     "selection": "Toronto Blue Jays",
+     "line": null,
+     "price_decimal": 1.62,
+     "book": "betanysports",
+     "p_model": 0.6142,
+     "p_market": 0.6035,
+     "result": "win",
+     "score": "5-1",
+     "clv_prob_points": 0.0012
+    },
+    {
+     "at": "2026-09-27T19:00:45Z",
+     "game_id": "CHA202609270",
+     "market": "h2h",
+     "selection": "Colorado Rockies",
+     "line": null,
+     "price_decimal": 2.38,
+     "book": "betanysports",
+     "p_model": 0.4051,
+     "p_market": 0.4039,
+     "result": "loss",
+     "score": "4-2",
+     "clv_prob_points": -0.0026
+    },
+    {
+     "at": "2026-09-27T19:00:45Z",
+     "game_id": "SDN202609270",
+     "market": "h2h",
+     "selection": "San Diego Padres",
+     "line": null,
+     "price_decimal": 2.36,
+     "book": "betanysports",
+     "p_model": 0.5851,
+     "p_market": 0.4075,
+     "result": "win",
+     "score": "9-4",
+     "clv_prob_points": -0.0369
+    },
+    {
+     "at": "2026-09-27T19:00:45Z",
+     "game_id": "KCA202609270",
+     "market": "h2h",
+     "selection": "Cleveland Guardians",
+     "line": null,
+     "price_decimal": 1.96,
+     "book": "betanysports",
+     "p_model": 0.6122,
+     "p_market": 0.4973,
+     "result": "loss",
+     "score": "3-2",
+     "clv_prob_points": -0.0676
+    },
+    {
+     "at": "2026-09-27T19:00:45Z",
+     "game_id": "MIN202609270",
+     "market": "h2h",
+     "selection": "Minnesota Twins",
+     "line": null,
+     "price_decimal": 1.99,
+     "book": "betanysports",
+     "p_model": 0.5303,
+     "p_market": 0.4879,
+     "result": "win",
+     "score": "6-4",
+     "clv_prob_points": 0.0072
+    },
+    {
+     "at": "2026-09-27T19:00:44Z",
+     "game_id": "ATH202609270",
+     "market": "h2h",
+     "selection": "Athletics",
+     "line": null,
+     "price_decimal": 2.63,
+     "book": "betanysports",
+     "p_model": 0.4384,
+     "p_market": 0.3635,
+     "result": "loss",
+     "score": "0-9",
+     "clv_prob_points": -0.0196
+    },
+    {
+     "at": "2026-09-27T18:16:09Z",
+     "game_id": "PHI202609270",
+     "market": "h2h",
+     "selection": "Tampa Bay Rays",
+     "line": null,
+     "price_decimal": 2.75,
+     "book": "betanysports",
+     "p_model": 0.4504,
+     "p_market": 0.3463,
+     "result": "loss",
+     "score": "7-3",
+     "clv_prob_points": -0.2297
+    },
+    {
+     "at": "2026-09-27T14:01:49Z",
+     "game_id": "WAS202609270",
+     "market": "h2h",
+     "selection": "New York Mets",
+     "line": null,
+     "price_decimal": 1.93,
+     "book": "betanysports",
+     "p_model": 0.5258,
+     "p_market": 0.5053,
+     "result": "loss",
+     "score": "6-4",
+     "clv_prob_points": null
+    },
     {
      "at": "2026-09-27T01:31:10Z",
      "game_id": "ATH202609260",
