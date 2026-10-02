@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-02T02:00:52Z",
+ "generated_at": "2026-10-02T10:43:19Z",
  "floor": 150,
  "leagues": {
   "nfl": {
@@ -11,15 +11,15 @@
     "source": "historical"
    },
    "signals": 2028,
-   "settled_games": 14,
-   "progress_to_floor": 0.0933,
-   "preferred_side_wins": 8,
-   "preferred_side_hit_rate": 0.5714,
+   "settled_games": 15,
+   "progress_to_floor": 0.1,
+   "preferred_side_wins": 9,
+   "preferred_side_hit_rate": 0.6,
    "break_even_at_minus_110": 0.5238,
-   "mean_clv_prob_points": -0.00987,
-   "mean_clv_line_points": 0.2333,
-   "mean_market_move_points": 0.01374,
-   "clv_graded": 15,
+   "mean_clv_prob_points": -0.00741,
+   "mean_clv_line_points": 0.3125,
+   "mean_market_move_points": 0.01619,
+   "clv_graded": 16,
    "team_floor": 10,
    "teams": {
     "ARI": {
@@ -48,9 +48,9 @@
      "mean_clv": 0.00533
     },
     "CLE": {
-     "settled": 1,
-     "wins": 0,
-     "mean_clv": 0.01253
+     "settled": 2,
+     "wins": 1,
+     "mean_clv": 0.02101
     },
     "DEN": {
      "settled": 1,
@@ -133,9 +133,9 @@
      "mean_clv": 0.0015
     },
     "PIT": {
-     "settled": 1,
-     "wins": 1,
-     "mean_clv": 0.00533
+     "settled": 2,
+     "wins": 2,
+     "mean_clv": 0.01741
     },
     "SEA": {
      "settled": 1,
@@ -164,6 +164,20 @@
     }
    },
    "recent": [
+    {
+     "at": "2026-10-02T00:15:41Z",
+     "game_id": "2026-W04-CLE-PIT",
+     "market": "spreads",
+     "selection": "Cleveland Browns",
+     "line": 3.0,
+     "price_decimal": 1.83,
+     "book": "betanysports",
+     "p_model": 0.5522,
+     "p_market": 0.5237,
+     "result": "win",
+     "score": "27-24",
+     "clv_prob_points": 0.0295
+    },
     {
      "at": "2026-09-29T00:01:00Z",
      "game_id": "2026-W03-CHI-PHI",
@@ -371,15 +385,15 @@
     "source": "historical"
    },
    "signals": 9320,
-   "settled_games": 57,
-   "progress_to_floor": 0.38,
-   "preferred_side_wins": 29,
-   "preferred_side_hit_rate": 0.5088,
+   "settled_games": 59,
+   "progress_to_floor": 0.3933,
+   "preferred_side_wins": 30,
+   "preferred_side_hit_rate": 0.5085,
    "break_even_at_minus_110": 0.5238,
-   "mean_clv_prob_points": -0.02206,
-   "mean_clv_line_points": 0.2632,
-   "mean_market_move_points": 0.00157,
-   "clv_graded": 57,
+   "mean_clv_prob_points": -0.02082,
+   "mean_clv_line_points": 0.3305,
+   "mean_market_move_points": 0.0029,
+   "clv_graded": 59,
    "team_floor": 10,
    "teams": {
     "Air Force": {
@@ -683,9 +697,14 @@
      "mean_clv": -0.02069
     },
     "New Mexico State": {
+     "settled": 2,
+     "wins": 1,
+     "mean_clv": -0.03215
+    },
+    "North Texas": {
      "settled": 1,
      "wins": 0,
-     "mean_clv": -0.02069
+     "mean_clv": 0.07235
     },
     "Northern Illinois": {
      "settled": 1,
@@ -843,9 +862,9 @@
      "mean_clv": -0.01501
     },
     "Tulsa": {
-     "settled": 1,
+     "settled": 2,
      "wins": 0,
-     "mean_clv": -0.02356
+     "mean_clv": 0.0244
     },
     "UAB": {
      "settled": 1,
@@ -937,6 +956,11 @@
      "wins": 0,
      "mean_clv": -0.03478
     },
+    "Western Kentucky": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": -0.04361
+    },
     "Western Michigan": {
      "settled": 1,
      "wins": 0,
@@ -954,6 +978,34 @@
     }
    },
    "recent": [
+    {
+     "at": "2026-10-02T00:45:46Z",
+     "game_id": "401862786",
+     "market": "spreads",
+     "selection": "North Texas Mean Green",
+     "line": -3.0,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.557,
+     "p_market": 0.5,
+     "result": "loss",
+     "score": "44-45",
+     "clv_prob_points": 0.0724
+    },
+    {
+     "at": "2026-10-01T23:45:37Z",
+     "game_id": "401871049",
+     "market": "spreads",
+     "selection": "New Mexico State Aggies",
+     "line": -2.0,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.5329,
+     "p_market": 0.5,
+     "result": "win",
+     "score": "34-13",
+     "clv_prob_points": -0.0436
+    },
     {
      "at": "2026-09-27T02:45:30Z",
      "game_id": "401858470",
@@ -1625,34 +1677,6 @@
      "result": "win",
      "score": "17-20",
      "clv_prob_points": -0.0236
-    },
-    {
-     "at": "2026-09-26T15:45:51Z",
-     "game_id": "401864512",
-     "market": "spreads",
-     "selection": "Akron Zips",
-     "line": 13.5,
-     "price_decimal": 1.91,
-     "book": "betanysports",
-     "p_model": 0.5397,
-     "p_market": 0.5,
-     "result": "loss",
-     "score": "10-38",
-     "clv_prob_points": -0.0236
-    },
-    {
-     "at": "2026-09-26T15:45:51Z",
-     "game_id": "401856813",
-     "market": "spreads",
-     "selection": "Colorado Buffaloes",
-     "line": 9.0,
-     "price_decimal": 1.91,
-     "book": "betanysports",
-     "p_model": 0.6024,
-     "p_market": 0.5,
-     "result": "loss",
-     "score": "23-13",
-     "clv_prob_points": -0.0061
     }
    ]
   },
