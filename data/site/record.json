@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-03T02:01:05Z",
+ "generated_at": "2026-10-03T10:43:38Z",
  "floor": 150,
  "leagues": {
   "nfl": {
@@ -385,15 +385,15 @@
     "source": "historical"
    },
    "signals": 9452,
-   "settled_games": 59,
-   "progress_to_floor": 0.3933,
-   "preferred_side_wins": 30,
-   "preferred_side_hit_rate": 0.5085,
+   "settled_games": 62,
+   "progress_to_floor": 0.4133,
+   "preferred_side_wins": 33,
+   "preferred_side_hit_rate": 0.5323,
    "break_even_at_minus_110": 0.5238,
-   "mean_clv_prob_points": -0.02082,
-   "mean_clv_line_points": 0.3305,
-   "mean_market_move_points": 0.0029,
-   "clv_graded": 59,
+   "mean_clv_prob_points": -0.01804,
+   "mean_clv_line_points": 0.4194,
+   "mean_market_move_points": 0.00585,
+   "clv_graded": 62,
    "team_floor": 10,
    "teams": {
     "Air Force": {
@@ -502,9 +502,9 @@
      "mean_clv": -0.03963
     },
     "Delaware": {
-     "settled": 1,
-     "wins": 0,
-     "mean_clv": -0.03366
+     "settled": 2,
+     "wins": 1,
+     "mean_clv": -0.0155
     },
     "Florida": {
      "settled": 1,
@@ -605,6 +605,11 @@
      "settled": 1,
      "wins": 0,
      "mean_clv": -0.00558
+    },
+    "Liberty": {
+     "settled": 1,
+     "wins": 1,
+     "mean_clv": 0.00267
     },
     "Louisiana": {
      "settled": 1,
@@ -712,9 +717,9 @@
      "mean_clv": 0.01108
     },
     "Northwestern": {
-     "settled": 1,
-     "wins": 1,
-     "mean_clv": -0.0034
+     "settled": 2,
+     "wins": 2,
+     "mean_clv": 0.01016
     },
     "Notre Dame": {
      "settled": 1,
@@ -757,9 +762,14 @@
      "mean_clv": -0.03025
     },
     "Penn State": {
+     "settled": 2,
+     "wins": 2,
+     "mean_clv": 8e-05
+    },
+    "Pittsburgh": {
      "settled": 1,
      "wins": 1,
-     "mean_clv": -0.02356
+     "mean_clv": 0.0834
     },
     "Purdue": {
      "settled": 1,
@@ -932,9 +942,9 @@
      "mean_clv": -0.03366
     },
     "Virginia Tech": {
-     "settled": 1,
-     "wins": 1,
-     "mean_clv": -0.03983
+     "settled": 2,
+     "wins": 2,
+     "mean_clv": 0.02178
     },
     "Wake Forest": {
      "settled": 1,
@@ -978,6 +988,48 @@
     }
    },
    "recent": [
+    {
+     "at": "2026-10-02T23:45:39Z",
+     "game_id": "401858476",
+     "market": "spreads",
+     "selection": "Northwestern Wildcats",
+     "line": 2.5,
+     "price_decimal": 1.95,
+     "book": "betanysports",
+     "p_model": 0.547,
+     "p_market": 0.4888,
+     "result": "win",
+     "score": "34-13",
+     "clv_prob_points": 0.0237
+    },
+    {
+     "at": "2026-10-02T22:45:32Z",
+     "game_id": "401858245",
+     "market": "spreads",
+     "selection": "Pittsburgh Panthers",
+     "line": 1.5,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.523,
+     "p_market": 0.5,
+     "result": "win",
+     "score": "33-35",
+     "clv_prob_points": 0.0834
+    },
+    {
+     "at": "2026-10-02T22:45:31Z",
+     "game_id": "401871050",
+     "market": "spreads",
+     "selection": "Liberty Flames",
+     "line": -7.5,
+     "price_decimal": 1.91,
+     "book": "betanysports",
+     "p_model": 0.5598,
+     "p_market": 0.5,
+     "result": "win",
+     "score": "14-30",
+     "clv_prob_points": 0.0027
+    },
     {
      "at": "2026-10-02T00:45:46Z",
      "game_id": "401862786",
@@ -1635,48 +1687,6 @@
      "result": "win",
      "score": "14-21",
      "clv_prob_points": -0.0398
-    },
-    {
-     "at": "2026-09-26T15:45:51Z",
-     "game_id": "401858465",
-     "market": "spreads",
-     "selection": "Illinois Fighting Illini",
-     "line": 25.5,
-     "price_decimal": 1.91,
-     "book": "betanysports",
-     "p_model": 0.9124,
-     "p_market": 0.5,
-     "result": "win",
-     "score": "42-19",
-     "clv_prob_points": -0.0029
-    },
-    {
-     "at": "2026-09-26T15:45:51Z",
-     "game_id": "401858243",
-     "market": "spreads",
-     "selection": "Wake Forest Demon Deacons",
-     "line": 11.0,
-     "price_decimal": 1.91,
-     "book": "betanysports",
-     "p_model": 0.6172,
-     "p_market": 0.5,
-     "result": "win",
-     "score": "27-30",
-     "clv_prob_points": 0.0123
-    },
-    {
-     "at": "2026-09-26T15:45:51Z",
-     "game_id": "401856704",
-     "market": "spreads",
-     "selection": "Tennessee Volunteers",
-     "line": 5.5,
-     "price_decimal": 1.91,
-     "book": "betanysports",
-     "p_model": 0.6707,
-     "p_market": 0.5,
-     "result": "win",
-     "score": "17-20",
-     "clv_prob_points": -0.0236
     }
    ]
   },
