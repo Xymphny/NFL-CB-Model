@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-04T01:16:10Z",
+ "generated_at": "2026-10-04T02:01:06Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -343,10 +343,11 @@
         "status": "Out"
        }
       ],
-      "more": 0,
+      "more": 1,
       "counts": {
        "Injured Reserve": 2,
-       "Out": 1
+       "Out": 1,
+       "Day-To-Day": 1
       }
      },
      "away": {
@@ -461,10 +462,11 @@
         "status": "Injured Reserve"
        }
       ],
-      "more": 1,
+      "more": 2,
       "counts": {
        "Injured Reserve": 3,
-       "Out": 1
+       "Out": 1,
+       "Day-To-Day": 1
       }
      },
      "counts_only": false
@@ -1011,75 +1013,7 @@
    "home_name": "Vancouver Canucks",
    "away_name": "Calgary Flames",
    "start": "2026-10-04T02:00:00Z",
-   "markets": {
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Vancouver Canucks",
-     "best_price_decimal": 2.48,
-     "best_price_american": 148,
-     "best_book": "unibet_se",
-     "books": 23,
-     "p_model": 0.52038,
-     "p_market": 0.50853,
-     "edge": 0.01185,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.50244,
-     "open_at": "2026-10-02T22:35:00Z"
-    },
-    "total": {
-     "market": "total",
-     "status": "priced",
-     "refusal": null,
-     "line": 6.0,
-     "side": "over",
-     "selection": "Over",
-     "best_price_decimal": 1.89,
-     "best_price_american": -112,
-     "best_book": "pinnacle",
-     "books": 6,
-     "p_model": 0.66882,
-     "p_market": 0.51862,
-     "edge": 0.1502,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 6.0,
-     "open_p_market": 0.52375,
-     "open_at": "2026-10-02T22:35:00Z",
-     "cap": {
-      "rule": "early_season",
-      "reason": "Early season: CGY has played 1, VAN 2. Hockey ratings restart at league average every season, so the gap with the market is mostly the reset. Held at Coin flip until both teams have played 10; still paper-traded."
-     }
-    },
-    "puck_line": {
-     "market": "puck_line",
-     "status": "priced",
-     "refusal": null,
-     "line": -1.5,
-     "side": "home",
-     "selection": "Vancouver Canucks",
-     "best_price_decimal": 3.3,
-     "best_price_american": 230,
-     "best_book": "matchbook",
-     "books": 13,
-     "p_model": 0.33093,
-     "p_market": 0.28858,
-     "edge": 0.04235,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -1.5,
-     "open_p_market": 0.28682,
-     "open_at": "2026-10-02T22:35:00Z"
-    }
-   },
+   "markets": {},
    "headline": "moneyline",
    "context": {
     "home_games_played": 2,
@@ -1156,156 +1090,7 @@
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.52038,
-    "margin_mean": 0.12,
-    "total_mean": 7.152,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00133,
-      0.00372,
-      0.00941,
-      0.02126,
-      0.05773,
-      0.12093,
-      0.08791,
-      0.17673,
-      0.0,
-      0.18945,
-      0.0921,
-      0.13046,
-      0.06493,
-      0.0249,
-      0.01138,
-      0.00464,
-      0.00171
-     ],
-     "binned": false,
-     "tail_below": 0.0006,
-     "tail_above": 0.00081,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "event_id": "45d984ff127ce23fde997b0182b6336b",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-02T22:35:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.37,
-      "p_market": 0.50244,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-02T23:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.37,
-      "p_market": 0.50284,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-03T00:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.375,
-      "p_market": 0.5033,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T00:15:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.375,
-      "p_market": 0.5033,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T01:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.375,
-      "p_market": 0.5033,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T01:15:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.375,
-      "p_market": 0.50388,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T02:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.335,
-      "p_market": 0.50382,
-      "books": 20
-     },
-     {
-      "captured_at": "2026-10-03T14:00:48Z",
-      "kind": "early",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.50696,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-03T23:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.3,
-      "p_market": 0.50386,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-03T23:35:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.28,
-      "p_market": 0.50696,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-03T23:45:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.28,
-      "p_market": 0.50853,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-04T00:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.28,
-      "p_market": 0.50853,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-04T01:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.28,
-      "p_market": 0.50853,
-      "books": 23
-     }
-    ],
-    "captures": 13,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_p": 0.52038,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/van.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cgy.png"
   },
@@ -1316,71 +1101,7 @@
    "home_name": "San Jose Sharks",
    "away_name": "Los Angeles Kings",
    "start": "2026-10-04T02:00:00Z",
-   "markets": {
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "San Jose Sharks",
-     "best_price_decimal": 2.48,
-     "best_price_american": 148,
-     "best_book": "onexbet",
-     "books": 23,
-     "p_model": 0.5264,
-     "p_market": 0.50626,
-     "edge": 0.02014,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.51942,
-     "open_at": "2026-10-02T22:35:00Z"
-    },
-    "total": {
-     "market": "total",
-     "status": "priced",
-     "refusal": null,
-     "line": 6.5,
-     "side": "over",
-     "selection": "Over",
-     "best_price_decimal": 2.1,
-     "best_price_american": 110,
-     "best_book": "matchbook",
-     "books": 6,
-     "p_model": 0.53064,
-     "p_market": 0.46541,
-     "edge": 0.06523,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 5.5,
-     "open_p_market": 0.57693,
-     "open_at": "2026-10-02T22:35:00Z"
-    },
-    "puck_line": {
-     "market": "puck_line",
-     "status": "priced",
-     "refusal": null,
-     "line": -1.5,
-     "side": "home",
-     "selection": "San Jose Sharks",
-     "best_price_decimal": 3.3,
-     "best_price_american": 230,
-     "best_book": "matchbook",
-     "books": 13,
-     "p_model": 0.32986,
-     "p_market": 0.28605,
-     "edge": 0.04381,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -1.5,
-     "open_p_market": 0.29312,
-     "open_at": "2026-10-02T22:35:00Z"
-    }
-   },
+   "markets": {},
    "headline": "moneyline",
    "context": {
     "home_games_played": 1,
@@ -1421,10 +1142,9 @@
         "status": "Injured Reserve"
        }
       ],
-      "more": 4,
+      "more": 3,
       "counts": {
-       "Injured Reserve": 6,
-       "Day-To-Day": 1
+       "Injured Reserve": 6
       }
      },
      "away": {
@@ -1467,166 +1187,17 @@
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.5264,
-    "margin_mean": 0.157,
-    "total_mean": 6.689,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00095,
-      0.00285,
-      0.00769,
-      0.01843,
-      0.05354,
-      0.11876,
-      0.08897,
-      0.18203,
-      0.0,
-      0.19654,
-      0.0951,
-      0.13234,
-      0.06335,
-      0.02311,
-      0.01009,
-      0.00391,
-      0.00136
-     ],
-     "binned": false,
-     "tail_below": 0.00039,
-     "tail_above": 0.0006,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "event_id": "fddf3e59117ce7c2597cb67a363a2e06",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-02T22:35:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.51942,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-02T23:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.51942,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-03T00:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.275,
-      "p_market": 0.51575,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T00:15:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.275,
-      "p_market": 0.51575,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T01:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.275,
-      "p_market": 0.51291,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T01:15:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.275,
-      "p_market": 0.51291,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-03T02:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.51255,
-      "books": 19
-     },
-     {
-      "captured_at": "2026-10-03T14:00:48Z",
-      "kind": "early",
-      "line": null,
-      "price": 2.2,
-      "p_market": 0.5173,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-03T23:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.50626,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-03T23:35:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.50626,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-03T23:45:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.50626,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-04T00:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.50626,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-04T01:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.25,
-      "p_market": 0.50626,
-      "books": 23
-     }
-    ],
-    "captures": 13,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_p": 0.5264,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sj.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png"
   }
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-10-04T01:05:00Z",
+  "odds_captured_at": "2026-10-04T02:05:00Z",
   "credits": {
-   "as_of": "2026-10-04T01:15:45Z",
-   "remaining": 19715,
+   "as_of": "2026-10-04T02:00:42Z",
+   "remaining": 19712,
    "monthly": 20000
   },
   "latest_final": "2026-10-03 02:00:00+00:00"
@@ -1808,16 +1379,16 @@
   "provisional": true
  },
  "status": {
-  "state": "up",
-  "games": 2,
-  "priced": 2,
+  "state": "idle",
+  "games": 0,
+  "priced": 0,
   "tiers": {
    "play": 0,
    "lean": 0,
    "coin_flip": 0,
-   "no_edge": 2
+   "no_edge": 0
   },
-  "started": 11,
+  "started": 13,
   "not_priced": [
    {
     "key": "no_line",
@@ -1844,7 +1415,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 11,
+    "games": 13,
     "examples": [
      "CHI @ BUF",
      "OTT @ TOR",
