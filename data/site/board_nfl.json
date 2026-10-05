@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-10-05T00:15:56Z",
+ "generated_at": "2026-10-05T01:01:13Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -1091,7 +1091,7 @@
     "venue": {
      "name": "Allegiant Stadium",
      "roof": "dome",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1182,7 +1182,7 @@
     "venue": {
      "name": "Lumen Field",
      "roof": "outdoors",
-     "surface": "fieldturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1358,50 +1358,7 @@
    "home_name": "Carolina Panthers",
    "away_name": "Detroit Lions",
    "start": "2026-10-05T00:20:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 4.5,
-     "side": "home",
-     "selection": "Carolina Panthers",
-     "best_price_decimal": 1.95,
-     "best_price_american": -105,
-     "best_book": "matchbook",
-     "books": 7,
-     "p_model": 0.52483,
-     "p_market": 0.5,
-     "edge": 0.02483,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 2.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-09-25T14:03:09Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Carolina Panthers",
-     "best_price_decimal": 3.0,
-     "best_price_american": 200,
-     "best_book": "coolbet",
-     "books": 19,
-     "p_model": 0.36923,
-     "p_market": 0.32985,
-     "edge": 0.03938,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.42504,
-     "open_at": "2026-09-25T14:03:09Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Bryce Young",
@@ -1417,12 +1374,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 65.5,
-     "wind_mph": 1.1,
-     "precip_prob": 4,
-     "forecast_hour": "2026-10-04T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1489,305 +1441,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.36923,
-    "margin_mean": -4.525,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.05549872896235243,
-      "rest_diff": 0.0,
-      "cpoe_diff": 0.25764197437258485,
-      "separation_diff": -0.311778430585405,
-      "yac_oe_diff": 0.17742244961205053,
-      "ryoe_diff": 0.07233966016669802,
-      "elo_diff": -134.2864978672526,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00661,
-      0.00752,
-      0.0085,
-      0.00956,
-      0.01068,
-      0.01188,
-      0.00607,
-      0.01911,
-      0.01468,
-      0.00865,
-      0.01812,
-      0.02332,
-      0.01903,
-      0.01331,
-      0.03486,
-      0.02134,
-      0.0114,
-      0.0145,
-      0.02777,
-      0.00824,
-      0.02359,
-      0.05833,
-      0.03898,
-      0.02153,
-      0.03067,
-      0.07795,
-      0.02461,
-      0.02021,
-      0.00342,
-      0.02273,
-      0.01966,
-      0.07347,
-      0.02138,
-      0.01686,
-      0.02856,
-      0.03638,
-      0.01778,
-      0.00661,
-      0.02435,
-      0.00903,
-      0.00615,
-      0.00547,
-      0.01709,
-      0.00512,
-      0.00738,
-      0.00748,
-      0.00679,
-      0.00243,
-      0.00541,
-      0.00601,
-      0.00229,
-      0.00194,
-      0.00408,
-      0.00192,
-      0.00209,
-      0.00176,
-      0.00147
-     ],
-     "binned": false,
-     "tail_below": 0.03761,
-     "tail_above": 0.00628,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "a73a76599a4f3422803e57bd8f61b626",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-09-25T14:03:09Z",
-      "kind": "early",
-      "line": 2.75,
-      "price": 1.895,
-      "p_market": 0.50353,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-09-26T14:01:27Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-09-27T14:01:17Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-09-27T16:55:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.88,
-      "p_market": 0.50706,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-09-27T17:00:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.88,
-      "p_market": 0.50706,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-09-28T00:15:00Z",
-      "kind": "current",
-      "line": 2.75,
-      "price": 1.92,
-      "p_market": 0.49577,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-09-28T00:18:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.92,
-      "p_market": 0.49577,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-09-29T00:13:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.9,
-      "p_market": 0.50187,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-09-29T14:00:17Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.895,
-      "p_market": 0.50305,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-09-30T14:00:21Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-01T14:00:54Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.50435,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-02T00:10:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.50435,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-02T00:13:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.50435,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-02T14:00:30Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-03T14:00:48Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.50568,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-04T13:25:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-04T13:28:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-04T14:00:43Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-04T16:55:00Z",
-      "kind": "current",
-      "line": 3.75,
-      "price": 1.92,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-04T17:00:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-04T20:05:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.50187,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-04T20:20:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.91,
-      "p_market": 0.50187,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-05T00:15:00Z",
-      "kind": "current",
-      "line": 4.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-05T00:20:00Z",
-      "kind": "current",
-      "line": 4.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     }
-    ],
-    "captures": 24,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 4.52,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png"
   },
@@ -2170,8 +1824,8 @@
  "freshness": {
   "odds_captured_at": "2026-10-05T00:20:00Z",
   "credits": {
-   "as_of": "2026-10-05T00:15:46Z",
-   "remaining": 19635,
+   "as_of": "2026-10-05T01:01:03Z",
+   "remaining": 19632,
    "monthly": 20000
   },
   "ratings_version": "2026-week-03.json",
@@ -2495,23 +2149,23 @@
    "elo": true
   },
   "debias_offset": 1.76231192243855,
-  "debias_how": "2 open game(s), too few to measure; this week's previous board offset",
-  "debias_games": 2,
+  "debias_how": "1 open game(s), too few to measure; this week's previous board offset",
+  "debias_games": 1,
   "coefficient_sets": {
-   "full_ensemble": 2
+   "full_ensemble": 1
   }
  },
  "status": {
   "state": "up",
-  "games": 2,
-  "priced": 2,
+  "games": 1,
+  "priced": 1,
   "tiers": {
    "play": 0,
    "lean": 0,
    "coin_flip": 1,
-   "no_edge": 1
+   "no_edge": 0
   },
-  "started": 14,
+  "started": 15,
   "not_priced": [
    {
     "key": "no_line",
@@ -2538,7 +2192,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 14,
+    "games": 15,
     "examples": [
      "PIT @ CLE",
      "IND @ WAS",

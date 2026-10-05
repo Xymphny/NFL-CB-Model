@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-05T00:16:12Z",
+ "generated_at": "2026-10-05T01:01:29Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -250,6 +250,11 @@
       "status": "reported",
       "shown": [
        {
+        "player": "Aaron Ekblad",
+        "position": "D",
+        "status": "Out"
+       },
+       {
         "player": "Aleksander Barkov",
         "position": "C",
         "status": "Injured Reserve"
@@ -258,15 +263,11 @@
         "player": "Jonah Gadjovich",
         "position": "LW",
         "status": "Injured Reserve"
-       },
-       {
-        "player": "MacKenzie Entwistle",
-        "position": "RW",
-        "status": "Injured Reserve"
        }
       ],
-      "more": 0,
+      "more": 1,
       "counts": {
+       "Out": 1,
        "Injured Reserve": 3
       }
      },
@@ -433,17 +434,11 @@
         "player": "Lukas Cormier",
         "position": "D",
         "status": "Injured Reserve"
-       },
-       {
-        "player": "Raphael Lavoie",
-        "position": "C",
-        "status": "Day-To-Day"
        }
       ],
       "more": 0,
       "counts": {
-       "Injured Reserve": 1,
-       "Day-To-Day": 1
+       "Injured Reserve": 1
       }
      },
      "counts_only": false
@@ -461,17 +456,18 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-05 00:16:13.481320+00:00 and are not final in the 2027 pull (latest 2026-10-04 17:00:00+00:00). Re-pull before pricing.",
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/van.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png"
   }
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-10-05T00:05:00Z",
+  "odds_captured_at": "2026-10-05T01:05:00Z",
   "credits": {
-   "as_of": "2026-10-05T00:15:46Z",
-   "remaining": 19635,
+   "as_of": "2026-10-05T01:01:03Z",
+   "remaining": 19632,
    "monthly": 20000
   },
   "latest_final": "2026-10-04 02:00:00+00:00"
@@ -658,8 +654,8 @@
   "provisional": true
  },
  "status": {
-  "state": "degraded",
-  "games": 1,
+  "state": "idle",
+  "games": 0,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -667,7 +663,7 @@
    "coin_flip": 0,
    "no_edge": 0
   },
-  "started": 4,
+  "started": 5,
   "not_priced": [
    {
     "key": "no_line",
@@ -694,7 +690,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 4,
+    "games": 5,
     "examples": [
      "WPG @ DET",
      "UTA @ NYR",
@@ -712,19 +708,12 @@
     "key": "other",
     "label": "Other refusal",
     "note": "The reason is on the game.",
-    "games": 1,
-    "examples": [
-     "VGK @ VAN"
-    ]
+    "games": 0,
+    "examples": []
    }
   ],
   "refusals": 0,
   "reason": null,
-  "game_refusals": [
-   {
-    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-05 00:16:13.481320+00:00 and are not final in the 2027 pull (latest 2026-10-04 17:00:00+00:00). Re-pull before pricing.",
-    "games": 1
-   }
-  ]
+  "game_refusals": []
  }
 }
