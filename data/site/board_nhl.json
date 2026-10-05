@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-05T23:01:52Z",
+ "generated_at": "2026-10-05T23:31:03Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -113,75 +113,7 @@
    "home_name": "Boston Bruins",
    "away_name": "Ottawa Senators",
    "start": "2026-10-05T23:30:00Z",
-   "markets": {
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Boston Bruins",
-     "best_price_decimal": 2.62,
-     "best_price_american": 162,
-     "best_book": "onexbet",
-     "books": 23,
-     "p_model": 0.5817,
-     "p_market": 0.48862,
-     "edge": 0.09307,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.52615,
-     "open_at": "2026-10-04T17:05:00Z",
-     "cap": {
-      "rule": "early_season",
-      "reason": "Early season: OTT has played 1, BOS 3. Hockey ratings restart at league average every season, so the gap with the market is mostly the reset. Held at Coin flip until both teams have played 10; still paper-traded."
-     }
-    },
-    "total": {
-     "market": "total",
-     "status": "priced",
-     "refusal": null,
-     "line": 5.5,
-     "side": "over",
-     "selection": "Over",
-     "best_price_decimal": 1.91,
-     "best_price_american": -110,
-     "best_book": "williamhill",
-     "books": 12,
-     "p_model": 0.52992,
-     "p_market": 0.52249,
-     "edge": 0.00743,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 5.5,
-     "open_p_market": 0.53459,
-     "open_at": "2026-10-04T17:05:00Z"
-    },
-    "puck_line": {
-     "market": "puck_line",
-     "status": "priced",
-     "refusal": null,
-     "line": 1.5,
-     "side": "home",
-     "selection": "Boston Bruins",
-     "best_price_decimal": 1.4,
-     "best_price_american": -250,
-     "best_book": "betsson",
-     "books": 14,
-     "p_model": 0.76427,
-     "p_market": 0.71131,
-     "edge": 0.05295,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -1.5,
-     "open_p_market": 0.28539,
-     "open_at": "2026-10-04T17:05:00Z"
-    }
-   },
+   "markets": {},
    "headline": "moneyline",
    "context": {
     "home_games_played": 3,
@@ -211,14 +143,30 @@
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 5,
+      "shown": [
+       {
+        "player": "Andre Burakovsky",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Artem Zub",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Blake Montgomery",
+        "position": "LW",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 2,
       "counts": {
        "Injured Reserve": 4,
        "Out": 1
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_rest_days": 1,
@@ -234,100 +182,7 @@
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.5817,
-    "margin_mean": 0.516,
-    "total_mean": 6.026,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00034,
-      0.00122,
-      0.00386,
-      0.01079,
-      0.03778,
-      0.09933,
-      0.0823,
-      0.18257,
-      0.0,
-      0.21058,
-      0.10613,
-      0.15017,
-      0.07198,
-      0.02577,
-      0.01097,
-      0.00413,
-      0.00139
-     ],
-     "binned": false,
-     "tail_below": 0.00011,
-     "tail_above": 0.00058,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "event_id": "65b60049b3c77a94c346f74d8b897e4b",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-04T17:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.075,
-      "p_market": 0.52615,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-04T22:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.35,
-      "p_market": 0.4943,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-05T00:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.3,
-      "p_market": 0.49434,
-      "books": 20
-     },
-     {
-      "captured_at": "2026-10-05T01:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.35,
-      "p_market": 0.49437,
-      "books": 19
-     },
-     {
-      "captured_at": "2026-10-05T14:00:57Z",
-      "kind": "early",
-      "line": null,
-      "price": 2.4,
-      "p_market": 0.48318,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-05T23:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 2.38,
-      "p_market": 0.48862,
-      "books": 23
-     }
-    ],
-    "captures": 6,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_p": 0.5817,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/bos.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ott.png"
   },
@@ -338,71 +193,7 @@
    "home_name": "Pittsburgh Penguins",
    "away_name": "Winnipeg Jets",
    "start": "2026-10-05T23:30:00Z",
-   "markets": {
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Pittsburgh Penguins",
-     "best_price_decimal": 1.97,
-     "best_price_american": -103,
-     "best_book": "onexbet",
-     "books": 23,
-     "p_model": 0.62433,
-     "p_market": 0.61634,
-     "edge": 0.00799,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.57471,
-     "open_at": "2026-10-04T17:05:00Z"
-    },
-    "total": {
-     "market": "total",
-     "status": "priced",
-     "refusal": null,
-     "line": 6.5,
-     "side": "under",
-     "selection": "Under",
-     "best_price_decimal": 1.97,
-     "best_price_american": -103,
-     "best_book": "matchbook",
-     "books": 12,
-     "p_model": 0.53102,
-     "p_market": 0.5118,
-     "edge": 0.01922,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 6.5,
-     "open_p_market": 0.55441,
-     "open_at": "2026-10-04T17:05:00Z"
-    },
-    "puck_line": {
-     "market": "puck_line",
-     "status": "priced",
-     "refusal": null,
-     "line": -1.5,
-     "side": "home",
-     "selection": "Pittsburgh Penguins",
-     "best_price_decimal": 2.48,
-     "best_price_american": 148,
-     "best_book": "matchbook",
-     "books": 15,
-     "p_model": 0.41934,
-     "p_market": 0.39649,
-     "edge": 0.02285,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -1.5,
-     "open_p_market": 0.40639,
-     "open_at": "2026-10-04T17:05:00Z"
-    }
-   },
+   "markets": {},
    "headline": "moneyline",
    "context": {
     "home_games_played": 2,
@@ -488,100 +279,7 @@
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.62433,
-    "margin_mean": 0.822,
-    "total_mean": 6.32,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00028,
-      0.00101,
-      0.00321,
-      0.00904,
-      0.03218,
-      0.0868,
-      0.07365,
-      0.16941,
-      0.0,
-      0.20499,
-      0.10884,
-      0.16376,
-      0.0865,
-      0.0343,
-      0.01589,
-      0.00652,
-      0.0024
-     ],
-     "binned": false,
-     "tail_below": 9e-05,
-     "tail_above": 0.00113,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "event_id": "3da179dc46d7f7a5f06637fcd97ce367",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-04T17:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 1.93,
-      "p_market": 0.57471,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-04T22:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 1.88,
-      "p_market": 0.60919,
-      "books": 15
-     },
-     {
-      "captured_at": "2026-10-05T00:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 1.83,
-      "p_market": 0.6106,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-05T01:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 1.86,
-      "p_market": 0.6106,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-05T14:00:57Z",
-      "kind": "early",
-      "line": null,
-      "price": 1.8,
-      "p_market": 0.61634,
-      "books": 23
-     },
-     {
-      "captured_at": "2026-10-05T23:05:00Z",
-      "kind": "current",
-      "line": null,
-      "price": 1.79,
-      "p_market": 0.61634,
-      "books": 23
-     }
-    ],
-    "captures": 6,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_p": 0.62433,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/pit.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wpg.png"
   },
@@ -605,8 +303,8 @@
      "best_book": "leovegas_se",
      "books": 23,
      "p_model": 0.42328,
-     "p_market": 0.37156,
-     "edge": 0.05172,
+     "p_market": 0.37305,
+     "edge": 0.05023,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -796,9 +494,17 @@
       "price": 3.3,
       "p_market": 0.37156,
       "books": 23
+     },
+     {
+      "captured_at": "2026-10-05T23:35:00Z",
+      "kind": "current",
+      "line": null,
+      "price": 3.3,
+      "p_market": 0.37305,
+      "books": 23
      }
     ],
-    "captures": 6,
+    "captures": 7,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -810,10 +516,10 @@
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-10-05T23:05:00Z",
+  "odds_captured_at": "2026-10-05T23:35:00Z",
   "credits": {
-   "as_of": "2026-10-05T23:01:29Z",
-   "remaining": 19603,
+   "as_of": "2026-10-05T23:30:37Z",
+   "remaining": 19600,
    "monthly": 20000
   },
   "latest_final": "2026-10-05 01:00:00+00:00"
@@ -1001,15 +707,15 @@
  },
  "status": {
   "state": "up",
-  "games": 3,
-  "priced": 3,
+  "games": 1,
+  "priced": 1,
   "tiers": {
    "play": 0,
    "lean": 0,
-   "coin_flip": 2,
-   "no_edge": 1
+   "coin_flip": 1,
+   "no_edge": 0
   },
-  "started": 1,
+  "started": 3,
   "not_priced": [
    {
     "key": "no_line",
@@ -1036,9 +742,11 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 1,
+    "games": 3,
     "examples": [
-     "PHI @ TBL"
+     "PHI @ TBL",
+     "OTT @ BOS",
+     "WPG @ PIT"
     ]
    },
    {
