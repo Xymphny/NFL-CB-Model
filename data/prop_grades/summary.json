@@ -2,37 +2,38 @@
  "season": 2026,
  "weeks_graded": [
   2,
-  3
+  3,
+  4
  ],
- "n_claims": 665,
+ "n_claims": 1009,
  "note": "Live graded record of the projection engine's watch-mode opinions. The engine earns verdict authority here or not at all.",
  "by_market": [
   {
    "engine": "v3-rz",
    "market": "anytime_td",
-   "n": 306,
-   "mean_claimed": 0.2677,
-   "actual_rate": 0.232,
-   "log_loss": 0.52768,
-   "brier": 0.17305
+   "n": 532,
+   "mean_claimed": 0.2596,
+   "actual_rate": 0.2312,
+   "log_loss": 0.51286,
+   "brier": 0.16697
   },
   {
    "engine": "v3-rz",
    "market": "rec_yds",
-   "n": 140,
-   "mean_claimed": 0.6247,
-   "actual_rate": 0.5071,
-   "log_loss": 0.75475,
-   "brier": 0.27632
+   "n": 225,
+   "mean_claimed": 0.5893,
+   "actual_rate": 0.5156,
+   "log_loss": 0.73918,
+   "brier": 0.26975
   },
   {
    "engine": "v3-rz",
    "market": "rush_yds",
-   "n": 45,
-   "mean_claimed": 0.6455,
-   "actual_rate": 0.4222,
-   "log_loss": 0.92275,
-   "brier": 0.34928
+   "n": 78,
+   "mean_claimed": 0.5965,
+   "actual_rate": 0.4615,
+   "log_loss": 0.81641,
+   "brier": 0.30347
   },
   {
    "engine": null,
@@ -66,37 +67,37 @@
   {
    "lo": 0.0,
    "hi": 0.15,
-   "n": 33,
-   "claimed": 0.1224,
-   "actual": 0.0909
+   "n": 64,
+   "claimed": 0.1218,
+   "actual": 0.0938
   },
   {
    "lo": 0.15,
    "hi": 0.3,
-   "n": 244,
-   "claimed": 0.2119,
-   "actual": 0.1803
+   "n": 380,
+   "claimed": 0.2108,
+   "actual": 0.1789
   },
   {
    "lo": 0.3,
    "hi": 0.45,
-   "n": 114,
-   "claimed": 0.3673,
-   "actual": 0.2895
+   "n": 192,
+   "claimed": 0.373,
+   "actual": 0.3385
   },
   {
    "lo": 0.45,
    "hi": 0.6,
-   "n": 106,
-   "claimed": 0.5337,
-   "actual": 0.4057
+   "n": 168,
+   "claimed": 0.5299,
+   "actual": 0.4643
   },
   {
    "lo": 0.6,
    "hi": 1.01,
-   "n": 168,
-   "claimed": 0.6955,
-   "actual": 0.4821
+   "n": 205,
+   "claimed": 0.6893,
+   "actual": 0.4927
   }
  ]
 }
