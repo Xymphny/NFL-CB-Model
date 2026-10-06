@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-10-05T23:30:45Z",
+ "generated_at": "2026-10-06T00:01:57Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -1479,17 +1479,17 @@
      "market": "spread",
      "status": "priced",
      "refusal": null,
-     "line": -1.5,
+     "line": -1.0,
      "side": "home",
      "selection": "New Orleans Saints",
      "best_price_decimal": 2.0,
      "best_price_american": 100,
-     "best_book": "matchbook",
-     "books": 9,
-     "p_model": 0.63847,
-     "p_market": 0.49747,
-     "edge": 0.141,
-     "tier": "coin_flip",
+     "best_book": "betonlineag",
+     "books": 11,
+     "p_model": 0.65385,
+     "p_market": 0.49744,
+     "edge": 0.15641,
+     "tier": "lean",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
      "open_line": -3.0,
@@ -1503,13 +1503,13 @@
      "line": null,
      "side": "home",
      "selection": "New Orleans Saints",
-     "best_price_decimal": 1.89,
-     "best_price_american": -112,
-     "best_book": "betfair_ex_eu",
-     "books": 21,
+     "best_price_decimal": 1.93,
+     "best_price_american": -108,
+     "best_book": "pinnacle",
+     "books": 20,
      "p_model": 0.6642,
-     "p_market": 0.5228,
-     "edge": 0.1414,
+     "p_market": 0.51195,
+     "edge": 0.15225,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -1543,8 +1543,24 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 5,
+      "shown": [
+       {
+        "player": "Anfernee Jennings",
+        "position": "LB",
+        "status": "Out"
+       },
+       {
+        "player": "Carl Granderson",
+        "position": "LB",
+        "status": "Out"
+       },
+       {
+        "player": "Kaden Elliss",
+        "position": "LB",
+        "status": "Out"
+       }
+      ],
+      "more": 2,
       "counts": {
        "Out": 3,
        "Questionable": 2
@@ -1552,13 +1568,29 @@
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 3,
+      "shown": [
+       {
+        "player": "Samson Ebukam",
+        "position": "DE",
+        "status": "Questionable"
+       },
+       {
+        "player": "Divine Deablo",
+        "position": "LB",
+        "status": "Questionable"
+       },
+       {
+        "player": "Yasir Abdullah",
+        "position": "LB",
+        "status": "Questionable"
+       }
+      ],
+      "more": 0,
       "counts": {
        "Questionable": 3
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 8,
@@ -1838,9 +1870,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 17
+     },
+     {
+      "captured_at": "2026-10-06T00:13:00Z",
+      "kind": "current",
+      "line": -1.0,
+      "price": 1.95,
+      "p_market": 0.49565,
+      "books": 17
      }
     ],
-    "captures": 20,
+    "captures": 21,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -1852,10 +1892,10 @@
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-10-05T14:00:57Z",
+  "odds_captured_at": "2026-10-06T00:13:00Z",
   "credits": {
-   "as_of": "2026-10-05T23:30:37Z",
-   "remaining": 19600,
+   "as_of": "2026-10-06T00:01:40Z",
+   "remaining": 19594,
    "monthly": 20000
   },
   "ratings_version": "2026-week-03.json",
@@ -2191,8 +2231,8 @@
   "priced": 1,
   "tiers": {
    "play": 0,
-   "lean": 0,
-   "coin_flip": 1,
+   "lean": 1,
+   "coin_flip": 0,
    "no_edge": 0
   },
   "started": 15,
