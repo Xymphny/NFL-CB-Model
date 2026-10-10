@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-10T23:16:13Z",
+ "generated_at": "2026-10-10T23:31:25Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -1117,7 +1117,8 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:16:14.887516+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyi.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tb.png"
   },
@@ -1209,7 +1210,7 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:16:14.891673+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
+   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:31:26.788596+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cgy.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ana.png"
   },
@@ -1301,17 +1302,17 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:16:14.894465+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
+   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:31:26.793304+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png"
   }
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-10-10T23:15:00Z",
+  "odds_captured_at": "2026-10-10T23:35:00Z",
   "credits": {
-   "as_of": "2026-10-10T23:15:39Z",
-   "remaining": 19261,
+   "as_of": "2026-10-10T23:30:53Z",
+   "remaining": 19255,
    "monthly": 20000
   },
   "latest_final": "2026-10-10 00:00:00+00:00"
@@ -1499,7 +1500,7 @@
  },
  "status": {
   "state": "degraded",
-  "games": 3,
+  "games": 2,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -1507,7 +1508,7 @@
    "coin_flip": 0,
    "no_edge": 0
   },
-  "started": 11,
+  "started": 12,
   "not_priced": [
    {
     "key": "no_line",
@@ -1534,7 +1535,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 11,
+    "games": 12,
     "examples": [
      "PHI @ BOS",
      "VAN @ NJD",
@@ -1552,9 +1553,8 @@
     "key": "other",
     "label": "Other refusal",
     "note": "The reason is on the game.",
-    "games": 3,
+    "games": 2,
     "examples": [
-     "TBL @ NYI",
      "ANA @ CGY",
      "LAK @ VGK"
     ]
@@ -1564,15 +1564,11 @@
   "reason": null,
   "game_refusals": [
    {
-    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:16:14.887516+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
+    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:31:26.788596+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
     "games": 1
    },
    {
-    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:16:14.891673+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:16:14.894465+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
+    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-10 23:31:26.793304+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
     "games": 1
    }
   ]
