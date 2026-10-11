@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-11T00:01:25Z",
+ "generated_at": "2026-10-11T02:01:43Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -331,10 +331,11 @@
         "status": "Injured Reserve"
        }
       ],
-      "more": 0,
+      "more": 1,
       "counts": {
        "Injured Reserve": 2,
-       "Out": 1
+       "Out": 1,
+       "Day-To-Day": 1
       }
      },
      "away": {
@@ -741,10 +742,11 @@
         "status": "Out"
        }
       ],
-      "more": 2,
+      "more": 3,
       "counts": {
        "Injured Reserve": 4,
-       "Out": 1
+       "Out": 1,
+       "Day-To-Day": 1
       }
      },
      "counts_only": false
@@ -1007,10 +1009,11 @@
         "status": "Injured Reserve"
        }
       ],
-      "more": 3,
+      "more": 4,
       "counts": {
        "Injured Reserve": 5,
-       "Out": 1
+       "Out": 1,
+       "Day-To-Day": 1
       }
      },
      "counts_only": false
@@ -1210,7 +1213,8 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-11 00:01:28.171707+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cgy.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ana.png"
   },
@@ -1302,17 +1306,18 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-11 00:01:28.175361+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png"
   }
  ],
  "refusals": [],
  "freshness": {
-  "odds_captured_at": "2026-10-10T23:35:00Z",
+  "odds_captured_at": "2026-10-11T02:05:00Z",
   "credits": {
-   "as_of": "2026-10-11T00:00:45Z",
-   "remaining": 19249,
+   "as_of": "2026-10-11T02:01:13Z",
+   "remaining": 19243,
    "monthly": 20000
   },
   "latest_final": "2026-10-10 00:00:00+00:00"
@@ -1499,8 +1504,8 @@
   "provisional": true
  },
  "status": {
-  "state": "degraded",
-  "games": 2,
+  "state": "idle",
+  "games": 0,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -1508,7 +1513,7 @@
    "coin_flip": 0,
    "no_edge": 0
   },
-  "started": 12,
+  "started": 14,
   "not_priced": [
    {
     "key": "no_line",
@@ -1535,7 +1540,7 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 12,
+    "games": 14,
     "examples": [
      "PHI @ BOS",
      "VAN @ NJD",
@@ -1553,24 +1558,12 @@
     "key": "other",
     "label": "Other refusal",
     "note": "The reason is on the game.",
-    "games": 2,
-    "examples": [
-     "ANA @ CGY",
-     "LAK @ VGK"
-    ]
+    "games": 0,
+    "examples": []
    }
   ],
   "refusals": 0,
   "reason": null,
-  "game_refusals": [
-   {
-    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-11 00:01:28.171707+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 1 game(s) started more than 6:00:00 before 2026-10-11 00:01:28.175361+00:00 and are not final in the 2027 pull (latest 2026-10-10 17:00:00+00:00). Re-pull before pricing.",
-    "games": 1
-   }
-  ]
+  "game_refusals": []
  }
 }
