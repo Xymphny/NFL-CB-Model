@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-13T14:02:32Z",
+ "generated_at": "2026-10-13T15:44:42Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -341,9 +341,17 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
+      "shown": [
+       {
+        "player": "Conor Garland",
+        "position": "RW",
+        "status": "Day-To-Day"
+       }
+      ],
       "more": 0,
-      "counts": {}
+      "counts": {
+       "Day-To-Day": 1
+      }
      },
      "away": {
       "status": "reported",
@@ -562,18 +570,19 @@
      "home": {
       "status": "reported",
       "shown": [],
-      "more": 6,
+      "more": 7,
       "counts": {
        "Injured Reserve": 5,
+       "Out": 1,
        "Day-To-Day": 1
       }
      },
      "away": {
       "status": "reported",
       "shown": [],
-      "more": 6,
+      "more": 7,
       "counts": {
-       "Injured Reserve": 5,
+       "Injured Reserve": 6,
        "Out": 1
       }
      },
@@ -776,21 +785,20 @@
         "status": "Out"
        },
        {
+        "player": "Jordan Staal",
+        "position": "C",
+        "status": "Out"
+       },
+       {
         "player": "Seth Jarvis",
         "position": "C",
         "status": "Injured Reserve"
-       },
-       {
-        "player": "Jordan Staal",
-        "position": "C",
-        "status": "Day-To-Day"
        }
       ],
       "more": 0,
       "counts": {
-       "Out": 1,
-       "Injured Reserve": 1,
-       "Day-To-Day": 1
+       "Out": 2,
+       "Injured Reserve": 1
       }
      },
      "away": {
