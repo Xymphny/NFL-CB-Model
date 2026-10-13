@@ -1,39 +1,40 @@
 {
   "season": 2026,
-  "updated_at": "2026-10-06T11:02:26.127841+00:00",
+  "updated_at": "2026-10-13T11:03:07.252334+00:00",
   "graded_weeks": [
     1,
     2,
     3,
-    4
+    4,
+    5
   ],
-  "ats_wins": 19,
-  "ats_losses": 28,
+  "ats_wins": 24,
+  "ats_losses": 29,
   "pushes": 1,
-  "units": -5.22,
-  "roi": -0.1685,
-  "avg_clv": 0.24,
-  "n_clv_bets": 48,
-  "model_mae": 11.47,
-  "market_mae": 10.33,
+  "units": -3.49,
+  "roi": -0.0998,
+  "avg_clv": 0.18,
+  "n_clv_bets": 54,
+  "model_mae": 11.48,
+  "market_mae": 10.87,
   "tier_stats": {
-    "n_plays": 15,
-    "ats_pct": 0.5333
+    "n_plays": 17,
+    "ats_pct": 0.5294
   },
   "tier_stats_by_tier": {
     "play": {
-      "n_plays": 15,
-      "ats_pct": 0.5333
+      "n_plays": 17,
+      "ats_pct": 0.5294
     },
     "lean": {
-      "n_plays": 32,
-      "ats_pct": 0.3438
+      "n_plays": 36,
+      "ats_pct": 0.4167
     }
   },
   "calibration": {
-    "slope_model": 0.33,
-    "slope_market": 0.722,
-    "n_games": 64
+    "slope_model": 0.474,
+    "slope_market": 0.802,
+    "n_games": 79
   },
   "plays": [
     {
@@ -755,6 +756,96 @@
       "model_margin": -7.009108715680269,
       "actual_margin": -3,
       "market_spread": -4.5
+    },
+    {
+      "week": 5,
+      "market": "spread",
+      "tier": "lean",
+      "label": "TB +8",
+      "line": 8.0,
+      "close": 9.5,
+      "result": "win",
+      "units": 0.455,
+      "clv": -1.5,
+      "edge": 3.74,
+      "model_margin": 4.257807597847064,
+      "actual_margin": -8,
+      "market_spread": 8.0
+    },
+    {
+      "week": 5,
+      "market": "spread",
+      "tier": "play",
+      "label": "CHI -2.5",
+      "line": -2.5,
+      "close": -1.5,
+      "result": "loss",
+      "units": -1.0,
+      "clv": -1.0,
+      "edge": 4.65,
+      "model_margin": -7.151615102202131,
+      "actual_margin": 24,
+      "market_spread": -2.5
+    },
+    {
+      "week": 5,
+      "market": "spread",
+      "tier": "lean",
+      "label": "NE -3.5",
+      "line": 3.5,
+      "close": 3.5,
+      "result": "win",
+      "units": 0.455,
+      "clv": 0.0,
+      "edge": 3.57,
+      "model_margin": 7.072285819743376,
+      "actual_margin": 28,
+      "market_spread": 3.5
+    },
+    {
+      "week": 5,
+      "market": "spread",
+      "tier": "lean",
+      "label": "MIN -2",
+      "line": -2.0,
+      "close": -2.5,
+      "result": "win",
+      "units": 0.455,
+      "clv": 0.5,
+      "edge": 3.56,
+      "model_margin": -5.557461305804906,
+      "actual_margin": -10,
+      "market_spread": -2.0
+    },
+    {
+      "week": 5,
+      "market": "spread",
+      "tier": "lean",
+      "label": "NYG +3.5",
+      "line": 3.5,
+      "close": 3.5,
+      "result": "win",
+      "units": 0.455,
+      "clv": 0.0,
+      "edge": 3.38,
+      "model_margin": 0.12478697501949032,
+      "actual_margin": 0,
+      "market_spread": 3.5
+    },
+    {
+      "week": 5,
+      "market": "spread",
+      "tier": "play",
+      "label": "BAL +3.5",
+      "line": 3.5,
+      "close": 3.5,
+      "result": "win",
+      "units": 0.909,
+      "clv": 0.0,
+      "edge": 10.91,
+      "model_margin": -7.414689479985663,
+      "actual_margin": -7,
+      "market_spread": 3.5
     }
   ]
 }
