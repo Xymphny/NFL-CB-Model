@@ -1,6 +1,6 @@
 {
  "league": "cfb",
- "generated_at": "2026-10-14T23:16:24Z",
+ "generated_at": "2026-10-14T23:31:48Z",
  "note": "Weekly slate, Thursday to Saturday. Spreads price key numbers (3, 7) with a measured correction. Neutral-site games are refused: the model has no home term to remove.",
  "slate": {
   "kind": "week",
@@ -21,50 +21,7 @@
    "home_name": "Missouri State Bears",
    "away_name": "Kennesaw State Owls",
    "start": "2026-10-14T23:30:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -2.5,
-     "side": "away",
-     "selection": "Kennesaw State Owls",
-     "best_price_decimal": 1.91,
-     "best_price_american": -110,
-     "best_book": "mybookieag",
-     "books": 13,
-     "p_model": 0.52874,
-     "p_market": 0.51153,
-     "edge": 0.01721,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -3.5,
-     "open_p_market": 0.47856,
-     "open_at": "2026-10-11T14:01:50Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Kennesaw State Owls",
-     "best_price_decimal": 1.75,
-     "best_price_american": -133,
-     "best_book": "matchbook",
-     "books": 13,
-     "p_model": 0.57452,
-     "p_market": 0.56636,
-     "edge": 0.00816,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.58971,
-     "open_at": "2026-10-11T14:01:50Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "neutral_site": false,
@@ -89,164 +46,7 @@
     "travel": null
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.42548,
-    "margin_mean": -3.611,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00918,
-      0.00988,
-      0.01061,
-      0.01135,
-      0.01211,
-      0.01287,
-      0.01364,
-      0.01442,
-      0.01182,
-      0.00587,
-      0.01385,
-      0.0253,
-      0.00788,
-      0.00851,
-      0.02668,
-      0.01249,
-      0.00891,
-      0.01218,
-      0.02602,
-      0.00854,
-      0.01424,
-      0.04964,
-      0.02377,
-      0.02088,
-      0.01807,
-      0.05491,
-      0.02428,
-      0.02149,
-      0.0,
-      0.01836,
-      0.01685,
-      0.06315,
-      0.02149,
-      0.01167,
-      0.02079,
-      0.04587,
-      0.01646,
-      0.0056,
-      0.02293,
-      0.01088,
-      0.007,
-      0.00638,
-      0.0188,
-      0.00904,
-      0.00434,
-      0.01828,
-      0.00799,
-      0.00559,
-      0.00816,
-      0.0145,
-      0.00384,
-      0.00658,
-      0.00718,
-      0.00462,
-      0.00208,
-      0.00513,
-      0.00857
-     ],
-     "binned": false,
-     "tail_below": 0.08512,
-     "tail_above": 0.03333,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      17,
-      21,
-      28
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "event_id": "7ebcab7b97620342a9205b32139222d1",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": -3.25,
-      "price": 1.925,
-      "p_market": 0.49134,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": -3.5,
-      "price": 1.92,
-      "p_market": 0.49279,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": -3.0,
-      "price": 1.9,
-      "p_market": 0.50212,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-13T22:55:00Z",
-      "kind": "current",
-      "line": -3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-13T23:55:00Z",
-      "kind": "current",
-      "line": -3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-14T00:01:00Z",
-      "kind": "current",
-      "line": -3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": -3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-14T23:25:00Z",
-      "kind": "current",
-      "line": -2.5,
-      "price": 1.87,
-      "p_market": 0.51153,
-      "books": 13
-     }
-    ],
-    "captures": 8,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -3.61,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/2623.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/338.png",
    "window": "Wednesday"
@@ -266,13 +66,13 @@
      "line": 1.0,
      "side": "home",
      "selection": "Sam Houston State Bearkats",
-     "best_price_decimal": 1.97,
-     "best_price_american": -103,
+     "best_price_decimal": 1.96,
+     "best_price_american": -104,
      "best_book": "matchbook",
      "books": 8,
      "p_model": 0.62957,
-     "p_market": 0.50201,
-     "edge": 0.12756,
+     "p_market": 0.5,
+     "edge": 0.12957,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -476,9 +276,17 @@
       "price": 1.91,
       "p_market": 0.50402,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 1.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -705,9 +513,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 5.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -942,9 +758,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -1451,9 +1275,17 @@
       "price": 1.89,
       "p_market": 0.5,
       "books": 14
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 14.5,
+      "price": 1.89,
+      "p_market": 0.5,
+      "books": 14
      }
     ],
-    "captures": 42,
+    "captures": 43,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -1688,9 +1520,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -7.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -1925,9 +1765,17 @@
       "price": 1.92,
       "p_market": 0.49571,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -3.5,
+      "price": 1.92,
+      "p_market": 0.49571,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -2162,9 +2010,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 1.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -2189,13 +2045,13 @@
      "line": 14.5,
      "side": "away",
      "selection": "Mississippi State Bulldogs",
-     "best_price_decimal": 1.94,
-     "best_price_american": -106,
-     "best_book": "matchbook",
-     "books": 14,
+     "best_price_decimal": 1.93,
+     "best_price_american": -108,
+     "best_book": "betonlineag",
+     "books": 13,
      "p_model": 0.9073,
-     "p_market": 0.50352,
-     "edge": 0.40378,
+     "p_market": 0.50423,
+     "edge": 0.40306,
      "tier": "play",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -2527,9 +2383,17 @@
       "price": 1.905,
       "p_market": 0.50352,
       "books": 14
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 14.5,
+      "price": 1.895,
+      "p_market": 0.50426,
+      "books": 14
      }
     ],
-    "captures": 24,
+    "captures": 25,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -2938,9 +2802,17 @@
       "price": 1.89,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 11.0,
+      "price": 1.89,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 27,
+    "captures": 28,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -3175,9 +3047,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -1.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -3524,9 +3404,17 @@
       "price": 1.91,
       "p_market": 0.49855,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -4.5,
+      "price": 1.91,
+      "p_market": 0.49855,
+      "books": 15
      }
     ],
-    "captures": 22,
+    "captures": 23,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -3797,9 +3685,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -4048,9 +3944,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -8.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -4080,8 +3984,8 @@
      "best_book": "gtbets",
      "books": 15,
      "p_model": 0.5613,
-     "p_market": 0.50145,
-     "edge": 0.05985,
+     "p_market": 0.50429,
+     "edge": 0.05701,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -4469,9 +4373,17 @@
       "price": 1.88,
       "p_market": 0.50145,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.88,
+      "p_market": 0.50429,
+      "books": 15
      }
     ],
-    "captures": 31,
+    "captures": 32,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -4501,8 +4413,8 @@
      "best_book": "pinnacle",
      "books": 14,
      "p_model": 0.52858,
-     "p_market": 0.4936,
-     "edge": 0.03499,
+     "p_market": 0.49066,
+     "edge": 0.03792,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -4519,11 +4431,11 @@
      "selection": "Michigan State Spartans",
      "best_price_decimal": 3.55,
      "best_price_american": 255,
-     "best_book": "unibet_se",
+     "best_book": "betfair_ex_eu",
      "books": 15,
      "p_model": 0.27341,
-     "p_market": 0.25883,
-     "edge": 0.01457,
+     "p_market": 0.26202,
+     "edge": 0.01138,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -4706,9 +4618,17 @@
       "price": 1.92,
       "p_market": 0.49416,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -7.5,
+      "price": 1.93,
+      "p_market": 0.49147,
+      "books": 15
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -4935,9 +4855,17 @@
       "price": 1.94,
       "p_market": 0.48711,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 2.5,
+      "price": 1.94,
+      "p_market": 0.48711,
+      "books": 15
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -5164,9 +5092,17 @@
       "price": 1.935,
       "p_market": 0.49107,
       "books": 14
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.5,
+      "price": 1.935,
+      "p_market": 0.49107,
+      "books": 14
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -5393,9 +5329,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 15
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 12.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 15
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -5630,9 +5574,17 @@
       "price": 1.89,
       "p_market": 0.50292,
       "books": 13
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 4.5,
+      "price": 1.89,
+      "p_market": 0.50292,
+      "books": 13
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -5895,9 +5847,17 @@
       "price": 1.91,
       "p_market": 0.49432,
       "books": 13
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 20.5,
+      "price": 1.91,
+      "p_market": 0.49432,
+      "books": 13
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -5922,9 +5882,9 @@
      "line": 6.5,
      "side": "away",
      "selection": "UMass Minutemen",
-     "best_price_decimal": 1.95,
-     "best_price_american": -105,
-     "best_book": "everygame",
+     "best_price_decimal": 1.92,
+     "best_price_american": -109,
+     "best_book": "gtbets",
      "books": 7,
      "p_model": 0.70734,
      "p_market": 0.5,
@@ -5943,13 +5903,13 @@
      "line": null,
      "side": "away",
      "selection": "UMass Minutemen",
-     "best_price_decimal": 3.11,
-     "best_price_american": 211,
-     "best_book": "betonlineag",
+     "best_price_decimal": 3.05,
+     "best_price_american": 205,
+     "best_book": "gtbets",
      "books": 11,
      "p_model": 0.55166,
-     "p_market": 0.30639,
-     "edge": 0.24526,
+     "p_market": 0.30671,
+     "edge": 0.24495,
      "tier": "lean",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -6124,9 +6084,17 @@
       "price": 1.89,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.5,
+      "price": 1.89,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -6177,8 +6145,8 @@
      "best_book": "mybookieag",
      "books": 12,
      "p_model": 0.56506,
-     "p_market": 0.2958,
-     "edge": 0.26926,
+     "p_market": 0.29554,
+     "edge": 0.26952,
      "tier": "lean",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -6361,9 +6329,17 @@
       "price": 1.935,
       "p_market": 0.48711,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.5,
+      "price": 1.935,
+      "p_market": 0.48711,
+      "books": 12
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -6782,9 +6758,17 @@
       "price": 1.93,
       "p_market": 0.49294,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 20.5,
+      "price": 1.93,
+      "p_market": 0.49294,
+      "books": 11
      }
     ],
-    "captures": 31,
+    "captures": 32,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -7203,9 +7187,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 10
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 5.75,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 10
      }
     ],
-    "captures": 31,
+    "captures": 32,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -7232,11 +7224,11 @@
      "selection": "Tennessee Volunteers",
      "best_price_decimal": 1.91,
      "best_price_american": -110,
-     "best_book": "mybookieag",
-     "books": 8,
+     "best_book": "unibet_se",
+     "books": 7,
      "p_model": 0.56298,
-     "p_market": 0.49927,
-     "edge": 0.06371,
+     "p_market": 0.49855,
+     "edge": 0.06443,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -7624,9 +7616,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 8.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 31,
+    "captures": 32,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -7672,8 +7672,8 @@
      "line": null,
      "side": "away",
      "selection": "Arizona State Sun Devils",
-     "best_price_decimal": 6.2,
-     "best_price_american": 520,
+     "best_price_decimal": 6.4,
+     "best_price_american": 540,
      "best_book": "betfair_ex_eu",
      "books": 13,
      "p_model": 0.45981,
@@ -7861,9 +7861,17 @@
       "price": 1.905,
       "p_market": 0.5,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 15.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 12
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -8098,9 +8106,17 @@
       "price": 1.915,
       "p_market": 0.49712,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 10.0,
+      "price": 1.915,
+      "p_market": 0.49712,
+      "books": 12
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -8495,9 +8511,17 @@
       "price": 1.915,
       "p_market": 0.49574,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 3.25,
+      "price": 1.915,
+      "p_market": 0.49574,
+      "books": 12
      }
     ],
-    "captures": 28,
+    "captures": 29,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -8876,9 +8900,17 @@
       "price": 1.91,
       "p_market": 0.49571,
       "books": 10
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.5,
+      "price": 1.91,
+      "p_market": 0.49571,
+      "books": 10
      }
     ],
-    "captures": 26,
+    "captures": 27,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -9105,9 +9137,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 8.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -9135,10 +9175,10 @@
      "best_price_decimal": 1.98,
      "best_price_american": -102,
      "best_book": "pinnacle",
-     "books": 4,
+     "books": 5,
      "p_model": 0.55556,
-     "p_market": 0.48885,
-     "edge": 0.06671,
+     "p_market": 0.48878,
+     "edge": 0.06678,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -9334,9 +9374,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -1.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -9563,9 +9611,17 @@
       "price": 1.93,
       "p_market": 0.48878,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.5,
+      "price": 1.93,
+      "p_market": 0.48878,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -9792,9 +9848,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 10.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -10035,9 +10099,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 4.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 12
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -10065,10 +10137,10 @@
      "best_price_decimal": 1.91,
      "best_price_american": -110,
      "best_book": "mybookieag",
-     "books": 7,
+     "books": 6,
      "p_model": 0.6055,
-     "p_market": 0.50842,
-     "edge": 0.09708,
+     "p_market": 0.50554,
+     "edge": 0.09996,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -10088,8 +10160,8 @@
      "best_book": "mybookieag",
      "books": 13,
      "p_model": 0.48783,
-     "p_market": 0.3737,
-     "edge": 0.11412,
+     "p_market": 0.37469,
+     "edge": 0.11313,
      "tier": "no_edge",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -10264,9 +10336,17 @@
       "price": 1.875,
       "p_market": 0.50853,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 4.0,
+      "price": 1.875,
+      "p_market": 0.50853,
+      "books": 12
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -10501,9 +10581,17 @@
       "price": 1.92,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 17.5,
+      "price": 1.92,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -10738,9 +10826,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 12
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -10975,9 +11071,17 @@
       "price": 1.905,
       "p_market": 0.5,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -6.0,
+      "price": 1.905,
+      "p_market": 0.5,
+      "books": 12
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -11412,9 +11516,17 @@
       "price": 1.87,
       "p_market": 0.50715,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 21.5,
+      "price": 1.87,
+      "p_market": 0.50715,
+      "books": 11
      }
     ],
-    "captures": 33,
+    "captures": 34,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -11641,9 +11753,17 @@
       "price": 1.9,
       "p_market": 0.5,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 20.5,
+      "price": 1.9,
+      "p_market": 0.5,
+      "books": 12
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -11870,9 +11990,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 15.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -12099,9 +12227,17 @@
       "price": 1.89,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 7.0,
+      "price": 1.89,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -12123,16 +12259,16 @@
      "market": "spread",
      "status": "priced",
      "refusal": null,
-     "line": 7.0,
+     "line": 6.5,
      "side": "away",
      "selection": "Kentucky Wildcats",
      "best_price_decimal": 1.92,
      "best_price_american": -109,
-     "best_book": "pinnacle",
-     "books": 6,
-     "p_model": 0.68801,
+     "best_book": "coolbet",
+     "books": 8,
+     "p_model": 0.65285,
      "p_market": 0.5,
-     "edge": 0.18801,
+     "edge": 0.15285,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -12152,8 +12288,8 @@
      "best_book": "unibet_se",
      "books": 12,
      "p_model": 0.49064,
-     "p_market": 0.29545,
-     "edge": 0.19519,
+     "p_market": 0.30802,
+     "edge": 0.18262,
      "tier": "coin_flip",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -12472,9 +12608,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 6.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 25,
+    "captures": 26,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -12885,9 +13029,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 10.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 30,
+    "captures": 31,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -12933,8 +13085,8 @@
      "line": null,
      "side": "away",
      "selection": "Oklahoma State Cowboys",
-     "best_price_decimal": 2.76,
-     "best_price_american": 176,
+     "best_price_decimal": 2.75,
+     "best_price_american": 175,
      "best_book": "pinnacle",
      "books": 13,
      "p_model": 0.35653,
@@ -13306,9 +13458,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -4.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 12
      }
     ],
-    "captures": 31,
+    "captures": 32,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -13835,9 +13995,17 @@
       "price": 1.94,
       "p_market": 0.48892,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 2.5,
+      "price": 1.94,
+      "p_market": 0.48892,
+      "books": 11
      }
     ],
-    "captures": 25,
+    "captures": 26,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -14064,9 +14232,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 10
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 7.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 10
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -14091,13 +14267,13 @@
      "line": 14.5,
      "side": "home",
      "selection": "UL Monroe Warhawks",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "betonlineag",
+     "best_price_decimal": 2.01,
+     "best_price_american": 101,
+     "best_book": "pinnacle",
      "books": 4,
      "p_model": 0.82007,
-     "p_market": 0.48754,
-     "edge": 0.33253,
+     "p_market": 0.48073,
+     "edge": 0.33933,
      "tier": "play",
      "stake_fraction": 0.0,
      "unsized_reason": "Unsized \u2014 not yet graded against the market",
@@ -14293,9 +14469,17 @@
       "price": 1.915,
       "p_market": 0.49716,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 15.0,
+      "price": 1.915,
+      "p_market": 0.49716,
+      "books": 12
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -14642,9 +14826,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 9
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 15.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 9
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -14879,9 +15071,17 @@
       "price": 1.89,
       "p_market": 0.50423,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -15.5,
+      "price": 1.89,
+      "p_market": 0.50423,
+      "books": 11
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -15116,9 +15316,17 @@
       "price": 1.905,
       "p_market": 0.5,
       "books": 12
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 9.25,
+      "price": 1.905,
+      "p_market": 0.5,
+      "books": 12
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -15353,9 +15561,17 @@
       "price": 1.92,
       "p_market": 0.49432,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": -7.5,
+      "price": 1.92,
+      "p_market": 0.49432,
+      "books": 11
      }
     ],
-    "captures": 8,
+    "captures": 9,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -15383,7 +15599,7 @@
      "best_price_decimal": 1.91,
      "best_price_american": -110,
      "best_book": "mybookieag",
-     "books": 3,
+     "books": 6,
      "p_model": 0.77654,
      "p_market": 0.5,
      "edge": 0.27654,
@@ -15401,8 +15617,8 @@
      "line": null,
      "side": "home",
      "selection": "Hawaii Rainbow Warriors",
-     "best_price_decimal": 7.0,
-     "best_price_american": 600,
+     "best_price_decimal": 6.5,
+     "best_price_american": 550,
      "best_book": "unibet_nl",
      "books": 11,
      "p_model": 0.45279,
@@ -15582,9 +15798,17 @@
       "price": 1.91,
       "p_market": 0.5,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 15.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
      }
     ],
-    "captures": 7,
+    "captures": 8,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -15963,9 +16187,17 @@
       "price": 1.89,
       "p_market": 0.50423,
       "books": 11
+     },
+     {
+      "captured_at": "2026-10-14T23:30:00Z",
+      "kind": "current",
+      "line": 7.5,
+      "price": 1.89,
+      "p_market": 0.50423,
+      "books": 11
      }
     ],
-    "captures": 26,
+    "captures": 27,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -15994,10 +16226,10 @@
   }
  ],
  "freshness": {
-  "odds_captured_at": "2026-10-14T23:25:00Z",
+  "odds_captured_at": "2026-10-14T23:30:00Z",
   "credits": {
-   "as_of": "2026-10-14T23:16:02Z",
-   "remaining": 19052,
+   "as_of": "2026-10-14T23:31:18Z",
+   "remaining": 19046,
    "monthly": 20000
   },
   "ratings_version": "2026-week-07.json",
@@ -16858,15 +17090,15 @@
  "early_season": false,
  "status": {
   "state": "degraded",
-  "games": 60,
-  "priced": 55,
+  "games": 59,
+  "priced": 54,
   "tiers": {
    "play": 2,
    "lean": 6,
    "coin_flip": 20,
-   "no_edge": 27
+   "no_edge": 26
   },
-  "started": 0,
+  "started": 1,
   "not_priced": [
    {
     "key": "no_line",
@@ -16900,8 +17132,10 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 0,
-    "examples": []
+    "games": 1,
+    "examples": [
+     "Kennesaw State @ Missouri State"
+    ]
    },
    {
     "key": "neutral",
