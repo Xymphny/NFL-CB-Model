@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-15T23:31:46Z",
+ "generated_at": "2026-10-15T23:46:47Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -688,8 +688,7 @@
       "more": 6,
       "counts": {
        "Injured Reserve": 4,
-       "Out": 1,
-       "Day-To-Day": 1
+       "Out": 2
       }
      },
      "counts_only": true
@@ -892,13 +891,26 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
+      "shown": [
+       {
+        "player": "Mavrik Bourque",
+        "position": "C",
+        "status": "Out"
+       }
+      ],
       "more": 0,
-      "counts": {}
+      "counts": {
+       "Out": 1
+      }
      },
      "away": {
       "status": "reported",
       "shown": [
+       {
+        "player": "Darnell Nurse",
+        "position": "D",
+        "status": "Out"
+       },
        {
         "player": "Kyle Keyser",
         "position": "G",
@@ -908,17 +920,12 @@
         "player": "Quentin Musty",
         "position": "LW",
         "status": "Injured Reserve"
-       },
-       {
-        "player": "Darnell Nurse",
-        "position": "D",
-        "status": "Day-To-Day"
        }
       ],
       "more": 0,
       "counts": {
-       "Injured Reserve": 2,
-       "Day-To-Day": 1
+       "Out": 1,
+       "Injured Reserve": 2
       }
      },
      "counts_only": false
@@ -1743,8 +1750,8 @@
  "freshness": {
   "odds_captured_at": "2026-10-15T23:35:00Z",
   "credits": {
-   "as_of": "2026-10-15T23:31:06Z",
-   "remaining": 18943,
+   "as_of": "2026-10-15T23:46:15Z",
+   "remaining": 18940,
    "monthly": 20000
   },
   "latest_final": "2026-10-15 00:30:00+00:00"
