@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-10-15T00:31:35Z",
+ "generated_at": "2026-10-15T10:44:26Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -82,27 +82,17 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 46.0,
-     "wind_mph": 2.9,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-15T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
       "status": "reported",
       "shown": [
-       {
-        "player": "Pat Bryant",
-        "position": "WR",
-        "status": "Out"
-       },
        {
         "player": "Pat Surtain II",
         "position": "CB",
@@ -112,11 +102,16 @@
         "player": "Talanoa Hufanga",
         "position": "S",
         "status": "Out"
+       },
+       {
+        "player": "Riley Moss",
+        "position": "CB",
+        "status": "Questionable"
        }
       ],
-      "more": 1,
+      "more": 0,
       "counts": {
-       "Out": 3,
+       "Out": 2,
        "Questionable": 1
       }
      },
@@ -139,9 +134,9 @@
         "status": "Out"
        }
       ],
-      "more": 1,
+      "more": 0,
       "counts": {
-       "Out": 4
+       "Out": 3
       }
      },
      "counts_only": false
@@ -467,7 +462,7 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -482,9 +477,9 @@
      "away": {
       "status": "reported",
       "shown": [],
-      "more": 7,
+      "more": 8,
       "counts": {
-       "Out": 2,
+       "Out": 3,
        "Doubtful": 2,
        "Questionable": 3
       }
@@ -777,8 +772,9 @@
      {
       "team": "CHI",
       "role": "QB1",
-      "text": "Caleb Williams listed Questionable",
-      "source": "ESPN injury report"
+      "text": "Starter unconfirmed: the feeds disagree on who is starting",
+      "source": "nflverse games.csv last start vs depth chart",
+      "source_conflict": true
      }
     ],
     "venue": {
@@ -789,17 +785,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 61.7,
-     "wind_mph": 12.5,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -1173,8 +1164,9 @@
      {
       "team": "BAL",
       "role": "QB1",
-      "text": "Lamar Jackson listed Questionable",
-      "source": "ESPN injury report"
+      "text": "Starter unconfirmed: the feeds disagree on who is starting",
+      "source": "nflverse games.csv last start vs depth chart",
+      "source_conflict": true
      }
     ],
     "venue": {
@@ -1185,17 +1177,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 57.9,
-     "wind_mph": 10.2,
-     "precip_prob": 1,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -1576,22 +1563,22 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 59.0,
-     "wind_mph": 6.5,
-     "precip_prob": 1,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
       "status": "reported",
       "shown": [
+       {
+        "player": "Alec Pierce",
+        "position": "WR",
+        "status": "Out"
+       },
        {
         "player": "Will Mallory",
         "position": "TE",
@@ -1601,17 +1588,12 @@
         "player": "Arden Key",
         "position": "DE",
         "status": "Out"
-       },
-       {
-        "player": "Ashton Dulin",
-        "position": "WR",
-        "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 2,
-       "Questionable": 6
+       "Out": 3,
+       "Questionable": 5
       }
      },
      "away": {
@@ -1965,17 +1947,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 55.8,
-     "wind_mph": 9.9,
-     "precip_prob": 1,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -1987,20 +1964,20 @@
         "status": "Out"
        },
        {
-        "player": "Morgan Moses",
+        "player": "Marcus Bryant",
         "position": "OT",
-        "status": "Questionable"
+        "status": "Out"
        },
        {
-        "player": "Dre'Mont Jones",
-        "position": "DE",
+        "player": "Morgan Moses",
+        "position": "OT",
         "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 1,
-       "Questionable": 7
+       "Out": 2,
+       "Questionable": 6
       }
      },
      "away": {
@@ -2347,17 +2324,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 58.1,
-     "wind_mph": 7.4,
-     "precip_prob": 1,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -2394,20 +2366,20 @@
         "status": "Out"
        },
        {
-        "player": "Chris Olave",
-        "position": "WR",
-        "status": "Questionable"
+        "player": "Zach Wood",
+        "position": "LS",
+        "status": "Out"
        },
        {
-        "player": "Alvin Kamara",
-        "position": "RB",
+        "player": "Chris Olave",
+        "position": "WR",
         "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 1,
-       "Questionable": 7
+       "Out": 2,
+       "Questionable": 6
       }
      },
      "counts_only": false
@@ -2735,17 +2707,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 57.9,
-     "wind_mph": 5.1,
-     "precip_prob": 1,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -2762,16 +2729,16 @@
         "status": "Out"
        },
        {
-        "player": "Will Shipley",
-        "position": "RB",
-        "status": "Doubtful"
+        "player": "Landon Dickerson",
+        "position": "G",
+        "status": "Out"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 2,
+       "Out": 4,
        "Doubtful": 2,
-       "Questionable": 4
+       "Questionable": 2
       }
      },
      "away": {
@@ -3088,8 +3055,9 @@
      {
       "team": "TB",
       "role": "QB1",
-      "text": "Baker Mayfield listed Doubtful",
-      "source": "ESPN injury report"
+      "text": "Starter unconfirmed: the feeds disagree on who is starting",
+      "source": "nflverse games.csv last start vs depth chart",
+      "source_conflict": true
      }
     ],
     "venue": {
@@ -3100,17 +3068,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 78.7,
-     "wind_mph": 19.6,
-     "precip_prob": 7,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -3414,7 +3377,7 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -3456,14 +3419,14 @@
         "status": "Out"
        },
        {
-        "player": "Wydett Williams Jr.",
+        "player": "Kitan Crawford",
         "position": "S",
         "status": "Out"
        }
       ],
-      "more": 3,
+      "more": 4,
       "counts": {
-       "Out": 3,
+       "Out": 4,
        "Questionable": 3
       }
      },
@@ -3792,17 +3755,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 64.8,
-     "wind_mph": 15.2,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T16:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -3839,21 +3797,21 @@
         "status": "Out"
        },
        {
+        "player": "Denzel Perryman",
+        "position": "LB",
+        "status": "Out"
+       },
+       {
         "player": "Tre' Harris",
         "position": "WR",
         "status": "Doubtful"
-       },
-       {
-        "player": "Brenen Thompson",
-        "position": "WR",
-        "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 1,
+       "Out": 2,
        "Doubtful": 1,
-       "Questionable": 6
+       "Questionable": 5
       }
      },
      "counts_only": false
@@ -4179,7 +4137,7 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -4524,27 +4482,17 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 55.4,
-     "wind_mph": 17.2,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
       "status": "reported",
       "shown": [
-       {
-        "player": "Savion Williams",
-        "position": "WR",
-        "status": "Out"
-       },
        {
         "player": "Chris Brooks",
         "position": "RB",
@@ -4553,6 +4501,11 @@
        {
         "player": "Micah Parsons",
         "position": "DE",
+        "status": "Out"
+       },
+       {
+        "player": "Javon Hargrave",
+        "position": "DT",
         "status": "Out"
        }
       ],
@@ -4856,17 +4809,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 63.2,
-     "wind_mph": 9.3,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-19T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "espn",
+     "source": "nflverse+espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
