@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-10-17T02:02:01Z",
+ "generated_at": "2026-10-17T10:44:32Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -193,7 +193,8 @@
       "shown": [],
       "more": 3,
       "counts": {
-       "Out": 3
+       "Out": 2,
+       "Questionable": 1
       }
      },
      "away": {
@@ -201,7 +202,8 @@
       "shown": [],
       "more": 5,
       "counts": {
-       "Out": 5
+       "Out": 3,
+       "Questionable": 2
       }
      },
      "counts_only": true
@@ -524,9 +526,8 @@
      {
       "team": "CHI",
       "role": "QB1",
-      "text": "Starter unconfirmed: the feeds disagree on who is starting",
-      "source": "nflverse games.csv last start vs depth chart",
-      "source_conflict": true
+      "text": "Caleb Williams listed Questionable",
+      "source": "nflverse injury report"
      }
     ],
     "venue": {
@@ -537,12 +538,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 58.7,
-     "wind_mph": 14.3,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -553,11 +549,6 @@
      "home": {
       "status": "reported",
       "shown": [
-       {
-        "player": "Yasir Abdullah",
-        "position": "LB",
-        "status": "Out"
-       },
        {
         "player": "C.J. Henderson",
         "position": "CB",
@@ -571,7 +562,7 @@
       ],
       "more": 0,
       "counts": {
-       "Out": 2,
+       "Out": 1,
        "Questionable": 1
       }
      },
@@ -589,15 +580,15 @@
         "status": "Out"
        },
        {
-        "player": "Montez Sweat",
-        "position": "DE",
+        "player": "Keyshaun Elliott",
+        "position": "LB",
         "status": "Out"
        }
       ],
-      "more": 5,
+      "more": 4,
       "counts": {
-       "Out": 7,
-       "Questionable": 1
+       "Out": 4,
+       "Questionable": 3
       }
      },
      "counts_only": false
@@ -632,7 +623,7 @@
      "feature_values": {
       "rating_diff": -0.11990628238277756,
       "rest_diff": 0.0,
-      "cpoe_diff": -5.934051377726754,
+      "cpoe_diff": -5.934051377726755,
       "separation_diff": 0.33387114564973563,
       "yac_oe_diff": 1.1753511740916505,
       "ryoe_diff": 0.691251439461713,
@@ -952,9 +943,8 @@
      {
       "team": "BAL",
       "role": "QB1",
-      "text": "Starter unconfirmed: the feeds disagree on who is starting",
-      "source": "nflverse games.csv last start vs depth chart",
-      "source_conflict": true
+      "text": "Lamar Jackson listed Out",
+      "source": "nflverse injury report"
      }
     ],
     "venue": {
@@ -965,12 +955,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 55.3,
-     "wind_mph": 8.6,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -983,8 +968,8 @@
       "shown": [],
       "more": 8,
       "counts": {
-       "Out": 6,
-       "Questionable": 2
+       "Out": 5,
+       "Questionable": 3
       }
      },
      "away": {
@@ -992,8 +977,8 @@
       "shown": [],
       "more": 7,
       "counts": {
-       "Out": 5,
-       "Questionable": 2
+       "Out": 4,
+       "Questionable": 3
       }
      },
      "counts_only": true
@@ -1355,12 +1340,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 54.6,
-     "wind_mph": 6.5,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1372,25 +1352,25 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Alec Pierce",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
         "player": "Ashton Dulin",
         "position": "WR",
         "status": "Out"
        },
        {
-        "player": "Will Mallory",
-        "position": "TE",
+        "player": "Jaylon Carlies",
+        "position": "LB",
         "status": "Out"
+       },
+       {
+        "player": "Tyler Warren",
+        "position": "TE",
+        "status": "Questionable"
        }
       ],
-      "more": 3,
+      "more": 1,
       "counts": {
-       "Out": 5,
-       "Questionable": 1
+       "Out": 2,
+       "Questionable": 2
       }
      },
      "away": {
@@ -1402,20 +1382,20 @@
         "status": "Out"
        },
        {
-        "player": "Joshua Williams",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
         "player": "Kevin Winston Jr.",
         "position": "S",
         "status": "Out"
+       },
+       {
+        "player": "Tyjae Spears",
+        "position": "RB",
+        "status": "Questionable"
        }
       ],
       "more": 1,
       "counts": {
-       "Out": 3,
-       "Questionable": 1
+       "Out": 2,
+       "Questionable": 2
       }
      },
      "counts_only": false
@@ -1775,12 +1755,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 50.3,
-     "wind_mph": 3.6,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -1792,25 +1767,25 @@
       "status": "reported",
       "shown": [
        {
-        "player": "A.J. Brown",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Marcus Bryant",
-        "position": "OT",
-        "status": "Out"
-       },
-       {
         "player": "Carlton Davis III",
         "position": "CB",
         "status": "Out"
+       },
+       {
+        "player": "Karon Prunty",
+        "position": "CB",
+        "status": "Out"
+       },
+       {
+        "player": "A.J. Brown",
+        "position": "WR",
+        "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 4,
-       "Questionable": 4
+       "Out": 2,
+       "Questionable": 6
       }
      },
      "away": {
@@ -1822,20 +1797,20 @@
         "status": "Out"
        },
        {
-        "player": "Omar Cooper Jr.",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
         "player": "Breece Hall",
         "position": "RB",
         "status": "Out"
+       },
+       {
+        "player": "Dylan Parham",
+        "position": "G",
+        "status": "Out"
        }
       ],
-      "more": 5,
+      "more": 4,
       "counts": {
-       "Out": 6,
-       "Questionable": 2
+       "Out": 4,
+       "Questionable": 3
       }
      },
      "counts_only": false
@@ -2188,12 +2163,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 53.7,
-     "wind_mph": 2.1,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -2205,35 +2175,30 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Braxton Berrios",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
         "player": "Theo Johnson",
         "position": "TE",
         "status": "Out"
        },
        {
-        "player": "Chauncey Golston",
-        "position": "DE",
+        "player": "Colton Hood",
+        "position": "CB",
+        "status": "Out"
+       },
+       {
+        "player": "Tyler Nubin",
+        "position": "S",
         "status": "Out"
        }
       ],
-      "more": 5,
+      "more": 3,
       "counts": {
-       "Out": 5,
+       "Out": 3,
        "Questionable": 3
       }
      },
      "away": {
       "status": "reported",
       "shown": [
-       {
-        "player": "Jordyn Tyson",
-        "position": "WR",
-        "status": "Out"
-       },
        {
         "player": "Anfernee Jennings",
         "position": "LB",
@@ -2243,12 +2208,17 @@
         "player": "Kaden Elliss",
         "position": "LB",
         "status": "Out"
+       },
+       {
+        "player": "Chris Olave",
+        "position": "WR",
+        "status": "Questionable"
        }
       ],
-      "more": 5,
+      "more": 4,
       "counts": {
-       "Out": 4,
-       "Questionable": 4
+       "Out": 2,
+       "Questionable": 5
       }
      },
      "counts_only": false
@@ -2599,7 +2569,14 @@
     "away_qb_name": "Bryce Young",
     "roof": "outdoors",
     "div_game": 0,
-    "key_player": [],
+    "key_player": [
+     {
+      "team": "PHI",
+      "role": "QB1",
+      "text": "Jalen Hurts listed Out",
+      "source": "nflverse injury report"
+     }
+    ],
     "venue": {
      "name": "Lincoln Financial Field",
      "roof": "outdoors",
@@ -2608,12 +2585,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 51.7,
-     "wind_mph": 3.6,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -2626,16 +2598,19 @@
       "shown": [],
       "more": 8,
       "counts": {
-       "Out": 8
+       "Out": 5,
+       "Doubtful": 1,
+       "Questionable": 2
       }
      },
      "away": {
       "status": "reported",
       "shown": [],
-      "more": 8,
+      "more": 7,
       "counts": {
-       "Out": 7,
-       "Doubtful": 1
+       "Out": 1,
+       "Doubtful": 1,
+       "Questionable": 5
       }
      },
      "counts_only": true
@@ -2959,9 +2934,8 @@
      {
       "team": "TB",
       "role": "QB1",
-      "text": "Starter unconfirmed: the feeds disagree on who is starting",
-      "source": "nflverse games.csv last start vs depth chart",
-      "source_conflict": true
+      "text": "Baker Mayfield listed Out",
+      "source": "nflverse injury report"
      }
     ],
     "venue": {
@@ -2972,12 +2946,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 73.5,
-     "wind_mph": 15.1,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -2994,7 +2963,7 @@
         "status": "Out"
        },
        {
-        "player": "David Sills V",
+        "player": "David Sills",
         "position": "WR",
         "status": "Out"
        },
@@ -3020,20 +2989,20 @@
         "status": "Out"
        },
        {
-        "player": "Michael Pittman Jr.",
+        "player": "Roman Wilson",
         "position": "WR",
         "status": "Out"
        },
        {
-        "player": "Roman Wilson",
-        "position": "WR",
+        "player": "DeShon Elliott",
+        "position": "S",
         "status": "Out"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 5,
-       "Questionable": 3
+       "Out": 3,
+       "Questionable": 5
       }
      },
      "counts_only": false
@@ -3357,35 +3326,24 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Alaric Jackson",
-        "position": "OT",
-        "status": "Out"
+        "player": "Trent McDuffie",
+        "position": "CB",
+        "status": "Questionable"
        },
        {
-        "player": "Keagen Trost",
-        "position": "OT",
-        "status": "Out"
-       },
-       {
-        "player": "Myles Garrett",
-        "position": "DE",
-        "status": "Out"
+        "player": "Kam Curl",
+        "position": "S",
+        "status": "Questionable"
        }
       ],
-      "more": 2,
+      "more": 0,
       "counts": {
-       "Out": 3,
        "Questionable": 2
       }
      },
      "away": {
       "status": "reported",
       "shown": [
-       {
-        "player": "James Conner",
-        "position": "RB",
-        "status": "Out"
-       },
        {
         "player": "Jeremiyah Love",
         "position": "RB",
@@ -3395,12 +3353,17 @@
         "player": "Andrew Wingard",
         "position": "S",
         "status": "Out"
+       },
+       {
+        "player": "Wydett Williams Jr.",
+        "position": "S",
+        "status": "Out"
        }
       ],
-      "more": 5,
+      "more": 4,
       "counts": {
-       "Out": 5,
-       "Questionable": 3
+       "Out": 3,
+       "Questionable": 4
       }
      },
      "counts_only": false
@@ -3760,12 +3723,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 63.5,
-     "wind_mph": 12.5,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T16:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -3782,19 +3740,19 @@
         "status": "Out"
        },
        {
-        "player": "Tyquan Thornton",
-        "position": "WR",
+        "player": "Josh Simmons",
+        "position": "T",
         "status": "Out"
        },
        {
-        "player": "Josh Simmons",
-        "position": "OT",
-        "status": "Out"
+        "player": "L'Jarius Sneed",
+        "position": "CB",
+        "status": "Questionable"
        }
       ],
-      "more": 1,
+      "more": 0,
       "counts": {
-       "Out": 3,
+       "Out": 2,
        "Questionable": 1
       }
      },
@@ -3802,24 +3760,26 @@
       "status": "reported",
       "shown": [
        {
-        "player": "KeAndre Lambert-Smith",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Tre' Harris",
+        "player": "Tre Harris",
         "position": "WR",
         "status": "Out"
        },
        {
         "player": "Joe Alt",
-        "position": "OT",
+        "position": "T",
+        "status": "Out"
+       },
+       {
+        "player": "Kayode Awosika",
+        "position": "G",
         "status": "Out"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 8
+       "Out": 5,
+       "Doubtful": 1,
+       "Questionable": 2
       }
      },
      "counts_only": false
@@ -4185,16 +4145,16 @@
       "shown": [],
       "more": 4,
       "counts": {
-       "Out": 2,
-       "Questionable": 2
+       "Out": 3,
+       "Questionable": 1
       }
      },
      "away": {
       "status": "reported",
       "shown": [],
-      "more": 6,
+      "more": 5,
       "counts": {
-       "Questionable": 6
+       "Questionable": 5
       }
      },
      "counts_only": true
@@ -4554,12 +4514,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 52.5,
-     "wind_mph": 13.8,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-18T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -4571,24 +4526,26 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Savion Williams",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
         "player": "Skyy Moore",
         "position": "WR",
         "status": "Out"
        },
        {
-        "player": "Josh Jacobs",
-        "position": "RB",
+        "player": "Javon Hargrave",
+        "position": "DT",
+        "status": "Out"
+       },
+       {
+        "player": "Jonathan Ford",
+        "position": "DT",
         "status": "Out"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 8
+       "Out": 4,
+       "Doubtful": 1,
+       "Questionable": 3
       }
      },
      "away": {
@@ -4596,7 +4553,7 @@
       "shown": [
        {
         "player": "Drew Shelton",
-        "position": "OT",
+        "position": "T",
         "status": "Out"
        },
        {
@@ -4918,12 +4875,7 @@
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 65.4,
-     "wind_mph": 10.3,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-19T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -4961,6 +4913,11 @@
       "status": "reported",
       "shown": [
        {
+        "player": "Jeremy McNichols",
+        "position": "RB",
+        "status": "Out"
+       },
+       {
         "player": "Jordan Magee",
         "position": "LB",
         "status": "Out"
@@ -4969,18 +4926,13 @@
         "player": "Marcus Mariota",
         "position": "QB",
         "status": "Doubtful"
-       },
-       {
-        "player": "Stefon Diggs",
-        "position": "WR",
-        "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 1,
+       "Out": 2,
        "Doubtful": 1,
-       "Questionable": 6
+       "Questionable": 5
       }
      },
      "counts_only": false
