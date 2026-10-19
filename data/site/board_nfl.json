@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-10-18T10:46:04Z",
+ "generated_at": "2026-10-19T10:44:25Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -121,50 +121,7 @@
    "home_name": "Jacksonville Jaguars",
    "away_name": "Houston Texans",
    "start": "2026-10-18T13:30:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 2.5,
-     "side": "away",
-     "selection": "Houston Texans",
-     "best_price_decimal": 2.04,
-     "best_price_american": 104,
-     "best_book": "matchbook",
-     "books": 18,
-     "p_model": 0.62247,
-     "p_market": 0.48862,
-     "edge": 0.13385,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 3.0,
-     "open_p_market": 0.5,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Houston Texans",
-     "best_price_decimal": 2.3,
-     "best_price_american": 130,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.57612,
-     "p_market": 0.42991,
-     "edge": 0.14621,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.3961,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Trevor Lawrence",
@@ -175,7 +132,7 @@
     "venue": {
      "name": "Wembley Stadium",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": true,
      "in_price": false
     },
@@ -190,8 +147,24 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 3,
+      "shown": [
+       {
+        "player": "Montaric Brown",
+        "position": "CB",
+        "status": "Out"
+       },
+       {
+        "player": "Ross Matiscik",
+        "position": "LS",
+        "status": "Out"
+       },
+       {
+        "player": "Jaylon Jones",
+        "position": "CB",
+        "status": "Questionable"
+       }
+      ],
+      "more": 0,
       "counts": {
        "Out": 2,
        "Questionable": 1
@@ -199,14 +172,30 @@
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 5,
+      "shown": [
+       {
+        "player": "Tank Dell",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "David Montgomery",
+        "position": "RB",
+        "status": "Out"
+       },
+       {
+        "player": "Jalen Pitre",
+        "position": "S",
+        "status": "Out"
+       }
+      ],
+      "more": 2,
       "counts": {
        "Out": 3,
        "Questionable": 2
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 7,
@@ -220,249 +209,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.42388,
-    "margin_mean": -2.661,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.1225436900906833,
-      "rest_diff": 0.0,
-      "cpoe_diff": -1.5427560007559977,
-      "separation_diff": -0.18489673956232222,
-      "yac_oe_diff": 0.5048022379052877,
-      "ryoe_diff": 0.4252376932798832,
-      "elo_diff": 89.95469744897832,
-      "is_neutral_site": true
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00503,
-      0.00579,
-      0.00662,
-      0.00752,
-      0.00851,
-      0.00956,
-      0.00494,
-      0.01573,
-      0.01222,
-      0.00729,
-      0.01543,
-      0.02008,
-      0.01657,
-      0.01171,
-      0.03104,
-      0.01921,
-      0.01038,
-      0.01335,
-      0.02585,
-      0.00776,
-      0.02245,
-      0.05615,
-      0.03794,
-      0.02119,
-      0.03053,
-      0.07846,
-      0.02505,
-      0.02081,
-      0.00356,
-      0.02393,
-      0.02092,
-      0.07908,
-      0.02327,
-      0.01856,
-      0.03178,
-      0.04095,
-      0.02023,
-      0.00761,
-      0.02834,
-      0.01063,
-      0.00732,
-      0.00658,
-      0.0208,
-      0.0063,
-      0.00918,
-      0.00941,
-      0.00864,
-      0.00313,
-      0.00704,
-      0.0079,
-      0.00305,
-      0.00261,
-      0.00555,
-      0.00264,
-      0.00291,
-      0.00248,
-      0.00209
-     ],
-     "binned": false,
-     "tail_below": 0.02688,
-     "tail_above": 0.00944,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "57418b2cf5aca558b3c98eafac1e264a",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": 3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": 3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": 3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.85,
-      "p_market": 0.51555,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": 3.0,
-      "price": 1.855,
-      "p_market": 0.51555,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.95,
-      "p_market": 0.48921,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.96,
-      "p_market": 0.48578,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.96,
-      "p_market": 0.48596,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.95,
-      "p_market": 0.48878,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.95,
-      "p_market": 0.48885,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.94,
-      "p_market": 0.48885,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.945,
-      "p_market": 0.48885,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.945,
-      "p_market": 0.48878,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.95,
-      "p_market": 0.4887,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.95,
-      "p_market": 0.48862,
-      "books": 18
-     }
-    ],
-    "captures": 17,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -2.66,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png"
   },
@@ -473,54 +220,12 @@
    "home_name": "Atlanta Falcons",
    "away_name": "Chicago Bears",
    "start": "2026-10-18T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -1.0,
-     "side": "away",
-     "selection": "Chicago Bears",
-     "best_price_decimal": 2.02,
-     "best_price_american": 102,
-     "best_book": "matchbook",
-     "books": 8,
-     "p_model": 0.57624,
-     "p_market": 0.5,
-     "edge": 0.07624,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -1.5,
-     "open_p_market": 0.50423,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Chicago Bears",
-     "best_price_decimal": 1.95,
-     "best_price_american": -105,
-     "best_book": "matchbook",
-     "books": 18,
-     "p_model": 0.5871,
-     "p_market": 0.51194,
-     "edge": 0.07516,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.54287,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Michael Penix Jr.",
     "away_qb_name": "Caleb Williams",
+    "roof": "closed",
     "div_game": 0,
     "key_player": [
      {
@@ -532,13 +237,13 @@
     ],
     "venue": {
      "name": "Mercedes-Benz Stadium",
-     "roof": "nan",
-     "surface": "fieldturf",
+     "roof": "closed",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "indoors",
      "in_price": false
     },
     "injuries": {
@@ -602,283 +307,10 @@
     "travel": {
      "away_miles": 587,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 1,
-      "coach": "Stefanski"
-     },
-     "away": null
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.4129,
-    "margin_mean": -3.029,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.11990628238277756,
-      "rest_diff": 0.0,
-      "cpoe_diff": -5.934051377726755,
-      "separation_diff": 0.33387114564973563,
-      "yac_oe_diff": 1.1753511740916505,
-      "ryoe_diff": 0.691251439461713,
-      "elo_diff": -67.69982984196304,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00532,
-      0.00611,
-      0.00697,
-      0.0079,
-      0.00892,
-      0.01,
-      0.00515,
-      0.01638,
-      0.0127,
-      0.00755,
-      0.01595,
-      0.02071,
-      0.01706,
-      0.01203,
-      0.03181,
-      0.01965,
-      0.0106,
-      0.01359,
-      0.02626,
-      0.00787,
-      0.02271,
-      0.05667,
-      0.03821,
-      0.02129,
-      0.0306,
-      0.07849,
-      0.02501,
-      0.02072,
-      0.00354,
-      0.02372,
-      0.0207,
-      0.07806,
-      0.02292,
-      0.01824,
-      0.03117,
-      0.04007,
-      0.01975,
-      0.00741,
-      0.02754,
-      0.01031,
-      0.00708,
-      0.00635,
-      0.02004,
-      0.00606,
-      0.00881,
-      0.00901,
-      0.00825,
-      0.00298,
-      0.00669,
-      0.0075,
-      0.00289,
-      0.00246,
-      0.00523,
-      0.00249,
-      0.00273,
-      0.00232,
-      0.00195
-     ],
-     "binned": false,
-     "tail_below": 0.02877,
-     "tail_above": 0.00872,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "7c312fdf24fb35f58b0e07c2932cc997",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": -2.0,
-      "price": 1.92,
-      "p_market": 0.49577,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": -2.0,
-      "price": 1.92,
-      "p_market": 0.49577,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": -3.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": -3.5,
-      "price": 1.895,
-      "p_market": 0.48578,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": -3.5,
-      "price": 1.92,
-      "p_market": 0.48578,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": -3.25,
-      "price": 1.89,
-      "p_market": 0.50789,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": -3.0,
-      "price": 1.945,
-      "p_market": 0.48952,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": -1.0,
-      "price": 1.93,
-      "p_market": 0.49446,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": -1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": -1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": -1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": -1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -3.03,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png"
   },
@@ -889,54 +321,11 @@
    "home_name": "Cleveland Browns",
    "away_name": "Baltimore Ravens",
    "start": "2026-10-18T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -3.0,
-     "side": "away",
-     "selection": "Baltimore Ravens",
-     "best_price_decimal": 1.98,
-     "best_price_american": -102,
-     "best_book": "pinnacle",
-     "books": 11,
-     "p_model": 0.68462,
-     "p_market": 0.50706,
-     "edge": 0.17756,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -2.5,
-     "open_p_market": 0.50989,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Baltimore Ravens",
-     "best_price_decimal": 1.64,
-     "best_price_american": -156,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.74821,
-     "p_market": 0.61462,
-     "edge": 0.13358,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.56006,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Deshaun Watson",
-    "away_qb_name": "Lamar Jackson",
+    "away_qb_name": "Tyler Huntley",
     "roof": "outdoors",
     "div_game": 1,
     "key_player": [
@@ -950,7 +339,7 @@
     "venue": {
      "name": "Huntington Bank Field",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1024,286 +413,10 @@
     "travel": {
      "away_miles": 308,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 1,
-      "coach": "Monken"
-     },
-     "away": {
-      "tier": 1,
-      "coach": "Minter"
-     }
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.25179,
-    "margin_mean": -8.999,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.232321010766931,
-      "rest_diff": 0.0,
-      "cpoe_diff": -12.223577461389967,
-      "separation_diff": 0.4650955674347399,
-      "yac_oe_diff": 0.024168082213156694,
-      "ryoe_diff": -0.7094430676511334,
-      "elo_diff": -154.56558656428456,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01151,
-      0.01275,
-      0.01404,
-      0.01538,
-      0.01676,
-      0.01815,
-      0.00903,
-      0.02771,
-      0.02074,
-      0.01191,
-      0.0243,
-      0.03047,
-      0.02423,
-      0.0165,
-      0.04212,
-      0.02512,
-      0.01308,
-      0.0162,
-      0.03023,
-      0.00874,
-      0.02437,
-      0.05872,
-      0.03823,
-      0.02057,
-      0.02855,
-      0.07069,
-      0.02175,
-      0.0174,
-      0.00287,
-      0.01857,
-      0.01565,
-      0.05698,
-      0.01615,
-      0.01241,
-      0.02048,
-      0.02542,
-      0.0121,
-      0.00438,
-      0.01573,
-      0.00569,
-      0.00377,
-      0.00327,
-      0.00995,
-      0.0029,
-      0.00408,
-      0.00403,
-      0.00356,
-      0.00124,
-      0.00269,
-      0.00291,
-      0.00108,
-      0.00089,
-      0.00183,
-      0.00084,
-      0.00089,
-      0.00073,
-      0.00059
-     ],
-     "binned": false,
-     "tail_below": 0.07681,
-     "tail_above": 0.00225,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "e86227938fd3cf008fc5648fb5128344",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": -3.0,
-      "price": 1.915,
-      "p_market": 0.49602,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": -3.0,
-      "price": 1.9,
-      "p_market": 0.49814,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": -3.0,
-      "price": 1.91,
-      "p_market": 0.49814,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": -3.0,
-      "price": 1.87,
-      "p_market": 0.51122,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": -3.5,
-      "price": 1.88,
-      "p_market": 0.50706,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": -3.5,
-      "price": 1.88,
-      "p_market": 0.50706,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": -3.5,
-      "price": 1.895,
-      "p_market": 0.50353,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": -3.5,
-      "price": 1.895,
-      "p_market": 0.50353,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.92,
-      "p_market": 0.49366,
-      "books": 6
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.92,
-      "p_market": 0.49366,
-      "books": 6
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.91,
-      "p_market": 0.49294,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": -5.25,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": -5.0,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": -4.0,
-      "price": 1.89,
-      "p_market": 0.50398,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": -4.0,
-      "price": 1.89,
-      "p_market": 0.50398,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": -3.5,
-      "price": 1.88,
-      "p_market": 0.50632,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": -3.0,
-      "price": 1.915,
-      "p_market": 0.5,
-      "books": 18
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -9.0,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png"
   },
@@ -1314,60 +427,18 @@
    "home_name": "Indianapolis Colts",
    "away_name": "Tennessee Titans",
    "start": "2026-10-18T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 6.5,
-     "side": "away",
-     "selection": "Tennessee Titans",
-     "best_price_decimal": 2.06,
-     "best_price_american": 106,
-     "best_book": "matchbook",
-     "books": 12,
-     "p_model": 0.52832,
-     "p_market": 0.48578,
-     "edge": 0.04254,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 6.5,
-     "open_p_market": 0.49011,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Tennessee Titans",
-     "best_price_decimal": 3.8,
-     "best_price_american": 280,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.30978,
-     "p_market": 0.25209,
-     "edge": 0.05769,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.25883,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Daniel Jones",
     "away_qb_name": "Cam Ward",
+    "roof": "open",
     "div_game": 1,
     "key_player": [],
     "venue": {
      "name": "Lucas Oil Stadium",
-     "roof": "nan",
-     "surface": "fieldturf",
+     "roof": "open",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1441,283 +512,10 @@
     "travel": {
      "away_miles": 250,
      "in_price": false
-    },
-    "regime": {
-     "home": null,
-     "away": {
-      "tier": 1,
-      "coach": "Saleh"
-     }
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.69022,
-    "margin_mean": 6.368,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.02102296342484447,
-      "rest_diff": 0.0,
-      "cpoe_diff": -0.5705652492668558,
-      "separation_diff": 0.08722951423046377,
-      "yac_oe_diff": 0.11453611169615151,
-      "ryoe_diff": -0.38950567478975356,
-      "elo_diff": 182.1912728364448,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.001,
-      0.00121,
-      0.00146,
-      0.00175,
-      0.00209,
-      0.00248,
-      0.00135,
-      0.00455,
-      0.00373,
-      0.00235,
-      0.00525,
-      0.00722,
-      0.00629,
-      0.0047,
-      0.01314,
-      0.00859,
-      0.0049,
-      0.00665,
-      0.0136,
-      0.00431,
-      0.01316,
-      0.03476,
-      0.0248,
-      0.01462,
-      0.02224,
-      0.06035,
-      0.02035,
-      0.01784,
-      0.00322,
-      0.02287,
-      0.02111,
-      0.08425,
-      0.02617,
-      0.02204,
-      0.03986,
-      0.05422,
-      0.02828,
-      0.01123,
-      0.04416,
-      0.01749,
-      0.01272,
-      0.01207,
-      0.04028,
-      0.01289,
-      0.01983,
-      0.02145,
-      0.02079,
-      0.00794,
-      0.01888,
-      0.02239,
-      0.00913,
-      0.00823,
-      0.01851,
-      0.0093,
-      0.01082,
-      0.00972,
-      0.00864
-     ],
-     "binned": false,
-     "tail_below": 0.00404,
-     "tail_above": 0.05273,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "84aa9e190e625d7e9cd67e1f157a45b4",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.49011,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.48952,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.49011,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.49011,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.49011,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.92,
-      "p_market": 0.49011,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.915,
-      "p_market": 0.49506,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.915,
-      "p_market": 0.49506,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.4887,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.48878,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.94,
-      "p_market": 0.49011,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.885,
-      "p_market": 0.50989,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.885,
-      "p_market": 0.50989,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.935,
-      "p_market": 0.49289,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.885,
-      "p_market": 0.50568,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.89,
-      "p_market": 0.50706,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.92,
-      "p_market": 0.48779,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 6.5,
-      "price": 1.92,
-      "p_market": 0.48779,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.935,
-      "p_market": 0.48804,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 6.5,
-      "price": 1.92,
-      "p_market": 0.49432,
-      "books": 18
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 6.37,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png"
   },
@@ -1728,50 +526,7 @@
    "home_name": "New England Patriots",
    "away_name": "New York Jets",
    "start": "2026-10-18T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 7.5,
-     "side": "away",
-     "selection": "New York Jets",
-     "best_price_decimal": 1.91,
-     "best_price_american": -110,
-     "best_book": "mybookieag",
-     "books": 12,
-     "p_model": 0.56311,
-     "p_market": 0.51673,
-     "edge": 0.04638,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 7.0,
-     "open_p_market": 0.51048,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "New York Jets",
-     "best_price_decimal": 4.0,
-     "best_price_american": 300,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.29284,
-     "p_market": 0.23895,
-     "edge": 0.0539,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.24972,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Drake Maye",
@@ -1782,7 +537,7 @@
     "venue": {
      "name": "Gillette Stadium",
      "roof": "outdoors",
-     "surface": "fieldturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1859,273 +614,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.70716,
-    "margin_mean": 7.019,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.10396935753185552,
-      "rest_diff": 0.0,
-      "cpoe_diff": -1.6401495697616815,
-      "separation_diff": 0.1991496933676573,
-      "yac_oe_diff": 0.456121707790865,
-      "ryoe_diff": 0.018599327580947733,
-      "elo_diff": 201.263468879142,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00087,
-      0.00106,
-      0.00129,
-      0.00155,
-      0.00186,
-      0.00222,
-      0.00121,
-      0.0041,
-      0.00337,
-      0.00213,
-      0.00478,
-      0.0066,
-      0.00577,
-      0.00432,
-      0.01214,
-      0.00797,
-      0.00456,
-      0.00622,
-      0.01276,
-      0.00406,
-      0.01245,
-      0.03299,
-      0.02363,
-      0.01399,
-      0.02135,
-      0.05817,
-      0.01969,
-      0.01733,
-      0.00314,
-      0.02238,
-      0.02074,
-      0.08308,
-      0.02591,
-      0.0219,
-      0.03975,
-      0.05428,
-      0.02842,
-      0.01133,
-      0.04472,
-      0.01778,
-      0.01298,
-      0.01236,
-      0.04142,
-      0.0133,
-      0.02054,
-      0.02231,
-      0.0217,
-      0.00832,
-      0.01986,
-      0.02364,
-      0.00967,
-      0.00875,
-      0.01976,
-      0.00998,
-      0.01165,
-      0.0105,
-      0.00937
-     ],
-     "binned": false,
-     "tail_below": 0.00348,
-     "tail_above": 0.05854,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "0b0b582b32b09ab6ff6664ffae0c9653",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.87,
-      "p_market": 0.50989,
-      "books": 7
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.87,
-      "p_market": 0.50989,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.875,
-      "p_market": 0.50989,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.88,
-      "p_market": 0.50989,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.88,
-      "p_market": 0.50989,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": 6.75,
-      "price": 1.93,
-      "p_market": 0.49289,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": 6.75,
-      "price": 1.93,
-      "p_market": 0.49289,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.87,
-      "p_market": 0.50989,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.85,
-      "p_market": 0.51422,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.92,
-      "p_market": 0.49506,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.935,
-      "p_market": 0.49236,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.915,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 7.0,
-      "price": 1.915,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 7.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.85,
-      "p_market": 0.51422,
-      "books": 18
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 7.02,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png"
   },
@@ -2136,50 +625,7 @@
    "home_name": "New York Giants",
    "away_name": "New Orleans Saints",
    "start": "2026-10-18T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 0.0,
-     "side": "home",
-     "selection": "New York Giants",
-     "best_price_decimal": 1.92,
-     "best_price_american": -109,
-     "best_book": "gtbets",
-     "books": 7,
-     "p_model": 0.52495,
-     "p_market": 0.5,
-     "edge": 0.02495,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 1.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "New York Giants",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "betfair_ex_eu",
-     "books": 17,
-     "p_model": 0.52495,
-     "p_market": 0.5,
-     "edge": 0.02495,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.48073,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Jameis Winston",
@@ -2190,7 +636,7 @@
     "venue": {
      "name": "MetLife Stadium",
      "roof": "outdoors",
-     "surface": "fieldturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -2264,283 +710,10 @@
     "travel": {
      "away_miles": 1170,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 2,
-      "coach": "J.Harbaugh"
-     },
-     "away": null
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.52495,
-    "margin_mean": 0.658,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.03588549770925416,
-      "rest_diff": 0.0,
-      "cpoe_diff": -4.846895363356369,
-      "separation_diff": 0.06884098364606839,
-      "yac_oe_diff": -0.33181271358181885,
-      "ryoe_diff": -0.09187326548774982,
-      "elo_diff": 65.1915742677595,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00292,
-      0.00343,
-      0.004,
-      0.00464,
-      0.00536,
-      0.00615,
-      0.00324,
-      0.01052,
-      0.00834,
-      0.00507,
-      0.01096,
-      0.01455,
-      0.01226,
-      0.00884,
-      0.0239,
-      0.0151,
-      0.00832,
-      0.01092,
-      0.02157,
-      0.00661,
-      0.0195,
-      0.04977,
-      0.03431,
-      0.01955,
-      0.02874,
-      0.07537,
-      0.02455,
-      0.02081,
-      0.00363,
-      0.02491,
-      0.02222,
-      0.0857,
-      0.02573,
-      0.02094,
-      0.03659,
-      0.0481,
-      0.02425,
-      0.0093,
-      0.03535,
-      0.01353,
-      0.00951,
-      0.00872,
-      0.02813,
-      0.00869,
-      0.01293,
-      0.01352,
-      0.01266,
-      0.00467,
-      0.01073,
-      0.0123,
-      0.00485,
-      0.00422,
-      0.00918,
-      0.00446,
-      0.00501,
-      0.00435,
-      0.00374
-     ],
-     "binned": false,
-     "tail_below": 0.01402,
-     "tail_above": 0.01877,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "1cf74afd313e9fd300e1462012b174cb",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": 1.25,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": 1.25,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": 1.25,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": 1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": 0.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": 0.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.905,
-      "p_market": 0.50138,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 0.5,
-      "price": 1.88,
-      "p_market": 0.50435,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 0.5,
-      "price": 1.88,
-      "p_market": 0.50435,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 0.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.89,
-      "p_market": 0.50423,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.89,
-      "p_market": 0.50402,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 0.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 15
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 0.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 0.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 0.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -0.66,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png"
   },
@@ -2551,50 +724,7 @@
    "home_name": "Philadelphia Eagles",
    "away_name": "Carolina Panthers",
    "start": "2026-10-18T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 3.5,
-     "side": "home",
-     "selection": "Philadelphia Eagles",
-     "best_price_decimal": 1.86,
-     "best_price_american": -116,
-     "best_book": "marathonbet",
-     "books": 12,
-     "p_model": 0.60816,
-     "p_market": 0.52375,
-     "edge": 0.08441,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -2.0,
-     "open_p_market": 0.5,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Philadelphia Eagles",
-     "best_price_decimal": 2.6,
-     "best_price_american": 160,
-     "best_book": "unibet_se",
-     "books": 21,
-     "p_model": 0.48309,
-     "p_market": 0.38224,
-     "edge": 0.10085,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.54304,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Tanner McKee",
@@ -2613,7 +743,7 @@
     "venue": {
      "name": "Lincoln Financial Field",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -2690,249 +820,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.48309,
-    "margin_mean": -0.709,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.19464223059340446,
-      "rest_diff": -7.0,
-      "cpoe_diff": -7.517518037518031,
-      "separation_diff": -0.10694196094183095,
-      "yac_oe_diff": 0.1655443508980669,
-      "ryoe_diff": -0.8277700426951551,
-      "elo_diff": 83.39912832062987,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00369,
-      0.00429,
-      0.00497,
-      0.00571,
-      0.00654,
-      0.00744,
-      0.00389,
-      0.01252,
-      0.00985,
-      0.00594,
-      0.01272,
-      0.01675,
-      0.01399,
-      0.01001,
-      0.02684,
-      0.01681,
-      0.00919,
-      0.01196,
-      0.02343,
-      0.00712,
-      0.02084,
-      0.05273,
-      0.03606,
-      0.02038,
-      0.0297,
-      0.07725,
-      0.02496,
-      0.02098,
-      0.00363,
-      0.0247,
-      0.02185,
-      0.08357,
-      0.02488,
-      0.02008,
-      0.0348,
-      0.04537,
-      0.02268,
-      0.00863,
-      0.03253,
-      0.01235,
-      0.00861,
-      0.00783,
-      0.02504,
-      0.00768,
-      0.01132,
-      0.01174,
-      0.0109,
-      0.00399,
-      0.00909,
-      0.01033,
-      0.00404,
-      0.00349,
-      0.00752,
-      0.00362,
-      0.00404,
-      0.00347,
-      0.00296
-     ],
-     "binned": false,
-     "tail_below": 0.01847,
-     "tail_above": 0.01424,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "caca2d752fe1a1779029082e95332fcc",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": -2.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": -1.75,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": -1.75,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": -2.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": -2.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": -1.5,
-      "price": 1.92,
-      "p_market": 0.49565,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": -1.25,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": -1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": -1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": -1.0,
-      "price": 1.915,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": -1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.89,
-      "p_market": 0.50423,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.905,
-      "p_market": 0.5014,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 3.5,
-      "price": 1.905,
-      "p_market": 0.50135,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.905,
-      "p_market": 0.5028,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 3.5,
-      "price": 1.85,
-      "p_market": 0.51422,
-      "books": 18
-     }
-    ],
-    "captures": 17,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 0.71,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png"
   },
@@ -2943,50 +831,7 @@
    "home_name": "Tampa Bay Buccaneers",
    "away_name": "Pittsburgh Steelers",
    "start": "2026-10-18T17:00:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 2.5,
-     "side": "home",
-     "selection": "Tampa Bay Buccaneers",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "sport888",
-     "books": 18,
-     "p_model": 0.58076,
-     "p_market": 0.49011,
-     "edge": 0.09065,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 2.5,
-     "open_p_market": 0.48862,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "Tampa Bay Buccaneers",
-     "best_price_decimal": 2.28,
-     "best_price_american": 128,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.5339,
-     "p_market": 0.43595,
-     "edge": 0.09795,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.42501,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Jalon Daniels",
@@ -3004,7 +849,7 @@
     "venue": {
      "name": "Raymond James Stadium",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -3019,8 +864,24 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 8,
+      "shown": [
+       {
+        "player": "Baker Mayfield",
+        "position": "QB",
+        "status": "Out"
+       },
+       {
+        "player": "David Sills",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Antoine Winfield Jr.",
+        "position": "S",
+        "status": "Out"
+       }
+      ],
+      "more": 5,
       "counts": {
        "Out": 3,
        "Doubtful": 1,
@@ -3029,14 +890,30 @@
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 8,
+      "shown": [
+       {
+        "player": "Ben Skowronek",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Roman Wilson",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "DeShon Elliott",
+        "position": "S",
+        "status": "Out"
+       }
+      ],
+      "more": 5,
       "counts": {
        "Out": 3,
        "Questionable": 5
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 10,
@@ -3047,235 +924,10 @@
     "travel": {
      "away_miles": 873,
      "in_price": false
-    },
-    "regime": {
-     "home": null,
-     "away": {
-      "tier": 1,
-      "coach": "McCarthy"
-     }
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.5339,
-    "margin_mean": 0.952,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.0237979005524078,
-      "rest_diff": 3.0,
-      "cpoe_diff": 2.952454013377932,
-      "separation_diff": 0.8442492551924152,
-      "yac_oe_diff": -0.6159810861217486,
-      "ryoe_diff": -0.7770676762484858,
-      "elo_diff": -85.63700766168199,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00278,
-      0.00327,
-      0.00382,
-      0.00444,
-      0.00513,
-      0.00589,
-      0.00311,
-      0.01012,
-      0.00804,
-      0.0049,
-      0.0106,
-      0.0141,
-      0.0119,
-      0.00859,
-      0.02327,
-      0.01473,
-      0.00813,
-      0.01069,
-      0.02116,
-      0.00649,
-      0.0192,
-      0.04908,
-      0.0339,
-      0.01935,
-      0.02849,
-      0.07486,
-      0.02443,
-      0.02074,
-      0.00363,
-      0.02492,
-      0.02227,
-      0.08603,
-      0.02587,
-      0.02109,
-      0.03693,
-      0.04863,
-      0.02456,
-      0.00944,
-      0.03593,
-      0.01378,
-      0.0097,
-      0.00891,
-      0.02879,
-      0.00892,
-      0.01328,
-      0.01391,
-      0.01305,
-      0.00483,
-      0.01111,
-      0.01275,
-      0.00503,
-      0.00439,
-      0.00956,
-      0.00466,
-      0.00524,
-      0.00456,
-      0.00392
-     ],
-     "binned": false,
-     "tail_below": 0.0132,
-     "tail_above": 0.01989,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "27f3994841ce8081c0b7349cf3d1e3d7",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.93,
-      "p_market": 0.49294,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.93,
-      "p_market": 0.49294,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.965,
-      "p_market": 0.48378,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.97,
-      "p_market": 0.47878,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.97,
-      "p_market": 0.48532,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.935,
-      "p_market": 0.48818,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.935,
-      "p_market": 0.48818,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.94,
-      "p_market": 0.48623,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.935,
-      "p_market": 0.48957,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.935,
-      "p_market": 0.48986,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 2.5,
-      "price": 1.94,
-      "p_market": 0.48914,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.93,
-      "p_market": 0.49308,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 2.5,
-      "price": 1.94,
-      "p_market": 0.49011,
-      "books": 18
-     }
-    ],
-    "captures": 14,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -0.95,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/tb.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png"
   },
@@ -3286,50 +938,7 @@
    "home_name": "Los Angeles Rams",
    "away_name": "Arizona Cardinals",
    "start": "2026-10-18T20:05:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 12.5,
-     "side": "away",
-     "selection": "Arizona Cardinals",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "sport888",
-     "books": 12,
-     "p_model": 0.70798,
-     "p_market": 0.5,
-     "edge": 0.20798,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 10.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Arizona Cardinals",
-     "best_price_decimal": 7.8,
-     "best_price_american": 680,
-     "best_book": "betfair_ex_eu",
-     "books": 21,
-     "p_model": 0.32109,
-     "p_market": 0.11878,
-     "edge": 0.20231,
-     "tier": "lean",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.13706,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Matthew Stafford",
@@ -3340,7 +949,7 @@
     "venue": {
      "name": "SoFi Stadium",
      "roof": "dome",
-     "surface": "matrixturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -3408,283 +1017,10 @@
     "travel": {
      "away_miles": 350,
      "in_price": false
-    },
-    "regime": {
-     "home": null,
-     "away": {
-      "tier": 1,
-      "coach": "LaFleur"
-     }
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.67891,
-    "margin_mean": 5.943,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.1891638676593742,
-      "rest_diff": -1.0,
-      "cpoe_diff": -3.7459268565047505,
-      "separation_diff": -0.12690452715121303,
-      "yac_oe_diff": 1.1360336348344193,
-      "ryoe_diff": 0.887648359184134,
-      "elo_diff": 212.81451463915573,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00108,
-      0.00131,
-      0.00158,
-      0.00189,
-      0.00226,
-      0.00267,
-      0.00145,
-      0.00487,
-      0.00399,
-      0.0025,
-      0.00558,
-      0.00765,
-      0.00665,
-      0.00495,
-      0.01381,
-      0.00901,
-      0.00513,
-      0.00694,
-      0.01416,
-      0.00447,
-      0.01364,
-      0.03592,
-      0.02556,
-      0.01503,
-      0.02281,
-      0.06175,
-      0.02077,
-      0.01816,
-      0.00327,
-      0.02316,
-      0.02133,
-      0.08492,
-      0.02631,
-      0.02211,
-      0.03987,
-      0.0541,
-      0.02815,
-      0.01115,
-      0.04374,
-      0.01728,
-      0.01253,
-      0.01186,
-      0.0395,
-      0.01261,
-      0.01934,
-      0.02088,
-      0.02018,
-      0.00769,
-      0.01824,
-      0.02157,
-      0.00877,
-      0.00789,
-      0.0177,
-      0.00888,
-      0.0103,
-      0.00922,
-      0.00819
-     ],
-     "binned": false,
-     "tail_below": 0.00445,
-     "tail_above": 0.04919,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "3729ac6d2a66b642850caf2044cdc658",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": 10.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": 11.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": 11.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 12.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 12.5,
-      "price": 1.92,
-      "p_market": 0.49628,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 12.5,
-      "price": 1.92,
-      "p_market": 0.49628,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 13.0,
-      "price": 1.91,
-      "p_market": 0.50423,
-      "books": 17
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 12.5,
-      "price": 1.895,
-      "p_market": 0.50186,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 12.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 12.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 12.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 12.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 12.5,
-      "price": 1.905,
-      "p_market": 0.5,
-      "books": 18
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 5.94,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png"
   },
@@ -3695,50 +1031,7 @@
    "home_name": "Kansas City Chiefs",
    "away_name": "Los Angeles Chargers",
    "start": "2026-10-18T20:25:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 7.5,
-     "side": "away",
-     "selection": "Los Angeles Chargers",
-     "best_price_decimal": 1.96,
-     "best_price_american": -104,
-     "best_book": "matchbook",
-     "books": 17,
-     "p_model": 0.54313,
-     "p_market": 0.5,
-     "edge": 0.04313,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": 7.5,
-     "open_p_market": 0.5,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Los Angeles Chargers",
-     "best_price_decimal": 4.4,
-     "best_price_american": 340,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.27605,
-     "p_market": 0.21111,
-     "edge": 0.06494,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.20657,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Patrick Mahomes",
@@ -3749,7 +1042,7 @@
     "venue": {
      "name": "GEHA Field at Arrowhead Stadium",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -3827,273 +1120,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.72395,
-    "margin_mean": 7.686,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.2667294387424272,
-      "rest_diff": 7.0,
-      "cpoe_diff": 1.2478179632867097,
-      "separation_diff": 0.309846121814501,
-      "yac_oe_diff": 1.8678767068580353,
-      "ryoe_diff": 3.1619219576501654,
-      "elo_diff": 132.57665312927747,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00076,
-      0.00093,
-      0.00113,
-      0.00137,
-      0.00165,
-      0.00197,
-      0.00108,
-      0.00367,
-      0.00304,
-      0.00193,
-      0.00434,
-      0.006,
-      0.00527,
-      0.00397,
-      0.01118,
-      0.00736,
-      0.00423,
-      0.00579,
-      0.01193,
-      0.00381,
-      0.01173,
-      0.03121,
-      0.02244,
-      0.01333,
-      0.02044,
-      0.05589,
-      0.01899,
-      0.01678,
-      0.00305,
-      0.02184,
-      0.02032,
-      0.08169,
-      0.02557,
-      0.0217,
-      0.03955,
-      0.05421,
-      0.0285,
-      0.0114,
-      0.04518,
-      0.01803,
-      0.01321,
-      0.01263,
-      0.0425,
-      0.0137,
-      0.02124,
-      0.02316,
-      0.02262,
-      0.00871,
-      0.02085,
-      0.02492,
-      0.01024,
-      0.0093,
-      0.02108,
-      0.01068,
-      0.01252,
-      0.01132,
-      0.01015
-     ],
-     "binned": false,
-     "tail_below": 0.00298,
-     "tail_above": 0.06495,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "20fefae8c296247460ba5773caa42218",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.92,
-      "p_market": 0.49432,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": 7.5,
-      "price": 1.92,
-      "p_market": 0.49432,
-      "books": 11
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 8.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 8.0,
-      "price": 1.91,
-      "p_market": 0.49597,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 8.0,
-      "price": 1.915,
-      "p_market": 0.49597,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 8.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 8.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 8.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 8.0,
-      "price": 1.915,
-      "p_market": 0.4967,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 8.0,
-      "price": 1.92,
-      "p_market": 0.49602,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 8.0,
-      "price": 1.91,
-      "p_market": 0.50138,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 7.5,
-      "price": 1.905,
-      "p_market": 0.5,
-      "books": 18
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 7.69,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lac.png"
   },
@@ -4104,50 +1131,7 @@
    "home_name": "Las Vegas Raiders",
    "away_name": "Buffalo Bills",
    "start": "2026-10-18T20:25:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -4.5,
-     "side": "away",
-     "selection": "Buffalo Bills",
-     "best_price_decimal": 1.97,
-     "best_price_american": -103,
-     "best_book": "matchbook",
-     "books": 13,
-     "p_model": 0.61075,
-     "p_market": 0.5,
-     "edge": 0.11075,
-     "tier": "coin_flip",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -4.5,
-     "open_p_market": 0.50562,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Buffalo Bills",
-     "best_price_decimal": 1.48,
-     "best_price_american": -208,
-     "best_book": "betfair_ex_eu",
-     "books": 21,
-     "p_model": 0.75074,
-     "p_market": 0.68212,
-     "edge": 0.06862,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.68415,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Kirk Cousins",
@@ -4158,7 +1142,7 @@
     "venue": {
      "name": "Allegiant Stadium",
      "roof": "dome",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -4173,8 +1157,24 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
-      "more": 4,
+      "shown": [
+       {
+        "player": "Dont'e Thornton Jr.",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Carter Runyon",
+        "position": "TE",
+        "status": "Out"
+       },
+       {
+        "player": "Tonka Hemingway",
+        "position": "DT",
+        "status": "Out"
+       }
+      ],
+      "more": 1,
       "counts": {
        "Out": 3,
        "Questionable": 1
@@ -4182,13 +1182,29 @@
      },
      "away": {
       "status": "reported",
-      "shown": [],
-      "more": 5,
+      "shown": [
+       {
+        "player": "DJ Moore",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Josh Palmer",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Ed Oliver",
+        "position": "DE",
+        "status": "Questionable"
+       }
+      ],
+      "more": 2,
       "counts": {
        "Questionable": 5
       }
      },
-     "counts_only": true
+     "counts_only": false
     },
     "rest": {
      "home_days": 7,
@@ -4199,283 +1215,10 @@
     "travel": {
      "away_miles": 1980,
      "in_price": false
-    },
-    "regime": {
-     "home": {
-      "tier": 1,
-      "coach": "Kubiak"
-     },
-     "away": null
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.24926,
-    "margin_mean": -9.107,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.09174612117596087,
-      "rest_diff": 1.0,
-      "cpoe_diff": 1.5094548365352203,
-      "separation_diff": -0.7190757195252528,
-      "yac_oe_diff": -1.027725142596488,
-      "ryoe_diff": -1.1513670748053442,
-      "elo_diff": -238.03382791632043,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01164,
-      0.01289,
-      0.01419,
-      0.01554,
-      0.01691,
-      0.01831,
-      0.0091,
-      0.02792,
-      0.02088,
-      0.01199,
-      0.02443,
-      0.03062,
-      0.02433,
-      0.01656,
-      0.04225,
-      0.02519,
-      0.0131,
-      0.01622,
-      0.03025,
-      0.00874,
-      0.02435,
-      0.05864,
-      0.03815,
-      0.02052,
-      0.02846,
-      0.07043,
-      0.02165,
-      0.01731,
-      0.00285,
-      0.01846,
-      0.01554,
-      0.05655,
-      0.01602,
-      0.0123,
-      0.02029,
-      0.02517,
-      0.01197,
-      0.00433,
-      0.01555,
-      0.00562,
-      0.00372,
-      0.00322,
-      0.00981,
-      0.00286,
-      0.00402,
-      0.00396,
-      0.0035,
-      0.00122,
-      0.00264,
-      0.00286,
-      0.00106,
-      0.00087,
-      0.00179,
-      0.00082,
-      0.00087,
-      0.00071,
-      0.00058
-     ],
-     "binned": false,
-     "tail_below": 0.07802,
-     "tail_above": 0.00219,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "45b2690b350ed45145c7a716b18e8e66",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.895,
-      "p_market": 0.50281,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.88,
-      "p_market": 0.50425,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T14:01:39Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.88,
-      "p_market": 0.50425,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-10T14:00:49Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.88,
-      "p_market": 0.50562,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T13:30:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.88,
-      "p_market": 0.50706,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.88,
-      "p_market": 0.50562,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.88,
-      "p_market": 0.50634,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.88,
-      "p_market": 0.50634,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": -5.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": -5.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 10
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": -6.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 13
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": -6.0,
-      "price": 1.915,
-      "p_market": 0.49814,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": -6.0,
-      "price": 1.915,
-      "p_market": 0.49862,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": -6.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.9,
-      "p_market": 0.50288,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.9,
-      "p_market": 0.50206,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": -4.5,
-      "price": 1.9,
-      "p_market": 0.50066,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.905,
-      "p_market": 0.50066,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": -4.5,
-      "price": 1.905,
-      "p_market": 0.50138,
-      "books": 18
-     }
-    ],
-    "captures": 20,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": -9.11,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png"
   },
@@ -4486,50 +1229,7 @@
    "home_name": "Green Bay Packers",
    "away_name": "Dallas Cowboys",
    "start": "2026-10-19T00:20:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": 1.0,
-     "side": "away",
-     "selection": "Dallas Cowboys",
-     "best_price_decimal": 1.97,
-     "best_price_american": -103,
-     "best_book": "matchbook",
-     "books": 12,
-     "p_model": 0.50304,
-     "p_market": 0.5,
-     "edge": 0.00304,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -2.0,
-     "open_p_market": 0.49577,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "away",
-     "selection": "Dallas Cowboys",
-     "best_price_decimal": 2.04,
-     "best_price_american": 104,
-     "best_book": "matchbook",
-     "books": 21,
-     "p_model": 0.48867,
-     "p_market": 0.48403,
-     "edge": 0.00464,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.55629,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
+   "markets": {},
    "headline": "spread",
    "context": {
     "home_qb_name": "Jordan Love",
@@ -4540,7 +1240,7 @@
     "venue": {
      "name": "Lambeau Field",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -4618,225 +1318,7 @@
     }
    },
    "refusal": null,
-   "model": {
-    "p_home_win": 0.51133,
-    "margin_mean": 0.213,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.03410135524542747,
-      "rest_diff": -3.0,
-      "cpoe_diff": -6.827579110360354,
-      "separation_diff": -0.06696302674154753,
-      "yac_oe_diff": 0.9972576221268431,
-      "ryoe_diff": -1.0630109539833736,
-      "elo_diff": 95.73546478536059,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00316,
-      0.0037,
-      0.0043,
-      0.00497,
-      0.00572,
-      0.00655,
-      0.00344,
-      0.01115,
-      0.00882,
-      0.00535,
-      0.01152,
-      0.01525,
-      0.01281,
-      0.00922,
-      0.02485,
-      0.01565,
-      0.00861,
-      0.01126,
-      0.02219,
-      0.00678,
-      0.01995,
-      0.05078,
-      0.03491,
-      0.01984,
-      0.02909,
-      0.07607,
-      0.02472,
-      0.02089,
-      0.00364,
-      0.02487,
-      0.02213,
-      0.0851,
-      0.02548,
-      0.02068,
-      0.03604,
-      0.04725,
-      0.02376,
-      0.00909,
-      0.03445,
-      0.01315,
-      0.00922,
-      0.00843,
-      0.02711,
-      0.00836,
-      0.01239,
-      0.01293,
-      0.01207,
-      0.00444,
-      0.01018,
-      0.01164,
-      0.00457,
-      0.00397,
-      0.00861,
-      0.00417,
-      0.00468,
-      0.00405,
-      0.00347
-     ],
-     "binned": false,
-     "tail_below": 0.01535,
-     "tail_above": 0.01717,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
-   "event_id": "82fd5a159fa130e67abab93a9537f70b",
-   "line_history": {
-    "points": [
-     {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": -2.0,
-      "price": 1.915,
-      "p_market": 0.49814,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": -2.0,
-      "price": 1.915,
-      "p_market": 0.49814,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": -1.0,
-      "price": 1.89,
-      "p_market": 0.50423,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": -1.0,
-      "price": 1.89,
-      "p_market": 0.50423,
-      "books": 12
-     },
-     {
-      "captured_at": "2026-10-12T14:01:17Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.875,
-      "p_market": 0.50989,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:10:00Z",
-      "kind": "current",
-      "line": 1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T00:13:00Z",
-      "kind": "current",
-      "line": 1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-13T14:01:42Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.895,
-      "p_market": 0.50423,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-14T14:01:34Z",
-      "kind": "early",
-      "line": 1.5,
-      "price": 1.905,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-15T14:01:23Z",
-      "kind": "early",
-      "line": 1.5,
-      "price": 1.9,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T00:10:00Z",
-      "kind": "current",
-      "line": 1.25,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
-     },
-     {
-      "captured_at": "2026-10-16T00:15:00Z",
-      "kind": "current",
-      "line": 1.25,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-16T14:01:49Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.915,
-      "p_market": 0.49862,
-      "books": 18
-     },
-     {
-      "captured_at": "2026-10-17T14:01:09Z",
-      "kind": "early",
-      "line": 1.0,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
-     }
-    ],
-    "captures": 14,
-    "close_at": null,
-    "frozen": false,
-    "missed_windows": []
-   },
-   "fair_line": 0.21,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png"
   },
@@ -4906,7 +1388,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 60.5,
+     "wind_mph": 12.7,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-19T20:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -5079,22 +1566,6 @@
    "line_history": {
     "points": [
      {
-      "captured_at": "2026-10-08T14:00:43Z",
-      "kind": "early",
-      "line": -7.5,
-      "price": 1.92,
-      "p_market": 0.49294,
-      "books": 7
-     },
-     {
-      "captured_at": "2026-10-09T00:13:00Z",
-      "kind": "current",
-      "line": -7.5,
-      "price": 1.915,
-      "p_market": 0.49503,
-      "books": 8
-     },
-     {
       "captured_at": "2026-10-09T14:01:39Z",
       "kind": "early",
       "line": -7.5,
@@ -5239,7 +1710,7 @@
       "books": 18
      }
     ],
-    "captures": 20,
+    "captures": 18,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
@@ -5249,7 +1720,12 @@
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/wsh.png"
   }
  ],
- "refusals": [],
+ "refusals": [
+  {
+   "scope": "league",
+   "reason": "Odds are 45 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+  }
+ ],
  "freshness": {
   "odds_captured_at": "2026-10-17T14:01:09Z",
   "credits": {
@@ -5578,23 +2054,23 @@
    "elo": true
   },
   "debias_offset": 1.757570099885145,
-  "debias_how": "measured on 13 open games",
-  "debias_games": 13,
+  "debias_how": "1 open game(s), too few to measure; this week's previous board offset",
+  "debias_games": 1,
   "coefficient_sets": {
-   "full_ensemble": 13
+   "full_ensemble": 1
   }
  },
  "status": {
-  "state": "up",
-  "games": 13,
-  "priced": 13,
+  "state": "degraded",
+  "games": 1,
+  "priced": 1,
   "tiers": {
    "play": 0,
-   "lean": 2,
-   "coin_flip": 3,
-   "no_edge": 8
+   "lean": 0,
+   "coin_flip": 0,
+   "no_edge": 1
   },
-  "started": 1,
+  "started": 13,
   "not_priced": [
    {
     "key": "no_line",
@@ -5621,9 +2097,11 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 1,
+    "games": 13,
     "examples": [
-     "SEA @ DEN"
+     "SEA @ DEN",
+     "HOU @ JAX",
+     "CHI @ ATL"
     ]
    },
    {
@@ -5641,8 +2119,8 @@
     "examples": []
    }
   ],
-  "refusals": 0,
-  "reason": null,
+  "refusals": 1,
+  "reason": "Odds are 45 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
   "game_refusals": []
  }
 }
