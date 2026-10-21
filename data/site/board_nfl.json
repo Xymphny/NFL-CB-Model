@@ -1,102 +1,112 @@
 {
  "league": "nfl",
- "generated_at": "2026-10-19T10:44:25Z",
+ "generated_at": "2026-10-21T10:44:50Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
   "season": 2026,
-  "week": 6
+  "week": 7
  },
  "games": [
   {
-   "game_id": "2026-W06-DEN-SEA",
-   "home": "DEN",
-   "away": "SEA",
-   "home_name": "Denver Broncos",
-   "away_name": "Seattle Seahawks",
-   "start": "2026-10-16T00:15:00Z",
-   "markets": {},
+   "game_id": "2026-W07-CHI-NE",
+   "home": "CHI",
+   "away": "NE",
+   "home_name": "Chicago Bears",
+   "away_name": "New England Patriots",
+   "start": "2026-10-23T00:15:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 2.5,
+     "side": "away",
+     "selection": "New England Patriots",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "betonlineag",
+     "books": 6,
+     "p_model": 0.59656,
+     "p_market": 0.50398,
+     "edge": 0.09258,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 2.5,
+     "open_p_market": 0.50186,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "New England Patriots",
+     "best_price_decimal": 2.1,
+     "best_price_american": 110,
+     "best_book": "unibet_nl",
+     "books": 12,
+     "p_model": 0.54919,
+     "p_market": 0.46074,
+     "edge": 0.08845,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.46373,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
    "headline": "spread",
    "context": {
-    "home_qb_name": "Bo Nix",
-    "away_qb_name": "Drew Lock",
+    "home_qb_name": "Caleb Williams",
+    "away_qb_name": "Drake Maye",
     "roof": "outdoors",
     "div_game": 0,
-    "key_player": [
-     {
-      "team": "SEA",
-      "role": "QB1",
-      "text": "Starter unconfirmed: the feeds disagree on who is starting",
-      "source": "nflverse games.csv last start vs depth chart",
-      "source_conflict": true
-     }
-    ],
+    "key_player": [],
     "venue": {
-     "name": "Empower Field at Mile High",
+     "name": "Soldier Field",
      "roof": "outdoors",
-     "surface": null,
+     "surface": "grass",
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 55.8,
+     "wind_mph": 5.4,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-22T20:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse",
+     "source": "espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [
-       {
-        "player": "Pat Surtain II",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "Talanoa Hufanga",
-        "position": "S",
-        "status": "Out"
-       },
-       {
-        "player": "Riley Moss",
-        "position": "CB",
-        "status": "Questionable"
-       }
-      ],
-      "more": 0,
+      "shown": [],
+      "more": 7,
       "counts": {
-       "Out": 2,
-       "Questionable": 1
+       "Out": 3,
+       "Questionable": 4
       }
      },
      "away": {
       "status": "reported",
-      "shown": [
-       {
-        "player": "Zach Charbonnet",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Chazz Surratt",
-        "position": "LB",
-        "status": "Out"
-       },
-       {
-        "player": "Drake Thomas",
-        "position": "LB",
-        "status": "Out"
-       }
-      ],
-      "more": 0,
+      "shown": [],
+      "more": 8,
       "counts": {
-       "Out": 3
+       "Out": 2,
+       "Doubtful": 2,
+       "Questionable": 4
       }
      },
-     "counts_only": false
+     "counts_only": true
     },
     "rest": {
      "home_days": 4,
@@ -105,61 +115,293 @@
      "note": "The rest difference is one of the model's inputs."
     },
     "travel": {
-     "away_miles": 1018,
+     "away_miles": 839,
      "in_price": false
     }
    },
    "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/den.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png"
+   "model": {
+    "p_home_win": 0.45081,
+    "margin_mean": -1.768,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": 0.01816850227912155,
+      "rest_diff": 0.0,
+      "cpoe_diff": 0.5261290798995706,
+      "separation_diff": -0.4301143669891978,
+      "yac_oe_diff": -0.08777895732497837,
+      "ryoe_diff": -0.10515338406993108,
+      "elo_diff": -29.240092092404666,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00438,
+      0.00506,
+      0.00582,
+      0.00665,
+      0.00756,
+      0.00855,
+      0.00444,
+      0.01422,
+      0.01111,
+      0.00666,
+      0.01417,
+      0.01854,
+      0.01538,
+      0.01093,
+      0.02912,
+      0.01813,
+      0.00985,
+      0.01273,
+      0.02479,
+      0.00748,
+      0.02176,
+      0.05472,
+      0.03718,
+      0.02087,
+      0.03023,
+      0.07813,
+      0.02508,
+      0.02094,
+      0.0036,
+      0.02434,
+      0.0214,
+      0.08133,
+      0.02406,
+      0.01929,
+      0.03322,
+      0.04304,
+      0.02138,
+      0.00808,
+      0.03027,
+      0.01142,
+      0.0079,
+      0.00714,
+      0.0227,
+      0.00692,
+      0.01013,
+      0.01044,
+      0.00963,
+      0.0035,
+      0.00793,
+      0.00896,
+      0.00348,
+      0.00299,
+      0.00639,
+      0.00306,
+      0.00339,
+      0.0029,
+      0.00246
+     ],
+     "binned": false,
+     "tail_below": 0.0227,
+     "tail_above": 0.01142,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "ffebea881c1d7b2dfb85b3e590c35985",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": 2.5,
+      "price": 1.9,
+      "p_market": 0.5,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": 2.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": 2.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": 2.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": 2.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 11
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": 2.25,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 12
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": -1.77,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png"
   },
   {
-   "game_id": "2026-W06-JAX-HOU",
-   "home": "JAX",
-   "away": "HOU",
-   "home_name": "Jacksonville Jaguars",
-   "away_name": "Houston Texans",
-   "start": "2026-10-18T13:30:00Z",
-   "markets": {},
+   "game_id": "2026-W07-NO-PIT",
+   "home": "NO",
+   "away": "PIT",
+   "home_name": "New Orleans Saints",
+   "away_name": "Pittsburgh Steelers",
+   "start": "2026-10-25T13:30:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -2.5,
+     "side": "away",
+     "selection": "Pittsburgh Steelers",
+     "best_price_decimal": 1.96,
+     "best_price_american": -104,
+     "best_book": "gtbets",
+     "books": 5,
+     "p_model": 0.72797,
+     "p_market": 0.49432,
+     "edge": 0.23365,
+     "tier": "play",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -2.0,
+     "open_p_market": 0.50423,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Pittsburgh Steelers",
+     "best_price_decimal": 1.74,
+     "best_price_american": -135,
+     "best_book": "unibet_nl",
+     "books": 9,
+     "p_model": 0.76776,
+     "p_market": 0.55785,
+     "edge": 0.20991,
+     "tier": "lean",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.55526,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
    "headline": "spread",
    "context": {
-    "home_qb_name": "Trevor Lawrence",
-    "away_qb_name": "C.J. Stroud",
-    "roof": "outdoors",
-    "div_game": 1,
+    "home_qb_name": "Tyler Shough",
+    "away_qb_name": "Aaron Rodgers",
+    "roof": "dome",
+    "div_game": 0,
     "key_player": [],
     "venue": {
-     "name": "Wembley Stadium",
-     "roof": "outdoors",
-     "surface": null,
+     "name": "Stade de France",
+     "roof": "dome",
+     "surface": "sportturf",
      "neutral": true,
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "indoors",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse",
+     "source": "espn",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
       "status": "reported",
       "shown": [
        {
-        "player": "Montaric Brown",
-        "position": "CB",
+        "player": "Jordyn Tyson",
+        "position": "WR",
         "status": "Out"
        },
        {
-        "player": "Ross Matiscik",
-        "position": "LS",
+        "player": "Cesar Ruiz",
+        "position": "G",
+        "status": "Questionable"
+       },
+       {
+        "player": "Nathan Shepherd",
+        "position": "DT",
+        "status": "Questionable"
+       },
+       {
+        "player": "Anfernee Jennings",
+        "position": "LB",
+        "status": "Questionable"
+       }
+      ],
+      "more": 3,
+      "counts": {
+       "Out": 1,
+       "Questionable": 6
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Roman Wilson",
+        "position": "WR",
         "status": "Out"
        },
        {
-        "player": "Jaylon Jones",
+        "player": "DeShon Elliott",
+        "position": "S",
+        "status": "Out"
+       },
+       {
+        "player": "Ben Skowronek",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Brandin Echols",
         "position": "CB",
         "status": "Questionable"
        }
@@ -167,31 +409,6 @@
       "more": 0,
       "counts": {
        "Out": 2,
-       "Questionable": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Tank Dell",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "David Montgomery",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Jalen Pitre",
-        "position": "S",
-        "status": "Out"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Out": 3,
        "Questionable": 2
       }
      },
@@ -209,1346 +426,90 @@
     }
    },
    "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png"
-  },
-  {
-   "game_id": "2026-W06-ATL-CHI",
-   "home": "ATL",
-   "away": "CHI",
-   "home_name": "Atlanta Falcons",
-   "away_name": "Chicago Bears",
-   "start": "2026-10-18T17:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Michael Penix Jr.",
-    "away_qb_name": "Caleb Williams",
-    "roof": "closed",
-    "div_game": 0,
-    "key_player": [
-     {
-      "team": "CHI",
-      "role": "QB1",
-      "text": "Caleb Williams listed Questionable",
-      "source": "nflverse injury report"
-     }
-    ],
-    "venue": {
-     "name": "Mercedes-Benz Stadium",
-     "roof": "closed",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "C.J. Henderson",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "Za'Darius Smith",
-        "position": "DE",
-        "status": "Questionable"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 1,
-       "Questionable": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Kyle Monangai",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Dayo Odeyingbo",
-        "position": "DE",
-        "status": "Out"
-       },
-       {
-        "player": "Keyshaun Elliott",
-        "position": "LB",
-        "status": "Out"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 4,
-       "Questionable": 3
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 587,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png"
-  },
-  {
-   "game_id": "2026-W06-CLE-BAL",
-   "home": "CLE",
-   "away": "BAL",
-   "home_name": "Cleveland Browns",
-   "away_name": "Baltimore Ravens",
-   "start": "2026-10-18T17:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Deshaun Watson",
-    "away_qb_name": "Tyler Huntley",
-    "roof": "outdoors",
-    "div_game": 1,
-    "key_player": [
-     {
-      "team": "BAL",
-      "role": "QB1",
-      "text": "Lamar Jackson listed Out",
-      "source": "nflverse injury report"
-     }
-    ],
-    "venue": {
-     "name": "Huntington Bank Field",
-     "roof": "outdoors",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Dillon Gabriel",
-        "position": "QB",
-        "status": "Out"
-       },
-       {
-        "player": "Dylan Sampson",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Teven Jenkins",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 5,
-       "Questionable": 3
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Lamar Jackson",
-        "position": "QB",
-        "status": "Out"
-       },
-       {
-        "player": "Matthew Hibner",
-        "position": "TE",
-        "status": "Out"
-       },
-       {
-        "player": "Cam Jurgens",
-        "position": "C",
-        "status": "Out"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 4,
-       "Questionable": 3
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 308,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png"
-  },
-  {
-   "game_id": "2026-W06-IND-TEN",
-   "home": "IND",
-   "away": "TEN",
-   "home_name": "Indianapolis Colts",
-   "away_name": "Tennessee Titans",
-   "start": "2026-10-18T17:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Daniel Jones",
-    "away_qb_name": "Cam Ward",
-    "roof": "open",
-    "div_game": 1,
-    "key_player": [],
-    "venue": {
-     "name": "Lucas Oil Stadium",
-     "roof": "open",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Ashton Dulin",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Jaylon Carlies",
-        "position": "LB",
-        "status": "Out"
-       },
-       {
-        "player": "Tyler Warren",
-        "position": "TE",
-        "status": "Questionable"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 2,
-       "Questionable": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jordan Elliott",
-        "position": "DT",
-        "status": "Out"
-       },
-       {
-        "player": "Kevin Winston Jr.",
-        "position": "S",
-        "status": "Out"
-       },
-       {
-        "player": "Tyjae Spears",
-        "position": "RB",
-        "status": "Questionable"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Out": 2,
-       "Questionable": 2
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 250,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png"
-  },
-  {
-   "game_id": "2026-W06-NE-NYJ",
-   "home": "NE",
-   "away": "NYJ",
-   "home_name": "New England Patriots",
-   "away_name": "New York Jets",
-   "start": "2026-10-18T17:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Drake Maye",
-    "away_qb_name": "Geno Smith",
-    "roof": "outdoors",
-    "div_game": 1,
-    "key_player": [],
-    "venue": {
-     "name": "Gillette Stadium",
-     "roof": "outdoors",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Carlton Davis III",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "Karon Prunty",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "A.J. Brown",
-        "position": "WR",
-        "status": "Questionable"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 2,
-       "Questionable": 6
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Adonai Mitchell",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Breece Hall",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Dylan Parham",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 4,
-       "Questionable": 3
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 170,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png"
-  },
-  {
-   "game_id": "2026-W06-NYG-NO",
-   "home": "NYG",
-   "away": "NO",
-   "home_name": "New York Giants",
-   "away_name": "New Orleans Saints",
-   "start": "2026-10-18T17:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Jameis Winston",
-    "away_qb_name": "Tyler Shough",
-    "roof": "outdoors",
-    "div_game": 0,
-    "key_player": [],
-    "venue": {
-     "name": "MetLife Stadium",
-     "roof": "outdoors",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Theo Johnson",
-        "position": "TE",
-        "status": "Out"
-       },
-       {
-        "player": "Colton Hood",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "Tyler Nubin",
-        "position": "S",
-        "status": "Out"
-       }
-      ],
-      "more": 3,
-      "counts": {
-       "Out": 3,
-       "Questionable": 3
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Anfernee Jennings",
-        "position": "LB",
-        "status": "Out"
-       },
-       {
-        "player": "Kaden Elliss",
-        "position": "LB",
-        "status": "Out"
-       },
-       {
-        "player": "Chris Olave",
-        "position": "WR",
-        "status": "Questionable"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 2,
-       "Questionable": 5
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 1170,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png"
-  },
-  {
-   "game_id": "2026-W06-PHI-CAR",
-   "home": "PHI",
-   "away": "CAR",
-   "home_name": "Philadelphia Eagles",
-   "away_name": "Carolina Panthers",
-   "start": "2026-10-18T17:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Tanner McKee",
-    "away_qb_name": "Bryce Young",
-    "roof": "outdoors",
-    "div_game": 0,
-    "key_player": [
-     {
-      "team": "PHI",
-      "role": "QB1",
-      "text": "Starter unconfirmed: the feeds disagree on who is starting",
-      "source": "nflverse games.csv last start vs depth chart",
-      "source_conflict": true
-     }
-    ],
-    "venue": {
-     "name": "Lincoln Financial Field",
-     "roof": "outdoors",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jalen Hurts",
-        "position": "QB",
-        "status": "Out"
-       },
-       {
-        "player": "Saquon Barkley",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Will Shipley",
-        "position": "RB",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 8
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "AJ Dillon",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Monroe Freeling",
-        "position": "T",
-        "status": "Doubtful"
-       },
-       {
-        "player": "Trevor Etienne",
-        "position": "RB",
-        "status": "Questionable"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 1,
-       "Doubtful": 1,
-       "Questionable": 5
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 14,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 448,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png"
-  },
-  {
-   "game_id": "2026-W06-TB-PIT",
-   "home": "TB",
-   "away": "PIT",
-   "home_name": "Tampa Bay Buccaneers",
-   "away_name": "Pittsburgh Steelers",
-   "start": "2026-10-18T17:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Jalon Daniels",
-    "away_qb_name": "Aaron Rodgers",
-    "roof": "outdoors",
-    "div_game": 0,
-    "key_player": [
-     {
-      "team": "TB",
-      "role": "QB1",
-      "text": "Baker Mayfield listed Out",
-      "source": "nflverse injury report"
-     }
-    ],
-    "venue": {
-     "name": "Raymond James Stadium",
-     "roof": "outdoors",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Baker Mayfield",
-        "position": "QB",
-        "status": "Out"
-       },
-       {
-        "player": "David Sills",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Antoine Winfield Jr.",
-        "position": "S",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 3,
-       "Doubtful": 1,
-       "Questionable": 4
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Ben Skowronek",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Roman Wilson",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "DeShon Elliott",
-        "position": "S",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 3,
-       "Questionable": 5
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 10,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 873,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/tb.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png"
-  },
-  {
-   "game_id": "2026-W06-LA-ARI",
-   "home": "LA",
-   "away": "ARI",
-   "home_name": "Los Angeles Rams",
-   "away_name": "Arizona Cardinals",
-   "start": "2026-10-18T20:05:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Matthew Stafford",
-    "away_qb_name": "Jacoby Brissett",
-    "roof": "dome",
-    "div_game": 1,
-    "key_player": [],
-    "venue": {
-     "name": "SoFi Stadium",
-     "roof": "dome",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Trent McDuffie",
-        "position": "CB",
-        "status": "Questionable"
-       },
-       {
-        "player": "Kam Curl",
-        "position": "S",
-        "status": "Questionable"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Questionable": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jeremiyah Love",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Andrew Wingard",
-        "position": "S",
-        "status": "Out"
-       },
-       {
-        "player": "Wydett Williams Jr.",
-        "position": "S",
-        "status": "Out"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 3,
-       "Questionable": 4
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 6,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 350,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png"
-  },
-  {
-   "game_id": "2026-W06-KC-LAC",
-   "home": "KC",
-   "away": "LAC",
-   "home_name": "Kansas City Chiefs",
-   "away_name": "Los Angeles Chargers",
-   "start": "2026-10-18T20:25:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Patrick Mahomes",
-    "away_qb_name": "Justin Herbert",
-    "roof": "outdoors",
-    "div_game": 1,
-    "key_player": [],
-    "venue": {
-     "name": "GEHA Field at Arrowhead Stadium",
-     "roof": "outdoors",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Rashee Rice",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Josh Simmons",
-        "position": "T",
-        "status": "Out"
-       },
-       {
-        "player": "L'Jarius Sneed",
-        "position": "CB",
-        "status": "Questionable"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 2,
-       "Questionable": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Tre Harris",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Joe Alt",
-        "position": "T",
-        "status": "Out"
-       },
-       {
-        "player": "Kayode Awosika",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 5,
-       "Doubtful": 1,
-       "Questionable": 2
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 14,
-     "away_days": 7,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 1366,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lac.png"
-  },
-  {
-   "game_id": "2026-W06-LV-BUF",
-   "home": "LV",
-   "away": "BUF",
-   "home_name": "Las Vegas Raiders",
-   "away_name": "Buffalo Bills",
-   "start": "2026-10-18T20:25:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Kirk Cousins",
-    "away_qb_name": "Josh Allen",
-    "roof": "dome",
-    "div_game": 0,
-    "key_player": [],
-    "venue": {
-     "name": "Allegiant Stadium",
-     "roof": "dome",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Dont'e Thornton Jr.",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Carter Runyon",
-        "position": "TE",
-        "status": "Out"
-       },
-       {
-        "player": "Tonka Hemingway",
-        "position": "DT",
-        "status": "Out"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Out": 3,
-       "Questionable": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "DJ Moore",
-        "position": "WR",
-        "status": "Questionable"
-       },
-       {
-        "player": "Josh Palmer",
-        "position": "WR",
-        "status": "Questionable"
-       },
-       {
-        "player": "Ed Oliver",
-        "position": "DE",
-        "status": "Questionable"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Questionable": 5
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 6,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 1980,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png"
-  },
-  {
-   "game_id": "2026-W06-GB-DAL",
-   "home": "GB",
-   "away": "DAL",
-   "home_name": "Green Bay Packers",
-   "away_name": "Dallas Cowboys",
-   "start": "2026-10-19T00:20:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Jordan Love",
-    "away_qb_name": "Dak Prescott",
-    "roof": "outdoors",
-    "div_game": 0,
-    "key_player": [],
-    "venue": {
-     "name": "Lambeau Field",
-     "roof": "outdoors",
-     "surface": null,
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Skyy Moore",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Javon Hargrave",
-        "position": "DT",
-        "status": "Out"
-       },
-       {
-        "player": "Jonathan Ford",
-        "position": "DT",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 4,
-       "Doubtful": 1,
-       "Questionable": 3
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Drew Shelton",
-        "position": "T",
-        "status": "Out"
-       },
-       {
-        "player": "Cobie Durant",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "LT Overton",
-        "position": "DT",
-        "status": "Questionable"
-       }
-      ],
-      "more": 3,
-      "counts": {
-       "Out": 2,
-       "Questionable": 4
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 7,
-     "away_days": 10,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 946,
-     "in_price": false
-    }
-   },
-   "refusal": null,
-   "started": true,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png"
-  },
-  {
-   "game_id": "2026-W06-SF-WAS",
-   "home": "SF",
-   "away": "WAS",
-   "home_name": "San Francisco 49ers",
-   "away_name": "Washington Commanders",
-   "start": "2026-10-20T00:15:00Z",
-   "markets": {
-    "spread": {
-     "market": "spread",
-     "status": "priced",
-     "refusal": null,
-     "line": -7.5,
-     "side": "home",
-     "selection": "San Francisco 49ers",
-     "best_price_decimal": 2.0,
-     "best_price_american": 100,
-     "best_book": "sport888",
-     "books": 18,
-     "p_model": 0.57688,
-     "p_market": 0.49363,
-     "edge": 0.08325,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": -7.5,
-     "open_p_market": 0.49294,
-     "open_at": "2026-10-07T14:00:47Z"
-    },
-    "moneyline": {
-     "market": "moneyline",
-     "status": "priced",
-     "refusal": null,
-     "line": null,
-     "side": "home",
-     "selection": "San Francisco 49ers",
-     "best_price_decimal": 1.29,
-     "best_price_american": -345,
-     "best_book": "betfair_ex_eu",
-     "books": 21,
-     "p_model": 0.81321,
-     "p_market": 0.7909,
-     "edge": 0.02231,
-     "tier": "no_edge",
-     "stake_fraction": 0.0,
-     "unsized_reason": "Unsized \u2014 not yet graded against the market",
-     "open_line": null,
-     "open_p_market": 0.7909,
-     "open_at": "2026-10-07T14:00:47Z"
-    }
-   },
-   "headline": "spread",
-   "context": {
-    "home_qb_name": "Brock Purdy",
-    "away_qb_name": "Jayden Daniels",
-    "roof": "outdoors",
-    "div_game": 0,
-    "key_player": [],
-    "venue": {
-     "name": "Levi's Stadium",
-     "roof": "outdoors",
-     "surface": "grass",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "forecast",
-     "temp_f": 60.5,
-     "wind_mph": 12.7,
-     "precip_prob": 0,
-     "forecast_hour": "2026-10-19T20:00",
-     "source": "Open-Meteo",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "nflverse",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Deebo Samuel Sr.",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Nick Bosa",
-        "position": "DE",
-        "status": "Out"
-       },
-       {
-        "player": "Garret Wallow",
-        "position": "LB",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 4,
-       "Questionable": 4
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Marcus Mariota",
-        "position": "QB",
-        "status": "Out"
-       },
-       {
-        "player": "Jacory Croskey-Merritt",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Charles Omenihu",
-        "position": "DE",
-        "status": "Out"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Out": 4,
-       "Questionable": 4
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_days": 8,
-     "away_days": 8,
-     "in_price": true,
-     "note": "The rest difference is one of the model's inputs."
-    },
-    "travel": {
-     "away_miles": 2428,
-     "in_price": false
-    }
-   },
-   "refusal": null,
    "model": {
-    "p_home_win": 0.81321,
-    "margin_mean": 11.724,
+    "p_home_win": 0.23224,
+    "margin_mean": -9.848,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
      "ngs_present": true,
      "reason": null,
      "feature_values": {
-      "rating_diff": 0.3097630656159701,
+      "rating_diff": -0.08632875281305964,
       "rest_diff": 0.0,
-      "cpoe_diff": 5.80668068481561,
-      "separation_diff": 0.04662092857509581,
-      "yac_oe_diff": 0.8186169781828241,
-      "ryoe_diff": 0.4413097330121486,
-      "elo_diff": 244.2805656270907,
-      "is_neutral_site": false
+      "cpoe_diff": 2.9237859556204993,
+      "separation_diff": -0.1351026073023216,
+      "yac_oe_diff": -0.38112442078858916,
+      "ryoe_diff": -2.184857568658702,
+      "elo_diff": -145.39608488002068,
+      "is_neutral_site": true
      }
     },
     "margin_pmf": {
      "from": -28,
      "to": 28,
      "mass": [
-      0.00032,
-      0.0004,
-      0.0005,
-      0.00062,
-      0.00076,
-      0.00093,
-      0.00053,
-      0.00182,
-      0.00154,
-      0.001,
-      0.0023,
-      0.00326,
+      0.01259,
+      0.01388,
+      0.01521,
+      0.01659,
+      0.01798,
+      0.01938,
+      0.0096,
+      0.02931,
+      0.02183,
+      0.01248,
+      0.02533,
+      0.0316,
+      0.02501,
+      0.01695,
+      0.04306,
+      0.02556,
+      0.01324,
+      0.01633,
+      0.03031,
+      0.00872,
+      0.0242,
+      0.05803,
+      0.0376,
+      0.02013,
+      0.02781,
+      0.06853,
+      0.02098,
+      0.01671,
+      0.00274,
+      0.01766,
+      0.01481,
+      0.05366,
+      0.01514,
+      0.01158,
+      0.01901,
+      0.02348,
+      0.01112,
+      0.00401,
+      0.01432,
+      0.00515,
+      0.0034,
       0.00293,
-      0.00226,
-      0.00651,
-      0.00439,
+      0.00889,
       0.00258,
       0.00361,
-      0.00761,
-      0.00249,
-      0.00783,
-      0.02132,
-      0.01568,
-      0.00953,
-      0.01495,
-      0.04183,
-      0.01454,
-      0.01314,
-      0.00245,
-      0.0179,
-      0.01704,
-      0.07012,
-      0.02246,
-      0.0195,
-      0.03635,
-      0.05098,
-      0.02742,
-      0.01122,
-      0.0455,
-      0.01858,
-      0.01393,
-      0.01363,
-      0.04689,
-      0.01547,
-      0.02453,
-      0.02737,
-      0.02734,
-      0.01077,
-      0.02639,
-      0.03226,
-      0.01356,
-      0.0126,
-      0.02923,
-      0.01515,
-      0.01817,
-      0.01681,
-      0.01542
+      0.00354,
+      0.00312,
+      0.00108,
+      0.00234,
+      0.00252,
+      0.00093,
+      0.00076,
+      0.00156,
+      0.00071,
+      0.00075,
+      0.00061,
+      0.00049
      ],
      "binned": false,
-     "tail_below": 0.00114,
-     "tail_above": 0.11466,
+     "tail_below": 0.0867,
+     "tail_above": 0.00184,
      "key_numbers": [
       -7,
       -3,
@@ -1562,112 +523,1200 @@
      "reason": "Not priced: the totals model failed its grade."
     }
    },
-   "event_id": "f122527f003276d3bca19efa48c902c1",
+   "event_id": "2e710ea5a306b614f0f966e3d78732f8",
    "line_history": {
     "points": [
      {
-      "captured_at": "2026-10-09T14:01:39Z",
+      "captured_at": "2026-10-14T14:01:34Z",
       "kind": "early",
-      "line": -7.5,
-      "price": 1.915,
-      "p_market": 0.49647,
-      "books": 8
+      "line": -2.0,
+      "price": 1.89,
+      "p_market": 0.50423,
+      "books": 9
      },
      {
-      "captured_at": "2026-10-10T14:00:49Z",
+      "captured_at": "2026-10-15T14:01:23Z",
       "kind": "early",
-      "line": -7.5,
-      "price": 1.915,
-      "p_market": 0.49647,
-      "books": 8
+      "line": -2.0,
+      "price": 1.89,
+      "p_market": 0.50423,
+      "books": 9
      },
      {
-      "captured_at": "2026-10-11T13:30:00Z",
+      "captured_at": "2026-10-16T00:10:00Z",
       "kind": "current",
-      "line": -7.5,
+      "line": -2.0,
       "price": 1.91,
       "p_market": 0.5,
       "books": 9
      },
      {
-      "captured_at": "2026-10-11T14:01:50Z",
-      "kind": "early",
-      "line": -7.5,
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": -2.25,
       "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-11T16:55:00Z",
-      "kind": "current",
-      "line": -7.5,
-      "price": 1.915,
-      "p_market": 0.49647,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-11T17:00:00Z",
-      "kind": "current",
-      "line": -7.5,
-      "price": 1.915,
-      "p_market": 0.49647,
-      "books": 8
-     },
-     {
-      "captured_at": "2026-10-12T00:15:00Z",
-      "kind": "current",
-      "line": -7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 9
-     },
-     {
-      "captured_at": "2026-10-12T00:18:00Z",
-      "kind": "current",
-      "line": -7.5,
-      "price": 1.915,
       "p_market": 0.5,
       "books": 10
      },
      {
-      "captured_at": "2026-10-12T14:01:17Z",
+      "captured_at": "2026-10-16T14:01:49Z",
       "kind": "early",
-      "line": -7.5,
+      "line": -2.25,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 10
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": -2.25,
+      "price": 1.915,
+      "p_market": 0.49716,
+      "books": 10
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": -9.85,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png"
+  },
+  {
+   "game_id": "2026-W07-ATL-SF",
+   "home": "ATL",
+   "away": "SF",
+   "home_name": "Atlanta Falcons",
+   "away_name": "San Francisco 49ers",
+   "start": "2026-10-25T17:00:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -4.5,
+     "side": "away",
+     "selection": "San Francisco 49ers",
+     "best_price_decimal": 1.96,
+     "best_price_american": -104,
+     "best_book": "gtbets",
+     "books": 8,
+     "p_model": 0.63418,
+     "p_market": 0.49577,
+     "edge": 0.13841,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -5.5,
+     "open_p_market": 0.50423,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "San Francisco 49ers",
+     "best_price_decimal": 1.44,
+     "best_price_american": -227,
+     "best_book": "gtbets",
+     "books": 7,
+     "p_model": 0.76981,
+     "p_market": 0.67863,
+     "edge": 0.09118,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.69194,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Michael Penix Jr.",
+    "away_qb_name": "Brock Purdy",
+    "div_game": 0,
+    "key_player": [],
+    "venue": {
+     "name": "Mercedes-Benz Stadium",
+     "roof": "nan",
+     "surface": "fieldturf",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 67.3,
+     "wind_mph": 11.0,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-25T13:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 4,
+      "counts": {
+       "Questionable": 4
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 8,
+      "counts": {
+       "Out": 3,
+       "Questionable": 5
+      }
+     },
+     "counts_only": true
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 6,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 2112,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.23019,
+    "margin_mean": -9.94,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.3019166675096491,
+      "rest_diff": 1.0,
+      "cpoe_diff": -8.496224015025394,
+      "separation_diff": 0.017115105690141963,
+      "yac_oe_diff": 1.3766664279354495,
+      "ryoe_diff": 1.171421140724321,
+      "elo_diff": -206.70647876142812,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.0127,
+      0.014,
+      0.01534,
+      0.01672,
+      0.01811,
+      0.01951,
+      0.00966,
+      0.02948,
+      0.02195,
+      0.01254,
+      0.02543,
+      0.03172,
+      0.02509,
+      0.017,
+      0.04315,
+      0.0256,
+      0.01326,
+      0.01633,
+      0.03031,
+      0.00872,
+      0.02418,
+      0.05795,
+      0.03752,
+      0.02008,
+      0.02772,
+      0.06829,
+      0.0209,
+      0.01663,
+      0.00273,
+      0.01756,
+      0.01472,
+      0.0533,
+      0.01503,
+      0.01149,
+      0.01885,
+      0.02328,
+      0.01102,
+      0.00397,
+      0.01418,
+      0.0051,
+      0.00336,
+      0.0029,
+      0.00878,
+      0.00255,
+      0.00356,
+      0.00349,
+      0.00307,
+      0.00107,
+      0.0023,
+      0.00248,
+      0.00092,
+      0.00075,
+      0.00153,
+      0.0007,
+      0.00074,
+      0.0006,
+      0.00048
+     ],
+     "binned": false,
+     "tail_below": 0.08782,
+     "tail_above": 0.0018,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "b1be064fb52a198a62109c279e7ab24c",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": -5.5,
+      "price": 1.89,
+      "p_market": 0.50372,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": -4.5,
       "price": 1.92,
-      "p_market": 0.49432,
-      "books": 17
+      "p_market": 0.49628,
+      "books": 7
      },
      {
-      "captured_at": "2026-10-13T00:10:00Z",
+      "captured_at": "2026-10-16T00:10:00Z",
       "kind": "current",
-      "line": -7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
+      "line": -4.5,
+      "price": 1.92,
+      "p_market": 0.49577,
+      "books": 7
      },
      {
-      "captured_at": "2026-10-13T00:13:00Z",
+      "captured_at": "2026-10-16T00:15:00Z",
       "kind": "current",
-      "line": -7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 17
+      "line": -4.5,
+      "price": 1.92,
+      "p_market": 0.49577,
+      "books": 7
      },
      {
-      "captured_at": "2026-10-13T14:01:42Z",
+      "captured_at": "2026-10-16T14:01:49Z",
       "kind": "early",
-      "line": -7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
+      "line": -4.5,
+      "price": 1.92,
+      "p_market": 0.49577,
+      "books": 7
      },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": -4.5,
+      "price": 1.92,
+      "p_market": 0.49577,
+      "books": 8
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": -9.94,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sf.png"
+  },
+  {
+   "game_id": "2026-W07-BAL-CIN",
+   "home": "BAL",
+   "away": "CIN",
+   "home_name": "Baltimore Ravens",
+   "away_name": "Cincinnati Bengals",
+   "start": "2026-10-25T17:00:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 3.5,
+     "side": "away",
+     "selection": "Cincinnati Bengals",
+     "best_price_decimal": 1.91,
+     "best_price_american": -110,
+     "best_book": "sport888",
+     "books": 9,
+     "p_model": 0.56963,
+     "p_market": 0.51422,
+     "edge": 0.0554,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 3.5,
+     "open_p_market": 0.51422,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Cincinnati Bengals",
+     "best_price_decimal": 2.55,
+     "best_price_american": 155,
+     "best_book": "unibet_nl",
+     "books": 10,
+     "p_model": 0.43353,
+     "p_market": 0.36979,
+     "edge": 0.06374,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.36254,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Tyler Huntley",
+    "away_qb_name": "Joe Burrow",
+    "roof": "outdoors",
+    "div_game": 1,
+    "key_player": [
+     {
+      "team": "BAL",
+      "role": "QB1",
+      "text": "Lamar Jackson listed Questionable",
+      "source": "ESPN injury report"
+     }
+    ],
+    "venue": {
+     "name": "M&T Bank Stadium",
+     "roof": "outdoors",
+     "surface": "grass",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 62.8,
+     "wind_mph": 4.5,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-25T13:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Lamar Jackson",
+        "position": "QB",
+        "status": "Questionable"
+       },
+       {
+        "player": "Rashod Bateman",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Matt Hibner",
+        "position": "TE",
+        "status": "Questionable"
+       }
+      ],
+      "more": 3,
+      "counts": {
+       "Questionable": 6
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Tanner Hudson",
+        "position": "TE",
+        "status": "Out"
+       },
+       {
+        "player": "Swayze Bozeman",
+        "position": "LB",
+        "status": "Out"
+       },
+       {
+        "player": "Colbie Young",
+        "position": "WR",
+        "status": "Questionable"
+       }
+      ],
+      "more": 1,
+      "counts": {
+       "Out": 2,
+       "Questionable": 2
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 14,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 423,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.56647,
+    "margin_mean": 2.026,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.022032452626361193,
+      "rest_diff": -7.0,
+      "cpoe_diff": -1.3859244696859334,
+      "separation_diff": 0.298345302911466,
+      "yac_oe_diff": 0.08494688115963067,
+      "ryoe_diff": 0.5610011503280146,
+      "elo_diff": 52.15807684867059,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00229,
+      0.00271,
+      0.00319,
+      0.00373,
+      0.00434,
+      0.00502,
+      0.00267,
+      0.00874,
+      0.00699,
+      0.00429,
+      0.00934,
+      0.0125,
+      0.01062,
+      0.00772,
+      0.02104,
+      0.0134,
+      0.00745,
+      0.00986,
+      0.01964,
+      0.00606,
+      0.01805,
+      0.04644,
+      0.03229,
+      0.01855,
+      0.02749,
+      0.07271,
+      0.02388,
+      0.02041,
+      0.00359,
+      0.02484,
+      0.02234,
+      0.08688,
+      0.0263,
+      0.02158,
+      0.03803,
+      0.0504,
+      0.02562,
+      0.00991,
+      0.03798,
+      0.01466,
+      0.01039,
+      0.0096,
+      0.03124,
+      0.00974,
+      0.0146,
+      0.01539,
+      0.01453,
+      0.00541,
+      0.01253,
+      0.01448,
+      0.00575,
+      0.00505,
+      0.01107,
+      0.00543,
+      0.00615,
+      0.00538,
+      0.00466
+     ],
+     "binned": false,
+     "tail_below": 0.01054,
+     "tail_above": 0.02449,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "550ec5290f935d311995affbcb0b5c79",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.88,
+      "p_market": 0.50568,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.86,
+      "p_market": 0.51138,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 10
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": 2.03,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png"
+  },
+  {
+   "game_id": "2026-W07-CAR-TB",
+   "home": "CAR",
+   "away": "TB",
+   "home_name": "Carolina Panthers",
+   "away_name": "Tampa Bay Buccaneers",
+   "start": "2026-10-25T17:00:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -2.5,
+     "side": "home",
+     "selection": "Carolina Panthers",
+     "best_price_decimal": 1.87,
+     "best_price_american": -115,
+     "best_book": "unibet_nl",
+     "books": 9,
+     "p_model": 0.54336,
+     "p_market": 0.52122,
+     "edge": 0.02214,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -2.5,
+     "open_p_market": 0.51122,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Carolina Panthers",
+     "best_price_decimal": 1.67,
+     "best_price_american": -149,
+     "best_book": "nordicbet",
+     "books": 9,
+     "p_model": 0.5924,
+     "p_market": 0.5808,
+     "edge": 0.01161,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.58715,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Bryce Young",
+    "away_qb_name": "Jalon Daniels",
+    "roof": "outdoors",
+    "div_game": 1,
+    "key_player": [
+     {
+      "team": "TB",
+      "role": "QB1",
+      "text": "Baker Mayfield listed Questionable",
+      "source": "ESPN injury report"
+     }
+    ],
+    "venue": {
+     "name": "Bank of America Stadium",
+     "roof": "outdoors",
+     "surface": "grass",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 65.5,
+     "wind_mph": 9.2,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-25T13:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Jonathon Brooks",
+        "position": "RB",
+        "status": "Out"
+       },
+       {
+        "player": "Cam Jackson",
+        "position": "DT",
+        "status": "Out"
+       },
+       {
+        "player": "AJ Dillon",
+        "position": "RB",
+        "status": "Questionable"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Out": 2,
+       "Questionable": 3
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "David Sills V",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Antoine Winfield Jr.",
+        "position": "S",
+        "status": "Doubtful"
+       },
+       {
+        "player": "Baker Mayfield",
+        "position": "QB",
+        "status": "Questionable"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Out": 1,
+       "Doubtful": 1,
+       "Questionable": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 7,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 510,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.5924,
+    "margin_mean": 2.894,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": 0.11425071941274513,
+      "rest_diff": 0.0,
+      "cpoe_diff": 4.717698908057113,
+      "separation_diff": -0.4359130931202282,
+      "yac_oe_diff": -0.1382444954645686,
+      "ryoe_diff": 0.36280661631099753,
+      "elo_diff": 54.400962416581024,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00195,
+      0.00232,
+      0.00275,
+      0.00323,
+      0.00378,
+      0.0044,
+      0.00235,
+      0.00773,
+      0.00621,
+      0.00383,
+      0.00839,
+      0.01129,
+      0.00964,
+      0.00705,
+      0.0193,
+      0.01236,
+      0.00691,
+      0.00918,
+      0.0184,
+      0.00571,
+      0.01709,
+      0.0442,
+      0.03089,
+      0.01784,
+      0.02658,
+      0.07066,
+      0.02333,
+      0.02004,
+      0.00355,
+      0.02465,
+      0.02229,
+      0.08713,
+      0.02651,
+      0.02187,
+      0.03874,
+      0.05162,
+      0.02638,
+      0.01026,
+      0.03951,
+      0.01533,
+      0.01092,
+      0.01015,
+      0.03318,
+      0.0104,
+      0.01567,
+      0.01661,
+      0.01577,
+      0.0059,
+      0.01374,
+      0.01596,
+      0.00637,
+      0.00563,
+      0.0124,
+      0.00611,
+      0.00696,
+      0.00612,
+      0.00533
+     ],
+     "binned": false,
+     "tail_below": 0.00875,
+     "tail_above": 0.02882,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "2823e986597c449ab94126cd5ed3fae9",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": -2.5,
+      "price": 1.87,
+      "p_market": 0.51122,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": -2.5,
+      "price": 1.83,
+      "p_market": 0.52344,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": -2.5,
+      "price": 1.87,
+      "p_market": 0.51048,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": -2.5,
+      "price": 1.87,
+      "p_market": 0.51108,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": -2.5,
+      "price": 1.84,
+      "p_market": 0.51312,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": -2.5,
+      "price": 1.835,
+      "p_market": 0.51717,
+      "books": 10
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": -2.89,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/tb.png"
+  },
+  {
+   "game_id": "2026-W07-HOU-NYG",
+   "home": "HOU",
+   "away": "NYG",
+   "home_name": "Houston Texans",
+   "away_name": "New York Giants",
+   "start": "2026-10-25T17:00:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -7.5,
+     "side": "home",
+     "selection": "Houston Texans",
+     "best_price_decimal": 2.0,
+     "best_price_american": 100,
+     "best_book": "sport888",
+     "books": 8,
+     "p_model": 0.51186,
+     "p_market": 0.49439,
+     "edge": 0.01747,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -7.5,
+     "open_p_market": 0.5,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "New York Giants",
+     "best_price_decimal": 4.3,
+     "best_price_american": 330,
+     "best_book": "unibet_nl",
+     "books": 10,
+     "p_model": 0.2328,
+     "p_market": 0.21765,
+     "edge": 0.01515,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.20764,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "C.J. Stroud",
+    "away_qb_name": "Jameis Winston",
+    "div_game": 0,
+    "key_player": [],
+    "venue": {
+     "name": "Reliant Stadium",
+     "roof": "nan",
+     "surface": "astroturf",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 77.7,
+     "wind_mph": 9.5,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-25T13:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Tank Dell",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Jake Hummel",
+        "position": "LB",
+        "status": "Out"
+       },
+       {
+        "player": "Jalen Pitre",
+        "position": "S",
+        "status": "Doubtful"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Out": 2,
+       "Doubtful": 1,
+       "Questionable": 2
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Braxton Berrios",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Darnell Mooney",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Theo Johnson",
+        "position": "TE",
+        "status": "Questionable"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "Out": 1,
+       "Questionable": 7
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 7,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 1423,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.7672,
+    "margin_mean": 9.52,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": 0.06996279405763614,
+      "rest_diff": 0.0,
+      "cpoe_diff": 11.701391196945874,
+      "separation_diff": 0.013736146993749365,
+      "yac_oe_diff": 0.44971906346834734,
+      "ryoe_diff": 0.1857066365091437,
+      "elo_diff": 122.79209459744993,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00052,
+      0.00064,
+      0.00079,
+      0.00096,
+      0.00117,
+      0.00142,
+      0.00079,
+      0.00269,
+      0.00225,
+      0.00144,
+      0.00328,
+      0.00459,
+      0.00407,
+      0.0031,
+      0.00882,
+      0.00587,
+      0.00341,
+      0.00471,
+      0.00982,
+      0.00317,
+      0.00986,
+      0.0265,
+      0.01925,
+      0.01156,
+      0.01791,
+      0.04948,
+      0.01699,
+      0.01517,
+      0.00279,
+      0.02016,
+      0.01896,
+      0.07703,
+      0.02437,
+      0.0209,
+      0.03848,
+      0.05331,
+      0.02832,
+      0.01145,
+      0.04584,
+      0.01849,
+      0.01369,
+      0.01323,
+      0.04497,
+      0.01465,
+      0.02295,
+      0.02529,
+      0.02496,
+      0.00971,
+      0.0235,
+      0.02838,
+      0.01178,
+      0.01081,
+      0.02478,
+      0.01269,
+      0.01503,
+      0.01374,
+      0.01244
+     ],
+     "binned": false,
+     "tail_below": 0.00194,
+     "tail_above": 0.08515,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "2bba7fde6f97d0e54403d53676e4ab63",
+   "line_history": {
+    "points": [
      {
       "captured_at": "2026-10-14T14:01:34Z",
       "kind": "early",
       "line": -7.5,
       "price": 1.91,
       "p_market": 0.5,
-      "books": 18
+      "books": 9
      },
      {
       "captured_at": "2026-10-15T14:01:23Z",
@@ -1675,55 +1724,2056 @@
       "line": -7.5,
       "price": 1.91,
       "p_market": 0.5,
-      "books": 18
+      "books": 9
      },
      {
       "captured_at": "2026-10-16T00:10:00Z",
       "kind": "current",
       "line": -7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 16
+      "price": 1.93,
+      "p_market": 0.49446,
+      "books": 8
      },
      {
       "captured_at": "2026-10-16T00:15:00Z",
       "kind": "current",
       "line": -7.5,
-      "price": 1.91,
-      "p_market": 0.5,
-      "books": 18
+      "price": 1.95,
+      "p_market": 0.48892,
+      "books": 9
      },
      {
       "captured_at": "2026-10-16T14:01:49Z",
       "kind": "early",
       "line": -7.5,
       "price": 1.91,
-      "p_market": 0.4972,
-      "books": 18
+      "p_market": 0.5,
+      "books": 9
      },
      {
       "captured_at": "2026-10-17T14:01:09Z",
       "kind": "early",
       "line": -7.5,
-      "price": 1.93,
-      "p_market": 0.49363,
-      "books": 18
+      "price": 1.915,
+      "p_market": 0.5,
+      "books": 10
      }
     ],
-    "captures": 18,
+    "captures": 6,
     "close_at": null,
     "frozen": false,
     "missed_windows": []
    },
-   "fair_line": -11.72,
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sf.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/wsh.png"
+   "fair_line": -9.52,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyg.png"
+  },
+  {
+   "game_id": "2026-W07-MIN-IND",
+   "home": "MIN",
+   "away": "IND",
+   "home_name": "Minnesota Vikings",
+   "away_name": "Indianapolis Colts",
+   "start": "2026-10-25T17:00:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -5.0,
+     "side": "home",
+     "selection": "Minnesota Vikings",
+     "best_price_decimal": 1.95,
+     "best_price_american": -105,
+     "best_book": "betonlineag",
+     "books": 5,
+     "p_model": 0.61027,
+     "p_market": 0.5,
+     "edge": 0.11027,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -5.0,
+     "open_p_market": 0.49577,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Minnesota Vikings",
+     "best_price_decimal": 1.43,
+     "best_price_american": -233,
+     "best_book": "unibet_nl",
+     "books": 10,
+     "p_model": 0.76229,
+     "p_market": 0.69038,
+     "edge": 0.07191,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.6819,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Kyler Murray",
+    "away_qb_name": "Daniel Jones",
+    "roof": "dome",
+    "div_game": 0,
+    "key_player": [],
+    "venue": {
+     "name": "U.S. Bank Stadium",
+     "roof": "dome",
+     "surface": "sportturf",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 7,
+      "counts": {
+       "Out": 3,
+       "Questionable": 4
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 8,
+      "counts": {
+       "Out": 2,
+       "Doubtful": 1,
+       "Questionable": 5
+      }
+     },
+     "counts_only": true
+    },
+    "rest": {
+     "home_days": 14,
+     "away_days": 7,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 510,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.76229,
+    "margin_mean": 9.302,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.030378487409043226,
+      "rest_diff": 7.0,
+      "cpoe_diff": 4.2924315814025835,
+      "separation_diff": 0.12883095787948395,
+      "yac_oe_diff": 0.16001267423850712,
+      "ryoe_diff": -0.187677800724222,
+      "elo_diff": 206.07652218453222,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00054,
+      0.00067,
+      0.00082,
+      0.00101,
+      0.00122,
+      0.00147,
+      0.00082,
+      0.0028,
+      0.00233,
+      0.00149,
+      0.00339,
+      0.00474,
+      0.0042,
+      0.00319,
+      0.00908,
+      0.00604,
+      0.0035,
+      0.00483,
+      0.01005,
+      0.00324,
+      0.01007,
+      0.02704,
+      0.01962,
+      0.01177,
+      0.0182,
+      0.05025,
+      0.01723,
+      0.01536,
+      0.00282,
+      0.02037,
+      0.01913,
+      0.07764,
+      0.02453,
+      0.02101,
+      0.03864,
+      0.05346,
+      0.02837,
+      0.01145,
+      0.04581,
+      0.01846,
+      0.01365,
+      0.01317,
+      0.04472,
+      0.01455,
+      0.02277,
+      0.02506,
+      0.0247,
+      0.00959,
+      0.0232,
+      0.02798,
+      0.0116,
+      0.01063,
+      0.02433,
+      0.01244,
+      0.01472,
+      0.01344,
+      0.01216
+     ],
+     "binned": false,
+     "tail_below": 0.00204,
+     "tail_above": 0.08254,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "f3992ad4496724baf7dcd1ef58245d6b",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": -5.0,
+      "price": 1.91,
+      "p_market": 0.49628,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": -5.0,
+      "price": 1.92,
+      "p_market": 0.49628,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": -5.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": -5.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": -5.0,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": -5.0,
+      "price": 1.915,
+      "p_market": 0.49906,
+      "books": 10
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": -9.3,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/min.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png"
+  },
+  {
+   "game_id": "2026-W07-NYJ-MIA",
+   "home": "NYJ",
+   "away": "MIA",
+   "home_name": "New York Jets",
+   "away_name": "Miami Dolphins",
+   "start": "2026-10-25T17:00:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 4.5,
+     "side": "away",
+     "selection": "Miami Dolphins",
+     "best_price_decimal": 1.92,
+     "best_price_american": -109,
+     "best_book": "gtbets",
+     "books": 10,
+     "p_model": 0.53285,
+     "p_market": 0.5,
+     "edge": 0.03285,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 4.5,
+     "open_p_market": 0.49814,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Miami Dolphins",
+     "best_price_decimal": 2.9,
+     "best_price_american": 190,
+     "best_book": "sport888",
+     "books": 10,
+     "p_model": 0.37105,
+     "p_market": 0.32137,
+     "edge": 0.04969,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.32285,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Geno Smith",
+    "away_qb_name": "Malik Willis",
+    "roof": "outdoors",
+    "div_game": 1,
+    "key_player": [],
+    "venue": {
+     "name": "MetLife Stadium",
+     "roof": "outdoors",
+     "surface": "fieldturf",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 63.1,
+     "wind_mph": 6.7,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-25T13:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Adonai Mitchell",
+        "position": "WR",
+        "status": "Doubtful"
+       },
+       {
+        "player": "Breece Hall",
+        "position": "RB",
+        "status": "Questionable"
+       },
+       {
+        "player": "Dylan Parham",
+        "position": "G",
+        "status": "Questionable"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Doubtful": 1,
+       "Questionable": 4
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Caleb Douglas",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Justin Joly",
+        "position": "TE",
+        "status": "Questionable"
+       },
+       {
+        "player": "Jonah Savaiinaea",
+        "position": "G",
+        "status": "Questionable"
+       }
+      ],
+      "more": 4,
+      "counts": {
+       "Questionable": 7
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 14,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 1085,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.62895,
+    "margin_mean": 4.146,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": 0.06582780486250682,
+      "rest_diff": -7.0,
+      "cpoe_diff": 7.899710126032162,
+      "separation_diff": 0.2655456943536918,
+      "yac_oe_diff": -0.7543306766488258,
+      "ryoe_diff": 0.3118162343591112,
+      "elo_diff": 1.4864775797154834,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00154,
+      0.00185,
+      0.0022,
+      0.00261,
+      0.00307,
+      0.0036,
+      0.00194,
+      0.00643,
+      0.00521,
+      0.00323,
+      0.00713,
+      0.00967,
+      0.00832,
+      0.00613,
+      0.01692,
+      0.01092,
+      0.00615,
+      0.00823,
+      0.01662,
+      0.0052,
+      0.01567,
+      0.04084,
+      0.02875,
+      0.01673,
+      0.02512,
+      0.06728,
+      0.02238,
+      0.01937,
+      0.00345,
+      0.02418,
+      0.02204,
+      0.08679,
+      0.02661,
+      0.02212,
+      0.03947,
+      0.05299,
+      0.02728,
+      0.01069,
+      0.04148,
+      0.01622,
+      0.01164,
+      0.0109,
+      0.03591,
+      0.01134,
+      0.01721,
+      0.01838,
+      0.01758,
+      0.00663,
+      0.01555,
+      0.0182,
+      0.00732,
+      0.00651,
+      0.01446,
+      0.00718,
+      0.00824,
+      0.0073,
+      0.00641
+     ],
+     "binned": false,
+     "tail_below": 0.00665,
+     "tail_above": 0.03617,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "be5dd120ca08b43d647b6caa8953500a",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": 4.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": 4.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": 4.5,
+      "price": 1.915,
+      "p_market": 0.49814,
+      "books": 8
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": 4.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": 4.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 9
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": 4.5,
+      "price": 1.91,
+      "p_market": 0.5,
+      "books": 10
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": 4.15,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/mia.png"
+  },
+  {
+   "game_id": "2026-W07-TEN-CLE",
+   "home": "TEN",
+   "away": "CLE",
+   "home_name": "Tennessee Titans",
+   "away_name": "Cleveland Browns",
+   "start": "2026-10-25T17:00:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": -1.5,
+     "side": "away",
+     "selection": "Cleveland Browns",
+     "best_price_decimal": 1.92,
+     "best_price_american": -109,
+     "best_book": "gtbets",
+     "books": 7,
+     "p_model": 0.61802,
+     "p_market": 0.50372,
+     "edge": 0.1143,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": -1.5,
+     "open_p_market": 0.50398,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Cleveland Browns",
+     "best_price_decimal": 1.83,
+     "best_price_american": -120,
+     "best_book": "gtbets",
+     "books": 8,
+     "p_model": 0.64026,
+     "p_market": 0.53097,
+     "edge": 0.10928,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.53341,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Cam Ward",
+    "away_qb_name": "Deshaun Watson",
+    "roof": "outdoors",
+    "div_game": 0,
+    "key_player": [],
+    "venue": {
+     "name": "Nissan Stadium",
+     "roof": "outdoors",
+     "surface": "grass",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 72.8,
+     "wind_mph": 1.9,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-25T13:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 2,
+      "counts": {
+       "Questionable": 2
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 8,
+      "counts": {
+       "Out": 2,
+       "Questionable": 6
+      }
+     },
+     "counts_only": true
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 7,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 459,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.35974,
+    "margin_mean": -4.858,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": 0.04488726513518397,
+      "rest_diff": 0.0,
+      "cpoe_diff": 2.2524566530294146,
+      "separation_diff": -0.48241639587476737,
+      "yac_oe_diff": -0.8275666742455432,
+      "ryoe_diff": 0.6158005204008116,
+      "elo_diff": -146.77507809737722,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00692,
+      0.00786,
+      0.00887,
+      0.00995,
+      0.0111,
+      0.01232,
+      0.00628,
+      0.01974,
+      0.01513,
+      0.0089,
+      0.0186,
+      0.02389,
+      0.01946,
+      0.01358,
+      0.03551,
+      0.0217,
+      0.01157,
+      0.01468,
+      0.02806,
+      0.00831,
+      0.02374,
+      0.0586,
+      0.03908,
+      0.02154,
+      0.03062,
+      0.07769,
+      0.02448,
+      0.02007,
+      0.00339,
+      0.02248,
+      0.0194,
+      0.07236,
+      0.02101,
+      0.01654,
+      0.02796,
+      0.03555,
+      0.01734,
+      0.00643,
+      0.02365,
+      0.00876,
+      0.00595,
+      0.00528,
+      0.01647,
+      0.00493,
+      0.00708,
+      0.00717,
+      0.00649,
+      0.00232,
+      0.00515,
+      0.00571,
+      0.00218,
+      0.00183,
+      0.00385,
+      0.00181,
+      0.00197,
+      0.00165,
+      0.00137
+     ],
+     "binned": false,
+     "tail_below": 0.03985,
+     "tail_above": 0.00584,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "5dce18baccec5d3ad5fb3a3ce52f7619",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": -1.5,
+      "price": 1.89,
+      "p_market": 0.50372,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": -1.5,
+      "price": 1.89,
+      "p_market": 0.50372,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": -1.5,
+      "price": 1.89,
+      "p_market": 0.50372,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": -1.5,
+      "price": 1.89,
+      "p_market": 0.50372,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": -1.5,
+      "price": 1.89,
+      "p_market": 0.50372,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": -1.5,
+      "price": 1.9,
+      "p_market": 0.50186,
+      "books": 8
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": -4.86,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png"
+  },
+  {
+   "game_id": "2026-W07-ARI-DEN",
+   "home": "ARI",
+   "away": "DEN",
+   "home_name": "Arizona Cardinals",
+   "away_name": "Denver Broncos",
+   "start": "2026-10-25T20:05:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Jacoby Brissett",
+    "away_qb_name": "Bo Nix",
+    "div_game": 0,
+    "key_player": [],
+    "venue": {
+     "name": "State Farm Stadium",
+     "roof": "nan",
+     "surface": "grass",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 78.6,
+     "wind_mph": 3.5,
+     "precip_prob": 1,
+     "forecast_hour": "2026-10-25T16:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "James Conner",
+        "position": "RB",
+        "status": "Out"
+       },
+       {
+        "player": "Jeremiyah Love",
+        "position": "RB",
+        "status": "Questionable"
+       },
+       {
+        "player": "Andrew Wingard",
+        "position": "S",
+        "status": "Questionable"
+       }
+      ],
+      "more": 1,
+      "counts": {
+       "Out": 1,
+       "Questionable": 3
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Pat Bryant",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Pat Surtain II",
+        "position": "CB",
+        "status": "Doubtful"
+       },
+       {
+        "player": "Talanoa Hufanga",
+        "position": "S",
+        "status": "Doubtful"
+       }
+      ],
+      "more": 1,
+      "counts": {
+       "Out": 1,
+       "Doubtful": 2,
+       "Questionable": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 10,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 588,
+     "in_price": false
+    }
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.33036,
+    "margin_mean": -5.915,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.07868913085584964,
+      "rest_diff": -3.0,
+      "cpoe_diff": 9.900461945461945,
+      "separation_diff": -1.0051912817270185,
+      "yac_oe_diff": 0.44133028963049675,
+      "ryoe_diff": 0.6143360477604736,
+      "elo_diff": -240.23407024364542,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00797,
+      0.00899,
+      0.01008,
+      0.01124,
+      0.01247,
+      0.01375,
+      0.00696,
+      0.02176,
+      0.01658,
+      0.00969,
+      0.02013,
+      0.02569,
+      0.0208,
+      0.01442,
+      0.03747,
+      0.02275,
+      0.01206,
+      0.01521,
+      0.02888,
+      0.0085,
+      0.02413,
+      0.05919,
+      0.03923,
+      0.02149,
+      0.03036,
+      0.07654,
+      0.02397,
+      0.01952,
+      0.00328,
+      0.0216,
+      0.01852,
+      0.06867,
+      0.01981,
+      0.0155,
+      0.02604,
+      0.03291,
+      0.01595,
+      0.00588,
+      0.02148,
+      0.00791,
+      0.00534,
+      0.00471,
+      0.0146,
+      0.00434,
+      0.0062,
+      0.00623,
+      0.00561,
+      0.00199,
+      0.0044,
+      0.00484,
+      0.00183,
+      0.00154,
+      0.00321,
+      0.0015,
+      0.00162,
+      0.00135,
+      0.00112
+     ],
+     "binned": false,
+     "tail_below": 0.04762,
+     "tail_above": 0.0046,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/den.png"
+  },
+  {
+   "game_id": "2026-W07-DET-GB",
+   "home": "DET",
+   "away": "GB",
+   "home_name": "Detroit Lions",
+   "away_name": "Green Bay Packers",
+   "start": "2026-10-25T20:25:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 3.5,
+     "side": "away",
+     "selection": "Green Bay Packers",
+     "best_price_decimal": 1.93,
+     "best_price_american": -108,
+     "best_book": "unibet_nl",
+     "books": 8,
+     "p_model": 0.51329,
+     "p_market": 0.49647,
+     "edge": 0.01682,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 3.5,
+     "open_p_market": 0.49294,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "away",
+     "selection": "Green Bay Packers",
+     "best_price_decimal": 2.75,
+     "best_price_american": 175,
+     "best_book": "unibet_nl",
+     "books": 7,
+     "p_model": 0.37783,
+     "p_market": 0.33823,
+     "edge": 0.03959,
+     "tier": "no_edge",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.33823,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Jared Goff",
+    "away_qb_name": "Jordan Love",
+    "roof": "dome",
+    "div_game": 1,
+    "key_player": [],
+    "venue": {
+     "name": "Ford Field",
+     "roof": "dome",
+     "surface": "fieldturf",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Tom Kennedy",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Ben Bartch",
+        "position": "G",
+        "status": "Out"
+       },
+       {
+        "player": "Cade Mays",
+        "position": "C",
+        "status": "Out"
+       }
+      ],
+      "more": 4,
+      "counts": {
+       "Out": 6,
+       "Questionable": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Skyy Moore",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Micah Parsons",
+        "position": "DE",
+        "status": "Out"
+       },
+       {
+        "player": "Javon Hargrave",
+        "position": "DT",
+        "status": "Out"
+       }
+      ],
+      "more": 4,
+      "counts": {
+       "Out": 5,
+       "Questionable": 2
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 14,
+     "away_days": 7,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 293,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.62217,
+    "margin_mean": 3.911,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.035582980547376276,
+      "rest_diff": 7.0,
+      "cpoe_diff": 4.702653477273771,
+      "separation_diff": 0.30397480472092964,
+      "yac_oe_diff": -1.6696233269161709,
+      "ryoe_diff": 1.8864141680978177,
+      "elo_diff": 12.51077998543542,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00161,
+      0.00193,
+      0.0023,
+      0.00272,
+      0.0032,
+      0.00374,
+      0.00201,
+      0.00666,
+      0.00539,
+      0.00334,
+      0.00736,
+      0.00996,
+      0.00856,
+      0.0063,
+      0.01736,
+      0.01118,
+      0.00629,
+      0.00841,
+      0.01695,
+      0.00529,
+      0.01594,
+      0.04148,
+      0.02916,
+      0.01695,
+      0.0254,
+      0.06794,
+      0.02257,
+      0.01951,
+      0.00347,
+      0.02429,
+      0.0221,
+      0.08692,
+      0.02661,
+      0.02209,
+      0.03936,
+      0.05277,
+      0.02713,
+      0.01061,
+      0.04114,
+      0.01606,
+      0.01151,
+      0.01076,
+      0.0354,
+      0.01116,
+      0.01692,
+      0.01805,
+      0.01724,
+      0.00649,
+      0.0152,
+      0.01777,
+      0.00714,
+      0.00634,
+      0.01406,
+      0.00697,
+      0.00799,
+      0.00707,
+      0.0062
+     ],
+     "binned": false,
+     "tail_below": 0.00701,
+     "tail_above": 0.03468,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "e8e5715eefb6a9ce64765e9ddf49c0cc",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.93,
+      "p_market": 0.49294,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.93,
+      "p_market": 0.49294,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.92,
+      "p_market": 0.49294,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": 3.5,
+      "price": 1.92,
+      "p_market": 0.49294,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.92,
+      "p_market": 0.49294,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": 3.5,
+      "price": 1.915,
+      "p_market": 0.49647,
+      "books": 8
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": 3.91,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png"
+  },
+  {
+   "game_id": "2026-W07-LV-LA",
+   "home": "LV",
+   "away": "LA",
+   "home_name": "Las Vegas Raiders",
+   "away_name": "Los Angeles Rams",
+   "start": "2026-10-25T20:25:00Z",
+   "markets": {
+    "spread": {
+     "market": "spread",
+     "status": "priced",
+     "refusal": null,
+     "line": 6.5,
+     "side": "home",
+     "selection": "Las Vegas Raiders",
+     "best_price_decimal": 2.0,
+     "best_price_american": 100,
+     "best_book": "onexbet",
+     "books": 4,
+     "p_model": 0.56972,
+     "p_market": 0.48012,
+     "edge": 0.08961,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": 7.0,
+     "open_p_market": 0.51422,
+     "open_at": "2026-10-14T14:01:34Z"
+    },
+    "moneyline": {
+     "market": "moneyline",
+     "status": "priced",
+     "refusal": null,
+     "line": null,
+     "side": "home",
+     "selection": "Las Vegas Raiders",
+     "best_price_decimal": 3.6,
+     "best_price_american": 260,
+     "best_book": "unibet_nl",
+     "books": 7,
+     "p_model": 0.3544,
+     "p_market": 0.24826,
+     "edge": 0.10613,
+     "tier": "coin_flip",
+     "stake_fraction": 0.0,
+     "unsized_reason": "Unsized \u2014 not yet graded against the market",
+     "open_line": null,
+     "open_p_market": 0.24826,
+     "open_at": "2026-10-14T14:01:34Z"
+    }
+   },
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Kirk Cousins",
+    "away_qb_name": "Matthew Stafford",
+    "roof": "dome",
+    "div_game": 0,
+    "key_player": [],
+    "venue": {
+     "name": "Allegiant Stadium",
+     "roof": "dome",
+     "surface": "grass",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 3,
+      "counts": {
+       "Out": 2,
+       "Questionable": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 7,
+      "counts": {
+       "Out": 6,
+       "Questionable": 1
+      }
+     },
+     "counts_only": true
+    },
+    "rest": {
+     "home_days": 7,
+     "away_days": 7,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 232,
+     "in_price": false
+    }
+   },
+   "refusal": null,
+   "model": {
+    "p_home_win": 0.3544,
+    "margin_mean": -5.047,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.06415919959164634,
+      "rest_diff": 0.0,
+      "cpoe_diff": 0.5937830194015594,
+      "separation_diff": -0.04468624147345279,
+      "yac_oe_diff": -1.0245946634856091,
+      "ryoe_diff": -0.6266739940122276,
+      "elo_diff": -152.3137955353659,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.0071,
+      0.00805,
+      0.00908,
+      0.01017,
+      0.01134,
+      0.01257,
+      0.0064,
+      0.02009,
+      0.01539,
+      0.00904,
+      0.01888,
+      0.02422,
+      0.01971,
+      0.01373,
+      0.03587,
+      0.02189,
+      0.01166,
+      0.01478,
+      0.02822,
+      0.00835,
+      0.02382,
+      0.05873,
+      0.03912,
+      0.02154,
+      0.03059,
+      0.07752,
+      0.0244,
+      0.01998,
+      0.00337,
+      0.02233,
+      0.01925,
+      0.07171,
+      0.0208,
+      0.01636,
+      0.02762,
+      0.03508,
+      0.01709,
+      0.00633,
+      0.02326,
+      0.0086,
+      0.00584,
+      0.00517,
+      0.01613,
+      0.00482,
+      0.00692,
+      0.00699,
+      0.00633,
+      0.00226,
+      0.00501,
+      0.00555,
+      0.00211,
+      0.00178,
+      0.00373,
+      0.00175,
+      0.0019,
+      0.00159,
+      0.00132
+     ],
+     "binned": false,
+     "tail_below": 0.04116,
+     "tail_above": 0.00559,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "event_id": "f7679cf18454e4d88a8f2b990c3f08ac",
+   "line_history": {
+    "points": [
+     {
+      "captured_at": "2026-10-14T14:01:34Z",
+      "kind": "early",
+      "line": 7.0,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-15T14:01:23Z",
+      "kind": "early",
+      "line": 7.0,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:10:00Z",
+      "kind": "current",
+      "line": 7.0,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T00:15:00Z",
+      "kind": "current",
+      "line": 7.0,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-16T14:01:49Z",
+      "kind": "early",
+      "line": 7.0,
+      "price": 1.85,
+      "p_market": 0.51422,
+      "books": 7
+     },
+     {
+      "captured_at": "2026-10-17T14:01:09Z",
+      "kind": "early",
+      "line": 6.75,
+      "price": 1.9,
+      "p_market": 0.50157,
+      "books": 8
+     }
+    ],
+    "captures": 6,
+    "close_at": null,
+    "frozen": false,
+    "missed_windows": []
+   },
+   "fair_line": 5.05,
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png"
+  },
+  {
+   "game_id": "2026-W07-SEA-KC",
+   "home": "SEA",
+   "away": "KC",
+   "home_name": "Seattle Seahawks",
+   "away_name": "Kansas City Chiefs",
+   "start": "2026-10-26T00:20:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Drew Lock",
+    "away_qb_name": "Patrick Mahomes",
+    "roof": "outdoors",
+    "div_game": 0,
+    "key_player": [
+     {
+      "team": "SEA",
+      "role": "QB1",
+      "text": "Starter unconfirmed: the feeds disagree on who is starting",
+      "source": "nflverse games.csv last start vs depth chart",
+      "source_conflict": true
+     }
+    ],
+    "venue": {
+     "name": "Lumen Field",
+     "roof": "outdoors",
+     "surface": "fieldturf",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 45.5,
+     "wind_mph": 5.1,
+     "precip_prob": 23,
+     "forecast_hour": "2026-10-25T20:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Jadarian Price",
+        "position": "RB",
+        "status": "Out"
+       },
+       {
+        "player": "Zach Charbonnet",
+        "position": "RB",
+        "status": "Out"
+       },
+       {
+        "player": "Elijah Arroyo",
+        "position": "TE",
+        "status": "Out"
+       }
+      ],
+      "more": 3,
+      "counts": {
+       "Out": 4,
+       "Questionable": 2
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Tyquan Thornton",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Cooper McDonald",
+        "position": "LB",
+        "status": "Out"
+       },
+       {
+        "player": "Rashee Rice",
+        "position": "WR",
+        "status": "Questionable"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Out": 2,
+       "Questionable": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 10,
+     "away_days": 7,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 1509,
+     "in_price": false
+    }
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.49772,
+    "margin_mean": -0.231,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.07370686028926307,
+      "rest_diff": 3.0,
+      "cpoe_diff": 4.063107724102298,
+      "separation_diff": -0.8513630425807035,
+      "yac_oe_diff": -1.080851566668224,
+      "ryoe_diff": -3.343714054425111,
+      "elo_diff": 38.718012105467324,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00341,
+      0.00397,
+      0.00461,
+      0.00532,
+      0.00611,
+      0.00697,
+      0.00365,
+      0.0118,
+      0.0093,
+      0.00563,
+      0.01209,
+      0.01597,
+      0.01338,
+      0.0096,
+      0.0258,
+      0.01621,
+      0.00889,
+      0.0116,
+      0.02279,
+      0.00694,
+      0.02039,
+      0.05175,
+      0.03548,
+      0.02011,
+      0.0294,
+      0.07669,
+      0.02485,
+      0.02094,
+      0.00364,
+      0.0248,
+      0.02201,
+      0.08442,
+      0.02521,
+      0.0204,
+      0.03546,
+      0.04636,
+      0.02325,
+      0.00887,
+      0.03353,
+      0.01277,
+      0.00892,
+      0.00814,
+      0.02611,
+      0.00803,
+      0.01187,
+      0.01235,
+      0.0115,
+      0.00422,
+      0.00965,
+      0.011,
+      0.00431,
+      0.00373,
+      0.00807,
+      0.0039,
+      0.00436,
+      0.00376,
+      0.00322
+     ],
+     "binned": false,
+     "tail_below": 0.01679,
+     "tail_above": 0.0157,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png"
+  },
+  {
+   "game_id": "2026-W07-PHI-DAL",
+   "home": "PHI",
+   "away": "DAL",
+   "home_name": "Philadelphia Eagles",
+   "away_name": "Dallas Cowboys",
+   "start": "2026-10-27T00:15:00Z",
+   "markets": {},
+   "headline": "spread",
+   "context": {
+    "home_qb_name": "Jalen Hurts",
+    "away_qb_name": "Dak Prescott",
+    "roof": "outdoors",
+    "div_game": 1,
+    "key_player": [],
+    "venue": {
+     "name": "Lincoln Financial Field",
+     "roof": "outdoors",
+     "surface": "grass",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "forecast",
+     "temp_f": 60.7,
+     "wind_mph": 4.5,
+     "precip_prob": 0,
+     "forecast_hour": "2026-10-26T20:00",
+     "source": "Open-Meteo",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "espn",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Jalen Hurts",
+        "position": "QB",
+        "status": "Out"
+       },
+       {
+        "player": "Eli Stowers",
+        "position": "TE",
+        "status": "Out"
+       },
+       {
+        "player": "Grant Calcaterra",
+        "position": "TE",
+        "status": "Out"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "Out": 6,
+       "Questionable": 2
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Dee Winters",
+        "position": "LB",
+        "status": "Doubtful"
+       },
+       {
+        "player": "KaVontae Turpin",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Drew Shelton",
+        "position": "OT",
+        "status": "Questionable"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Doubtful": 1,
+       "Questionable": 4
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_days": 8,
+     "away_days": 8,
+     "in_price": true,
+     "note": "The rest difference is one of the model's inputs."
+    },
+    "travel": {
+     "away_miles": 1313,
+     "in_price": false
+    }
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.51849,
+    "margin_mean": 0.447,
+    "total_mean": null,
+    "provenance": {
+     "coefficient_set": "full_ensemble",
+     "ngs_present": true,
+     "reason": null,
+     "feature_values": {
+      "rating_diff": -0.20173742497929364,
+      "rest_diff": 0.0,
+      "cpoe_diff": -3.711538178698369,
+      "separation_diff": -0.21791493413697172,
+      "yac_oe_diff": 0.32877647780502717,
+      "ryoe_diff": 0.4149748044116187,
+      "elo_diff": 72.37962931021025,
+      "is_neutral_site": false
+     }
+    },
+    "margin_pmf": {
+     "from": -28,
+     "to": 28,
+     "mass": [
+      0.00303,
+      0.00355,
+      0.00414,
+      0.0048,
+      0.00553,
+      0.00633,
+      0.00333,
+      0.01082,
+      0.00856,
+      0.0052,
+      0.01122,
+      0.01488,
+      0.01252,
+      0.00902,
+      0.02435,
+      0.01536,
+      0.00846,
+      0.01108,
+      0.02187,
+      0.00669,
+      0.01972,
+      0.05025,
+      0.0346,
+      0.01969,
+      0.02891,
+      0.07571,
+      0.02464,
+      0.02085,
+      0.00363,
+      0.02489,
+      0.02218,
+      0.08543,
+      0.02561,
+      0.02082,
+      0.03633,
+      0.0477,
+      0.02402,
+      0.0092,
+      0.03493,
+      0.01335,
+      0.00937,
+      0.00858,
+      0.02765,
+      0.00854,
+      0.01267,
+      0.01324,
+      0.01238,
+      0.00456,
+      0.01047,
+      0.01198,
+      0.00471,
+      0.0041,
+      0.00891,
+      0.00432,
+      0.00485,
+      0.0042,
+      0.00361
+     ],
+     "binned": false,
+     "tail_below": 0.01464,
+     "tail_above": 0.018,
+     "key_numbers": [
+      -7,
+      -3,
+      3,
+      7,
+      14
+     ]
+    },
+    "totals": {
+     "priced": false,
+     "reason": "Not priced: the totals model failed its grade."
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png"
   }
  ],
  "refusals": [
   {
    "scope": "league",
-   "reason": "Odds are 45 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+   "reason": "Odds are 93 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
   }
  ],
  "freshness": {
@@ -2053,31 +4103,35 @@
    "ngs": true,
    "elo": true
   },
-  "debias_offset": 1.757570099885145,
-  "debias_how": "1 open game(s), too few to measure; this week's previous board offset",
-  "debias_games": 1,
+  "debias_offset": 1.3276344396117672,
+  "debias_how": "measured on 11 open games",
+  "debias_games": 11,
   "coefficient_sets": {
-   "full_ensemble": 1
+   "full_ensemble": 14
   }
  },
  "status": {
   "state": "degraded",
-  "games": 1,
-  "priced": 1,
+  "games": 14,
+  "priced": 11,
   "tiers": {
-   "play": 0,
+   "play": 1,
    "lean": 0,
-   "coin_flip": 0,
-   "no_edge": 1
+   "coin_flip": 5,
+   "no_edge": 5
   },
-  "started": 13,
+  "started": 0,
   "not_priced": [
    {
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 0,
-    "examples": []
+    "games": 3,
+    "examples": [
+     "DEN @ ARI",
+     "KC @ SEA",
+     "DAL @ PHI"
+    ]
    },
    {
     "key": "unrated",
@@ -2097,12 +4151,8 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 13,
-    "examples": [
-     "SEA @ DEN",
-     "HOU @ JAX",
-     "CHI @ ATL"
-    ]
+    "games": 0,
+    "examples": []
    },
    {
     "key": "neutral",
@@ -2120,7 +4170,12 @@
    }
   ],
   "refusals": 1,
-  "reason": "Odds are 45 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
-  "game_refusals": []
+  "reason": "Odds are 93 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
+  "game_refusals": [
+   {
+    "reason": "no market price captured for this game",
+    "games": 3
+   }
+  ]
  }
 }
