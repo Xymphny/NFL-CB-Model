@@ -1,6 +1,6 @@
 {
  "league": "nhl",
- "generated_at": "2026-10-22T10:46:41Z",
+ "generated_at": "2026-10-22T15:45:01Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
@@ -71,7 +71,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.057870+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.57231,
+    "margin_mean": 0.454,
+    "total_mean": 6.057,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00039,
+      0.00135,
+      0.00421,
+      0.01159,
+      0.03975,
+      0.10249,
+      0.08388,
+      0.1839,
+      0.0,
+      0.20973,
+      0.10473,
+      0.14704,
+      0.06979,
+      0.02477,
+      0.01048,
+      0.00392,
+      0.00131
+     ],
+     "binned": false,
+     "tail_below": 0.00013,
+     "tail_above": 0.00054,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/bos.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nsh.png"
   },
@@ -168,7 +204,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.062178+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.52695,
+    "margin_mean": 0.154,
+    "total_mean": 6.158,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00065,
+      0.00211,
+      0.00612,
+      0.01576,
+      0.04963,
+      0.11768,
+      0.09119,
+      0.18967,
+      0.0,
+      0.20513,
+      0.09788,
+      0.13202,
+      0.05938,
+      0.02007,
+      0.00819,
+      0.00296,
+      0.00096
+     ],
+     "binned": false,
+     "tail_below": 0.00024,
+     "tail_above": 0.00038,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tor.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyr.png"
   },
@@ -182,9 +254,9 @@
    "markets": {},
    "headline": "moneyline",
    "context": {
-    "home_games_played": 9,
+    "home_games_played": 10,
     "away_games_played": 10,
-    "low_information": true,
+    "low_information": false,
     "key_player": [],
     "venue": {
      "name": "Canadian Tire Centre",
@@ -210,21 +282,20 @@
         "status": "Injured Reserve"
        },
        {
+        "player": "Linus Ullmark",
+        "position": "G",
+        "status": "Injured Reserve"
+       },
+       {
         "player": "Thomas Chabot",
         "position": "D",
         "status": "Out"
-       },
-       {
-        "player": "William Eklund",
-        "position": "LW",
-        "status": "Injured Reserve"
        }
       ],
       "more": 1,
       "counts": {
-       "Injured Reserve": 2,
-       "Out": 1,
-       "Day-To-Day": 1
+       "Injured Reserve": 3,
+       "Out": 1
       }
      },
      "away": {
@@ -267,7 +338,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.066217+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.56817,
+    "margin_mean": 0.424,
+    "total_mean": 5.987,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00038,
+      0.00134,
+      0.00419,
+      0.01159,
+      0.04002,
+      0.1036,
+      0.08486,
+      0.18572,
+      0.0,
+      0.21088,
+      0.10463,
+      0.14561,
+      0.06806,
+      0.02375,
+      0.0099,
+      0.00365,
+      0.0012
+     ],
+     "binned": false,
+     "tail_below": 0.00013,
+     "tail_above": 0.00049,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ott.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sj.png"
   },
@@ -359,7 +466,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.070258+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.5454,
+    "margin_mean": 0.282,
+    "total_mean": 6.374,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00064,
+      0.00206,
+      0.00594,
+      0.01514,
+      0.04734,
+      0.11214,
+      0.08728,
+      0.1838,
+      0.0,
+      0.20288,
+      0.0993,
+      0.13831,
+      0.06563,
+      0.02352,
+      0.01007,
+      0.00382,
+      0.0013
+     ],
+     "binned": false,
+     "tail_below": 0.00024,
+     "tail_above": 0.00055,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nj.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ana.png"
   },
@@ -374,8 +517,8 @@
    "headline": "moneyline",
    "context": {
     "home_games_played": 10,
-    "away_games_played": 9,
-    "low_information": true,
+    "away_games_played": 10,
+    "low_information": false,
     "key_player": [],
     "venue": {
      "name": "PPG Paints Arena",
@@ -398,24 +541,23 @@
        {
         "player": "Ben Kindel",
         "position": "C",
-        "status": "Out"
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Bryan Rust",
+        "position": "RW",
+        "status": "Injured Reserve"
        },
        {
         "player": "Justin Brazeau",
         "position": "RW",
         "status": "Injured Reserve"
-       },
-       {
-        "player": "Ryan Graves",
-        "position": "D",
-        "status": "Injured Reserve"
        }
       ],
       "more": 3,
       "counts": {
-       "Out": 1,
-       "Injured Reserve": 3,
-       "Day-To-Day": 2
+       "Injured Reserve": 5,
+       "Day-To-Day": 1
       }
      },
      "away": {
@@ -457,7 +599,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.124704+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.53335,
+    "margin_mean": 0.202,
+    "total_mean": 6.462,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00077,
+      0.00239,
+      0.0067,
+      0.01665,
+      0.05049,
+      0.11621,
+      0.08886,
+      0.18429,
+      0.0,
+      0.20062,
+      0.0972,
+      0.13445,
+      0.06335,
+      0.02261,
+      0.00967,
+      0.00367,
+      0.00125
+     ],
+     "binned": false,
+     "tail_below": 0.0003,
+     "tail_above": 0.00053,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/pit.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/fla.png"
   },
@@ -555,7 +733,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.128080+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.6011,
+    "margin_mean": 0.643,
+    "total_mean": 5.972,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00027,
+      0.00098,
+      0.00322,
+      0.0093,
+      0.03393,
+      0.09285,
+      0.0789,
+      0.17936,
+      0.0,
+      0.21183,
+      0.10887,
+      0.15667,
+      0.07676,
+      0.02802,
+      0.0121,
+      0.00461,
+      0.00157
+     ],
+     "binned": false,
+     "tail_below": 9e-05,
+     "tail_above": 0.00067,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyi.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png"
   },
@@ -641,7 +855,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.134167+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.47842,
+    "margin_mean": -0.171,
+    "total_mean": 6.477,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00125,
+      0.00366,
+      0.00963,
+      0.02252,
+      0.0631,
+      0.13397,
+      0.09691,
+      0.19001,
+      0.0,
+      0.19452,
+      0.08903,
+      0.11672,
+      0.05092,
+      0.01687,
+      0.00681,
+      0.00244,
+      0.00078
+     ],
+     "binned": false,
+     "tail_below": 0.00053,
+     "tail_above": 0.00031,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/stl.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png"
   },
@@ -739,7 +989,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.130946+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.55215,
+    "margin_mean": 0.311,
+    "total_mean": 5.701,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00035,
+      0.00125,
+      0.00405,
+      0.0115,
+      0.04085,
+      0.10779,
+      0.0888,
+      0.19315,
+      0.0,
+      0.21552,
+      0.10415,
+      0.13968,
+      0.06125,
+      0.0199,
+      0.00781,
+      0.0027,
+      0.00083
+     ],
+     "binned": false,
+     "tail_below": 0.00011,
+     "tail_above": 0.00031,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/dal.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wpg.png"
   },
@@ -837,7 +1123,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.137476+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.40916,
+    "margin_mean": -0.639,
+    "total_mean": 6.319,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00199,
+      0.00554,
+      0.01384,
+      0.03064,
+      0.07982,
+      0.15632,
+      0.10643,
+      0.19535,
+      0.0,
+      0.18468,
+      0.07792,
+      0.09416,
+      0.03624,
+      0.01057,
+      0.00386,
+      0.00125,
+      0.00036
+     ],
+     "binned": false,
+     "tail_below": 0.0009,
+     "tail_above": 0.00012,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cgy.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/min.png"
   },
@@ -935,7 +1257,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.140710+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.52228,
+    "margin_mean": 0.129,
+    "total_mean": 6.712,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.001,
+      0.00298,
+      0.00796,
+      0.01896,
+      0.0546,
+      0.12009,
+      0.08949,
+      0.18223,
+      0.0,
+      0.19585,
+      0.09443,
+      0.13104,
+      0.06253,
+      0.02275,
+      0.00991,
+      0.00384,
+      0.00134
+     ],
+     "binned": false,
+     "tail_below": 0.00042,
+     "tail_above": 0.00059,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/edm.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/car.png"
   },
@@ -1032,7 +1390,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.143664+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.51463,
+    "margin_mean": 0.077,
+    "total_mean": 6.877,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00118,
+      0.00342,
+      0.00888,
+      0.02057,
+      0.05737,
+      0.12263,
+      0.0899,
+      0.1809,
+      0.0,
+      0.19278,
+      0.0926,
+      0.12869,
+      0.06183,
+      0.02275,
+      0.01003,
+      0.00393,
+      0.00139
+     ],
+     "binned": false,
+     "tail_below": 0.00052,
+     "tail_above": 0.00062,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sea.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/utah.png"
   },
@@ -1129,7 +1523,43 @@
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
-   "refusal": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.146375+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.4933,
+    "margin_mean": -0.071,
+    "total_mean": 6.616,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.0012,
+      0.00352,
+      0.00924,
+      0.02159,
+      0.06056,
+      0.12925,
+      0.09414,
+      0.18669,
+      0.0,
+      0.19435,
+      0.09073,
+      0.12173,
+      0.05516,
+      0.01904,
+      0.00795,
+      0.00295,
+      0.00098
+     ],
+     "binned": false,
+     "tail_below": 0.00051,
+     "tail_above": 0.00041,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
    "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/van.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/det.png"
   }
@@ -1137,7 +1567,7 @@
  "refusals": [
   {
    "scope": "league",
-   "reason": "Odds are 114 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+   "reason": "Odds are 119 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
   }
  ],
  "freshness": {
@@ -1147,7 +1577,7 @@
    "remaining": 18845,
    "monthly": 20000
   },
-  "latest_final": "2026-10-21 02:30:00+00:00"
+  "latest_final": "2026-10-21 23:30:00+00:00"
  },
  "teams": [
   {
@@ -1196,11 +1626,6 @@
    "defence": -0.0038
   },
   {
-   "team": "FLA",
-   "attack": 0.0268,
-   "defence": -0.0273
-  },
-  {
    "team": "NYI",
    "attack": -0.0157,
    "defence": -0.0696
@@ -1216,19 +1641,24 @@
    "defence": 0.0353
   },
   {
+   "team": "OTT",
+   "attack": -0.0138,
+   "defence": -0.0522
+  },
+  {
    "team": "TOR",
    "attack": 0.0557,
    "defence": 0.0175
   },
   {
+   "team": "FLA",
+   "attack": 0.0067,
+   "defence": -0.0077
+  },
+  {
    "team": "STL",
    "attack": 0.0178,
    "defence": 0.0073
-  },
-  {
-   "team": "OTT",
-   "attack": -0.0334,
-   "defence": -0.0322
   },
   {
    "team": "NSH",
@@ -1261,11 +1691,6 @@
    "defence": 0.0138
   },
   {
-   "team": "BUF",
-   "attack": -0.0076,
-   "defence": 0.0515
-  },
-  {
    "team": "MTL",
    "attack": 0.0195,
    "defence": 0.0807
@@ -1279,6 +1704,11 @@
    "team": "SJS",
    "attack": -0.041,
    "defence": 0.0282
+  },
+  {
+   "team": "BUF",
+   "attack": -0.0283,
+   "defence": 0.0542
   },
   {
    "team": "LAK",
@@ -1296,14 +1726,14 @@
    "defence": 0.0744
   },
   {
+   "team": "PHI",
+   "attack": -0.1441,
+   "defence": -0.0076
+  },
+  {
    "team": "VAN",
    "attack": 0.0118,
    "defence": 0.1493
-  },
-  {
-   "team": "PHI",
-   "attack": -0.1468,
-   "defence": 0.0131
   },
   {
    "team": "CGY",
@@ -1346,8 +1776,12 @@
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 0,
-    "examples": []
+    "games": 12,
+    "examples": [
+     "NSH @ BOS",
+     "NYR @ TOR",
+     "SJS @ OTT"
+    ]
    },
    {
     "key": "unrated",
@@ -1381,64 +1815,16 @@
     "key": "other",
     "label": "Other refusal",
     "note": "The reason is on the game.",
-    "games": 12,
-    "examples": [
-     "NSH @ BOS",
-     "NYR @ TOR",
-     "SJS @ OTT"
-    ]
+    "games": 0,
+    "examples": []
    }
   ],
   "refusals": 1,
-  "reason": "Odds are 114 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
+  "reason": "Odds are 119 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
   "game_refusals": [
    {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.057870+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.062178+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.066217+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.070258+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.124704+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.128080+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.134167+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.130946+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.137476+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.140710+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.143664+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
-   },
-   {
-    "reason": "StaleResults: 2 game(s) started more than 6:00:00 before 2026-10-22 10:46:42.146375+00:00 and are not final in the 2027 pull (latest 2026-10-21 23:30:00+00:00). Re-pull before pricing.",
-    "games": 1
+    "reason": "no market price captured for this game",
+    "games": 12
    }
   ]
  }
