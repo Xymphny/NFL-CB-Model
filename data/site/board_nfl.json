@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-11-14T15:44:39Z",
+ "generated_at": "2026-11-16T10:44:52Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -36,7 +36,7 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -108,7 +108,7 @@
     "venue": {
      "name": "FC Bayern Munich Stadium",
      "roof": "dome",
-     "surface": "fieldturf",
+     "surface": null,
      "neutral": true,
      "in_price": false
     },
@@ -118,7 +118,7 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -184,104 +184,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.32078,
-    "margin_mean": -6.269,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.049362049774511634,
-      "rest_diff": 0.0,
-      "cpoe_diff": -2.798468620929108,
-      "separation_diff": -0.2815820174106838,
-      "yac_oe_diff": 0.015801369949934863,
-      "ryoe_diff": 0.3548541506007343,
-      "elo_diff": 58.74742530558092,
-      "is_neutral_site": true
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00834,
-      0.00939,
-      0.01051,
-      0.01169,
-      0.01294,
-      0.01424,
-      0.0072,
-      0.02244,
-      0.01706,
-      0.00996,
-      0.02063,
-      0.02628,
-      0.02123,
-      0.01469,
-      0.03809,
-      0.02308,
-      0.01221,
-      0.01536,
-      0.02912,
-      0.00855,
-      0.02423,
-      0.0593,
-      0.03922,
-      0.02144,
-      0.03023,
-      0.07605,
-      0.02377,
-      0.01932,
-      0.00323,
-      0.02128,
-      0.01822,
-      0.06738,
-      0.0194,
-      0.01515,
-      0.02539,
-      0.03202,
-      0.01549,
-      0.0057,
-      0.02078,
-      0.00763,
-      0.00514,
-      0.00452,
-      0.014,
-      0.00415,
-      0.00592,
-      0.00594,
-      0.00534,
-      0.00189,
-      0.00416,
-      0.00458,
-      0.00173,
-      0.00145,
-      0.00301,
-      0.00141,
-      0.00152,
-      0.00126,
-      0.00104
-     ],
-     "binned": false,
-     "tail_below": 0.05046,
-     "tail_above": 0.00424,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ne.png"
   },
@@ -297,27 +201,23 @@
    "context": {
     "home_qb_name": "Michael Penix Jr.",
     "away_qb_name": "Patrick Mahomes",
+    "roof": "closed",
     "div_game": 0,
     "key_player": [],
     "venue": {
      "name": "Mercedes-Benz Stadium",
-     "roof": "nan",
-     "surface": "fieldturf",
+     "roof": "closed",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 53.9,
-     "wind_mph": 2.6,
-     "precip_prob": 0,
-     "forecast_hour": "2026-11-15T13:00",
-     "source": "Open-Meteo",
+     "status": "indoors",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -384,104 +284,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.24178,
-    "margin_mean": -9.429,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.11419345046698065,
-      "rest_diff": 0.0,
-      "cpoe_diff": -3.7901265183889086,
-      "separation_diff": -0.7174933186131787,
-      "yac_oe_diff": 1.287206940858768,
-      "ryoe_diff": -0.6917494759739831,
-      "elo_diff": -138.5739719940177,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01205,
-      0.01332,
-      0.01463,
-      0.01599,
-      0.01738,
-      0.01877,
-      0.00932,
-      0.02852,
-      0.0213,
-      0.0122,
-      0.02483,
-      0.03105,
-      0.02464,
-      0.01674,
-      0.04262,
-      0.02536,
-      0.01317,
-      0.01627,
-      0.03029,
-      0.00874,
-      0.0243,
-      0.0584,
-      0.03793,
-      0.02036,
-      0.02818,
-      0.06962,
-      0.02137,
-      0.01705,
-      0.0028,
-      0.01811,
-      0.01522,
-      0.0553,
-      0.01564,
-      0.01199,
-      0.01973,
-      0.02443,
-      0.0116,
-      0.00419,
-      0.01501,
-      0.00541,
-      0.00358,
-      0.00309,
-      0.0094,
-      0.00274,
-      0.00383,
-      0.00378,
-      0.00333,
-      0.00116,
-      0.00251,
-      0.00271,
-      0.001,
-      0.00082,
-      0.00169,
-      0.00077,
-      0.00082,
-      0.00067,
-      0.00054
-     ],
-     "binned": false,
-     "tail_below": 0.08171,
-     "tail_above": 0.00203,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/atl.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png"
   },
@@ -511,22 +315,17 @@
     "venue": {
      "name": "Huntington Bank Field",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 44.8,
-     "wind_mph": 11.2,
-     "precip_prob": 3,
-     "forecast_hour": "2026-11-15T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -592,104 +391,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.29887,
-    "margin_mean": -7.098,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.14096774902572856,
-      "rest_diff": 0.0,
-      "cpoe_diff": -9.55904912252476,
-      "separation_diff": 0.5854969495531424,
-      "yac_oe_diff": 1.4235518737765025,
-      "ryoe_diff": 0.13802696692052674,
-      "elo_diff": -107.06053763576779,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00925,
-      0.01036,
-      0.01154,
-      0.01278,
-      0.01407,
-      0.01541,
-      0.00775,
-      0.02405,
-      0.0182,
-      0.01057,
-      0.02179,
-      0.02762,
-      0.02221,
-      0.01529,
-      0.03946,
-      0.0238,
-      0.01253,
-      0.01569,
-      0.02959,
-      0.00865,
-      0.02438,
-      0.05939,
-      0.03909,
-      0.02126,
-      0.02984,
-      0.07471,
-      0.02323,
-      0.0188,
-      0.00313,
-      0.0205,
-      0.01747,
-      0.0643,
-      0.01843,
-      0.01432,
-      0.02388,
-      0.02997,
-      0.01442,
-      0.00528,
-      0.01917,
-      0.007,
-      0.0047,
-      0.00411,
-      0.01267,
-      0.00374,
-      0.00531,
-      0.0053,
-      0.00473,
-      0.00167,
-      0.00366,
-      0.004,
-      0.00151,
-      0.00125,
-      0.0026,
-      0.00121,
-      0.00129,
-      0.00107,
-      0.00088
-     ],
-     "binned": false,
-     "tail_below": 0.05762,
-     "tail_above": 0.00351,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/hou.png"
   },
@@ -719,22 +422,17 @@
     "venue": {
      "name": "Lambeau Field",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 37.2,
-     "wind_mph": 1.1,
-     "precip_prob": 0,
-     "forecast_hour": "2026-11-15T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -801,104 +499,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.45009,
-    "margin_mean": -1.791,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.14936312692171175,
-      "rest_diff": 1.0,
-      "cpoe_diff": -0.45107038123167886,
-      "separation_diff": -0.0830853902627835,
-      "yac_oe_diff": 0.878676849145229,
-      "ryoe_diff": -0.5907594652253405,
-      "elo_diff": -6.398764028946971,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.0044,
-      0.00508,
-      0.00584,
-      0.00668,
-      0.00759,
-      0.00858,
-      0.00445,
-      0.01426,
-      0.01113,
-      0.00667,
-      0.0142,
-      0.01858,
-      0.01542,
-      0.01095,
-      0.02918,
-      0.01816,
-      0.00986,
-      0.01275,
-      0.02482,
-      0.00749,
-      0.02178,
-      0.05476,
-      0.0372,
-      0.02088,
-      0.03024,
-      0.07815,
-      0.02508,
-      0.02094,
-      0.0036,
-      0.02433,
-      0.02139,
-      0.08127,
-      0.02404,
-      0.01927,
-      0.03319,
-      0.04298,
-      0.02135,
-      0.00807,
-      0.03021,
-      0.0114,
-      0.00789,
-      0.00713,
-      0.02265,
-      0.0069,
-      0.01011,
-      0.01041,
-      0.00961,
-      0.00349,
-      0.00791,
-      0.00893,
-      0.00347,
-      0.00297,
-      0.00637,
-      0.00305,
-      0.00338,
-      0.00289,
-      0.00245
-     ],
-     "binned": false,
-     "tail_below": 0.02281,
-     "tail_above": 0.01136,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/min.png"
   },
@@ -913,7 +515,8 @@
    "headline": "spread",
    "context": {
     "home_qb_name": "Daniel Jones",
-    "away_qb_name": "Malik Willis",
+    "away_qb_name": "Kyle McCord",
+    "roof": "closed",
     "div_game": 0,
     "key_player": [
      {
@@ -926,23 +529,18 @@
     ],
     "venue": {
      "name": "Lucas Oil Stadium",
-     "roof": "nan",
-     "surface": "fieldturf",
+     "roof": "closed",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 43.4,
-     "wind_mph": 3.8,
-     "precip_prob": 0,
-     "forecast_hour": "2026-11-15T13:00",
-     "source": "Open-Meteo",
+     "status": "indoors",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -964,10 +562,10 @@
         "status": "Out"
        }
       ],
-      "more": 5,
+      "more": 4,
       "counts": {
        "Out": 6,
-       "Questionable": 2
+       "Questionable": 1
       }
      },
      "away": {
@@ -1009,104 +607,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.4947,
-    "margin_mean": -0.33,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.03703345365455846,
-      "rest_diff": 0.0,
-      "cpoe_diff": 0.09632100101884511,
-      "separation_diff": -0.04607667200335808,
-      "yac_oe_diff": -0.977173824768675,
-      "ryoe_diff": -0.05908630784456209,
-      "elo_diff": 30.729108828153585,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00346,
-      0.00404,
-      0.00468,
-      0.0054,
-      0.00619,
-      0.00706,
-      0.0037,
-      0.01195,
-      0.00941,
-      0.00569,
-      0.01222,
-      0.01613,
-      0.0135,
-      0.00968,
-      0.02602,
-      0.01634,
-      0.00895,
-      0.01167,
-      0.02293,
-      0.00698,
-      0.02048,
-      0.05195,
-      0.03561,
-      0.02017,
-      0.02947,
-      0.07681,
-      0.02488,
-      0.02095,
-      0.00364,
-      0.02478,
-      0.02198,
-      0.08425,
-      0.02514,
-      0.02034,
-      0.03533,
-      0.04616,
-      0.02313,
-      0.00882,
-      0.03333,
-      0.01268,
-      0.00886,
-      0.00807,
-      0.02589,
-      0.00795,
-      0.01176,
-      0.01222,
-      0.01138,
-      0.00417,
-      0.00953,
-      0.01086,
-      0.00425,
-      0.00368,
-      0.00796,
-      0.00384,
-      0.00429,
-      0.0037,
-      0.00316
-     ],
-     "binned": false,
-     "tail_below": 0.01713,
-     "tail_above": 0.01539,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ind.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/mia.png"
   },
@@ -1128,7 +630,7 @@
     "venue": {
      "name": "Caesars Superdome",
      "roof": "dome",
-     "surface": "sportturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1138,7 +640,7 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -1205,104 +707,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.4331,
-    "margin_mean": -2.354,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.17678157167339698,
-      "rest_diff": 0.0,
-      "cpoe_diff": -0.0946428571428557,
-      "separation_diff": -0.11274646820730228,
-      "yac_oe_diff": -0.13948108711299378,
-      "ryoe_diff": -0.8282673064456677,
-      "elo_diff": -18.413406737505056,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.0048,
-      0.00553,
-      0.00634,
-      0.00722,
-      0.00818,
-      0.00921,
-      0.00476,
-      0.0152,
-      0.01183,
-      0.00707,
-      0.01499,
-      0.01954,
-      0.01616,
-      0.01145,
-      0.03038,
-      0.01885,
-      0.0102,
-      0.01314,
-      0.0255,
-      0.00767,
-      0.02223,
-      0.05569,
-      0.0377,
-      0.02109,
-      0.03044,
-      0.07839,
-      0.02508,
-      0.02087,
-      0.00358,
-      0.02408,
-      0.0211,
-      0.07989,
-      0.02355,
-      0.01882,
-      0.03229,
-      0.04168,
-      0.02063,
-      0.00777,
-      0.029,
-      0.0109,
-      0.00752,
-      0.00677,
-      0.02145,
-      0.00651,
-      0.0095,
-      0.00976,
-      0.00897,
-      0.00325,
-      0.00734,
-      0.00826,
-      0.00319,
-      0.00273,
-      0.00583,
-      0.00278,
-      0.00307,
-      0.00262,
-      0.00221
-     ],
-     "binned": false,
-     "tail_below": 0.02538,
-     "tail_above": 0.01009,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/no.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/car.png"
   },
@@ -1320,26 +726,28 @@
     "away_qb_name": "Josh Allen",
     "roof": "outdoors",
     "div_game": 1,
-    "key_player": [],
+    "key_player": [
+     {
+      "team": "NYJ",
+      "role": "QB1",
+      "text": "Geno Smith listed Questionable",
+      "source": "ESPN injury report"
+     }
+    ],
     "venue": {
      "name": "MetLife Stadium",
      "roof": "outdoors",
-     "surface": "fieldturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 45.8,
-     "wind_mph": 9.2,
-     "precip_prob": 1,
-     "forecast_hour": "2026-11-15T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -1405,104 +813,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.16083,
-    "margin_mean": -13.405,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.14438248095564035,
-      "rest_diff": 1.0,
-      "cpoe_diff": 3.773189067483888,
-      "separation_diff": -0.45470984431084105,
-      "yac_oe_diff": -0.4746530089892133,
-      "ryoe_diff": 0.04459557437857031,
-      "elo_diff": -374.65755950487824,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01742,
-      0.01883,
-      0.02024,
-      0.02163,
-      0.02298,
-      0.02429,
-      0.01179,
-      0.0353,
-      0.02578,
-      0.01444,
-      0.02875,
-      0.03516,
-      0.02728,
-      0.01813,
-      0.04515,
-      0.02627,
-      0.01334,
-      0.01613,
-      0.02936,
-      0.00828,
-      0.02253,
-      0.05295,
-      0.03363,
-      0.01766,
-      0.02391,
-      0.05777,
-      0.01734,
-      0.01353,
-      0.00218,
-      0.01375,
-      0.0113,
-      0.04015,
-      0.0111,
-      0.00833,
-      0.0134,
-      0.01623,
-      0.00754,
-      0.00266,
-      0.00933,
-      0.00329,
-      0.00213,
-      0.0018,
-      0.00535,
-      0.00152,
-      0.00209,
-      0.00201,
-      0.00173,
-      0.00059,
-      0.00125,
-      0.00132,
-      0.00048,
-      0.00038,
-      0.00077,
-      0.00034,
-      0.00036,
-      0.00028,
-      0.00023
-     ],
-     "binned": false,
-     "tail_below": 0.13748,
-     "tail_above": 0.00077,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/nyj.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png"
   },
@@ -1524,22 +836,17 @@
     "venue": {
      "name": "Nissan Stadium",
      "roof": "outdoors",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 52.3,
-     "wind_mph": 7.0,
-     "precip_prob": 0,
-     "forecast_hour": "2026-11-15T13:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -1605,104 +912,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.14543,
-    "margin_mean": -14.305,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.2186241739812279,
-      "rest_diff": 4.0,
-      "cpoe_diff": -4.585218894009218,
-      "separation_diff": 0.22186197915989192,
-      "yac_oe_diff": -0.4106317882377747,
-      "ryoe_diff": 0.6483664477439622,
-      "elo_diff": -351.00362616622715,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01868,
-      0.02009,
-      0.02149,
-      0.02285,
-      0.02417,
-      0.02541,
-      0.01228,
-      0.03657,
-      0.02657,
-      0.01482,
-      0.02934,
-      0.03571,
-      0.02757,
-      0.01823,
-      0.04518,
-      0.02616,
-      0.01322,
-      0.0159,
-      0.0288,
-      0.00809,
-      0.02189,
-      0.05119,
-      0.03235,
-      0.0169,
-      0.02277,
-      0.05475,
-      0.01635,
-      0.0127,
-      0.00203,
-      0.01278,
-      0.01045,
-      0.03695,
-      0.01017,
-      0.00759,
-      0.01215,
-      0.01464,
-      0.00677,
-      0.00238,
-      0.00829,
-      0.00291,
-      0.00187,
-      0.00158,
-      0.00466,
-      0.00132,
-      0.0018,
-      0.00172,
-      0.00148,
-      0.0005,
-      0.00106,
-      0.00111,
-      0.0004,
-      0.00032,
-      0.00064,
-      0.00028,
-      0.00029,
-      0.00023,
-      0.00018
-     ],
-     "binned": false,
-     "tail_below": 0.1528,
-     "tail_above": 0.00061,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ten.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/jax.png"
   },
@@ -1718,6 +929,7 @@
    "context": {
     "home_qb_name": "Gardner Minshew",
     "away_qb_name": "Matthew Stafford",
+    "roof": "open",
     "div_game": 1,
     "key_player": [
      {
@@ -1730,23 +942,18 @@
     ],
     "venue": {
      "name": "State Farm Stadium",
-     "roof": "nan",
-     "surface": "grass",
+     "roof": "open",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 73.1,
-     "wind_mph": 1.5,
-     "precip_prob": 0,
-     "forecast_hour": "2026-11-15T16:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -1812,104 +1019,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.27927,
-    "margin_mean": -7.867,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.1891638676593742,
-      "rest_diff": 0.0,
-      "cpoe_diff": 4.5851960151128575,
-      "separation_diff": -0.39614432126564614,
-      "yac_oe_diff": -0.7646644459307421,
-      "ryoe_diff": -0.12042913493286878,
-      "elo_diff": -228.320093389078,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01013,
-      0.0113,
-      0.01253,
-      0.01382,
-      0.01515,
-      0.01651,
-      0.00827,
-      0.02554,
-      0.01924,
-      0.01112,
-      0.02284,
-      0.02882,
-      0.02307,
-      0.01581,
-      0.04063,
-      0.02439,
-      0.01278,
-      0.01593,
-      0.02992,
-      0.00871,
-      0.02444,
-      0.05926,
-      0.03883,
-      0.02103,
-      0.02938,
-      0.07323,
-      0.02267,
-      0.01826,
-      0.00303,
-      0.01974,
-      0.01674,
-      0.06136,
-      0.01751,
-      0.01354,
-      0.02249,
-      0.0281,
-      0.01346,
-      0.00491,
-      0.01773,
-      0.00645,
-      0.00431,
-      0.00375,
-      0.01151,
-      0.00338,
-      0.00478,
-      0.00475,
-      0.00423,
-      0.00148,
-      0.00324,
-      0.00353,
-      0.00132,
-      0.00109,
-      0.00226,
-      0.00104,
-      0.00111,
-      0.00092,
-      0.00075
-     ],
-     "binned": false,
-     "tail_below": 0.06491,
-     "tail_above": 0.00294,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/ari.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png"
   },
@@ -1945,7 +1056,7 @@
     "venue": {
      "name": "Allegiant Stadium",
      "roof": "dome",
-     "surface": "grass",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -1955,7 +1066,7 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -2014,104 +1125,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.2724,
-    "margin_mean": -8.144,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.00991819217376239,
-      "rest_diff": 0.0,
-      "cpoe_diff": 1.9101411921411944,
-      "separation_diff": -0.24120976203583933,
-      "yac_oe_diff": -0.013297894935303645,
-      "ryoe_diff": 0.24905397127272358,
-      "elo_diff": -220.24938393050638,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.01046,
-      0.01165,
-      0.01289,
-      0.0142,
-      0.01554,
-      0.01691,
-      0.00846,
-      0.02608,
-      0.01961,
-      0.01132,
-      0.0232,
-      0.02923,
-      0.02336,
-      0.01599,
-      0.04102,
-      0.02459,
-      0.01286,
-      0.01601,
-      0.03002,
-      0.00872,
-      0.02444,
-      0.05917,
-      0.03871,
-      0.02093,
-      0.02919,
-      0.07265,
-      0.02246,
-      0.01806,
-      0.00299,
-      0.01946,
-      0.01648,
-      0.0603,
-      0.01718,
-      0.01326,
-      0.02199,
-      0.02743,
-      0.01312,
-      0.00478,
-      0.01723,
-      0.00626,
-      0.00417,
-      0.00363,
-      0.01111,
-      0.00326,
-      0.0046,
-      0.00456,
-      0.00406,
-      0.00142,
-      0.0031,
-      0.00337,
-      0.00126,
-      0.00104,
-      0.00215,
-      0.00099,
-      0.00106,
-      0.00087,
-      0.00071
-     ],
-     "binned": false,
-     "tail_below": 0.06769,
-     "tail_above": 0.00275,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lv.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sea.png"
   },
@@ -2127,27 +1142,23 @@
    "context": {
     "home_qb_name": "Dak Prescott",
     "away_qb_name": "Brock Purdy",
+    "roof": "closed",
     "div_game": 0,
     "key_player": [],
     "venue": {
      "name": "AT&T Stadium",
-     "roof": "nan",
-     "surface": "matrixturf",
+     "roof": "closed",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 49.4,
-     "wind_mph": 8.3,
-     "precip_prob": 7,
-     "forecast_hour": "2026-11-15T16:00",
-     "source": "Open-Meteo",
+     "status": "indoors",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -2214,104 +1225,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.28309,
-    "margin_mean": -7.715,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.17985660138770093,
-      "rest_diff": 0.0,
-      "cpoe_diff": -3.2761914850686047,
-      "separation_diff": 0.13439267092708373,
-      "yac_oe_diff": -0.07514035998508833,
-      "ryoe_diff": -0.016509616576643876,
-      "elo_diff": -165.5322660923,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00996,
-      0.01111,
-      0.01233,
-      0.01361,
-      0.01493,
-      0.01629,
-      0.00817,
-      0.02525,
-      0.01904,
-      0.01101,
-      0.02263,
-      0.02859,
-      0.0229,
-      0.01571,
-      0.04041,
-      0.02428,
-      0.01273,
-      0.01589,
-      0.02986,
-      0.0087,
-      0.02443,
-      0.05931,
-      0.0389,
-      0.02108,
-      0.02948,
-      0.07354,
-      0.02279,
-      0.01837,
-      0.00305,
-      0.0199,
-      0.01689,
-      0.06195,
-      0.01769,
-      0.01369,
-      0.02276,
-      0.02847,
-      0.01365,
-      0.00498,
-      0.01801,
-      0.00656,
-      0.00438,
-      0.00382,
-      0.01173,
-      0.00345,
-      0.00488,
-      0.00485,
-      0.00432,
-      0.00152,
-      0.00332,
-      0.00362,
-      0.00136,
-      0.00112,
-      0.00232,
-      0.00107,
-      0.00115,
-      0.00095,
-      0.00077
-     ],
-     "binned": false,
-     "tail_below": 0.06342,
-     "tail_above": 0.00304,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/sf.png"
   },
@@ -2333,22 +1248,17 @@
     "venue": {
      "name": "Paycor Stadium",
      "roof": "outdoors",
-     "surface": "fieldturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 41.1,
-     "wind_mph": 4.5,
-     "precip_prob": 1,
-     "forecast_hour": "2026-11-15T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
@@ -2403,104 +1313,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.57466,
-    "margin_mean": 2.298,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.13290525332139427,
-      "rest_diff": -7.0,
-      "cpoe_diff": 9.31178115615616,
-      "separation_diff": -0.0039928970950344755,
-      "yac_oe_diff": 0.7269374065085503,
-      "ryoe_diff": -1.9621487077765962,
-      "elo_diff": 3.0177692330266837,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00218,
-      0.00259,
-      0.00305,
-      0.00357,
-      0.00416,
-      0.00482,
-      0.00256,
-      0.00842,
-      0.00674,
-      0.00414,
-      0.00903,
-      0.01211,
-      0.0103,
-      0.0075,
-      0.02049,
-      0.01307,
-      0.00728,
-      0.00964,
-      0.01925,
-      0.00595,
-      0.01775,
-      0.04575,
-      0.03186,
-      0.01833,
-      0.02722,
-      0.07209,
-      0.02372,
-      0.0203,
-      0.00358,
-      0.02479,
-      0.02234,
-      0.087,
-      0.02638,
-      0.02168,
-      0.03827,
-      0.05081,
-      0.02587,
-      0.01002,
-      0.03847,
-      0.01488,
-      0.01056,
-      0.00978,
-      0.03185,
-      0.00995,
-      0.01493,
-      0.01577,
-      0.01492,
-      0.00556,
-      0.0129,
-      0.01494,
-      0.00594,
-      0.00523,
-      0.01148,
-      0.00563,
-      0.0064,
-      0.0056,
-      0.00487
-     ],
-     "binned": false,
-     "tail_below": 0.00994,
-     "tail_above": 0.02579,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png"
   },
@@ -2536,8 +1350,8 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 47.5,
-     "wind_mph": 3.6,
+     "temp_f": 43.6,
+     "wind_mph": 5.2,
      "precip_prob": 0,
      "forecast_hour": "2026-11-16T20:00",
      "source": "Open-Meteo",
@@ -2545,57 +1359,53 @@
     },
     "injuries": {
      "status": "reported",
-     "source": "nflverse+espn",
+     "source": "nflverse",
      "in_price": false,
      "note": "Not in the price.",
      "home": {
       "status": "reported",
       "shown": [
        {
-        "player": "Lamar Jackson",
-        "position": "QB",
+        "player": "Jaylinn Hawkins",
+        "position": "S",
         "status": "Out"
        },
        {
-        "player": "Adisa Isaac",
-        "position": "LB",
-        "status": "Questionable"
-       },
-       {
-        "player": "Jaylinn Hawkins",
-        "position": "S",
+        "player": "Adam Randall",
+        "position": "RB",
         "status": "Questionable"
        }
       ],
       "more": 0,
       "counts": {
        "Out": 1,
-       "Questionable": 2
+       "Questionable": 1
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "David Njoku",
-        "position": "TE",
+        "player": "Branson Taylor",
+        "position": "G",
         "status": "Out"
        },
        {
-        "player": "Trey Pipkins III",
-        "position": "OT",
+        "player": "Isas Waxter",
+        "position": "CB",
         "status": "Out"
        },
        {
-        "player": "Brenen Thompson",
-        "position": "WR",
-        "status": "Questionable"
+        "player": "Kendall Williamson",
+        "position": "S",
+        "status": "Out"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 2,
-       "Questionable": 6
+       "Out": 3,
+       "Doubtful": 1,
+       "Questionable": 4
       }
      },
      "counts_only": false
@@ -2716,7 +1526,7 @@
  "refusals": [
   {
    "scope": "league",
-   "reason": "Odds are 674 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+   "reason": "Odds are 717 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
   }
  ],
  "freshness": {
@@ -3050,12 +1860,12 @@
   "debias_how": "0 open game(s), too few to measure and no prior",
   "debias_games": 0,
   "coefficient_sets": {
-   "full_ensemble": 13
+   "full_ensemble": 1
   }
  },
  "status": {
   "state": "degraded",
-  "games": 13,
+  "games": 1,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -3063,17 +1873,15 @@
    "coin_flip": 0,
    "no_edge": 0
   },
-  "started": 1,
+  "started": 13,
   "not_priced": [
    {
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 13,
+    "games": 1,
     "examples": [
-     "NE @ DET",
-     "KC @ ATL",
-     "HOU @ CLE"
+     "LAC @ BAL"
     ]
    },
    {
@@ -3094,9 +1902,11 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 1,
+    "games": 13,
     "examples": [
-     "WAS @ NYG"
+     "WAS @ NYG",
+     "NE @ DET",
+     "KC @ ATL"
     ]
    },
    {
@@ -3115,11 +1925,11 @@
    }
   ],
   "refusals": 1,
-  "reason": "Odds are 674 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
+  "reason": "Odds are 717 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
   "game_refusals": [
    {
     "reason": "no market price captured for this game",
-    "games": 13
+    "games": 1
    }
   ]
  }
