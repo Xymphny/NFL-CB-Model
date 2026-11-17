@@ -3,8 +3,8 @@
  "not_a_model_input": true,
  "note": "Not a model input. The NBA model rates teams, not players. This is what it cannot see: who is playing, and for how long. It is shown so you can decide whether a suggestion still holds.",
  "season": 2027,
- "injuries_as_of": "2026-11-16T15:28Z",
- "minutes_through": "2026-11-16",
+ "injuries_as_of": "2026-11-17T04:56Z",
+ "minutes_through": "2026-11-17",
  "minutes_note": null,
  "window": 10,
  "unmatched_team_names": [],
@@ -154,7 +154,7 @@
     {
      "player": "Julius Randle",
      "position": "F",
-     "min_per_game": 32.1,
+     "min_per_game": 33.1,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -163,7 +163,7 @@
     {
      "player": "Michael Porter Jr.",
      "position": "F",
-     "min_per_game": 32.3,
+     "min_per_game": 34.4,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -172,7 +172,7 @@
     {
      "player": "Day'Ron Sharpe",
      "position": "C",
-     "min_per_game": 23.1,
+     "min_per_game": 24.0,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -181,16 +181,16 @@
     {
      "player": "Nolan Traore",
      "position": "G",
-     "min_per_game": 24.4,
+     "min_per_game": 25.0,
      "played": 9,
      "of": 10,
-     "starts": 7,
+     "starts": 8,
      "missed": 1
     },
     {
      "player": "Noah Clowney",
      "position": "F",
-     "min_per_game": 21.0,
+     "min_per_game": 21.4,
      "played": 10,
      "of": 10,
      "starts": 1,
@@ -199,34 +199,34 @@
     {
      "player": "Moritz Wagner",
      "position": "C",
-     "min_per_game": 19.0,
+     "min_per_game": 18.5,
      "played": 10,
      "of": 10,
      "starts": 0,
      "missed": 0
     },
     {
+     "player": "Keon Ellis",
+     "position": "G",
+     "min_per_game": 19.6,
+     "played": 9,
+     "of": 10,
+     "starts": 0,
+     "missed": 1
+    },
+    {
      "player": "Chaney Johnson",
      "position": "F",
-     "min_per_game": 18.7,
+     "min_per_game": 16.7,
      "played": 10,
      "of": 10,
      "starts": 4,
      "missed": 0
     },
     {
-     "player": "Keon Ellis",
-     "position": "G",
-     "min_per_game": 19.9,
-     "played": 9,
-     "of": 10,
-     "starts": 1,
-     "missed": 1
-    },
-    {
      "player": "Danny Wolf",
      "position": "F",
-     "min_per_game": 24.3,
+     "min_per_game": 23.7,
      "played": 7,
      "of": 10,
      "starts": 4,
@@ -239,12 +239,22 @@
    "team": "BOS",
    "name": "Boston Celtics",
    "logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/bos.png",
-   "injuries": [],
+   "injuries": [
+    {
+     "player": "Neemias Queta",
+     "position": "C",
+     "status": "Day-To-Day",
+     "injury": "Rest",
+     "return_date": "2026-11-18",
+     "note": "Queta (rest) won't play in Monday's game against the Magic, Taylor Snow of the Celtics' official site reports.",
+     "reported": "2026-11-17T03:37Z"
+    }
+   ],
    "rotation": [
     {
      "player": "Jayson Tatum",
      "position": "F",
-     "min_per_game": 33.4,
+     "min_per_game": 32.8,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -253,7 +263,7 @@
     {
      "player": "Derrick White",
      "position": "G",
-     "min_per_game": 29.4,
+     "min_per_game": 29.3,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -262,7 +272,7 @@
     {
      "player": "Payton Pritchard",
      "position": "G",
-     "min_per_game": 26.6,
+     "min_per_game": 27.4,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -278,22 +288,22 @@
      "missed": 2
     },
     {
-     "player": "Neemias Queta",
-     "position": "C",
-     "min_per_game": 22.2,
-     "played": 10,
-     "of": 10,
-     "starts": 8,
-     "missed": 0
-    },
-    {
      "player": "Baylor Scheierman",
      "position": "G",
-     "min_per_game": 21.9,
+     "min_per_game": 20.9,
      "played": 10,
      "of": 10,
      "starts": 2,
      "missed": 0
+    },
+    {
+     "player": "Neemias Queta",
+     "position": "C",
+     "min_per_game": 23.0,
+     "played": 9,
+     "of": 10,
+     "starts": 8,
+     "missed": 1
     },
     {
      "player": "Sam Hauser",
@@ -307,7 +317,7 @@
     {
      "player": "Jordan Walsh",
      "position": "G",
-     "min_per_game": 16.3,
+     "min_per_game": 15.6,
      "played": 10,
      "of": 10,
      "starts": 5,
@@ -316,10 +326,10 @@
     {
      "player": "Mitchell Robinson",
      "position": "C",
-     "min_per_game": 17.2,
+     "min_per_game": 16.4,
      "played": 9,
      "of": 10,
-     "starts": 2,
+     "starts": 1,
      "missed": 1
     }
    ],
@@ -461,17 +471,26 @@
      "player": "Jalen Smith",
      "position": "F",
      "status": "Day-To-Day",
-     "injury": "Left Finger",
-     "return_date": "2026-11-16",
-     "note": "Smith (finger) is listed as questionable for Monday's game against Cleveland.",
-     "reported": "2026-11-15T21:29Z"
+     "injury": "Head",
+     "return_date": "2026-11-18",
+     "note": "Smith (undisclosed) exited in the fourth quarter of Monday's 126-115 loss to the Cavaliers and did not return.",
+     "reported": "2026-11-17T02:58Z"
+    },
+    {
+     "player": "Patrick Williams",
+     "position": "F",
+     "status": "Day-To-Day",
+     "injury": "Right Finger",
+     "return_date": "2026-11-18",
+     "note": "Williams (finger) has been ruled out for the remainder of Monday's game against Cleveland.",
+     "reported": "2026-11-17T02:12Z"
     }
    ],
    "rotation": [
     {
      "player": "Josh Giddey",
      "position": "G",
-     "min_per_game": 29.3,
+     "min_per_game": 28.7,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -480,20 +499,11 @@
     {
      "player": "Matas Buzelis",
      "position": "F",
-     "min_per_game": 28.0,
+     "min_per_game": 27.6,
      "played": 10,
      "of": 10,
      "starts": 10,
      "missed": 0
-    },
-    {
-     "player": "Caleb Wilson",
-     "position": "F",
-     "min_per_game": 30.2,
-     "played": 8,
-     "of": 10,
-     "starts": 8,
-     "missed": 2
     },
     {
      "player": "Norman Powell",
@@ -505,27 +515,36 @@
      "missed": 2
     },
     {
+     "player": "Isaac Okoro",
+     "position": "F",
+     "min_per_game": 23.5,
+     "played": 10,
+     "of": 10,
+     "starts": 5,
+     "missed": 0
+    },
+    {
      "player": "Jalen Smith",
      "position": "F",
-     "min_per_game": 25.3,
+     "min_per_game": 25.8,
      "played": 9,
      "of": 10,
      "starts": 9,
      "missed": 1
     },
     {
-     "player": "Isaac Okoro",
+     "player": "Caleb Wilson",
      "position": "F",
-     "min_per_game": 21.7,
-     "played": 10,
+     "min_per_game": 29.1,
+     "played": 7,
      "of": 10,
-     "starts": 4,
-     "missed": 0
+     "starts": 7,
+     "missed": 3
     },
     {
      "player": "Tre Jones",
      "position": "G",
-     "min_per_game": 18.9,
+     "min_per_game": 19.4,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -534,20 +553,20 @@
     {
      "player": "Patrick Williams",
      "position": "F",
-     "min_per_game": 24.6,
-     "played": 5,
+     "min_per_game": 22.7,
+     "played": 6,
      "of": 10,
      "starts": 0,
-     "missed": 5
+     "missed": 4
     },
     {
-     "player": "Buddy Hield",
-     "position": "G",
-     "min_per_game": 15.0,
-     "played": 8,
+     "player": "Noa Essengue",
+     "position": "F",
+     "min_per_game": 12.5,
+     "played": 10,
      "of": 10,
      "starts": 0,
-     "missed": 2
+     "missed": 0
     }
    ],
    "games_in_window": 10
@@ -562,9 +581,9 @@
      "position": "C",
      "status": "Out",
      "injury": "Left Toe",
-     "return_date": "2026-11-18",
-     "note": "Mobley (toe) has been ruled out for Monday's game against Chicago.",
-     "reported": "2026-11-15T21:58Z"
+     "return_date": "2026-11-29",
+     "note": "Mobley will receive treatment and participate in rehab after the team confirmed a diagnosis of a right great toe sprain, and he'll be re-evaluated in the next 7-to-10 days.",
+     "reported": "2026-11-16T22:06Z"
     },
     {
      "player": "Nae'Qwan Tomlin",
@@ -589,25 +608,25 @@
      "position": "G",
      "status": "Day-To-Day",
      "injury": "Right Ankle",
-     "return_date": "2026-11-16",
-     "note": "Tyson (ankle) is questionable for Monday's game against the Bulls.",
-     "reported": "2026-11-15T22:09Z"
+     "return_date": "2026-11-18",
+     "note": "Tyson (ankle) has been ruled out for Monday's game against Chicago.",
+     "reported": "2026-11-17T03:37Z"
     },
     {
      "player": "Peyton Watson",
      "position": "G",
      "status": "Day-To-Day",
-     "injury": "Right Abdomen",
-     "return_date": "2026-11-16",
-     "note": "Watson (abdominal soreness) is questionable to play in Monday's game against the Bulls.",
-     "reported": "2026-11-15T22:04Z"
+     "injury": "Head",
+     "return_date": "2026-11-18",
+     "note": "Watson left Monday's 126-115 win over Chicago due to a head injury and did not return.",
+     "reported": "2026-11-17T02:58Z"
     }
    ],
    "rotation": [
     {
      "player": "Donovan Mitchell",
      "position": "G",
-     "min_per_game": 32.0,
+     "min_per_game": 32.3,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -616,43 +635,43 @@
     {
      "player": "James Harden",
      "position": "G",
-     "min_per_game": 31.9,
+     "min_per_game": 31.7,
      "played": 9,
      "of": 10,
      "starts": 9,
      "missed": 1
     },
     {
-     "player": "Evan Mobley",
-     "position": "C",
-     "min_per_game": 30.8,
-     "played": 8,
+     "player": "Meleek Thomas",
+     "position": "G",
+     "min_per_game": 24.9,
+     "played": 10,
      "of": 10,
-     "starts": 8,
-     "missed": 2
+     "starts": 3,
+     "missed": 0
     },
     {
      "player": "Tyrese Proctor",
      "position": "G",
-     "min_per_game": 22.8,
+     "min_per_game": 23.7,
      "played": 10,
      "of": 10,
-     "starts": 2,
+     "starts": 3,
      "missed": 0
     },
     {
-     "player": "Meleek Thomas",
-     "position": "G",
-     "min_per_game": 24.3,
-     "played": 9,
+     "player": "Evan Mobley",
+     "position": "C",
+     "min_per_game": 30.4,
+     "played": 7,
      "of": 10,
-     "starts": 3,
-     "missed": 1
+     "starts": 7,
+     "missed": 3
     },
     {
      "player": "Mario Hezonja",
      "position": "F",
-     "min_per_game": 20.0,
+     "min_per_game": 19.8,
      "played": 10,
      "of": 10,
      "starts": 1,
@@ -679,11 +698,11 @@
     {
      "player": "Thomas Bryant",
      "position": "C",
-     "min_per_game": 14.8,
-     "played": 8,
+     "min_per_game": 15.1,
+     "played": 9,
      "of": 10,
      "starts": 1,
-     "missed": 2
+     "missed": 1
     }
    ],
    "games_in_window": 10
@@ -852,7 +871,7 @@
     {
      "player": "Nikola Jokic",
      "position": "C",
-     "min_per_game": 36.5,
+     "min_per_game": 35.9,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -861,7 +880,7 @@
     {
      "player": "Jamal Murray",
      "position": "G",
-     "min_per_game": 36.4,
+     "min_per_game": 35.6,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -870,7 +889,7 @@
     {
      "player": "Christian Braun",
      "position": "G",
-     "min_per_game": 33.8,
+     "min_per_game": 33.1,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -879,7 +898,7 @@
     {
      "player": "Aaron Gordon",
      "position": "F",
-     "min_per_game": 29.4,
+     "min_per_game": 28.1,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -888,16 +907,16 @@
     {
      "player": "Cameron Johnson",
      "position": "F",
-     "min_per_game": 31.3,
-     "played": 7,
+     "min_per_game": 30.8,
+     "played": 8,
      "of": 10,
-     "starts": 7,
-     "missed": 3
+     "starts": 8,
+     "missed": 2
     },
     {
      "player": "DeMar DeRozan",
      "position": "G",
-     "min_per_game": 23.1,
+     "min_per_game": 22.0,
      "played": 9,
      "of": 10,
      "starts": 0,
@@ -906,7 +925,7 @@
     {
      "player": "Trevon Brazile",
      "position": "F",
-     "min_per_game": 19.4,
+     "min_per_game": 18.9,
      "played": 10,
      "of": 10,
      "starts": 1,
@@ -915,7 +934,7 @@
     {
      "player": "Marvin Bagley III",
      "position": "F",
-     "min_per_game": 12.5,
+     "min_per_game": 12.6,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -939,13 +958,22 @@
    "logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/det.png",
    "injuries": [
     {
+     "player": "Duncan Robinson",
+     "position": "F",
+     "status": "Out",
+     "injury": "Left Quadriceps",
+     "return_date": "2026-11-18",
+     "note": "Robinson (quadriceps) has been ruled out for Tuesday's game against the Spurs.",
+     "reported": "2026-11-16T22:37Z"
+    },
+    {
      "player": "Isaiah Joe",
      "position": "G",
      "status": "Out",
      "injury": "Right Hip",
      "return_date": "2026-11-17",
-     "note": "Joe (hip) is out for Monday against the Wizards.",
-     "reported": "2026-11-09T18:54Z"
+     "note": "Joe (hip) is doubtful to play in Tuesday's game against the Spurs.",
+     "reported": "2026-11-16T22:40Z"
     },
     {
      "player": "Jalen Duren",
@@ -957,22 +985,22 @@
      "reported": "2026-11-08T16:05Z"
     },
     {
-     "player": "Duncan Robinson",
+     "player": "Ronald Holland II",
      "position": "F",
-     "status": "Day-To-Day",
-     "injury": "Left Thigh",
-     "return_date": "2026-11-17",
-     "note": "Robinson (thigh) did not return to Saturday's 137-117 win over the Pistons. He finished with 10 points (3-8 FG, 2-6 3Pt, 2-2 FT), one rebound and one assist across 17 minutes.",
-     "reported": "2026-11-15T15:58Z"
+     "status": "Out",
+     "injury": "Left Knee",
+     "return_date": "2026-11-18",
+     "note": "Holland is out for Tuesday's game against San Antonio due to a left knee contusion.",
+     "reported": "2026-11-16T22:53Z"
     },
     {
-     "player": "Ugonna Onyenso",
-     "position": "C",
-     "status": "Day-To-Day",
-     "injury": "Left Foot",
-     "return_date": "2026-11-14",
-     "note": "Onyenso agreed to a two-way contract with the Pistons on Thursday.",
-     "reported": "2026-11-11T15:16Z"
+     "player": "Taurean Prince",
+     "position": "F",
+     "status": "Out",
+     "injury": "Right Knee",
+     "return_date": "2026-11-18",
+     "note": "Prince (knee) has been ruled out for Tuesday's game against the Spurs.",
+     "reported": "2026-11-16T22:58Z"
     }
    ],
    "rotation": [
@@ -1109,22 +1137,13 @@
      "return_date": "2026-12-12",
      "note": "Curry has been diagnosed with an oblique abdominal tear and will be re-evaluated in two weeks, Shams Charania of ESPN reports.",
      "reported": "2026-11-12T17:03Z"
-    },
-    {
-     "player": "Gui Santos",
-     "position": "F",
-     "status": "Day-To-Day",
-     "injury": "Right Ankle",
-     "return_date": "2026-11-16",
-     "note": "Santos is questionable for Monday's game against New Orleans due to right ankle inflammation.",
-     "reported": "2026-11-15T23:03Z"
     }
    ],
    "rotation": [
     {
      "player": "Brandin Podziemski",
      "position": "G",
-     "min_per_game": 32.4,
+     "min_per_game": 32.1,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -1133,7 +1152,7 @@
     {
      "player": "Yaxel Lendeborg",
      "position": "F",
-     "min_per_game": 30.7,
+     "min_per_game": 30.9,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -1142,7 +1161,7 @@
     {
      "player": "Draymond Green",
      "position": "F",
-     "min_per_game": 25.9,
+     "min_per_game": 25.7,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -1151,7 +1170,16 @@
     {
      "player": "De'Anthony Melton",
      "position": "G",
-     "min_per_game": 21.9,
+     "min_per_game": 22.1,
+     "played": 10,
+     "of": 10,
+     "starts": 2,
+     "missed": 0
+    },
+    {
+     "player": "Georges Niang",
+     "position": "F",
+     "min_per_game": 19.9,
      "played": 10,
      "of": 10,
      "starts": 2,
@@ -1160,25 +1188,16 @@
     {
      "player": "Stephen Curry",
      "position": "G",
-     "min_per_game": 26.8,
-     "played": 8,
+     "min_per_game": 26.7,
+     "played": 7,
      "of": 10,
-     "starts": 8,
-     "missed": 2
-    },
-    {
-     "player": "Georges Niang",
-     "position": "F",
-     "min_per_game": 20.3,
-     "played": 10,
-     "of": 10,
-     "starts": 2,
-     "missed": 0
+     "starts": 7,
+     "missed": 3
     },
     {
      "player": "Will Richard",
      "position": "G",
-     "min_per_game": 18.4,
+     "min_per_game": 20.7,
      "played": 9,
      "of": 10,
      "starts": 3,
@@ -1187,16 +1206,16 @@
     {
      "player": "Al Horford",
      "position": "C",
-     "min_per_game": 17.0,
+     "min_per_game": 16.4,
      "played": 9,
      "of": 10,
-     "starts": 1,
+     "starts": 2,
      "missed": 1
     },
     {
      "player": "Charles Bassey",
      "position": "C",
-     "min_per_game": 13.2,
+     "min_per_game": 14.6,
      "played": 10,
      "of": 10,
      "starts": 1,
@@ -1215,61 +1234,61 @@
      "position": "C",
      "status": "Out",
      "injury": "Right Ankle",
-     "return_date": "2026-11-16",
-     "note": "Capela (ankle) has been ruled out for Sunday's game at Washington.",
-     "reported": "2026-11-14T21:54Z"
-    },
-    {
-     "player": "Marcus Smart",
-     "position": "G",
-     "status": "Out",
-     "injury": "Suspension",
      "return_date": "2026-11-18",
-     "note": "Smart has been suspended three games for throwing a punch during Wednesday's matchup against Golden State, Shams Charania of ESPN reports.",
-     "reported": "2026-11-12T22:45Z"
+     "note": "Capela (ankle) is out for Monday's game against the Heat.",
+     "reported": "2026-11-16T18:09Z"
     },
     {
-     "player": "Fred VanVleet",
+     "player": "Amen Thompson",
      "position": "G",
      "status": "Day-To-Day",
-     "injury": "Right Knee",
-     "return_date": "2026-11-16",
-     "note": "VanVleet (right knee injury management) has been ruled out for Sunday's game against the Wizards.",
-     "reported": "2026-11-16T14:46Z"
+     "injury": "Left Knee",
+     "return_date": "2026-11-18",
+     "note": "Thompson (knee) is out for Monday's game against the Heat.",
+     "reported": "2026-11-17T03:39Z"
     },
     {
      "player": "Julian Phillips",
      "position": "F",
      "status": "Day-To-Day",
      "injury": "Right Wrist",
-     "return_date": "2026-11-16",
+     "return_date": "2026-11-17",
      "note": "Phillips (illness) is available for Wednesday's game against Dallas.",
      "reported": "2026-11-16T15:28Z"
+    },
+    {
+     "player": "Marcus Smart",
+     "position": "G",
+     "status": "Day-To-Day",
+     "injury": "Suspension",
+     "return_date": "2026-11-18",
+     "note": "Smart has been suspended three games for throwing a punch during Wednesday's matchup against Golden State, Shams Charania of ESPN reports.",
+     "reported": "2026-11-17T03:39Z"
+    },
+    {
+     "player": "Steven Adams",
+     "position": "C",
+     "status": "Day-To-Day",
+     "injury": "Calf",
+     "return_date": "2026-11-18",
+     "note": "Adams (calf) is out for Monday's game against the Heat.",
+     "reported": "2026-11-17T03:38Z"
     }
    ],
    "rotation": [
     {
-     "player": "Kevin Durant",
-     "position": "F",
-     "min_per_game": 33.4,
-     "played": 10,
-     "of": 10,
-     "starts": 10,
-     "missed": 0
-    },
-    {
      "player": "Jabari Smith Jr.",
      "position": "F",
-     "min_per_game": 33.3,
+     "min_per_game": 33.5,
      "played": 10,
      "of": 10,
      "starts": 10,
      "missed": 0
     },
     {
-     "player": "Amen Thompson",
-     "position": "G",
-     "min_per_game": 33.0,
+     "player": "Kevin Durant",
+     "position": "F",
+     "min_per_game": 33.2,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -1278,16 +1297,25 @@
     {
      "player": "Alperen Sengun",
      "position": "C",
-     "min_per_game": 34.9,
-     "played": 8,
+     "min_per_game": 34.3,
+     "played": 9,
      "of": 10,
-     "starts": 8,
-     "missed": 2
+     "starts": 9,
+     "missed": 1
+    },
+    {
+     "player": "Amen Thompson",
+     "position": "G",
+     "min_per_game": 33.0,
+     "played": 9,
+     "of": 10,
+     "starts": 9,
+     "missed": 1
     },
     {
      "player": "Tari Eason",
      "position": "F",
-     "min_per_game": 25.4,
+     "min_per_game": 25.0,
      "played": 10,
      "of": 10,
      "starts": 1,
@@ -1296,7 +1324,7 @@
     {
      "player": "Fred VanVleet",
      "position": "G",
-     "min_per_game": 30.5,
+     "min_per_game": 30.1,
      "played": 8,
      "of": 10,
      "starts": 8,
@@ -1305,7 +1333,7 @@
     {
      "player": "Reed Sheppard",
      "position": "G",
-     "min_per_game": 19.5,
+     "min_per_game": 19.0,
      "played": 8,
      "of": 10,
      "starts": 0,
@@ -1323,7 +1351,7 @@
     {
      "player": "Bogdan Bogdanovic",
      "position": "G",
-     "min_per_game": 11.3,
+     "min_per_game": 12.4,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -1496,9 +1524,9 @@
      "position": "C",
      "status": "Out",
      "injury": "Right Foot",
-     "return_date": "2026-11-17",
-     "note": "Niederhauser (foot) is out for Tuesday's game against Phoenix, Ohm Youngmisuk of ESPN.com reports.",
-     "reported": "2026-11-10T00:05Z"
+     "return_date": "2026-11-23",
+     "note": "Niederhauser (foot) has been ruled out for Tuesday's game against the Jazz.",
+     "reported": "2026-11-17T01:07Z"
     }
    ],
    "rotation": [
@@ -1594,11 +1622,20 @@
     {
      "player": "Austin Reaves",
      "position": "G",
-     "status": "Day-To-Day",
+     "status": "Out",
      "injury": "Left Heel",
-     "return_date": "2026-11-17",
-     "note": "Reaves (heel) has been ruled out for Sunday's game against the Suns, Daniel Starkand of LakersNation.com reports.",
-     "reported": "2026-11-16T14:42Z"
+     "return_date": "2026-11-18",
+     "note": "Reaves (heel) is out for Tuesday's game against the Hornets, Dave McMenamin of ESPN.com reports.",
+     "reported": "2026-11-17T01:11Z"
+    },
+    {
+     "player": "Walker Kessler",
+     "position": "C",
+     "status": "Out",
+     "injury": "Right Lower Leg",
+     "return_date": "2026-11-18",
+     "note": "Walker (leg) has been ruled out for Tuesday's game against the Hornets.",
+     "reported": "2026-11-17T01:10Z"
     }
    ],
    "rotation": [
@@ -1696,18 +1733,9 @@
      "position": "F",
      "status": "Out",
      "injury": "Left Foot",
-     "return_date": "2026-11-18",
-     "note": "Jackson (foot) is out for Monday's game against Washington.",
-     "reported": "2026-11-15T22:16Z"
-    },
-    {
-     "player": "Quinten Post",
-     "position": "C",
-     "status": "Out",
-     "injury": "Concussion",
-     "return_date": "2026-11-16",
-     "note": "Post (concussion) is questionable for Monday's game against the Wizards.",
-     "reported": "2026-11-15T22:12Z"
+     "return_date": "2027-01-18",
+     "note": "Jackson will undergo surgery to repair the broken fifth metatarsal in his left foot and is set to miss significant time.",
+     "reported": "2026-11-16T17:12Z"
     },
     {
      "player": "Richie Saunders",
@@ -1723,43 +1751,34 @@
      "position": "G",
      "status": "Out",
      "injury": "Back",
-     "return_date": "2026-11-21",
-     "note": "Pippen (back) remains out for Wednesday's game against Denver, Michael Wallace of the Grizzlies' official site reports.",
-     "reported": "2026-11-10T23:09Z"
-    },
-    {
-     "player": "Ty Jerome",
-     "position": "G",
-     "status": "Out",
-     "injury": "Right Hip",
-     "return_date": "2026-11-18",
-     "note": "Jerome (hip) has been ruled out for Monday's game against the Wizards.",
-     "reported": "2026-11-15T22:13Z"
+     "return_date": "2026-11-25",
+     "note": "Pippen (back) is progressing in his recovery but is still considered week-to-week.",
+     "reported": "2026-11-16T17:16Z"
     },
     {
      "player": "Isaiah Stewart",
      "position": "C",
      "status": "Day-To-Day",
      "injury": "Illness",
-     "return_date": "2026-11-16",
-     "note": "Stewart is questionable for Monday's game against the Wizards due to an illness.",
-     "reported": "2026-11-15T22:15Z"
+     "return_date": "2026-11-18",
+     "note": "Stewart is out for Monday's game against the Wizards due to an illness.",
+     "reported": "2026-11-17T03:35Z"
     },
     {
-     "player": "Zach Edey",
-     "position": "C",
+     "player": "Ty Jerome",
+     "position": "G",
      "status": "Day-To-Day",
-     "injury": "Left Ankle",
-     "return_date": "2026-11-16",
-     "note": "Edey (ankle) is questionable for Monday's game against Washington.",
-     "reported": "2026-11-15T22:11Z"
+     "injury": "Right Hip",
+     "return_date": "2026-11-18",
+     "note": "Jerome (hip) has been ruled out for Monday's game against the Wizards.",
+     "reported": "2026-11-17T03:35Z"
     }
    ],
    "rotation": [
     {
      "player": "Cameron Boozer",
      "position": "F",
-     "min_per_game": 30.7,
+     "min_per_game": 30.5,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -1768,7 +1787,7 @@
     {
      "player": "Cedric Coward",
      "position": "F",
-     "min_per_game": 28.6,
+     "min_per_game": 28.2,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -1777,38 +1796,38 @@
     {
      "player": "Jaylen Wells",
      "position": "F",
-     "min_per_game": 26.6,
+     "min_per_game": 26.3,
      "played": 10,
      "of": 10,
      "starts": 10,
      "missed": 0
     },
     {
-     "player": "Ty Jerome",
-     "position": "G",
-     "min_per_game": 30.1,
-     "played": 8,
-     "of": 10,
-     "starts": 8,
-     "missed": 2
-    },
-    {
      "player": "Cam Spencer",
      "position": "G",
-     "min_per_game": 22.3,
+     "min_per_game": 23.7,
      "played": 10,
      "of": 10,
-     "starts": 2,
+     "starts": 3,
      "missed": 0
     },
     {
      "player": "Jerami Grant",
      "position": "F",
-     "min_per_game": 23.6,
+     "min_per_game": 23.4,
      "played": 9,
      "of": 10,
      "starts": 0,
      "missed": 1
+    },
+    {
+     "player": "Ty Jerome",
+     "position": "G",
+     "min_per_game": 30.1,
+     "played": 7,
+     "of": 10,
+     "starts": 7,
+     "missed": 3
     },
     {
      "player": "Zach Edey",
@@ -1820,22 +1839,22 @@
      "missed": 2
     },
     {
-     "player": "Isaiah Stewart",
-     "position": "C",
-     "min_per_game": 17.9,
-     "played": 8,
-     "of": 10,
-     "starts": 2,
-     "missed": 2
-    },
-    {
-     "player": "GG Jackson",
-     "position": "F",
-     "min_per_game": 15.1,
-     "played": 9,
+     "player": "Javon Small",
+     "position": "G",
+     "min_per_game": 22.0,
+     "played": 7,
      "of": 10,
      "starts": 0,
-     "missed": 1
+     "missed": 3
+    },
+    {
+     "player": "Isaiah Stewart",
+     "position": "C",
+     "min_per_game": 18.3,
+     "played": 7,
+     "of": 10,
+     "starts": 2,
+     "missed": 3
     }
    ],
    "games_in_window": 10
@@ -1848,11 +1867,29 @@
     {
      "player": "Pelle Larsson",
      "position": "G",
+     "status": "Out",
+     "injury": "Illness",
+     "return_date": "2026-11-18",
+     "note": "Larsson won't play in Monday's game against the Rockets due to an illness, Ira Winderman of the South Florida Sun Sentinel reports.",
+     "reported": "2026-11-16T22:49Z"
+    },
+    {
+     "player": "Bam Adebayo",
+     "position": "C",
+     "status": "Day-To-Day",
+     "injury": "Right Hip",
+     "return_date": "2026-11-18",
+     "note": "Coach Erik Spoelstra stated after Monday's 128-110 win over Houston that the team held Adebayo (hip) out of the second half in an effort to be proactive, and the injury isn't expected to be a long-term issue, Anthony Chiang of the Miami Herald reports.",
+     "reported": "2026-11-17T03:34Z"
+    },
+    {
+     "player": "Nikola Jovic",
+     "position": "F",
      "status": "Day-To-Day",
      "injury": "Illness",
-     "return_date": "2026-11-16",
-     "note": "Larsson (illness) is questionable to play in Monday's game against the Rockets.",
-     "reported": "2026-11-15T22:47Z"
+     "return_date": "2026-11-18",
+     "note": "Jovic (illness) is out for Monday's game against Houston.",
+     "reported": "2026-11-17T03:40Z"
     }
    ],
    "rotation": [
@@ -1868,7 +1905,7 @@
     {
      "player": "Bam Adebayo",
      "position": "C",
-     "min_per_game": 34.6,
+     "min_per_game": 33.2,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -1877,7 +1914,7 @@
     {
      "player": "Giannis Antetokounmpo",
      "position": "F",
-     "min_per_game": 33.4,
+     "min_per_game": 32.4,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -1889,53 +1926,53 @@
      "min_per_game": 26.7,
      "played": 10,
      "of": 10,
-     "starts": 6,
+     "starts": 5,
      "missed": 0
-    },
-    {
-     "player": "Pelle Larsson",
-     "position": "G",
-     "min_per_game": 29.5,
-     "played": 8,
-     "of": 10,
-     "starts": 2,
-     "missed": 2
     },
     {
      "player": "Klay Thompson",
      "position": "G",
-     "min_per_game": 25.0,
+     "min_per_game": 25.8,
      "played": 9,
      "of": 10,
      "starts": 9,
      "missed": 1
     },
     {
+     "player": "Pelle Larsson",
+     "position": "G",
+     "min_per_game": 28.9,
+     "played": 7,
+     "of": 10,
+     "starts": 2,
+     "missed": 3
+    },
+    {
+     "player": "Ryan Conwell",
+     "position": "G",
+     "min_per_game": 21.2,
+     "played": 9,
+     "of": 10,
+     "starts": 0,
+     "missed": 1
+    },
+    {
      "player": "Bobby Portis",
      "position": "F",
-     "min_per_game": 18.4,
+     "min_per_game": 18.3,
      "played": 10,
      "of": 10,
      "starts": 0,
      "missed": 0
     },
     {
-     "player": "Ryan Conwell",
-     "position": "G",
-     "min_per_game": 20.1,
-     "played": 8,
-     "of": 10,
-     "starts": 0,
-     "missed": 2
-    },
-    {
      "player": "Tim Hardaway Jr.",
      "position": "G",
-     "min_per_game": 13.4,
-     "played": 8,
+     "min_per_game": 13.0,
+     "played": 7,
      "of": 10,
      "starts": 1,
-     "missed": 2
+     "missed": 3
     }
    ],
    "games_in_window": 10
@@ -2080,13 +2117,22 @@
      "return_date": "2026-11-29",
      "note": "Clark (hamstring) has been ruled out for the next two weeks.",
      "reported": "2026-11-15T22:40Z"
+    },
+    {
+     "player": "Jonathan Kuminga",
+     "position": "F",
+     "status": "Day-To-Day",
+     "injury": "Right Shoulder",
+     "return_date": "2026-11-17",
+     "note": "Kuminga (shoulder) exited in the fourth quarter of Monday's 106-98 win over Portland and did not return. He closed with 13 points (5-12 FG, 1-2 3Pt, 2-2 FT), nine rebounds and one assist across 29 minutes.",
+     "reported": "2026-11-17T03:32Z"
     }
    ],
    "rotation": [
     {
      "player": "Jaden McDaniels",
      "position": "F",
-     "min_per_game": 34.5,
+     "min_per_game": 33.9,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2095,16 +2141,16 @@
     {
      "player": "Ayo Dosunmu",
      "position": "G",
-     "min_per_game": 32.6,
+     "min_per_game": 33.0,
      "played": 10,
      "of": 10,
-     "starts": 9,
+     "starts": 10,
      "missed": 0
     },
     {
      "player": "Jonathan Kuminga",
      "position": "F",
-     "min_per_game": 31.3,
+     "min_per_game": 30.6,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2113,7 +2159,7 @@
     {
      "player": "LaMelo Ball",
      "position": "G",
-     "min_per_game": 29.2,
+     "min_per_game": 28.5,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2122,7 +2168,7 @@
     {
      "player": "Rudy Gobert",
      "position": "C",
-     "min_per_game": 28.4,
+     "min_per_game": 28.0,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -2131,7 +2177,7 @@
     {
      "player": "Trey Lyles",
      "position": "F",
-     "min_per_game": 19.4,
+     "min_per_game": 20.0,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -2140,29 +2186,29 @@
     {
      "player": "Joan Beringer",
      "position": "F",
-     "min_per_game": 17.4,
+     "min_per_game": 17.3,
      "played": 10,
      "of": 10,
      "starts": 1,
      "missed": 0
     },
     {
+     "player": "Terrence Shannon Jr.",
+     "position": "G",
+     "min_per_game": 23.0,
+     "played": 7,
+     "of": 10,
+     "starts": 0,
+     "missed": 3
+    },
+    {
      "player": "Bones Hyland",
      "position": "G",
-     "min_per_game": 15.2,
+     "min_per_game": 16.0,
      "played": 10,
      "of": 10,
      "starts": 0,
      "missed": 0
-    },
-    {
-     "player": "Jaylen Clark",
-     "position": "G",
-     "min_per_game": 16.9,
-     "played": 9,
-     "of": 10,
-     "starts": 0,
-     "missed": 1
     }
    ],
    "games_in_window": 10
@@ -2172,15 +2218,6 @@
    "name": "New Orleans Pelicans",
    "logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/no.png",
    "injuries": [
-    {
-     "player": "Bennedict Mathurin",
-     "position": "G",
-     "status": "Out",
-     "injury": "Left Foot",
-     "return_date": "2026-11-18",
-     "note": "Mathurin (foot) has been ruled out for Monday's game against the Warriors.",
-     "reported": "2026-11-15T23:06Z"
-    },
     {
      "player": "Bryce McGowens",
      "position": "G",
@@ -2216,6 +2253,15 @@
      "return_date": "2026-11-18",
      "note": "Murphy (knees) has been ruled out for Monday's game against Golden State.",
      "reported": "2026-11-15T22:57Z"
+    },
+    {
+     "player": "Bennedict Mathurin",
+     "position": "G",
+     "status": "Day-To-Day",
+     "injury": "Left Foot",
+     "return_date": "2026-11-18",
+     "note": "Mathurin (foot) has been ruled out for Monday's game against the Warriors.",
+     "reported": "2026-11-17T03:48Z"
     }
    ],
    "rotation": [
@@ -2231,16 +2277,16 @@
     {
      "player": "Saddiq Bey",
      "position": "F",
-     "min_per_game": 30.1,
+     "min_per_game": 31.0,
      "played": 10,
      "of": 10,
-     "starts": 3,
+     "starts": 4,
      "missed": 0
     },
     {
      "player": "Zion Williamson",
      "position": "F",
-     "min_per_game": 32.8,
+     "min_per_game": 32.1,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -2249,7 +2295,7 @@
     {
      "player": "Herbert Jones",
      "position": "F",
-     "min_per_game": 26.4,
+     "min_per_game": 25.6,
      "played": 10,
      "of": 10,
      "starts": 8,
@@ -2258,7 +2304,7 @@
     {
      "player": "Derik Queen",
      "position": "C",
-     "min_per_game": 21.0,
+     "min_per_game": 20.9,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -2267,20 +2313,11 @@
     {
      "player": "Karlo Matkovic",
      "position": "F",
-     "min_per_game": 20.5,
+     "min_per_game": 19.7,
      "played": 10,
      "of": 10,
-     "starts": 8,
+     "starts": 7,
      "missed": 0
-    },
-    {
-     "player": "Trey Murphy III",
-     "position": "F",
-     "min_per_game": 33.0,
-     "played": 5,
-     "of": 10,
-     "starts": 5,
-     "missed": 5
     },
     {
      "player": "Dejounte Murray",
@@ -2292,13 +2329,22 @@
      "missed": 5
     },
     {
-     "player": "Bennedict Mathurin",
+     "player": "Trey Murphy III",
+     "position": "F",
+     "min_per_game": 33.2,
+     "played": 4,
+     "of": 10,
+     "starts": 4,
+     "missed": 6
+    },
+    {
+     "player": "Jordan Poole",
      "position": "G",
-     "min_per_game": 14.5,
-     "played": 8,
+     "min_per_game": 26.2,
+     "played": 5,
      "of": 10,
      "starts": 0,
-     "missed": 2
+     "missed": 5
     }
    ],
    "games_in_window": 10
@@ -2548,7 +2594,7 @@
      "position": "F",
      "status": "Out",
      "injury": "Left Knee",
-     "return_date": "2026-11-18",
+     "return_date": "2026-11-22",
      "note": "Isaac (knee) has been ruled out for Monday's game against the Celtics.",
      "reported": "2026-11-15T18:22Z"
     },
@@ -2575,7 +2621,7 @@
     {
      "player": "Franz Wagner",
      "position": "F",
-     "min_per_game": 37.9,
+     "min_per_game": 38.0,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2584,7 +2630,7 @@
     {
      "player": "Wendell Carter Jr.",
      "position": "C",
-     "min_per_game": 33.2,
+     "min_per_game": 32.7,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2593,7 +2639,7 @@
     {
      "player": "Desmond Bane",
      "position": "G",
-     "min_per_game": 35.7,
+     "min_per_game": 36.1,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -2602,16 +2648,16 @@
     {
      "player": "Anthony Black",
      "position": "G",
-     "min_per_game": 32.2,
+     "min_per_game": 33.0,
      "played": 9,
      "of": 10,
-     "starts": 8,
+     "starts": 9,
      "missed": 1
     },
     {
      "player": "Tristan da Silva",
      "position": "F",
-     "min_per_game": 31.0,
+     "min_per_game": 31.5,
      "played": 8,
      "of": 10,
      "starts": 2,
@@ -2620,11 +2666,11 @@
     {
      "player": "Jase Richardson",
      "position": "G",
-     "min_per_game": 23.3,
-     "played": 9,
+     "min_per_game": 24.1,
+     "played": 8,
      "of": 10,
-     "starts": 7,
-     "missed": 1
+     "starts": 6,
+     "missed": 2
     },
     {
      "player": "Jamal Cain",
@@ -2636,22 +2682,22 @@
      "missed": 1
     },
     {
-     "player": "Nikola Vucevic",
-     "position": "C",
-     "min_per_game": 11.1,
-     "played": 10,
-     "of": 10,
-     "starts": 0,
-     "missed": 0
-    },
-    {
      "player": "Jevon Carter",
      "position": "G",
-     "min_per_game": 15.3,
-     "played": 7,
+     "min_per_game": 14.9,
+     "played": 8,
      "of": 10,
      "starts": 0,
-     "missed": 3
+     "missed": 2
+    },
+    {
+     "player": "Goga Bitadze",
+     "position": "C",
+     "min_per_game": 12.2,
+     "played": 9,
+     "of": 10,
+     "starts": 0,
+     "missed": 1
     }
    ],
    "games_in_window": 10
@@ -2666,7 +2712,7 @@
      "position": "C",
      "status": "Out",
      "injury": "Back",
-     "return_date": "2026-11-18",
+     "return_date": "2026-11-21",
      "note": "Bona (back) will be re-evaluated in approximately one week after seeing a specialist, Ky Carlin of USA Today reports.",
      "reported": "2026-11-12T16:36Z"
     },
@@ -2685,24 +2731,33 @@
      "status": "Out",
      "injury": "Back",
      "return_date": "2026-11-18",
-     "note": "Barlow (back) participated in Thursday's shootaround but doesn't have a timeline to return to game action, Ky Carlin of USA Today reports.",
-     "reported": "2026-11-12T16:37Z"
+     "note": "Barlow (back) will be re-evaluated later in the week and is thought to be nearing his 2026-27 season debut, Tony Jones of The Athletic reports.",
+     "reported": "2026-11-16T23:45Z"
     },
     {
-     "player": "Joel Embiid",
-     "position": "C",
+     "player": "Jaylen Brown",
+     "position": "G",
      "status": "Day-To-Day",
-     "injury": "Right Foot",
-     "return_date": "2026-11-16",
-     "note": "Embiid (right foot injury management) has been ruled out for Sunday's game against the Pacers.",
-     "reported": "2026-11-15T20:58Z"
+     "injury": "Left Hamstring",
+     "return_date": "2026-11-18",
+     "note": "Brown (hamstring/head) will undergo further evaluation Tuesday and could receive an MRI, Kris Rhim of ESPN reports.",
+     "reported": "2026-11-17T04:56Z"
+    },
+    {
+     "player": "LeBron James",
+     "position": "F",
+     "status": "Day-To-Day",
+     "injury": "Back",
+     "return_date": "2026-11-18",
+     "note": "James (back) has been ruled out for Monday's game against the Nets.",
+     "reported": "2026-11-17T03:41Z"
     }
    ],
    "rotation": [
     {
      "player": "Tyrese Maxey",
      "position": "G",
-     "min_per_game": 35.5,
+     "min_per_game": 35.4,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2711,7 +2766,7 @@
     {
      "player": "VJ Edgecombe",
      "position": "G",
-     "min_per_game": 33.6,
+     "min_per_game": 34.0,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2720,43 +2775,43 @@
     {
      "player": "Jaylen Brown",
      "position": "G",
-     "min_per_game": 33.9,
+     "min_per_game": 33.8,
      "played": 9,
      "of": 10,
      "starts": 9,
      "missed": 1
     },
     {
-     "player": "LeBron James",
-     "position": "F",
-     "min_per_game": 32.2,
-     "played": 8,
-     "of": 10,
-     "starts": 8,
-     "missed": 2
-    },
-    {
      "player": "Dean Wade",
      "position": "F",
-     "min_per_game": 25.0,
+     "min_per_game": 26.5,
      "played": 10,
      "of": 10,
-     "starts": 3,
+     "starts": 4,
      "missed": 0
     },
     {
      "player": "Joel Embiid",
      "position": "C",
-     "min_per_game": 30.4,
+     "min_per_game": 29.5,
      "played": 8,
      "of": 10,
      "starts": 8,
      "missed": 2
     },
     {
+     "player": "LeBron James",
+     "position": "F",
+     "min_per_game": 32.1,
+     "played": 7,
+     "of": 10,
+     "starts": 7,
+     "missed": 3
+    },
+    {
      "player": "Anfernee Simons",
      "position": "G",
-     "min_per_game": 20.8,
+     "min_per_game": 20.7,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -2765,7 +2820,7 @@
     {
      "player": "Kentavious Caldwell-Pope",
      "position": "G",
-     "min_per_game": 19.7,
+     "min_per_game": 20.7,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -2775,10 +2830,10 @@
      "player": "Jabari Walker",
      "position": "F",
      "min_per_game": 16.1,
-     "played": 7,
+     "played": 8,
      "of": 10,
      "starts": 1,
-     "missed": 3
+     "missed": 2
     }
    ],
    "games_in_window": 10
@@ -2796,22 +2851,13 @@
      "return_date": "2027-02-03",
      "note": "Williams underwent surgery Thursday to repair a torn labrum in his left shoulder and will miss an extended period of time, Shams Charania of ESPN reports.",
      "reported": "2026-09-11T16:03Z"
-    },
-    {
-     "player": "Drew Timme",
-     "position": "F",
-     "status": "Day-To-Day",
-     "injury": "Right Hand",
-     "return_date": "2026-11-15",
-     "note": "The Suns claimed Timme off waivers Monday, per Michael Scotto of HoopsHype.com.",
-     "reported": "2026-11-13T16:22Z"
     }
    ],
    "rotation": [
     {
      "player": "Devin Booker",
      "position": "G",
-     "min_per_game": 33.6,
+     "min_per_game": 33.9,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2820,7 +2866,7 @@
     {
      "player": "Miles Bridges",
      "position": "F",
-     "min_per_game": 29.0,
+     "min_per_game": 28.7,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2829,7 +2875,7 @@
     {
      "player": "Dillon Brooks",
      "position": "F",
-     "min_per_game": 28.9,
+     "min_per_game": 28.3,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2838,7 +2884,7 @@
     {
      "player": "Jalen Green",
      "position": "G",
-     "min_per_game": 26.9,
+     "min_per_game": 26.5,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2847,7 +2893,7 @@
     {
      "player": "Collin Gillespie",
      "position": "G",
-     "min_per_game": 24.8,
+     "min_per_game": 25.1,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -2856,25 +2902,16 @@
     {
      "player": "Oso Ighodaro",
      "position": "F",
-     "min_per_game": 22.4,
-     "played": 9,
-     "of": 10,
-     "starts": 6,
-     "missed": 1
-    },
-    {
-     "player": "Khaman Maluach",
-     "position": "C",
-     "min_per_game": 18.3,
+     "min_per_game": 23.5,
      "played": 10,
      "of": 10,
-     "starts": 4,
+     "starts": 7,
      "missed": 0
     },
     {
      "player": "Ryan Dunn",
      "position": "F",
-     "min_per_game": 18.3,
+     "min_per_game": 18.1,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -2883,10 +2920,19 @@
     {
      "player": "Luke Kennard",
      "position": "G",
-     "min_per_game": 17.5,
+     "min_per_game": 17.6,
      "played": 10,
      "of": 10,
      "starts": 0,
+     "missed": 0
+    },
+    {
+     "player": "Khaman Maluach",
+     "position": "C",
+     "min_per_game": 16.8,
+     "played": 10,
+     "of": 10,
+     "starts": 3,
      "missed": 0
     }
    ],
@@ -2938,7 +2984,7 @@
     {
      "player": "Deni Avdija",
      "position": "F",
-     "min_per_game": 33.2,
+     "min_per_game": 32.9,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2947,7 +2993,7 @@
     {
      "player": "Toumani Camara",
      "position": "F",
-     "min_per_game": 29.9,
+     "min_per_game": 30.1,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2956,7 +3002,7 @@
     {
      "player": "Damian Lillard",
      "position": "G",
-     "min_per_game": 29.7,
+     "min_per_game": 29.0,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -2965,7 +3011,7 @@
     {
      "player": "Jrue Holiday",
      "position": "G",
-     "min_per_game": 26.8,
+     "min_per_game": 26.3,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -2974,34 +3020,34 @@
     {
      "player": "Donovan Clingan",
      "position": "C",
-     "min_per_game": 26.4,
+     "min_per_game": 26.0,
      "played": 10,
      "of": 10,
      "starts": 10,
      "missed": 0
     },
     {
+     "player": "Sidy Cissoko",
+     "position": "G",
+     "min_per_game": 23.5,
+     "played": 10,
+     "of": 10,
+     "starts": 4,
+     "missed": 0
+    },
+    {
      "player": "Scoot Henderson",
      "position": "G",
-     "min_per_game": 22.7,
+     "min_per_game": 23.3,
      "played": 10,
      "of": 10,
      "starts": 5,
      "missed": 0
     },
     {
-     "player": "Sidy Cissoko",
-     "position": "G",
-     "min_per_game": 22.7,
-     "played": 10,
-     "of": 10,
-     "starts": 3,
-     "missed": 0
-    },
-    {
      "player": "Robert Williams III",
      "position": "C",
-     "min_per_game": 16.4,
+     "min_per_game": 15.6,
      "played": 8,
      "of": 10,
      "starts": 0,
@@ -3038,18 +3084,9 @@
      "position": "F",
      "status": "Out",
      "injury": "Left Calf",
-     "return_date": "2026-11-19",
-     "note": "Harris (calf) is out for Wednesday's game against Chicago, Jared Weiss of The Athletic reports.",
-     "reported": "2026-11-10T22:46Z"
-    },
-    {
-     "player": "De'Aaron Fox",
-     "position": "G",
-     "status": "Day-To-Day",
-     "injury": "Left Hip",
-     "return_date": "2026-11-17",
-     "note": "Fox (hip) has been ruled out for Sunday's game against the Jazz.",
-     "reported": "2026-11-16T14:44Z"
+     "return_date": "2026-12-03",
+     "note": "Harris (calf) is likely to be sidelined until early December, per Jeff Garcia of KENS 5 San Antonio.",
+     "reported": "2026-11-16T19:26Z"
     }
    ],
    "rotation": [
@@ -3301,7 +3338,7 @@
      "position": "G",
      "status": "Day-To-Day",
      "injury": "Illness",
-     "return_date": "2026-11-16",
+     "return_date": "2026-11-20",
      "note": "McCullar signed a two-way contract with the Raptors on Thursday, Michael Scotto of HoopsHype.com reports.",
      "reported": "2026-11-13T15:37Z"
     }
@@ -3406,6 +3443,15 @@
      "reported": "2026-10-27T19:25Z"
     },
     {
+     "player": "Jaxson Hayes",
+     "position": "C",
+     "status": "Out",
+     "injury": "Left Knee",
+     "return_date": "2026-11-18",
+     "note": "Hayes (knee) has been ruled out for Tuesday's game against the Clippers.",
+     "reported": "2026-11-17T01:08Z"
+    },
+    {
      "player": "Jusuf Nurkic",
      "position": "C",
      "status": "Out",
@@ -3422,24 +3468,6 @@
      "return_date": "2027-01-04",
      "note": "Markkanen has been diagnosed with a non-displaced fracture in his right hand and will be sidelined for at least one month, Shams Charania of ESPN reports.",
      "reported": "2026-11-11T18:22Z"
-    },
-    {
-     "player": "Trey Alexander",
-     "position": "G",
-     "status": "Out",
-     "injury": "Right Ankle",
-     "return_date": "2026-11-16",
-     "note": "Alexander won't play Wednesday against the Grizzlies due to a left knee bone bruise.",
-     "reported": "2026-11-12T15:42Z"
-    },
-    {
-     "player": "Jaxson Hayes",
-     "position": "C",
-     "status": "Day-To-Day",
-     "injury": "Left Knee",
-     "return_date": "2026-11-17",
-     "note": "Hayes (knee) has been ruled out for Sunday's game against the Spurs.",
-     "reported": "2026-11-16T14:44Z"
     }
    ],
    "rotation": [
@@ -3564,25 +3592,16 @@
      "position": "F",
      "status": "Out",
      "injury": "Left Hip",
-     "return_date": "2026-11-16",
-     "note": "Vukcevic (hip) has been ruled out for Monday's game against Detroit.",
-     "reported": "2026-11-08T22:17Z"
-    },
-    {
-     "player": "Tre Johnson",
-     "position": "G",
-     "status": "Day-To-Day",
-     "injury": "Back",
-     "return_date": "2026-11-16",
-     "note": "Johnson (back) won't play in Sunday's game against Houston, Josh Robbins of The Athletic reports.",
-     "reported": "2026-11-16T14:47Z"
+     "return_date": "2026-11-24",
+     "note": "Vukcevic (hip) has been ruled out for Monday's game against Memphis.",
+     "reported": "2026-11-16T18:14Z"
     }
    ],
    "rotation": [
     {
      "player": "Trae Young",
      "position": "G",
-     "min_per_game": 34.8,
+     "min_per_game": 34.7,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -3600,7 +3619,7 @@
     {
      "player": "AJ Dybantsa",
      "position": "F",
-     "min_per_game": 33.4,
+     "min_per_game": 33.9,
      "played": 10,
      "of": 10,
      "starts": 10,
@@ -3609,7 +3628,7 @@
     {
      "player": "Anthony Davis",
      "position": "F",
-     "min_per_game": 34.4,
+     "min_per_game": 34.5,
      "played": 8,
      "of": 10,
      "starts": 8,
@@ -3618,7 +3637,7 @@
     {
      "player": "Alex Sarr",
      "position": "C",
-     "min_per_game": 28.6,
+     "min_per_game": 29.1,
      "played": 9,
      "of": 10,
      "starts": 9,
@@ -3627,7 +3646,7 @@
     {
      "player": "Bilal Coulibaly",
      "position": "G",
-     "min_per_game": 24.9,
+     "min_per_game": 23.7,
      "played": 9,
      "of": 10,
      "starts": 1,
@@ -3636,16 +3655,16 @@
     {
      "player": "Tre Johnson",
      "position": "G",
-     "min_per_game": 24.0,
-     "played": 8,
+     "min_per_game": 23.7,
+     "played": 9,
      "of": 10,
      "starts": 0,
-     "missed": 2
+     "missed": 1
     },
     {
      "player": "Bub Carrington",
      "position": "G",
-     "min_per_game": 18.2,
+     "min_per_game": 16.4,
      "played": 10,
      "of": 10,
      "starts": 0,
@@ -3654,7 +3673,7 @@
     {
      "player": "Deandre Ayton",
      "position": "C",
-     "min_per_game": 13.5,
+     "min_per_game": 13.1,
      "played": 10,
      "of": 10,
      "starts": 2,
