@@ -1,44 +1,44 @@
 {
  "league": "nba",
- "generated_at": "2026-11-18T15:44:32Z",
+ "generated_at": "2026-11-19T10:44:45Z",
  "note": "Daily. The model is team-level: it has no injury or minutes layer, so late scratches and rest decisions are not in its price.",
  "slate": {
   "kind": "date",
-  "date": "2026-11-18"
+  "date": "2026-11-19"
  },
  "games": [
   {
-   "game_id": "401910007",
-   "home": "CLE",
-   "away": "MEM",
-   "home_name": "Cleveland Cavaliers",
-   "away_name": "Memphis Grizzlies",
-   "start": "2026-11-19T00:00:00Z",
+   "game_id": "401910019",
+   "home": "MEM",
+   "away": "GS",
+   "home_name": "Memphis Grizzlies",
+   "away_name": "Golden State Warriors",
+   "start": "2026-11-20T01:00:00Z",
    "markets": {},
    "headline": "spread",
    "context": {
     "team_level_model": true,
-    "home_rest_days": 2,
-    "home_back_to_back": false,
-    "away_rest_days": 2,
-    "away_back_to_back": false,
+    "home_rest_days": 1,
+    "home_back_to_back": true,
+    "away_rest_days": 1,
+    "away_back_to_back": true,
     "key_player": [
+     {
+      "team": "GS",
+      "role": "starter",
+      "text": "Stephen Curry Out",
+      "source": "ESPN injury report"
+     },
      {
       "team": "MEM",
       "role": "starter",
       "text": "Ty Jerome Out",
       "source": "ESPN injury report"
-     },
-     {
-      "team": "CLE",
-      "role": "starter",
-      "text": "Evan Mobley Out",
-      "source": "ESPN injury report"
      }
     ],
     "venue": {
-     "name": "Rocket Arena",
-     "city": "Cleveland",
+     "name": "FedExForum",
+     "city": "Memphis",
      "neutral": false,
      "in_price": false
     },
@@ -52,31 +52,6 @@
      "in_price": false,
      "note": "Not in the price.",
      "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Evan Mobley",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "Nae'Qwan Tomlin",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Sam Merrill",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Out": 3,
-       "Day-To-Day": 2
-      }
-     },
-     "away": {
       "status": "reported",
       "shown": [
        {
@@ -100,115 +75,139 @@
        "Out": 5
       }
      },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Al Horford",
+        "position": "C",
+        "status": "Out"
+       },
+       {
+        "player": "Brandon Williams",
+        "position": "G",
+        "status": "Out"
+       },
+       {
+        "player": "Jimmy Butler III",
+        "position": "F",
+        "status": "Out"
+       }
+      ],
+      "more": 3,
+      "counts": {
+       "Out": 6
+      }
+     },
      "counts_only": false
     },
     "rest": {
-     "home_rest_days": 2,
-     "home_back_to_back": false,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
+     "home_rest_days": 1,
+     "home_back_to_back": true,
+     "away_rest_days": 1,
+     "away_back_to_back": true,
      "in_price": false
     },
     "travel": {
-     "away_miles": 304,
+     "away_miles": 420,
      "in_price": false
     },
     "players_link": true
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.59529,
-    "margin_mean": 3.417,
+    "p_home_win": 0.60251,
+    "margin_mean": 3.681,
     "total_mean": null,
     "margin_pmf": {
      "from": -40,
      "to": 40,
      "mass": [
-      0.00026,
-      0.00032,
-      0.00039,
-      0.00048,
-      0.00059,
-      0.00071,
-      0.00086,
-      0.00104,
-      0.00124,
-      0.00147,
-      0.00175,
-      0.00206,
-      0.00241,
-      0.00281,
-      0.00326,
-      0.00377,
-      0.00433,
-      0.00495,
-      0.00563,
-      0.00638,
-      0.00719,
-      0.00806,
-      0.00898,
-      0.00997,
-      0.01101,
-      0.0121,
-      0.01323,
-      0.01439,
-      0.01558,
-      0.01678,
-      0.01798,
-      0.01918,
-      0.02035,
-      0.02149,
-      0.02258,
-      0.0236,
-      0.02455,
-      0.02541,
-      0.02617,
-      0.02682,
-      0.02735,
-      0.02775,
-      0.02801,
-      0.02814,
-      0.02813,
-      0.02798,
-      0.02769,
-      0.02727,
-      0.02672,
-      0.02605,
-      0.02527,
-      0.0244,
-      0.02344,
-      0.0224,
-      0.0213,
-      0.02016,
-      0.01898,
-      0.01778,
-      0.01658,
-      0.01538,
-      0.01419,
-      0.01304,
-      0.01191,
-      0.01083,
-      0.0098,
-      0.00883,
-      0.00791,
-      0.00705,
-      0.00625,
-      0.00552,
-      0.00484,
-      0.00423,
-      0.00368,
-      0.00318,
-      0.00274,
-      0.00235,
-      0.002,
-      0.0017,
-      0.00143,
-      0.0012,
-      0.001
+      0.00024,
+      0.0003,
+      0.00037,
+      0.00046,
+      0.00056,
+      0.00068,
+      0.00082,
+      0.00099,
+      0.00118,
+      0.00141,
+      0.00167,
+      0.00197,
+      0.00231,
+      0.0027,
+      0.00314,
+      0.00363,
+      0.00418,
+      0.00478,
+      0.00545,
+      0.00618,
+      0.00697,
+      0.00782,
+      0.00873,
+      0.0097,
+      0.01073,
+      0.01181,
+      0.01293,
+      0.01408,
+      0.01526,
+      0.01646,
+      0.01767,
+      0.01886,
+      0.02004,
+      0.02119,
+      0.02229,
+      0.02334,
+      0.02431,
+      0.02519,
+      0.02598,
+      0.02666,
+      0.02722,
+      0.02766,
+      0.02796,
+      0.02812,
+      0.02815,
+      0.02803,
+      0.02778,
+      0.02739,
+      0.02688,
+      0.02624,
+      0.02549,
+      0.02464,
+      0.0237,
+      0.02268,
+      0.0216,
+      0.02046,
+      0.01929,
+      0.0181,
+      0.0169,
+      0.01569,
+      0.01451,
+      0.01334,
+      0.01221,
+      0.01111,
+      0.01007,
+      0.00908,
+      0.00814,
+      0.00727,
+      0.00646,
+      0.0057,
+      0.00502,
+      0.00439,
+      0.00382,
+      0.00331,
+      0.00285,
+      0.00245,
+      0.00209,
+      0.00177,
+      0.0015,
+      0.00126,
+      0.00105
      ],
      "binned": true,
-     "tail_below": 0.00097,
-     "tail_above": 0.00443,
+     "tail_below": 0.00091,
+     "tail_above": 0.00467,
      "key_numbers": []
     },
     "totals": {
@@ -216,28 +215,28 @@
      "reason": "Not priced: no totals model has been graded."
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/cle.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mem.png"
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mem.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/gs.png"
   },
   {
-   "game_id": "401910008",
-   "home": "IND",
-   "away": "HOU",
-   "home_name": "Indiana Pacers",
-   "away_name": "Houston Rockets",
-   "start": "2026-11-19T00:00:00Z",
+   "game_id": "401910020",
+   "home": "MIL",
+   "away": "POR",
+   "home_name": "Milwaukee Bucks",
+   "away_name": "Portland Trail Blazers",
+   "start": "2026-11-20T01:00:00Z",
    "markets": {},
    "headline": "spread",
    "context": {
     "team_level_model": true,
-    "home_rest_days": 4,
-    "home_back_to_back": false,
+    "home_rest_days": 1,
+    "home_back_to_back": true,
     "away_rest_days": 2,
     "away_back_to_back": false,
     "key_player": [],
     "venue": {
-     "name": "Gainbridge Fieldhouse",
-     "city": "Indianapolis",
+     "name": "Fiserv Forum",
+     "city": "Milwaukee",
      "neutral": false,
      "in_price": false
     },
@@ -251,483 +250,73 @@
      "in_price": false,
      "note": "Not in the price.",
      "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Ben Sheppard",
-        "position": "G",
-        "status": "Out"
-       },
-       {
-        "player": "Johnny Furphy",
-        "position": "G",
-        "status": "Out"
-       },
-       {
-        "player": "Tyrese Haliburton",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Out": 3,
-       "Day-To-Day": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Clint Capela",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "Amen Thompson",
-        "position": "G",
-        "status": "Day-To-Day"
-       },
-       {
-        "player": "Julian Phillips",
-        "position": "F",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 1,
-       "Day-To-Day": 2
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 4,
-     "home_back_to_back": false,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 1027,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.31798,
-    "margin_mean": -6.706,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      0.00178,
-      0.0021,
-      0.00246,
-      0.00286,
-      0.00332,
-      0.00383,
-      0.0044,
-      0.00503,
-      0.00572,
-      0.00647,
-      0.00729,
-      0.00817,
-      0.0091,
-      0.0101,
-      0.01114,
-      0.01223,
-      0.01337,
-      0.01453,
-      0.01572,
-      0.01693,
-      0.01813,
-      0.01932,
-      0.02049,
-      0.02162,
-      0.02271,
-      0.02372,
-      0.02466,
-      0.02551,
-      0.02626,
-      0.02689,
-      0.0274,
-      0.02779,
-      0.02804,
-      0.02815,
-      0.02812,
-      0.02795,
-      0.02765,
-      0.02721,
-      0.02664,
-      0.02596,
-      0.02517,
-      0.02428,
-      0.02331,
-      0.02227,
-      0.02116,
-      0.02001,
-      0.01883,
-      0.01764,
-      0.01643,
-      0.01523,
-      0.01405,
-      0.0129,
-      0.01178,
-      0.0107,
-      0.00968,
-      0.00871,
-      0.0078,
-      0.00695,
-      0.00616,
-      0.00543,
-      0.00477,
-      0.00416,
-      0.00362,
-      0.00313,
-      0.00269,
-      0.0023,
-      0.00196,
-      0.00166,
-      0.0014,
-      0.00118,
-      0.00098,
-      0.00082,
-      0.00067,
-      0.00056,
-      0.00045,
-      0.00037,
-      0.0003,
-      0.00024,
-      0.00019,
-      0.00015,
-      0.00012
-     ],
-     "binned": true,
-     "tail_below": 0.00853,
-     "tail_above": 0.00043,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/ind.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/hou.png"
-  },
-  {
-   "game_id": "401910009",
-   "home": "MIA",
-   "away": "MIL",
-   "home_name": "Miami Heat",
-   "away_name": "Milwaukee Bucks",
-   "start": "2026-11-19T00:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 2,
-    "home_back_to_back": false,
-    "away_rest_days": 3,
-    "away_back_to_back": false,
-    "key_player": [],
-    "venue": {
-     "name": "Kaseya Center",
-     "city": "Miami",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Bam Adebayo",
-        "position": "C",
-        "status": "Day-To-Day"
-       },
-       {
-        "player": "Myron Gardner",
-        "position": "F",
-        "status": "Day-To-Day"
-       },
-       {
-        "player": "Nikola Jovic",
-        "position": "F",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Day-To-Day": 3
-      }
-     },
-     "away": {
       "status": "reported",
       "shown": [
        {
         "player": "Ousmane Dieng",
         "position": "F",
         "status": "Out"
+       },
+       {
+        "player": "Ryan Rollins",
+        "position": "G",
+        "status": "Out"
        }
       ],
       "more": 0,
       "counts": {
-       "Out": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 2,
-     "home_back_to_back": false,
-     "away_rest_days": 3,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 1271,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.80945,
-    "margin_mean": 12.408,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      3e-05,
-      4e-05,
-      5e-05,
-      6e-05,
-      8e-05,
-      0.0001,
-      0.00013,
-      0.00017,
-      0.00021,
-      0.00026,
-      0.00032,
-      0.00039,
-      0.00048,
-      0.00059,
-      0.00071,
-      0.00086,
-      0.00104,
-      0.00124,
-      0.00148,
-      0.00175,
-      0.00206,
-      0.00241,
-      0.00282,
-      0.00327,
-      0.00377,
-      0.00434,
-      0.00496,
-      0.00564,
-      0.00639,
-      0.00719,
-      0.00806,
-      0.00899,
-      0.00998,
-      0.01102,
-      0.01211,
-      0.01324,
-      0.0144,
-      0.01559,
-      0.01679,
-      0.01799,
-      0.01919,
-      0.02036,
-      0.0215,
-      0.02259,
-      0.02361,
-      0.02456,
-      0.02542,
-      0.02618,
-      0.02683,
-      0.02735,
-      0.02775,
-      0.02802,
-      0.02814,
-      0.02813,
-      0.02798,
-      0.02769,
-      0.02726,
-      0.02671,
-      0.02605,
-      0.02527,
-      0.02439,
-      0.02343,
-      0.02239,
-      0.02129,
-      0.02015,
-      0.01897,
-      0.01777,
-      0.01657,
-      0.01537,
-      0.01418,
-      0.01303,
-      0.0119,
-      0.01082,
-      0.00979,
-      0.00882,
-      0.0079,
-      0.00704,
-      0.00624,
-      0.00551,
-      0.00484,
-      0.00423
-     ],
-     "binned": true,
-     "tail_below": 9e-05,
-     "tail_above": 0.02368,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mia.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mil.png"
-  },
-  {
-   "game_id": "401910010",
-   "home": "ORL",
-   "away": "PHI",
-   "home_name": "Orlando Magic",
-   "away_name": "Philadelphia 76ers",
-   "start": "2026-11-19T00:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 2,
-    "home_back_to_back": false,
-    "away_rest_days": 2,
-    "away_back_to_back": false,
-    "key_player": [
-     {
-      "team": "PHI",
-      "role": "starter",
-      "text": "Jaylen Brown Out",
-      "source": "ESPN injury report"
-     }
-    ],
-    "venue": {
-     "name": "Kia Center",
-     "city": "Orlando",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Izaiyah Nelson",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Jonathan Isaac",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Noah Penda",
-        "position": "F",
-        "status": "Out"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Out": 4
+       "Out": 2
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "Adem Bona",
-        "position": "C",
+        "player": "Chris Youngblood",
+        "position": "G",
         "status": "Out"
        },
        {
-        "player": "Ariel Hukporti",
-        "position": "C",
+        "player": "Ja Morant",
+        "position": "G",
         "status": "Out"
        },
        {
-        "player": "Dominick Barlow",
-        "position": "F",
+        "player": "Robert Williams III",
+        "position": "C",
         "status": "Out"
        }
       ],
-      "more": 1,
+      "more": 4,
       "counts": {
-       "Out": 4
+       "Out": 5,
+       "Day-To-Day": 2
       }
      },
      "counts_only": false
     },
     "rest": {
-     "home_rest_days": 2,
-     "home_back_to_back": false,
+     "home_rest_days": 1,
+     "home_back_to_back": true,
      "away_rest_days": 2,
      "away_back_to_back": false,
      "in_price": false
     },
     "travel": {
-     "away_miles": 938,
+     "away_miles": 298,
      "in_price": false
     },
     "players_link": true
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.50491,
-    "margin_mean": 0.175,
+    "p_home_win": 0.22241,
+    "margin_mean": -10.824,
     "total_mean": null,
     "margin_pmf": {
      "from": -40,
      "to": 40,
      "mass": [
-      0.00051,
-      0.00062,
-      0.00075,
-      0.0009,
-      0.00108,
-      0.00129,
-      0.00154,
-      0.00182,
-      0.00214,
-      0.0025,
-      0.00292,
       0.00338,
       0.0039,
       0.00448,
@@ -741,7 +330,7 @@
       0.01127,
       0.01237,
       0.01351,
-      0.01468,
+      0.01467,
       0.01587,
       0.01707,
       0.01827,
@@ -755,7 +344,7 @@
       0.02634,
       0.02696,
       0.02746,
-      0.02783,
+      0.02782,
       0.02806,
       0.02815,
       0.02811,
@@ -797,11 +386,22 @@
       0.00096,
       0.0008,
       0.00066,
-      0.00054
+      0.00054,
+      0.00044,
+      0.00036,
+      0.00029,
+      0.00024,
+      0.00019,
+      0.00015,
+      0.00012,
+      9e-05,
+      7e-05,
+      6e-05,
+      5e-05
      ],
      "binned": true,
-     "tail_below": 0.00204,
-     "tail_above": 0.00221,
+     "tail_below": 0.0181,
+     "tail_above": 0.00015,
      "key_numbers": []
     },
     "totals": {
@@ -809,16 +409,16 @@
      "reason": "Not priced: no totals model has been graded."
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/orl.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/phi.png"
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/mil.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/por.png"
   },
   {
-   "game_id": "401910011",
-   "home": "BKN",
-   "away": "CHI",
-   "home_name": "Brooklyn Nets",
-   "away_name": "Chicago Bulls",
-   "start": "2026-11-19T00:30:00Z",
+   "game_id": "401910021",
+   "home": "MIN",
+   "away": "NY",
+   "home_name": "Minnesota Timberwolves",
+   "away_name": "New York Knicks",
+   "start": "2026-11-20T01:00:00Z",
    "markets": {},
    "headline": "spread",
    "context": {
@@ -827,17 +427,10 @@
     "home_back_to_back": false,
     "away_rest_days": 2,
     "away_back_to_back": false,
-    "key_player": [
-     {
-      "team": "CHI",
-      "role": "starter",
-      "text": "Caleb Wilson Out",
-      "source": "ESPN injury report"
-     }
-    ],
+    "key_player": [],
     "venue": {
-     "name": "Barclays Center",
-     "city": "Brooklyn",
+     "name": "Target Center",
+     "city": "Minneapolis",
      "neutral": false,
      "in_price": false
     },
@@ -851,36 +444,36 @@
      "in_price": false,
      "note": "Not in the price.",
      "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Anthony Edwards",
+        "position": "G",
+        "status": "Out"
+       },
+       {
+        "player": "Donte DiVincenzo",
+        "position": "G",
+        "status": "Out"
+       },
+       {
+        "player": "Jaylen Clark",
+        "position": "G",
+        "status": "Out"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Out": 3,
+       "Day-To-Day": 2
+      }
+     },
+     "away": {
       "status": "reported",
       "shown": [],
       "more": 0,
       "counts": {}
      },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Caleb Wilson",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Tobe Awaka",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Patrick Williams",
-        "position": "F",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 2,
-       "Day-To-Day": 1
-      }
-     },
      "counts_only": false
     },
     "rest": {
@@ -891,305 +484,105 @@
      "in_price": false
     },
     "travel": {
-     "away_miles": 407,
+     "away_miles": 691,
      "in_price": false
     },
     "players_link": true
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.53599,
-    "margin_mean": 1.28,
+    "p_home_win": 0.58074,
+    "margin_mean": 2.887,
     "total_mean": null,
     "margin_pmf": {
      "from": -40,
      "to": 40,
      "mass": [
-      0.0004,
-      0.0005,
-      0.0006,
-      0.00073,
-      0.00088,
-      0.00106,
-      0.00127,
-      0.00151,
-      0.00179,
-      0.0021,
-      0.00246,
-      0.00287,
-      0.00333,
-      0.00384,
-      0.00441,
-      0.00504,
-      0.00573,
-      0.00649,
-      0.0073,
-      0.00818,
-      0.00912,
-      0.01011,
-      0.01116,
-      0.01225,
-      0.01338,
-      0.01455,
-      0.01574,
-      0.01694,
-      0.01815,
-      0.01934,
-      0.02051,
-      0.02164,
-      0.02272,
-      0.02374,
-      0.02467,
-      0.02552,
-      0.02627,
-      0.0269,
-      0.02741,
-      0.02779,
-      0.02804,
-      0.02815,
-      0.02812,
-      0.02795,
-      0.02764,
-      0.0272,
-      0.02664,
-      0.02595,
-      0.02516,
-      0.02427,
-      0.0233,
-      0.02225,
-      0.02115,
-      0.02,
-      0.01882,
-      0.01762,
-      0.01641,
-      0.01522,
-      0.01403,
-      0.01288,
-      0.01176,
-      0.01069,
-      0.00967,
-      0.0087,
-      0.00778,
-      0.00693,
-      0.00615,
-      0.00542,
-      0.00476,
-      0.00415,
-      0.00361,
-      0.00312,
-      0.00268,
-      0.0023,
-      0.00196,
-      0.00166,
-      0.0014,
-      0.00117,
-      0.00098,
-      0.00081,
-      0.00067
-     ],
-     "binned": true,
-     "tail_below": 0.00159,
-     "tail_above": 0.00282,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/bkn.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/chi.png"
-  },
-  {
-   "game_id": "401910012",
-   "home": "TOR",
-   "away": "WSH",
-   "home_name": "Toronto Raptors",
-   "away_name": "Washington Wizards",
-   "start": "2026-11-19T00:30:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 1,
-    "home_back_to_back": true,
-    "away_rest_days": 2,
-    "away_back_to_back": false,
-    "key_player": [],
-    "venue": {
-     "name": "Scotiabank Arena",
-     "city": "Toronto",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Kawhi Leonard",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Nate Bittle",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "Kevin McCullar Jr.",
-        "position": "G",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 2,
-       "Day-To-Day": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jamir Watkins",
-        "position": "G",
-        "status": "Out"
-       },
-       {
-        "player": "Justin Champagnie",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Reece Beekman",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Out": 4,
-       "Day-To-Day": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 350,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.76326,
-    "margin_mean": 10.155,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      5e-05,
-      7e-05,
-      9e-05,
-      0.00011,
-      0.00014,
-      0.00018,
-      0.00022,
-      0.00027,
-      0.00034,
-      0.00041,
-      0.00051,
-      0.00062,
-      0.00075,
-      0.0009,
-      0.00109,
-      0.0013,
-      0.00154,
-      0.00182,
-      0.00214,
-      0.00251,
-      0.00292,
-      0.00339,
-      0.00391,
-      0.00449,
-      0.00512,
-      0.00582,
-      0.00658,
-      0.00741,
-      0.00829,
-      0.00924,
-      0.01024,
-      0.01129,
-      0.01239,
-      0.01353,
-      0.0147,
-      0.01589,
-      0.01709,
-      0.0183,
-      0.01949,
-      0.02065,
-      0.02178,
-      0.02285,
-      0.02386,
-      0.02478,
-      0.02562,
-      0.02635,
-      0.02697,
-      0.02747,
-      0.02783,
-      0.02806,
-      0.02815,
+      0.00029,
+      0.00036,
+      0.00044,
+      0.00054,
+      0.00065,
+      0.00079,
+      0.00095,
+      0.00114,
+      0.00136,
+      0.00161,
+      0.0019,
+      0.00224,
+      0.00262,
+      0.00304,
+      0.00352,
+      0.00406,
+      0.00465,
+      0.00531,
+      0.00602,
+      0.0068,
+      0.00764,
+      0.00854,
+      0.0095,
+      0.01052,
+      0.01158,
+      0.01269,
+      0.01384,
+      0.01502,
+      0.01621,
+      0.01742,
+      0.01862,
+      0.0198,
+      0.02096,
+      0.02207,
+      0.02313,
+      0.02411,
+      0.02502,
+      0.02583,
+      0.02653,
+      0.02712,
+      0.02758,
+      0.02791,
       0.0281,
-      0.02792,
-      0.02759,
-      0.02714,
-      0.02656,
-      0.02586,
-      0.02505,
-      0.02415,
-      0.02317,
-      0.02212,
-      0.02101,
-      0.01985,
-      0.01867,
-      0.01747,
-      0.01626,
-      0.01507,
-      0.01389,
-      0.01274,
-      0.01163,
-      0.01056,
-      0.00954,
-      0.00858,
-      0.00768,
-      0.00683,
-      0.00605,
-      0.00533,
-      0.00468,
-      0.00408,
-      0.00355,
-      0.00306
+      0.02815,
+      0.02807,
+      0.02784,
+      0.02748,
+      0.02699,
+      0.02638,
+      0.02565,
+      0.02482,
+      0.0239,
+      0.02289,
+      0.02182,
+      0.0207,
+      0.01954,
+      0.01835,
+      0.01714,
+      0.01594,
+      0.01475,
+      0.01358,
+      0.01244,
+      0.01134,
+      0.01028,
+      0.00928,
+      0.00833,
+      0.00744,
+      0.00662,
+      0.00585,
+      0.00515,
+      0.00451,
+      0.00393,
+      0.00341,
+      0.00294,
+      0.00253,
+      0.00216,
+      0.00184,
+      0.00155,
+      0.00131,
+      0.00109,
+      0.00091
      ],
      "binned": true,
-     "tail_below": 0.00017,
-     "tail_above": 0.0161,
+     "tail_below": 0.0011,
+     "tail_above": 0.00396,
      "key_numbers": []
     },
     "totals": {
@@ -1197,41 +590,35 @@
      "reason": "Not priced: no totals model has been graded."
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/tor.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/wsh.png"
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/min.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/ny.png"
   },
   {
-   "game_id": "401910013",
-   "home": "NO",
-   "away": "DET",
-   "home_name": "New Orleans Pelicans",
-   "away_name": "Detroit Pistons",
-   "start": "2026-11-19T01:00:00Z",
+   "game_id": "401910022",
+   "home": "SA",
+   "away": "LAC",
+   "home_name": "San Antonio Spurs",
+   "away_name": "LA Clippers",
+   "start": "2026-11-20T01:00:00Z",
    "markets": {},
    "headline": "spread",
    "context": {
     "team_level_model": true,
     "home_rest_days": 2,
     "home_back_to_back": false,
-    "away_rest_days": 1,
-    "away_back_to_back": true,
+    "away_rest_days": 2,
+    "away_back_to_back": false,
     "key_player": [
      {
-      "team": "DET",
+      "team": "SA",
       "role": "starter",
-      "text": "Duncan Robinson Out",
-      "source": "ESPN injury report"
-     },
-     {
-      "team": "NO",
-      "role": "starter",
-      "text": "Dejounte Murray Out",
+      "text": "Dylan Harper Out",
       "source": "ESPN injury report"
      }
     ],
     "venue": {
-     "name": "Smoothie King Center",
-     "city": "New Orleans",
+     "name": "Frost Bank Center",
+     "city": "San Antonio",
      "neutral": false,
      "in_price": false
     },
@@ -1248,49 +635,48 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Bennedict Mathurin",
+        "player": "Dylan Harper",
         "position": "G",
         "status": "Out"
        },
        {
-        "player": "Bryce McGowens",
-        "position": "G",
+        "player": "Jayden Quaintance",
+        "position": "F",
         "status": "Out"
        },
        {
-        "player": "Dejounte Murray",
-        "position": "G",
+        "player": "Tobias Harris",
+        "position": "F",
         "status": "Out"
        }
       ],
-      "more": 2,
+      "more": 0,
       "counts": {
-       "Out": 5
+       "Out": 3
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "Duncan Robinson",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Isaiah Joe",
+        "player": "Bradley Beal",
         "position": "G",
         "status": "Out"
        },
        {
-        "player": "Jalen Duren",
-        "position": "C",
+        "player": "Brandon Ingram",
+        "position": "F",
+        "status": "Out"
+       },
+       {
+        "player": "Jordan Miller",
+        "position": "G",
         "status": "Out"
        }
       ],
-      "more": 2,
+      "more": 0,
       "counts": {
-       "Out": 3,
-       "Day-To-Day": 2
+       "Out": 3
       }
      },
      "counts_only": false
@@ -1298,437 +684,39 @@
     "rest": {
      "home_rest_days": 2,
      "home_back_to_back": false,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 507,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.2518,
-    "margin_mean": -9.475,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      0.00277,
-      0.00321,
-      0.00371,
-      0.00427,
-      0.00488,
-      0.00556,
-      0.0063,
-      0.0071,
-      0.00796,
-      0.00888,
-      0.00986,
-      0.0109,
-      0.01198,
-      0.0131,
-      0.01426,
-      0.01545,
-      0.01665,
-      0.01785,
-      0.01905,
-      0.02023,
-      0.02137,
-      0.02246,
-      0.02349,
-      0.02445,
-      0.02532,
-      0.02609,
-      0.02676,
-      0.0273,
-      0.02771,
-      0.02799,
-      0.02814,
-      0.02814,
-      0.028,
-      0.02773,
-      0.02732,
-      0.02679,
-      0.02613,
-      0.02536,
-      0.0245,
-      0.02354,
-      0.02251,
-      0.02142,
-      0.02028,
-      0.01911,
-      0.01791,
-      0.01671,
-      0.01551,
-      0.01432,
-      0.01316,
-      0.01203,
-      0.01095,
-      0.00991,
-      0.00893,
-      0.008,
-      0.00714,
-      0.00633,
-      0.00559,
-      0.00491,
-      0.0043,
-      0.00374,
-      0.00324,
-      0.00279,
-      0.00239,
-      0.00204,
-      0.00173,
-      0.00146,
-      0.00123,
-      0.00102,
-      0.00085,
-      0.00071,
-      0.00058,
-      0.00048,
-      0.00039,
-      0.00031,
-      0.00025,
-      0.0002,
-      0.00016,
-      0.00013,
-      0.0001,
-      8e-05,
-      6e-05
-     ],
-     "binned": true,
-     "tail_below": 0.01426,
-     "tail_above": 0.00021,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/no.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/det.png"
-  },
-  {
-   "game_id": "401910014",
-   "home": "OKC",
-   "away": "ATL",
-   "home_name": "Oklahoma City Thunder",
-   "away_name": "Atlanta Hawks",
-   "start": "2026-11-19T01:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 3,
-    "home_back_to_back": false,
-    "away_rest_days": 3,
-    "away_back_to_back": false,
-    "key_player": [
-     {
-      "team": "ATL",
-      "role": "starter",
-      "text": "CJ McCollum Out; Kingston Flemings Out",
-      "source": "ESPN injury report"
-     }
-    ],
-    "venue": {
-     "name": "Paycom Center",
-     "city": "Oklahoma City",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Cason Wallace",
-        "position": "G",
-        "status": "Out"
-       },
-       {
-        "player": "Chet Holmgren",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "Jalen Williams",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Out": 5
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Asa Newell",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "CJ McCollum",
-        "position": "G",
-        "status": "Out"
-       },
-       {
-        "player": "Henri Veesaar",
-        "position": "C",
-        "status": "Out"
-       }
-      ],
-      "more": 3,
-      "counts": {
-       "Out": 6
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 3,
-     "home_back_to_back": false,
-     "away_rest_days": 3,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 733,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.682,
-    "margin_mean": 6.705,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      0.00012,
-      0.00015,
-      0.00019,
-      0.00024,
-      0.0003,
-      0.00037,
-      0.00045,
-      0.00056,
-      0.00068,
-      0.00082,
-      0.00098,
-      0.00118,
-      0.0014,
-      0.00166,
-      0.00196,
-      0.0023,
-      0.00269,
-      0.00313,
-      0.00362,
-      0.00416,
-      0.00477,
-      0.00543,
-      0.00616,
-      0.00695,
-      0.0078,
-      0.00871,
-      0.00968,
-      0.01071,
-      0.01178,
-      0.0129,
-      0.01405,
-      0.01523,
-      0.01643,
-      0.01764,
-      0.01884,
-      0.02002,
-      0.02116,
-      0.02227,
-      0.02331,
-      0.02429,
-      0.02517,
-      0.02596,
-      0.02664,
-      0.02721,
-      0.02765,
-      0.02795,
-      0.02812,
-      0.02815,
-      0.02804,
-      0.02779,
-      0.0274,
-      0.02689,
-      0.02626,
-      0.02551,
-      0.02466,
-      0.02372,
-      0.0227,
-      0.02162,
-      0.02049,
-      0.01932,
-      0.01813,
-      0.01693,
-      0.01572,
-      0.01453,
-      0.01337,
-      0.01223,
-      0.01114,
-      0.01009,
-      0.0091,
-      0.00817,
-      0.00729,
-      0.00647,
-      0.00572,
-      0.00503,
-      0.0044,
-      0.00383,
-      0.00332,
-      0.00286,
-      0.00246,
-      0.0021,
-      0.00178
-     ],
-     "binned": true,
-     "tail_below": 0.00043,
-     "tail_above": 0.00853,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/okc.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/atl.png"
-  },
-  {
-   "game_id": "401910016",
-   "home": "DAL",
-   "away": "GS",
-   "home_name": "Dallas Mavericks",
-   "away_name": "Golden State Warriors",
-   "start": "2026-11-19T01:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 4,
-    "home_back_to_back": false,
-    "away_rest_days": 2,
-    "away_back_to_back": false,
-    "key_player": [
-     {
-      "team": "GS",
-      "role": "starter",
-      "text": "Stephen Curry Out",
-      "source": "ESPN injury report"
-     }
-    ],
-    "venue": {
-     "name": "American Airlines Center",
-     "city": "Dallas",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Dereck Lively II",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "Sergio de Larrea",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Tarik Biberovic",
-        "position": "F",
-        "status": "Out"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 3,
-       "Day-To-Day": 4
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Brandon Williams",
-        "position": "G",
-        "status": "Out"
-       },
-       {
-        "player": "Jimmy Butler III",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Kristaps Porzingis",
-        "position": "C",
-        "status": "Out"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Out": 5,
-       "Day-To-Day": 2
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 4,
-     "home_back_to_back": false,
      "away_rest_days": 2,
      "away_back_to_back": false,
      "in_price": false
     },
     "travel": {
-     "away_miles": 442,
+     "away_miles": 1207,
      "in_price": false
     },
     "players_link": true
    },
    "refusal": null,
    "model": {
-    "p_home_win": 0.46178,
-    "margin_mean": -1.359,
+    "p_home_win": 0.81385,
+    "margin_mean": 12.639,
     "total_mean": null,
     "margin_pmf": {
      "from": -40,
      "to": 40,
      "mass": [
+      3e-05,
+      4e-05,
+      5e-05,
+      6e-05,
+      8e-05,
+      0.0001,
+      0.00013,
+      0.00016,
+      0.0002,
+      0.00025,
+      0.0003,
+      0.00038,
+      0.00046,
+      0.00056,
       0.00068,
       0.00083,
       0.00099,
@@ -1747,14 +735,14 @@
       0.007,
       0.00786,
       0.00877,
-      0.00974,
+      0.00975,
       0.01077,
       0.01185,
       0.01297,
       0.01413,
       0.01531,
       0.01651,
-      0.01771,
+      0.01772,
       0.01891,
       0.02009,
       0.02124,
@@ -1763,7 +751,7 @@
       0.02435,
       0.02523,
       0.02601,
-      0.02668,
+      0.02669,
       0.02724,
       0.02767,
       0.02797,
@@ -1780,10 +768,10 @@
       0.02264,
       0.02155,
       0.02042,
-      0.01925,
+      0.01924,
       0.01805,
       0.01685,
-      0.01565,
+      0.01564,
       0.01446,
       0.01329,
       0.01216,
@@ -1793,27 +781,13 @@
       0.00811,
       0.00723,
       0.00642,
-      0.00568,
+      0.00567,
       0.00499,
-      0.00437,
-      0.0038,
-      0.00329,
-      0.00284,
-      0.00243,
-      0.00208,
-      0.00176,
-      0.00149,
-      0.00125,
-      0.00105,
-      0.00087,
-      0.00072,
-      0.00059,
-      0.00049,
-      0.0004
+      0.00436
      ],
      "binned": true,
-     "tail_below": 0.00286,
-     "tail_above": 0.00156,
+     "tail_below": 9e-05,
+     "tail_above": 0.02461,
      "key_numbers": []
     },
     "totals": {
@@ -1821,561 +795,8 @@
      "reason": "Not priced: no totals model has been graded."
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/dal.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/gs.png"
-  },
-  {
-   "game_id": "401910015",
-   "home": "DEN",
-   "away": "BOS",
-   "home_name": "Denver Nuggets",
-   "away_name": "Boston Celtics",
-   "start": "2026-11-19T02:30:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 2,
-    "home_back_to_back": false,
-    "away_rest_days": 2,
-    "away_back_to_back": false,
-    "key_player": [],
-    "venue": {
-     "name": "Ball Arena",
-     "city": "Denver",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Julian Strawther",
-        "position": "G",
-        "status": "Out"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [],
-      "more": 0,
-      "counts": {}
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 2,
-     "home_back_to_back": false,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 1765,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.40643,
-    "margin_mean": -3.354,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      0.00099,
-      0.00119,
-      0.00142,
-      0.00168,
-      0.00198,
-      0.00232,
-      0.00272,
-      0.00315,
-      0.00365,
-      0.0042,
-      0.0048,
-      0.00547,
-      0.0062,
-      0.007,
-      0.00785,
-      0.00877,
-      0.00974,
-      0.01077,
-      0.01184,
-      0.01297,
-      0.01412,
-      0.0153,
-      0.0165,
-      0.01771,
-      0.01891,
-      0.02008,
-      0.02123,
-      0.02233,
-      0.02337,
-      0.02434,
-      0.02522,
-      0.02601,
-      0.02668,
-      0.02724,
-      0.02767,
-      0.02797,
-      0.02813,
-      0.02815,
-      0.02803,
-      0.02777,
-      0.02738,
-      0.02686,
-      0.02622,
-      0.02546,
-      0.02461,
-      0.02366,
-      0.02264,
-      0.02156,
-      0.02042,
-      0.01925,
-      0.01806,
-      0.01685,
-      0.01565,
-      0.01446,
-      0.0133,
-      0.01217,
-      0.01108,
-      0.01003,
-      0.00904,
-      0.00811,
-      0.00724,
-      0.00643,
-      0.00568,
-      0.00499,
-      0.00437,
-      0.0038,
-      0.00329,
-      0.00284,
-      0.00243,
-      0.00208,
-      0.00176,
-      0.00149,
-      0.00125,
-      0.00105,
-      0.00087,
-      0.00072,
-      0.0006,
-      0.00049,
-      0.0004,
-      0.00032,
-      0.00026
-     ],
-     "binned": true,
-     "tail_below": 0.00437,
-     "tail_above": 0.00098,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/den.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/bos.png"
-  },
-  {
-   "game_id": "401910017",
-   "home": "LAL",
-   "away": "UTAH",
-   "home_name": "Los Angeles Lakers",
-   "away_name": "Utah Jazz",
-   "start": "2026-11-19T03:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 1,
-    "home_back_to_back": true,
-    "away_rest_days": 1,
-    "away_back_to_back": true,
-    "key_player": [],
-    "venue": {
-     "name": "crypto.com Arena",
-     "city": "Los Angeles",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Austin Reaves",
-        "position": "G",
-        "status": "Day-To-Day"
-       },
-       {
-        "player": "Walker Kessler",
-        "position": "C",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Day-To-Day": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jaren Jackson Jr.",
-        "position": "F",
-        "status": "Out"
-       },
-       {
-        "player": "Jusuf Nurkic",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "Lauri Markkanen",
-        "position": "F",
-        "status": "Out"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Out": 3,
-       "Day-To-Day": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 9,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.8064,
-    "margin_mean": 12.25,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      3e-05,
-      4e-05,
-      5e-05,
-      7e-05,
-      9e-05,
-      0.00011,
-      0.00014,
-      0.00017,
-      0.00021,
-      0.00027,
-      0.00033,
-      0.00041,
-      0.0005,
-      0.00061,
-      0.00074,
-      0.00089,
-      0.00107,
-      0.00128,
-      0.00152,
-      0.00179,
-      0.00211,
-      0.00247,
-      0.00288,
-      0.00334,
-      0.00386,
-      0.00443,
-      0.00506,
-      0.00575,
-      0.00651,
-      0.00733,
-      0.00821,
-      0.00915,
-      0.01014,
-      0.01119,
-      0.01228,
-      0.01342,
-      0.01459,
-      0.01578,
-      0.01698,
-      0.01818,
-      0.01938,
-      0.02054,
-      0.02167,
-      0.02275,
-      0.02377,
-      0.0247,
-      0.02555,
-      0.02629,
-      0.02692,
-      0.02742,
-      0.0278,
-      0.02805,
-      0.02815,
-      0.02812,
-      0.02794,
-      0.02763,
-      0.02719,
-      0.02662,
-      0.02593,
-      0.02513,
-      0.02424,
-      0.02327,
-      0.02222,
-      0.02111,
-      0.01996,
-      0.01878,
-      0.01758,
-      0.01638,
-      0.01518,
-      0.014,
-      0.01285,
-      0.01173,
-      0.01066,
-      0.00964,
-      0.00867,
-      0.00776,
-      0.00691,
-      0.00612,
-      0.0054,
-      0.00474,
-      0.00414
-     ],
-     "binned": true,
-     "tail_below": 0.0001,
-     "tail_above": 0.02307,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/lal.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/utah.png"
-  },
-  {
-   "game_id": "401910018",
-   "home": "SAC",
-   "away": "PHX",
-   "home_name": "Sacramento Kings",
-   "away_name": "Phoenix Suns",
-   "start": "2026-11-19T03:00:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "team_level_model": true,
-    "home_rest_days": 3,
-    "home_back_to_back": false,
-    "away_rest_days": 2,
-    "away_back_to_back": false,
-    "key_player": [],
-    "venue": {
-     "name": "Golden 1 Center",
-     "city": "Sacramento",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Ben Simmons",
-        "position": "G",
-        "status": "Out"
-       },
-       {
-        "player": "Maxime Raynaud",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "De'Andre Hunter",
-        "position": "F",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Out": 2,
-       "Day-To-Day": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Mark Williams",
-        "position": "C",
-        "status": "Out"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 3,
-     "home_back_to_back": false,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 887,
-     "in_price": false
-    },
-    "players_link": true
-   },
-   "refusal": null,
-   "model": {
-    "p_home_win": 0.32062,
-    "margin_mean": -6.601,
-    "total_mean": null,
-    "margin_pmf": {
-     "from": -40,
-     "to": 40,
-     "mass": [
-      0.00175,
-      0.00206,
-      0.00242,
-      0.00282,
-      0.00327,
-      0.00378,
-      0.00434,
-      0.00496,
-      0.00565,
-      0.00639,
-      0.0072,
-      0.00807,
-      0.009,
-      0.00999,
-      0.01103,
-      0.01212,
-      0.01325,
-      0.01441,
-      0.0156,
-      0.0168,
-      0.018,
-      0.0192,
-      0.02037,
-      0.02151,
-      0.0226,
-      0.02362,
-      0.02457,
-      0.02543,
-      0.02618,
-      0.02683,
-      0.02736,
-      0.02775,
-      0.02802,
-      0.02814,
-      0.02813,
-      0.02798,
-      0.02768,
-      0.02726,
-      0.02671,
-      0.02604,
-      0.02526,
-      0.02438,
-      0.02342,
-      0.02238,
-      0.02128,
-      0.02014,
-      0.01896,
-      0.01776,
-      0.01656,
-      0.01536,
-      0.01417,
-      0.01302,
-      0.01189,
-      0.01081,
-      0.00978,
-      0.00881,
-      0.00789,
-      0.00703,
-      0.00624,
-      0.0055,
-      0.00483,
-      0.00422,
-      0.00367,
-      0.00318,
-      0.00273,
-      0.00234,
-      0.002,
-      0.00169,
-      0.00143,
-      0.0012,
-      0.001,
-      0.00083,
-      0.00069,
-      0.00057,
-      0.00046,
-      0.00038,
-      0.00031,
-      0.00025,
-      0.0002,
-      0.00016,
-      0.00013
-     ],
-     "binned": true,
-     "tail_below": 0.00836,
-     "tail_above": 0.00044,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: no totals model has been graded."
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/sac.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/phx.png"
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/sa.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nba/500-dark/lac.png"
   }
  ],
  "refusals": [
@@ -2391,7 +812,7 @@
    "remaining": 18845,
    "monthly": 20000
   },
-  "latest_final": "2026-11-18 04:00:00+00:00"
+  "latest_final": "2026-11-19 03:00:00+00:00"
  },
  "teams": [
   {
@@ -2401,7 +822,12 @@
   },
   {
    "team": "BOS",
-   "rating": 7.688,
+   "rating": 7.321,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
+   "team": "HOU",
+   "rating": 5.801,
    "note": "points of margin vs an average team, as priced"
   },
   {
@@ -2410,18 +836,13 @@
    "note": "points of margin vs an average team, as priced"
   },
   {
-   "team": "OKC",
-   "rating": 5.61,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
    "team": "DET",
-   "rating": 5.437,
+   "rating": 5.613,
    "note": "points of margin vs an average team, as priced"
   },
   {
-   "team": "HOU",
-   "rating": 5.387,
+   "team": "OKC",
+   "rating": 5.025,
    "note": "points of margin vs an average team, as priced"
   },
   {
@@ -2430,63 +851,68 @@
    "note": "points of margin vs an average team, as priced"
   },
   {
-   "team": "LAL",
-   "rating": 4.713,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
    "team": "POR",
    "rating": 4.383,
    "note": "points of margin vs an average team, as priced"
   },
   {
+   "team": "LAL",
+   "rating": 3.501,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
    "team": "DEN",
-   "rating": 2.334,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
-   "team": "CLE",
-   "rating": 1.788,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
-   "team": "MIA",
-   "rating": 1.696,
+   "rating": 2.702,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "PHI",
-   "rating": 1.251,
+   "rating": 1.51,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "ATL",
-   "rating": 0.905,
+   "rating": 1.49,
    "note": "points of margin vs an average team, as priced"
   },
   {
-   "team": "TOR",
-   "rating": 0.703,
+   "team": "CLE",
+   "rating": 1.467,
    "note": "points of margin vs an average team, as priced"
   },
   {
-   "team": "MEM",
-   "rating": 0.371,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
-   "team": "GS",
-   "rating": 0.179,
+   "team": "MIA",
+   "rating": 1.426,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "PHX",
-   "rating": 0.07,
+   "rating": 0.79,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
+   "team": "MEM",
+   "rating": 0.692,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
+   "team": "TOR",
+   "rating": -0.004,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "ORL",
-   "rating": -0.575,
+   "rating": -0.833,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
+   "team": "GS",
+   "rating": -0.989,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
+   "team": "DAL",
+   "rating": -2.012,
    "note": "points of margin vs an average team, as priced"
   },
   {
@@ -2500,48 +926,43 @@
    "note": "points of margin vs an average team, as priced"
   },
   {
-   "team": "DAL",
-   "rating": -3.18,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
    "team": "IND",
-   "rating": -3.319,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
-   "team": "UTAH",
-   "rating": -5.537,
+   "rating": -3.734,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "CHI",
-   "rating": -5.597,
+   "rating": -4.033,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
+   "team": "UTAH",
+   "rating": -4.324,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "NO",
-   "rating": -6.038,
-   "note": "points of margin vs an average team, as priced"
-  },
-  {
-   "team": "BKN",
-   "rating": -6.318,
+   "rating": -6.214,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "WSH",
-   "rating": -7.452,
+   "rating": -6.744,
    "note": "points of margin vs an average team, as priced"
   },
   {
-   "team": "SAC",
-   "rating": -8.531,
+   "team": "BKN",
+   "rating": -7.882,
    "note": "points of margin vs an average team, as priced"
   },
   {
    "team": "MIL",
-   "rating": -8.711,
+   "rating": -8.441,
+   "note": "points of margin vs an average team, as priced"
+  },
+  {
+   "team": "SAC",
+   "rating": -9.251,
    "note": "points of margin vs an average team, as priced"
   }
  ],
@@ -2567,7 +988,7 @@
  },
  "status": {
   "state": "degraded",
-  "games": 12,
+  "games": 4,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -2581,11 +1002,11 @@
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 12,
+    "games": 4,
     "examples": [
-     "MEM @ CLE",
-     "HOU @ IND",
-     "MIL @ MIA"
+     "GS @ MEM",
+     "POR @ MIL",
+     "NY @ MIN"
     ]
    },
    {
