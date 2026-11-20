@@ -1,68 +1,17 @@
 {
  "league": "cfb",
- "generated_at": "2026-11-19T10:44:43Z",
+ "generated_at": "2026-11-20T10:44:50Z",
  "note": "Weekly slate, Thursday to Saturday. Spreads price key numbers (3, 7) with a measured correction. Neutral-site games are refused: the model has no home term to remove.",
  "slate": {
   "kind": "week",
   "season": 2026,
   "week": 12,
   "dates": [
-   "2026-11-19",
    "2026-11-20",
    "2026-11-21"
   ]
  },
  "games": [
-  {
-   "game_id": "401862830",
-   "home": "Temple",
-   "away": "Rice",
-   "home_name": "Temple Owls",
-   "away_name": "Rice Owls",
-   "start": "2026-11-20T00:30:00Z",
-   "markets": {},
-   "headline": "spread",
-   "context": {
-    "neutral_site": false,
-    "key_player": [],
-    "venue": {
-     "name": "Lincoln Financial Field",
-     "city": "Philadelphia",
-     "state": "PA",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "no report",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price. College injury reporting is not mandated: a missing report means unknown, not healthy.",
-     "home": {
-      "status": "no report",
-      "shown": [],
-      "more": 0,
-      "counts": {}
-     },
-     "away": {
-      "status": "reported",
-      "shown": [],
-      "more": 0,
-      "counts": {}
-     },
-     "counts_only": false
-    },
-    "rest": null,
-    "travel": null
-   },
-   "refusal": "StaleRatings: week 12 game, but the newest CFB ratings are week 7 (2026-week-07.json), 5 weeks behind; the cfb-weekly-job has not produced a newer snapshot",
-   "home_logo": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/218.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/ncaa/500-dark/242.png",
-   "window": "Thursday"
-  },
   {
    "game_id": "401856869",
    "home": "UCF",
@@ -2407,7 +2356,7 @@
  "refusals": [
   {
    "scope": "league",
-   "reason": "Odds are 785 hours old: the last capture was 2026-10-17T17:25:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+   "reason": "Odds are 809 hours old: the last capture was 2026-10-17T17:25:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
   }
  ],
  "freshness": {
@@ -2420,7 +2369,7 @@
   "ratings_version": "2026-week-07.json",
   "ratings_computed_at": "2026-10-11T10:01:56Z",
   "ratings_through_week": 6,
-  "latest_final": "2026-11-19T00:30:00Z"
+  "latest_final": "2026-11-20T00:30:00Z"
  },
  "teams": [
   {
@@ -3275,7 +3224,7 @@
  "early_season": false,
  "status": {
   "state": "degraded",
-  "games": 65,
+  "games": 64,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -3324,20 +3273,20 @@
     "key": "other",
     "label": "Other refusal",
     "note": "The reason is on the game.",
-    "games": 65,
+    "games": 64,
     "examples": [
-     "Rice @ Temple",
      "Iowa State @ UCF",
-     "Clemson @ Duke"
+     "Clemson @ Duke",
+     "Bowling Green @ Toledo"
     ]
    }
   ],
   "refusals": 1,
-  "reason": "Odds are 785 hours old: the last capture was 2026-10-17T17:25:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
+  "reason": "Odds are 809 hours old: the last capture was 2026-10-17T17:25:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
   "game_refusals": [
    {
     "reason": "StaleRatings: week 12 game, but the newest CFB ratings are week 7 (2026-week-07.json), 5 weeks behind; the cfb-weekly-job has not produced a newer snapshot",
-    "games": 65
+    "games": 64
    }
   ]
  }
