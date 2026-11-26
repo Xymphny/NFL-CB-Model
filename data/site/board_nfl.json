@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-11-25T15:44:39Z",
+ "generated_at": "2026-11-26T10:45:18Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -26,7 +26,7 @@
     "venue": {
      "name": "SoFi Stadium",
      "roof": "dome",
-     "surface": "matrixturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -100,104 +100,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.5697,
-    "margin_mean": 2.133,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.026605271066605665,
-      "rest_diff": 0.0,
-      "cpoe_diff": 0.18959881954183722,
-      "separation_diff": 0.20010813258656723,
-      "yac_oe_diff": 0.07271434341986949,
-      "ryoe_diff": 1.4412392074188853,
-      "elo_diff": 67.17303189658992,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00225,
-      0.00266,
-      0.00313,
-      0.00367,
-      0.00427,
-      0.00494,
-      0.00263,
-      0.00861,
-      0.00689,
-      0.00423,
-      0.00922,
-      0.01235,
-      0.01049,
-      0.00764,
-      0.02082,
-      0.01327,
-      0.00738,
-      0.00977,
-      0.01948,
-      0.00602,
-      0.01793,
-      0.04617,
-      0.03212,
-      0.01847,
-      0.02739,
-      0.07247,
-      0.02382,
-      0.02037,
-      0.00359,
-      0.02482,
-      0.02234,
-      0.08693,
-      0.02633,
-      0.02162,
-      0.03812,
-      0.05057,
-      0.02572,
-      0.00996,
-      0.03818,
-      0.01475,
-      0.01045,
-      0.00967,
-      0.03148,
-      0.00982,
-      0.01473,
-      0.01554,
-      0.01468,
-      0.00547,
-      0.01268,
-      0.01466,
-      0.00583,
-      0.00512,
-      0.01123,
-      0.00551,
-      0.00625,
-      0.00547,
-      0.00474
-     ],
-     "binned": false,
-     "tail_below": 0.0103,
-     "tail_above": 0.02499,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/lar.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/gb.png"
   },
@@ -236,49 +140,49 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Cade Mays",
-        "position": "C",
-        "status": "Out"
-       },
-       {
         "player": "Skyler Gill-Howard",
         "position": "DT",
         "status": "Out"
        },
        {
+        "player": "Ennis Rakestraw Jr.",
+        "position": "CB",
+        "status": "Out"
+       },
+       {
         "player": "DJ Wonnum",
-        "position": "LB",
+        "position": "DE",
         "status": "Questionable"
        }
       ],
-      "more": 2,
+      "more": 1,
       "counts": {
        "Out": 2,
-       "Questionable": 3
+       "Questionable": 2
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "Elijah Hicks",
-        "position": "S",
-        "status": "Out"
-       },
-       {
         "player": "Roschon Johnson",
         "position": "RB",
-        "status": "Questionable"
+        "status": "Out"
        },
        {
         "player": "Kyler Gordon",
         "position": "CB",
-        "status": "Questionable"
+        "status": "Out"
+       },
+       {
+        "player": "Elijah Hicks",
+        "position": "S",
+        "status": "Out"
        }
       ],
-      "more": 0,
+      "more": 2,
       "counts": {
-       "Out": 1,
+       "Out": 3,
        "Questionable": 2
       }
      },
@@ -418,7 +322,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 51.8,
+     "wind_mph": 11.9,
+     "precip_prob": 0,
+     "forecast_hour": "2026-11-26T16:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -430,51 +339,44 @@
       "status": "reported",
       "shown": [
        {
+        "player": "Jonathan Mingo",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Jake Ferguson",
+        "position": "TE",
+        "status": "Out"
+       },
+       {
         "player": "Tyler Booker",
         "position": "G",
         "status": "Out"
-       },
-       {
-        "player": "DaRon Bland",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "Devin Moore",
-        "position": "CB",
-        "status": "Out"
        }
       ],
-      "more": 5,
+      "more": 3,
       "counts": {
        "Out": 4,
-       "Doubtful": 1,
-       "Questionable": 3
+       "Questionable": 2
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "Dontayvion Wicks",
-        "position": "WR",
-        "status": "Out"
-       },
-       {
-        "player": "Zack Baun",
+        "player": "Arnold Ebiketie",
         "position": "LB",
         "status": "Out"
        },
        {
-        "player": "Will Shipley",
-        "position": "RB",
-        "status": "Questionable"
+        "player": "Jonathan Jones",
+        "position": "CB",
+        "status": "Out"
        }
       ],
-      "more": 4,
+      "more": 0,
       "counts": {
-       "Out": 2,
-       "Questionable": 5
+       "Out": 2
       }
      },
      "counts_only": false
@@ -492,8 +394,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.57467,
-    "margin_mean": 2.299,
+    "p_home_win": 0.57626,
+    "margin_mean": 2.352,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -505,7 +407,7 @@
       "cpoe_diff": 4.588482958665699,
       "separation_diff": 0.0860765649012869,
       "yac_oe_diff": 0.6061335675078104,
-      "ryoe_diff": -0.12559165080440213,
+      "ryoe_diff": 0.039389330734756395,
       "elo_diff": 36.0201587356687,
       "is_neutral_site": false
      }
@@ -514,67 +416,67 @@
      "from": -28,
      "to": 28,
      "mass": [
-      0.00218,
-      0.00259,
-      0.00305,
-      0.00357,
-      0.00416,
-      0.00482,
+      0.00216,
       0.00256,
-      0.00842,
-      0.00674,
-      0.00414,
-      0.00903,
-      0.01211,
-      0.0103,
-      0.0075,
-      0.02049,
-      0.01307,
-      0.00728,
-      0.00964,
-      0.01925,
-      0.00595,
-      0.01775,
-      0.04575,
-      0.03186,
-      0.01833,
-      0.02722,
-      0.07209,
-      0.02372,
-      0.0203,
+      0.00302,
+      0.00354,
+      0.00412,
+      0.00478,
+      0.00254,
+      0.00835,
+      0.00669,
+      0.00411,
+      0.00897,
+      0.01204,
+      0.01024,
+      0.00746,
+      0.02038,
+      0.01301,
+      0.00725,
+      0.0096,
+      0.01917,
+      0.00593,
+      0.01769,
+      0.04561,
+      0.03177,
+      0.01829,
+      0.02716,
+      0.07197,
+      0.02369,
+      0.02028,
       0.00358,
-      0.02479,
+      0.02478,
       0.02234,
-      0.087,
-      0.02638,
-      0.02168,
-      0.03827,
-      0.05081,
-      0.02587,
-      0.01002,
-      0.03847,
-      0.01488,
-      0.01056,
-      0.00978,
-      0.03185,
-      0.00995,
-      0.01493,
-      0.01577,
+      0.08702,
+      0.02639,
+      0.0217,
+      0.03831,
+      0.05088,
+      0.02592,
+      0.01004,
+      0.03857,
       0.01492,
-      0.00556,
-      0.0129,
-      0.01494,
-      0.00594,
-      0.00523,
-      0.01148,
-      0.00563,
-      0.0064,
-      0.0056,
-      0.00487
+      0.01059,
+      0.00981,
+      0.03197,
+      0.00999,
+      0.015,
+      0.01585,
+      0.01499,
+      0.00559,
+      0.01298,
+      0.01503,
+      0.00598,
+      0.00526,
+      0.01156,
+      0.00568,
+      0.00645,
+      0.00565,
+      0.00491
      ],
      "binned": false,
-     "tail_below": 0.00994,
-     "tail_above": 0.02579,
+     "tail_below": 0.00983,
+     "tail_above": 0.02605,
      "key_numbers": [
       -7,
       -3,
@@ -614,7 +516,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 38.4,
+     "wind_mph": 27.7,
+     "precip_prob": 100,
+     "forecast_hour": "2026-11-26T20:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -637,7 +544,7 @@
        },
        {
         "player": "T.J. Sanders",
-        "position": "DT",
+        "position": "DE",
         "status": "Questionable"
        }
       ],
@@ -650,25 +557,25 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Jared Wiley",
-        "position": "TE",
-        "status": "Out"
-       },
-       {
-        "player": "Ben VanSumeren",
-        "position": "FB",
-        "status": "Out"
-       },
-       {
         "player": "Kenneth Walker III",
         "position": "RB",
-        "status": "Questionable"
+        "status": "Out"
+       },
+       {
+        "player": "Jaylon Moore",
+        "position": "T",
+        "status": "Out"
+       },
+       {
+        "player": "Omarr Norman-Lott",
+        "position": "DT",
+        "status": "Out"
        }
       ],
-      "more": 3,
+      "more": 2,
       "counts": {
-       "Out": 2,
-       "Questionable": 4
+       "Out": 3,
+       "Questionable": 2
       }
      },
      "counts_only": false
@@ -816,7 +723,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 40.4,
+     "wind_mph": 10.6,
+     "precip_prob": 20,
+     "forecast_hour": "2026-11-27T15:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -843,36 +755,30 @@
         "status": "Doubtful"
        }
       ],
-      "more": 2,
+      "more": 4,
       "counts": {
        "Out": 2,
        "Doubtful": 1,
-       "Questionable": 2
+       "Questionable": 4
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "J.K. Dobbins",
-        "position": "RB",
+        "player": "Sai'vion Jones",
+        "position": "DE",
         "status": "Out"
        },
        {
-        "player": "Tyler Badie",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
-        "player": "Jonah Elliss",
-        "position": "LB",
+        "player": "Taylor Rapp",
+        "position": "S",
         "status": "Out"
        }
       ],
-      "more": 2,
+      "more": 0,
       "counts": {
-       "Out": 3,
-       "Questionable": 2
+       "Out": 2
       }
      },
      "counts_only": false
@@ -890,8 +796,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.37895,
-    "margin_mean": -4.187,
+    "p_home_win": 0.38172,
+    "margin_mean": -4.091,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -903,7 +809,7 @@
       "cpoe_diff": 2.555600901567421,
       "separation_diff": -0.4674227053703124,
       "yac_oe_diff": 0.8032963834004263,
-      "ryoe_diff": 1.962098799680997,
+      "ryoe_diff": 2.257304640027797,
       "elo_diff": -112.52206037462815,
       "is_neutral_site": false
      }
@@ -912,67 +818,67 @@
      "from": -28,
      "to": 28,
      "mass": [
-      0.0063,
-      0.00718,
+      0.00622,
+      0.00709,
+      0.00804,
+      0.00906,
+      0.01015,
+      0.01132,
+      0.0058,
+      0.0183,
+      0.0141,
+      0.00833,
+      0.01749,
+      0.02256,
+      0.01847,
+      0.01294,
+      0.034,
+      0.02087,
+      0.01118,
+      0.01425,
+      0.02736,
       0.00814,
-      0.00917,
-      0.01027,
-      0.01144,
-      0.00586,
-      0.01848,
-      0.01423,
-      0.0084,
-      0.01763,
-      0.02273,
-      0.01859,
-      0.01302,
-      0.03419,
-      0.02097,
-      0.01123,
-      0.01431,
-      0.02745,
-      0.00817,
-      0.02341,
-      0.05802,
-      0.03885,
-      0.0215,
+      0.02336,
+      0.05792,
+      0.03881,
+      0.02149,
       0.03069,
-      0.07816,
-      0.02473,
-      0.02035,
-      0.00345,
-      0.02298,
-      0.01991,
-      0.07456,
-      0.02174,
-      0.01718,
-      0.02916,
-      0.03723,
-      0.01823,
-      0.00679,
-      0.02506,
-      0.00932,
-      0.00636,
-      0.00566,
-      0.01774,
-      0.00533,
-      0.00769,
-      0.00781,
-      0.0071,
-      0.00255,
-      0.00568,
-      0.00632,
-      0.00242,
-      0.00205,
-      0.00432,
-      0.00204,
-      0.00223,
-      0.00187,
-      0.00157
+      0.07821,
+      0.02476,
+      0.02039,
+      0.00346,
+      0.02304,
+      0.01998,
+      0.07487,
+      0.02184,
+      0.01727,
+      0.02933,
+      0.03746,
+      0.01835,
+      0.00684,
+      0.02527,
+      0.0094,
+      0.00642,
+      0.00572,
+      0.01792,
+      0.00538,
+      0.00778,
+      0.0079,
+      0.00719,
+      0.00258,
+      0.00576,
+      0.00641,
+      0.00245,
+      0.00208,
+      0.00439,
+      0.00207,
+      0.00226,
+      0.00191,
+      0.00159
      ],
      "binned": false,
-     "tail_below": 0.03545,
-     "tail_above": 0.00677,
+     "tail_below": 0.03485,
+     "tail_above": 0.00692,
      "key_numbers": [
       -7,
       -3,
@@ -1012,7 +918,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 48.1,
+     "wind_mph": 10.3,
+     "precip_prob": 54,
+     "forecast_hour": "2026-11-29T13:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -1039,23 +950,23 @@
         "status": "Out"
        }
       ],
-      "more": 2,
+      "more": 1,
       "counts": {
        "Out": 3,
-       "Questionable": 2
+       "Questionable": 1
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "Asim Richards",
-        "position": "OT",
-        "status": "Doubtful"
-       },
-       {
         "player": "Juwan Johnson",
         "position": "TE",
+        "status": "Questionable"
+       },
+       {
+        "player": "Asim Richards",
+        "position": "OT",
         "status": "Questionable"
        },
        {
@@ -1064,10 +975,9 @@
         "status": "Questionable"
        }
       ],
-      "more": 3,
+      "more": 4,
       "counts": {
-       "Doubtful": 1,
-       "Questionable": 5
+       "Questionable": 7
       }
      },
      "counts_only": false
@@ -1085,8 +995,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.75592,
-    "margin_mean": 9.023,
+    "p_home_win": 0.75489,
+    "margin_mean": 8.978,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -1098,7 +1008,7 @@
       "cpoe_diff": 6.218416951469584,
       "separation_diff": 0.045590571893818765,
       "yac_oe_diff": 1.3675585215660588,
-      "ryoe_diff": -0.1935025591199118,
+      "ryoe_diff": -0.3246064645328643,
       "elo_diff": 217.54522950962473,
       "is_neutral_site": false
      }
@@ -1108,66 +1018,66 @@
      "to": 28,
      "mass": [
       0.00058,
-      0.00071,
-      0.00087,
-      0.00106,
-      0.00129,
-      0.00155,
-      0.00086,
-      0.00293,
-      0.00244,
+      0.00072,
+      0.00088,
+      0.00107,
+      0.0013,
       0.00156,
-      0.00354,
-      0.00494,
-      0.00437,
-      0.00332,
-      0.00942,
-      0.00625,
-      0.00362,
-      0.00499,
-      0.01036,
+      0.00087,
+      0.00295,
+      0.00246,
+      0.00157,
+      0.00357,
+      0.00498,
+      0.0044,
       0.00334,
-      0.01035,
-      0.02774,
-      0.0201,
-      0.01203,
-      0.01859,
-      0.05123,
-      0.01754,
-      0.01561,
-      0.00286,
-      0.02064,
-      0.01935,
-      0.07841,
-      0.02473,
-      0.02115,
-      0.03884,
-      0.05365,
-      0.02842,
+      0.00947,
+      0.00629,
+      0.00364,
+      0.00502,
+      0.01042,
+      0.00335,
+      0.01039,
+      0.02786,
+      0.02018,
+      0.01208,
+      0.01865,
+      0.05138,
+      0.01759,
+      0.01565,
+      0.00287,
+      0.02068,
+      0.01938,
+      0.07853,
+      0.02476,
+      0.02117,
+      0.03887,
+      0.05368,
+      0.02843,
       0.01146,
-      0.04575,
-      0.0184,
-      0.01359,
-      0.01309,
-      0.04438,
-      0.01442,
-      0.02252,
-      0.02475,
-      0.02435,
-      0.00945,
-      0.0228,
-      0.02746,
-      0.01137,
-      0.0104,
-      0.02377,
-      0.01213,
-      0.01433,
-      0.01307,
-      0.0118
+      0.04574,
+      0.01839,
+      0.01358,
+      0.01308,
+      0.04432,
+      0.01439,
+      0.02248,
+      0.0247,
+      0.0243,
+      0.00942,
+      0.02274,
+      0.02737,
+      0.01133,
+      0.01037,
+      0.02368,
+      0.01209,
+      0.01427,
+      0.01301,
+      0.01175
      ],
      "binned": false,
-     "tail_below": 0.00218,
-     "tail_above": 0.07929,
+     "tail_below": 0.0022,
+     "tail_above": 0.07878,
      "key_numbers": [
       -7,
       -3,
@@ -1206,7 +1116,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 71.6,
+     "wind_mph": 14.9,
+     "precip_prob": 0,
+     "forecast_hour": "2026-11-29T13:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -1218,6 +1133,11 @@
       "status": "reported",
       "shown": [
        {
+        "player": "Logan Hall",
+        "position": "DE",
+        "status": "Doubtful"
+       },
+       {
         "player": "Kayshon Boutte",
         "position": "WR",
         "status": "Questionable"
@@ -1226,9 +1146,29 @@
         "player": "Marvin Harrison Jr.",
         "position": "WR",
         "status": "Questionable"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "Doubtful": 1,
+       "Questionable": 7
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Rashod Bateman",
+        "position": "WR",
+        "status": "Questionable"
        },
        {
-        "player": "Woody Marks",
+        "player": "Zay Flowers",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Derrick Henry",
         "position": "RB",
         "status": "Questionable"
        }
@@ -1236,30 +1176,6 @@
       "more": 5,
       "counts": {
        "Questionable": 8
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Nnamdi Madubuike",
-        "position": "DT",
-        "status": "Questionable"
-       },
-       {
-        "player": "Marlon Humphrey",
-        "position": "CB",
-        "status": "Questionable"
-       },
-       {
-        "player": "Jaylinn Hawkins",
-        "position": "S",
-        "status": "Questionable"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Questionable": 3
       }
      },
      "counts_only": false
@@ -1406,7 +1322,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 44.7,
+     "wind_mph": 6.5,
+     "precip_prob": 82,
+     "forecast_hour": "2026-11-29T13:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -1435,27 +1356,33 @@
       ],
       "more": 5,
       "counts": {
-       "Out": 3,
-       "Questionable": 5
+       "Out": 4,
+       "Questionable": 4
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "Tyrone Tracy Jr.",
-        "position": "RB",
-        "status": "Out"
-       },
-       {
         "player": "Greg Newsome II",
         "position": "CB",
         "status": "Out"
+       },
+       {
+        "player": "Isaiah Likely",
+        "position": "TE",
+        "status": "Questionable"
+       },
+       {
+        "player": "Shelby Harris",
+        "position": "DT",
+        "status": "Questionable"
        }
       ],
-      "more": 0,
+      "more": 3,
       "counts": {
-       "Out": 2
+       "Out": 1,
+       "Questionable": 5
       }
      },
      "counts_only": false
@@ -1473,8 +1400,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.3947,
-    "margin_mean": -3.646,
+    "p_home_win": 0.39258,
+    "margin_mean": -3.718,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -1483,10 +1410,10 @@
      "feature_values": {
       "rating_diff": -0.005094726408063993,
       "rest_diff": 3.0,
-      "cpoe_diff": 0.24463972170869042,
-      "separation_diff": 0.09177073390352586,
+      "cpoe_diff": 0.16852686904411351,
+      "separation_diff": 0.09357993066584536,
       "yac_oe_diff": -0.21792202011808862,
-      "ryoe_diff": 0.2783197591891866,
+      "ryoe_diff": 0.14330573566783691,
       "elo_diff": -91.96493994724142,
       "is_neutral_site": false
      }
@@ -1495,67 +1422,67 @@
      "from": -28,
      "to": 28,
      "mass": [
-      0.00583,
-      0.00666,
-      0.00758,
-      0.00856,
-      0.00962,
-      0.01076,
-      0.00552,
-      0.01749,
-      0.0135,
-      0.008,
-      0.01684,
-      0.02179,
-      0.01788,
-      0.01256,
-      0.03309,
-      0.02037,
-      0.01094,
-      0.01398,
-      0.02692,
-      0.00803,
-      0.02311,
-      0.05744,
-      0.03859,
-      0.02142,
+      0.00589,
+      0.00673,
+      0.00765,
+      0.00864,
+      0.00971,
+      0.01085,
+      0.00557,
+      0.01762,
+      0.0136,
+      0.00806,
+      0.01695,
+      0.02191,
+      0.01797,
+      0.01263,
+      0.03324,
+      0.02045,
+      0.01098,
+      0.01403,
+      0.02699,
+      0.00805,
+      0.02315,
+      0.05753,
+      0.03863,
+      0.02143,
       0.03068,
-      0.07839,
-      0.02488,
-      0.02054,
+      0.07837,
+      0.02487,
+      0.02052,
       0.00349,
-      0.02335,
-      0.02029,
-      0.07625,
-      0.0223,
-      0.01768,
-      0.03011,
-      0.03856,
-      0.01894,
-      0.00708,
-      0.02622,
-      0.00978,
-      0.00669,
-      0.00598,
-      0.0188,
-      0.00566,
-      0.0082,
-      0.00836,
-      0.00762,
-      0.00274,
-      0.00614,
-      0.00685,
-      0.00263,
-      0.00223,
-      0.00473,
-      0.00224,
-      0.00245,
-      0.00207,
-      0.00174
+      0.0233,
+      0.02024,
+      0.07603,
+      0.02223,
+      0.01762,
+      0.02998,
+      0.03839,
+      0.01885,
+      0.00704,
+      0.02606,
+      0.00972,
+      0.00665,
+      0.00594,
+      0.01865,
+      0.00562,
+      0.00813,
+      0.00828,
+      0.00755,
+      0.00272,
+      0.00607,
+      0.00678,
+      0.0026,
+      0.00221,
+      0.00467,
+      0.00221,
+      0.00242,
+      0.00204,
+      0.00171
      ],
      "binned": false,
-     "tail_below": 0.03219,
-     "tail_above": 0.00763,
+     "tail_below": 0.03261,
+     "tail_above": 0.00751,
      "key_numbers": [
       -7,
       -3,
@@ -1595,7 +1522,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 66.7,
+     "wind_mph": 5.1,
+     "precip_prob": 2,
+     "forecast_hour": "2026-11-29T13:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -1607,24 +1539,25 @@
       "status": "reported",
       "shown": [
        {
+        "player": "Patrick Mekari",
+        "position": "G",
+        "status": "Out"
+       },
+       {
+        "player": "Jakobi Meyers",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
         "player": "Bhayshul Tuten",
         "position": "RB",
         "status": "Questionable"
-       },
-       {
-        "player": "Walker Little",
-        "position": "OT",
-        "status": "Questionable"
-       },
-       {
-        "player": "Robert Hainsey",
-        "position": "C",
-        "status": "Questionable"
        }
       ],
-      "more": 3,
+      "more": 5,
       "counts": {
-       "Questionable": 6
+       "Out": 1,
+       "Questionable": 7
       }
      },
      "away": {
@@ -1636,19 +1569,19 @@
         "status": "Questionable"
        },
        {
-        "player": "Cor'Dale Flott",
-        "position": "CB",
+        "player": "John Franklin-Myers",
+        "position": "DE",
         "status": "Questionable"
        },
        {
-        "player": "Terrell Burgess",
-        "position": "S",
+        "player": "Cor'Dale Flott",
+        "position": "CB",
         "status": "Questionable"
        }
       ],
-      "more": 1,
+      "more": 0,
       "counts": {
-       "Questionable": 4
+       "Questionable": 3
       }
      },
      "counts_only": false
@@ -1666,8 +1599,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.8046,
-    "margin_mean": 11.286,
+    "p_home_win": 0.8044,
+    "margin_mean": 11.276,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -1677,8 +1610,8 @@
       "rating_diff": 0.2186241739812279,
       "rest_diff": 0.0,
       "cpoe_diff": 4.002493748879017,
-      "separation_diff": -0.37683234047278713,
-      "yac_oe_diff": 0.08714232899932339,
+      "separation_diff": -0.38585006222028717,
+      "yac_oe_diff": 0.21046401671919723,
       "ryoe_diff": -0.8454162437357267,
       "elo_diff": 355.95408291417425,
       "is_neutral_site": false
@@ -1688,67 +1621,67 @@
      "from": -28,
      "to": 28,
      "mass": [
-      0.00035,
+      0.00036,
       0.00044,
       0.00055,
       0.00068,
       0.00083,
       0.00102,
       0.00057,
-      0.00197,
-      0.00166,
+      0.00198,
+      0.00167,
       0.00108,
       0.00248,
       0.0035,
       0.00314,
       0.00241,
-      0.00692,
-      0.00465,
+      0.00693,
+      0.00466,
       0.00273,
-      0.00381,
-      0.00802,
-      0.00261,
-      0.00821,
-      0.0223,
-      0.01636,
-      0.00992,
-      0.01552,
-      0.04333,
-      0.01502,
-      0.01355,
+      0.00382,
+      0.00803,
+      0.00262,
+      0.00822,
+      0.02232,
+      0.01638,
+      0.00993,
+      0.01554,
+      0.04336,
+      0.01503,
+      0.01356,
       0.00252,
-      0.01837,
-      0.01744,
-      0.07158,
-      0.02287,
+      0.01838,
+      0.01745,
+      0.07161,
+      0.02288,
       0.01981,
-      0.03684,
-      0.05154,
-      0.02765,
+      0.03685,
+      0.05155,
+      0.02766,
       0.01129,
-      0.04566,
+      0.04567,
       0.0186,
       0.01391,
       0.01358,
-      0.04661,
+      0.0466,
       0.01533,
       0.02426,
-      0.027,
-      0.02691,
+      0.02699,
+      0.0269,
       0.01057,
-      0.02585,
-      0.03153,
-      0.01322,
+      0.02583,
+      0.03151,
+      0.01321,
       0.01225,
-      0.02835,
-      0.01466,
-      0.01754,
-      0.01619,
-      0.01482
+      0.02833,
+      0.01465,
+      0.01753,
+      0.01618,
+      0.0148
      ],
      "binned": false,
      "tail_below": 0.00127,
-     "tail_above": 0.10833,
+     "tail_above": 0.10819,
      "key_numbers": [
       -7,
       -3,
@@ -1788,7 +1721,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 77.8,
+     "wind_mph": 6.9,
+     "precip_prob": 2,
+     "forecast_hour": "2026-11-29T13:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -1815,10 +1753,10 @@
         "status": "Questionable"
        }
       ],
-      "more": 4,
+      "more": 5,
       "counts": {
        "Out": 2,
-       "Questionable": 5
+       "Questionable": 6
       }
      },
      "away": {
@@ -1830,20 +1768,20 @@
         "status": "Out"
        },
        {
-        "player": "Isaiah Williams",
-        "position": "WR",
-        "status": "Questionable"
+        "player": "T'Vondre Sweat",
+        "position": "DT",
+        "status": "Out"
        },
        {
-        "player": "Omar Cooper Jr.",
+        "player": "Isaiah Williams",
         "position": "WR",
         "status": "Questionable"
        }
       ],
-      "more": 1,
+      "more": 4,
       "counts": {
-       "Out": 1,
-       "Questionable": 3
+       "Out": 2,
+       "Questionable": 5
       }
      },
      "counts_only": false
@@ -1861,8 +1799,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.36457,
-    "margin_mean": -4.688,
+    "p_home_win": 0.37132,
+    "margin_mean": -4.452,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -1872,8 +1810,8 @@
       "rating_diff": -0.06582780486250682,
       "rest_diff": 0.0,
       "cpoe_diff": -7.942702155596885,
-      "separation_diff": -0.1631196850246055,
-      "yac_oe_diff": 0.88694472342602,
+      "separation_diff": -0.07423179693584725,
+      "yac_oe_diff": 0.8875760499983224,
       "ryoe_diff": -0.5268939482134165,
       "elo_diff": 11.828740486894048,
       "is_neutral_site": false
@@ -1883,67 +1821,67 @@
      "from": -28,
      "to": 28,
      "mass": [
-      0.00676,
-      0.00768,
-      0.00868,
-      0.00975,
-      0.01089,
-      0.01209,
-      0.00617,
-      0.01941,
-      0.0149,
-      0.00878,
-      0.01836,
-      0.0236,
-      0.01924,
-      0.01344,
-      0.03518,
+      0.00654,
+      0.00744,
+      0.00842,
+      0.00947,
+      0.01059,
+      0.01178,
+      0.00602,
+      0.01897,
+      0.01458,
+      0.0086,
+      0.01801,
+      0.02319,
+      0.01894,
+      0.01324,
+      0.03472,
+      0.02126,
+      0.01137,
+      0.01446,
+      0.0277,
+      0.00823,
+      0.02355,
+      0.05827,
+      0.03895,
       0.02152,
-      0.01149,
-      0.01459,
-      0.02791,
-      0.00828,
-      0.02366,
-      0.05846,
-      0.03903,
-      0.02153,
-      0.03065,
-      0.07783,
-      0.02455,
-      0.02014,
-      0.0034,
-      0.02261,
-      0.01953,
-      0.07293,
-      0.0212,
-      0.0167,
-      0.02826,
-      0.03598,
-      0.01756,
-      0.00652,
-      0.024,
-      0.0089,
-      0.00605,
-      0.00538,
-      0.01679,
-      0.00503,
-      0.00723,
-      0.00732,
-      0.00664,
-      0.00237,
-      0.00528,
-      0.00586,
-      0.00224,
-      0.00189,
-      0.00397,
-      0.00187,
-      0.00203,
-      0.00171,
-      0.00142
+      0.03067,
+      0.078,
+      0.02464,
+      0.02024,
+      0.00343,
+      0.02278,
+      0.01971,
+      0.07371,
+      0.02145,
+      0.01693,
+      0.02869,
+      0.03657,
+      0.01787,
+      0.00665,
+      0.0245,
+      0.00909,
+      0.0062,
+      0.00551,
+      0.01723,
+      0.00517,
+      0.00745,
+      0.00755,
+      0.00686,
+      0.00245,
+      0.00547,
+      0.00607,
+      0.00232,
+      0.00196,
+      0.00413,
+      0.00195,
+      0.00212,
+      0.00178,
+      0.00149
      ],
      "binned": false,
-     "tail_below": 0.03869,
-     "tail_above": 0.00606,
+     "tail_below": 0.03714,
+     "tail_above": 0.00639,
      "key_numbers": [
       -7,
       -3,
@@ -1995,11 +1933,6 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Bo Richter",
-        "position": "LB",
-        "status": "Out"
-       },
-       {
         "player": "Jordan Addison",
         "position": "WR",
         "status": "Doubtful"
@@ -2008,32 +1941,41 @@
         "player": "Kyler Murray",
         "position": "QB",
         "status": "Questionable"
+       },
+       {
+        "player": "Myles Price",
+        "position": "WR",
+        "status": "Questionable"
        }
       ],
-      "more": 2,
+      "more": 5,
       "counts": {
-       "Out": 1,
        "Doubtful": 1,
-       "Questionable": 3
+       "Questionable": 7
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
+        "player": "Jahan Dotson",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
         "player": "Zachariah Branch",
         "position": "WR",
         "status": "Questionable"
        },
        {
-        "player": "Divine Deablo",
-        "position": "LB",
+        "player": "Matthew Bergeron",
+        "position": "G",
         "status": "Questionable"
        }
       ],
-      "more": 0,
+      "more": 3,
       "counts": {
-       "Questionable": 2
+       "Questionable": 6
       }
      },
      "counts_only": false
@@ -2199,11 +2141,6 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Rodney Shelley",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
         "player": "Justin Herbert",
         "position": "QB",
         "status": "Questionable"
@@ -2212,12 +2149,16 @@
         "player": "Brenen Thompson",
         "position": "WR",
         "status": "Questionable"
+       },
+       {
+        "player": "Dalvin Tomlinson",
+        "position": "DT",
+        "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Out": 1,
-       "Questionable": 7
+       "Questionable": 8
       }
      },
      "away": {
@@ -2377,8 +2318,9 @@
      {
       "team": "ARI",
       "role": "QB1",
-      "text": "Carson Beck listed Questionable",
-      "source": "ESPN injury report"
+      "text": "Starter unconfirmed: the feeds disagree on who is starting",
+      "source": "nflverse games.csv last start vs depth chart",
+      "source_conflict": true
      }
     ],
     "venue": {
@@ -2389,7 +2331,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 73.7,
+     "wind_mph": 5.5,
+     "precip_prob": 0,
+     "forecast_hour": "2026-11-29T16:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -2406,19 +2353,19 @@
         "status": "Out"
        },
        {
-        "player": "Zachary Carter",
-        "position": "DT",
-        "status": "Out"
-       },
-       {
         "player": "Carson Beck",
         "position": "QB",
         "status": "Questionable"
+       },
+       {
+        "player": "Jon Gaines II",
+        "position": "G",
+        "status": "Questionable"
        }
       ],
-      "more": 2,
+      "more": 1,
       "counts": {
-       "Out": 2,
+       "Out": 1,
        "Questionable": 3
       }
      },
@@ -2431,15 +2378,20 @@
         "status": "Out"
        },
        {
-        "player": "Amik Robertson",
-        "position": "CB",
+        "player": "Stefon Diggs",
+        "position": "WR",
+        "status": "Questionable"
+       },
+       {
+        "player": "Treylon Burks",
+        "position": "WR",
         "status": "Questionable"
        }
       ],
-      "more": 0,
+      "more": 2,
       "counts": {
        "Out": 1,
-       "Questionable": 1
+       "Questionable": 4
       }
      },
      "counts_only": false
@@ -2457,8 +2409,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.39277,
-    "margin_mean": -3.711,
+    "p_home_win": 0.39146,
+    "margin_mean": -3.756,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -2468,8 +2420,8 @@
       "rating_diff": -0.0667534876099268,
       "rest_diff": 1.0,
       "cpoe_diff": 2.7146821253071236,
-      "separation_diff": -0.2763495643645739,
-      "yac_oe_diff": -0.16257503789848363,
+      "separation_diff": -0.2916262795075024,
+      "yac_oe_diff": -0.20011447473150765,
       "ryoe_diff": 0.3142913234956895,
       "elo_diff": -96.258560775065,
       "is_neutral_site": false
@@ -2479,67 +2431,67 @@
      "from": -28,
      "to": 28,
      "mass": [
-      0.00589,
-      0.00673,
-      0.00764,
-      0.00864,
-      0.0097,
-      0.01084,
-      0.00556,
-      0.0176,
-      0.01359,
-      0.00805,
-      0.01694,
-      0.0219,
-      0.01797,
-      0.01262,
-      0.03323,
-      0.02044,
-      0.01098,
-      0.01402,
-      0.02699,
-      0.00805,
-      0.02315,
-      0.05752,
-      0.03862,
-      0.02143,
-      0.03068,
-      0.07837,
-      0.02487,
-      0.02052,
+      0.00592,
+      0.00677,
+      0.00769,
+      0.00868,
+      0.00975,
+      0.01089,
+      0.00559,
+      0.01769,
+      0.01365,
+      0.00808,
+      0.017,
+      0.02198,
+      0.01803,
+      0.01266,
+      0.03332,
+      0.02049,
+      0.011,
+      0.01405,
+      0.02703,
+      0.00806,
+      0.02317,
+      0.05757,
+      0.03865,
+      0.02144,
+      0.03069,
+      0.07836,
+      0.02486,
+      0.02051,
       0.00349,
-      0.0233,
-      0.02025,
-      0.07605,
-      0.02223,
-      0.01762,
-      0.02999,
-      0.0384,
-      0.01885,
-      0.00704,
-      0.02607,
-      0.00972,
-      0.00665,
-      0.00594,
-      0.01867,
-      0.00562,
-      0.00814,
-      0.00829,
-      0.00756,
-      0.00272,
-      0.00608,
-      0.00679,
-      0.0026,
-      0.00221,
-      0.00468,
-      0.00221,
-      0.00242,
-      0.00205,
-      0.00171
+      0.02327,
+      0.02022,
+      0.07591,
+      0.02219,
+      0.01758,
+      0.02992,
+      0.03829,
+      0.0188,
+      0.00702,
+      0.02598,
+      0.00968,
+      0.00662,
+      0.00591,
+      0.01858,
+      0.00559,
+      0.00809,
+      0.00824,
+      0.00752,
+      0.0027,
+      0.00604,
+      0.00674,
+      0.00259,
+      0.00219,
+      0.00464,
+      0.0022,
+      0.0024,
+      0.00203,
+      0.0017
      ],
      "binned": false,
-     "tail_below": 0.03257,
-     "tail_above": 0.00752,
+     "tail_below": 0.03283,
+     "tail_above": 0.00745,
      "key_numbers": [
       -7,
       -3,
@@ -2572,9 +2524,9 @@
     "div_game": 1,
     "key_player": [
      {
-      "team": "SEA",
+      "team": "SF",
       "role": "QB1",
-      "text": "Sam Darnold listed Questionable",
+      "text": "Brock Purdy listed Questionable",
       "source": "ESPN injury report"
      }
     ],
@@ -2586,7 +2538,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 67.9,
+     "wind_mph": 11.7,
+     "precip_prob": 68,
+     "forecast_hour": "2026-11-29T16:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -2598,25 +2555,25 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Colton McKivitz",
+        "player": "De'Zhaun Stribling",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Austen Pleasants",
         "position": "OT",
         "status": "Out"
        },
        {
-        "player": "Nate Hobbs",
-        "position": "CB",
+        "player": "Colton McKivitz",
+        "position": "OT",
         "status": "Out"
-       },
-       {
-        "player": "Khalid Kareem",
-        "position": "DE",
-        "status": "Questionable"
        }
       ],
-      "more": 2,
+      "more": 5,
       "counts": {
-       "Out": 2,
-       "Questionable": 3
+       "Out": 4,
+       "Questionable": 4
       }
      },
      "away": {
@@ -2628,20 +2585,19 @@
         "status": "Out"
        },
        {
-        "player": "Quenton Nelson",
-        "position": "G",
-        "status": "Doubtful"
+        "player": "Abraham Lucas",
+        "position": "OT",
+        "status": "Out"
        },
        {
-        "player": "Sam Darnold",
-        "position": "QB",
-        "status": "Questionable"
+        "player": "Quenton Nelson",
+        "position": "G",
+        "status": "Out"
        }
       ],
-      "more": 4,
+      "more": 5,
       "counts": {
-       "Out": 1,
-       "Doubtful": 1,
+       "Out": 3,
        "Questionable": 5
       }
      },
@@ -2660,8 +2616,8 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.53894,
-    "margin_mean": 1.117,
+    "p_home_win": 0.53829,
+    "margin_mean": 1.096,
     "total_mean": null,
     "provenance": {
      "coefficient_set": "full_ensemble",
@@ -2673,7 +2629,7 @@
       "cpoe_diff": 2.690043245703877,
       "separation_diff": -0.10224658907591921,
       "yac_oe_diff": -0.27195200375189876,
-      "ryoe_diff": 0.5021765614742395,
+      "ryoe_diff": 0.4361241503921832,
       "elo_diff": 41.31098585366044,
       "is_neutral_site": false
      }
@@ -2682,67 +2638,67 @@
      "from": -28,
      "to": 28,
      "mass": [
-      0.0027,
-      0.00318,
-      0.00371,
-      0.00432,
-      0.005,
-      0.00575,
-      0.00304,
-      0.0099,
-      0.00787,
-      0.0048,
-      0.0104,
-      0.01385,
-      0.01169,
-      0.00846,
-      0.02293,
-      0.01452,
-      0.00803,
-      0.01056,
-      0.02093,
-      0.00643,
-      0.01903,
-      0.04869,
-      0.03366,
-      0.01923,
-      0.02835,
-      0.07456,
-      0.02436,
+      0.00271,
+      0.00319,
+      0.00373,
+      0.00434,
+      0.00502,
+      0.00577,
+      0.00305,
+      0.00993,
+      0.00789,
+      0.00481,
+      0.01042,
+      0.01388,
+      0.01172,
+      0.00848,
+      0.02297,
+      0.01455,
+      0.00804,
+      0.01058,
+      0.02096,
+      0.00644,
+      0.01905,
+      0.04874,
+      0.03369,
+      0.01925,
+      0.02837,
+      0.0746,
+      0.02437,
       0.0207,
       0.00362,
-      0.02491,
+      0.02492,
       0.02229,
-      0.0862,
-      0.02595,
-      0.02118,
-      0.03711,
-      0.04892,
-      0.02473,
-      0.00951,
-      0.03626,
-      0.01392,
-      0.00981,
-      0.00902,
-      0.02917,
-      0.00904,
-      0.01348,
-      0.01414,
-      0.01328,
-      0.00491,
-      0.01132,
-      0.01301,
-      0.00514,
-      0.00449,
+      0.08618,
+      0.02594,
+      0.02117,
+      0.03709,
+      0.04888,
+      0.02471,
+      0.0095,
+      0.03622,
+      0.0139,
       0.00979,
-      0.00477,
-      0.00538,
-      0.00468,
-      0.00403
+      0.009,
+      0.02912,
+      0.00903,
+      0.01346,
+      0.01411,
+      0.01325,
+      0.0049,
+      0.01129,
+      0.01298,
+      0.00513,
+      0.00448,
+      0.00976,
+      0.00475,
+      0.00536,
+      0.00466,
+      0.00402
      ],
      "binned": false,
-     "tail_below": 0.01275,
-     "tail_above": 0.02055,
+     "tail_below": 0.01281,
+     "tail_above": 0.02046,
      "key_numbers": [
       -7,
       -3,
@@ -2782,7 +2738,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 48.4,
+     "wind_mph": 10.2,
+     "precip_prob": 95,
+     "forecast_hour": "2026-11-29T20:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -2799,29 +2760,29 @@
         "status": "Out"
        },
        {
-        "player": "Michael Burton",
-        "position": "FB",
-        "status": "Out"
+        "player": "Blake Whiteheart",
+        "position": "TE",
+        "status": "Questionable"
        },
        {
-        "player": "Denzel Boston",
-        "position": "WR",
+        "player": "Austin Barber",
+        "position": "OT",
         "status": "Questionable"
        }
       ],
-      "more": 1,
+      "more": 5,
       "counts": {
-       "Out": 2,
-       "Questionable": 2
+       "Out": 1,
+       "Questionable": 7
       }
      },
      "away": {
       "status": "reported",
       "shown": [
        {
-        "player": "Dareke Young",
-        "position": "WR",
-        "status": "Questionable"
+        "player": "Patrick Johnson",
+        "position": "DE",
+        "status": "Out"
        },
        {
         "player": "Brock Bowers",
@@ -2834,9 +2795,10 @@
         "status": "Questionable"
        }
       ],
-      "more": 3,
+      "more": 2,
       "counts": {
-       "Questionable": 6
+       "Out": 1,
+       "Questionable": 4
       }
      },
      "counts_only": false
@@ -2976,7 +2938,12 @@
      "in_price": false
     },
     "weather": {
-     "status": "no report",
+     "status": "forecast",
+     "temp_f": 68.0,
+     "wind_mph": 2.0,
+     "precip_prob": 32,
+     "forecast_hour": "2026-11-30T20:00",
+     "source": "Open-Meteo",
      "in_price": false
     },
     "injuries": {
@@ -2988,24 +2955,24 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Josh Hayes",
-        "position": "CB",
+        "player": "Jalen McMillan",
+        "position": "WR",
+        "status": "Out"
+       },
+       {
+        "player": "Christian Rozeboom",
+        "position": "LB",
         "status": "Out"
        },
        {
         "player": "Elijah Simmons",
         "position": "DT",
         "status": "Questionable"
-       },
-       {
-        "player": "Benjamin Morrison",
-        "position": "CB",
-        "status": "Questionable"
        }
       ],
-      "more": 2,
+      "more": 3,
       "counts": {
-       "Out": 1,
+       "Out": 2,
        "Questionable": 4
       }
      },
@@ -3013,25 +2980,25 @@
       "status": "reported",
       "shown": [
        {
+        "player": "Jonathon Brooks",
+        "position": "RB",
+        "status": "Out"
+       },
+       {
         "player": "Brady Christensen",
         "position": "G",
         "status": "Out"
        },
        {
-        "player": "Jaycee Horn",
-        "position": "CB",
-        "status": "Out"
-       },
-       {
-        "player": "Isaiah Simmons",
-        "position": "S",
+        "player": "Thomas Incoom",
+        "position": "LB",
         "status": "Out"
        }
       ],
-      "more": 1,
+      "more": 3,
       "counts": {
-       "Out": 3,
-       "Questionable": 1
+       "Out": 4,
+       "Questionable": 2
       }
      },
      "counts_only": false
@@ -3062,7 +3029,7 @@
       "cpoe_diff": -5.274233223062376,
       "separation_diff": 0.29372035376356553,
       "yac_oe_diff": 0.2928826404592392,
-      "ryoe_diff": 0.15491952318735902,
+      "ryoe_diff": 0.15491952318735913,
       "elo_diff": 33.973441706453286,
       "is_neutral_site": false
      }
@@ -3152,7 +3119,7 @@
  "refusals": [
   {
    "scope": "league",
-   "reason": "Odds are 938 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+   "reason": "Odds are 957 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
   }
  ],
  "freshness": {
@@ -3486,12 +3453,12 @@
   "debias_how": "0 open game(s), too few to measure and no prior",
   "debias_games": 0,
   "coefficient_sets": {
-   "full_ensemble": 16
+   "full_ensemble": 15
   }
  },
  "status": {
   "state": "degraded",
-  "games": 16,
+  "games": 15,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -3499,17 +3466,17 @@
    "coin_flip": 0,
    "no_edge": 0
   },
-  "started": 0,
+  "started": 1,
   "not_priced": [
    {
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 16,
+    "games": 15,
     "examples": [
-     "GB @ LA",
      "CHI @ DET",
-     "PHI @ DAL"
+     "PHI @ DAL",
+     "KC @ BUF"
     ]
    },
    {
@@ -3530,8 +3497,10 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 0,
-    "examples": []
+    "games": 1,
+    "examples": [
+     "GB @ LA"
+    ]
    },
    {
     "key": "neutral",
@@ -3549,11 +3518,11 @@
    }
   ],
   "refusals": 1,
-  "reason": "Odds are 938 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
+  "reason": "Odds are 957 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
   "game_refusals": [
    {
     "reason": "no market price captured for this game",
-    "games": 16
+    "games": 15
    }
   ]
  }
