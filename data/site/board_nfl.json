@@ -1,6 +1,6 @@
 {
  "league": "nfl",
- "generated_at": "2026-11-26T15:44:43Z",
+ "generated_at": "2026-11-27T10:44:58Z",
  "note": "Weekly slate. Spreads price key numbers (3, 7) with a measured correction.",
  "slate": {
   "kind": "week",
@@ -119,11 +119,18 @@
     "away_qb_name": "Caleb Williams",
     "roof": "dome",
     "div_game": 1,
-    "key_player": [],
+    "key_player": [
+     {
+      "team": "CHI",
+      "role": "QB1",
+      "text": "Caleb Williams listed Questionable",
+      "source": "ESPN injury report"
+     }
+    ],
     "venue": {
      "name": "Ford Field",
      "roof": "dome",
-     "surface": "fieldturf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
@@ -199,104 +206,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.45533,
-    "margin_mean": -1.619,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": -0.06753055205363317,
-      "rest_diff": 0.0,
-      "cpoe_diff": -1.8816178685329583,
-      "separation_diff": -0.08948332348921095,
-      "yac_oe_diff": -0.3740292664546431,
-      "ryoe_diff": 0.8163718883108997,
-      "elo_diff": 10.304361965291037,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00428,
-      0.00495,
-      0.0057,
-      0.00652,
-      0.00741,
-      0.00839,
-      0.00436,
-      0.01397,
-      0.01092,
-      0.00655,
-      0.01396,
-      0.01828,
-      0.01519,
-      0.0108,
-      0.0288,
-      0.01795,
-      0.00976,
-      0.01262,
-      0.0246,
-      0.00743,
-      0.02164,
-      0.05446,
-      0.03703,
-      0.02081,
-      0.03017,
-      0.07804,
-      0.02508,
-      0.02096,
-      0.00361,
-      0.0244,
-      0.02147,
-      0.08167,
-      0.02418,
-      0.01941,
-      0.03345,
-      0.04337,
-      0.02157,
-      0.00816,
-      0.03059,
-      0.01155,
-      0.008,
-      0.00724,
-      0.02303,
-      0.00702,
-      0.01029,
-      0.01062,
-      0.00981,
-      0.00357,
-      0.00809,
-      0.00914,
-      0.00355,
-      0.00305,
-      0.00654,
-      0.00314,
-      0.00348,
-      0.00297,
-      0.00252
-     ],
-     "binned": false,
-     "tail_below": 0.02206,
-     "tail_above": 0.01178,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/det.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/chi.png"
   },
@@ -312,22 +223,18 @@
    "context": {
     "home_qb_name": "Dak Prescott",
     "away_qb_name": "Joe Milton III",
+    "roof": "closed",
     "div_game": 1,
     "key_player": [],
     "venue": {
      "name": "AT&T Stadium",
-     "roof": "nan",
-     "surface": "matrixturf",
+     "roof": "closed",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 52.1,
-     "wind_mph": 12.8,
-     "precip_prob": 0,
-     "forecast_hour": "2026-11-26T16:00",
-     "source": "Open-Meteo",
+     "status": "indoors",
      "in_price": false
     },
     "injuries": {
@@ -392,104 +299,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.57626,
-    "margin_mean": 2.352,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.20173742497929364,
-      "rest_diff": 0.0,
-      "cpoe_diff": 4.588482958665699,
-      "separation_diff": 0.0860765649012869,
-      "yac_oe_diff": 0.6061335675078104,
-      "ryoe_diff": 0.039389330734756395,
-      "elo_diff": 36.0201587356687,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00216,
-      0.00256,
-      0.00302,
-      0.00354,
-      0.00412,
-      0.00478,
-      0.00254,
-      0.00835,
-      0.00669,
-      0.00411,
-      0.00897,
-      0.01204,
-      0.01024,
-      0.00746,
-      0.02038,
-      0.01301,
-      0.00725,
-      0.0096,
-      0.01917,
-      0.00593,
-      0.01769,
-      0.04561,
-      0.03177,
-      0.01829,
-      0.02716,
-      0.07197,
-      0.02369,
-      0.02028,
-      0.00358,
-      0.02478,
-      0.02234,
-      0.08702,
-      0.02639,
-      0.0217,
-      0.03831,
-      0.05088,
-      0.02592,
-      0.01004,
-      0.03857,
-      0.01492,
-      0.01059,
-      0.00981,
-      0.03197,
-      0.00999,
-      0.015,
-      0.01585,
-      0.01499,
-      0.00559,
-      0.01298,
-      0.01503,
-      0.00598,
-      0.00526,
-      0.01156,
-      0.00568,
-      0.00645,
-      0.00565,
-      0.00491
-     ],
-     "binned": false,
-     "tail_below": 0.00983,
-     "tail_above": 0.02605,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/dal.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/phi.png"
   },
@@ -511,17 +322,12 @@
     "venue": {
      "name": "Highmark Stadium",
      "roof": "outdoors",
-     "surface": "a_turf",
+     "surface": null,
      "neutral": false,
      "in_price": false
     },
     "weather": {
-     "status": "forecast",
-     "temp_f": 36.8,
-     "wind_mph": 16.1,
-     "precip_prob": 100,
-     "forecast_hour": "2026-11-26T20:00",
-     "source": "Open-Meteo",
+     "status": "no report",
      "in_price": false
     },
     "injuries": {
@@ -591,104 +397,8 @@
      "in_price": false
     }
    },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.54107,
-    "margin_mean": 1.187,
-    "total_mean": null,
-    "provenance": {
-     "coefficient_set": "full_ensemble",
-     "ngs_present": true,
-     "reason": null,
-     "feature_values": {
-      "rating_diff": 0.0279574530604602,
-      "rest_diff": 0.0,
-      "cpoe_diff": -1.2288607109870906,
-      "separation_diff": -0.26623354577047387,
-      "yac_oe_diff": 0.12128302846030975,
-      "ryoe_diff": -0.5320370129749841,
-      "elo_diff": 113.61503082201784,
-      "is_neutral_site": false
-     }
-    },
-    "margin_pmf": {
-     "from": -28,
-     "to": 28,
-     "mass": [
-      0.00267,
-      0.00314,
-      0.00367,
-      0.00427,
-      0.00495,
-      0.00569,
-      0.00301,
-      0.00981,
-      0.0078,
-      0.00476,
-      0.01031,
-      0.01374,
-      0.01161,
-      0.0084,
-      0.02278,
-      0.01444,
-      0.00798,
-      0.01051,
-      0.02083,
-      0.0064,
-      0.01895,
-      0.04852,
-      0.03356,
-      0.01918,
-      0.02829,
-      0.07443,
-      0.02433,
-      0.02068,
-      0.00362,
-      0.02491,
-      0.0223,
-      0.08627,
-      0.02598,
-      0.02121,
-      0.03719,
-      0.04904,
-      0.0248,
-      0.00955,
-      0.03639,
-      0.01398,
-      0.00985,
-      0.00906,
-      0.02933,
-      0.0091,
-      0.01357,
-      0.01423,
-      0.01337,
-      0.00495,
-      0.01141,
-      0.01312,
-      0.00519,
-      0.00453,
-      0.00988,
-      0.00482,
-      0.00543,
-      0.00473,
-      0.00408
-     ],
-     "binned": false,
-     "tail_below": 0.01257,
-     "tail_above": 0.02083,
-     "key_numbers": [
-      -7,
-      -3,
-      3,
-      7,
-      14
-     ]
-    },
-    "totals": {
-     "priced": false,
-     "reason": "Not priced: the totals model failed its grade."
-    }
-   },
+   "refusal": null,
+   "started": true,
    "home_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/buf.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/kc.png"
   },
@@ -724,9 +434,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 41.7,
-     "wind_mph": 11.7,
-     "precip_prob": 48,
+     "temp_f": 38.4,
+     "wind_mph": 12.5,
+     "precip_prob": 39,
      "forecast_hour": "2026-11-27T15:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -740,7 +450,7 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Michael Pittman Jr.",
+        "player": "Ben Skowronek",
         "position": "WR",
         "status": "Out"
        },
@@ -752,19 +462,23 @@
        {
         "player": "Alex Highsmith",
         "position": "LB",
-        "status": "Doubtful"
+        "status": "Out"
        }
       ],
-      "more": 4,
+      "more": 1,
       "counts": {
-       "Out": 2,
-       "Doubtful": 1,
-       "Questionable": 4
+       "Out": 3,
+       "Questionable": 1
       }
      },
      "away": {
       "status": "reported",
       "shown": [
+       {
+        "player": "Caleb Lohner",
+        "position": "TE",
+        "status": "Out"
+       },
        {
         "player": "Sai'vion Jones",
         "position": "DE",
@@ -776,9 +490,10 @@
         "status": "Out"
        }
       ],
-      "more": 0,
+      "more": 1,
       "counts": {
-       "Out": 2
+       "Out": 3,
+       "Questionable": 1
       }
      },
      "counts_only": false
@@ -919,9 +634,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 49.1,
-     "wind_mph": 7.6,
-     "precip_prob": 53,
+     "temp_f": 50.2,
+     "wind_mph": 9.6,
+     "precip_prob": 91,
      "forecast_hour": "2026-11-29T13:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -975,9 +690,9 @@
         "status": "Questionable"
        }
       ],
-      "more": 4,
+      "more": 3,
       "counts": {
-       "Questionable": 7
+       "Questionable": 6
       }
      },
      "counts_only": false
@@ -1117,9 +832,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 70.2,
-     "wind_mph": 16.4,
-     "precip_prob": 1,
+     "temp_f": 68.6,
+     "wind_mph": 16.1,
+     "precip_prob": 2,
      "forecast_hour": "2026-11-29T13:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -1133,49 +848,48 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Logan Hall",
-        "position": "DE",
-        "status": "Doubtful"
-       },
-       {
         "player": "Kayshon Boutte",
         "position": "WR",
         "status": "Questionable"
        },
        {
-        "player": "Marvin Harrison Jr.",
-        "position": "WR",
-        "status": "Questionable"
-       }
-      ],
-      "more": 5,
-      "counts": {
-       "Doubtful": 1,
-       "Questionable": 7
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Rashod Bateman",
-        "position": "WR",
-        "status": "Questionable"
-       },
-       {
-        "player": "Zay Flowers",
-        "position": "WR",
-        "status": "Questionable"
-       },
-       {
-        "player": "Derrick Henry",
+        "player": "Woody Marks",
         "position": "RB",
+        "status": "Questionable"
+       },
+       {
+        "player": "Brevin Jordan",
+        "position": "TE",
         "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
        "Questionable": 8
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Derrick Henry",
+        "position": "RB",
+        "status": "Questionable"
+       },
+       {
+        "player": "Olaivavega Ioane",
+        "position": "G",
+        "status": "Questionable"
+       },
+       {
+        "player": "Nnamdi Madubuike",
+        "position": "DT",
+        "status": "Questionable"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Questionable": 5
       }
      },
      "counts_only": false
@@ -1323,9 +1037,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 44.8,
-     "wind_mph": 6.1,
-     "precip_prob": 89,
+     "temp_f": 45.2,
+     "wind_mph": 2.2,
+     "precip_prob": 95,
      "forecast_hour": "2026-11-29T13:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -1523,9 +1237,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 66.1,
-     "wind_mph": 7.8,
-     "precip_prob": 1,
+     "temp_f": 61.1,
+     "wind_mph": 4.0,
+     "precip_prob": 3,
      "forecast_hour": "2026-11-29T13:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -1549,8 +1263,8 @@
         "status": "Questionable"
        },
        {
-        "player": "Bhayshul Tuten",
-        "position": "RB",
+        "player": "Parker Washington",
+        "position": "WR",
         "status": "Questionable"
        }
       ],
@@ -1564,13 +1278,8 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Dan Moore Jr.",
-        "position": "OT",
-        "status": "Questionable"
-       },
-       {
-        "player": "John Franklin-Myers",
-        "position": "DE",
+        "player": "Dorian Mausi",
+        "position": "LB",
         "status": "Questionable"
        },
        {
@@ -1581,7 +1290,7 @@
       ],
       "more": 0,
       "counts": {
-       "Questionable": 3
+       "Questionable": 2
       }
      },
      "counts_only": false
@@ -1722,9 +1431,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 77.1,
-     "wind_mph": 6.8,
-     "precip_prob": 3,
+     "temp_f": 77.9,
+     "wind_mph": 7.8,
+     "precip_prob": 1,
      "forecast_hour": "2026-11-29T13:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -1773,15 +1482,15 @@
         "status": "Out"
        },
        {
-        "player": "Isaiah Williams",
+        "player": "Omar Cooper Jr.",
         "position": "WR",
         "status": "Questionable"
        }
       ],
-      "more": 4,
+      "more": 3,
       "counts": {
        "Out": 2,
-       "Questionable": 5
+       "Questionable": 4
       }
      },
      "counts_only": false
@@ -1948,10 +1657,10 @@
         "status": "Questionable"
        }
       ],
-      "more": 5,
+      "more": 4,
       "counts": {
        "Doubtful": 1,
-       "Questionable": 7
+       "Questionable": 6
       }
      },
      "away": {
@@ -1973,9 +1682,9 @@
         "status": "Questionable"
        }
       ],
-      "more": 3,
+      "more": 5,
       "counts": {
-       "Questionable": 6
+       "Questionable": 8
       }
      },
      "counts_only": false
@@ -2113,12 +1822,6 @@
       "text": "Starter unconfirmed: the feeds disagree on who is starting",
       "source": "nflverse games.csv last start vs depth chart",
       "source_conflict": true
-     },
-     {
-      "team": "LAC",
-      "role": "QB1",
-      "text": "Justin Herbert listed Questionable",
-      "source": "ESPN injury report"
      }
     ],
     "venue": {
@@ -2141,6 +1844,11 @@
       "status": "reported",
       "shown": [
        {
+        "player": "Deane Leonard",
+        "position": "CB",
+        "status": "Out"
+       },
+       {
         "player": "Justin Herbert",
         "position": "QB",
         "status": "Questionable"
@@ -2149,16 +1857,12 @@
         "player": "Brenen Thompson",
         "position": "WR",
         "status": "Questionable"
-       },
-       {
-        "player": "Dalvin Tomlinson",
-        "position": "DT",
-        "status": "Questionable"
        }
       ],
       "more": 5,
       "counts": {
-       "Questionable": 8
+       "Out": 1,
+       "Questionable": 7
       }
      },
      "away": {
@@ -2332,8 +2036,8 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 74.2,
-     "wind_mph": 6.3,
+     "temp_f": 74.9,
+     "wind_mph": 5.8,
      "precip_prob": 0,
      "forecast_hour": "2026-11-29T16:00",
      "source": "Open-Meteo",
@@ -2358,15 +2062,15 @@
         "status": "Questionable"
        },
        {
-        "player": "Jon Gaines II",
-        "position": "G",
+        "player": "Hunter Long",
+        "position": "TE",
         "status": "Questionable"
        }
       ],
-      "more": 1,
+      "more": 3,
       "counts": {
        "Out": 1,
-       "Questionable": 3
+       "Questionable": 5
       }
      },
      "away": {
@@ -2378,20 +2082,20 @@
         "status": "Out"
        },
        {
-        "player": "Stefon Diggs",
+        "player": "Treylon Burks",
         "position": "WR",
         "status": "Questionable"
        },
        {
-        "player": "Treylon Burks",
-        "position": "WR",
+        "player": "Charles Omenihu",
+        "position": "DE",
         "status": "Questionable"
        }
       ],
-      "more": 2,
+      "more": 1,
       "counts": {
        "Out": 1,
-       "Questionable": 4
+       "Questionable": 3
       }
      },
      "counts_only": false
@@ -2522,14 +2226,7 @@
     "away_qb_name": "Sam Darnold",
     "roof": "outdoors",
     "div_game": 1,
-    "key_player": [
-     {
-      "team": "SF",
-      "role": "QB1",
-      "text": "Brock Purdy listed Questionable",
-      "source": "ESPN injury report"
-     }
-    ],
+    "key_player": [],
     "venue": {
      "name": "Levi's Stadium",
      "roof": "outdoors",
@@ -2539,8 +2236,8 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 67.0,
-     "wind_mph": 11.8,
+     "temp_f": 65.8,
+     "wind_mph": 9.7,
      "precip_prob": 69,
      "forecast_hour": "2026-11-29T16:00",
      "source": "Open-Meteo",
@@ -2739,9 +2436,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 47.8,
-     "wind_mph": 5.8,
-     "precip_prob": 96,
+     "temp_f": 47.1,
+     "wind_mph": 3.8,
+     "precip_prob": 99,
      "forecast_hour": "2026-11-29T20:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -2760,8 +2457,8 @@
         "status": "Out"
        },
        {
-        "player": "Blake Whiteheart",
-        "position": "TE",
+        "player": "Denzel Boston",
+        "position": "WR",
         "status": "Questionable"
        },
        {
@@ -2939,9 +2636,9 @@
     },
     "weather": {
      "status": "forecast",
-     "temp_f": 68.6,
-     "wind_mph": 5.0,
-     "precip_prob": 38,
+     "temp_f": 66.0,
+     "wind_mph": 6.9,
+     "precip_prob": 22,
      "forecast_hour": "2026-11-30T20:00",
      "source": "Open-Meteo",
      "in_price": false
@@ -2970,10 +2667,10 @@
         "status": "Questionable"
        }
       ],
-      "more": 3,
+      "more": 4,
       "counts": {
        "Out": 2,
-       "Questionable": 4
+       "Questionable": 5
       }
      },
      "away": {
@@ -2995,10 +2692,10 @@
         "status": "Out"
        }
       ],
-      "more": 3,
+      "more": 5,
       "counts": {
        "Out": 4,
-       "Questionable": 2
+       "Questionable": 4
       }
      },
      "counts_only": false
@@ -3029,7 +2726,7 @@
       "cpoe_diff": -5.274233223062376,
       "separation_diff": 0.29372035376356553,
       "yac_oe_diff": 0.2928826404592392,
-      "ryoe_diff": 0.15491952318735913,
+      "ryoe_diff": 0.15491952318735902,
       "elo_diff": 33.973441706453286,
       "is_neutral_site": false
      }
@@ -3119,7 +2816,7 @@
  "refusals": [
   {
    "scope": "league",
-   "reason": "Odds are 962 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+   "reason": "Odds are 981 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
   }
  ],
  "freshness": {
@@ -3453,12 +3150,12 @@
   "debias_how": "0 open game(s), too few to measure and no prior",
   "debias_games": 0,
   "coefficient_sets": {
-   "full_ensemble": 15
+   "full_ensemble": 12
   }
  },
  "status": {
   "state": "degraded",
-  "games": 15,
+  "games": 12,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -3466,17 +3163,17 @@
    "coin_flip": 0,
    "no_edge": 0
   },
-  "started": 1,
+  "started": 4,
   "not_priced": [
    {
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 15,
+    "games": 12,
     "examples": [
-     "CHI @ DET",
-     "PHI @ DAL",
-     "KC @ BUF"
+     "DEN @ PIT",
+     "NO @ CIN",
+     "BAL @ HOU"
     ]
    },
    {
@@ -3497,9 +3194,11 @@
     "key": "started",
     "label": "Already kicked off",
     "note": "Never priced after kickoff.",
-    "games": 1,
+    "games": 4,
     "examples": [
-     "GB @ LA"
+     "GB @ LA",
+     "CHI @ DET",
+     "PHI @ DAL"
     ]
    },
    {
@@ -3518,11 +3217,11 @@
    }
   ],
   "refusals": 1,
-  "reason": "Odds are 962 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
+  "reason": "Odds are 981 hours old: the last capture was 2026-10-17T14:01:09Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
   "game_refusals": [
    {
     "reason": "no market price captured for this game",
-    "games": 15
+    "games": 12
    }
   ]
  }
