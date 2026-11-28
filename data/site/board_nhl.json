@@ -1,29 +1,144 @@
 {
  "league": "nhl",
- "generated_at": "2026-11-27T15:44:40Z",
+ "generated_at": "2026-11-28T10:44:36Z",
  "note": "Daily. Ratings reset every season, so early-season prices carry little information by design.",
  "slate": {
   "kind": "date",
-  "date": "2026-11-27"
+  "date": "2026-11-28"
  },
  "games": [
   {
-   "game_id": "2026020400",
-   "home": "BOS",
-   "away": "TOR",
-   "home_name": "Boston Bruins",
-   "away_name": "Toronto Maple Leafs",
-   "start": "2026-11-27T18:00:00Z",
+   "game_id": "2026020415",
+   "home": "VGK",
+   "away": "MTL",
+   "home_name": "Vegas Golden Knights",
+   "away_name": "Montr\u00e9al Canadiens",
+   "start": "2026-11-28T21:00:00Z",
    "markets": {},
    "headline": "moneyline",
    "context": {
-    "home_games_played": 24,
+    "home_games_played": 27,
     "away_games_played": 26,
     "low_information": false,
     "key_player": [],
     "venue": {
-     "name": "TD Garden",
-     "city": "Boston",
+     "name": "T-Mobile Arena",
+     "city": "Las Vegas",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [],
+      "more": 0,
+      "counts": {}
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Chris Kreider",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Ivan Demidov",
+        "position": "RW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Josh Anderson",
+        "position": "RW",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 3,
+      "counts": {
+       "Injured Reserve": 5,
+       "Out": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 1,
+     "home_back_to_back": true,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 605,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.55878,
+    "margin_mean": 0.367,
+    "total_mean": 6.184,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00049,
+      0.00165,
+      0.00495,
+      0.01317,
+      0.04328,
+      0.10731,
+      0.08578,
+      0.18442,
+      0.0,
+      0.20687,
+      0.10218,
+      0.1426,
+      0.06742,
+      0.02394,
+      0.01015,
+      0.00381,
+      0.00128
+     ],
+     "binned": false,
+     "tail_below": 0.00017,
+     "tail_above": 0.00053,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/mtl.png"
+  },
+  {
+   "game_id": "2026020416",
+   "home": "FLA",
+   "away": "TBL",
+   "home_name": "Florida Panthers",
+   "away_name": "Tampa Bay Lightning",
+   "start": "2026-11-28T23:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 26,
+    "away_games_played": 25,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "Amerant Bank Arena",
+     "city": "Sunrise",
      "neutral": false,
      "in_price": false
     },
@@ -40,13 +155,19 @@
       "status": "reported",
       "shown": [
        {
-        "player": "James Hagens",
-        "position": "C",
+        "player": "Garnet Hathaway",
+        "position": "RW",
+        "status": "Out"
+       },
+       {
+        "player": "Jonah Gadjovich",
+        "position": "LW",
         "status": "Injured Reserve"
        }
       ],
       "more": 0,
       "counts": {
+       "Out": 1,
        "Injured Reserve": 1
       }
      },
@@ -54,25 +175,26 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Cade Webber",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Cole McWard",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Colton Sissons",
+        "player": "Conor Geekie",
         "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Erik Cernak",
+        "position": "D",
+        "status": "Out"
+       },
+       {
+        "player": "Pontus Holmberg",
+        "position": "RW",
         "status": "Injured Reserve"
        }
       ],
-      "more": 8,
+      "more": 1,
       "counts": {
-       "Injured Reserve": 10,
-       "Out": 1
+       "Injured Reserve": 2,
+       "Out": 1,
+       "Day-To-Day": 1
       }
      },
      "counts_only": false
@@ -80,46 +202,46 @@
     "rest": {
      "home_rest_days": 1,
      "home_back_to_back": true,
-     "away_rest_days": 3,
-     "away_back_to_back": false,
+     "away_rest_days": 1,
+     "away_back_to_back": true,
      "in_price": false
     },
     "travel": {
-     "away_miles": 179,
+     "away_miles": 191,
      "in_price": false
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.60258,
-    "margin_mean": 0.687,
-    "total_mean": 6.654,
+    "p_home_win": 0.50874,
+    "margin_mean": 0.034,
+    "total_mean": 6.406,
     "margin_pmf": {
      "from": -8,
      "to": 8,
      "mass": [
-      0.00046,
-      0.00151,
-      0.00445,
-      0.01166,
-      0.03798,
-      0.09461,
-      0.07666,
-      0.16994,
+      0.00091,
+      0.0028,
+      0.00771,
+      0.0188,
+      0.0555,
+      0.12409,
+      0.0929,
+      0.18818,
       0.0,
-      0.19982,
-      0.10438,
-      0.15627,
-      0.08288,
-      0.03331,
-      0.01569,
-      0.00656,
-      0.00247
+      0.19929,
+      0.09397,
+      0.12641,
+      0.05712,
+      0.01954,
+      0.00808,
+      0.00296,
+      0.00097
      ],
      "binned": false,
-     "tail_below": 0.00017,
-     "tail_above": 0.0012,
+     "tail_below": 0.00037,
+     "tail_above": 0.00039,
      "key_numbers": []
     },
     "totals": {
@@ -127,21 +249,136 @@
      "reason": null
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/bos.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tor.png"
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/fla.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tb.png"
   },
   {
-   "game_id": "2026020401",
-   "home": "NJD",
-   "away": "CGY",
-   "home_name": "New Jersey Devils",
-   "away_name": "Calgary Flames",
-   "start": "2026-11-27T18:00:00Z",
+   "game_id": "2026020417",
+   "home": "DET",
+   "away": "NSH",
+   "home_name": "Detroit Red Wings",
+   "away_name": "Nashville Predators",
+   "start": "2026-11-29T00:00:00Z",
    "markets": {},
    "headline": "moneyline",
    "context": {
     "home_games_played": 25,
-    "away_games_played": 26,
+    "away_games_played": 25,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "Little Caesars Arena",
+     "city": "Detroit",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Sam Montembeault",
+        "position": "G",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Simon Edvinsson",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "William Wallinder",
+        "position": "D",
+        "status": "Out"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2,
+       "Out": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [],
+      "more": 0,
+      "counts": {}
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 2,
+     "home_back_to_back": false,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 471,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.48637,
+    "margin_mean": -0.113,
+    "total_mean": 5.828,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00072,
+      0.00236,
+      0.00691,
+      0.01782,
+      0.05589,
+      0.1305,
+      0.09925,
+      0.19991,
+      0.0,
+      0.20624,
+      0.09307,
+      0.11756,
+      0.04748,
+      0.01429,
+      0.0053,
+      0.00174,
+      0.00051
+     ],
+     "binned": false,
+     "tail_below": 0.00026,
+     "tail_above": 0.00018,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/det.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nsh.png"
+  },
+  {
+   "game_id": "2026020418",
+   "home": "NJD",
+   "away": "WPG",
+   "home_name": "New Jersey Devils",
+   "away_name": "Winnipeg Jets",
+   "start": "2026-11-29T00:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 26,
+    "away_games_played": 27,
     "low_information": false,
     "key_player": [],
     "venue": {
@@ -168,20 +405,153 @@
         "status": "Injured Reserve"
        },
        {
-        "player": "Johnathan Kovacevic",
+        "player": "Declan Chisholm",
         "position": "D",
-        "status": "Injured Reserve"
+        "status": "Out"
        },
        {
-        "player": "Seamus Casey",
+        "player": "Johnathan Kovacevic",
         "position": "D",
         "status": "Injured Reserve"
        }
       ],
-      "more": 1,
+      "more": 2,
       "counts": {
        "Injured Reserve": 3,
+       "Out": 1,
        "Suspended": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Dylan DeMelo",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Isak Rosen",
+        "position": "RW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Vladislav Namestnikov",
+        "position": "C",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 2,
+     "home_back_to_back": false,
+     "away_rest_days": 1,
+     "away_back_to_back": true,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 24,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.55233,
+    "margin_mean": 0.34,
+    "total_mean": 6.848,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00084,
+      0.00253,
+      0.00688,
+      0.01663,
+      0.04899,
+      0.11076,
+      0.08435,
+      0.17636,
+      0.0,
+      0.19582,
+      0.09761,
+      0.14045,
+      0.07086,
+      0.0273,
+      0.01247,
+      0.00507,
+      0.00186
+     ],
+     "binned": false,
+     "tail_below": 0.00034,
+     "tail_above": 0.00087,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nj.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wpg.png"
+  },
+  {
+   "game_id": "2026020419",
+   "home": "NYR",
+   "away": "CGY",
+   "home_name": "New York Rangers",
+   "away_name": "Calgary Flames",
+   "start": "2026-11-29T00:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 25,
+    "away_games_played": 27,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "Madison Square Garden",
+     "city": "New York",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Adam Sykora",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Aidan Thompson",
+        "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Alberts Smits",
+        "position": "D",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 5,
+      "counts": {
+       "Injured Reserve": 8
       }
      },
      "away": {
@@ -203,58 +573,57 @@
         "status": "Out"
        }
       ],
-      "more": 1,
+      "more": 0,
       "counts": {
        "Injured Reserve": 2,
-       "Out": 1,
-       "Day-To-Day": 1
+       "Out": 1
       }
      },
      "counts_only": false
     },
     "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
+     "home_rest_days": 2,
+     "home_back_to_back": false,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
      "in_price": false
     },
     "travel": {
-     "away_miles": 306,
+     "away_miles": 9,
      "in_price": false
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.61264,
-    "margin_mean": 0.748,
-    "total_mean": 6.458,
+    "p_home_win": 0.5606,
+    "margin_mean": 0.367,
+    "total_mean": 5.745,
     "margin_pmf": {
      "from": -8,
      "to": 8,
      "mass": [
-      0.00036,
-      0.00123,
-      0.00377,
-      0.01026,
-      0.03502,
-      0.09091,
-      0.07542,
-      0.17027,
+      0.00033,
+      0.0012,
+      0.00389,
+      0.01109,
+      0.03959,
+      0.10515,
+      0.08711,
+      0.19093,
       0.0,
-      0.20292,
-      0.10671,
-      0.15979,
-      0.08423,
-      0.03347,
-      0.01557,
-      0.00643,
-      0.00238
+      0.21516,
+      0.10511,
+      0.14269,
+      0.06379,
+      0.02115,
+      0.00844,
+      0.00297,
+      0.00093
      ],
      "binned": false,
-     "tail_below": 0.00012,
-     "tail_above": 0.00113,
+     "tail_below": 0.00011,
+     "tail_above": 0.00035,
      "key_numbers": []
     },
     "totals": {
@@ -262,26 +631,26 @@
      "reason": null
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nj.png",
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyr.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cgy.png"
   },
   {
-   "game_id": "2026020402",
-   "home": "NSH",
-   "away": "UTA",
-   "home_name": "Nashville Predators",
-   "away_name": "Utah Hockey Club",
-   "start": "2026-11-27T18:00:00Z",
+   "game_id": "2026020420",
+   "home": "PIT",
+   "away": "TOR",
+   "home_name": "Pittsburgh Penguins",
+   "away_name": "Toronto Maple Leafs",
+   "start": "2026-11-29T00:00:00Z",
    "markets": {},
    "headline": "moneyline",
    "context": {
-    "home_games_played": 24,
-    "away_games_played": 26,
+    "home_games_played": 25,
+    "away_games_played": 27,
     "low_information": false,
     "key_player": [],
     "venue": {
-     "name": "Bridgestone Arena",
-     "city": "Nashville",
+     "name": "PPG Paints Arena",
+     "city": "Pittsburgh",
      "neutral": false,
      "in_price": false
     },
@@ -296,9 +665,533 @@
      "note": "Not in the price.",
      "home": {
       "status": "reported",
-      "shown": [],
+      "shown": [
+       {
+        "player": "Bryan Rust",
+        "position": "RW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Egor Chinakhov",
+        "position": "RW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Elmer Soderblom",
+        "position": "LW",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 2,
+      "counts": {
+       "Injured Reserve": 5
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Cade Webber",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Chris Tanev",
+        "position": "D",
+        "status": "Out"
+       },
+       {
+        "player": "Cole McWard",
+        "position": "D",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 8,
+      "counts": {
+       "Injured Reserve": 8,
+       "Out": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 1,
+     "home_back_to_back": true,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 482,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.50416,
+    "margin_mean": 0.004,
+    "total_mean": 6.576,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00107,
+      0.00318,
+      0.0085,
+      0.02018,
+      0.05776,
+      0.12575,
+      0.09277,
+      0.18618,
+      0.0,
+      0.19616,
+      0.0925,
+      0.12516,
+      0.05734,
+      0.01998,
+      0.0084,
+      0.00314,
+      0.00105
+     ],
+     "binned": false,
+     "tail_below": 0.00045,
+     "tail_above": 0.00044,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/pit.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tor.png"
+  },
+  {
+   "game_id": "2026020421",
+   "home": "CAR",
+   "away": "OTT",
+   "home_name": "Carolina Hurricanes",
+   "away_name": "Ottawa Senators",
+   "start": "2026-11-29T00:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 25,
+    "away_games_played": 27,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "Lenovo Center",
+     "city": "Raleigh",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Nikolaj Ehlers",
+        "position": "LW",
+        "status": "Day-To-Day"
+       }
+      ],
       "more": 0,
-      "counts": {}
+      "counts": {
+       "Day-To-Day": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Warren Foegele",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "William Eklund",
+        "position": "LW",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 3,
+     "home_back_to_back": false,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 585,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.64366,
+    "margin_mean": 0.955,
+    "total_mean": 6.277,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00022,
+      0.00081,
+      0.00267,
+      0.00777,
+      0.02877,
+      0.08064,
+      0.07011,
+      0.16528,
+      0.0,
+      0.20482,
+      0.11092,
+      0.16993,
+      0.0919,
+      0.03721,
+      0.01752,
+      0.0073,
+      0.00273
+     ],
+     "binned": false,
+     "tail_below": 7e-05,
+     "tail_above": 0.00131,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/car.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ott.png"
+  },
+  {
+   "game_id": "2026020422",
+   "home": "STL",
+   "away": "WSH",
+   "home_name": "St. Louis Blues",
+   "away_name": "Washington Capitals",
+   "start": "2026-11-29T00:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 26,
+    "away_games_played": 23,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "Enterprise Center",
+     "city": "St. Louis",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Brandon Carlo",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Dillon Dube",
+        "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Jimmy Snuggerud",
+        "position": "RW",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 1,
+      "counts": {
+       "Injured Reserve": 4
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Jordan Kyrou",
+        "position": "RW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Rasmus Sandin",
+        "position": "D",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 2,
+     "home_back_to_back": false,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 709,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.58595,
+    "margin_mean": 0.585,
+    "total_mean": 7.047,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.0007,
+      0.00214,
+      0.00589,
+      0.01442,
+      0.04334,
+      0.10058,
+      0.07829,
+      0.16841,
+      0.0,
+      0.19382,
+      0.10027,
+      0.15042,
+      0.08095,
+      0.03336,
+      0.01611,
+      0.00694,
+      0.00269
+     ],
+     "binned": false,
+     "tail_below": 0.00028,
+     "tail_above": 0.00138,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/stl.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wsh.png"
+  },
+  {
+   "game_id": "2026020423",
+   "home": "PHI",
+   "away": "NYI",
+   "home_name": "Philadelphia Flyers",
+   "away_name": "New York Islanders",
+   "start": "2026-11-29T00:30:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 28,
+    "away_games_played": 25,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "Xfinity Mobile Arena",
+     "city": "Philadelphia",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Nikita Grebenkin",
+        "position": "RW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Owen Tippett",
+        "position": "RW",
+        "status": "Out"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 1,
+       "Out": 1
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Alexander Romanov",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Kyle Palmieri",
+        "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Ryan Pulock",
+        "position": "D",
+        "status": "Out"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2,
+       "Out": 1
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 2,
+     "home_back_to_back": false,
+     "away_rest_days": 1,
+     "away_back_to_back": true,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 92,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.44211,
+    "margin_mean": -0.409,
+    "total_mean": 6.131,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.00134,
+      0.00397,
+      0.01054,
+      0.02478,
+      0.06941,
+      0.14575,
+      0.10376,
+      0.19779,
+      0.0,
+      0.19401,
+      0.08432,
+      0.10403,
+      0.04103,
+      0.01219,
+      0.0045,
+      0.00147,
+      0.00043
+     ],
+     "binned": false,
+     "tail_below": 0.00056,
+     "tail_above": 0.00015,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/phi.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyi.png"
+  },
+  {
+   "game_id": "2026020424",
+   "home": "DAL",
+   "away": "UTA",
+   "home_name": "Dallas Stars",
+   "away_name": "Utah Hockey Club",
+   "start": "2026-11-29T01:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 25,
+    "away_games_played": 27,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "American Airlines Center",
+     "city": "Dallas",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Kyle Capobianco",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Lian Bichsel",
+        "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Matt Duchene",
+        "position": "C",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 3
+      }
      },
      "away": {
       "status": "reported",
@@ -327,48 +1220,48 @@
      "counts_only": false
     },
     "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
+     "home_rest_days": 2,
+     "home_back_to_back": false,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
      "in_price": false
     },
     "travel": {
-     "away_miles": 691,
+     "away_miles": 616,
      "in_price": false
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.54144,
-    "margin_mean": 0.254,
-    "total_mean": 6.295,
+    "p_home_win": 0.51946,
+    "margin_mean": 0.104,
+    "total_mean": 6.052,
     "margin_pmf": {
      "from": -8,
      "to": 8,
      "mass": [
-      0.00063,
-      0.00203,
-      0.00589,
-      0.01512,
-      0.0476,
-      0.11325,
-      0.08825,
-      0.18555,
+      0.00064,
+      0.00209,
+      0.00614,
+      0.0159,
+      0.05041,
+      0.1199,
+      0.09288,
+      0.19235,
       0.0,
-      0.20395,
-      0.0992,
-      0.13697,
-      0.06401,
-      0.02255,
-      0.00952,
-      0.00356,
-      0.00119
+      0.20627,
+      0.09731,
+      0.12932,
+      0.05672,
+      0.01865,
+      0.00743,
+      0.00262,
+      0.00083
      ],
      "binned": false,
      "tail_below": 0.00023,
-     "tail_above": 0.0005,
+     "tail_above": 0.00031,
      "key_numbers": []
     },
     "totals": {
@@ -376,26 +1269,26 @@
      "reason": null
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nsh.png",
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/dal.png",
    "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/utah.png"
   },
   {
-   "game_id": "2026020403",
-   "home": "STL",
-   "away": "DAL",
-   "home_name": "St. Louis Blues",
-   "away_name": "Dallas Stars",
-   "start": "2026-11-27T19:00:00Z",
+   "game_id": "2026020425",
+   "home": "COL",
+   "away": "SJS",
+   "home_name": "Colorado Avalanche",
+   "away_name": "San Jose Sharks",
+   "start": "2026-11-29T02:00:00Z",
    "markets": {},
    "headline": "moneyline",
    "context": {
     "home_games_played": 25,
-    "away_games_played": 24,
+    "away_games_played": 28,
     "low_information": false,
     "key_player": [],
     "venue": {
-     "name": "Enterprise Center",
-     "city": "St. Louis",
+     "name": "Ball Arena",
+     "city": "Denver",
      "neutral": false,
      "in_price": false
     },
@@ -409,655 +1302,6 @@
      "in_price": false,
      "note": "Not in the price.",
      "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Brandon Carlo",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Connor McMichael",
-        "position": "LW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Dillon Dube",
-        "position": "C",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 4,
-      "counts": {
-       "Injured Reserve": 5,
-       "Day-To-Day": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Kyle Capobianco",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Lian Bichsel",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Matt Duchene",
-        "position": "C",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 3
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 548,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.56316,
-    "margin_mean": 0.384,
-    "total_mean": 5.761,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00033,
-      0.00119,
-      0.00385,
-      0.01098,
-      0.03923,
-      0.10437,
-      0.08658,
-      0.1902,
-      0.0,
-      0.21498,
-      0.10537,
-      0.14361,
-      0.0646,
-      0.02156,
-      0.00865,
-      0.00306,
-      0.00097
-     ],
-     "binned": false,
-     "tail_below": 0.00011,
-     "tail_above": 0.00037,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/stl.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/dal.png"
-  },
-  {
-   "game_id": "2026020404",
-   "home": "TBL",
-   "away": "OTT",
-   "home_name": "Tampa Bay Lightning",
-   "away_name": "Ottawa Senators",
-   "start": "2026-11-27T20:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 24,
-    "away_games_played": 26,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "Benchmark International Arena",
-     "city": "Tampa",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Conor Geekie",
-        "position": "C",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Pontus Holmberg",
-        "position": "RW",
-        "status": "Out"
-       },
-       {
-        "player": "Erik Cernak",
-        "position": "D",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Injured Reserve": 1,
-       "Out": 1,
-       "Day-To-Day": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Andre Burakovsky",
-        "position": "LW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Hayden Hodgson",
-        "position": "RW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Warren Foegele",
-        "position": "LW",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Injured Reserve": 4
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 191,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.55878,
-    "margin_mean": 0.369,
-    "total_mean": 6.227,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00051,
-      0.00169,
-      0.00505,
-      0.01335,
-      0.04359,
-      0.10743,
-      0.08562,
-      0.18379,
-      0.0,
-      0.20613,
-      0.10192,
-      0.14263,
-      0.06779,
-      0.02422,
-      0.01033,
-      0.0039,
-      0.00132
-     ],
-     "binned": false,
-     "tail_below": 0.00018,
-     "tail_above": 0.00055,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/tb.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ott.png"
-  },
-  {
-   "game_id": "2026020405",
-   "home": "PHI",
-   "away": "VAN",
-   "home_name": "Philadelphia Flyers",
-   "away_name": "Vancouver Canucks",
-   "start": "2026-11-27T20:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 27,
-    "away_games_played": 27,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "Xfinity Mobile Arena",
-     "city": "Philadelphia",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Nikita Grebenkin",
-        "position": "RW",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Brendan Gallagher",
-        "position": "RW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Elias Pettersson",
-        "position": "C",
-        "status": "Out"
-       },
-       {
-        "player": "Guillaume Brisebois",
-        "position": "D",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Injured Reserve": 4,
-       "Out": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 442,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.6258,
-    "margin_mean": 0.867,
-    "total_mean": 6.915,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00044,
-      0.00143,
-      0.00417,
-      0.01086,
-      0.03523,
-      0.08806,
-      0.07189,
-      0.16197,
-      0.0,
-      0.19511,
-      0.1048,
-      0.16251,
-      0.09124,
-      0.039,
-      0.01936,
-      0.00856,
-      0.0034
-     ],
-     "binned": false,
-     "tail_below": 0.00016,
-     "tail_above": 0.0018,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/phi.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/van.png"
-  },
-  {
-   "game_id": "2026020406",
-   "home": "WSH",
-   "away": "FLA",
-   "home_name": "Washington Capitals",
-   "away_name": "Florida Panthers",
-   "start": "2026-11-27T20:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 22,
-    "away_games_played": 25,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "Capital One Arena",
-     "city": "Washington",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jordan Kyrou",
-        "position": "RW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Rasmus Sandin",
-        "position": "D",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jonah Gadjovich",
-        "position": "LW",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 900,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.4992,
-    "margin_mean": -0.03,
-    "total_mean": 6.943,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.0014,
-      0.00395,
-      0.01001,
-      0.02264,
-      0.06134,
-      0.12747,
-      0.09176,
-      0.18161,
-      0.0,
-      0.19033,
-      0.09017,
-      0.12389,
-      0.05868,
-      0.02134,
-      0.00932,
-      0.00363,
-      0.00127
-     ],
-     "binned": false,
-     "tail_below": 0.00063,
-     "tail_above": 0.00056,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wsh.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/fla.png"
-  },
-  {
-   "game_id": "2026020407",
-   "home": "CBJ",
-   "away": "DET",
-   "home_name": "Columbus Blue Jackets",
-   "away_name": "Detroit Red Wings",
-   "start": "2026-11-27T20:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 23,
-    "away_games_played": 24,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "Nationwide Arena",
-     "city": "Columbus",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Denton Mateychuk",
-        "position": "D",
-        "status": "Out"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Out": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Sam Montembeault",
-        "position": "G",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Simon Edvinsson",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "William Wallinder",
-        "position": "D",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 2,
-       "Day-To-Day": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 164,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.50717,
-    "margin_mean": 0.022,
-    "total_mean": 5.722,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00055,
-      0.00186,
-      0.00568,
-      0.01524,
-      0.05026,
-      0.1231,
-      0.09648,
-      0.19947,
-      0.0,
-      0.21091,
-      0.09702,
-      0.12424,
-      0.05098,
-      0.01554,
-      0.00581,
-      0.00191,
-      0.00056
-     ],
-     "binned": false,
-     "tail_below": 0.00019,
-     "tail_above": 0.0002,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/cbj.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/det.png"
-  },
-  {
-   "game_id": "2026020408",
-   "home": "MIN",
-   "away": "COL",
-   "home_name": "Minnesota Wild",
-   "away_name": "Colorado Avalanche",
-   "start": "2026-11-27T21:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 27,
-    "away_games_played": 24,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "Grand Casino Arena",
-     "city": "Saint Paul",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Olli Maatta",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Quinn Hughes",
-        "position": "D",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 2
-      }
-     },
-     "away": {
       "status": "reported",
       "shown": [
        {
@@ -1071,230 +1315,18 @@
         "status": "Injured Reserve"
        },
        {
-        "player": "Nathan MacKinnon",
+        "player": "Martin Necas",
         "position": "C",
         "status": "Out"
        }
       ],
-      "more": 1,
+      "more": 2,
       "counts": {
        "Injured Reserve": 3,
-       "Out": 1
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 1,
-     "away_back_to_back": true,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 705,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.55533,
-    "margin_mean": 0.349,
-    "total_mean": 6.358,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00058,
-      0.00189,
-      0.0055,
-      0.01422,
-      0.0452,
-      0.10889,
-      0.08571,
-      0.18248,
-      0.0,
-      0.20372,
-      0.10071,
-      0.14154,
-      0.06799,
-      0.02464,
-      0.01065,
-      0.00408,
-      0.0014
-     ],
-     "binned": false,
-     "tail_below": 0.00021,
-     "tail_above": 0.0006,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/min.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/col.png"
-  },
-  {
-   "game_id": "2026020409",
-   "home": "ANA",
-   "away": "LAK",
-   "home_name": "Anaheim Ducks",
-   "away_name": "Los Angeles Kings",
-   "start": "2026-11-27T21:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 26,
-    "away_games_played": 22,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "Honda Center",
-     "city": "Anaheim",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "A.J. Greer",
-        "position": "LW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Ryan Poehling",
-        "position": "C",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Leo Carlsson",
-        "position": "C",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 2,
-       "Day-To-Day": 1
+       "Out": 2
       }
      },
      "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Erik Gustafsson",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Jakub Dvorak",
-        "position": "D",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 2
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
-     "away_rest_days": 3,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 2457,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.55891,
-    "margin_mean": 0.379,
-    "total_mean": 6.575,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00066,
-      0.00208,
-      0.00589,
-      0.01485,
-      0.04592,
-      0.10822,
-      0.08431,
-      0.17891,
-      0.0,
-      0.20035,
-      0.09993,
-      0.14267,
-      0.07059,
-      0.02649,
-      0.0118,
-      0.00467,
-      0.00166
-     ],
-     "binned": false,
-     "tail_below": 0.00025,
-     "tail_above": 0.00075,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ana.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png"
-  },
-  {
-   "game_id": "2026020410",
-   "home": "SJS",
-   "away": "VGK",
-   "home_name": "San Jose Sharks",
-   "away_name": "Vegas Golden Knights",
-   "start": "2026-11-27T21:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 27,
-    "away_games_played": 26,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "SAP Center at San Jose",
-     "city": "San Jose",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
       "status": "reported",
       "shown": [
        {
@@ -1319,65 +1351,51 @@
        "Out": 1
       }
      },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Marc Gatcomb",
-        "position": "C",
-        "status": "Day-To-Day"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Day-To-Day": 1
-      }
-     },
      "counts_only": false
     },
     "rest": {
-     "home_rest_days": 1,
-     "home_back_to_back": true,
+     "home_rest_days": 2,
+     "home_back_to_back": false,
      "away_rest_days": 2,
      "away_back_to_back": false,
      "in_price": false
     },
     "travel": {
-     "away_miles": 1190,
+     "away_miles": 927,
      "in_price": false
     },
     "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.39099,
-    "margin_mean": -0.773,
-    "total_mean": 6.473,
+    "p_home_win": 0.68708,
+    "margin_mean": 1.297,
+    "total_mean": 6.582,
     "margin_pmf": {
      "from": -8,
      "to": 8,
      "mass": [
-      0.00252,
-      0.00675,
-      0.01623,
-      0.03459,
-      0.08614,
-      0.1617,
-      0.10721,
-      0.19265,
+      0.00017,
+      0.00064,
+      0.00214,
+      0.00628,
+      0.02375,
+      0.06859,
+      0.06122,
+      0.15007,
       0.0,
-      0.17857,
-      0.07426,
-      0.08901,
-      0.03401,
-      0.0099,
-      0.00361,
-      0.00117,
-      0.00034
+      0.19538,
+      0.11138,
+      0.18139,
+      0.10782,
+      0.04819,
+      0.02466,
+      0.0112,
+      0.00456
      ],
      "binned": false,
-     "tail_below": 0.00122,
-     "tail_above": 0.00012,
+     "tail_below": 5e-05,
+     "tail_above": 0.0025,
      "key_numbers": []
     },
     "totals": {
@@ -1385,26 +1403,26 @@
      "reason": null
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sj.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/vgk.png"
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/col.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sj.png"
   },
   {
-   "game_id": "2026020411",
-   "home": "CHI",
-   "away": "NYR",
-   "home_name": "Chicago Blackhawks",
-   "away_name": "New York Rangers",
-   "start": "2026-11-27T22:30:00Z",
+   "game_id": "2026020426",
+   "home": "LAK",
+   "away": "ANA",
+   "home_name": "Los Angeles Kings",
+   "away_name": "Anaheim Ducks",
+   "start": "2026-11-29T02:00:00Z",
    "markets": {},
    "headline": "moneyline",
    "context": {
-    "home_games_played": 25,
-    "away_games_played": 24,
+    "home_games_played": 23,
+    "away_games_played": 27,
     "low_information": false,
     "key_player": [],
     "venue": {
-     "name": "United Center",
-     "city": "Chicago",
+     "name": "crypto.com Arena",
+     "city": "Los Angeles",
      "neutral": false,
      "in_price": false
     },
@@ -1421,25 +1439,151 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Bowen Byram",
+        "player": "Erik Gustafsson",
         "position": "D",
         "status": "Injured Reserve"
        },
        {
-        "player": "Connor Bedard",
+        "player": "Jakub Dvorak",
+        "position": "D",
+        "status": "Injured Reserve"
+       }
+      ],
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 2
+      }
+     },
+     "away": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "A.J. Greer",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Leo Carlsson",
         "position": "C",
         "status": "Injured Reserve"
        },
        {
-        "player": "Wyatt Kaiser",
-        "position": "D",
-        "status": "Suspended"
+        "player": "Ryan Poehling",
+        "position": "C",
+        "status": "Injured Reserve"
        }
       ],
-      "more": 1,
+      "more": 0,
+      "counts": {
+       "Injured Reserve": 3
+      }
+     },
+     "counts_only": false
+    },
+    "rest": {
+     "home_rest_days": 2,
+     "home_back_to_back": false,
+     "away_rest_days": 2,
+     "away_back_to_back": false,
+     "in_price": false
+    },
+    "travel": {
+     "away_miles": 24,
+     "in_price": false
+    },
+    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
+   },
+   "refusal": "no market price captured for this game",
+   "model": {
+    "p_home_win": 0.5055,
+    "margin_mean": 0.013,
+    "total_mean": 6.637,
+    "margin_pmf": {
+     "from": -8,
+     "to": 8,
+     "mass": [
+      0.0011,
+      0.00325,
+      0.00863,
+      0.02035,
+      0.05788,
+      0.12537,
+      0.09229,
+      0.18517,
+      0.0,
+      0.19539,
+      0.09242,
+      0.12565,
+      0.05808,
+      0.02045,
+      0.00867,
+      0.00327,
+      0.00111
+     ],
+     "binned": false,
+     "tail_below": 0.00046,
+     "tail_above": 0.00047,
+     "key_numbers": []
+    },
+    "totals": {
+     "priced": true,
+     "reason": null
+    }
+   },
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/la.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/ana.png"
+  },
+  {
+   "game_id": "2026020427",
+   "home": "SEA",
+   "away": "EDM",
+   "home_name": "Seattle Kraken",
+   "away_name": "Edmonton Oilers",
+   "start": "2026-11-29T03:00:00Z",
+   "markets": {},
+   "headline": "moneyline",
+   "context": {
+    "home_games_played": 23,
+    "away_games_played": 28,
+    "low_information": false,
+    "key_player": [],
+    "venue": {
+     "name": "Climate Pledge Arena",
+     "city": "Seattle",
+     "neutral": false,
+     "in_price": false
+    },
+    "weather": {
+     "status": "indoors",
+     "in_price": false
+    },
+    "injuries": {
+     "status": "reported",
+     "source": "ESPN",
+     "in_price": false,
+     "note": "Not in the price.",
+     "home": {
+      "status": "reported",
+      "shown": [
+       {
+        "player": "Jake O'Brien",
+        "position": "C",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Jared McCann",
+        "position": "LW",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Philipp Grubauer",
+        "position": "G",
+        "status": "Day-To-Day"
+       }
+      ],
+      "more": 0,
       "counts": {
        "Injured Reserve": 2,
-       "Suspended": 1,
        "Day-To-Day": 1
       }
      },
@@ -1447,24 +1591,25 @@
       "status": "reported",
       "shown": [
        {
-        "player": "Adam Sykora",
-        "position": "LW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Aidan Thompson",
-        "position": "C",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Alberts Smits",
+        "player": "Alec Regula",
         "position": "D",
+        "status": "Injured Reserve"
+       },
+       {
+        "player": "Filip Hallander",
+        "position": "C",
+        "status": "Out"
+       },
+       {
+        "player": "Frederik Andersen",
+        "position": "G",
         "status": "Injured Reserve"
        }
       ],
-      "more": 5,
+      "more": 3,
       "counts": {
-       "Injured Reserve": 8
+       "Injured Reserve": 4,
+       "Out": 2
       }
      },
      "counts_only": false
@@ -1477,400 +1622,6 @@
      "in_price": false
     },
     "travel": {
-     "away_miles": 452,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.46178,
-    "margin_mean": -0.276,
-    "total_mean": 6.019,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00104,
-      0.00322,
-      0.00888,
-      0.02165,
-      0.06347,
-      0.13914,
-      0.10179,
-      0.19862,
-      0.0,
-      0.19921,
-      0.08812,
-      0.11006,
-      0.04403,
-      0.01321,
-      0.00491,
-      0.00161,
-      0.00047
-     ],
-     "binned": false,
-     "tail_below": 0.00041,
-     "tail_above": 0.00016,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/chi.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyr.png"
-  },
-  {
-   "game_id": "2026020412",
-   "home": "NYI",
-   "away": "WPG",
-   "home_name": "New York Islanders",
-   "away_name": "Winnipeg Jets",
-   "start": "2026-11-28T00:30:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 24,
-    "away_games_played": 26,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "UBS Arena",
-     "city": "Elmont",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Alexander Romanov",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Kyle Palmieri",
-        "position": "C",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Ryan Pulock",
-        "position": "D",
-        "status": "Out"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 2,
-       "Out": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Dylan DeMelo",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Isak Rosen",
-        "position": "RW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Nick Bjugstad",
-        "position": "C",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Injured Reserve": 4
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 2,
-     "home_back_to_back": false,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 179,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.57031,
-    "margin_mean": 0.448,
-    "total_mean": 6.276,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00047,
-      0.00158,
-      0.00476,
-      0.01265,
-      0.04167,
-      0.10384,
-      0.08346,
-      0.18109,
-      0.0,
-      0.20576,
-      0.10311,
-      0.14642,
-      0.07118,
-      0.02603,
-      0.01131,
-      0.00435,
-      0.0015
-     ],
-     "binned": false,
-     "tail_below": 0.00017,
-     "tail_above": 0.00065,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/nyi.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/wpg.png"
-  },
-  {
-   "game_id": "2026020413",
-   "home": "BUF",
-   "away": "PIT",
-   "home_name": "Buffalo Sabres",
-   "away_name": "Pittsburgh Penguins",
-   "start": "2026-11-28T01:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 25,
-    "away_games_played": 24,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "KeyBank Center",
-     "city": "Buffalo",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Justin Danforth",
-        "position": "RW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Konsta Helenius",
-        "position": "C",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Matt Grzelcyk",
-        "position": "D",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 1,
-      "counts": {
-       "Injured Reserve": 3,
-       "Day-To-Day": 1
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Bryan Rust",
-        "position": "RW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Egor Chinakhov",
-        "position": "RW",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Elmer Soderblom",
-        "position": "LW",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 2,
-      "counts": {
-       "Injured Reserve": 5
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 2,
-     "home_back_to_back": false,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
-     "away_miles": 179,
-     "in_price": false
-    },
-    "key_player_note": "No automated goalie feed yet: a starter is flagged only when entered by hand."
-   },
-   "refusal": "no market price captured for this game",
-   "model": {
-    "p_home_win": 0.58907,
-    "margin_mean": 0.59,
-    "total_mean": 6.621,
-    "margin_pmf": {
-     "from": -8,
-     "to": 8,
-     "mass": [
-      0.00051,
-      0.00166,
-      0.00485,
-      0.01256,
-      0.0403,
-      0.09876,
-      0.07909,
-      0.17301,
-      0.0,
-      0.20038,
-      0.10317,
-      0.15214,
-      0.07891,
-      0.03102,
-      0.01435,
-      0.00589,
-      0.00218
-     ],
-     "binned": false,
-     "tail_below": 0.00019,
-     "tail_above": 0.00103,
-     "key_numbers": []
-    },
-    "totals": {
-     "priced": true,
-     "reason": null
-    }
-   },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/buf.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/pit.png"
-  },
-  {
-   "game_id": "2026020414",
-   "home": "EDM",
-   "away": "SEA",
-   "home_name": "Edmonton Oilers",
-   "away_name": "Seattle Kraken",
-   "start": "2026-11-28T01:00:00Z",
-   "markets": {},
-   "headline": "moneyline",
-   "context": {
-    "home_games_played": 27,
-    "away_games_played": 22,
-    "low_information": false,
-    "key_player": [],
-    "venue": {
-     "name": "Rogers Place",
-     "city": "Edmonton",
-     "neutral": false,
-     "in_price": false
-    },
-    "weather": {
-     "status": "indoors",
-     "in_price": false
-    },
-    "injuries": {
-     "status": "reported",
-     "source": "ESPN",
-     "in_price": false,
-     "note": "Not in the price.",
-     "home": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Alec Regula",
-        "position": "D",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Frederik Andersen",
-        "position": "G",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Matt Savoie",
-        "position": "C",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 3,
-      "counts": {
-       "Injured Reserve": 4,
-       "Day-To-Day": 2
-      }
-     },
-     "away": {
-      "status": "reported",
-      "shown": [
-       {
-        "player": "Jake O'Brien",
-        "position": "C",
-        "status": "Injured Reserve"
-       },
-       {
-        "player": "Jared McCann",
-        "position": "LW",
-        "status": "Injured Reserve"
-       }
-      ],
-      "more": 0,
-      "counts": {
-       "Injured Reserve": 2
-      }
-     },
-     "counts_only": false
-    },
-    "rest": {
-     "home_rest_days": 3,
-     "home_back_to_back": false,
-     "away_rest_days": 2,
-     "away_back_to_back": false,
-     "in_price": false
-    },
-    "travel": {
      "away_miles": 564,
      "in_price": false
     },
@@ -1878,34 +1629,34 @@
    },
    "refusal": "no market price captured for this game",
    "model": {
-    "p_home_win": 0.61834,
-    "margin_mean": 0.806,
-    "total_mean": 6.792,
+    "p_home_win": 0.44738,
+    "margin_mean": -0.389,
+    "total_mean": 6.716,
     "margin_pmf": {
      "from": -8,
      "to": 8,
      "mass": [
-      0.00043,
-      0.00142,
-      0.00419,
-      0.01099,
-      0.0359,
-      0.09006,
-      0.07352,
-      0.165,
+      0.00186,
+      0.00513,
+      0.01268,
+      0.02788,
+      0.07257,
+      0.14375,
+      0.09958,
+      0.18832,
       0.0,
-      0.1973,
-      0.10498,
-      0.1607,
-      0.08829,
-      0.03685,
-      0.01791,
-      0.00775,
-      0.00301
+      0.18641,
+      0.0832,
+      0.10732,
+      0.04608,
+      0.01513,
+      0.00609,
+      0.00218,
+      0.0007
      ],
      "binned": false,
-     "tail_below": 0.00016,
-     "tail_above": 0.00154,
+     "tail_below": 0.00087,
+     "tail_above": 0.00028,
      "key_numbers": []
     },
     "totals": {
@@ -1913,14 +1664,14 @@
      "reason": null
     }
    },
-   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/edm.png",
-   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sea.png"
+   "home_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/sea.png",
+   "away_logo": "https://a.espncdn.com/i/teamlogos/nhl/500-dark/edm.png"
   }
  ],
  "refusals": [
   {
    "scope": "league",
-   "reason": "Odds are 983 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
+   "reason": "Odds are 1002 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now."
   }
  ],
  "freshness": {
@@ -1930,7 +1681,7 @@
    "remaining": 18845,
    "monthly": 20000
   },
-  "latest_final": "2026-11-26 03:00:00+00:00"
+  "latest_final": "2026-11-28 01:00:00+00:00"
  },
  "teams": [
   {
@@ -1940,93 +1691,83 @@
   },
   {
    "team": "MIN",
-   "attack": 0.1024,
-   "defence": -0.1628
+   "attack": 0.0991,
+   "defence": -0.1533
   },
   {
    "team": "COL",
-   "attack": 0.1292,
-   "defence": -0.0651
-  },
-  {
-   "team": "EDM",
-   "attack": 0.1171,
-   "defence": -0.0102
+   "attack": 0.1388,
+   "defence": -0.0684
   },
   {
    "team": "NJD",
-   "attack": 0.1141,
-   "defence": -0.0064
+   "attack": 0.1244,
+   "defence": -0.0041
+  },
+  {
+   "team": "EDM",
+   "attack": 0.1027,
+   "defence": -0.001
   },
   {
    "team": "BOS",
-   "attack": 0.0598,
-   "defence": -0.0456
-  },
-  {
-   "team": "TBL",
-   "attack": 0.0623,
-   "defence": -0.0379
-  },
-  {
-   "team": "VGK",
-   "attack": 0.0548,
-   "defence": -0.0102
+   "attack": 0.0378,
+   "defence": -0.0454
   },
   {
    "team": "STL",
-   "attack": 0.0624,
-   "defence": -0.0007
-  },
-  {
-   "team": "NSH",
-   "attack": 0.0033,
-   "defence": -0.0548
-  },
-  {
-   "team": "FLA",
-   "attack": 0.0253,
-   "defence": -0.0279
-  },
-  {
-   "team": "NYI",
-   "attack": 0.0079,
-   "defence": -0.0433
+   "attack": 0.0804,
+   "defence": 0.0001
   },
   {
    "team": "OTT",
-   "attack": 0.0121,
-   "defence": -0.0228
+   "attack": 0.041,
+   "defence": -0.035
   },
   {
-   "team": "DAL",
-   "attack": -0.0705,
-   "defence": -0.1024
+   "team": "FLA",
+   "attack": 0.0196,
+   "defence": -0.0403
+  },
+  {
+   "team": "TBL",
+   "attack": 0.05,
+   "defence": -0.009
+  },
+  {
+   "team": "NSH",
+   "attack": 0.0179,
+   "defence": -0.0249
   },
   {
    "team": "WPG",
-   "attack": 0.0367,
-   "defence": 0.0165
+   "attack": 0.0356,
+   "defence": -0.0045
   },
   {
-   "team": "ANA",
-   "attack": 0.0834,
-   "defence": 0.0888
+   "team": "VGK",
+   "attack": 0.033,
+   "defence": 0.001
+  },
+  {
+   "team": "NYI",
+   "attack": -0.013,
+   "defence": -0.0444
+  },
+  {
+   "team": "DAL",
+   "attack": -0.0697,
+   "defence": -0.0844
   },
   {
    "team": "UTA",
-   "attack": 0.0149,
-   "defence": 0.0309
+   "attack": 0.0448,
+   "defence": 0.0455
   },
   {
-   "team": "BUF",
-   "attack": 0.0099,
-   "defence": 0.0296
-  },
-  {
-   "team": "NYR",
-   "attack": -0.0565,
-   "defence": -0.0365
+   "team": "ANA",
+   "attack": 0.0786,
+   "defence": 0.1055
   },
   {
    "team": "MTL",
@@ -2034,64 +1775,74 @@
    "defence": -0.0104
   },
   {
-   "team": "DET",
-   "attack": -0.0899,
-   "defence": -0.0352
+   "team": "NYR",
+   "attack": -0.0774,
+   "defence": -0.0459
   },
   {
-   "team": "WSH",
-   "attack": 0.0707,
-   "defence": 0.1368
+   "team": "DET",
+   "attack": -0.0992,
+   "defence": -0.0652
   },
   {
    "team": "SEA",
-   "attack": -0.0148,
-   "defence": 0.052
+   "attack": -0.0056,
+   "defence": 0.0376
+  },
+  {
+   "team": "BUF",
+   "attack": 0.0053,
+   "defence": 0.0581
   },
   {
    "team": "LAK",
-   "attack": -0.0666,
-   "defence": 0.0111
+   "attack": -0.0499,
+   "defence": 0.0063
   },
   {
    "team": "TOR",
-   "attack": -0.0043,
-   "defence": 0.0855
+   "attack": -0.0041,
+   "defence": 0.0635
+  },
+  {
+   "team": "WSH",
+   "attack": 0.0584,
+   "defence": 0.1312
   },
   {
    "team": "PIT",
-   "attack": -0.048,
-   "defence": 0.0786
-  },
-  {
-   "team": "CBJ",
-   "attack": -0.118,
-   "defence": 0.0115
-  },
-  {
-   "team": "CGY",
-   "attack": -0.1101,
-   "defence": 0.0244
+   "attack": -0.0195,
+   "defence": 0.0741
   },
   {
    "team": "PHI",
-   "attack": -0.0673,
-   "defence": 0.0742
+   "attack": -0.0576,
+   "defence": 0.063
+  },
+  {
+   "team": "CGY",
+   "attack": -0.1077,
+   "defence": 0.0346
+  },
+  {
+   "team": "CBJ",
+   "attack": -0.148,
+   "defence": 0.0022
   },
   {
    "team": "CHI",
-   "attack": -0.0706,
-   "defence": 0.1076
+   "attack": -0.0801,
+   "defence": 0.0867
   },
   {
    "team": "SJS",
-   "attack": -0.0976,
-   "defence": 0.1067
+   "attack": -0.0864,
+   "defence": 0.0848
   },
   {
    "team": "VAN",
-   "attack": -0.0607,
-   "defence": 0.2158
+   "attack": -0.0718,
+   "defence": 0.2256
   }
  ],
  "grade": {
@@ -2115,7 +1866,7 @@
  },
  "status": {
   "state": "degraded",
-  "games": 15,
+  "games": 13,
   "priced": 0,
   "tiers": {
    "play": 0,
@@ -2129,11 +1880,11 @@
     "key": "no_line",
     "label": "No line captured yet",
     "note": "The model's number is ready; the tier appears once a line is captured.",
-    "games": 15,
+    "games": 13,
     "examples": [
-     "TOR @ BOS",
-     "CGY @ NJD",
-     "UTA @ NSH"
+     "MTL @ VGK",
+     "TBL @ FLA",
+     "NSH @ DET"
     ]
    },
    {
@@ -2173,11 +1924,11 @@
    }
   ],
   "refusals": 1,
-  "reason": "Odds are 983 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
+  "reason": "Odds are 1002 hours old: the last capture was 2026-10-17T17:05:00Z, and captures run at least daily in season, so the capture job has stopped. Market prices and tiers below are from then, not now.",
   "game_refusals": [
    {
     "reason": "no market price captured for this game",
-    "games": 15
+    "games": 13
    }
   ]
  }
